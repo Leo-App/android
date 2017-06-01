@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="4dp"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp">
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="6dp" />
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/space"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp"
+        android:alpha="0.8"
+        android:background="@color/colorPrimary"
+        android:padding="2dp"
+        android:text="DD.MM.YY"
+        android:textAlignment="center"
+        android:textAppearance="@style/TabTextAppearance"
+        android:textColor="@color/colorTabIndicator" />
+
+    <LinearLayout
+        android:id="@+id/wrapperlayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewDate"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/wrapperlayout2"
+            android:layout_width="300dp"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewDate">
+
+            <RelativeLayout
+                android:id="@+id/wrapperlayout3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/chatbubble"
+                android:elevation="1dp"
+                android:gravity="right"
+                android:padding="2dp">
+
+                <LinearLayout
+                    android:id="@+id/wrapperlayout4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="2dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/absender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:text="A"
+                        android:textColor="@color/colorText"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/nachricht"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/absender"
+                        android:layout_below="@+id/absender"
+                        android:text="Nachricht aaa a a aaa a aaa aaaaa aa aaa aaa"
+                        android:textColor="@color/colorText"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/datumRight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/wrapperlayout4"
+                    android:layout_toRightOf="@id/wrapperlayout4"
+                    android:lines="1"
+                    android:text="Datum"
+                    android:textColor="@color/colorText"
+                    android:textSize="11sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/datumBelow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/wrapperlayout4"
+                    android:layout_alignRight="@id/wrapperlayout4"
+                    android:lines="1"
+                    android:text="Datum"
+                    android:textColor="@color/colorText"
+                    android:textSize="11sp"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

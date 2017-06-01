@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/auswahl_relative">
+
+    <TextView
+        android:id="@+id/stunde_wt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text=" TextViewText"
+        android:textColor="@color/colorText"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/fach_wt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:text="TextViewTextView"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        android:layout_alignBottom="@+id/stunde_wt"
+        android:layout_toRightOf="@+id/stunde_wt"
+        android:layout_toEndOf="@+id/stunde_wt" />
+
+    <TextView
+        android:id="@+id/lehrer_wt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fach_wt"
+        android:layout_alignStart="@+id/fach_wt"
+        android:layout_below="@+id/fach_wt"
+        android:text="TextView"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/raum_wt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lehrer_wt"
+        android:layout_alignStart="@+id/lehrer_wt"
+        android:layout_below="@+id/lehrer_wt"
+        android:text="TextView"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+</RelativeLayout>

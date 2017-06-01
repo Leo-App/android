@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LeoApp</string>
+    <string name="drawer_placeholder">\@ Benutzername</string>
+    <string name="drawer_profile_title">Dein Profil</string>
+
+    <string name="action_save">Speichern</string>
+    <string name="action_delete">Löschen</string>
+    <string name="confirm">OK</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="error">Entschuldige, es ist etwas schief gelaufen</string>
+
+
+    <!-- Titel -->
+
+    <string name="title_home">Startseite</string>
+    <string name="title_foodmarks">Essensbons</string>
+    <string name="title_testplan">Klausurplan</string>
+    <string name="title_messenger">Messenger</string>
+    <string name="title_tutoring">Nachhilfebörse</string>
+    <string name="title_news">Schwarzes Brett</string>
+    <string name="title_survey">Stimmungsbarometer</string>
+    <string name="title_plan">Stundenplan</string>
+    <string name="title_settings">Einstellungen</string>
+
+
+    <!-- Startseite -->
+
+    <string name="button_info_try">Ausprobieren</string>
+    <string name="button_info_auth">Verifizieren</string>
+    <string name="button_info_noreminder">Awesome!</string>
+
+    <string name="title_info_auth_failed">Du bist noch nicht verifiziert</string>
+    <string name="title_info_auth">Du bist verifiziert</string>
+    <string name="summary_info_auth_success">Du bist jetzt verifiziert und kannst alle Funktionen benutzen!</string>
+    <string name="summary_info_auth">Einige Funktionen benötigen eine Verifizierung. Verifiziere dich hier.</string>
+    <string name="summary_info_auth_failed">Anscheinend ist etwas schiefgelaufen. Versichere dich, dass dein QR-Code gültig ist und versuch es erneut</string>
+
+    <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Du brauchst nur noch den QR-Code vorzuzeigen und erhälst dein bestelltes Menu</string>
+    <string name="summary_info_testplan">Hier findest du eine Sammlung deiner anstehenden Klausuren. Ergänze dein Profil um die Filterfunktion zu verwenden oder füge deine eigenen Einträge hinzu.</string>
+    <string name="summary_info_messenger">Mithilfe dieser Funktion kannst du mit deinen Klassenkameraden und Lehrern kommunizieren, ohne dass diese deine Telefonnummer erfahren. Du kannst in Gruppen oder privat chatten. Deinen Benutzernamen kannst du in den Einstellungen ändern.</string>
+    <string name="summary_info_tutoring">Brauchst du Nachhilfe in einem Fach? Bitte einfach darum in der Nachhilfebörse!</string>
+    <string name="summary_info_news">Hier stehen alle wichtigen Neuigkeiten über dein Schulleben.</string>
+    <string name="summary_info_survey">In deiser Funktion kannst du jeden Tag deine Stimmung angeben und auch die der Anderen sehen.</string>
+    <string name="summary_info_schedule">Wähle deine belegten Kurse aus und dir wird ein automatischer Stundenplan generiert. Diesen kannst du natürlich noch anpassen.</string>
+
+    <string name="dialog_verify_title">Verifizierung</string>
+    <string name="dialog_verify_info">Melde dich an einem Schulcomputer mit DEINEM Account an und starte das Verifizierungs-Programm!</string>
+
+    <string name="snackbar_no_connection_info">Keine Internetverbindung</string>
+    <string name="snackbar_no_connection_button">OK</string>
+
+
+    <!-- Klausurplan -->
+
+    <string name="title_activity">Klausur</string>
+    <string name="snackbar_ungültig">Fach oder Datum ungültig</string>
+    <string name="dismiss">OK</string>
+    <string name="snackbar_gelöscht">Alle Klausuren gelöscht</string>
+    <string name="snackbar_undo">Rückgängig</string>
+    <string name="subject">Fach</string>
+    <string name="date">Datum</string>
+    <string name="date_format">DD.MM.YY</string>
+    <string name="note">Notiz</string>
+    <string name="grade">Note</string>
+    <string name="week">Woche</string>
+    <string name="action_load">Lade Klausuren</string>
+    <string name="action_delete_all">Alles löschen</string>
+    <string name="month">Monat</string>
+    <string name="months">Monate</string>
+    <string name="year">Jahr</string>
+
+
+    <!-- Essensbons -->
+
+    <string name="toolbar_scan">Scannen!</string>
+    <string name="toolbar_title">Essensbons</string>
+    <string name="button_scan">Scannen</string>
+    <string name="button_confirm">OK</string>
+    <string name="action_refresh">Aktualisieren</string>
+    <string name="button_sidemenu">Navigation</string>
+    <string name="textview_placeholder"> </string>
+    <string name="qr_display_title">Deine Menu für heute\, den</string>
+    <string name="qr_display_menu">Menu</string>
+    <string name="dialog_desc_valid">Bestelltes Menu:</string>
+    <string name="dialog_desc_valid_id">User-ID: </string>
+    <string name="qr_display_not_ordered">Du hast für den heutigen Tag kein Essen bestellt</string>
+    <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine angegebenen Daten</string>
+    <string name="explain_title_1">Info</string>
+    <string name="explain_desc_1">Diese Funktion ersetzt die Essensbons aus Papier mit digitalen QR-Codes. Vielleicht findest du dafür keinen Nutzen.</string>
+    <string name="explain_title_2">Schritt 1</string>
+    <string name="explain_desc_2">Klicke auf den \"Scannen\"-Button und halte den grün umrandeten Bereich über den zu scannenden QR-Code.</string>
+    <string name="explain_title_3">Schritt 2</string>
+    <string name="explain_desc_3">War das Scannen erfolgreich, erhältst du alle wichtigen Informationen: dein bestelltes Menu und ob der QR-Code bereits eingelöst, d. h. von diesem Gerät bereits gescannt, wurde.</string>
+    <string name="invalidId">Benutzer-ID falsch</string>
+    <string name="snackbar_no_connection_info_check">Login-Daten können nicht überprüft werden. Bitte überprüfe deine Netzwerkverbindung</string>
+    <string name="snackbar_not_correct_info">Login-Daten inkorrekt</string>
+    <string name="popup_code_not_valid">Der QR-Code ist ungültig oder bereits eingelöst</string>
+    <string name="notification_summary_notif">Du hast deine Bestellung noch nicht synchronisiert</string>
+    <string name="login_success">Login erfolgreich</string>
+
+
+    <!-- Messenger -->
+
+    <string name="action_leave_chat">Chat verlassen</string>
+    <string name="name_of_chat">Chatname</string>
+    <string name="title_new_groupchat">Neue Gruppe</string>
+    <string name="serviceDescription">Emfpängt Nachrichten, während die App nicht geöffnet ist.</string>
+    <string name="seconds">Sekunden</string>
+    <string name="minute">Minute</string>
+    <string name="minutes">Minuten</string>
+
+
+    <!-- Stundenplan -->
+
+    <string name="stunden">Stunden</string>
+    <string name="bearbeiten">bearbeiten</string>
+    <string name="mo">Mo</string>
+    <string name="montag">Montag</string>
+    <string name="di">Di</string>
+    <string name="dienstag">Dienstag</string>
+    <string name="mi">Mi</string>
+    <string name="mittwoch">Mittwoch</string>
+    <string name="don">Do</string>
+    <string name="donnerstag">Donnerstag</string>
+    <string name="fr">Fr</string>
+    <string name="freitag">Freitag</string>
+    <string name="filepath">‪C:\Users\Luzia\beispieldaten.txt</string>
+    <string name="menu_stundenplan_name">stundenplan_name</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="aufgerufen_pref">pref_stundenplan_aufgerufen</string>
+    <string name="laden_name">Neu laden</string>
+    <string name="mathe">Mathe</string>
+    <string name="deutsch">Deutsch</string>
+    <string name="latein">Latein</string>
+    <string name="franze">Französisch</string>
+    <string name="englisch">Englisch</string>
+    <string name="spanisch">Spanisch</string>
+    <string name="bili">Geschichte Billingual</string>
+    <string name="geschichte">Geschichte</string>
+    <string name="geo">Erdkunde</string>
+    <string name="sowi">Sozialwissenschaften</string>
+    <string name="pada">Pädagogik</string>
+    <string name="reliKat">Religion Kath.</string>
+    <string name="reliEv">Religion Ev.</string>
+    <string name="philo">Philosophie</string>
+    <string name="info">Informatik</string>
+    <string name="chemie">Chemie</string>
+    <string name="physik">Physik</string>
+    <string name="bio">Biologie</string>
+    <string name="literatur">Literatur</string>
+    <string name="kunst">Kunst</string>
+    <string name="musik">Musik</string>
+    <string name="SnackBarMes">Plan konnte nicht geladen werden</string>
+    <string name="später">später</string>
+    <string name="lk">Leistungskurs</string>
+    <string name="zeit">Zeit</string>
+    <string name="raum">Raum</string>
+    <string name="lehrer">Lehrer</string>
+    <string name="schriftlich">Schriftlich</string>
+    <string name="notizen">Notizen</string>
+    <string name="mache_bild">Bild erstellen</string>
+
+
+    <!-- Einstellungen -->
+
+    <!--Generell-->
+    <string name="settings_category_general">Generell</string>
+    <string name="settings_title_username">Benutzername</string>
+    <string name="settings_summary_username">N/A</string>
+    <string name="settings_title_level">Stufe/Klasse</string>
+    <string name="settings_summary_level">N/A</string>
+    <string name="settings_snackbar_username_taken">Dieser Benutzername ist bereits vergeben</string>
+    <string name="settings_toast_username_success">Benutzername geändert!</string>
+
+    <!--Essensbons-->
+    <string name="settings_title_customid">Customer ID</string>
+    <string name="settings_summary_customid">Gib deine lunch.leo-ac.de Benutzer-ID ein</string>
+    <string name="settings_title_pw">Passwort</string>
+    <string name="settings_summary_pw">Gib dein lunch.leo-ac.de Passwort ein</string>
+    <string name="settings_title_sync">Auto-Sync</string>
+    <string name="settings_summary_sync">Daten beim App-Start synchronisieren</string>
+    <string name="settings_title_fade">Automatisch ausblenden</string>
+    <string name="settings_summary_fade">Scan-Informationen werden automatisch ausgeblendet</string>
+    <string name="settings_title_fade_time">Zeitraum</string>
+    <string name="settings_summary_fade_time">Zeit bis das Informationsfenster sich schließt</string>
+    <string name="settings_title_camera">Frontkamera verwenden</string>
+    <string name="settings_summary_camera">Benutzt die Frontkamera zum Scannen</string>
+    <string name="settings_title_mode">MensaMode&#8482;</string>
+    <string name="settings_summary_mode">MensaMode&#8482; für das Mensa Personal</string>
+    <string name="settings_title_notification">Benachrichtigungen erhalten</string>
+    <string name="settings_summary_notification">Benachrichtigung, wenn noch nicht synchronisiert wurde</string>
+    <string name="settings_title_notification_time">Uhrzeit</string>
+    <string name="settings_summary_notification_time">Wann willst du benachrichtigt werden?</string>
+
+    <!--Klausurplan-->
+    <string name="settings_summary_notification_test">Informiere mich über anstehende Klausuren</string>
+    <string name="settings_summary_testplan_time">Wie alt dürfen angezeigte Klausuren sein?</string>
+    <string name="settings_title_testplan_time">Klausuren löschen</string>
+
+    <!--Messenger-->
+    <string name="settings_title_refresh_interval">Aktualisierungsintervall</string>
+    <string name="settings_summary_refresh_interval">Zeitraum zwischen den Synchronisationsvorgängen</string>
+    <string name="settings_summary_notification_messenger">Informiere mich über neue Nachrichten</string>
+
+    <!--Schwarzes Brett-->
+    <string name="settings_summary_notification_news">Infromiere mich über neue Einträge</string>
+
+    <!--Stimmungsbarometer-->
+    <string name="settings_summary_notification_survey">Informiere mich, falls ich noch nicht abgestimmt habe</string>
+
+    <!--Stundenplan-->
+    <string name="settings_summary_notification_schedule">Informiere mich über die Fächer des nächsten Tages</string>
+
+    <!--Kontakt & Informationen-->
+    <string name="settings_category_info">Kontakt &#38; Informationen</string>
+    <string name="settings_title_version">Version</string>
+    <string name="settings_summary_version">LeoApp v1.0.1</string>
+    <string name="settings_title_contact">Kontakt</string>
+    <string name="settings_summary_contact">email\@maildomain.de</string>
+    <string name="speichern">Speichern</string>
+    <string name="info_screen_title">LeoApp für Android</string>
+    <string name="info_screen_first">Version Placeholder</string>
+    <string name="info_screen_second">Entstanden im Projektkurs Informatik 2017</string>
+    <string name="info_screen_third">St.Leonhard Gymnasium</string>
+    <string name="info_screen_fourth">Alle Angaben ohne Gewähr</string>
+    <string name="info_screen_fifth">Entwickler</string>
+    <string name="toolbar_title_screen">Über die App</string>
+
+
+</resources>

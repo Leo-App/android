@@ -1,0 +1,95 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.slg.leoapp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <service
+            android:name=".ReceiveService"
+            android:description="@string/serviceDescription"
+            android:exported="false" />
+        <service
+            android:name=".NotificationService"
+            android:exported="false" />
+
+        <activity
+            android:name=".Start"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PreferenceActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.startseite.MainActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.startseite.InfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.messenger.OverviewWrapper"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.messenger.ChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.messenger.AddGroupChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.messenger.ChatEditActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.essensqr.WrapperQRActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.stimmungsbarometer.AbstimmActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.stimmungsbarometer.StimmungsbarometerActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.klausurplan.KlausurActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.klausurplan.KlausurplanActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.schwarzes_brett.SchwarzesBrettActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.stundenplan.WrapperStundenplanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.stundenplan.StundenplanActivity" />
+        <activity
+            android:name="de.slg.stundenplan.SPDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.stundenplan.AuswahlActivity"
+            android:screenOrientation="portrait" />
+
+    </application>
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>

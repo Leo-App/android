@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#0190f6"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:elevation="0dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <TextView
+        android:id="@+id/name_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="25dp"
+        android:text="FachName - FachKürzel"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/zeit_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name_detail"
+        android:layout_alignStart="@+id/name_detail"
+        android:layout_below="@+id/name_detail"
+        android:layout_marginTop="26dp"
+        android:text="@string/zeit"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/tag_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/zeit_details"
+        android:layout_alignStart="@+id/zeit_details"
+        android:layout_below="@+id/zeit_details"
+        android:layout_marginTop="12dp"
+        android:text="Wochentag"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/uhrzeit_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tag_details"
+        android:layout_marginLeft="23dp"
+        android:layout_marginStart="23dp"
+        android:layout_toEndOf="@+id/tag_details"
+        android:layout_toRightOf="@+id/tag_details"
+        android:text="00:00-00:00"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/raum_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tag_details"
+        android:layout_alignStart="@+id/tag_details"
+        android:layout_below="@+id/tag_details"
+        android:layout_marginTop="23dp"
+        android:text="@string/raum"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/raumnr_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/raum_details"
+        android:layout_alignStart="@+id/raum_details"
+        android:layout_below="@+id/raum_details"
+        android:layout_marginTop="13dp"
+        android:text="00000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lehrer_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/raumnr_details"
+        android:layout_alignStart="@+id/raumnr_details"
+        android:layout_below="@+id/raumnr_details"
+        android:layout_marginTop="25dp"
+        android:text="@string/lehrer"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/lehrerK_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:text="XXX"
+        android:textSize="18sp"
+        android:layout_below="@+id/lehrer_details"
+        android:layout_alignLeft="@+id/lehrer_details"
+        android:layout_alignStart="@+id/lehrer_details" />
+
+    <TextView
+        android:id="@+id/schriftlich_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lehrerK_details"
+        android:layout_alignStart="@+id/lehrerK_details"
+        android:layout_below="@+id/lehrerK_details"
+        android:layout_marginTop="24dp"
+        android:text="@string/schriftlich"
+        android:textSize="22sp" />
+
+    <CheckBox
+        android:id="@+id/checkBox_schriftlich"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/schriftlich_details"
+        android:layout_alignBottom="@+id/schriftlich_details"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_toEndOf="@+id/notizFeld_details"
+        android:layout_toRightOf="@+id/notizFeld_details"
+        android:buttonTint="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/notiz_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:text="@string/notizen"
+        android:textSize="22sp"
+        android:layout_below="@+id/checkBox_schriftlich"
+        android:layout_alignLeft="@+id/schriftlich_details"
+        android:layout_alignStart="@+id/schriftlich_details" />
+
+    <EditText
+        android:id="@+id/notizFeld_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/notiz_details"
+        android:layout_alignStart="@+id/notiz_details"
+        android:layout_below="@+id/notiz_details"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="notiz" />
+
+</RelativeLayout>

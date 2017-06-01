@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="48dp"
+    android:padding="6dip" >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_chat_bubble_white_24dp"
+        android:tint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/chatname"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@id/icon"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp"
+        tools:text="Chatname"
+        android:textStyle="normal|bold"
+        android:textColor="@color/colorText" />
+
+    <TextView
+        android:id="@+id/letzteNachricht"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:layout_below="@id/chatname"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/icon"
+        android:layout_marginLeft="10dp"
+        android:ellipsize="marquee"
+        android:textSize="12sp"
+        tools:text="letzte Nachricht"
+        android:textColor="@color/colorText" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:padding="2dp"
+        android:id="@+id/notify"
+        android:background="@drawable/back"
+        app:srcCompat="@drawable/ic_priority_high_white_24dp"
+        android:layout_height="20dp"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="48dp"
+    android:minHeight="48dp"
+    android:padding="4dp">
+
+    <ImageView
+        android:id="@+id/iconUser"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_account_circle_black_24dp"
+        android:tint="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iconUser"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        tools:text="Username" />
+
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="26dp"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username"
+        android:layout_below="@+id/username"
+        android:layout_marginLeft="10dp" />
+
+</RelativeLayout>

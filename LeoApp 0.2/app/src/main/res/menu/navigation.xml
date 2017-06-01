@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single" android:id="@+id/nav0">
+        <item
+            android:id="@+id/startseite"
+            android:checked="false"
+            android:icon="@drawable/ic_home_white_24dp"
+            android:title="@string/title_home" />
+        <item
+            android:id="@+id/foodmarks"
+            android:checked="false"
+            android:icon="@mipmap/qr_code"
+            android:title="@string/title_foodmarks" />
+        <item
+            android:id="@+id/klausurplan"
+            android:checked="false"
+            android:icon="@drawable/ic_content_paste_white_24dp"
+            android:title="@string/title_testplan" />
+        <item
+            android:id="@+id/messenger"
+            android:checked="false"
+            android:icon="@drawable/ic_question_answer_white_24dp"
+            android:title="@string/title_messenger" />
+        <item
+            android:id="@+id/nachhilfe"
+            android:checked="false"
+            android:icon="@drawable/ic_people_white_24dp"
+            android:title="@string/title_tutoring" />
+        <item
+            android:id="@+id/newsboard"
+            android:checked="false"
+            android:icon="@drawable/ic_event_note_white_24dp"
+            android:title="@string/title_news" />
+        <item
+            android:id="@+id/barometer"
+            android:checked="false"
+            android:icon="@drawable/ic_insert_emoticon_white_24dp"
+            android:title="@string/title_survey" />
+        <item
+            android:id="@+id/stundenplan"
+            android:checked="false"
+            android:icon="@drawable/ic_event_white_24dp"
+            android:title="@string/title_plan" />
+    </group>
+    <group android:checkableBehavior="single" android:id="@+id/nav1">
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings_white_24dp"
+            android:title="@string/title_settings" />
+    </group>
+</menu>
