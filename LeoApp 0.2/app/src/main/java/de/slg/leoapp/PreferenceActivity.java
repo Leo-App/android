@@ -3,6 +3,8 @@ package de.slg.leoapp;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -86,6 +88,16 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         if(!MainActivity.isVerified())
             findPreference("pref_key_username_general").setEnabled(false);
 
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = pInfo.versionName;
+        int verCode = pInfo.versionCode;
+
+        findPreference("pref_key_version_app").setSummary(version + " ("+verCode+")");
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         if (!getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_id", "").equals("")) {
@@ -385,6 +397,8 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         public void onPostExecute(Auth result) {
 
             progressBar.setVisibility(View.INVISIBLE);
+
+            MainActivity.service = null;
 
             switch (result) {
 

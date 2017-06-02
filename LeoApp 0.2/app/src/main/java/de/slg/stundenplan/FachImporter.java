@@ -47,7 +47,7 @@ public class FachImporter extends AsyncTask<Void, Void, ArrayList<Fach>> {
             String[] fach;
 
             br = new BufferedReader(new InputStreamReader(con.openFileInput("testdaten.txt")));
-            bw = new BufferedWriter(new OutputStreamWriter(con.openFileOutput("allefaecher.txt", con.MODE_PRIVATE))); //Darf ich das oder zu viel speicher? // TODO: 27.05.2017
+            bw = new BufferedWriter(new OutputStreamWriter(con.openFileOutput("allefaecher.txt", Context.MODE_PRIVATE))); //Darf ich das oder zu viel speicher? // TODO: 27.05.2017
 
             zeile = br.readLine();
             while (zeile != null) {

@@ -192,6 +192,7 @@
     <string name="settings_title_testplan_time">Delete test</string>
     <string name="minute">minute</string>
     <string name="minutes">minutes</string>
+    <string name="button_next">Next</string>
 
     <string name="toolbar_name_info">About</string>
 </resources>

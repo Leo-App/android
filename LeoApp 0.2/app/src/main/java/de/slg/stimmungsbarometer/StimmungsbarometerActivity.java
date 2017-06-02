@@ -89,6 +89,11 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.barometer).setChecked(true);
+
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(MainActivity.isVerified());
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override

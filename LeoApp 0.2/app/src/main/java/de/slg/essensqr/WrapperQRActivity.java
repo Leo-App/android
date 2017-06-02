@@ -80,6 +80,11 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.getMenu().findItem(R.id.foodmarks).setChecked(true);
+
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(MainActivity.isVerified());
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -194,7 +199,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.startseite, menu);
+        getMenuInflater().inflate(R.menu.essensbons, menu);
         return true;
     }
 

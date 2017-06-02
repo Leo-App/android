@@ -130,12 +130,17 @@ public class KlausurplanActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.getMenu().findItem(R.id.klausurplan).setChecked(true);
+
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(MainActivity.isVerified());
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 drawerLayout.closeDrawers();
-                Intent i;
+                Intent i = null;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);

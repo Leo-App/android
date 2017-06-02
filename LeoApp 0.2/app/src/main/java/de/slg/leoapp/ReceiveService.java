@@ -82,7 +82,7 @@ public class ReceiveService extends Service {
 
     public void showNotification() {
 
-        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.smiley_background);
+        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.leoapp_logo);
 
         wrapper.runOnUiThread(new Runnable() {
             @Override
@@ -95,8 +95,9 @@ public class ReceiveService extends Service {
                 Notification notification =
                         new NotificationCompat.Builder(getApplicationContext())
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                                .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
                                 .setLargeIcon(icon)
+                                .setVibrate(new long[]{200,100,200})
+                                .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
                                 .setContentTitle(getString(R.string.messenger_notification_title))
                                 .setContentText(s)
                                 .setContentIntent(pendingIntent)

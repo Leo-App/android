@@ -35,7 +35,7 @@ public class AuswahlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auswahl);
 
         SharedPreferences shaPre = getSharedPreferences("", MODE_PRIVATE); //Jaja, hier fehlt noch der Name... // TODO: 27.05.2017
-        String stufe = shaPre.getString("pref_key_level_general", "Q1");
+        String stufe = shaPre.getString("pref_key_level_general", "Q1"); //Ähm ich würde vllt nicht Q1 nehmen, wenn noch keine Stufe eingestellt ist ^Gianni TODO Lesen
 
         if (!fileExistiert()) {
             FachImporter fi = new FachImporter(getApplicationContext(), stufe);

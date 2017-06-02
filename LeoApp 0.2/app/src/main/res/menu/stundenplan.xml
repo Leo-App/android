@@ -6,11 +6,11 @@
         android:id="@+id/action_edit"
         android:icon="@drawable/ic_edit_white_24dp"
         android:title="@string/menu_stundenplan_name"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_picture"
         android:icon="@drawable/ic_image_white_24dp"
         android:title="@string/mache_bild"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

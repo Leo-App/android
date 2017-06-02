@@ -4,13 +4,19 @@ import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.renderscript.RenderScript;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.util.Log;
 
 import java.text.ParseException;
@@ -111,7 +117,7 @@ public class NotificationService extends IntentService {
     private void showNotification() {
         Intent resultIntent = new Intent(this, MainActivity.class);
 
-        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.smiley_background);
+        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.leoapp_logo);
 
         PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(
@@ -124,8 +130,9 @@ public class NotificationService extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setSmallIcon(R.mipmap.qr_code)
                         .setLargeIcon(icon)
+                        .setSmallIcon(R.mipmap.qr_code)
+                        .setVibrate(new long[]{200})
                         .setContentTitle("LeoApp")
                         .setContentText(getString(R.string.notification_summary_notif))
                         .setContentIntent(resultPendingIntent);

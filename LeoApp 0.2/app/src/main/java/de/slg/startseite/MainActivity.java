@@ -43,6 +43,7 @@ import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
+import de.slg.stundenplan.AuswahlActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ref = this;
         setContentView(R.layout.activity_startseite);
 
+        Log.wtf("LeoApp", "called onCreate main");
+
         initPreference(getApplicationContext());
         int id = pref.getInt("pref_key_general_id", -1);
         boolean hide = pref.getBoolean("pref_key_dont_remind_me", false);
@@ -94,7 +97,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (verified)
             updateButtons();
 
+        Log.wtf("LeoApp", String.valueOf(pref.getBoolean("pref_key_notification", false)));
+
         if (pref.getBoolean("pref_key_notification", false) && service == null) {
+            Log.wtf("LeoApp", "called Service");
             service = new Intent(this, NotificationService.class);
             startService(service);
         }
@@ -124,23 +130,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
+
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(MainActivity.isVerified());
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 drawerLayout.closeDrawers();
-                Intent i;
+                Intent i = null;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
                         break;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                    case R.id.messenger: //Nur bei Verifizierung
+                            i = new Intent(getApplicationContext(), OverviewWrapper.class);
                         break;
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-                    case R.id.nachhilfe:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
+                    case R.id.nachhilfe: //Nur bei Verifizierung
+                            i = new Intent(getApplicationContext(), MainActivity.class);
                         break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
@@ -148,8 +159,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.barometer:
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
                         break;
-                    case R.id.klausurplan:
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
+                    case R.id.klausurplan: //Nur bei Verifizierung
+                            i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                         break;
                     case R.id.startseite:
                         i = null;
@@ -204,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button b3, b4, b5;
         b3 = (Button) findViewById(R.id.buttonCardView2);
         b4 = (Button) findViewById(R.id.buttonCardView3);
-        b5 = (Button) findViewById(R.id.buttonCardView4);
+        b5 = (Button) findViewById(R.id.buttonCardView5);
         b3.setText(getString(R.string.button_info_try));
         b4.setText(getString(R.string.button_info_try));
         b5.setText(getString(R.string.button_info_try));
@@ -238,32 +249,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonCardView1:
                 i = new Intent(this, WrapperQRActivity.class);
                 break;
-            case R.id.buttonCardView2:
+            case R.id.buttonCardView3:
                 if (isVerified()) {
                     i = new Intent(this, KlausurplanActivity.class);
                     break;
                 } else
                     showDialog();
-            case R.id.buttonCardView3:
+            case R.id.buttonCardView4:
                 if (isVerified()) {
                     i = new Intent(this, OverviewWrapper.class);
                     break;
                 } else
                     showDialog();
-            case R.id.buttonCardView4:
+            case R.id.buttonCardView5:
                 if (isVerified()) {
                     i = new Intent(this, MainActivity.class);
                     break;
                 } else
                     showDialog();
-            case R.id.buttonCardView5:
+            case R.id.buttonCardView2:
                 i = new Intent(this, SchwarzesBrettActivity.class);
                 break;
             case R.id.buttonCardView7:
                 i = new Intent(this, StimmungsbarometerActivity.class);
                 break;
             case R.id.buttonCardView8:
-                i = new Intent(this, MainActivity.class);
+                i = new Intent(this, AuswahlActivity.class);
                 break;
         }
         if (i != null)

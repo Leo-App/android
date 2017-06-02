@@ -136,12 +136,17 @@ public class OverviewWrapper extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.getMenu().findItem(R.id.messenger).setChecked(true);
+
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(MainActivity.isVerified());
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 drawerLayout.closeDrawers();
-                Intent i;
+                Intent i = null;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
@@ -153,7 +158,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
                     case R.id.nachhilfe:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
+                            i = new Intent(getApplicationContext(), MainActivity.class);
                         break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
