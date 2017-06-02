@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
@@ -79,6 +81,9 @@ public class ReceiveService extends Service {
     }
 
     public void showNotification() {
+
+        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.smiley_background);
+
         wrapper.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -89,8 +94,10 @@ public class ReceiveService extends Service {
                 PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);
                 Notification notification =
                         new NotificationCompat.Builder(getApplicationContext())
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
                                 .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
-                                .setContentTitle("Neue Nachrichten!")
+                                .setLargeIcon(icon)
+                                .setContentTitle(getString(R.string.messenger_notification_title))
                                 .setContentText(s)
                                 .setContentIntent(pendingIntent)
                                 .build();

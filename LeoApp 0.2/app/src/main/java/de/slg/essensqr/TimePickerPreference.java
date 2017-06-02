@@ -7,6 +7,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
 
+import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
+
 @SuppressWarnings("deprecation")
 public class TimePickerPreference extends DialogPreference {
     private int lastHour;
@@ -28,8 +31,8 @@ public class TimePickerPreference extends DialogPreference {
     public TimePickerPreference(Context ctxt, AttributeSet attrs) {
         super(ctxt, attrs);
 
-        setPositiveButtonText("ok");
-        setNegativeButtonText("Abbrechen");
+        setPositiveButtonText(Utils.getString(R.string.button_confirm));
+        setNegativeButtonText(Utils.getString(R.string.cancel));
     }
 
     @Override

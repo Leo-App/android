@@ -50,6 +50,7 @@ public class ClassPickerPref extends DialogPreference {
         picker.setDisplayedValues( new String[] { "5", "6", "7", "8", "9", "EF", "Q1", "Q2" } );
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
+        picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     }
 
     @Override
@@ -74,6 +75,7 @@ public class ClassPickerPref extends DialogPreference {
     }
 
     public int getValue() {
+        this.value = getPersistedInt(2);
         return this.value;
     }
 }

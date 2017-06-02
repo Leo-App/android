@@ -19,6 +19,7 @@ public class User {
         return "id: " + userId + ", name: " + userName + ", permission: " + permission + ", klasse: " + klasse;
     }
 
+
     public boolean allAttributesSet() {
         return userName != null && userId > 0 && klasse != null && permission >= 0;
     }

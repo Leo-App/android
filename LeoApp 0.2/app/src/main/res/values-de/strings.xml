@@ -203,6 +203,7 @@
     <string name="settings_title_refresh_interval">Aktualisierungsintervall</string>
     <string name="settings_summary_refresh_interval">Zeitraum zwischen den Synchronisationsvorgängen</string>
     <string name="settings_summary_notification_messenger">Informiere mich über neue Nachrichten</string>
+    <string name="messenger_notification_title">Neue Nachrichten!</string>
 
     <!--Schwarzes Brett-->
     <string name="settings_summary_notification_news">Infromiere mich über neue Einträge</string>

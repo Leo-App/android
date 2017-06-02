@@ -46,12 +46,12 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+@SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler {
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     public static View v;
-    @SuppressLint("StaticFieldLeak")
     public static ProgressBar pb;
     public static TextView title, info;
     public static Button verify;

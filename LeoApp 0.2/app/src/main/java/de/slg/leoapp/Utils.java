@@ -32,7 +32,7 @@ public class Utils {
     }
 
     public static String getUserName() {
-        return MainActivity.pref.getString("pref_key_general_username", context.getString(R.string.drawer_placeholder));
+        return MainActivity.pref.getString("pref_key_username_general", context.getString(R.string.drawer_placeholder));
     }
 
     public static String getUserStufe() {
@@ -66,6 +66,12 @@ public class Utils {
 
     public static String getLastVote() {
         return MainActivity.pref.getString("pref_key_general_last_vote", "00.00");
+    }
+
+    public static String getString(int id) {
+
+        return context.getString(id);
+
     }
 
     public static String getCurrentDate(String pattern) {
