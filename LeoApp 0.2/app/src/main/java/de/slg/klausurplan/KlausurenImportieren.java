@@ -2,6 +2,7 @@ package de.slg.klausurplan;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -15,6 +16,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.List;
+import de.slg.leoapp.Utils;
+import de.slg.startseite.MainActivity;
+import de.slg.stundenplan.Fach;
+import de.slg.stundenplan.Stundenplanverwalter;
 
 public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
@@ -22,9 +27,11 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     private Context context;
     private int year;
     private List<Klausur> listeMitHeruntergeladenenKlausuren;
+    private List<String> kuerzelStundenplan;
 
     public KlausurenImportieren(Context context) {
         this.context = context;
+        this.kuerzelStundenplan = null;
     }
 
     @Override
@@ -68,15 +75,15 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             substring = substring.substring(substring.indexOf("</entry>") + 8);//Trennen nach erstem <\entry> (Wochentag wird nicht benötigt) Bsp: <entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry>
             substring = substring.replace("<para>", "").replace("</para>", "").replace("<para/>", " ").replace("<entry>", "").replace("</entry>", ";");//entfernen aller para, Anfangs entry, Ersetzen der </entry> Tags durch ; Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
             if (!substring.contains("<entry namest=\"c3\" nameend=\"c5\">")) { //? beim neuen Klausurplan nirgendwo der Fall
-               if (!substring.startsWith("EF"))//nicht benötigte Zeilen Bsp:EF;Q1;Q2;
-                   zeile(substring);
+                if (!substring.startsWith("EF"))//nicht benötigte Zeilen Bsp:EF;Q1;Q2;
+                    zeile(substring);
             }
         }
     }
 
     private void zeile(String s) {
         String zeile = new String(s);
-        String datesubstring = zeile.substring(0, zeile.indexOf(";")).replaceAll("\\s",""); // erster Teil vor dem Simikolon enthält das Datum Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
+        String datesubstring = zeile.substring(0, zeile.indexOf(";")).replaceAll("\\s", ""); // erster Teil vor dem Simikolon enthält das Datum Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
         //Log.e("date", datesubstring);
         if (!datesubstring.endsWith("."))
             datesubstring += '.'; //Log.e("date", datesubstring); //fehlende Punkte am Ende werden ergänzt
@@ -103,11 +110,11 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
                 //Log.e("GK/LK", c);
 
             } else if (c.startsWith("Abiturvorklausur LK")) { //Abiturvorklausur LK II(Dauer: 4,25 Zeitstunden + 30 Minuten Auswahlzeit in den Sprachen und Gesellschaftswissenschaften) L4: E RUS (23), F KRE (8), M VOG (19), PA HSR (11)L2: GE KKG (2), PH KKG (6), KU KKG (4)L6: BI COU (2), D COU (5), GE COU (4), SW COU (2)        1.-6. Stunde (der Unterricht in der 7. und 8. Stunde entfällt)  Elternsprechtag: 16 Uhr;
-                if(c.contains("wissenschaften)")){
+                if (c.contains("wissenschaften)")) {
                     c = c.substring(c.indexOf("wissenschaften)") + 15); //Text entfernen:  L4: E RUS (23), F KRE (8), M VOG (19), PA HSR (11)L2: GE KKG (2), PH KKG (6), KU KKG (4)L6: BI COU (2), D COU (5), GE COU (4), SW COU (2)        1.-6. Stunde (der Unterricht in der 7. und 8. Stunde entfällt)  Elternsprechtag: 16 Uhr;
                     c = c.substring(c.indexOf(":") + 1); // nach dem ersten Doppelpunkt: E RUS (23), F KRE (8), M VOG (19), PA HSR (11)L2: GE KKG (2), PH KKG (6), KU KKG (4)L6: BI COU (2), D COU (5), GE COU (4), SW COU (2)        1.-6. Stunde (der Unterricht in der 7. und 8. Stunde entfällt)  Elternsprechtag: 16 Uhr;
                     c = c.substring(0, c.indexOf(":") - 2);//vor dem nächsten Doppelpunkt trennen(KOOP-Klausuren):  E RUS (23), F KRE (8), M VOG (19), PA HSR (11)L2: GE KKG (2), PH KKG (6), KU KKG (4)
-                   // Log.e("AV LK", c);
+                    // Log.e("AV LK", c);
                 }
 
 
@@ -121,14 +128,14 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
             for (klausurenAusZeile.toFirst(); klausurenAusZeile.hasAccess(); klausurenAusZeile.next())
                 //Log.e("klausurenAusZeile", klausurenAusZeile.getContent());
-                if(datum != null)
-               listeMitHeruntergeladenenKlausuren.append(new Klausur(klausurenAusZeile.getContent().replace('_', ' '), datum, null, null)); //neue Klausuren(in der Zeile enthaltenes Datum, gefundene Klausuren (Kürzel)) werden angehängt
+                if (datum != null && istImStundenplan(klausurenAusZeile.getContent().replace('_', ' '), MainActivity.pref.getBoolean("pref_key_test_timetable_sync", false)))
+                    listeMitHeruntergeladenenKlausuren.append(new Klausur(klausurenAusZeile.getContent().replace('_', ' '), datum, null, null)); //neue Klausuren(in der Zeile enthaltenes Datum, gefundene Klausuren (Kürzel)) werden angehängt
 
         }
     }
 
     private List<String> getKlausurStrings(String s, String stufe) { //E RUS (23), F KRE (8), M VOG (19), PA HSR (11) //(5)  GE G3 HUC (11), GEF G1 TAS (7), SW G3 STO (5) 
-        s = s.replace(' ', '_').replace('(', '_').replace(')', '_').replace(',', ';').replaceAll("\\s",""); //_E_RUS__23_;_F_KRE__8_;_M_VOG__19_;_PA_HSR__11_   //_5__GE_G3_HUC__11_;_GEF_G1_TAS__7_;_SW_G3_STO__5________________1.-2
+        s = s.replace(' ', '_').replace('(', '_').replace(')', '_').replace(',', ';').replaceAll("\\s", ""); //_E_RUS__23_;_F_KRE__8_;_M_VOG__19_;_PA_HSR__11_   //_5__GE_G3_HUC__11_;_GEF_G1_TAS__7_;_SW_G3_STO__5________________1.-2
         String[] klausuren = s.split(";"); //_E_RUS__23_   //_5__GE_G3_HUC__11_
         List<String> list = new List<>();
         for (String c : klausuren) {
@@ -141,8 +148,8 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
                 if (c.length() >= 12 && istGK) {
                     String klausur = c.substring(0, 12); // etwas zu viel, um mehr Leerzeichen zuzulassen (es gibt jedoch keine kürzeren GK Klausuren, da kürzestes Format: F_G1_LLL__1_)
-                    while (klausur.length() > 7 && (klausur.charAt(klausur.length()-1) == '_' || (klausur.charAt(klausur.length()-1) > 47 && klausur.charAt(klausur.length()-1) < 58)))
-                        klausur = klausur.substring(0,klausur.length()-1);//Zahlen und Leerzeichen am Ende entfernen
+                    while (klausur.length() > 7 && (klausur.charAt(klausur.length() - 1) == '_' || (klausur.charAt(klausur.length() - 1) > 47 && klausur.charAt(klausur.length() - 1) < 58)))
+                        klausur = klausur.substring(0, klausur.length() - 1);//Zahlen und Leerzeichen am Ende entfernen
                     klausur += " " + stufe; // Stufe anhängen
                     list.append(klausur); //GE_G3_HUC EF
                 }
@@ -150,8 +157,8 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
                 //Log.e("Tag", ""+istLK);
                 if (c.length() >= 9 && istLK) {// etwas zu viel, um mehr Leerzeichen zuzulassen (es gibt jedoch keine kürzeren LK Klausuren, da kürzestes Format: F_LLL__1_)
                     String klausur = c.substring(0, 9);
-                    while (klausur.length() > 5 && (klausur.charAt(klausur.length()-1) == '_' || (klausur.charAt(klausur.length()-1) > 47 && klausur.charAt(klausur.length()-1) < 58)))
-                        klausur = klausur.substring(0,klausur.length()-1);//Zahlen und Leerzeichen am Ende entfernen
+                    while (klausur.length() > 5 && (klausur.charAt(klausur.length() - 1) == '_' || (klausur.charAt(klausur.length() - 1) > 47 && klausur.charAt(klausur.length() - 1) < 58)))
+                        klausur = klausur.substring(0, klausur.length() - 1);//Zahlen und Leerzeichen am Ende entfernen
                     klausur += " " + stufe;
 
                     String teil1 = klausur.substring(0, klausur.indexOf("_"));
@@ -200,9 +207,45 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             int month = Integer.parseInt(parts[1]);// Log.e("date", ""+month);
             int year = Integer.parseInt(parts[2]);// Log.e("date", ""+year);
             Calendar c = new GregorianCalendar();
-            c.set(year, month-1, day);//Log.e("date", c.getTime().toString());
+            c.set(year, month - 1, day);//Log.e("date", c.getTime().toString());
             return c.getTime();
         }
         return null;
+    }
+
+    private boolean istImStundenplan(String klausur, boolean nachKlausurplanFiltern) {
+        if (nachKlausurplanFiltern) {
+            if (kuerzelStundenplan == null) {
+                Stundenplanverwalter verwalter = new Stundenplanverwalter(context, "meinefaecher.txt");
+                Fach[] arrayFach = verwalter.gibFaecherKurz();
+                kuerzelStundenplan = new List<>();
+                for (int i = 0; i < arrayFach.length; i++) {
+                    if (arrayFach[i].gibSchriftlich()) {
+                        String kuerzel = arrayFach[i].gibKurz();
+                        String lehrer = arrayFach[i].gibLehrer();
+
+                        String teil1 = kuerzel.substring(0, 2);
+                        String teil2 = kuerzel.substring(2, 4);
+                        if (teil1.charAt(1) != ' ')
+                            teil1 += ' ';
+                        if (teil2.charAt(0) == 'L')
+                            teil2 = "L";
+                        kuerzel = teil1 + teil2;
+
+                        kuerzel = kuerzel + " " + lehrer + " " + Utils.getUserStufe();
+                        kuerzelStundenplan.append(kuerzel);
+                    }
+                }
+            }
+
+            for (kuerzelStundenplan.toFirst(); kuerzelStundenplan.hasAccess(); kuerzelStundenplan.next()) {
+                Log.e("Tag", "" + klausur + " = " + kuerzelStundenplan.getContent());
+                if (klausur.equals(kuerzelStundenplan.getContent())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true;
     }
 }

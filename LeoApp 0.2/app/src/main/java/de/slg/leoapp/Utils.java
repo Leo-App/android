@@ -70,15 +70,13 @@ public abstract class Utils {
 
     public static void setLastVote(int vote) {
         MainActivity.pref.edit()
-                .putString("pref_key_general_last_vote", new SimpleDateFormat("dd.MM").format(new Date()))
+                .putString("pref_key_general_last_vote", getCurrentDate("dd.MM"))
                 .putInt("pref_key_general_vote_id", vote)
                 .apply();
     }
 
     public static String getString(int id) {
-
         return context.getString(id);
-
     }
 
     public static String getCurrentDate(String pattern) {
