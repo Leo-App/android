@@ -3,9 +3,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/leoapp_logo"
+        android:icon="@mipmap/leo_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/leoapp_logo"
+        android:roundIcon="@mipmap/leo_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 

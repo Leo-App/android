@@ -82,7 +82,7 @@ public class ReceiveService extends Service {
 
     public void showNotification() {
 
-        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.leoapp_logo);
+        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
 
         wrapper.runOnUiThread(new Runnable() {
             @Override

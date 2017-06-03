@@ -117,7 +117,7 @@ public class NotificationService extends IntentService {
     private void showNotification() {
         Intent resultIntent = new Intent(this, MainActivity.class);
 
-        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.leoapp_logo);
+        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
 
         PendingIntent resultPendingIntent =
                 PendingIntent.getActivity(
