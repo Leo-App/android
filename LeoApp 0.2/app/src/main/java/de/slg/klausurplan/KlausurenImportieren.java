@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.List;
+import de.slg.startseite.MainActivity;
 import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.Stundenplanverwalter;
 
@@ -25,9 +26,11 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     private Context context;
     private int year;
     private List<Klausur> listeMitHeruntergeladenenKlausuren;
+    private List<String> kuerzelStundenplan;
 
     public KlausurenImportieren(Context context) {
         this.context = context;
+        this.kuerzelStundenplan = null;
     }
 
     @Override
@@ -124,7 +127,7 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
             for (klausurenAusZeile.toFirst(); klausurenAusZeile.hasAccess(); klausurenAusZeile.next())
                 //Log.e("klausurenAusZeile", klausurenAusZeile.getContent());
-                if (datum != null && istImStundenplan(stufe, klausurenAusZeile.getContent().replace('_', ' '), true)) //TODO: hier Einstellung ergänzen
+                if (datum != null && istImStundenplan(stufe, klausurenAusZeile.getContent().replace('_', ' '), MainActivity.pref.getBoolean("pref_key_test_timetable_sync", false)))
                     listeMitHeruntergeladenenKlausuren.append(new Klausur(klausurenAusZeile.getContent().replace('_', ' '), datum, null, null)); //neue Klausuren(in der Zeile enthaltenes Datum, gefundene Klausuren (Kürzel)) werden angehängt
 
         }
@@ -211,29 +214,31 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
     private boolean istImStundenplan(String stufe, String klausur, boolean nachKlausurplanFiltern) {
         if (nachKlausurplanFiltern) {
-            Stundenplanverwalter verwalter = new Stundenplanverwalter(context, "meinefaecher.txt");
-            Fach[] arrayFach = verwalter.gibFaecherKurz();
-            List<String> listeKuerzel = new List<>();
-            for (int i = 0; i < arrayFach.length; i++) {
-                if (arrayFach[i].gibSchriftlich()) {
-                    String kuerzel = arrayFach[i].gibKurz();
-                    String lehrer = arrayFach[i].gibLehrer();
+            if (kuerzelStundenplan == null) {
+                Stundenplanverwalter verwalter = new Stundenplanverwalter(context, "meinefaecher.txt");
+                Fach[] arrayFach = verwalter.gibFaecherKurz();
+                kuerzelStundenplan = new List<>();
+                for (int i = 0; i < arrayFach.length; i++) {
+                    if (arrayFach[i].gibSchriftlich()) {
+                        String kuerzel = arrayFach[i].gibKurz();
+                        String lehrer = arrayFach[i].gibLehrer();
 
-                    String teil1 = kuerzel.substring(0, 2);
-                    String teil2 = kuerzel.substring(2, 4);
-                    if (teil1.charAt(1) != ' ')
-                        teil1 += ' ';
-                    if (teil2.charAt(0) == 'L')
-                        teil2 = "L";
-                    kuerzel = teil1 + teil2;
+                        String teil1 = kuerzel.substring(0, 2);
+                        String teil2 = kuerzel.substring(2, 4);
+                        if (teil1.charAt(1) != ' ')
+                            teil1 += ' ';
+                        if (teil2.charAt(0) == 'L')
+                            teil2 = "L";
+                        kuerzel = teil1 + teil2;
 
-                    kuerzel = kuerzel + " " + lehrer + " " + stufe;
-                    listeKuerzel.append(kuerzel);
+                        kuerzel = kuerzel + " " + lehrer + " " + stufe;
+                        kuerzelStundenplan.append(kuerzel);
+                    }
                 }
             }
 
-            for (listeKuerzel.toFirst(); listeKuerzel.hasAccess(); listeKuerzel.next()) {
-                if (klausur.equals(listeKuerzel.getContent())) {
+            for (kuerzelStundenplan.toFirst(); kuerzelStundenplan.hasAccess(); kuerzelStundenplan.next()) {
+                if (klausur.equals(kuerzelStundenplan.getContent())) {
                     return true;
                 }
             }

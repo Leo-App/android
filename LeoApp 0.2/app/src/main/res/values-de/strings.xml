@@ -198,6 +198,8 @@
     <string name="settings_summary_notification_test">Informiere mich über anstehende Klausuren</string>
     <string name="settings_summary_testplan_time">Wie alt dürfen angezeigte Klausuren sein?</string>
     <string name="settings_title_testplan_time">Klausuren löschen</string>
+    <string name="settings_summary_test_timetable">Nach Stundenplan filtern</string>
+    <string name="settings_title_test_timetable">Filtern</string>
 
     <!--Messenger-->
     <string name="settings_title_refresh_interval">Aktualisierungsintervall</string>
