@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.List;
+import de.slg.leoapp.Utils;
 import de.slg.startseite.MainActivity;
 import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.Stundenplanverwalter;
@@ -127,7 +128,7 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
             for (klausurenAusZeile.toFirst(); klausurenAusZeile.hasAccess(); klausurenAusZeile.next())
                 //Log.e("klausurenAusZeile", klausurenAusZeile.getContent());
-                if (datum != null && istImStundenplan(stufe, klausurenAusZeile.getContent().replace('_', ' '), MainActivity.pref.getBoolean("pref_key_test_timetable_sync", false)))
+                if (datum != null && istImStundenplan(klausurenAusZeile.getContent().replace('_', ' '), MainActivity.pref.getBoolean("pref_key_test_timetable_sync", false)))
                     listeMitHeruntergeladenenKlausuren.append(new Klausur(klausurenAusZeile.getContent().replace('_', ' '), datum, null, null)); //neue Klausuren(in der Zeile enthaltenes Datum, gefundene Klausuren (Kürzel)) werden angehängt
 
         }
@@ -212,7 +213,7 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
         return null;
     }
 
-    private boolean istImStundenplan(String stufe, String klausur, boolean nachKlausurplanFiltern) {
+    private boolean istImStundenplan(String klausur, boolean nachKlausurplanFiltern) {
         if (nachKlausurplanFiltern) {
             if (kuerzelStundenplan == null) {
                 Stundenplanverwalter verwalter = new Stundenplanverwalter(context, "meinefaecher.txt");
@@ -231,13 +232,14 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
                             teil2 = "L";
                         kuerzel = teil1 + teil2;
 
-                        kuerzel = kuerzel + " " + lehrer + " " + stufe;
+                        kuerzel = kuerzel + " " + lehrer + " " + Utils.getUserStufe();
                         kuerzelStundenplan.append(kuerzel);
                     }
                 }
             }
 
             for (kuerzelStundenplan.toFirst(); kuerzelStundenplan.hasAccess(); kuerzelStundenplan.next()) {
+                Log.e("Tag", "" + klausur + " = " + kuerzelStundenplan.getContent());
                 if (klausur.equals(kuerzelStundenplan.getContent())) {
                     return true;
                 }

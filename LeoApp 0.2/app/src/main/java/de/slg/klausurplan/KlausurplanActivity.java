@@ -112,6 +112,7 @@ public class KlausurplanActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), R.string.snackbar_no_connection_info, Toast.LENGTH_SHORT).show();
         }
         filternNachStufe(Utils.getUserStufe());
+        löscheAlteKlausuren(MainActivity.pref.getInt("pref_key_delete", -1));
         refresh();
     }
 
