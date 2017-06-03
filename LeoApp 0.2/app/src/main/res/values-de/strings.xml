@@ -166,13 +166,14 @@
     <!-- Einstellungen -->
 
     <!--Generell-->
-    <string name="settings_category_general">Generell</string>
+    <string name="settings_category_general">Allgemein</string>
     <string name="settings_title_username">Benutzername</string>
     <string name="settings_summary_username">N/A</string>
     <string name="settings_title_level">Stufe/Klasse</string>
     <string name="settings_summary_level">N/A</string>
     <string name="settings_snackbar_username_taken">Dieser Benutzername ist bereits vergeben</string>
     <string name="settings_toast_username_success">Benutzername geändert!</string>
+    <string name="settings_name_changed">Namensänderung übernommen</string>
 
     <!--Essensbons-->
     <string name="settings_title_customid">Customer ID</string>

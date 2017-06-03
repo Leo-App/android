@@ -115,10 +115,6 @@ public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean b) {
         if(b) {
 
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
-
-            Log.d("LeoApp", pref.getString("pref_key_username_general", "Notset"));
-
             MainActivity.title.setTextColor(Color.GREEN);
             MainActivity.title.setText(c.getString(R.string.title_info_auth));
             MainActivity.info.setText(c.getString(R.string.summary_info_auth_success));
@@ -129,7 +125,7 @@ public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             MainActivity.info.setVisibility(View.VISIBLE);
             MainActivity.verify.setVisibility(View.VISIBLE);
 
-            MainActivity.setVerified();
+            c.setVerified();
 
         } else {
 

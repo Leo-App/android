@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initCardViews();
         initNavigationView();
 
+        synchronizeUsername();
+
         if (synchronize)
             new UpdateTaskGrade(this).execute();
 
@@ -112,6 +114,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else
             WrapperQRActivity.mensaModeRunning = false;
 
+    }
+
+    private void synchronizeUsername() {
+        new SyncTaskName().execute();
     }
 
     public static void initPreference(Context context) {
@@ -311,7 +317,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return verified;
     }
 
-    public static void setVerified() {
+    public void setVerified() {
+        finish();
+        startActivity(getIntent());
         verified = true;
     }
 
