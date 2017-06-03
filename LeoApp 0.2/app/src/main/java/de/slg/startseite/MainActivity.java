@@ -32,7 +32,9 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -131,15 +133,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
 
-        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(MainActivity.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 drawerLayout.closeDrawers();
-                Intent i = null;
+                Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
@@ -213,8 +215,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void updateButtons() {
         Button b3, b4, b5;
-        b3 = (Button) findViewById(R.id.buttonCardView2);
-        b4 = (Button) findViewById(R.id.buttonCardView3);
+        b3 = (Button) findViewById(R.id.buttonCardView3);
+        b4 = (Button) findViewById(R.id.buttonCardView4);
         b5 = (Button) findViewById(R.id.buttonCardView5);
         b3.setText(getString(R.string.button_info_try));
         b4.setText(getString(R.string.button_info_try));
@@ -454,10 +456,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private String getChecksum(String username, int priority, int birthyear) {
-        Date d = new Date();
-        int year = d.getYear() + 1900;
-        int month = d.getMonth() + 1;
-        int day = d.getDate();
+        Calendar c = new GregorianCalendar();
+        c.setTime(new Date());
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
 
         int numericName = toInt(username.substring(0, 3));
         int numericLastName = toInt(username.substring(3, 6));
@@ -468,7 +471,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int toInt(String s) {
-        int result = 0, i = 0, count = 1;
+        int result = 0, i, count = 1;
         String regex = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (char c : s.toCharArray()) {
             for (i = 0; i < regex.length(); i++) {
