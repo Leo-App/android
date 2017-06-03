@@ -134,9 +134,9 @@ public class KlausurplanActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.klausurplan).setChecked(true);
 
-        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(MainActivity.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 

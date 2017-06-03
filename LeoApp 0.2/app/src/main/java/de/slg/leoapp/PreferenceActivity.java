@@ -80,12 +80,12 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         findPreference("pref_key_level_general").setSummary(res);
         findPreference("pref_key_username_general").setSummary(currentUsername);
 
-        if(permission == 2 || !MainActivity.isVerified()) {
+        if(permission == 2 || !Utils.isVerified()) {
             findPreference("pref_key_level_general").setEnabled(false);
             findPreference("pref_key_username_general").setSummary("N/A");
         }
 
-        if(!MainActivity.isVerified())
+        if(!Utils.isVerified())
             findPreference("pref_key_username_general").setEnabled(false);
 
         PackageInfo pInfo = null;

@@ -81,9 +81,9 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.foodmarks).setChecked(true);
 
-        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(MainActivity.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
