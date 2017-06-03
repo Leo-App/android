@@ -21,7 +21,8 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/actionBarStatistik">
+            android:layout_below="@id/actionBarStatistik"
+            android:layout_above="@+id/relativeLayout">
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabLayout"
@@ -34,18 +35,27 @@
 
         </android.support.v4.view.ViewPager>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:background="@android:color/white"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:id="@+id/relativeLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/heute" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/linearLayoutIch"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
@@ -70,8 +80,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/linearLayoutSchueler"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayoutIch"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
@@ -94,8 +106,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/linearLayoutLehrer"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayoutSchueler"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
@@ -118,8 +132,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/linearLayoutAlle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayoutLehrer"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
@@ -141,7 +157,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 
