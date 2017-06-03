@@ -17,143 +17,160 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
+        <RelativeLayout
+            android:id="@+id/relativeLayoutGraph"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/relativeLayout"
-            android:layout_below="@id/actionBarStatistik">
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabLayout"
-                style="@style/TabLayoutDesign"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:elevation="4dp" />
-
-
-        </android.support.v4.view.ViewPager>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:padding="5dp"
+            android:layout_below="@id/actionBarStatistik"
             android:layout_above="@+id/bottomNavigationView">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/heute" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/relativeLayout">
 
-            <LinearLayout
-                android:id="@+id/linearLayoutIch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageViewIch"
-                    android:layout_width="36dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:scaleType="center"
-                    app:srcCompat="@color/colorVerySatisfied" />
-
-                <TextView
-                    android:id="@+id/textViewIch"
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tabLayout"
+                    style="@style/TabLayoutDesign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:text="Ich"
-                    android:textColor="@color/colorIch" />
+                    android:background="@color/colorPrimary"
+                    android:elevation="4dp" />
 
-            </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayoutSchueler"
-                android:layout_width="wrap_content"
+            </android.support.v4.view.ViewPager>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/linearLayoutIch"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageViewSchueler"
-                    android:layout_width="36dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@color/colorNeutral" />
+                android:background="@android:color/white"
+                android:padding="5dp"
+                android:layout_alignParentBottom="true">
 
                 <TextView
-                    android:id="@+id/textViewSchueler"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:text="Schüler"
-                    android:textColor="@color/colorNeutral" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/heute" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayoutLehrer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/linearLayoutSchueler"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageViewLehrer"
-                    android:layout_width="36dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@android:color/holo_purple" />
-
-                <TextView
-                    android:id="@+id/textViewLehrer"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/linearLayoutIch"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:text="Lehrer"
-                    android:textColor="@android:color/holo_purple" />
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageViewIch"
+                        android:layout_width="36dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:scaleType="center"
+                        app:srcCompat="@color/colorVerySatisfied" />
 
-            <LinearLayout
-                android:id="@+id/linearLayoutAlle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/linearLayoutLehrer"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/textViewIch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="Ich"
+                        android:textColor="@color/colorIch" />
 
-                <ImageView
-                    android:id="@+id/imageViewAlle"
-                    android:layout_width="36dp"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@color/colorAccent" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textViewAlle"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/linearLayoutSchueler"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:text="Alle"
-                    android:textColor="@color/colorAccent" />
+                    android:layout_below="@id/linearLayoutIch"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageViewSchueler"
+                        android:layout_width="36dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@color/colorNeutral" />
+
+                    <TextView
+                        android:id="@+id/textViewSchueler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="Schüler"
+                        android:textColor="@color/colorNeutral" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutLehrer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/linearLayoutSchueler"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewLehrer"
+                        android:layout_width="36dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@android:color/holo_purple" />
+
+                    <TextView
+                        android:id="@+id/textViewLehrer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="Lehrer"
+                        android:textColor="@android:color/holo_purple" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutAlle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/linearLayoutLehrer"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewAlle"
+                        android:layout_width="36dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@color/colorAccent" />
+
+                    <TextView
+                        android:id="@+id/textViewAlle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="Alle"
+                        android:textColor="@color/colorAccent" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutGeneral"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/actionBarStatistik"
+            android:layout_above="@+id/bottomNavigationView">
 
         </RelativeLayout>
 
@@ -161,14 +178,16 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            app:itemBackground="@android:color/white"
+            app:menu="@menu/stimmungsbarometer_bottom">
 
         </android.support.design.widget.BottomNavigationView>
 
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
+        android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

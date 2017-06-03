@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,12 +46,30 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stimmungsbarometer);
 
+        initBottomNavigationView();
         initToolbar();
         initTabs();
         initNavigationView();
+    }
+
+    private void initBottomNavigationView() {
+        findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
+        findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.inflateMenu(R.menu.stimmungsbarometer_bottom);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                if (item.getItemId() == R.id.action_general_statistics) {
+                    findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
+                    findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
+                } else if (item.getItemId() == R.id.action_graph_statistics) {
+                    findViewById(R.id.relativeLayoutGeneral).setVisibility(View.GONE);
+                    findViewById(R.id.relativeLayoutGraph).setVisibility(View.VISIBLE);
+                }
+                return true;
+            }
+        });
     }
 
     private void initTabs() {
@@ -90,7 +109,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     }
 
     private void initNavigationView() {
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.barometer).setChecked(true);
 
