@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             drawerLayout.openDrawer(GravityCompat.START);
         }
         if(item.getItemId() == R.id.action_appinfo) {
-            startActivity(new Intent(this, InfoActivity.class));
+            startActivity(new Intent(getApplicationContext(), InfoActivity.class));
         }
         return true;
     }
@@ -249,34 +249,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.buttonCardView1:
-                i = new Intent(this, WrapperQRActivity.class);
+                i = new Intent(getApplicationContext(), WrapperQRActivity.class);
                 break;
             case R.id.buttonCardView3:
                 if (isVerified()) {
-                    i = new Intent(this, KlausurplanActivity.class);
+                    i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                     break;
                 } else
                     showDialog();
             case R.id.buttonCardView4:
                 if (isVerified()) {
-                    i = new Intent(this, OverviewWrapper.class);
+                    i = new Intent(getApplicationContext(), OverviewWrapper.class);
                     break;
                 } else
                     showDialog();
             case R.id.buttonCardView5:
                 if (isVerified()) {
-                    i = new Intent(this, MainActivity.class);
+                    i = new Intent(getApplicationContext(), MainActivity.class);
                     break;
                 } else
                     showDialog();
             case R.id.buttonCardView2:
-                i = new Intent(this, SchwarzesBrettActivity.class);
+                i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                 break;
             case R.id.buttonCardView7:
-                i = new Intent(this, StimmungsbarometerActivity.class);
+                i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
                 break;
             case R.id.buttonCardView8:
-                i = new Intent(this, AuswahlActivity.class);
+                i = new Intent(getApplicationContext(), AuswahlActivity.class);
                 break;
         }
         if (i != null)
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showDialog() {
-        final AlertDialog builder = new AlertDialog.Builder(this).create();
+        final AlertDialog builder = new AlertDialog.Builder(getApplicationContext()).create();
         LayoutInflater inflater = getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_layout, null);
         Button b1, b2;
@@ -323,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void startCamera(AlertDialog b) {
         b.dismiss();
-        if (ContextCompat.checkSelfPermission(this,
+        if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             Log.d("LeoApp", "No permission. Checking");
             if (!(ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -370,7 +370,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isValid(results)) {
             final String[] data = results.split("-");
             Log.d("LeoApp", "validCode");
-            final MainActivity context = this;
             final Handler handler = new Handler();
             final Runnable r = new Runnable() {
                 @Override
@@ -380,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     MainActivity.info.setVisibility(View.GONE);
                     MainActivity.verify.setVisibility(View.GONE);
 
-                    RegistrationTask t = new RegistrationTask(context);
+                    RegistrationTask t = new RegistrationTask(MainActivity.this);
                     t.execute(data[0], String.valueOf(data[1]));
                 }
             };
