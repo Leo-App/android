@@ -35,7 +35,7 @@ public class StatistikView extends View {
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
 
-        baseLineY = bitmapCanvas.getHeight() * 3 / 4;
+        baseLineY = bitmapCanvas.getHeight() * 99 / 100;
         abstandY = baseLineY * 9 / 40;
         baseLineX = bitmapCanvas.getWidth() / 20;
         if (data[3].length != 0)
@@ -98,7 +98,7 @@ public class StatistikView extends View {
                         p.setColor(getResources().getColor(R.color.colorLehrer));
                     else if (current[i].alle)
                         p.setColor(getResources().getColor(R.color.colorAlle));
-                    bitmapCanvas.drawCircle(baseLineX + i * abstandX, (float) (baseLineY - (5 - current[i].value) * abstandY), radius, p);
+                    bitmapCanvas.drawCircle(bitmapCanvas.getWidth() - (baseLineX + i * abstandX), (float) (baseLineY - (5 - current[i].value) * abstandY), radius, p);
                 }
             }
         }
@@ -120,7 +120,7 @@ public class StatistikView extends View {
                     else if (current[i].alle)
                         p.setColor(getResources().getColor(R.color.colorAlle));
                     if (i != previous) {
-                        bitmapCanvas.drawLine(baseLineX + previous * abstandX, (float) (baseLineY - (5 - current[previous].value) * abstandY), baseLineX + i * abstandX, (float) (baseLineY - (5 - current[i].value) * abstandY), p);
+                        bitmapCanvas.drawLine(bitmapCanvas.getWidth() - (baseLineX + previous * abstandX), (float) (baseLineY - (5 - current[previous].value) * abstandY), bitmapCanvas.getWidth() - (baseLineX + i * abstandX), (float) (baseLineY - (5 - current[i].value) * abstandY), p);
                     }
                     previous = i;
                 }

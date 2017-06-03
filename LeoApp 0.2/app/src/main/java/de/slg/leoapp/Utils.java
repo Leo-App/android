@@ -9,7 +9,7 @@ import java.util.Date;
 
 import de.slg.startseite.MainActivity;
 
-public class Utils {
+public abstract class Utils {
     public static Context context;
 
     public static boolean checkNetwork() {
@@ -66,6 +66,13 @@ public class Utils {
 
     public static String getLastVote() {
         return MainActivity.pref.getString("pref_key_general_last_vote", "00.00");
+    }
+
+    public static void setLastVote(int vote) {
+        MainActivity.pref.edit()
+                .putString("pref_key_general_last_vote", new SimpleDateFormat("dd.MM").format(new Date()))
+                .putInt("pref_key_general_vote_id", vote)
+                .apply();
     }
 
     public static String getString(int id) {

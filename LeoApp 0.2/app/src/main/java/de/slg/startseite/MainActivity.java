@@ -32,7 +32,9 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -127,19 +129,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initNavigationView() {
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
 
-        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(MainActivity.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(MainActivity.isVerified());
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 drawerLayout.closeDrawers();
-                Intent i = null;
+                Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
@@ -213,8 +215,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void updateButtons() {
         Button b3, b4, b5;
-        b3 = (Button) findViewById(R.id.buttonCardView2);
-        b4 = (Button) findViewById(R.id.buttonCardView3);
+        b3 = (Button) findViewById(R.id.buttonCardView3);
+        b4 = (Button) findViewById(R.id.buttonCardView4);
         b5 = (Button) findViewById(R.id.buttonCardView5);
         b3.setText(getString(R.string.button_info_try));
         b4.setText(getString(R.string.button_info_try));
@@ -227,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             drawerLayout.openDrawer(GravityCompat.START);
         }
         if(item.getItemId() == R.id.action_appinfo) {
-            startActivity(new Intent(this, InfoActivity.class));
+            startActivity(new Intent(getApplicationContext(), InfoActivity.class));
         }
         return true;
     }
@@ -247,34 +249,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.buttonCardView1:
-                i = new Intent(this, WrapperQRActivity.class);
+                i = new Intent(getApplicationContext(), WrapperQRActivity.class);
                 break;
             case R.id.buttonCardView3:
                 if (isVerified()) {
-                    i = new Intent(this, KlausurplanActivity.class);
+                    i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                     break;
                 } else
                     showDialog();
             case R.id.buttonCardView4:
                 if (isVerified()) {
-                    i = new Intent(this, OverviewWrapper.class);
+                    i = new Intent(getApplicationContext(), OverviewWrapper.class);
                     break;
                 } else
                     showDialog();
             case R.id.buttonCardView5:
                 if (isVerified()) {
-                    i = new Intent(this, MainActivity.class);
+                    i = new Intent(getApplicationContext(), MainActivity.class);
                     break;
                 } else
                     showDialog();
             case R.id.buttonCardView2:
-                i = new Intent(this, SchwarzesBrettActivity.class);
+                i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                 break;
             case R.id.buttonCardView7:
-                i = new Intent(this, StimmungsbarometerActivity.class);
+                i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
                 break;
             case R.id.buttonCardView8:
-                i = new Intent(this, AuswahlActivity.class);
+                i = new Intent(getApplicationContext(), AuswahlActivity.class);
                 break;
         }
         if (i != null)
@@ -282,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showDialog() {
-        final AlertDialog builder = new AlertDialog.Builder(this).create();
+        final AlertDialog builder = new AlertDialog.Builder(getApplicationContext()).create();
         LayoutInflater inflater = getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_layout, null);
         Button b1, b2;
@@ -321,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void startCamera(AlertDialog b) {
         b.dismiss();
-        if (ContextCompat.checkSelfPermission(this,
+        if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             Log.d("LeoApp", "No permission. Checking");
             if (!(ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -368,7 +370,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isValid(results)) {
             final String[] data = results.split("-");
             Log.d("LeoApp", "validCode");
-            final MainActivity context = this;
             final Handler handler = new Handler();
             final Runnable r = new Runnable() {
                 @Override
@@ -378,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     MainActivity.info.setVisibility(View.GONE);
                     MainActivity.verify.setVisibility(View.GONE);
 
-                    RegistrationTask t = new RegistrationTask(context);
+                    RegistrationTask t = new RegistrationTask(MainActivity.this);
                     t.execute(data[0], String.valueOf(data[1]));
                 }
             };
@@ -454,10 +455,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private String getChecksum(String username, int priority, int birthyear) {
-        Date d = new Date();
-        int year = d.getYear() + 1900;
-        int month = d.getMonth() + 1;
-        int day = d.getDate();
+        Calendar c = new GregorianCalendar();
+        c.setTime(new Date());
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
 
         int numericName = toInt(username.substring(0, 3));
         int numericLastName = toInt(username.substring(3, 6));
@@ -468,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int toInt(String s) {
-        int result = 0, i = 0, count = 1;
+        int result = 0, i, count = 1;
         String regex = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (char c : s.toCharArray()) {
             for (i = 0; i < regex.length(); i++) {

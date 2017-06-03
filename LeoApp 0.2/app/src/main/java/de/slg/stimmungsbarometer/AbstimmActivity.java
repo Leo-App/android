@@ -10,12 +10,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
-import de.slg.startseite.MainActivity;
 
 public class AbstimmActivity extends AppCompatActivity {
 
@@ -128,14 +124,7 @@ public class AbstimmActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (weiter.isEnabled()) {
                     new SendeDaten().execute(new Wahl(voteid, userid, ausgewählterGrund));
-
-                    Date d = new Date();
-                    SimpleDateFormat format = new SimpleDateFormat("dd.MM");
-                    MainActivity.pref.edit()
-                            .putString("pref_key_general_last_vote", format.format(d))
-                            .putInt("pref_key_general_vote_id", voteid)
-                            .apply();
-
+                    Utils.setLastVote(voteid);
                     finish();
                 }
             }
