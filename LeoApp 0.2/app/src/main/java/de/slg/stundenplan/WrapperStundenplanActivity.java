@@ -143,7 +143,7 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
 
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.stundenplan).setChecked(true);
 
         navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());

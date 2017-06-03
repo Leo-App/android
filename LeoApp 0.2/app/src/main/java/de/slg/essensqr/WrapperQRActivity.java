@@ -78,7 +78,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         getSupportActionBar().setHomeButtonEnabled(true);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.foodmarks).setChecked(true);
 
         navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());

@@ -128,7 +128,7 @@ public class KlausurplanActivity extends AppCompatActivity {
 
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.klausurplan).setChecked(true);
 
         navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(MainActivity.isVerified());
