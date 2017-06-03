@@ -186,7 +186,7 @@
     <string name="mache_bild">Print</string>
     <string name="seconds">seconds</string>
     <string name="settings_summary_notification_messenger">Notify me about new messages</string>
-    <string name="settings_summary_refresh_interval"></string>
+    <string name="settings_summary_refresh_interval">Refresh Interval</string>
     <string name="settings_summary_testplan_time">How old may your test be</string>
     <string name="settings_title_refresh_interval">Refresh Time</string>
     <string name="settings_title_testplan_time">Delete test</string>
@@ -195,4 +195,5 @@
     <string name="button_next">Next</string>
 
     <string name="toolbar_name_info">About</string>
+    <string name="heute">Today</string>
 </resources>
