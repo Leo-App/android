@@ -2,6 +2,7 @@ package de.slg.stimmungsbarometer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -47,6 +48,9 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         initToolbar();
         initTabs();
         initNavigationView();
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.inflateMenu(R.menu.stimmungsbarometer_bottom);
     }
 
     private void initTabs() {
