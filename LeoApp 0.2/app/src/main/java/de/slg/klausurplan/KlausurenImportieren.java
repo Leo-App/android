@@ -2,6 +2,7 @@ package de.slg.klausurplan;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -15,6 +16,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.List;
+import de.slg.stundenplan.Fach;
+import de.slg.stundenplan.Stundenplanverwalter;
 
 public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
@@ -121,7 +124,7 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
             for (klausurenAusZeile.toFirst(); klausurenAusZeile.hasAccess(); klausurenAusZeile.next())
                 //Log.e("klausurenAusZeile", klausurenAusZeile.getContent());
-                if(datum != null)
+                if(datum != null && istImStundenplan(stufe, klausurenAusZeile.getContent().replace('_', ' '), true)) //hier Einstellung ergänzen
                listeMitHeruntergeladenenKlausuren.append(new Klausur(klausurenAusZeile.getContent().replace('_', ' '), datum, null, null)); //neue Klausuren(in der Zeile enthaltenes Datum, gefundene Klausuren (Kürzel)) werden angehängt
 
         }
@@ -204,5 +207,36 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             return c.getTime();
         }
         return null;
+    }
+
+    private boolean istImStundenplan(String stufe, String klausur, boolean nachKlausurplanFiltern){
+        if (nachKlausurplanFiltern) {
+Stundenplanverwalter verwalter = new Stundenplanverwalter(context, "meinefaecher.txt");
+            Fach[] arrayFach = verwalter.gibFaecherKurz();
+            List<String> listeKuerzel = new List<String>();
+            for (int i = 0; i < arrayFach.length; i++) {
+                String kuerzel = arrayFach[i].gibKurz();
+                String lehrer = arrayFach[i].gibLehrer();
+
+                if (kuerzel.charAt(1) != ' ') {
+                    String teil1 = kuerzel.substring(0, 2);
+                    String teil2 = kuerzel.substring(2, 4);
+                    kuerzel = teil1 + " " + teil2;
+                }
+                Log.e("kuerzel", kuerzel);
+
+                kuerzel = kuerzel + " " + lehrer + " " + stufe;
+                Log.e("kuerzelFertig", kuerzel);
+            }
+
+            for (listeKuerzel.toFirst(); listeKuerzel.hasAccess(); listeKuerzel.next()) {
+                if (klausur.equals(listeKuerzel.getContent())) {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+        return true;
     }
 }

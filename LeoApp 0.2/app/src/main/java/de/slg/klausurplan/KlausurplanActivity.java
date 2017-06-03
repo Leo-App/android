@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,8 @@ import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
+import de.slg.stundenplan.Fach;
+import de.slg.stundenplan.Stundenplanverwalter;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 
 public class KlausurplanActivity extends AppCompatActivity {
@@ -324,6 +327,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                 klausurList.next();
         }
     }
+
 
     private void readFromFile() {
         try {
