@@ -128,14 +128,7 @@ public class AbstimmActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (weiter.isEnabled()) {
                     new SendeDaten().execute(new Wahl(voteid, userid, ausgewählterGrund));
-
-                    Date d = new Date();
-                    SimpleDateFormat format = new SimpleDateFormat("dd.MM");
-                    MainActivity.pref.edit()
-                            .putString("pref_key_general_last_vote", format.format(d))
-                            .putInt("pref_key_general_vote_id", voteid)
-                            .apply();
-
+                    Utils.setLastVote(voteid);
                     finish();
                 }
             }
