@@ -46,12 +46,13 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stimmungsbarometer);
 
-        initBottomNavigationView();
+        //initBottomNavigationView();
         initToolbar();
         initTabs();
         initNavigationView();
     }
 
+    /*
     private void initBottomNavigationView() {
         findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
         findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
@@ -71,6 +72,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
             }
         });
     }
+    */
 
     private void initTabs() {
         viewPager = (ViewPager) findViewById(R.id.viewPager);

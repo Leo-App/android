@@ -21,8 +21,8 @@
             android:id="@+id/relativeLayoutGraph"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/actionBarStatistik"
-            android:layout_above="@+id/bottomNavigationView">
+            android:layout_below="@id/actionBarStatistik">
+            <!--android:layout_above="@+id/bottomNavigationView">-->
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"
@@ -45,9 +45,9 @@
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:background="@android:color/white"
-                android:padding="5dp"
-                android:layout_alignParentBottom="true">
+                android:padding="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -165,7 +165,7 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:id="@+id/relativeLayoutGeneral"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -181,7 +181,7 @@
             android:layout_alignParentBottom="true"
             app:itemBackground="@android:color/white"
             app:itemIconTint="@color/colorAccent"
-            app:menu="@menu/stimmungsbarometer_bottom" />
+            app:menu="@menu/stimmungsbarometer_bottom" />-->
 
     </RelativeLayout>
 
