@@ -39,7 +39,7 @@ public class UserAdapter extends ArrayAdapter<User> {
             if (selectable)
                 v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
             else
-                v.findViewById(R.id.checkBox).setVisibility(View.GONE);
+                v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
             views[position] = v;
         }
         return v;

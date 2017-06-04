@@ -88,7 +88,7 @@ public class ChatsFragment extends Fragment {
             }
             TextView chatname = (TextView) v.findViewById(R.id.chatname);
             TextView lastMessage = (TextView) v.findViewById(R.id.letzteNachricht);
-            ImageView icon = (ImageView) v.findViewById(R.id.icon);
+            ImageView icon = (ImageView) v.findViewById(R.id.iconChat);
             ImageView notify = (ImageView) v.findViewById(R.id.notify);
             if (position < chats.length && chats[position] != null) {
                 if (chats[position].chatTyp == Chat.Chattype.GROUP) {
