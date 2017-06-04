@@ -14,22 +14,18 @@ import java.net.URL;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
-public class SyncTaskName extends AsyncTask<Void, Void, Boolean>{
+public class SyncTaskName extends AsyncTask<Void, Void, Void>{
     @Override
-    protected Boolean doInBackground(Void... params) {
-
+    protected Void doInBackground(Void... params) {
         if(!Utils.checkNetwork())
-            return false;
+            return null;
 
         BufferedReader in = null;
         String result = "";
 
         try {
-
             URL interfaceDB = new URL("http://www.moritz.liegmanns.de/getName.php?key=5453&userid="+MainActivity.pref.getInt("pref_key_general_id", -1));
 
-
-            in = null;
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
@@ -39,37 +35,27 @@ public class SyncTaskName extends AsyncTask<Void, Void, Boolean>{
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return null;
         } finally {
             if (in != null)
                 try {
                     in.close();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return false;
+                    return null;
                 }
         }
 
         if(result.startsWith("-"))
-            return false;
+            return null;
 
-        if(!result.equals(MainActivity.pref.getString("pref_key_username_general", "")))
-            return false;
+        if(!result.equals(Utils.getUserName()))
+            return null;
 
         SharedPreferences.Editor e = MainActivity.pref.edit();
         e.putString("pref_key_username_general", result);
         e.apply();
 
-        return true;
-
+        return null;
     }
-
-    @Override
-    public void onPostExecute(Boolean b) {
-        if(b) {
-            Toast t = Toast.makeText(MainActivity.ref, Utils.getString(R.string.settings_name_changed), Toast.LENGTH_LONG);
-            t.show();
-        }
-    }
-
 }
