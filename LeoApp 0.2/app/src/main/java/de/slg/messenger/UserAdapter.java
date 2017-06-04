@@ -13,19 +13,17 @@ import de.slg.leoapp.User;
 
 public class UserAdapter extends ArrayAdapter<User> {
 
-    private Context context;
     private int resId;
     private User[] users;
+    private LayoutInflater inflater;
     private boolean selectable;
     private View[] views;
 
     public UserAdapter(Context context, User[] users, boolean selectable) {
         super(context, R.layout.list_item_user, users);
-        this.context = context;
         this.resId = R.layout.list_item_user;
-        if (selectable)
-            this.resId = R.layout.list_item_user_selectable;
         this.users = users;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.selectable = selectable;
         this.views = new View[users.length];
     }
@@ -34,11 +32,14 @@ public class UserAdapter extends ArrayAdapter<User> {
     public View getView(int position, View v, ViewGroup parent) {
         if (position < users.length && users[position] != null) {
             if (v == null) {
-                LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(resId, null);
+                v = inflater.inflate(resId, null);
             }
-            final TextView username = (TextView) v.findViewById(R.id.username);
+            TextView username = (TextView) v.findViewById(R.id.username);
             username.setText(users[position].userName);
+            if (selectable)
+                v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
+            else
+                v.findViewById(R.id.checkBox).setVisibility(View.GONE);
             views[position] = v;
         }
         return v;

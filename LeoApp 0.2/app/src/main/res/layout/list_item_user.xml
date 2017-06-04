@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="48dp"
-    android:minHeight="48dp"
     android:padding="4dp">
 
     <ImageView
@@ -14,7 +13,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_account_circle_black_24dp"
-        android:tint="@color/colorAccent" />
+        android:tint="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/username"
@@ -29,6 +28,20 @@
         android:textSize="18sp"
         android:textStyle="normal|bold"
         tools:text="Username" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:buttonTint="@color/colorAccent"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
     <Space
         android:layout_width="fill_parent"
