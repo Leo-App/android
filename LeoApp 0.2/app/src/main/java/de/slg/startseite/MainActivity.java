@@ -134,6 +134,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
+    }
+
     private void initNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
@@ -153,13 +159,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
                         break;
                     case R.id.messenger: //Nur bei Verifizierung
-                            i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
                         break;
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
                     case R.id.nachhilfe: //Nur bei Verifizierung
-                            i = new Intent(getApplicationContext(), MainActivity.class);
+                        i = new Intent(getApplicationContext(), MainActivity.class);
                         break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
@@ -168,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
                         break;
                     case R.id.klausurplan: //Nur bei Verifizierung
-                            i = new Intent(getApplicationContext(), KlausurplanActivity.class);
+                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                         break;
                     case R.id.startseite:
                         i = null;
@@ -234,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }
-        if(item.getItemId() == R.id.action_appinfo) {
+        if (item.getItemId() == R.id.action_appinfo) {
             startActivity(new Intent(getApplicationContext(), InfoActivity.class));
         }
         return true;

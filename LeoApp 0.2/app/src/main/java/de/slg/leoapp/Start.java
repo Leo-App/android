@@ -13,12 +13,14 @@ public class Start extends Activity {
         super.onCreate(savedInstanceState);
 
         Utils.context = getApplicationContext();
+
         MainActivity.initPreference(getApplicationContext());
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
         if (Utils.isVerified() && !Utils.getLastVote().equals(Utils.getCurrentDate("dd.MM"))) {
             startActivity(new Intent(getApplicationContext(), AbstimmActivity.class));
         }
+
         startService(new Intent(getApplicationContext(), ReceiveService.class));
         finish();
     }
