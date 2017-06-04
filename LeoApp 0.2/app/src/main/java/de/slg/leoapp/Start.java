@@ -12,7 +12,7 @@ public class Start extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Utils.context = getBaseContext();
+        Utils.context = getApplicationContext();
 
         MainActivity.initPreference(getApplicationContext());
         startActivity(new Intent(getApplicationContext(), MainActivity.class));

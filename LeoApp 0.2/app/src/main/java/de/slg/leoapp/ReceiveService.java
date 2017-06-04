@@ -26,6 +26,7 @@ public class ReceiveService extends Service {
 
 
     public ReceiveService() {
+        Utils.context = getApplicationContext();
         notificationManager = Utils.getNotificationManager();
     }
 
