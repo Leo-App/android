@@ -23,15 +23,9 @@ public class ReceiveService extends Service {
     private static LoopThread thread;
     private NotificationManager notificationManager;
     private ReceiveTask r;
-
-
-    public ReceiveService() {
-        Utils.context = getApplicationContext();
-        notificationManager = Utils.getNotificationManager();
-    }
+    private Bitmap icon;
 
     class LoopThread extends Thread {
-
         private long sleep;
         public boolean b;
 
@@ -72,6 +66,9 @@ public class ReceiveService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Utils.context = getApplicationContext();
+        notificationManager = Utils.getNotificationManager();
+        icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
         thread.start();
         return START_REDELIVER_INTENT;
     }
@@ -87,9 +84,6 @@ public class ReceiveService extends Service {
     }
 
     public void showNotification() {
-
-        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
-
         wrapper.runOnUiThread(new Runnable() {
             @Override
             public void run() {
