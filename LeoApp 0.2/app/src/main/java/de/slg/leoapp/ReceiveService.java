@@ -20,14 +20,13 @@ import de.slg.messenger.ReceiveTask;
 public class ReceiveService extends Service {
 
     public static OverviewWrapper wrapper;
-    private LoopThread thread;
+    private static LoopThread thread;
     private NotificationManager notificationManager;
     private ReceiveTask r;
 
 
     public ReceiveService() {
-        if (wrapper != null)
-            notificationManager = wrapper.notificationManager;
+        notificationManager = Utils.getNotificationManager();
     }
 
     class LoopThread extends Thread {
@@ -45,17 +44,23 @@ public class ReceiveService extends Service {
             Looper.prepare();
             while (b) {
                 try {
-                    sleep(sleep);
-                    r = new ReceiveTask(wrapper);
+                    r = new ReceiveTask();
                     r.execute();
                     if (r.get())
                         showNotification();
+                    sleep(sleep);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public static void receive() {
+        if (thread != null) {
+            new ReceiveTask().execute();
         }
     }
 
@@ -87,7 +92,7 @@ public class ReceiveService extends Service {
         wrapper.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Message[] messages = wrapper.dbConnection.getUnreadMessages();
+                Message[] messages = Utils.getMessengerDBConnection().getUnreadMessages();
                 String s = "";
                 for (Message m : messages)
                     s += m.toString() + System.getProperty("line.separator");

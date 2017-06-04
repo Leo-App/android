@@ -94,7 +94,7 @@ public class DBConnection {
         Cursor cursor = query(DBHelper.TABLE_MESSAGES, columns, null, null, null, null, DBHelper.CHAT_ID + ", " + DBHelper.MESSAGE_DATE);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
             array[i] = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5) == 0 ? false : true);
             int current = array[i].senderId;
             if (current != currentUser.userId) {
@@ -109,8 +109,8 @@ public class DBConnection {
             } else {
                 array[i].setSenderName(currentUser.userName);
             }
-            cursor.moveToNext();
         }
+        cursor.close();
         return array;
     }
 
@@ -119,10 +119,10 @@ public class DBConnection {
         Cursor cursor = query(DBHelper.TABLE_USERS, columns, null, null, null, null, DBHelper.USER_ID);
         User[] array = new User[cursor.getCount()];
         cursor.moveToFirst();
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
             array[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3));
-            cursor.moveToNext();
         }
+        cursor.close();
         return array;
     }
 
@@ -165,6 +165,7 @@ public class DBConnection {
             list.remove();
             list.append(max);
         }
+        cursor.close();
         return list.fill(array);
     }
 
@@ -192,6 +193,7 @@ public class DBConnection {
         }
         User[] array = new User[list.length()];
         list.fill(array);
+        cursor.close();
         return array;
     }
 
@@ -236,6 +238,7 @@ public class DBConnection {
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext())
             array[i] = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), false);
+        cursor.close();
         return array;
     }
 
@@ -247,6 +250,7 @@ public class DBConnection {
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext())
             array[i] = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), false);
+        cursor.close();
         return array;
     }
 
@@ -254,7 +258,9 @@ public class DBConnection {
         String[] columns = {DBHelper.USER_ID};
         String condition = DBHelper.CHAT_ID + " = " + c.chatId + " AND " + DBHelper.ASSOZIATION_REMOVED + " = 0 AND " + DBHelper.USER_ID + " = " + u.userId;
         Cursor cursor = query(DBHelper.TABLE_ASSOZIATION, columns, condition, null, null, null, null);
-        return cursor.getCount() > 0;
+        boolean b = cursor.getCount() > 0;
+        cursor.close();
+        return b;
     }
 
     public void clearTable(String table) {
@@ -267,29 +273,34 @@ public class DBConnection {
 
     private long insert(String table, String nullColumnHack, ContentValues values) {
         long l = database.insert(table, nullColumnHack, values);
-        wrapper.notifyUpdate();
+        if (wrapper != null)
+            wrapper.notifyUpdate();
         return l;
     }
 
-    public class DBHelper extends SQLiteOpenHelper {
+    public void setOverviewWrapper(OverviewWrapper wrapper) {
+        this.wrapper = wrapper;
+    }
 
-        public static final String DATABASE_NAME = "messenger";
-        public static final String TABLE_MESSAGES = "messages";
-        public static final String MESSAGES_ID = "mid";
-        public static final String MESSAGE_TEXT = "mtext";
-        public static final String MESSAGE_DATE = "mdate";
-        public static final String MESSAGE_READ = "mgelesen";
-        public static final String TABLE_CHATS = "chats";
-        public static final String CHAT_ID = "cid";
-        public static final String CHAT_NAME = "cname";
-        public static final String CHAT_TYPE = "ctype";
-        public static final String TABLE_ASSOZIATION = "assoziation";
-        public static final String ASSOZIATION_REMOVED = "aremoved";
-        public static final String TABLE_USERS = "users";
-        public static final String USER_ID = "uid";
-        public static final String USER_NAME = "uname";
-        public static final String USER_KLASSE = "uklasse";
-        public static final String USER_PERMISSION = "upermission";
+    private class DBHelper extends SQLiteOpenHelper {
+
+        static final String DATABASE_NAME = "messenger";
+        static final String TABLE_MESSAGES = "messages";
+        static final String MESSAGES_ID = "mid";
+        static final String MESSAGE_TEXT = "mtext";
+        static final String MESSAGE_DATE = "mdate";
+        static final String MESSAGE_READ = "mgelesen";
+        static final String TABLE_CHATS = "chats";
+        static final String CHAT_ID = "cid";
+        static final String CHAT_NAME = "cname";
+        static final String CHAT_TYPE = "ctype";
+        static final String TABLE_ASSOZIATION = "assoziation";
+        static final String ASSOZIATION_REMOVED = "aremoved";
+        static final String TABLE_USERS = "users";
+        static final String USER_ID = "uid";
+        static final String USER_NAME = "uname";
+        static final String USER_KLASSE = "uklasse";
+        static final String USER_PERMISSION = "upermission";
 
         public DBHelper(Context context) {
             super(context, DATABASE_NAME, null, 1);

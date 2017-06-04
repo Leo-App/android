@@ -38,7 +38,7 @@ public class UserFragment extends Fragment {
     }
 
     private void initListView() {
-        wrapper.userArray = wrapper.dbConnection.getUsers();
+        wrapper.userArray = Utils.getMessengerDBConnection().getUsers();
 
         lvUsers = (ListView) rootView.findViewById(R.id.listViewUser);
         lvUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,7 +66,7 @@ public class UserFragment extends Fragment {
     }
 
     public void refreshUI() {
-        wrapper.userArray = wrapper.dbConnection.getUsers();
+        wrapper.userArray = Utils.getMessengerDBConnection().getUsers();
         wrapper.runOnUiThread(new Runnable() {
             @Override
             public void run() {

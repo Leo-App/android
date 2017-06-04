@@ -45,8 +45,6 @@ public class OverviewWrapper extends AppCompatActivity {
     public ListView lvUsers, lvChats;
     public boolean userDone = false, chatsDone = false;
 
-    public static final User currentUser = Utils.getCurrentUser();
-
     public DBConnection dbConnection;
 
     private Intent serviceIntent;
@@ -64,7 +62,7 @@ public class OverviewWrapper extends AppCompatActivity {
         initNavigationView();
         initTabs();
 
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager = Utils.getNotificationManager();
         notificationManager.cancelAll();
 
         ChatActivity.wrapper = this;
@@ -187,8 +185,9 @@ public class OverviewWrapper extends AppCompatActivity {
     }
 
     private void initDatabase() {
-        dbConnection = new DBConnection(getApplicationContext(), currentUser, this);
-        userArray = dbConnection.getUsers();
+        dbConnection = Utils.getMessengerDBConnection();
+        dbConnection.setOverviewWrapper(this);
+        dbConnection.getUsers();
         chatArray = dbConnection.getChats();
         receive();
     }
@@ -217,7 +216,13 @@ public class OverviewWrapper extends AppCompatActivity {
 
     public void receive() {
         stopService(serviceIntent);
-        new ReceiveTask(this).execute();
+        new ReceiveTask().execute();
         startService(serviceIntent);
+    }
+
+    @Override
+    public void finish() {
+        Utils.getMessengerDBConnection().setOverviewWrapper(null);
+        super.finish();
     }
 }

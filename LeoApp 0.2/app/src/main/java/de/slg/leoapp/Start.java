@@ -19,6 +19,7 @@ public class Start extends Activity {
         if (Utils.isVerified() && !Utils.getLastVote().equals(Utils.getCurrentDate("dd.MM"))) {
             startActivity(new Intent(getApplicationContext(), AbstimmActivity.class));
         }
+        startService(new Intent(getApplicationContext(), ReceiveService.class));
         finish();
     }
 }

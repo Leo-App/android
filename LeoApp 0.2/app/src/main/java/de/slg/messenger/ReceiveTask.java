@@ -13,13 +13,10 @@ import de.slg.leoapp.Utils;
 public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
 
     private User currentUser;
-    public static OverviewWrapper wrapper;
-
     private boolean b;
 
-    public ReceiveTask(OverviewWrapper wrapper) {
+    public ReceiveTask() {
         this.currentUser = Utils.getCurrentUser();
-        this.wrapper = wrapper;
         b = false;
     }
 
@@ -47,7 +44,7 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
                     String[] message = s.split(";");
                     if (message.length == 5) {
                         Message m = new Message(Integer.parseInt(message[0]), message[1], Long.parseLong(message[2]+"000"), Integer.parseInt(message[3]), Integer.parseInt(message[4]), false);
-                        wrapper.dbConnection.insertMessage(m);
+                        Utils.getMessengerDBConnection().insertMessage(m);
                         b = true;
                     }
                 }
@@ -70,7 +67,7 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
                     String[] current = s.split(";");
                     if (current.length == 3) {
                         Chat c = new Chat(Integer.parseInt(current[0]), current[1], Chat.Chattype.valueOf(current[2].toUpperCase()));
-                        wrapper.dbConnection.insertChat(c);
+                        Utils.getMessengerDBConnection().insertChat(c);
                         b = true;
                     }
                 }
@@ -93,7 +90,7 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
                     String[] current = s.split(";");
                     if (current.length == 4) {
                         User u = new User(Integer.parseInt(current[0]), current[1], current[2], Integer.parseInt(current[3]));
-                        wrapper.dbConnection.insertUser(u);
+                        Utils.getMessengerDBConnection().insertUser(u);
                         b = true;
                     }
                 }
@@ -116,7 +113,7 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
                     String[] current = s.split(";");
                     if (current.length == 3) {
                         Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]), Boolean.parseBoolean(current[2]));
-                        wrapper.dbConnection.insertAssoziation(a);
+                        Utils.getMessengerDBConnection().insertAssoziation(a);
                         b = true;
                     }
                 }

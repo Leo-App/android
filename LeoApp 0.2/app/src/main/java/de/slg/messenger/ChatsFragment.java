@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
+import de.slg.leoapp.Utils;
 
 public class ChatsFragment extends Fragment {
 
@@ -35,7 +36,7 @@ public class ChatsFragment extends Fragment {
     }
 
     private void initListView() {
-        wrapper.chatArray = wrapper.dbConnection.getChats();
+        wrapper.chatArray = Utils.getMessengerDBConnection().getChats();
 
         lvChats = (ListView) rootView.findViewById(R.id.listViewChats);
         lvChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,16 +50,16 @@ public class ChatsFragment extends Fragment {
                 }
             }
         });
-        lvChats.setAdapter(new ChatAdapter(wrapper.getApplicationContext(), wrapper.chatArray, wrapper));
+        lvChats.setAdapter(new ChatAdapter(wrapper.getApplicationContext(), wrapper.chatArray));
         wrapper.lvChats = lvChats;
     }
 
     public void refreshUI() {
-        wrapper.chatArray = wrapper.dbConnection.getChats();
+        wrapper.chatArray = Utils.getMessengerDBConnection().getChats();
         wrapper.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                lvChats.setAdapter(new ChatAdapter(getContext(), wrapper.chatArray, wrapper));
+                lvChats.setAdapter(new ChatAdapter(getContext(), wrapper.chatArray));
             }
         });
     }
@@ -69,15 +70,13 @@ public class ChatsFragment extends Fragment {
         private int resId;
         private Chat[] chats;
         private User currentUser;
-        private OverviewWrapper wrapper;
 
-        public ChatAdapter(Context context, Chat[] chats, OverviewWrapper wrapper) {
+        public ChatAdapter(Context context, Chat[] chats) {
             super(context, R.layout.list_item_chat, chats);
             this.context = context;
             this.resId = R.layout.list_item_chat;
             this.chats = chats;
-            this.currentUser = wrapper.currentUser;
-            this.wrapper = wrapper;
+            this.currentUser = Utils.getCurrentUser();
         }
 
         @Override

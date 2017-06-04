@@ -1,5 +1,6 @@
 package de.slg.leoapp;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -7,10 +8,12 @@ import android.net.NetworkInfo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.slg.messenger.DBConnection;
 import de.slg.startseite.MainActivity;
 
 public abstract class Utils {
     public static Context context;
+    private static DBConnection dbConnection;
 
     public static boolean checkNetwork() {
         ConnectivityManager c = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
@@ -21,6 +24,10 @@ public abstract class Utils {
             }
         }
         return false;
+    }
+
+    public static NotificationManager getNotificationManager() {
+        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public static User getCurrentUser() {
@@ -85,5 +92,11 @@ public abstract class Utils {
 
     public static boolean isVerified() {
         return getUserID() > -1;
+    }
+
+    public static DBConnection getMessengerDBConnection() {
+        if (dbConnection == null)
+            dbConnection = new DBConnection(context, getCurrentUser(), null);
+        return dbConnection;
     }
 }

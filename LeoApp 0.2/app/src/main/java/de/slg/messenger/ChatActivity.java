@@ -64,7 +64,7 @@ public class ChatActivity extends AppCompatActivity {
         initRecyclerView();
 
 
-        wrapper.dbConnection.setMessagesRead(chat);
+        Utils.getMessengerDBConnection().setMessagesRead(chat);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        messagesArray = wrapper.dbConnection.getMessagesFromChat(chat);
+        messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(chat);
 
         rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -157,7 +157,6 @@ public class ChatActivity extends AppCompatActivity {
     private void startEditChat() {
         ChatEditActivity.currentChat = chat;
         ChatEditActivity.wrapper = wrapper;
-        ChatEditActivity.currentUser = currentUser;
         startActivity(new Intent(getApplicationContext(), ChatEditActivity.class));
     }
 
@@ -182,7 +181,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void refreshUI() {
-        messagesArray = wrapper.dbConnection.getMessagesFromChat(chat);
+        messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(chat);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -287,7 +286,7 @@ public class ChatActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            if (currentUser != null && chat != null && Utils.checkNetwork() && wrapper.dbConnection.isUserInChat(currentUser, chat) && params[0] != "") {
+            if (currentUser != null && chat != null && Utils.checkNetwork() && Utils.getMessengerDBConnection().isUserInChat(currentUser, chat) && params[0] != "") {
                 try {
                     BufferedReader reader =
                             new BufferedReader(

@@ -19,7 +19,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_toRightOf="@id/iconUser"
+        android:layout_toRightOf="@+id/iconUser"
         android:layout_toLeftOf="@+id/checkBox"
         android:textColor="@color/colorText"
         android:textSize="18sp"
