@@ -180,9 +180,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:itemBackground="@android:color/white"
-            app:menu="@menu/stimmungsbarometer_bottom">
-
-        </android.support.design.widget.BottomNavigationView>
+            app:itemIconTint="@color/colorAccent"
+            app:menu="@menu/stimmungsbarometer_bottom" />
 
     </RelativeLayout>
 
