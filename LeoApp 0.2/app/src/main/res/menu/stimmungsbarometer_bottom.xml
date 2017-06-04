@@ -6,7 +6,7 @@
         android:title="Generell" />
 
     <item android:id="@+id/action_graph_statistics"
-        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:icon="@drawable/ic_show_chart_white_24dp"
         android:title="Entwicklung" />
 
 </menu>
