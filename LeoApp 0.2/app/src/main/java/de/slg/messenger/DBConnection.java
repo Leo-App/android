@@ -18,11 +18,10 @@ public class DBConnection {
     private User currentUser;
     private OverviewWrapper wrapper;
 
-    public DBConnection(Context context, User currentUser, OverviewWrapper wrapper) {
+    public DBConnection(Context context, User currentUser) {
         helper = new DBHelper(context);
         database = helper.getWritableDatabase();
         this.currentUser = currentUser;
-        this.wrapper = wrapper;
     }
 
     public void close() {
@@ -135,7 +134,7 @@ public class DBConnection {
             array[i] = new Chat(cursor.getInt(0), cursor.getString(1), Chat.Chattype.valueOf(cursor.getString(2).toUpperCase()));
             Message[] mArray = getMessagesFromChat(array[i]);
             if (mArray.length != 0)
-                array[i].letzteNachricht(mArray[mArray.length - 1]);
+                array[i].setLetzteNachricht(mArray[mArray.length - 1]);
             cursor.moveToNext();
         }
         List<Chat> list = new List<>(array);

@@ -18,13 +18,13 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.ReceiveService;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ChatEditActivity extends AppCompatActivity {
 
     public static Chat currentChat;
-    public static OverviewWrapper wrapper;
     public static User currentUser = Utils.getCurrentUser();
     private Menu menu;
     private ListView lvUsers;
@@ -92,7 +92,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void addUsers(User... users) {
         new AddUser().execute(users);
-        wrapper.receive();
+        ReceiveService.receive();
         usersOfChat1 = Utils.getMessengerDBConnection().getUsersInChat(currentChat, false);
         usersOfChat2 = Utils.getMessengerDBConnection().getUsersInChat(currentChat, true);
         usersNotInChat = Utils.getMessengerDBConnection().getUsersNotInChat(currentChat);

@@ -6,12 +6,12 @@ public class Chat {
     public String chatName;
     public final Chattype chatTyp;
     public Message letzeNachricht;
-    public String chatVisibleName;
+    public String chatTitle;
 
-    public Chat(int chatId, String chatName, Chattype chatTyp) {
-        this.chatId = chatId;
-        this.chatName = chatName;
-        this.chatTyp = chatTyp;
+    public Chat(int cId, String cName, Chattype cTyp) {
+        this.chatId = cId;
+        this.chatName = cName;
+        this.chatTyp = cTyp;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Chat {
         return chatId > 0 && chatName != null && chatTyp != null;
     }
 
-    public void letzteNachricht(Message m) {
+    public void setLetzteNachricht(Message m) {
         if (m != null)
             letzeNachricht = m;
     }

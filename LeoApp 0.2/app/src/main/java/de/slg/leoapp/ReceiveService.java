@@ -19,31 +19,31 @@ import de.slg.messenger.ReceiveTask;
 
 public class ReceiveService extends Service {
 
-    public static OverviewWrapper wrapper;
-    private static LoopThread thread;
+    private OverviewWrapper wrapper;
+    private LoopThread thread;
     private NotificationManager notificationManager;
     private ReceiveTask r;
+    private boolean running;
+    private long intervall;
     private Bitmap icon;
 
+    public ReceiveService() {
+        running = true;
+        intervall = 15000;
+        wrapper = Utils.getOverviewWrapper();
+    }
+
     class LoopThread extends Thread {
-        private long sleep;
-        public boolean b;
-
-        public LoopThread() {
-            b = true;
-            sleep = 15000;
-        }
-
         @Override
         public void run() {
             Looper.prepare();
-            while (b) {
+            while (running) {
                 try {
                     r = new ReceiveTask();
                     r.execute();
                     if (r.get())
                         showNotification();
-                    sleep(sleep);
+                    sleep(intervall);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -54,14 +54,7 @@ public class ReceiveService extends Service {
     }
 
     public static void receive() {
-        if (thread != null) {
-            new ReceiveTask().execute();
-        }
-    }
-
-    @Override
-    public void onCreate() {
-        thread = new LoopThread();
+        new ReceiveTask().execute();
     }
 
     @Override
@@ -69,6 +62,7 @@ public class ReceiveService extends Service {
         Utils.context = getApplicationContext();
         notificationManager = Utils.getNotificationManager();
         icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
+        thread = new LoopThread();
         thread.start();
         return START_REDELIVER_INTENT;
     }
@@ -80,7 +74,7 @@ public class ReceiveService extends Service {
 
     @Override
     public void onDestroy() {
-        thread.b = false;
+        running = false;
     }
 
     public void showNotification() {
@@ -96,7 +90,7 @@ public class ReceiveService extends Service {
                         new NotificationCompat.Builder(getApplicationContext())
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                                 .setLargeIcon(icon)
-                                .setVibrate(new long[]{200,100,200})
+                                .setVibrate(new long[]{200, 100, 200})
                                 .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
                                 .setContentTitle(getString(R.string.messenger_notification_title))
                                 .setContentText(s)

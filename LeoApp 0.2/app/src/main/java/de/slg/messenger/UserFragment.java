@@ -32,14 +32,10 @@ public class UserFragment extends Fragment {
 
         initListView();
 
-        wrapper.userDone = true;
-
         return rootView;
     }
 
     private void initListView() {
-        wrapper.userArray = Utils.getMessengerDBConnection().getUsers();
-
         lvUsers = (ListView) rootView.findViewById(R.id.listViewUser);
         lvUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,19 +51,16 @@ public class UserFragment extends Fragment {
                     } else {
                         ChatActivity.chat = wrapper.chatArray[index];
                     }
-                    ChatActivity.wrapper = wrapper;
                     ChatActivity.chatname = clickedUser.userName;
                     startActivity(new Intent(getContext(), ChatActivity.class));
                 }
             }
         });
         lvUsers.setAdapter(new UserAdapter(wrapper.getApplicationContext(), wrapper.userArray, false));
-        wrapper.lvUsers = lvUsers;
     }
 
     public void refreshUI() {
-        wrapper.userArray = Utils.getMessengerDBConnection().getUsers();
-        wrapper.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 lvUsers.setAdapter(new UserAdapter(getContext(), wrapper.userArray, false));
@@ -113,10 +106,9 @@ public class UserFragment extends Fragment {
                 try {
                     HttpURLConnection connection = (HttpURLConnection) new URL(generateURL(assoziation)).openConnection();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-                    String erg = "";
-                    String l;
-                    while ((l = reader.readLine()) != null)
-                        erg += l;
+                    while (reader.readLine() != null){
+
+                    }
                     return true;
                 } catch (Exception e) {
                     e.printStackTrace();

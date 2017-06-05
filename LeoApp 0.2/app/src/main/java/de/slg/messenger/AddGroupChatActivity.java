@@ -30,9 +30,6 @@ import de.slg.leoapp.Utils;
 
 public class AddGroupChatActivity extends AppCompatActivity {
 
-    public static OverviewWrapper wrapper;
-    private User[] allUsers;
-    private ListView lvAllUsers;
     private EditText etChatname;
     private UserAdapter userAdapter;
     private boolean bChatname, bUsersSelected;
@@ -84,8 +81,8 @@ public class AddGroupChatActivity extends AppCompatActivity {
     }
 
     private void initListView() {
-        lvAllUsers = (ListView) findViewById(R.id.listViewAllUsers);
-        allUsers = wrapper.userArray;
+        ListView lvAllUsers = (ListView) findViewById(R.id.listViewAllUsers);
+        User[] allUsers = Utils.getMessengerDBConnection().getUsers();
         userAdapter = new UserAdapter(getApplicationContext(), allUsers, true);
         lvAllUsers.setAdapter(userAdapter);
         lvAllUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {

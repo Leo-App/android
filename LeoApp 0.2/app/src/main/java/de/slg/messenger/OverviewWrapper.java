@@ -1,6 +1,5 @@
 package de.slg.messenger;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -15,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,40 +32,25 @@ import de.slg.stundenplan.WrapperStundenplanActivity;
 public class OverviewWrapper extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
 
     public ChatsFragment cFragment;
     public UserFragment uFragment;
-    public ChatActivity chatActivity;
     public Chat[] chatArray = null;
     public User[] userArray = null;
-    public ListView lvUsers, lvChats;
-    public boolean userDone = false, chatsDone = false;
-
-    public DBConnection dbConnection;
-
-    private Intent serviceIntent;
-    public NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_messenger);
 
-        serviceIntent = new Intent(getApplicationContext(), ReceiveService.class);
-
         initToolbar();
         initDatabase();
         initNavigationView();
         initTabs();
 
-        notificationManager = Utils.getNotificationManager();
-        notificationManager.cancelAll();
+        Utils.getNotificationManager().cancelAll();
 
-        ChatActivity.wrapper = this;
-        AddGroupChatActivity.wrapper = this;
-        ReceiveService.wrapper = this;
+        Utils.registerOverviewWrapper(this);
     }
 
     @Override
@@ -121,10 +104,10 @@ public class OverviewWrapper extends AppCompatActivity {
             }
         };
 
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_question_answer_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_person_white_24dp);
@@ -185,11 +168,10 @@ public class OverviewWrapper extends AppCompatActivity {
     }
 
     private void initDatabase() {
-        dbConnection = Utils.getMessengerDBConnection();
-        dbConnection.setOverviewWrapper(this);
-        dbConnection.getUsers();
-        chatArray = dbConnection.getChats();
-        receive();
+        Utils.getMessengerDBConnection().setOverviewWrapper(this);
+        userArray = Utils.getMessengerDBConnection().getUsers();
+        chatArray = Utils.getMessengerDBConnection().getChats();
+        ReceiveService.receive();
     }
 
     public int indexOf(Chat c) {
@@ -208,16 +190,13 @@ public class OverviewWrapper extends AppCompatActivity {
     }
 
     public void notifyUpdate() {
+        chatArray = Utils.getMessengerDBConnection().getChats();
+        userArray = Utils.getMessengerDBConnection().getUsers();
         uFragment.refreshUI();
         cFragment.refreshUI();
+        ChatActivity chatActivity = Utils.getChatActivity();
         if (chatActivity != null)
             chatActivity.refreshUI();
-    }
-
-    public void receive() {
-        stopService(serviceIntent);
-        new ReceiveTask().execute();
-        startService(serviceIntent);
     }
 
     @Override

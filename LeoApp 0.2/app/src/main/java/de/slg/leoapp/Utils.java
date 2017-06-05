@@ -8,12 +8,16 @@ import android.net.NetworkInfo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.slg.messenger.ChatActivity;
 import de.slg.messenger.DBConnection;
+import de.slg.messenger.OverviewWrapper;
 import de.slg.startseite.MainActivity;
 
 public abstract class Utils {
     public static Context context;
     private static DBConnection dbConnection;
+    private static OverviewWrapper overviewWrapper;
+    private static ChatActivity chatActivity;
 
     public static boolean checkNetwork() {
         ConnectivityManager c = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
@@ -96,7 +100,23 @@ public abstract class Utils {
 
     public static DBConnection getMessengerDBConnection() {
         if (dbConnection == null)
-            dbConnection = new DBConnection(context, getCurrentUser(), null);
+            dbConnection = new DBConnection(context, getCurrentUser());
         return dbConnection;
+    }
+
+    public static void registerOverviewWrapper(OverviewWrapper overviewWrapper) {
+        Utils.overviewWrapper = overviewWrapper;
+    }
+
+    public static void registerChatActivity(ChatActivity chatActivity) {
+        Utils.chatActivity = chatActivity;
+    }
+
+    public static OverviewWrapper getOverviewWrapper() {
+        return overviewWrapper;
+    }
+
+    public static ChatActivity getChatActivity() {
+        return chatActivity;
     }
 }

@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.ReceiveService;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
@@ -37,15 +38,12 @@ public class ChatActivity extends AppCompatActivity {
     public static Chat chat;
     public static String chatname;
     private User currentUser;
-    public static OverviewWrapper wrapper;
     private Message[] messagesArray;
 
-    private Toolbar actionBar;
     private Menu menu;
     private EditText etEditChatName;
 
     private RecyclerView rvMessages;
-    private FloatingActionButton sendButton;
     private EditText etMessage;
     private String message;
 
@@ -53,16 +51,16 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        wrapper.chatActivity = this;
-        currentUser = Utils.getCurrentUser();
-        messagesArray = new Message[0];
 
-        wrapper.receive();
+        Utils.registerChatActivity(this);
+        currentUser = Utils.getCurrentUser();
+
+        messagesArray = new Message[0];
+        ReceiveService.receive();
 
         initToolbar();
         initSendMessage();
         initRecyclerView();
-
 
         Utils.getMessengerDBConnection().setMessagesRead(chat);
     }
@@ -102,7 +100,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        actionBar = (Toolbar) findViewById(R.id.actionBarChat);
+        Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarChat);
         actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
         actionBar.setTitle(chatname);
         setSupportActionBar(actionBar);
@@ -117,7 +115,7 @@ public class ChatActivity extends AppCompatActivity {
     private void initSendMessage() {
         etMessage = (EditText) findViewById(R.id.inputMessage);
 
-        sendButton = (FloatingActionButton) findViewById(R.id.sendButton);
+        FloatingActionButton sendButton = (FloatingActionButton) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,7 +144,7 @@ public class ChatActivity extends AppCompatActivity {
             if (message.length() > 0 && chat != null) {
                 new SendMessage().execute(message);
                 etMessage.setText("");
-                wrapper.receive();
+                ReceiveService.receive();
                 refreshUI();
             }
         } else {
@@ -156,7 +154,6 @@ public class ChatActivity extends AppCompatActivity {
 
     private void startEditChat() {
         ChatEditActivity.currentChat = chat;
-        ChatEditActivity.wrapper = wrapper;
         startActivity(new Intent(getApplicationContext(), ChatEditActivity.class));
     }
 
