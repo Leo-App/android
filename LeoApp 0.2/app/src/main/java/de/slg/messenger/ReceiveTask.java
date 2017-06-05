@@ -11,26 +11,17 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
-
-    private User currentUser;
-    private boolean b;
-
-    public ReceiveTask() {
-        this.currentUser = Utils.getCurrentUser();
-        b = false;
-    }
-
     @Override
     protected Boolean doInBackground(Void... params) {
         assoziationen();
         chat();
         benutzer();
-        nachricht();
-        return b;
+        return nachricht();
     }
 
-    private void nachricht() {
-        if (currentUser != null) {
+    private boolean nachricht() {
+        boolean b = false;
+        if (Utils.isVerified()) {
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Nachricht)).openConnection().getInputStream(), "UTF-8"));
                 String erg = "";
@@ -45,17 +36,19 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
                     if (message.length == 5) {
                         Message m = new Message(Integer.parseInt(message[0]), message[1], Long.parseLong(message[2]+"000"), Integer.parseInt(message[3]), Integer.parseInt(message[4]), false);
                         Utils.getMessengerDBConnection().insertMessage(m);
-                        b = true;
+                        if (m.senderId != Utils.getUserID())
+                            b = true;
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        return b;
     }
 
     private void chat() {
-        if (currentUser != null) {
+        if (Utils.isVerified()) {
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Chat)).openConnection().getInputStream(), "UTF-8"));
                 String erg = "";
@@ -68,7 +61,6 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
                     if (current.length == 3) {
                         Chat c = new Chat(Integer.parseInt(current[0]), current[1], Chat.Chattype.valueOf(current[2].toUpperCase()));
                         Utils.getMessengerDBConnection().insertChat(c);
-                        b = true;
                     }
                 }
             } catch (Exception e) {
@@ -78,7 +70,7 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void benutzer() {
-        if (currentUser != null) {
+        if (Utils.isVerified()) {
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Benutzer)).openConnection().getInputStream(), "UTF-8"));
                 String erg = "";
@@ -91,7 +83,6 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
                     if (current.length == 4) {
                         User u = new User(Integer.parseInt(current[0]), current[1], current[2], Integer.parseInt(current[3]));
                         Utils.getMessengerDBConnection().insertUser(u);
-                        b = true;
                     }
                 }
             } catch (Exception e) {
@@ -101,7 +92,7 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void assoziationen() {
-        if (currentUser != null) {
+        if (Utils.isVerified()) {
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Assoziation)).openConnection().getInputStream(), "UTF-8"));
                 String erg = "";
@@ -114,7 +105,6 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
                     if (current.length == 3) {
                         Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]), Boolean.parseBoolean(current[2]));
                         Utils.getMessengerDBConnection().insertAssoziation(a);
-                        b = true;
                     }
                 }
             } catch (Exception e) {
@@ -126,13 +116,13 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
     private String generateURL(Operator o) {
         switch (o) {
             case Nachricht:
-                return "http://moritz.liegmanns.de/messenger/receive.php?key=5453&userid=" + currentUser.userId;
+                return "http://moritz.liegmanns.de/messenger/receive.php?key=5453&userid=" + Utils.getUserID();
             case Benutzer:
-                return "http://moritz.liegmanns.de/messenger/getUsers.php?key=5453&userid=" + currentUser.userId;
+                return "http://moritz.liegmanns.de/messenger/getUsers.php?key=5453&userid=" + Utils.getUserID();
             case Chat:
-                return "http://moritz.liegmanns.de/messenger/getChats.php?key=5453&userid=" + currentUser.userId;
+                return "http://moritz.liegmanns.de/messenger/getChats.php?key=5453&userid=" + Utils.getUserID();
             case Assoziation:
-                return "http://moritz.liegmanns.de/messenger/getAssoziationen.php?key=5453&userid=" + currentUser.userId;
+                return "http://moritz.liegmanns.de/messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID();
             default:
                 return "";
         }
