@@ -32,7 +32,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
     private EditText etChatname;
     private UserAdapter userAdapter;
-    private boolean bChatname, bUsersSelected;
+    private boolean chatnameSet, usersSelected;
     private Menu menu;
     private Chat newChat;
 
@@ -45,8 +45,8 @@ public class AddGroupChatActivity extends AppCompatActivity {
         initListView();
         initEditText();
 
-        bChatname = false;
-        bUsersSelected = false;
+        chatnameSet = false;
+        usersSelected = false;
     }
 
     @Override
@@ -56,10 +56,10 @@ public class AddGroupChatActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == R.id.action_saveChat) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_saveChat) {
             createNewChat();
-        } else if (mi.getItemId() == android.R.id.home) {
+        } else if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }
         return true;
@@ -95,9 +95,9 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 if (!checkBox.isChecked())
                     color = getResources().getColor(R.color.colorText);
                 username.setTextColor(color);
-                bUsersSelected = userAdapter.selectCount() > 0;
+                usersSelected = userAdapter.selectCount() > 0;
                 menu.clear();
-                if (bChatname && bUsersSelected)
+                if (chatnameSet && usersSelected)
                     getMenuInflater().inflate(R.menu.messenger_add_chat, menu);
             }
         });
@@ -116,9 +116,9 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                bChatname = s.length() > 0;
+                chatnameSet = s.length() > 0;
                 menu.clear();
-                if (bChatname && bUsersSelected)
+                if (chatnameSet && usersSelected)
                     getMenuInflater().inflate(R.menu.messenger_add_chat, menu);
             }
         });

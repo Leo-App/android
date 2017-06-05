@@ -219,7 +219,7 @@ public class ChatActivity extends AppCompatActivity {
             if (mine) {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
-                RelativeLayout l3 = (RelativeLayout) v.findViewById(R.id.wrapperlayout3);
+                LinearLayout l3 = (LinearLayout) v.findViewById(R.id.wrapperlayout3);
                 l1.setGravity(Gravity.RIGHT);
                 l2.setGravity(Gravity.RIGHT);
                 l3.setGravity(Gravity.RIGHT);
@@ -228,7 +228,7 @@ public class ChatActivity extends AppCompatActivity {
             } else {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
-                RelativeLayout l3 = (RelativeLayout) v.findViewById(R.id.wrapperlayout3);
+                LinearLayout l3 = (LinearLayout) v.findViewById(R.id.wrapperlayout3);
                 l1.setGravity(Gravity.LEFT);
                 l2.setGravity(Gravity.LEFT);
                 l3.setGravity(Gravity.LEFT);
@@ -243,15 +243,8 @@ public class ChatActivity extends AppCompatActivity {
             }
             nachricht = (TextView) v.findViewById(R.id.nachricht);
             nachricht.setText(current.messageText);
-            if (nachricht.getLineCount() > 1) {
-                uhrzeit = (TextView) v.findViewById(R.id.datumBelow);
-                uhrzeit.setVisibility(View.VISIBLE);
-                v.findViewById(R.id.datumRight).setVisibility(View.GONE);
-            } else {
-                uhrzeit = (TextView) v.findViewById(R.id.datumRight);
-                uhrzeit.setVisibility(View.VISIBLE);
-                v.findViewById(R.id.datumBelow).setVisibility(View.GONE);
-            }
+            uhrzeit = (TextView) v.findViewById(R.id.datum);
+            uhrzeit.setVisibility(View.VISIBLE);
             uhrzeit.setText(current.getTime());
             if (first) {
                 datum = (TextView) v.findViewById(R.id.textViewDate);
