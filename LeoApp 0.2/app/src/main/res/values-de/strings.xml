@@ -228,10 +228,11 @@
     <string name="info_screen_title">LeoApp für Android</string>
     <string name="info_screen_first">Version Placeholder</string>
     <string name="info_screen_second">Entstanden im Projektkurs Informatik 2017</string>
-    <string name="info_screen_third">St.Leonhard Gymnasium</string>
     <string name="info_screen_fourth">Alle Angaben ohne Gewähr</string>
     <string name="info_screen_fifth">Entwickler</string>
     <string name="toolbar_title_screen">Über die App</string>
+    <string name="button_next">Weiter</string>
+    <string name="toolbar_name_info">Über die App</string>
 
 
 </resources>

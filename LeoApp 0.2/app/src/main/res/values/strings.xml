@@ -196,4 +196,11 @@
 
     <string name="toolbar_name_info">About</string>
     <string name="heute">Today</string>
+    <string name="info_screen_fifth">Developer</string>
+    <string name="info_screen_first">VersionPlaceholder</string>
+    <string name="messenger_notification_title">New Messages!</string>
+    <string name="toolbar_title_screen">About</string>
+    <string name="settings_name_changed">Name changed!</string>
+    <string name="info_screen_third" translatable="false">St.Leonhard Gymnasium</string>
+    <string name="info_screen_title">LeoApp for Android</string>
 </resources>
