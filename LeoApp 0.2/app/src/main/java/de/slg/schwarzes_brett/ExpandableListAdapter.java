@@ -14,14 +14,13 @@ import java.util.Map;
 
 import de.slg.leoapp.R;
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Activity context;
     private Map<String, List<String>> schwarzesBrett;
     private List<String> eintraege;
 
-    public ExpandableListAdapter(Activity context, List<String> eintraege,
-                                 Map<String, List<String>> schwarzesBrett) {
+    ExpandableListAdapter(Activity context, List<String> eintraege, Map<String, List<String>> schwarzesBrett) {
         this.context = context;
         this.schwarzesBrett = schwarzesBrett;
         this.eintraege = eintraege;

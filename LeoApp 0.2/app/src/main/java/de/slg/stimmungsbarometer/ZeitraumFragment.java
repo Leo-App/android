@@ -14,17 +14,13 @@ import de.slg.leoapp.List;
 
 public class ZeitraumFragment extends Fragment {
 
-    private View rootView;
     public int zeitraum;
-
     private Ergebnis[][] data;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         fillData();
-
-        rootView = new StatistikView(getContext(), data);
-        return rootView;
+        return new StatistikView(getContext(), data);
     }
 
     private void fillData() {

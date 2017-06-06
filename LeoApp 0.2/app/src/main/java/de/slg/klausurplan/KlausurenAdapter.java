@@ -1,6 +1,7 @@
 package de.slg.klausurplan;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 
-public class KlausurenAdapter extends ArrayAdapter<Klausur> {
+class KlausurenAdapter extends ArrayAdapter<Klausur> {
 
     private Context context;
     private int resId;
@@ -18,7 +19,7 @@ public class KlausurenAdapter extends ArrayAdapter<Klausur> {
     private LayoutInflater layoutInflater;
     private int markieren;
 
-    public KlausurenAdapter(Context context, List<Klausur> objects, int markieren) {
+    KlausurenAdapter(Context context, List<Klausur> objects, int markieren) {
         super(context, R.layout.list_item_klausur, objects.fill(new Klausur[objects.length()]));
         this.context = context;
         resId = R.layout.list_item_klausur;
@@ -27,8 +28,9 @@ public class KlausurenAdapter extends ArrayAdapter<Klausur> {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View v, ViewGroup parent) {
+    public View getView(int position, View v, @NonNull ViewGroup parent) {
         Klausur current = klausuren.getObjectAt(position);
         v = layoutInflater.inflate(resId, null);
         if (position == 0 || !current.istGleicheWoche(klausuren.getObjectAt(position - 1))) {

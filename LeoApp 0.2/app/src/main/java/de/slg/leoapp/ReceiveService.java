@@ -11,8 +11,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 
-import java.util.concurrent.ExecutionException;
-
 import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.messenger.ReceiveTask;
@@ -60,14 +58,11 @@ public class ReceiveService extends Service {
             Looper.prepare();
             while (running) {
                 try {
-                    ReceiveTask r = new ReceiveTask();
-                    r.execute();
+                    new ReceiveTask().execute();
                     for (int i = 0; i < intervall && running; i++) {
                         sleep(1);
                     }
-                    if (r.get())
-                        showNotification();
-                } catch (InterruptedException | ExecutionException e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }

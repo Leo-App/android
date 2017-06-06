@@ -5,14 +5,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class Klausur {
+class Klausur {
 
     private String fach;
-    public Date datum;
+    Date datum;
     private String notiz;
     private String note;
 
-    public Klausur(String fach, Date datum, String notiz, String note) {
+    Klausur(String fach, Date datum, String notiz, String note) {
         if (fach == null)
             fach = "";
         this.fach = fach;
@@ -31,7 +31,7 @@ public class Klausur {
         return fach;
     }
 
-    public String getDatum(boolean mitWochentag) {
+    String getDatum(boolean mitWochentag) {
         if (datum == null)
             return "";
         if (mitWochentag) {
@@ -40,13 +40,13 @@ public class Klausur {
         return new SimpleDateFormat("dd.MM.yy").format(datum);
     }
 
-    public String getNotiz() {
+    String getNotiz() {
         if (notiz == null)
             return "";
         return notiz;
     }
 
-    public String getNote() {
+    String getNote() {
         if (note == null)
             return "";
         return note;
@@ -57,18 +57,18 @@ public class Klausur {
             this.fach = fach;
     }
 
-    public void setDatum(Date datum) {
+    void setDatum(Date datum) {
         if (datum != null)
             this.datum = datum;
     }
 
-    public void setNotiz(String notiz) {
+    void setNotiz(String notiz) {
         if (notiz == null)
             notiz = "";
         this.notiz = notiz;
     }
 
-    public void setNote(String note) {
+    void setNote(String note) {
         if (note == null)
             note = "";
         this.note = note;
@@ -88,13 +88,11 @@ public class Klausur {
         return false;
     } //true, wenn Fach und Datum übereinstimmen
 
-    public boolean after(Klausur klausur) {
-        if (klausur != null && datum != null && klausur.datum != null)
-            return datum.getTime() > klausur.datum.getTime();
-        return false;
+    boolean after(Klausur klausur) {
+        return klausur != null && datum != null && klausur.datum != null && datum.getTime() > klausur.datum.getTime();
     }//wenn das Datum der Klausur später ist als das der anderen
 
-    public String getWriterString() {
+    String getWriterString() {
         if (getFach().equals("") || getDatum(false).equals(""))
             return null;
         String ergebnis = "";
@@ -111,26 +109,26 @@ public class Klausur {
         return ergebnis;
     }
 
-    public boolean istEFKlausur() {
+    boolean istEFKlausur() {
         return this.fach.endsWith("EF");
     }
 
-    public boolean istQ1Klausur() {
+    boolean istQ1Klausur() {
         return this.fach.endsWith("Q1");
     }
 
-    public boolean istQ2Klausur() {
+    boolean istQ2Klausur() {
         return this.fach.endsWith("Q2");
     }
 
-    public boolean istGleicheWoche(Klausur other) {
+    boolean istGleicheWoche(Klausur other) {
         Calendar calendar = new GregorianCalendar(), calendar1 = new GregorianCalendar();
         calendar.setTime(this.datum);
         calendar1.setTime(other.datum);
         return calendar.get(Calendar.YEAR) == calendar1.get(Calendar.YEAR) && calendar.get(Calendar.WEEK_OF_YEAR) == calendar1.get(Calendar.WEEK_OF_YEAR);
     }
 
-    public String getWoche() {
+    String getWoche() {
         return new SimpleDateFormat("'Woche' w").format(datum);
     }
 }

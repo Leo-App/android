@@ -3,6 +3,7 @@ package de.slg.klausurplan;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -11,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -41,16 +40,12 @@ import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.Fach;
-import de.slg.stundenplan.Stundenplanverwalter;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 
 public class KlausurplanActivity extends AppCompatActivity {
 
     private ListView lvKlausuren;
     public List<Klausur> klausurList;
-    private FloatingActionButton fabAdd;
-    private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private Snackbar snackbar;
     private boolean confirmDelete;
@@ -103,9 +98,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                 List<Klausur> result = k.get();
                 for (result.toFirst(); result.hasAccess(); result.next())
                     add(result.getContent(), false);//Klausuren werden aus der Ergebnisliste in die Klausurliste gefügt
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         } else {
@@ -132,7 +125,7 @@ public class KlausurplanActivity extends AppCompatActivity {
 
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.klausurplan).setChecked(true);
 
         navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
@@ -143,9 +136,9 @@ public class KlausurplanActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
-                Intent i = null;
+                Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
@@ -226,7 +219,7 @@ public class KlausurplanActivity extends AppCompatActivity {
     }
 
     private void initAddButton() {
-        fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
+        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -330,7 +323,6 @@ public class KlausurplanActivity extends AppCompatActivity {
         }
     }
 
-
     private void readFromFile() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput(getString(R.string.klausuren_filemane))));
@@ -341,14 +333,12 @@ public class KlausurplanActivity extends AppCompatActivity {
             }
             reader.close();
             String[] split = input.split("_");
-            for (int i = 0; i < split.length; i++) {
-                String[] current = split[i].split(";");
+            for (String aSplit : split) {
+                String[] current = aSplit.split(";");
                 if (current.length == 4) {
                     add(new Klausur(current[0], new Date(Long.parseLong(current[1])), current[2], current[3]), false);
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -362,8 +352,6 @@ public class KlausurplanActivity extends AppCompatActivity {
                 writer.newLine();
             }
             writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

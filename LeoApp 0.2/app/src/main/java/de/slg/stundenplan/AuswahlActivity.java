@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -25,7 +24,6 @@ import de.slg.leoapp.R;
 public class AuswahlActivity extends AppCompatActivity {
 
     private Menu menu;
-    private ListView listView;
     private AuswahlAdapter auswahlAdapter;
     private Stundenplanverwalter sv;
 
@@ -34,7 +32,7 @@ public class AuswahlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auswahl);
 
-        SharedPreferences shaPre = getSharedPreferences("", MODE_PRIVATE); //Jaja, hier fehlt noch der Name... // TODO: 27.05.2017
+        SharedPreferences shaPre = getSharedPreferences("", MODE_PRIVATE); //Jaja, hier fehlt noch der Name... TODO: 27.05.2017
         String stufe = shaPre.getString("pref_key_level_general", "Q1"); //Ähm ich würde vllt nicht Q1 nehmen, wenn noch keine Stufe eingestellt ist ^Gianni TODO Lesen
 
         if (!fileExistiert()) {
@@ -58,7 +56,7 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private void initListView() {
-        listView = (ListView) findViewById(R.id.listA);
+        ListView listView = (ListView) findViewById(R.id.listA);
         auswahlAdapter = new AuswahlAdapter(getApplicationContext(), sv.gibFaecherKurz(), sv);
         listView.setAdapter(auswahlAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -107,8 +105,7 @@ public class AuswahlActivity extends AppCompatActivity {
         if (mi.getItemId() == R.id.action_speichern) {
             sv.inTextDatei(getApplicationContext(), auswahlAdapter.gibAlleMarkierten());
             startActivity(new Intent(getApplicationContext(), WrapperStundenplanActivity.class));
-            //this.onDestroy(); //sieht scheiße aus // TODO: 27.05.2017
-            //Mit dem zurückpfeil kommt man ab jetzt auf die Startseite oder so...                  // TODO: 27.05.2017
+            finish();
         } else if (mi.getItemId() == R.id.action_refresh) {
             this.deexistiere();
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class)); //Auch hässlich // TODO: 27.05.2017
@@ -119,14 +116,12 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private boolean fileExistiert() {
-        BufferedReader br = null;
+        BufferedReader br;
         try {
             br = new BufferedReader(new InputStreamReader(openFileInput("allefaecher.txt")));
             if (br.readLine() != null) {
                 return true;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,12 +129,10 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private void deexistiere() {
-        BufferedWriter bw = null;
+        BufferedWriter bw;
         try {
             bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("allefaecher.txt", MODE_PRIVATE)));
             bw.write("");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

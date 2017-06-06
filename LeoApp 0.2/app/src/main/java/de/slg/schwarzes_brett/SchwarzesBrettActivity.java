@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,9 +21,11 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -56,9 +59,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         initNavigationView();
         try {
             e.get();
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        } catch (ExecutionException e1) {
+        } catch (InterruptedException | ExecutionException e1) {
             e1.printStackTrace();
         }
         createGroupList();
@@ -88,7 +89,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
                 Intent i;
                 switch (menuItem.getItemId()) {
@@ -166,7 +167,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             groupList.add(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.tableResult.titel)));
             Date erstelldatum = new Date(myCursor.getLong(3));
             Date ablaufdatum = new Date(myCursor.getLong(4));
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
             String[] s = {myCursor.getString(0), myCursor.getString(2), simpleDateFormat.format(erstelldatum), simpleDateFormat.format(ablaufdatum)};
             loadChild(s);
             schwarzesBrett.put(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.tableResult.titel)), childList);
@@ -177,8 +178,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private void loadChild(String[] laptopModels) {
         childList = new ArrayList<>();
-        for (String model : laptopModels)
-            childList.add(model);
+        Collections.addAll(childList, laptopModels);
     }
 
     @Override

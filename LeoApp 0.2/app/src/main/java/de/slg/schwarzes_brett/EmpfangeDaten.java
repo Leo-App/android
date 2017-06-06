@@ -8,15 +8,13 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 
-public class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
+class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
 
     private Context c;
-    private String[] res;
 
-    public EmpfangeDaten(Context c) {
+    EmpfangeDaten(Context c) {
         this.c = c;
     }
 
@@ -34,13 +32,11 @@ public class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
             String[] result = erg.split("_next_");
             Log.e("Tag", erg);
             for (String s : result) {
-                res = s.split(";");
+                String[] res = s.split(";");
                 dbh.execSQL("INSERT INTO " + SQLiteConnector.tableResult.tableName + " Values(null, '" + res[0] + "','" + res[1] + "','" + res[2] + "','" + res[3] + "000" + "', '" + res[4] + "000" + "')");
             }
             reader.close();
             db.close();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

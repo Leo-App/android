@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -162,7 +163,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
                     erg += l;
                 Log.i("SendTask", "result of send Chat: " + erg);
                 chat.chatId = Integer.parseInt(erg);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -178,7 +179,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
                         erg += l;
                     Log.d("SendTask", "result of send Assoziation: " + erg);
                     return true;
-                } catch (Exception e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             return false;

@@ -21,7 +21,7 @@ import de.slg.startseite.MainActivity;
 import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.Stundenplanverwalter;
 
-public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
+class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
     private BufferedReader reader;
     private Context context;
@@ -29,7 +29,7 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     private List<Klausur> listeMitHeruntergeladenenKlausuren;
     private List<String> kuerzelStundenplan;
 
-    public KlausurenImportieren(Context context) {
+    KlausurenImportieren(Context context) {
         this.context = context;
         this.kuerzelStundenplan = null;
     }
@@ -69,9 +69,8 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     }
 
     private void tabelle(String s) {
-        String tabelle = new String(s);  //gesamte Zeile Bsp: <tgroup cols="4,833333333333333"><tbody>nd<row><entry namest="c1" namee="c2"><para>12.Wo</para></entry><entry><para>EF</para></entry><entry><para>Q1</para></entry><entry><para>Q2</para></entry></row><row><entry><para>MO </para></entry><entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry></row> ... </tgroup>
-        for (int offset = 0; tabelle.substring(offset).contains("<row>"); offset = tabelle.indexOf("</row>", offset) + 6) {
-            String substring = tabelle.substring(tabelle.indexOf("<row>", offset) + 5, tabelle.indexOf("</row>", offset));// Trennen bei <row>, <\row>  Bsp: <entry><para>MO </para></entry><entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry>
+        for (int offset = 0; s.substring(offset).contains("<row>"); offset = s.indexOf("</row>", offset) + 6) {
+            String substring = s.substring(s.indexOf("<row>", offset) + 5, s.indexOf("</row>", offset));// Trennen bei <row>, <\row>  Bsp: <entry><para>MO </para></entry><entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry>
             substring = substring.substring(substring.indexOf("</entry>") + 8);//Trennen nach erstem <\entry> (Wochentag wird nicht benötigt) Bsp: <entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry>
             substring = substring.replace("<para>", "").replace("</para>", "").replace("<para/>", " ").replace("<entry>", "").replace("</entry>", ";");//entfernen aller para, Anfangs entry, Ersetzen der </entry> Tags durch ; Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
             if (!substring.contains("<entry namest=\"c3\" nameend=\"c5\">")) { //? beim neuen Klausurplan nirgendwo der Fall
@@ -82,13 +81,12 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     }
 
     private void zeile(String s) {
-        String zeile = new String(s);
-        String datesubstring = zeile.substring(0, zeile.indexOf(";")).replaceAll("\\s", ""); // erster Teil vor dem Simikolon enthält das Datum Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
+        String datesubstring = s.substring(0, s.indexOf(";")).replaceAll("\\s", ""); // erster Teil vor dem Simikolon enthält das Datum Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
         //Log.e("date", datesubstring);
         if (!datesubstring.endsWith("."))
             datesubstring += '.'; //Log.e("date", datesubstring); //fehlende Punkte am Ende werden ergänzt
         Date datum = getDate(datesubstring + year); //if(datum!=null) Log.e("date",datum.toString() );  //Datum wird geparst
-        String rest = zeile.substring(zeile.indexOf(";") + 1); //Log.e("zeile", rest); //Bsp (2) D G2 SNE (27), D G3 POR (27), E G2 DRE (26), M G3 ENS (27);  ; ;
+        String rest = s.substring(s.indexOf(";") + 1); //Log.e("zeile", rest); //Bsp (2) D G2 SNE (27), D G3 POR (27), E G2 DRE (26), M G3 ENS (27);  ; ;
         String[] split = rest.split(";");
         for (int i = 0; i < split.length; i++) {
             String stufe = "", c = split[i];
@@ -219,10 +217,10 @@ public class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
                 Stundenplanverwalter verwalter = new Stundenplanverwalter(context, "meinefaecher.txt");
                 Fach[] arrayFach = verwalter.gibFaecherKurz();
                 kuerzelStundenplan = new List<>();
-                for (int i = 0; i < arrayFach.length; i++) {
-                    if (arrayFach[i].gibSchriftlich()) {
-                        String kuerzel = arrayFach[i].gibKurz();
-                        String lehrer = arrayFach[i].gibLehrer();
+                for (Fach anArrayFach : arrayFach) {
+                    if (anArrayFach.gibSchriftlich()) {
+                        String kuerzel = anArrayFach.gibKurz();
+                        String lehrer = anArrayFach.gibLehrer();
 
                         String teil1 = kuerzel.substring(0, 2);
                         String teil2 = kuerzel.substring(2, 4);

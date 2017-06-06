@@ -2,17 +2,18 @@ package de.slg.stimmungsbarometer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-public class Ergebnis {
+class Ergebnis {
 
-    public final Date date;
-    public final double value;
-    public final boolean ich;
-    public final boolean schueler;
-    public final boolean lehrer;
-    public final boolean alle;
+    final Date date;
+    final double value;
+    final boolean ich;
+    final boolean schueler;
+    final boolean lehrer;
+    final boolean alle;
 
-    public Ergebnis(Date date, double value, boolean ich, boolean schueler, boolean lehrer, boolean alle) {
+    Ergebnis(Date date, double value, boolean ich, boolean schueler, boolean lehrer, boolean alle) {
         this.date = date;
         this.value = value;
         this.ich = ich;
@@ -23,7 +24,7 @@ public class Ergebnis {
 
     @Override
     public String toString() {
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
         return "" + format.format(date) + ", " + value + ", " + ich + ", " + schueler + ", " + lehrer + ", " + alle;
     }
 }

@@ -41,7 +41,7 @@ public class StatistikView extends View {
         if (data[3].length != 0)
             abstandX = bitmapCanvas.getWidth() * 9 / (data[3].length * 10);
         else
-            abstandX = bitmapCanvas.getWidth() * 9 / (1 * 10);
+            abstandX = bitmapCanvas.getWidth() * 9 / 10;
         radius = 5;
 
         drawBackground();
