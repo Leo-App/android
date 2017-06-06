@@ -108,7 +108,7 @@
         <de.slg.messenger.NumberPickerPref
             android:key="pref_key_refresh"
             android:persistent="true"
-            android:defaultValue="3"
+            android:defaultValue="2"
             android:summary="@string/settings_summary_refresh_interval"
             android:title="@string/settings_title_refresh_interval" />
 

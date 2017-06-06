@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.ReceiveService;
 import de.slg.startseite.MainActivity;
 
 public class NumberPickerPref extends DialogPreference {
@@ -53,6 +54,7 @@ public class NumberPickerPref extends DialogPreference {
         picker.setDisplayedValues(new String[] { "5 "+ MainActivity.ref.getString(R.string.seconds), "10 "+ MainActivity.ref.getString(R.string.seconds), "15 "+MainActivity.ref.getString(R.string.seconds), "30 "+MainActivity.ref.getString(R.string.seconds), "1 "+MainActivity.ref.getString(R.string.minute), "2 "+MainActivity.ref.getString(R.string.minutes), "5 "+MainActivity.ref.getString(R.string.minutes)});
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
+        picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     }
 
     @Override
@@ -71,12 +73,14 @@ public class NumberPickerPref extends DialogPreference {
         return a.getInt(index, MIN_VALUE);
     }
 
+    public int getValue() {
+        this.value = getPersistedInt(1);
+        return this.value;
+    }
+
     public void setValue(int value) {
         this.value = value;
         persistInt(this.value);
-    }
-
-    public int getValue() {
-        return this.value;
+        ReceiveService.setIntervall(value);
     }
 }

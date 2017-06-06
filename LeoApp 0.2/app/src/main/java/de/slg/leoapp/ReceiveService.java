@@ -16,21 +16,42 @@ import java.util.concurrent.ExecutionException;
 import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.messenger.ReceiveTask;
+import de.slg.startseite.MainActivity;
 
 public class ReceiveService extends Service {
 
-    private OverviewWrapper wrapper;
     private LoopThread thread;
     private NotificationManager notificationManager;
-    private ReceiveTask r;
     private boolean running;
-    private long intervall;
+    private static long intervall;
     private Bitmap icon;
 
     public ReceiveService() {
         running = true;
-        intervall = 15000;
-        wrapper = Utils.getOverviewWrapper();
+        intervall = getIntervall(MainActivity.pref.getInt("pref_key_refresh", 2));
+    }
+
+    private static long getIntervall(int selection) {
+        switch (selection) {
+            case 0:
+                return 5000;
+            case 1:
+                return 10000;
+            case 3:
+                return 30000;
+            case 4:
+                return 60000;
+            case 5:
+                return 120000;
+            case 6:
+                return 300000;
+            default:
+                return 15000;
+        }
+    }
+
+    public static void setIntervall(int selection) {
+        intervall = getIntervall(selection);
     }
 
     class LoopThread extends Thread {
@@ -39,7 +60,7 @@ public class ReceiveService extends Service {
             Looper.prepare();
             while (running) {
                 try {
-                    r = new ReceiveTask();
+                    ReceiveTask r = new ReceiveTask();
                     r.execute();
                     sleep(intervall);
                     if (r.get())
@@ -75,6 +96,7 @@ public class ReceiveService extends Service {
     @Override
     public void onDestroy() {
         running = false;
+        thread.interrupt();
     }
 
     public void showNotification() {
