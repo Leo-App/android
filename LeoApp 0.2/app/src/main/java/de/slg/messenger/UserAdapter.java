@@ -1,6 +1,7 @@
 package de.slg.messenger;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
 
-public class UserAdapter extends ArrayAdapter<User> {
+class UserAdapter extends ArrayAdapter<User> {
 
     private int resId;
     private User[] users;
@@ -19,7 +20,7 @@ public class UserAdapter extends ArrayAdapter<User> {
     private boolean selectable;
     private View[] views;
 
-    public UserAdapter(Context context, User[] users, boolean selectable) {
+    UserAdapter(Context context, User[] users, boolean selectable) {
         super(context, R.layout.list_item_user, users);
         this.resId = R.layout.list_item_user;
         this.users = users;
@@ -28,8 +29,9 @@ public class UserAdapter extends ArrayAdapter<User> {
         this.views = new View[users.length];
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View v, ViewGroup parent) {
+    public View getView(int position, View v, @NonNull ViewGroup parent) {
         if (position < users.length && users[position] != null) {
             if (v == null) {
                 v = inflater.inflate(resId, null);
@@ -45,7 +47,7 @@ public class UserAdapter extends ArrayAdapter<User> {
         return v;
     }
 
-    public int selectCount() {
+    int selectCount() {
         if (selectable) {
             int count = 0;
             for (int i = 0; i < users.length; i++) {
@@ -57,7 +59,7 @@ public class UserAdapter extends ArrayAdapter<User> {
         return -1;
     }
 
-    public User[] getSelected() {
+    User[] getSelected() {
         if (selectable) {
             User[] result = new User[selectCount()];
             int i1 = 0;
@@ -70,10 +72,5 @@ public class UserAdapter extends ArrayAdapter<User> {
             return result;
         }
         return null;
-    }
-
-    public void setUsers(User[] users) {
-        this.users = users;
-        notifyDataSetChanged();
     }
 }

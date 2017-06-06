@@ -1,18 +1,18 @@
 package de.slg.messenger;
 
-public class Assoziation {
+class Assoziation {
 
-    public final int chatID;
-    public final int userID;
-    public final boolean removed;
+    final int chatID;
+    final int userID;
+    final boolean removed;
 
-    public Assoziation(int cid, int uid, boolean removed) {
+    Assoziation(int cid, int uid, boolean removed) {
         this.chatID = cid;
         this.userID = uid;
         this.removed = removed;
     }
 
-    public boolean allAttributesSet() {
+    boolean allAttributesSet() {
         return chatID > 0 && userID > 0;
     }
 

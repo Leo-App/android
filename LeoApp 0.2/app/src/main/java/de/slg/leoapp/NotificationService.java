@@ -2,6 +2,7 @@ package de.slg.leoapp;
 
 import android.annotation.SuppressLint;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -24,17 +25,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.slg.essensqr.*;
+import de.slg.messenger.Message;
+import de.slg.messenger.OverviewWrapper;
 import de.slg.startseite.MainActivity;
 
 @SuppressWarnings("deprecation")
 @SuppressLint("SimpleDateFormat")
 public class NotificationService extends IntentService {
 
+    private NotificationManager notificationManager;
+
     private static short hours;
     private static short minutes;
 
     public NotificationService() {
         super("notification-service-leo");
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -103,6 +109,8 @@ public class NotificationService extends IntentService {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+
+                messengerNotification();
             }
         }
     }
@@ -137,9 +145,28 @@ public class NotificationService extends IntentService {
                         .setContentText(getString(R.string.notification_summary_notif))
                         .setContentIntent(resultPendingIntent);
 
-        NotificationManager mNotifyMgr =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(101, mBuilder.build());
+    }
 
-        mNotifyMgr.notify(101, mBuilder.build());
+    public void messengerNotification() {
+        if (Utils.getMessengerDBConnection().hasUnreadMessages()) {
+            Message[] messages = Utils.getMessengerDBConnection().getUnreadMessages();
+            String s = "";
+            for (Message m : messages)
+                s += m.toString() + System.getProperty("line.separator");
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);
+            Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
+            Notification notification =
+                    new NotificationCompat.Builder(getApplicationContext())
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setLargeIcon(icon)
+                            .setVibrate(new long[]{200, 100, 200})
+                            .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
+                            .setContentTitle(getString(R.string.messenger_notification_title))
+                            .setContentText(s)
+                            .setContentIntent(pendingIntent)
+                            .build();
+            notificationManager.notify(5453, notification);
+        }
     }
 }

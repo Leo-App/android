@@ -2,6 +2,7 @@ package de.slg.messenger;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -84,10 +85,7 @@ public class OverviewWrapper extends AppCompatActivity {
     }
 
     private void initTabs() {
-        ChatsFragment.wrapper = this;
         cFragment = new ChatsFragment();
-
-        UserFragment.wrapper = this;
         uFragment = new UserFragment();
 
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -126,7 +124,7 @@ public class OverviewWrapper extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
                 Intent i;
                 switch (menuItem.getItemId()) {

@@ -71,9 +71,9 @@ public class ChatEditActivity extends AppCompatActivity {
             lvUsers.setAdapter(uOfChat2);
             mode = "";
         } else if (mi.getItemId() == R.id.action_confirm) {
-            if (mode == "add")
+            if (mode.equals("add"))
                 addUsers(uRest.getSelected());
-            if (mode == "remove")
+            if (mode.equals("remove"))
                 removeUsers(uOfChat1.getSelected());
             mode = "";
             menu.clear();
@@ -120,7 +120,7 @@ public class ChatEditActivity extends AppCompatActivity {
         lvUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (mode != "") {
+                if (!mode.equals("")) {
                     CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
                     checkBox.setChecked(!checkBox.isChecked());
                 }
@@ -144,7 +144,7 @@ public class ChatEditActivity extends AppCompatActivity {
         }
     }
 
-    class AddUser extends AsyncTask<User, Void, Void> {
+    private class AddUser extends AsyncTask<User, Void, Void> {
 
         @Override
         protected Void doInBackground(User... params) {
@@ -183,7 +183,7 @@ public class ChatEditActivity extends AppCompatActivity {
         }
     }
 
-    class RemoveUser extends AsyncTask<User, Void, Void> {
+    private class RemoveUser extends AsyncTask<User, Void, Void> {
 
         @Override
         protected Void doInBackground(User... params) {

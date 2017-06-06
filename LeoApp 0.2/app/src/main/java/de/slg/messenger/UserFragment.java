@@ -22,8 +22,6 @@ import de.slg.leoapp.Utils;
 public class UserFragment extends Fragment {
 
     public View rootView;
-    public static OverviewWrapper wrapper;
-
     public ListView lvUsers;
 
     @Override
@@ -40,39 +38,39 @@ public class UserFragment extends Fragment {
         lvUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position < wrapper.userArray.length) {
-                    User clickedUser = wrapper.userArray[position];
+                if (position < Utils.getOverviewWrapper().userArray.length) {
+                    User clickedUser = Utils.getOverviewWrapper().userArray[position];
                     ChatActivity.chatname = clickedUser.userName;
                     Chat newChat = new Chat(-1, "" + clickedUser.userId + " - " + Utils.getCurrentUser().userId, Chat.Chattype.PRIVATE);
-                    int index = wrapper.indexOf(newChat);
+                    int index = Utils.getOverviewWrapper().indexOf(newChat);
                     if (index == -1) {
                         new CreateChat(clickedUser).execute(newChat);
                         ChatActivity.chat = newChat;
                     } else {
-                        ChatActivity.chat = wrapper.chatArray[index];
+                        ChatActivity.chat = Utils.getOverviewWrapper().chatArray[index];
                     }
                     ChatActivity.chatname = clickedUser.userName;
                     startActivity(new Intent(getContext(), ChatActivity.class));
                 }
             }
         });
-        lvUsers.setAdapter(new UserAdapter(wrapper.getApplicationContext(), wrapper.userArray, false));
+        lvUsers.setAdapter(new UserAdapter(getContext(), Utils.getOverviewWrapper().userArray, false));
     }
 
     public void refreshUI() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                lvUsers.setAdapter(new UserAdapter(getContext(), wrapper.userArray, false));
+                lvUsers.setAdapter(new UserAdapter(getContext(), Utils.getOverviewWrapper().userArray, false));
             }
         });
     }
 
-    class CreateChat extends AsyncTask<Chat, Void, Void> {
+    private class CreateChat extends AsyncTask<Chat, Void, Void> {
 
         private User other;
 
-        public CreateChat(User other) {
+        CreateChat(User other) {
             this.other = other;
         }
 

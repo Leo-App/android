@@ -28,7 +28,7 @@ public class DBConnection {
         helper.close();
     }
 
-    public void insertMessage(Message m) {
+    void insertMessage(Message m) {
         if (m != null && m.allAttributesSet()) {
             ContentValues values = new ContentValues();
             values.put(DBHelper.MESSAGES_ID, m.messageId);
@@ -42,7 +42,7 @@ public class DBConnection {
         }
     }
 
-    public void insertUser(User u) {
+    void insertUser(User u) {
         if (u != null && u.allAttributesSet()) {
             ContentValues values = new ContentValues();
             values.put(DBHelper.USER_ID, u.userId);
@@ -54,7 +54,7 @@ public class DBConnection {
         }
     }
 
-    public void insertAssoziation(Assoziation a) {
+    void insertAssoziation(Assoziation a) {
         if (a != null && a.allAttributesSet()) {
             database.execSQL("DELETE FROM " + DBHelper.TABLE_ASSOZIATION + " WHERE " + DBHelper.CHAT_ID + " = " + a.chatID + " AND " + DBHelper.USER_ID + " = " + a.userID);
             ContentValues values = new ContentValues();
@@ -66,7 +66,7 @@ public class DBConnection {
         }
     }
 
-    public void insertChat(Chat c) {
+    void insertChat(Chat c) {
         if (c != null && c.allAttributesSet()) {
             ContentValues values = new ContentValues();
             values.put(DBHelper.CHAT_ID, c.chatId);
@@ -77,30 +77,30 @@ public class DBConnection {
         }
     }
 
-    public void setMessagesRead(Chat c) {
+    void setMessagesRead(Chat c) {
         if (c != null) {
             database.execSQL("UPDATE " + DBHelper.TABLE_MESSAGES + " SET " + DBHelper.MESSAGE_READ + " = 1 WHERE " + DBHelper.TABLE_MESSAGES + "." + DBHelper.CHAT_ID + " = " + c.chatId);
         }
     }
 
-    public void removeUserFromChat(User u, Chat c) {
+    void removeUserFromChat(User u, Chat c) {
         database.execSQL("UPDATE " + DBHelper.TABLE_ASSOZIATION + " SET " + DBHelper.ASSOZIATION_REMOVED + " = 1 WHERE " + DBHelper.CHAT_ID + " = " + c.chatId + " AND " + DBHelper.USER_ID + " = " + u.userId);
     }
 
-    public Message[] getMessages() {
+    private Message[] getMessages() {
         User[] users = getUsers();
         String[] columns = {DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.CHAT_ID, DBHelper.USER_ID, DBHelper.MESSAGE_READ};
         Cursor cursor = query(DBHelper.TABLE_MESSAGES, columns, null, null, null, null, DBHelper.CHAT_ID + ", " + DBHelper.MESSAGE_DATE);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
-            array[i] = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5) == 0 ? false : true);
+            array[i] = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5) != 0);
             int current = array[i].senderId;
             if (current != currentUser.userId) {
                 String username = null;
-                for (int i1 = 0; i1 < users.length; i1++) {
-                    if (users[i1].userId == current) {
-                        username = users[i1].userName;
+                for (User user : users) {
+                    if (user.userId == current) {
+                        username = user.userName;
                         break;
                     }
                 }
@@ -113,7 +113,7 @@ public class DBConnection {
         return array;
     }
 
-    public User[] getUsers() {
+    User[] getUsers() {
         String[] columns = {DBHelper.USER_ID, DBHelper.USER_NAME, DBHelper.USER_KLASSE, DBHelper.USER_PERMISSION};
         Cursor cursor = query(DBHelper.TABLE_USERS, columns, null, null, null, null, DBHelper.USER_ID);
         User[] array = new User[cursor.getCount()];
@@ -125,7 +125,7 @@ public class DBConnection {
         return array;
     }
 
-    public Chat[] getChats() {
+    Chat[] getChats() {
         String[] columns = {DBHelper.CHAT_ID, DBHelper.CHAT_NAME, DBHelper.CHAT_TYPE};
         Cursor cursor = query(DBHelper.TABLE_CHATS, columns, null, null, null, null, DBHelper.CHAT_ID);
         Chat[] array = new Chat[cursor.getCount()];
@@ -150,7 +150,7 @@ public class DBConnection {
                 }
             }
             for (int i = iMax; max != null && i < limit; list.next(), i++) {
-                if (list.getContent().letzeNachricht != null && max != null && max.letzeNachricht != null && list.getContent().letzeNachricht.sendDate.after(max.letzeNachricht.sendDate)) {
+                if (list.getContent().letzeNachricht != null && max.letzeNachricht != null && list.getContent().letzeNachricht.sendDate.after(max.letzeNachricht.sendDate)) {
                     max = list.getContent();
                     iMax = i;
                 }
@@ -168,7 +168,7 @@ public class DBConnection {
         return list.fill(array);
     }
 
-    public User[] getUsersInChat(Chat c, boolean meInclusive) {
+    User[] getUsersInChat(Chat c, boolean meInclusive) {
         boolean meIs = false;
         User[] users = getUsers();
         List<User> list = new List<>();
@@ -179,9 +179,9 @@ public class DBConnection {
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             int current = cursor.getInt(0);
             if (current != currentUser.userId) {
-                for (int j = 0; j < users.length; j++)
-                    if (users[j].userId == current) {
-                        list.append(users[j]);
+                for (User user : users)
+                    if (user.userId == current) {
+                        list.append(user);
                         break;
                     }
             } else
@@ -196,13 +196,13 @@ public class DBConnection {
         return array;
     }
 
-    public User[] getUsersNotInChat(Chat c) {
+    User[] getUsersNotInChat(Chat c) {
         User[] u = getUsers();
         List<User> list = new List<>();
         list.adapt(u);
         User[] uoc = getUsersInChat(c, false);
-        for (int i = 0; i < uoc.length; i++) {
-            int current = uoc[i].userId;
+        for (User anUoc : uoc) {
+            int current = anUoc.userId;
             for (list.toFirst(); list.hasAccess(); list.next())
                 if (list.getContent().userId == current) {
                     list.remove();
@@ -214,7 +214,7 @@ public class DBConnection {
         return array;
     }
 
-    public Message[] getMessagesFromChat(Chat c) {
+    Message[] getMessagesFromChat(Chat c) {
         if (c == null)
             return new Message[0];
         List<Message> messages = new List<>();
@@ -241,19 +241,7 @@ public class DBConnection {
         return array;
     }
 
-    public Message[] getUnreadMessages(Chat c) {
-        String[] columns = {DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.CHAT_ID, DBHelper.USER_ID};
-        String condiotion = DBHelper.MESSAGE_READ + " = 0 AND " + DBHelper.CHAT_ID + " = " + c.chatId;
-        Cursor cursor = query(DBHelper.TABLE_MESSAGES, columns, condiotion, null, null, null, DBHelper.CHAT_ID + ", " + DBHelper.MESSAGE_DATE);
-        Message[] array = new Message[cursor.getCount()];
-        cursor.moveToFirst();
-        for (int i = 0; i < array.length; i++, cursor.moveToNext())
-            array[i] = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), false);
-        cursor.close();
-        return array;
-    }
-
-    public boolean isUserInChat(User u, Chat c) {
+    boolean isUserInChat(User u, Chat c) {
         String[] columns = {DBHelper.USER_ID};
         String condition = DBHelper.CHAT_ID + " = " + c.chatId + " AND " + DBHelper.ASSOZIATION_REMOVED + " = 0 AND " + DBHelper.USER_ID + " = " + u.userId;
         Cursor cursor = query(DBHelper.TABLE_ASSOZIATION, columns, condition, null, null, null, null);
@@ -262,12 +250,15 @@ public class DBConnection {
         return b;
     }
 
-    public void clearTable(String table) {
-        database.execSQL("DELETE FROM " + table);
+    public boolean hasUnreadMessages() {
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[] {DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_READ + " != 0", null, null, null, null);
+        boolean b = cursor.getCount() > 0;
+        cursor.close();
+        return b;
     }
 
-    private synchronized Cursor query(String arg1, String[] arg2, String arg3, String[] arg4, String arg5, String arg6, String arg7) {
-        return database.query(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+    private synchronized Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
+        return database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
     }
 
     private long insert(String table, String nullColumnHack, ContentValues values) {
@@ -277,7 +268,7 @@ public class DBConnection {
         return l;
     }
 
-    public void setOverviewWrapper(OverviewWrapper wrapper) {
+    void setOverviewWrapper(OverviewWrapper wrapper) {
         this.wrapper = wrapper;
     }
 
@@ -301,7 +292,7 @@ public class DBConnection {
         static final String USER_KLASSE = "uklasse";
         static final String USER_PERMISSION = "upermission";
 
-        public DBHelper(Context context) {
+        DBHelper(Context context) {
             super(context, DATABASE_NAME, null, 1);
         }
 

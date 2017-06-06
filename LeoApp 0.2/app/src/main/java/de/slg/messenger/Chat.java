@@ -1,12 +1,12 @@
 package de.slg.messenger;
 
-public class Chat {
+class Chat {
 
-    public int chatId;
-    public String chatName;
-    public final Chattype chatTyp;
-    public Message letzeNachricht;
-    public String chatTitle;
+    int chatId;
+    String chatName;
+    final Chattype chatTyp;
+    Message letzeNachricht;
+    String chatTitle;
 
     public Chat(int cId, String cName, Chattype cTyp) {
         this.chatId = cId;
@@ -28,16 +28,14 @@ public class Chat {
             return chatId == c.chatId;
         String[] s1 = c.chatName.split(" - ");
         String[] s2 = chatName.split(" - ");
-        if (s1.length == 2 && s2.length == 2)
-            return (s1[0].equals(s2[0]) && s1[1].equals(s2[1])) || (s1[0].equals(s2[1]) && s1[1].equals(s2[0]));
-        return false;
+        return s1.length == 2 && s2.length == 2 && ((s1[0].equals(s2[0]) && s1[1].equals(s2[1])) || (s1[0].equals(s2[1]) && s1[1].equals(s2[0])));
     }
 
-    public boolean allAttributesSet() {
+    boolean allAttributesSet() {
         return chatId > 0 && chatName != null && chatTyp != null;
     }
 
-    public void setLetzteNachricht(Message m) {
+    void setLetzteNachricht(Message m) {
         if (m != null)
             letzeNachricht = m;
     }

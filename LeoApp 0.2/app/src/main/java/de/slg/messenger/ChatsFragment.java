@@ -3,6 +3,7 @@ package de.slg.messenger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +21,6 @@ import de.slg.leoapp.Utils;
 public class ChatsFragment extends Fragment {
 
     public View rootView;
-    public static OverviewWrapper wrapper;
-
     public ListView lvChats;
 
     @Override
@@ -38,32 +37,32 @@ public class ChatsFragment extends Fragment {
         lvChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position < wrapper.chatArray.length) {
-                    ChatActivity.chatname = wrapper.chatArray[position].chatTitle;
-                    ChatActivity.chat = wrapper.chatArray[position];
+                if (position < Utils.getOverviewWrapper().chatArray.length) {
+                    ChatActivity.chatname = Utils.getOverviewWrapper().chatArray[position].chatTitle;
+                    ChatActivity.chat = Utils.getOverviewWrapper().chatArray[position];
                     startActivity(new Intent(getContext(), ChatActivity.class));
                 }
             }
         });
-        lvChats.setAdapter(new ChatAdapter(wrapper.getApplicationContext(), wrapper.chatArray));
+        lvChats.setAdapter(new ChatAdapter(Utils.getOverviewWrapper().getApplicationContext(), Utils.getOverviewWrapper().chatArray));
     }
 
     public void refreshUI() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                lvChats.setAdapter(new ChatAdapter(getContext(), wrapper.chatArray));
+                lvChats.setAdapter(new ChatAdapter(getContext(), Utils.getOverviewWrapper().chatArray));
             }
         });
     }
 
-    class ChatAdapter extends ArrayAdapter<Chat> {
+    private class ChatAdapter extends ArrayAdapter<Chat> {
         private Context context;
         private int resId;
         private Chat[] chats;
         private User currentUser;
 
-        public ChatAdapter(Context context, Chat[] chats) {
+        ChatAdapter(Context context, Chat[] chats) {
             super(context, R.layout.list_item_chat, chats);
             this.context = context;
             this.resId = R.layout.list_item_chat;
@@ -71,8 +70,9 @@ public class ChatsFragment extends Fragment {
             this.currentUser = Utils.getCurrentUser();
         }
 
+        @NonNull
         @Override
-        public View getView(int position, View v, ViewGroup parent) {
+        public View getView(int position, View v, @NonNull ViewGroup parent) {
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(resId, null);
@@ -92,7 +92,7 @@ public class ChatsFragment extends Fragment {
                         idO = Integer.parseInt(s[1]);
                     else
                         idO = Integer.parseInt(s[0]);
-                    User o = wrapper.findUser(idO);
+                    User o = Utils.getOverviewWrapper().findUser(idO);
                     if (o != null) {
                         chatname.setText(o.userName);
                         chats[position].chatTitle = o.userName;

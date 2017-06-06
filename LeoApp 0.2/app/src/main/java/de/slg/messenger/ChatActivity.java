@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -187,19 +186,19 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View itemView) {
+    private class ViewHolder extends RecyclerView.ViewHolder {
+        ViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    class MessageAdapter extends RecyclerView.Adapter<ViewHolder> {
+    private class MessageAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         private Chat.Chattype chattype;
         private LayoutInflater inflater;
         private TextView nachricht, absender, uhrzeit, datum;
 
-        public MessageAdapter() {
+        MessageAdapter() {
             super();
             this.inflater = getLayoutInflater();
             this.chattype = chat.chatTyp;
@@ -220,18 +219,18 @@ public class ChatActivity extends AppCompatActivity {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
                 LinearLayout l3 = (LinearLayout) v.findViewById(R.id.wrapperlayout3);
-                l1.setGravity(Gravity.RIGHT);
-                l2.setGravity(Gravity.RIGHT);
-                l3.setGravity(Gravity.RIGHT);
+                l1.setGravity(Gravity.END);
+                l2.setGravity(Gravity.END);
+                l3.setGravity(Gravity.END);
                 l3.setEnabled(true);
                 v.findViewById(R.id.absender).setVisibility(View.GONE);
             } else {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
                 LinearLayout l3 = (LinearLayout) v.findViewById(R.id.wrapperlayout3);
-                l1.setGravity(Gravity.LEFT);
-                l2.setGravity(Gravity.LEFT);
-                l3.setGravity(Gravity.LEFT);
+                l1.setGravity(Gravity.START);
+                l2.setGravity(Gravity.START);
+                l3.setGravity(Gravity.START);
                 l3.setEnabled(false);
                 absender = (TextView) v.findViewById(R.id.absender);
                 absender.setText(current.senderName);
@@ -272,11 +271,11 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    class SendMessage extends AsyncTask<String, Void, Void> {
+    private class SendMessage extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... params) {
-            if (currentUser != null && chat != null && Utils.checkNetwork() && Utils.getMessengerDBConnection().isUserInChat(currentUser, chat) && params[0] != "") {
+            if (currentUser != null && chat != null && Utils.checkNetwork() && Utils.getMessengerDBConnection().isUserInChat(currentUser, chat) && !params[0].equals("")) {
                 try {
                     BufferedReader reader =
                             new BufferedReader(
@@ -303,7 +302,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    class SendChatname extends AsyncTask<Void, Void, Void> {
+    private class SendChatname extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {

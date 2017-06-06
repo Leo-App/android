@@ -54,7 +54,7 @@ public class ReceiveService extends Service {
         intervall = getIntervall(selection);
     }
 
-    class LoopThread extends Thread {
+    private class LoopThread extends Thread {
         @Override
         public void run() {
             Looper.prepare();
@@ -62,12 +62,12 @@ public class ReceiveService extends Service {
                 try {
                     ReceiveTask r = new ReceiveTask();
                     r.execute();
-                    sleep(intervall);
+                    for (int i = 0; i < intervall && running; i++) {
+                        sleep(1);
+                    }
                     if (r.get())
                         showNotification();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
             }

@@ -4,27 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class Message {
-    public final int messageId;
-    public final String messageText;
-    public final Date sendDate;
-    public final int chatId;
-    public final int senderId;
-    public boolean read;
+    final int messageId;
+    final String messageText;
+    final Date sendDate;
+    final int chatId;
+    final int senderId;
+    boolean read;
+    String senderName = null;
 
-    public String senderName = null;
-
-    public Message(int messageId, String messageText, Date sendDate, int chatId, int senderId, boolean read) {
-        this.messageId = messageId;
-        this.messageText = "" + messageText;
-        this.senderId = senderId;
-        this.sendDate = sendDate;
-        this.chatId = chatId;
-        this.read = read;
-    }
-
-    public Message(int messageId, String messageText, long sendDate, int chatId, int senderId, boolean read) {
+    Message(int messageId, String messageText, long sendDate, int chatId, int senderId, boolean read) {
         this.messageId = messageId;
         this.messageText = "" + messageText;
         this.senderId = senderId;
@@ -40,22 +31,22 @@ public class Message {
         return messageText;
     }
 
-    public void setSenderName(String senderName) {
+    void setSenderName(String senderName) {
         this.senderName = senderName;
     }
 
-    public boolean allAttributesSet() {
-        return messageId > 0 && messageText != null && sendDate != null && chatId > 0 && senderId > 0;
+    boolean allAttributesSet() {
+        return messageId > 0 && chatId > 0 && senderId > 0;
     }
 
     public String getDate() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
         if (gleicherTag(sendDate))
-            simpleDateFormat = new SimpleDateFormat("'Heute'");
+            return "Heute";
         else if (vorherigerTag(sendDate))
-            simpleDateFormat = new SimpleDateFormat("'Gestern'");
+            return "Gestern";
         else if (gleichesJahr(sendDate))
-            simpleDateFormat = new SimpleDateFormat("dd.MM");
+            simpleDateFormat = new SimpleDateFormat("dd.MM", Locale.GERMANY);
         return simpleDateFormat.format(sendDate);
     }
 
@@ -81,7 +72,7 @@ public class Message {
         return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH);
     }
 
-    public String getTime() {
-        return new SimpleDateFormat("HH:mm:ss").format(sendDate);
+    String getTime() {
+        return new SimpleDateFormat("HH:mm:ss", Locale.GERMANY).format(sendDate);
     }
 }

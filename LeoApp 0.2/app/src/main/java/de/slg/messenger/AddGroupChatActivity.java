@@ -1,5 +1,6 @@
 package de.slg.messenger;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -126,7 +127,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(etChatname.getWindowToken(), 0);
                 }
                 return true;
@@ -134,7 +135,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
         });
     }
 
-    class CreateChat extends AsyncTask<Void, Void, Void> {
+    private class CreateChat extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -145,8 +146,8 @@ public class AddGroupChatActivity extends AppCompatActivity {
             ChatActivity.chatname = newChat.chatName;
             startActivity(new Intent(getApplicationContext(), ChatActivity.class));
             finish();
-            for (int i = 0; i < members.length; i++) {
-                sendAssoziation(new Assoziation(newChat.chatId, members[i].userId, false));
+            for (User member : members) {
+                sendAssoziation(new Assoziation(newChat.chatId, member.userId, false));
             }
             return null;
         }
