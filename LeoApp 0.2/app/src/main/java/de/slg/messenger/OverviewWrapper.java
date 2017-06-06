@@ -117,6 +117,12 @@ public class OverviewWrapper extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.messenger).setChecked(true);
+
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override

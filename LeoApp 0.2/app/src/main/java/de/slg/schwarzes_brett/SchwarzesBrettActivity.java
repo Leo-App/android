@@ -41,8 +41,6 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     private List<String> groupList;
     private List<String> childList;
     private Map<String, List<String>> schwarzesBrett;
-    private ExpandableListView expListView;
-    private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ExpandableListAdapter expandableListAdapter;
 
@@ -78,13 +76,14 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     }
 
     private void initNavigationView() {
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.newsboard).setChecked(true);
 
         navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
@@ -137,7 +136,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     }
 
     private void initExpandableListView() {
-        expListView = (ExpandableListView) findViewById(R.id.eintraege);
+        ExpandableListView expListView = (ExpandableListView) findViewById(R.id.eintraege);
         expandableListAdapter = new ExpandableListAdapter(
                 this, groupList, schwarzesBrett);
         expListView.setAdapter(expandableListAdapter);

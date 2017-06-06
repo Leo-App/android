@@ -129,13 +129,12 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        //Ruft wieder AuswahlActivity auf
-        if (mi.getItemId() == R.id.action_edit) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_edit) {
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
-        } else if (mi.getItemId() == R.id.action_picture) {
+        } else if (item.getItemId() == R.id.action_picture) {
             startActivity(new Intent(getApplicationContext(), StundenplanActivity.class));
-        } else if (mi.getItemId() == android.R.id.home) {
+        } else if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return true;
@@ -149,6 +148,7 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 

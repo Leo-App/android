@@ -32,9 +32,6 @@ import de.slg.stundenplan.WrapperStundenplanActivity;
 
 public class StimmungsbarometerActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-    private NavigationView navigationView;
     private DrawerLayout drawerLayout;
 
     private static Ergebnis[][] daten;
@@ -75,8 +72,8 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     */
 
     private void initTabs() {
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         fragments = new ZeitraumFragment[]{new ZeitraumFragment(), new ZeitraumFragment(), new ZeitraumFragment(), new ZeitraumFragment()};
         fragments[0].zeitraum = 0;
         fragments[1].zeitraum = 1;
@@ -111,13 +108,14 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     }
 
     private void initNavigationView() {
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.barometer).setChecked(true);
 
         navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
