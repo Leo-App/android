@@ -58,7 +58,7 @@ public abstract class Utils {
     }
 
     public static int getCurrentMoodRessource() {
-        int i = MainActivity.pref.getInt("pref_key_general_vote", -1);
+        int i = MainActivity.pref.getInt("pref_key_general_vote_id", -1);
         switch (i) {
             case 1:
                 return R.drawable.ic_sentiment_very_satisfied_black_24dp;
