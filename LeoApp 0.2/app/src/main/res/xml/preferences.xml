@@ -172,6 +172,65 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="pref_key_general_settings"
+        android:title="@string/settings_category_subst">
+
+        <EditTextPreference
+            android:enabled="true"
+            android:key="pref_key_username_school"
+            android:summary="@string/settings_summary_username_school"
+            android:title="@string/settings_title_username_school" />
+
+        <EditTextPreference
+            android:enabled="true"
+            android:key="pref_key_password_school"
+            android:summary="@string/settings_summary_password_school"
+            android:title="@string/settings_title_password_school" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_key_notification_subst"
+            android:summary="@string/settings_summary_notification_subst"
+            android:title="@string/settings_title_notification" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_network_wlanonly"
+            android:summary="@string/settings_summary_network"
+            android:title="@string/settings_title_network" />
+
+        <de.slg.vertretung.NumberPickerPreference
+            android:key="pref_key_interval_subst"
+            android:persistent="true"
+            android:summary="@string/settings_summary_interval_subst"
+            android:title="@string/settings_title_interval_subst"
+            />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_filter_subst"
+            android:summary="@string/settings_summary_filter_subst"
+            android:title="@string/settings_title_filter_subst" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="false"
+            android:key="pref_key_filterby_level"
+            android:summary="@string/settings_summary_filterby_level"
+            android:title="@string/settings_title_filterby_level" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="false"
+            android:key="pref_key_filterby_schedule"
+            android:summary="@string/settings_summary_filterby_schedule"
+            android:title="@string/settings_title_filterby_schedule" />
+
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
         android:key="pref_key_info_settings"
         android:title="@string/settings_category_info">
 

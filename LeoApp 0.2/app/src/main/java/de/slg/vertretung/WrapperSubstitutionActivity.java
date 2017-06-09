@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -53,11 +54,11 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
     private void initTabs() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pagerS);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayoutS);
-        fragments = new SubstitutionFragment[]{};
+        fragments = new SubstitutionFragment[]{new SubstitutionFragment(), new SubstitutionFragment()};
 
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public android.support.v4.app.Fragment getItem(int position) {
+            public Fragment getItem(int position) {
                 return fragments[position];
             }
 
@@ -65,17 +66,22 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
             public int getCount() {
                 return fragments.length;
             }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+
+                return getTabString(position == 0);
+            }
+
         });
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setText(getTabString(true));
-        tabLayout.getTabAt(1).setText(getTabString(false));
     }
 
     private void initToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarStatistik);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbarS);
         myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(getString(R.string.title_survey));
+        getSupportActionBar().setTitle(getString(R.string.title_subst));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -148,11 +154,13 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
 
         Date d = new Date();
         Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getDefault());
         c.setTime(d);
-        c.add(Calendar.DATE, 1);
+        if(today)
+            c.add(Calendar.DATE, -1);
 
 
-        return new String[]{"SO", "MO", "DI", "MI", "DO", "FR", "SA"}[c.get(Calendar.DAY_OF_WEEK)]+". "+c.get(Calendar.DAY_OF_MONTH)+"."
+        return new String[]{"MO", "DI", "MI", "DO", "FR", "SA", "SO"}[c.get(Calendar.DAY_OF_WEEK)-1]+". "+c.get(Calendar.DAY_OF_MONTH)+"."
                 +c.get(Calendar.MONTH)+"."
                 +c.get(Calendar.YEAR);
 

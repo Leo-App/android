@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbarS"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#0190f6"
@@ -22,7 +22,7 @@
             android:id="@+id/pagerS"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar">
+            android:layout_below="@+id/toolbarS">
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tablayoutS"
