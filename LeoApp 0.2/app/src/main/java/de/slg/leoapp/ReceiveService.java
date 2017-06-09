@@ -93,23 +93,4 @@ public class ReceiveService extends Service {
         running = false;
         thread.interrupt();
     }
-
-    public void showNotification() {
-        Message[] messages = Utils.getMessengerDBConnection().getUnreadMessages();
-        String s = "";
-        for (Message m : messages)
-            s += m.toString() + System.getProperty("line.separator");
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);
-        Notification notification =
-                new NotificationCompat.Builder(getApplicationContext())
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setLargeIcon(icon)
-                        .setVibrate(new long[]{200, 100, 200})
-                        .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
-                        .setContentTitle(getString(R.string.messenger_notification_title))
-                        .setContentText(s)
-                        .setContentIntent(pendingIntent)
-                        .build();
-        notificationManager.notify(5453, notification);
-    }
 }

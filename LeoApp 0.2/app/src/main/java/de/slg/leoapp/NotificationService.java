@@ -40,7 +40,7 @@ public class NotificationService extends IntentService {
 
     public NotificationService() {
         super("notification-service-leo");
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) MainActivity.ref.getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
