@@ -203,4 +203,7 @@
     <string name="settings_name_changed">Name changed!</string>
     <string name="info_screen_third" translatable="false">St.Leonhard Gymnasium</string>
     <string name="info_screen_title">LeoApp for Android</string>
+
+    <string name="title_subst">Substitutions</string>
+
 </resources>

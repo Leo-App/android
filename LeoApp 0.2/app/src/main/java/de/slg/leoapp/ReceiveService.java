@@ -26,7 +26,7 @@ public class ReceiveService extends Service {
 
     public ReceiveService() {
         running = true;
-        intervall = getIntervall(MainActivity.pref.getInt("pref_key_refresh", 2));
+        intervall = getIntervall(Start.pref.getInt("pref_key_refresh", 2));
     }
 
     private static long getIntervall(int selection) {

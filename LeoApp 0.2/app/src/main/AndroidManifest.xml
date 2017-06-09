@@ -34,6 +34,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name="de.slg.vertretung.WrapperSubstitutionActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="de.slg.startseite.InfoActivity"
             android:screenOrientation="portrait" />
 

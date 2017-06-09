@@ -47,6 +47,7 @@ import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.AuswahlActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.vertretung.WrapperSubstitutionActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
@@ -182,6 +183,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
+                        break;
+                    case R.id.vertretung:
+                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
                         break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
