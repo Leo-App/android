@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showDialog() {
-        final AlertDialog builder = new AlertDialog.Builder(getApplicationContext()).create();
+        final AlertDialog builder = new AlertDialog.Builder(this).create();
         LayoutInflater inflater = getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_layout, null);
         Button b1, b2;
@@ -342,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void startCamera(AlertDialog b) {
         b.dismiss();
-        if (ContextCompat.checkSelfPermission(getApplicationContext(),
+        if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             Log.d("LeoApp", "No permission. Checking");
             if (!(ActivityCompat.shouldShowRequestPermissionRationale(this,
