@@ -228,14 +228,9 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-            if (!(ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA))) {
-
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.CAMERA},
                         MY_PERMISSIONS_REQUEST_USE_CAMERA);
-
-            }
 
         } else {
 
