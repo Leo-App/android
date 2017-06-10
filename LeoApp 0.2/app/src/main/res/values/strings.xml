@@ -192,8 +192,9 @@
     <string name="settings_title_testplan_time">Delete test</string>
     <string name="minute">minute</string>
     <string name="minutes">minutes</string>
+    <string name="hour">hour</string>
+    <string name="hours">hours</string>
     <string name="button_next">Next</string>
-
     <string name="toolbar_name_info">About</string>
     <string name="heute">Today</string>
     <string name="info_screen_fifth">Developer</string>
@@ -203,4 +204,22 @@
     <string name="settings_name_changed">Name changed!</string>
     <string name="info_screen_third" translatable="false">St.Leonhard Gymnasium</string>
     <string name="info_screen_title">LeoApp for Android</string>
+    <string name="title_subst">Substitutions</string>
+    <string name="settings_category_subst">Substitutions</string>
+    <string name="settings_summary_username_school">Enter the SLG username</string>
+    <string name="settings_title_username_school">Username</string>
+    <string name="settings_summary_password_school">Enter the SLG password</string>
+    <string name="settings_title_password_school">Password</string>
+    <string name="settings_summary_notification_subst">Should we inform you on substitutions?</string>
+    <string name="settings_summary_network">Only synchronize data with active WiFi connection</string>
+    <string name="settings_title_network">WiFi only</string>
+    <string name="settings_summary_interval_subst">In which interval do you want the data to be updated</string>
+    <string name="settings_title_interval_subst">Interval</string>
+    <string name="settings_summary_filter_subst">Do you want to filter your data?</string>
+    <string name="settings_title_filter_subst">Filter</string>
+    <string name="settings_summary_filterby_level">Filter by grade</string>
+    <string name="settings_title_filterby_level">Grade</string>
+    <string name="settings_summary_filterby_schedule">Filter by schedule</string>
+    <string name="settings_title_filterby_schedule">Schedule</string>
+
 </resources>
