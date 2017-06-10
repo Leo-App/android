@@ -34,7 +34,7 @@ public class ReceiveTask extends AsyncTask<Void, Void, Boolean> {
                 for (String s : result) {
                     String[] message = s.split(";");
                     if (message.length == 5) {
-                        Message m = new Message(Integer.parseInt(message[0]), message[1], Long.parseLong(message[2]+"000"), Integer.parseInt(message[3]), Integer.parseInt(message[4]), false);
+                        Message m = new Message(Integer.parseInt(message[0]), message[1], Long.parseLong(message[2] + "000"), Integer.parseInt(message[3]), Integer.parseInt(message[4]), false);
                         Utils.getMessengerDBConnection().insertMessage(m);
                         if (m.senderId != Utils.getUserID())
                             b = true;

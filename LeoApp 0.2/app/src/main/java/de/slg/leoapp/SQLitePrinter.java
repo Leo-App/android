@@ -38,19 +38,19 @@ public class SQLitePrinter {
 
                     c.moveToNext();
 
-                    if(table.equals("android_metadata"))
+                    if (table.equals("android_metadata"))
                         continue;
 
-                    Log.d("SQLITE", "Table: "+table);
+                    Log.d("SQLITE", "Table: " + table);
 
-                    current = readable.rawQuery("SELECT * FROM "+table, null);
+                    current = readable.rawQuery("SELECT * FROM " + table, null);
 
                     if (current.moveToFirst()) {
                         while (!current.isAfterLast()) {
 
                             StringBuilder printStatement = new StringBuilder();
 
-                            for(int i = 0; i < current.getColumnCount(); i++) {
+                            for (int i = 0; i < current.getColumnCount(); i++) {
 
                                 int dataType = current.getType(i);
 
@@ -71,7 +71,6 @@ public class SQLitePrinter {
                                     default:
                                         printStatement.append("-\t");
                                         break;
-
 
 
                                 }

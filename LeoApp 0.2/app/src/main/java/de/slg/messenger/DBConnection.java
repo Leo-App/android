@@ -251,7 +251,7 @@ public class DBConnection {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[] {DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_READ + " != 0", null, null, null, null);
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_READ + " != 0", null, null, null, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;

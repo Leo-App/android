@@ -21,7 +21,6 @@ public class Start extends Activity {
 
         Utils.context = getApplicationContext();
 
-        MainActivity.initPreference(getApplicationContext());
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
         if (Utils.isVerified() && !Utils.getLastVote().equals(Utils.getCurrentDate("dd.MM"))) {

@@ -51,7 +51,7 @@ public class NumberPickerPref extends DialogPreference {
         super.onBindDialogView(view);
         picker.setMinValue(MIN_VALUE);
         picker.setMaxValue(MAX_VALUE);
-        picker.setDisplayedValues( new String[] { "1 "+ MainActivity.ref.getString(R.string.month), "2 "+ MainActivity.ref.getString(R.string.months), "3 "+MainActivity.ref.getString(R.string.months), "4 "+MainActivity.ref.getString(R.string.months), "5 "+MainActivity.ref.getString(R.string.months), "6 "+MainActivity.ref.getString(R.string.months), "7 "+MainActivity.ref.getString(R.string.months), "8 "+MainActivity.ref.getString(R.string.months), "9 "+MainActivity.ref.getString(R.string.months), "10 "+MainActivity.ref.getString(R.string.months), "11 "+MainActivity.ref.getString(R.string.months), "1 "+MainActivity.ref.getString(R.string.year)} );
+        picker.setDisplayedValues(new String[]{"1 " + MainActivity.ref.getString(R.string.month), "2 " + MainActivity.ref.getString(R.string.months), "3 " + MainActivity.ref.getString(R.string.months), "4 " + MainActivity.ref.getString(R.string.months), "5 " + MainActivity.ref.getString(R.string.months), "6 " + MainActivity.ref.getString(R.string.months), "7 " + MainActivity.ref.getString(R.string.months), "8 " + MainActivity.ref.getString(R.string.months), "9 " + MainActivity.ref.getString(R.string.months), "10 " + MainActivity.ref.getString(R.string.months), "11 " + MainActivity.ref.getString(R.string.months), "1 " + MainActivity.ref.getString(R.string.year)});
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);

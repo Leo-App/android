@@ -44,7 +44,7 @@
             android:title="@string/settings_title_camera" />
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="pref_key_notification"
+            android:key="pref_key_notification_essensqr"
             android:summary="@string/settings_summary_notification"
             android:title="@string/settings_title_notification" />
 

@@ -1,6 +1,5 @@
 package de.slg.vertretung;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ public class SubstitutionFragment extends Fragment {
 
         rootView = inflater.inflate(
                 R.layout.fragment_subst, container, false);
-
 
 
         return rootView;

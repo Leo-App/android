@@ -47,7 +47,7 @@ public class ClassPickerPref extends DialogPreference {
         super.onBindDialogView(view);
         picker.setMinValue(MIN_VALUE);
         picker.setMaxValue(MAX_VALUE);
-        picker.setDisplayedValues( new String[] { "5", "6", "7", "8", "9", "EF", "Q1", "Q2" } );
+        picker.setDisplayedValues(new String[]{"5", "6", "7", "8", "9", "EF", "Q1", "Q2"});
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);

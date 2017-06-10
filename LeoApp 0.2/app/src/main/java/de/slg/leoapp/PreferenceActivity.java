@@ -61,7 +61,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
         pref = getPreferenceScreen().getSharedPreferences();
 
-        progressBar = (ProgressBar)findViewById(R.id.progressBar2);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.INVISIBLE);
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -80,17 +80,17 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         res = res.replace("10", "EF");
         res = res.replace("11", "Q1");
         res = res.replace("12", "Q2");
-        if(res.equals("0"))
+        if (res.equals("0"))
             res = "N/A";
         findPreference("pref_key_level_general").setSummary(res);
         findPreference("pref_key_username_general").setSummary(currentUsername);
 
-        if(permission == 2 || !Utils.isVerified()) {
+        if (permission == 2 || !Utils.isVerified()) {
             findPreference("pref_key_level_general").setEnabled(false);
             findPreference("pref_key_username_general").setSummary("N/A");
         }
 
-        if(!Utils.isVerified())
+        if (!Utils.isVerified())
             findPreference("pref_key_username_general").setEnabled(false);
 
         PackageInfo pInfo = null;
@@ -102,7 +102,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         String version = pInfo.versionName;
         int verCode = pInfo.versionCode;
 
-        findPreference("pref_key_version_app").setSummary(version + " ("+verCode+")");
+        findPreference("pref_key_version_app").setSummary(version + " (" + verCode + ")");
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         if (!getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_id", "").equals("")) {
@@ -262,7 +262,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 res = res.replace("10", "EF");
                 res = res.replace("11", "Q1");
                 res = res.replace("12", "Q2");
-                if(res.equals("0"))
+                if (res.equals("0"))
                     res = "N/A";
                 findPreference("pref_key_level_general").setSummary(res);
                 break;
@@ -287,7 +287,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
         StringBuilder b = new StringBuilder();
 
-        for(int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
 
             b.append("*");
 
@@ -299,12 +299,12 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     private boolean contains(String s, String reg) {
 
-        for(char c : s.toCharArray()) {
+        for (char c : s.toCharArray()) {
 
             boolean ok = false;
-            for(char d : reg.toCharArray()) {
+            for (char d : reg.toCharArray()) {
 
-                if(c == d)
+                if (c == d)
                     ok = true;
 
             }
@@ -359,7 +359,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                     BufferedReader in;
                     String md5 = bytesToHex(enc);
                     Log.d("LeoApp", md5);
-                    URL interfaceDB = new URL("http://www.moritz.liegmanns.de/essenqr/qr_checkval.php?id=" + pref.getString("pref_key_qr_id", "00000") + "&auth=RW6SlQ&pw="+md5);
+                    URL interfaceDB = new URL("http://www.moritz.liegmanns.de/essenqr/qr_checkval.php?id=" + pref.getString("pref_key_qr_id", "00000") + "&auth=RW6SlQ&pw=" + md5);
                     Log.d("LeoApp", interfaceDB.toString());
                     in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
                     String inputLine;
@@ -368,7 +368,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                             Log.d("LeoApp", "valid");
                             return Auth.VALID;
                         }
-                        if(inputLine.contains("false")) {
+                        if (inputLine.contains("false")) {
                             Log.d("LeoApp", "invalid");
                             return Auth.NOT_VALID;
                         }
@@ -437,7 +437,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
+        for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
             hexChars[j * 2] = hexArray[v >>> 4];
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];

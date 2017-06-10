@@ -124,7 +124,7 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         try {
             int menu = Integer.parseInt(String.valueOf(parts[1].charAt(1)));
             int customerid = Integer.parseInt(parts[0]);
-            customerid = (menu == 1) ? customerid/3 : customerid/2;
+            customerid = (menu == 1) ? customerid / 3 : customerid / 2;
             int checksum = Integer.parseInt(subsum) + customerid;
 
             if (!String.valueOf(checksum).equals(parts[3]))
@@ -148,21 +148,20 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         long[] interval;
         if (result) {
             v = inflater.inflate(R.layout.dialog_layout_conf, null);
-            ((TextView)v.findViewById(R.id.textView4)).setText(act.getString(R.string.dialog_desc_valid)+"\t"+orderedMenu);
+            ((TextView) v.findViewById(R.id.textView4)).setText(act.getString(R.string.dialog_desc_valid) + "\t" + orderedMenu);
             interval = new long[]{0, 200, 100, 200};
         } else {
             v = inflater.inflate(R.layout.dialog_layout, null);
-            interval = new long[]{0, 1000, 500,1000};
+            interval = new long[]{0, 1000, 500, 1000};
         }
 
-        Vibrator vb = (Vibrator)act.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-        vb.vibrate(interval,-1);
+        Vibrator vb = (Vibrator) act.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        vb.vibrate(interval, -1);
 
         builder.setView(v);
 
 
-
-        if(WrapperQRActivity.sharedPref.getBoolean("pref_key_qr_autofade", false)) {
+        if (WrapperQRActivity.sharedPref.getBoolean("pref_key_qr_autofade", false)) {
 
             int duration = WrapperQRActivity.sharedPref.getInt("pref_key_qr_autofade_time", 3);
             final Handler handler = new Handler();
@@ -173,7 +172,7 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
                     builder.dismiss();
 
                 }
-            }, duration*1000);
+            }, duration * 1000);
 
         }
 
@@ -194,7 +193,6 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         });
 
         builder.show();
-
 
 
     }

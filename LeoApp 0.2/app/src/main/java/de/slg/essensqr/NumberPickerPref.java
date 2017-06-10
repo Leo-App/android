@@ -56,11 +56,11 @@ public class NumberPickerPref extends DialogPreference {
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        picker.setDisplayedValues(new String[] { "2 "+ MainActivity.ref.getString(R.string.seconds), "3 "
-                + MainActivity.ref.getString(R.string.seconds), "4 "+MainActivity.ref.getString(R.string.seconds), "5 "
-                + MainActivity.ref.getString(R.string.seconds), "6 "+MainActivity.ref.getString(R.string.seconds), "7 "
-                + MainActivity.ref.getString(R.string.seconds), "8 "+MainActivity.ref.getString(R.string.seconds), "9 "
-                + MainActivity.ref.getString(R.string.seconds), "10 "+MainActivity.ref.getString(R.string.seconds)});
+        picker.setDisplayedValues(new String[]{"2 " + MainActivity.ref.getString(R.string.seconds), "3 "
+                + MainActivity.ref.getString(R.string.seconds), "4 " + MainActivity.ref.getString(R.string.seconds), "5 "
+                + MainActivity.ref.getString(R.string.seconds), "6 " + MainActivity.ref.getString(R.string.seconds), "7 "
+                + MainActivity.ref.getString(R.string.seconds), "8 " + MainActivity.ref.getString(R.string.seconds), "9 "
+                + MainActivity.ref.getString(R.string.seconds), "10 " + MainActivity.ref.getString(R.string.seconds)});
     }
 
     @Override
@@ -86,7 +86,7 @@ public class NumberPickerPref extends DialogPreference {
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        if(state == null || !state.getClass().equals(SavedState.class))
+        if (state == null || !state.getClass().equals(SavedState.class))
             super.onRestoreInstanceState(state);
         else {
             SavedState myState = (SavedState) state;

@@ -134,7 +134,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             target.findViewById(R.id.textViewMenuDetails).setVisibility(View.VISIBLE);
         } else {
             ((ImageView) target.findViewById(R.id.imageView)).setImageResource(R.mipmap.qr_display_no_order);
-            if(loggedin)
+            if (loggedin)
                 ((TextView) target.findViewById(R.id.textViewMenu)).setText(qr.getString(R.string.qr_display_not_ordered));
             else
                 ((TextView) target.findViewById(R.id.textViewMenu)).setText(qr.getString(R.string.qr_display_not_loggedin));
@@ -266,13 +266,13 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             amount++;
             try {
                 Date d = df.parse(s.split("_seperator_")[0]);
-                if(d.after(highest))
+                if (d.after(highest))
                     highest = d;
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            Log.d("LeoApp", "Date "+s.split("_seperator_")[0]);
+            Log.d("LeoApp", "Date " + s.split("_seperator_")[0]);
 
             values.put(SQLiteHandler.OrderEntry.COLUMN_NAME_DATE, s.split("_seperator_")[0]);
             values.put(SQLiteHandler.OrderEntry.COLUMN_NAME_MENU, s.split("_seperator_")[1]);
@@ -293,7 +293,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
         String dateString = df.format(highest);
 
-        if(dateString == null) {
+        if (dateString == null) {
             db.close();
             return;
         }
@@ -303,8 +303,8 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         Cursor c = db.rawQuery("SELECT ID FROM USERORDERS WHERE DATEU = ?", new String[]{dateString});
         c.moveToFirst();
 
-        db.execSQL("INSERT INTO "+SQLiteHandler.StatisticsEntry.TABLE_NAME
-                +" (SYNCDATE, AMOUNT, LASTORDER) VALUES ('"+df.format(new Date())+"', "+amount+", "+c.getInt(c.getColumnIndex("ID"))+")");
+        db.execSQL("INSERT INTO " + SQLiteHandler.StatisticsEntry.TABLE_NAME
+                + " (SYNCDATE, AMOUNT, LASTORDER) VALUES ('" + df.format(new Date()) + "', " + amount + ", " + c.getInt(c.getColumnIndex("ID")) + ")");
 
 
         c.close();

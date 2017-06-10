@@ -59,7 +59,7 @@ public class AuswahlAdapter extends ArrayAdapter<Fach> {
     public void refresh() {
         ausgewählteFächer = new List<>();
         ausgewählteStunden = new List<>();
-        int [] selected = getSelectedIndices();
+        int[] selected = getSelectedIndices();
         for (int i : selected) {
             ausgewählteFächer.append(fachArray[i].gibName().split(" ")[0]);
             ArrayList<Fach> faecherInKurs = sv.sucheFacherKurzel(fachArray[i].gibKurz());
@@ -119,7 +119,7 @@ public class AuswahlAdapter extends ArrayAdapter<Fach> {
 
     public boolean isOneSelected() {
         for (View v : views) {
-            if (v != null && ((CheckBox)v.findViewById(R.id.checkBox)).isChecked())
+            if (v != null && ((CheckBox) v.findViewById(R.id.checkBox)).isChecked())
                 return true;
         }
         return false;

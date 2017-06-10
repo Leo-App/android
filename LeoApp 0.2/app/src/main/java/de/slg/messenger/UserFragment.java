@@ -104,7 +104,7 @@ public class UserFragment extends Fragment {
                 try {
                     HttpURLConnection connection = (HttpURLConnection) new URL(generateURL(assoziation)).openConnection();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null){
+                    while (reader.readLine() != null) {
 
                     }
                     return true;

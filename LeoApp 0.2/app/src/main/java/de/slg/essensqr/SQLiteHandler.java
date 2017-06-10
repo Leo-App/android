@@ -10,27 +10,27 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "savebase.db";
     private static final String SQL_CREATE_TABLE_ORDERS = "CREATE TABLE IF NOT EXISTS "
-            + OrderEntry.TABLE_NAME+" ("
-            + OrderEntry.COLUMN_NAME_ID+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            + OrderEntry.COLUMN_NAME_DATE+" date NOT NULL, "
-            + OrderEntry.COLUMN_NAME_MENU+" tinyint NOT NULL, "
-            + OrderEntry.COLUMN_NAME_DESCR+" text NOT NULL)";
+            + OrderEntry.TABLE_NAME + " ("
+            + OrderEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+            + OrderEntry.COLUMN_NAME_DATE + " date NOT NULL, "
+            + OrderEntry.COLUMN_NAME_MENU + " tinyint NOT NULL, "
+            + OrderEntry.COLUMN_NAME_DESCR + " text NOT NULL)";
 
     private static final String SQL_CREATE_TABLE_SCANS = "CREATE TABLE IF NOT EXISTS "
-            + ScanEntry.TABLE_NAME+" ("
-            + ScanEntry.COLUMN_NAME_ID+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            + ScanEntry.COLUMN_NAME_DATE+" date NOT NULL, "
-            + ScanEntry.COLUMN_NAME_CUSTOMERID+" tinyint NOT NULL)";
+            + ScanEntry.TABLE_NAME + " ("
+            + ScanEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+            + ScanEntry.COLUMN_NAME_DATE + " date NOT NULL, "
+            + ScanEntry.COLUMN_NAME_CUSTOMERID + " tinyint NOT NULL)";
 
     private static final String SQL_CREATE_TABLE_STAT = "CREATE TABLE IF NOT EXISTS "
-            + StatisticsEntry.TABLE_NAME+" ("
-            + StatisticsEntry.COLUMN_NAME_ID+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            + StatisticsEntry.COLUMN_NAME_SYNCDATE+" date NOT NULL, "
-            + StatisticsEntry.COLUMN_NAME_LASTORDER+" int NOT NULL, "
-            + StatisticsEntry.COLUMN_NAME_AMOUNT+" int)";
+            + StatisticsEntry.TABLE_NAME + " ("
+            + StatisticsEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+            + StatisticsEntry.COLUMN_NAME_SYNCDATE + " date NOT NULL, "
+            + StatisticsEntry.COLUMN_NAME_LASTORDER + " int NOT NULL, "
+            + StatisticsEntry.COLUMN_NAME_AMOUNT + " int)";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + OrderEntry.TABLE_NAME+", "+ ScanEntry.TABLE_NAME+", "+ StatisticsEntry.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + OrderEntry.TABLE_NAME + ", " + ScanEntry.TABLE_NAME + ", " + StatisticsEntry.TABLE_NAME;
 
     public SQLiteHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -1,28 +1,17 @@
 package de.slg.leoapp;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.os.Looper;
-import android.support.v4.app.NotificationCompat;
 
-import de.slg.messenger.Message;
-import de.slg.messenger.OverviewWrapper;
 import de.slg.messenger.ReceiveTask;
-import de.slg.startseite.MainActivity;
 
 public class ReceiveService extends Service {
 
     private LoopThread thread;
-    private NotificationManager notificationManager;
     private boolean running;
     private static long intervall;
-    private Bitmap icon;
 
     public ReceiveService() {
         running = true;
@@ -75,9 +64,6 @@ public class ReceiveService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Utils.context = getApplicationContext();
-        notificationManager = Utils.getNotificationManager();
-        icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
         thread = new LoopThread();
         thread.start();
         return START_REDELIVER_INTENT;
