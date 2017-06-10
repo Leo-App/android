@@ -8,7 +8,7 @@ import android.util.Log;
 
 import de.slg.essensqr.SQLiteHandler;
 
-public class SQLitePrinter {
+class SQLitePrinter {
 
     public static void printDatabase(Context c) {
 

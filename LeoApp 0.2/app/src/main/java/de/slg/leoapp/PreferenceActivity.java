@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -157,7 +158,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
                 Intent i;
                 switch (menuItem.getItemId()) {
@@ -388,7 +389,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             return Auth.NOT_VALID;
         }
 
-        public boolean hasActiveInternetConnection() {
+        boolean hasActiveInternetConnection() {
 
             try {
                 HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());

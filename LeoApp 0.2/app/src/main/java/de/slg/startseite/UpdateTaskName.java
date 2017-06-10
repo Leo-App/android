@@ -164,7 +164,7 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     }
 
 
-    public boolean hasActiveInternetConnection() {
+    private boolean hasActiveInternetConnection() {
 
         try {
             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());

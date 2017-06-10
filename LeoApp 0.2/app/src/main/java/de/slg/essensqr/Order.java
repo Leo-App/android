@@ -2,13 +2,13 @@ package de.slg.essensqr;
 
 import java.util.Date;
 
-public class Order {
+class Order {
 
     private Date date;
     private short menu;
     private String descr;
 
-    public Order(Date d, short m, String s) {
+    Order(Date d, short m, String s) {
 
         menu = m;
         date = d;
@@ -22,7 +22,7 @@ public class Order {
 
     }
 
-    public String getDescr() {
+    String getDescr() {
 
         return descr;
 

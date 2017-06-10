@@ -19,7 +19,6 @@ public class StundenplanView extends View {
     private boolean isInitialized;
     private Paint paint;
     private int baseLineY, baseLineX, abstandX, abstandY, paddingX, paddingY, baseline2Y;
-    private Fach[] f;
 
     public StundenplanView(Context context) {
         super(context);
@@ -97,10 +96,10 @@ public class StundenplanView extends View {
             int yValue = baseline2Y + (i - 1) * abstandY;
             Fach[] f = sV.gibFacherSortStunde(i);
             String[] namen = new String[5];
-            for (int m = 0; m < f.length; m++) {
-                namen[Integer.parseInt(f[m].gibTag()) - 1] = f[m].gibName().split(" ")[0];
-                if (f[m].gibName().equals("") && !f[m].gibNotiz().equals("notiz")) {
-                    namen[Integer.parseInt(f[m].gibTag()) - 1] = f[m].gibNotiz().split(" ")[0];
+            for (Fach aF : f) {
+                namen[Integer.parseInt(aF.gibTag()) - 1] = aF.gibName().split(" ")[0];
+                if (aF.gibName().equals("") && !aF.gibNotiz().equals("notiz")) {
+                    namen[Integer.parseInt(aF.gibTag()) - 1] = aF.gibNotiz().split(" ")[0];
                 }
             }
             for (int m = 0; m < namen.length; m++) {

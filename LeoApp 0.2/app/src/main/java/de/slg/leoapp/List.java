@@ -2,7 +2,7 @@ package de.slg.leoapp;
 
 import java.util.Iterator;
 
-public class List<ContentType> implements Iterable<ContentType> {
+public class List<ContentType> implements Iterable<ContentType>, Cloneable {
 
     private Node first, last, current;
     private int length;
@@ -248,13 +248,13 @@ public class List<ContentType> implements Iterable<ContentType> {
         ContentType content;
         Node next, previous;
 
-        public Node(ContentType contentObject) {
+        Node(ContentType contentObject) {
             this.content = contentObject;
             next = null;
             previous = null;
         }
 
-        public void insertBehind(Node pNode, boolean newLast) {
+        void insertBehind(Node pNode, boolean newLast) {
             this.next = pNode.next;
             this.previous = pNode;
             pNode.next = this;
@@ -262,7 +262,7 @@ public class List<ContentType> implements Iterable<ContentType> {
                 this.next.previous = this;
         }
 
-        public void insertBefore(Node pNode, boolean newFirst) {
+        void insertBefore(Node pNode, boolean newFirst) {
             this.previous = pNode.previous;
             this.next = pNode;
             pNode.previous = this;

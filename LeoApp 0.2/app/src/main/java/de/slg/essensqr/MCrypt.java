@@ -7,19 +7,18 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class MCrypt {
+class MCrypt {
 
-    private String iv = "15p60peADF4tT8u8";
     private IvParameterSpec ivspec;
     private SecretKeySpec keyspec;
     private Cipher cipher;
 
-    private String SecretKey = "jHsj1C4XyXpEh7L9m0cVTLPgLU5QfXvh";
-
-    public MCrypt() {
+    MCrypt() {
+        String iv = "15p60peADF4tT8u8";
         ivspec = new IvParameterSpec(iv.getBytes());
 
-        keyspec = new SecretKeySpec(SecretKey.getBytes(), "AES");
+        String secretKey = "jHsj1C4XyXpEh7L9m0cVTLPgLU5QfXvh";
+        keyspec = new SecretKeySpec(secretKey.getBytes(), "AES");
 
         try {
             cipher = Cipher.getInstance("AES/CBC/NoPadding");
@@ -32,7 +31,7 @@ public class MCrypt {
         if (text == null || text.length() == 0)
             throw new Exception("Empty string");
 
-        byte[] encrypted = null;
+        byte[] encrypted;
 
         try {
             cipher.init(Cipher.ENCRYPT_MODE, keyspec, ivspec);
@@ -45,11 +44,11 @@ public class MCrypt {
         return encrypted;
     }
 
-    public byte[] decrypt(String code) throws Exception {
+    byte[] decrypt(String code) throws Exception {
         if (code == null || code.length() == 0)
             throw new Exception("Empty string");
 
-        byte[] decrypted = null;
+        byte[] decrypted;
 
         try {
             cipher.init(Cipher.DECRYPT_MODE, keyspec, ivspec);
@@ -67,19 +66,18 @@ public class MCrypt {
             return null;
         }
 
-        int len = data.length;
         String str = "";
-        for (int i = 0; i < len; i++) {
-            if ((data[i] & 0xFF) < 16)
-                str = str + "0" + java.lang.Integer.toHexString(data[i] & 0xFF);
+        for (byte aData : data) {
+            if ((aData & 0xFF) < 16)
+                str = str + "0" + Integer.toHexString(aData & 0xFF);
             else
-                str = str + java.lang.Integer.toHexString(data[i] & 0xFF);
+                str = str + Integer.toHexString(aData & 0xFF);
         }
         return str;
     }
 
 
-    public static byte[] hexToBytes(String str) {
+    private static byte[] hexToBytes(String str) {
         if (str == null) {
             return null;
         } else if (str.length() < 2) {

@@ -18,9 +18,9 @@ import de.slg.startseite.MainActivity;
 
 public class NumberPickerPref extends DialogPreference {
 
-    public static final int MAX_VALUE = 10;
-    public static final int MIN_VALUE = 2;
-    public static final boolean WRAP_SELECTOR_WHEEL = true;
+    private static final int MAX_VALUE = 10;
+    private static final int MIN_VALUE = 2;
+    private static final boolean WRAP_SELECTOR_WHEEL = true;
 
     private NumberPicker picker;
     private int value;
@@ -79,7 +79,7 @@ public class NumberPickerPref extends DialogPreference {
         return a.getInt(index, MIN_VALUE);
     }
 
-    public void setValue(int value) {
+    private void setValue(int value) {
         this.value = value;
         persistInt(this.value);
     }
@@ -94,7 +94,7 @@ public class NumberPickerPref extends DialogPreference {
         }
     }
 
-    public int getValue() {
+    private int getValue() {
         this.value = getPersistedInt(2);
         return this.value;
     }
@@ -103,7 +103,7 @@ public class NumberPickerPref extends DialogPreference {
 
         int number;
 
-        public SavedState(Parcel source) {
+        SavedState(Parcel source) {
             super(source);
             number = source.readInt();
         }

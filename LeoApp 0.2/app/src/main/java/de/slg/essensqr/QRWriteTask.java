@@ -33,7 +33,7 @@ import java.util.Date;
 
 import de.slg.leoapp.R;
 
-public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
+class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
     private View target;
     private short menu;
@@ -42,7 +42,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
     private boolean onAppStart;
     private String descr;
 
-    public QRWriteTask(Fragment a, boolean startedOnAppStart) {
+    QRWriteTask(Fragment a, boolean startedOnAppStart) {
 
         qr = a;
         connection = true;
@@ -147,7 +147,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         target.findViewById(R.id.progressBar1).setVisibility(View.GONE);
     }
 
-    public boolean hasActiveInternetConnection() {
+    private boolean hasActiveInternetConnection() {
 
         try {
             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());

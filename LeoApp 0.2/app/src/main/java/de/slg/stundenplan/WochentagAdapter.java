@@ -1,6 +1,7 @@
 package de.slg.stundenplan;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +10,25 @@ import android.widget.TextView;
 
 import de.slg.leoapp.R;
 
-public class WochentagAdapter extends ArrayAdapter<Fach> {
-    Context cont;
-    int id2 = R.layout.list_item_schulstunde;
-    Fach[] fachAd;
-    View[] viAd;
+class WochentagAdapter extends ArrayAdapter<Fach> {
+    private Context cont;
+    private Fach[] fachAd;
+    private View[] viAd;
 
-    public WochentagAdapter(Context pCont, Fach[] pFach) {
+    WochentagAdapter(Context pCont, Fach[] pFach) {
         super(pCont, R.layout.list_item_schulstunde, pFach);
         cont = pCont;
         fachAd = pFach;
         viAd = new View[pFach.length];
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View v, ViewGroup parent) {
+    public View getView(int position, View v, @NonNull ViewGroup parent) {
         if (position < fachAd.length && fachAd[0] != null) {
             if (v == null) {
                 LayoutInflater layIn = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                int id2 = R.layout.list_item_schulstunde;
                 v = layIn.inflate(id2, null);
             }
 

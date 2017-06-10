@@ -15,7 +15,7 @@ class EmpfangeDaten extends AsyncTask<Void, Void, Ergebnis[][]> {
     private int userid;
     private String[] splitI, splitS, splitL, splitA;
 
-    public EmpfangeDaten(int userid) {
+    EmpfangeDaten(int userid) {
         this.userid = userid;
         splitI = new String[0];
         splitS = new String[0];

@@ -2,6 +2,7 @@ package de.slg.stundenplan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,7 +21,6 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -37,10 +37,6 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 
 public class WrapperStundenplanActivity extends AppCompatActivity {
 
-    private ViewPager vP;
-    private FragmentPagerAdapter frAd;
-    private TabLayout tl;
-    private Menu menu2;
     private DrawerLayout drawerLayout;
     public static String akTag;
     public static String akStunde;
@@ -68,7 +64,7 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
 
         initNavigationView();
 
-        frAd = new FragmentPagerAdapter(getSupportFragmentManager()) {
+        FragmentPagerAdapter frAd = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             @Override
             public int getCount() {
@@ -113,19 +109,18 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
 
         };
 
-        vP = (ViewPager) findViewById(R.id.viPager);
+        ViewPager vP = (ViewPager) findViewById(R.id.viPager);
         vP.setAdapter(frAd);
 
-        tl = (TabLayout) findViewById(R.id.tablayout);
+        TabLayout tl = (TabLayout) findViewById(R.id.tablayout);
         tl.setupWithViewPager(vP);
 
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu me) {
-        menu2 = me;
-        getMenuInflater().inflate(R.menu.stundenplan, menu2);
-        return super.onCreateOptionsMenu(menu2);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.stundenplan, menu);
+        return true;
     }
 
     @Override
@@ -153,7 +148,7 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
                 Intent i;
                 switch (menuItem.getItemId()) {
@@ -201,14 +196,12 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
     }
 
     private boolean fileExistiert() {
-        BufferedReader br = null;
+        BufferedReader br;
         try {
             br = new BufferedReader(new InputStreamReader(openFileInput("meinefaecher.txt")));
             if (br.readLine() != null) {
                 return true;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -216,12 +209,10 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
     }
 
     private void deexistiere() {
-        BufferedWriter bw = null;
+        BufferedWriter bw;
         try {
             bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("meinefaecher.txt", MODE_PRIVATE)));
             bw.write("");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

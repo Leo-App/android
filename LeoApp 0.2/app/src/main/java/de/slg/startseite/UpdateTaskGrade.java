@@ -81,7 +81,7 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
 
     }
 
-    public boolean hasActiveInternetConnection() {
+    private boolean hasActiveInternetConnection() {
 
         try {
             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());

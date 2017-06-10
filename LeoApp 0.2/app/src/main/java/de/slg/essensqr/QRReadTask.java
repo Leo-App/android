@@ -17,12 +17,12 @@ import android.widget.TextView;
 
 import de.slg.leoapp.R;
 
-public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
+class QRReadTask extends AsyncTask<String, Integer, Boolean> {
 
     private WrapperQRActivity act;
     private int orderedMenu;
 
-    public QRReadTask(WrapperQRActivity act) {
+    QRReadTask(WrapperQRActivity act) {
 
         this.act = act;
 

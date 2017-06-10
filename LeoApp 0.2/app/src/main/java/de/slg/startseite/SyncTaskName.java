@@ -12,7 +12,7 @@ import java.net.URL;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 
-public class SyncTaskName extends AsyncTask<Void, Void, Void> {
+class SyncTaskName extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         if (!Utils.checkNetwork())

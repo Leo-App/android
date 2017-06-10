@@ -52,7 +52,7 @@ public abstract class Utils {
         return "";
     }
 
-    public static int getUserPermission() {
+    private static int getUserPermission() {
         return Start.pref.getInt("pref_key_general_permission", 0);
     }
 
@@ -74,7 +74,7 @@ public abstract class Utils {
         }
     }
 
-    public static String getLastVote() {
+    static String getLastVote() {
         return Start.pref.getString("pref_key_general_last_vote", "00.00");
     }
 
@@ -89,7 +89,7 @@ public abstract class Utils {
         return context.getString(id);
     }
 
-    public static String getCurrentDate(String pattern) {
+    static String getCurrentDate(String pattern) {
         return new SimpleDateFormat(pattern).format(new Date());
     }
 

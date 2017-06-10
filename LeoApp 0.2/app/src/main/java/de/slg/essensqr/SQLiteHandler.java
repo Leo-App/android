@@ -7,8 +7,8 @@ import android.provider.BaseColumns;
 
 public class SQLiteHandler extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "savebase.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "savebase.db";
     private static final String SQL_CREATE_TABLE_ORDERS = "CREATE TABLE IF NOT EXISTS "
             + OrderEntry.TABLE_NAME + " ("
             + OrderEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
@@ -54,12 +54,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public static class ScanEntry implements BaseColumns {
+    static class ScanEntry implements BaseColumns {
 
-        public static final String TABLE_NAME;
-        public static final String COLUMN_NAME_ID;
-        public static final String COLUMN_NAME_CUSTOMERID;
-        public static final String COLUMN_NAME_DATE;
+        static final String TABLE_NAME;
+        static final String COLUMN_NAME_ID;
+        static final String COLUMN_NAME_CUSTOMERID;
+        static final String COLUMN_NAME_DATE;
 
 
         static {
@@ -71,13 +71,13 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     }
 
-    public static class OrderEntry implements BaseColumns {
+    static class OrderEntry implements BaseColumns {
 
-        public static final String TABLE_NAME;
-        public static final String COLUMN_NAME_ID;
-        public static final String COLUMN_NAME_DATE;
-        public static final String COLUMN_NAME_MENU;
-        public static final String COLUMN_NAME_DESCR;
+        static final String TABLE_NAME;
+        static final String COLUMN_NAME_ID;
+        static final String COLUMN_NAME_DATE;
+        static final String COLUMN_NAME_MENU;
+        static final String COLUMN_NAME_DESCR;
 
         static {
             TABLE_NAME = "USERORDERS";
@@ -89,13 +89,13 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     }
 
-    public static class StatisticsEntry implements BaseColumns {
+    static class StatisticsEntry implements BaseColumns {
 
-        public static final String TABLE_NAME;
-        public static final String COLUMN_NAME_ID;
-        public static final String COLUMN_NAME_SYNCDATE;
-        public static final String COLUMN_NAME_AMOUNT;
-        public static final String COLUMN_NAME_LASTORDER;
+        static final String TABLE_NAME;
+        static final String COLUMN_NAME_ID;
+        static final String COLUMN_NAME_SYNCDATE;
+        static final String COLUMN_NAME_AMOUNT;
+        static final String COLUMN_NAME_LASTORDER;
 
         static {
             TABLE_NAME = "STATISTICS";

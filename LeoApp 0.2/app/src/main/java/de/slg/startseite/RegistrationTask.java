@@ -18,12 +18,12 @@ import java.net.URL;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 
-public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
+class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
     private MainActivity c;
     private boolean connection;
 
-    public RegistrationTask(MainActivity c) {
+    RegistrationTask(MainActivity c) {
 
         this.c = c;
 
@@ -168,7 +168,7 @@ public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
     }
 
-    public boolean hasActiveInternetConnection() {
+    private boolean hasActiveInternetConnection() {
 
         try {
             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());

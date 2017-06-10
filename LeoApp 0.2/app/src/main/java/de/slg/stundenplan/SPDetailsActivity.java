@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
@@ -132,12 +131,10 @@ public class SPDetailsActivity extends AppCompatActivity {
     }
 
     private void deexistiere() {
-        BufferedWriter bw = null;
+        BufferedWriter bw;
         try {
             bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("meinefaecher.txt", MODE_PRIVATE)));
             bw.write("");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

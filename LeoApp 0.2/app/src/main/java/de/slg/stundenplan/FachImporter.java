@@ -13,14 +13,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class FachImporter extends AsyncTask<Void, Void, ArrayList<Fach>> {
-    private BufferedReader br;
-    private BufferedWriter bw;
+class FachImporter extends AsyncTask<Void, Void, ArrayList<Fach>> {
     private Context con;
     private ArrayList<Fach> facherAT;
     private String stufe;
 
-    public FachImporter(Context c, String pStufe) {
+    FachImporter(Context c, String pStufe) {
         this.con = c;
         stufe = pStufe;
     }
@@ -46,8 +44,8 @@ public class FachImporter extends AsyncTask<Void, Void, ArrayList<Fach>> {
             String zeile;
             String[] fach;
 
-            br = new BufferedReader(new InputStreamReader(con.openFileInput("testdaten.txt")));
-            bw = new BufferedWriter(new OutputStreamWriter(con.openFileOutput("allefaecher.txt", Context.MODE_PRIVATE))); //Darf ich das oder zu viel speicher? // TODO: 27.05.2017
+            BufferedReader br = new BufferedReader(new InputStreamReader(con.openFileInput("testdaten.txt")));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(con.openFileOutput("allefaecher.txt", Context.MODE_PRIVATE)));
 
             zeile = br.readLine();
             while (zeile != null) {
