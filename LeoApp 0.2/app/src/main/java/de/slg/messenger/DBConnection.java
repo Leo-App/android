@@ -45,7 +45,6 @@ public class DBConnection {
             values.put(DBHelper.USER_ID, m.senderId);
             values.put(DBHelper.MESSAGE_READ, m.senderId != Utils.getUserID() ? 0 : 1);
             insert(DBHelper.TABLE_MESSAGES, null, values);
-            Log.i("DBConnection", "inserted: " + m.toString());
         }
     }
 
@@ -58,7 +57,6 @@ public class DBConnection {
             values.put(DBHelper.USER_KLASSE, u.klasse);
             values.put(DBHelper.USER_PERMISSION, u.permission);
             insert(DBHelper.TABLE_USERS, null, values);
-            Log.i("DBConnection", "inserted: " + u.toString());
         }
     }
 
@@ -70,19 +68,17 @@ public class DBConnection {
             values.put(DBHelper.USER_ID, a.userID);
             values.put(DBHelper.ASSOZIATION_REMOVED, a.removed ? 1 : 0);
             insert(DBHelper.TABLE_ASSOZIATION, null, values);
-            Log.i("DBConnection", "inserted: " + a.toString());
         }
     }
 
     public void insertChat(Chat c) {
         if (c != null) {
-            database.execSQL("DELETE FROM " + DBHelper.TABLE_USERS + " WHERE " + DBHelper.CHAT_ID + " = " + c.chatId);
+            database.execSQL("DELETE FROM " + DBHelper.TABLE_CHATS + " WHERE " + DBHelper.CHAT_ID + " = " + c.chatId);
             ContentValues values = new ContentValues();
             values.put(DBHelper.CHAT_ID, c.chatId);
             values.put(DBHelper.CHAT_NAME, c.chatName);
             values.put(DBHelper.CHAT_TYPE, c.chatTyp.toString());
             insert(DBHelper.TABLE_CHATS, null, values);
-            Log.i("DBConnection", "inserted: " + c.toString());
         }
     }
 
