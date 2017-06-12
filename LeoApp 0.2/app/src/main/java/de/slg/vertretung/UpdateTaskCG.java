@@ -1,8 +1,18 @@
 package de.slg.vertretung;
 
-/**
- * Created by gianni on 12.06.17.
- */
+import android.os.AsyncTask;
 
-public class UpdateTaskCG {
+import java.util.Date;
+
+public class UpdateTaskCG extends AsyncTask<Date, Void, Boolean> {
+
+    @Override
+    protected Boolean doInBackground(Date... params) {
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Boolean result) {
+
+    }
 }
