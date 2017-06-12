@@ -135,7 +135,7 @@ public class NotificationService extends IntentService {
                     new NotificationCompat.Builder(this)
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setLargeIcon(icon)
-                            .setSmallIcon(R.mipmap.qr_code)
+                            .setSmallIcon(R.drawable.qrcode)
                             .setVibrate(new long[]{200})
                             .setContentTitle("LeoApp")
                             .setContentText(getString(R.string.notification_summary_notif))

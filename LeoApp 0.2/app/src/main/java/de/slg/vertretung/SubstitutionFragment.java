@@ -28,9 +28,10 @@ public class SubstitutionFragment extends Fragment {
 
     }
 
-    void setDate(Date d) {
+    SubstitutionFragment setDate(Date d) {
 
         this.d = d;
+        return this;
 
     }
 

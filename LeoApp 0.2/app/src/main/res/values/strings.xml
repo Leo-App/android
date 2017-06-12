@@ -206,9 +206,9 @@
     <string name="info_screen_title">LeoApp for Android</string>
     <string name="title_subst">Substitutions</string>
     <string name="settings_category_subst">Substitutions</string>
-    <string name="settings_summary_username_school">Enter the SLG username</string>
+    <string name="settings_summary_username_school">Enter the schools username</string>
     <string name="settings_title_username_school">Username</string>
-    <string name="settings_summary_password_school">Enter the SLG password</string>
+    <string name="settings_summary_password_school">Enter the schools password</string>
     <string name="settings_title_password_school">Password</string>
     <string name="settings_summary_notification_subst">Should we inform you on substitutions?</string>
     <string name="settings_summary_network">Only synchronize data with active WiFi connection</string>
@@ -221,5 +221,10 @@
     <string name="settings_title_filterby_level">Grade</string>
     <string name="settings_summary_filterby_schedule">Filter by schedule</string>
     <string name="settings_title_filterby_schedule">Schedule</string>
+    <string name="settings_screen_slg_data">SLG Accessdata</string>
+    <string name="settings_screen_cg_data">Couven Accessdata</string>
+    <string name="settings_screen_kkg_data">KKG Accessdata</string>
+    <string name="settings_no_access_data">No access data needed</string>
+
 
 </resources>
