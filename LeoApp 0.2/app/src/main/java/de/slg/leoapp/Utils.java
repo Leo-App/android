@@ -61,15 +61,15 @@ public abstract class Utils {
         int i = Start.pref.getInt("pref_key_general_vote_id", -1);
         switch (i) {
             case 1:
-                return R.drawable.ic_sentiment_very_satisfied_black_24dp;
+                return R.drawable.ic_sentiment_very_satisfied_white_24px;
             case 2:
-                return R.drawable.ic_sentiment_satisfied_black_24dp;
+                return R.drawable.ic_sentiment_satisfied_white_24px;
             case 3:
-                return R.drawable.ic_sentiment_neutral_black_24dp;
+                return R.drawable.ic_sentiment_neutral_white_24px;
             case 4:
-                return R.drawable.ic_sentiment_dissatisfied_black_24dp;
+                return R.drawable.ic_sentiment_dissatisfied_white_24px;
             case 5:
-                return R.drawable.ic_mood_bad_black_24dp;
+                return R.drawable.ic_sentiment_very_dissatisfied_white_24px;
             default:
                 return R.drawable.ic_account_circle_black_24dp;
         }
@@ -112,7 +112,7 @@ public abstract class Utils {
         Utils.chatActivity = chatActivity;
     }
 
-    public static void registerReceiveService(ReceiveService receiveService) {
+    static void registerReceiveService(ReceiveService receiveService) {
         Utils.receiveService = receiveService;
     }
 

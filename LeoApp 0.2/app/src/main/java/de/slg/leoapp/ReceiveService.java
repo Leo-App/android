@@ -24,6 +24,7 @@ public class ReceiveService extends Service {
         running = true;
         receive = false;
         intervall = getIntervall(Start.pref.getInt("pref_key_refresh", 2));
+        Utils.registerReceiveService(this);
     }
 
     @Override
