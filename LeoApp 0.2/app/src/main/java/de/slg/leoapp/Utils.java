@@ -17,6 +17,7 @@ public abstract class Utils {
     private static DBConnection dbConnection;
     private static OverviewWrapper overviewWrapper;
     private static ChatActivity chatActivity;
+    private static ReceiveService receiveService;
 
     public static boolean checkNetwork() {
         ConnectivityManager c = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -99,7 +100,7 @@ public abstract class Utils {
 
     public static DBConnection getMessengerDBConnection() {
         if (dbConnection == null)
-            dbConnection = new DBConnection(context, getCurrentUser());
+            dbConnection = new DBConnection(context);
         return dbConnection;
     }
 
@@ -109,6 +110,15 @@ public abstract class Utils {
 
     public static void registerChatActivity(ChatActivity chatActivity) {
         Utils.chatActivity = chatActivity;
+    }
+
+    public static void registerReceiveService(ReceiveService receiveService) {
+        Utils.receiveService = receiveService;
+    }
+
+    public static void receive() {
+        if (receiveService != null)
+            receiveService.receive();
     }
 
     public static OverviewWrapper getOverviewWrapper() {

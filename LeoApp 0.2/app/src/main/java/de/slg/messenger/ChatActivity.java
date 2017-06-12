@@ -55,7 +55,7 @@ public class ChatActivity extends AppCompatActivity {
         currentUser = Utils.getCurrentUser();
 
         messagesArray = new Message[0];
-        ReceiveService.receive();
+        Utils.receive();
 
         initToolbar();
         initSendMessage();
@@ -143,7 +143,7 @@ public class ChatActivity extends AppCompatActivity {
             if (message.length() > 0 && chat != null) {
                 new SendMessage().execute(message);
                 etMessage.setText("");
-                ReceiveService.receive();
+                Utils.receive();
                 refreshUI();
             }
         } else {

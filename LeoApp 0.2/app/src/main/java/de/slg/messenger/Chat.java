@@ -1,6 +1,6 @@
 package de.slg.messenger;
 
-class Chat {
+public class Chat {
 
     int chatId;
     String chatName;
@@ -29,10 +29,6 @@ class Chat {
         String[] s1 = c.chatName.split(" - ");
         String[] s2 = chatName.split(" - ");
         return s1.length == 2 && s2.length == 2 && ((s1[0].equals(s2[0]) && s1[1].equals(s2[1])) || (s1[0].equals(s2[1]) && s1[1].equals(s2[0])));
-    }
-
-    boolean allAttributesSet() {
-        return chatId > 0 && chatName != null && chatTyp != null;
     }
 
     void setLetzteNachricht(Message m) {
