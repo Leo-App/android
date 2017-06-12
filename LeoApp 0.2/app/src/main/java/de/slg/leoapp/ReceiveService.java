@@ -100,7 +100,7 @@ public class ReceiveService extends Service {
         }
 
         private void nachricht() {
-            if (Utils.isVerified()) {
+            if (Utils.isVerified() && Utils.checkNetwork()) {
                 try {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Nachricht)).openConnection().getInputStream(), "UTF-8"));
                     String erg = "";
@@ -124,7 +124,7 @@ public class ReceiveService extends Service {
         }
 
         private void chat() {
-            if (Utils.isVerified()) {
+            if (Utils.isVerified() && Utils.checkNetwork()) {
                 try {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Chat)).openConnection().getInputStream(), "UTF-8"));
                     String erg = "";
@@ -146,7 +146,7 @@ public class ReceiveService extends Service {
         }
 
         private void benutzer() {
-            if (Utils.isVerified()) {
+            if (Utils.isVerified() && Utils.checkNetwork()) {
                 try {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Benutzer)).openConnection().getInputStream(), "UTF-8"));
                     String erg = "";
@@ -168,7 +168,7 @@ public class ReceiveService extends Service {
         }
 
         private void assoziationen() {
-            if (Utils.isVerified()) {
+            if (Utils.isVerified() && Utils.checkNetwork()) {
                 try {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Assoziation)).openConnection().getInputStream(), "UTF-8"));
                     String erg = "";
