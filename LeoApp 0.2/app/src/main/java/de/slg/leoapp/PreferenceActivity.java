@@ -5,24 +5,31 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,13 +59,96 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     protected SharedPreferences pref;
     private DrawerLayout drawerLayout;
 
+    private AppCompatDelegate mDelegate; //Downwards compatibility
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        getDelegate().installViewFactory();
+        getDelegate().onCreate(savedInstanceState);
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_preference);
         addPreferencesFromResource(R.xml.preferences);
+
         initToolbar();
         initNavigationView();
+        initPreferenceChanges();
+
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        getDelegate().onPostCreate(savedInstanceState);
+    }
+
+    public ActionBar getSupportActionBar() {
+        return getDelegate().getSupportActionBar();
+    }
+
+    public void setSupportActionBar(@Nullable Toolbar toolbar) {
+        getDelegate().setSupportActionBar(toolbar);
+    }
+
+    @Override
+    @NonNull
+    public MenuInflater getMenuInflater() {
+        return getDelegate().getMenuInflater();
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        getDelegate().setContentView(layoutResID);
+    }
+
+    @Override
+    public void setContentView(View view) {
+        getDelegate().setContentView(view);
+    }
+
+    @Override
+    public void setContentView(View view, ViewGroup.LayoutParams params) {
+        getDelegate().setContentView(view, params);
+    }
+
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getDelegate().onPostResume();
+    }
+
+    @Override
+    protected void onTitleChanged(CharSequence title, int color) {
+        super.onTitleChanged(title, color);
+        getDelegate().setTitle(title);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        getDelegate().onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        getDelegate().onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getDelegate().onDestroy();
+    }
+
+    public void invalidateOptionsMenu() {
+        getDelegate().invalidateOptionsMenu();
+    }
+
+    private void initPreferenceChanges() {
 
         pref = getPreferenceScreen().getSharedPreferences();
 
@@ -81,8 +171,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         res = res.replace("10", "EF");
         res = res.replace("11", "Q1");
         res = res.replace("12", "Q2");
+
         if (res.equals("0"))
             res = "N/A";
+
         findPreference("pref_key_level_general").setSummary(res);
         findPreference("pref_key_username_general").setSummary(currentUsername);
 
@@ -137,10 +229,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         Toolbar actionBar = (Toolbar) findViewById(R.id.toolbarSettings);
         actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
         actionBar.setTitle(getString(R.string.title_settings));
-        setActionBar(actionBar);
-        getActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        setSupportActionBar(actionBar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -155,6 +247,12 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.settings).setChecked(true);
+
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -464,6 +562,13 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
         return findViewById(R.id.coords);
 
+    }
+
+    private AppCompatDelegate getDelegate() {
+        if (mDelegate == null) {
+            mDelegate = AppCompatDelegate.create(this, null);
+        }
+        return mDelegate;
     }
 
 }
