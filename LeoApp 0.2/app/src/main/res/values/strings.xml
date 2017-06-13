@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">LeoApp</string>
+    <string name="app_name" translatable="false">LeoApp</string>
     <string name="drawer_placeholder">\@ Username</string>
     <string name="drawer_profile_title">Your Profile</string>
 
-    <string name="toolbar">Toolbar</string>
+    <string name="toolbar" translatable="false">Toolbar</string>
     <string name="action_save">Save</string>
-    <string name="action_delete">Löschen</string>
+    <string name="action_delete">delete</string>
     <string name="title_activity">Klausur</string>
     <string name="snackbar_ungültig">Fach oder Datum ungültig</string>
-    <string name="dismiss">OK</string>
+    <string name="dismiss" translatable="false">OK</string>
     <string name="snackbar_gelöscht">Alle Klausuren gelöscht</string>
     <string name="snackbar_undo">Undo</string>
     <string name="klausuren_filemane" translatable="false">klausuren.txt</string>
@@ -19,8 +19,8 @@
     <string name="note">Note</string>
     <string name="grade">Grade</string>
     <string name="week">week</string>
-    <string name="action_load">Lade Klausuren</string>
-    <string name="action_delete_all">Alles löschen</string>
+    <string name="action_load">load exams</string>
+    <string name="action_delete_all">suprimer tous</string>
 
     <!-- Menu titles -->
 
@@ -35,7 +35,7 @@
 
     <string name="title_settings">Settings</string>
 
-    <string name="confirm">OK</string>
+    <string name="confirm" translatable="false">OK</string>
     <string name="cancel">Cancel</string>
 
     <string name="error">Something went wrong, sorry</string>
@@ -66,21 +66,21 @@
     <string name="settings_category_general">General</string>
 
     <string name="settings_title_username">Username</string>
-    <string name="settings_summary_username">N/A</string>
+    <string name="settings_summary_username" translatable="false">N/A</string>
 
     <string name="settings_title_level">Grade</string>
-    <string name="settings_summary_level">N/A</string>
+    <string name="settings_summary_level" translatable="false">N/A</string>
 
     <string name="settings_snackbar_username_taken">That username is already taken</string>
     <string name="settings_toast_username_success">Username changed!</string>
 
     <string name="settings_category_info">Contact &#38; Information</string>
     <string name="settings_title_version">Version</string>
-    <string name="settings_summary_version">LeoApp v1.0.1</string>
+    <string name="settings_summary_version" translatable="false">LeoApp v1.0.1</string>
     <string name="settings_title_contact">Contact</string>
-    <string name="settings_summary_contact">email\@maildomain.de</string>
+    <string name="settings_summary_contact" translatable="false">email\@maildomain.de</string>
 
-    <string name="action_leave_chat">Chat verlassen</string>
+    <string name="action_leave_chat">leave chat</string>
     <string name="name_of_chat">Chatname</string>
     <string name="title_new_groupchat">Neue Gruppe</string>
     <string name="serviceDescription">Receives messages while the app is closed</string>
@@ -88,17 +88,17 @@
     <string name="toolbar_scan">Scan!</string>
     <string name="toolbar_title">Essensbons</string>
     <string name="button_scan">Scan</string>
-    <string name="button_confirm">OK</string>
+    <string name="button_confirm" translatable="false">OK</string>
     <string name="action_refresh">Refresh</string>
     <string name="button_sidemenu">Navigation</string>
     <string name="textview_placeholder"> </string>
     <string name="qr_display_title">Your Order for today\, the</string>
-    <string name="qr_display_menu">Menu</string>
+    <string name="qr_display_menu" translatable="false">Menu</string>
     <string name="dialog_desc_valid">Ordered menu:</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
     <string name="qr_display_not_ordered">You have no order for today</string>
     <string name="qr_display_not_loggedin">You\'re not logged in, please check your user data</string>
-    <string name="explain_title_1">Info</string>
+    <string name="explain_title_1" translatable="false">Info</string>
     <string name="explain_desc_1">This Feature is used to validate QR-Codes replacing Foodmarks, so you probably won\'t need it.</string>
     <string name="explain_title_2">Step 1</string>
     <string name="explain_desc_2">Use the Scan Button below to start the camera and move the green box above the QR-Code you intend on scanning and wait for the app to process the results.</string>
@@ -136,18 +136,18 @@
     <string name="months">months</string>
     <string name="year">year</string>
     <string name="stunden">Stunden</string>
-    <string name="bearbeiten">bearbeiten</string>
+    <string name="bearbeiten">edit</string>
     <string name="speichern">save</string>
     <string name="mo">Mon</string>
     <string name="di">Tue</string>
     <string name="mi">Wed</string>
     <string name="don">Thu</string>
     <string name="fr">Fri</string>
-    <string name="filepath">‪C:\Users\Luzia\beispieldaten.txt</string>
-    <string name="menu_stundenplan_name">stundenplan_name</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="filepath" translatable="false">‪C:\Users\Luzia\beispieldaten.txt</string>
+    <string name="menu_stundenplan_name" translatable="false">stundenplan_name</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="prefname" translatable="false">stundenplan.luzia.PREFERENCE-KEY</string>
-    <string name="aufgerufen_pref">pref_stundenplan_aufgerufen</string>
+    <string name="aufgerufen_pref" translatable="false">pref_stundenplan_aufgerufen</string>
     <string name="laden_name">Refresh</string>
     <string name="mathe">Mathematics</string>
     <string name="deutsch">German</string>
@@ -155,18 +155,18 @@
     <string name="franze">French</string>
     <string name="englisch">English</string>
     <string name="spanisch">Spanisch</string>
-    <string name="bili">Geschichte Billingual</string>
+    <string name="bili">history bilingual</string>
     <string name="geschichte">History</string>
     <string name="geo">Geography</string>
     <string name="sowi">Sozialwissenschaften</string>
-    <string name="pada">Pädagogik</string>
-    <string name="reliKat">Religion Kath.</string>
-    <string name="reliEv">Religion Ev.</string>
+    <string name="pada">Pedagogy</string>
+    <string name="reliKat" translatable="false">Religion Kath.</string>
+    <string name="reliEv" translatable="false">Religion Ev.</string>
     <string name="philo">Philosophy</string>
     <string name="info">Informatik</string>
     <string name="chemie">Chemistry</string>
     <string name="physik">Physics</string>
-    <string name="bio">Biologie</string>
+    <string name="bio">biology</string>
     <string name="literatur">Literature</string>
     <string name="kunst">Art</string>
     <string name="musik">Music</string>
@@ -181,7 +181,7 @@
     <string name="zeit">time</string>
     <string name="raum">Room</string>
     <string name="lehrer">Teacher</string>
-    <string name="schriftlich">Schriftlich</string>
+    <string name="schriftlich">Written</string>
     <string name="notizen">Notes</string>
     <string name="mache_bild">Print</string>
     <string name="seconds">seconds</string>
@@ -198,7 +198,7 @@
     <string name="toolbar_name_info">About</string>
     <string name="heute">Today</string>
     <string name="info_screen_fifth">Developer</string>
-    <string name="info_screen_first">VersionPlaceholder</string>
+    <string name="info_screen_first" translatable="false">VersionPlaceholder</string>
     <string name="messenger_notification_title">New Messages!</string>
     <string name="toolbar_title_screen">About</string>
     <string name="settings_name_changed">Name changed!</string>
@@ -221,5 +221,9 @@
     <string name="settings_title_filterby_level">Grade</string>
     <string name="settings_summary_filterby_schedule">Filter by schedule</string>
     <string name="settings_title_filterby_schedule">Schedule</string>
+    <string name="settings_summary_test_timetable">Filter by schedule</string>
+    <string name="settings_title_test_timetable">filter</string>
+    <string name="info_screen_fourth">No responsibility is accepted for the accuracy of this information</string>
+    <string name="info_screen_second">Developed by ????</string>
 
 </resources>

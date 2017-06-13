@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">LeoApp</string>
     <string name="drawer_placeholder">\@ Benutzername</string>
     <string name="drawer_profile_title">Dein Profil</string>
 
     <string name="action_save">Speichern</string>
     <string name="action_delete">Löschen</string>
-    <string name="confirm">OK</string>
     <string name="cancel">Abbrechen</string>
     <string name="error">Entschuldige, es ist etwas schief gelaufen</string>
 
@@ -56,7 +54,6 @@
 
     <string name="title_activity">Klausur</string>
     <string name="snackbar_ungültig">Fach oder Datum ungültig</string>
-    <string name="dismiss">OK</string>
     <string name="snackbar_gelöscht">Alle Klausuren gelöscht</string>
     <string name="snackbar_undo">Rückgängig</string>
     <string name="subject">Fach</string>
@@ -77,17 +74,14 @@
     <string name="toolbar_scan">Scannen!</string>
     <string name="toolbar_title">Essensbons</string>
     <string name="button_scan">Scannen</string>
-    <string name="button_confirm">OK</string>
     <string name="action_refresh">Aktualisieren</string>
     <string name="button_sidemenu">Navigation</string>
     <string name="textview_placeholder"> </string>
     <string name="qr_display_title">Deine Menu für heute\, den</string>
-    <string name="qr_display_menu">Menu</string>
     <string name="dialog_desc_valid">Bestelltes Menu:</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
     <string name="qr_display_not_ordered">Du hast für den heutigen Tag kein Essen bestellt</string>
     <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine angegebenen Daten</string>
-    <string name="explain_title_1">Info</string>
     <string name="explain_desc_1">Diese Funktion ersetzt die Essensbons aus Papier mit digitalen QR-Codes. Vielleicht findest du dafür keinen Nutzen.</string>
     <string name="explain_title_2">Schritt 1</string>
     <string name="explain_desc_2">Klicke auf den \"Scannen\"-Button und halte den grün umrandeten Bereich über den zu scannenden QR-Code.</string>
@@ -126,10 +120,6 @@
     <string name="donnerstag">Donnerstag</string>
     <string name="fr">Fr</string>
     <string name="freitag">Freitag</string>
-    <string name="filepath">‪C:\Users\Luzia\beispieldaten.txt</string>
-    <string name="menu_stundenplan_name">stundenplan_name</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="aufgerufen_pref">pref_stundenplan_aufgerufen</string>
     <string name="laden_name">Neu laden</string>
     <string name="mathe">Mathe</string>
     <string name="deutsch">Deutsch</string>
@@ -142,8 +132,6 @@
     <string name="geo">Erdkunde</string>
     <string name="sowi">Sozialwissenschaften</string>
     <string name="pada">Pädagogik</string>
-    <string name="reliKat">Religion Kath.</string>
-    <string name="reliEv">Religion Ev.</string>
     <string name="philo">Philosophie</string>
     <string name="info">Informatik</string>
     <string name="chemie">Chemie</string>
@@ -168,9 +156,7 @@
     <!--Generell-->
     <string name="settings_category_general">Allgemein</string>
     <string name="settings_title_username">Benutzername</string>
-    <string name="settings_summary_username">N/A</string>
     <string name="settings_title_level">Stufe/Klasse</string>
-    <string name="settings_summary_level">N/A</string>
     <string name="settings_snackbar_username_taken">Dieser Benutzername ist bereits vergeben</string>
     <string name="settings_toast_username_success">Benutzername geändert!</string>
     <string name="settings_name_changed">Namensänderung übernommen</string>
@@ -221,18 +207,34 @@
     <!--Kontakt & Informationen-->
     <string name="settings_category_info">Kontakt &#38; Informationen</string>
     <string name="settings_title_version">Version</string>
-    <string name="settings_summary_version">LeoApp v1.0.1</string>
     <string name="settings_title_contact">Kontakt</string>
-    <string name="settings_summary_contact">email\@maildomain.de</string>
     <string name="speichern">Speichern</string>
     <string name="info_screen_title">LeoApp für Android</string>
-    <string name="info_screen_first">Version Placeholder</string>
     <string name="info_screen_second">Entstanden im Projektkurs Informatik 2017</string>
     <string name="info_screen_fourth">Alle Angaben ohne Gewähr</string>
     <string name="info_screen_fifth">Entwickler</string>
     <string name="toolbar_title_screen">Über die App</string>
     <string name="button_next">Weiter</string>
     <string name="toolbar_name_info">Über die App</string>
+    <string name="hour">Stunde</string>
+    <string name="hours">Stunden</string>
+    <string name="settings_summary_filter_subst">Möchtest Du deine Daten filtern?</string>
+    <string name="settings_summary_filterby_level">Filtern nach Stufe</string>
+    <string name="settings_summary_filterby_schedule">Filtern nach Stundenplan</string>
+    <string name="settings_summary_interval_subst">In welchem Intervall sollen deine Daten aktualisiert werden</string>
+    <string name="settings_summary_network">Nur im WLAN syncronisieren</string>
+    <string name="settings_summary_notification_subst">Möchtest du Informationen über Vertretung erhalten?</string>
+    <string name="settings_summary_password_school">Gebe das SLG-Passwort ein</string>
+    <string name="settings_summary_username_school">Gib den SLG Benutzernamen ein</string>
+    <string name="settings_title_filter_subst">Filter</string>
+    <string name="settings_title_filterby_level">Stufe</string>
+    <string name="settings_title_filterby_schedule">Stundenplan</string>
+    <string name="settings_title_interval_subst">Intervalle</string>
+    <string name="settings_title_network">nur WLAN</string>
+    <string name="settings_title_password_school">Passwort</string>
+    <string name="settings_title_username_school">Benutzername</string>
+    <string name="title_subst">Vertretung</string>
+    <string name="settings_category_subst">Vertretung</string>
 
 
 </resources>
