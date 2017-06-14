@@ -19,7 +19,6 @@ public class StundenplanView extends View {
     private boolean isInitialized;
     private Paint paint;
     private int baseLineY, baseLineX, abstandX, abstandY, paddingX, paddingY, baseline2Y;
-    private Fach[] f;
 
     public StundenplanView(Context context) {
         super(context);
@@ -77,38 +76,38 @@ public class StundenplanView extends View {
     private void drawBackground() {
         Paint p1 = new Paint();
         p1.setStrokeWidth(3);
-        bitmapCanvas.drawLine(baseLineX, baseLineY, bitmapCanvas.getWidth()-baseLineX, baseLineY, p1);
-        bitmapCanvas.drawLine(baseLineX, bitmapCanvas.getHeight()-baseLineY, bitmapCanvas.getWidth()-baseLineX, bitmapCanvas.getHeight()-baseLineY, p1);
-        bitmapCanvas.drawLine(baseLineX, baseLineY, baseLineX, bitmapCanvas.getHeight()-baseLineY, p1);
-        bitmapCanvas.drawLine(bitmapCanvas.getWidth()-baseLineX, baseLineY, bitmapCanvas.getWidth()-baseLineX, bitmapCanvas.getHeight()-baseLineY, p1);
+        bitmapCanvas.drawLine(baseLineX, baseLineY, bitmapCanvas.getWidth() - baseLineX, baseLineY, p1);
+        bitmapCanvas.drawLine(baseLineX, bitmapCanvas.getHeight() - baseLineY, bitmapCanvas.getWidth() - baseLineX, bitmapCanvas.getHeight() - baseLineY, p1);
+        bitmapCanvas.drawLine(baseLineX, baseLineY, baseLineX, bitmapCanvas.getHeight() - baseLineY, p1);
+        bitmapCanvas.drawLine(bitmapCanvas.getWidth() - baseLineX, baseLineY, bitmapCanvas.getWidth() - baseLineX, bitmapCanvas.getHeight() - baseLineY, p1);
         p1.setTextSize(2 * paddingY);
         bitmapCanvas.drawText(context.getString(R.string.montag), baseLineX + paddingX, baseLineY + paddingY * 2, p1);
-        bitmapCanvas.drawLine(baseLineX + abstandX, baseLineY, baseLineX + abstandX, bitmapCanvas.getHeight()-baseLineY, p1);
+        bitmapCanvas.drawLine(baseLineX + abstandX, baseLineY, baseLineX + abstandX, bitmapCanvas.getHeight() - baseLineY, p1);
         bitmapCanvas.drawText(context.getString(R.string.dienstag), baseLineX + abstandX + paddingX, baseLineY + paddingY * 2, p1);
-        bitmapCanvas.drawLine(baseLineX + abstandX * 2, baseLineY, baseLineX + abstandX * 2, bitmapCanvas.getHeight()-baseLineY, p1);
+        bitmapCanvas.drawLine(baseLineX + abstandX * 2, baseLineY, baseLineX + abstandX * 2, bitmapCanvas.getHeight() - baseLineY, p1);
         bitmapCanvas.drawText(context.getString(R.string.mittwoch), baseLineX + abstandX * 2 + paddingX, baseLineY + paddingY * 2, p1);
-        bitmapCanvas.drawLine(baseLineX + abstandX * 3, baseLineY, baseLineX + abstandX * 3, bitmapCanvas.getHeight()-baseLineY, p1);
+        bitmapCanvas.drawLine(baseLineX + abstandX * 3, baseLineY, baseLineX + abstandX * 3, bitmapCanvas.getHeight() - baseLineY, p1);
         bitmapCanvas.drawText(context.getString(R.string.donnerstag), baseLineX + abstandX * 3 + paddingX, baseLineY + paddingY * 2, p1);
-        bitmapCanvas.drawLine(baseLineX + abstandX * 4, baseLineY, baseLineX + abstandX * 4, bitmapCanvas.getHeight()-baseLineY, p1);
+        bitmapCanvas.drawLine(baseLineX + abstandX * 4, baseLineY, baseLineX + abstandX * 4, bitmapCanvas.getHeight() - baseLineY, p1);
         bitmapCanvas.drawText(context.getString(R.string.freitag), baseLineX + abstandX * 4 + paddingX, baseLineY + paddingY * 2, p1);
-        bitmapCanvas.drawLine(baseLineX, baseline2Y, bitmapCanvas.getWidth()-baseLineX, baseline2Y, p1);
+        bitmapCanvas.drawLine(baseLineX, baseline2Y, bitmapCanvas.getWidth() - baseLineX, baseline2Y, p1);
         Stundenplanverwalter sV = new Stundenplanverwalter(getContext(), "meinefaecher.txt");
         for (int i = 1; i < 10; i++) {
             int yValue = baseline2Y + (i - 1) * abstandY;
             Fach[] f = sV.gibFacherSortStunde(i);
             String[] namen = new String[5];
-            for(int m=0; m < f.length; m++) {
-                namen[Integer.parseInt(f[m].gibTag()) - 1] = f[m].gibName().split(" ")[0];
-                if(f[m].gibName().equals("") && !f[m].gibNotiz().equals("notiz")) {
-                    namen[Integer.parseInt(f[m].gibTag())-1]=f[m].gibNotiz().split(" ")[0];
+            for (Fach aF : f) {
+                namen[Integer.parseInt(aF.gibTag()) - 1] = aF.gibName().split(" ")[0];
+                if (aF.gibName().equals("") && !aF.gibNotiz().equals("notiz")) {
+                    namen[Integer.parseInt(aF.gibTag()) - 1] = aF.gibNotiz().split(" ")[0];
                 }
             }
             for (int m = 0; m < namen.length; m++) {
                 if (namen[m] != null) {
-                    bitmapCanvas.drawText(namen[m], baseLineX + abstandX *m + paddingX, yValue + paddingY * 2, p1);
+                    bitmapCanvas.drawText(namen[m], baseLineX + abstandX * m + paddingX, yValue + paddingY * 2, p1);
                 }
             }
-            bitmapCanvas.drawLine(baseLineX,yValue + abstandY, bitmapCanvas.getWidth()-baseLineX, yValue + abstandY, p1);
+            bitmapCanvas.drawLine(baseLineX, yValue + abstandY, bitmapCanvas.getWidth() - baseLineX, yValue + abstandY, p1);
         }
     }
 }

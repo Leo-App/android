@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -56,7 +57,6 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
 
     private boolean runningScan;
     public static boolean runningSync, mensaModeRunning = false;
-    private NavigationView navigationView;
     private DrawerLayout drawerLayout;
 
     @Override
@@ -78,7 +78,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         getSupportActionBar().setHomeButtonEnabled(true);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.foodmarks).setChecked(true);
 
         navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
@@ -89,7 +89,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
                 Intent i;
                 switch (menuItem.getItemId()) {
@@ -228,14 +228,9 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-            if (!(ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA))) {
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CAMERA},
-                        MY_PERMISSIONS_REQUEST_USE_CAMERA);
-
-            }
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_USE_CAMERA);
 
         } else {
 
@@ -300,7 +295,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_USE_CAMERA: {
                 if (grantResults.length > 0

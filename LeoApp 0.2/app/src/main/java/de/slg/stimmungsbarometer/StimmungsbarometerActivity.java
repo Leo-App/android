@@ -49,26 +49,26 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     }
 
     /**
-    private void initBottomNavigationView() {
-        findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
-        findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
-
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            //@Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                if (item.getItemId() == R.id.action_general_statistics) {
-                    findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
-                    findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
-                } else if (item.getItemId() == R.id.action_graph_statistics) {
-                    findViewById(R.id.relativeLayoutGeneral).setVisibility(View.GONE);
-                    findViewById(R.id.relativeLayoutGraph).setVisibility(View.VISIBLE);
-                }
-                return true;
-            }
-        });
-    }
-    */
+     * private void initBottomNavigationView() {
+     * findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
+     * findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
+     * <p>
+     * BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+     * bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+     * //@Override
+     * public boolean onNavigationItemSelected(MenuItem item) {
+     * if (item.getItemId() == R.id.action_general_statistics) {
+     * findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
+     * findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
+     * } else if (item.getItemId() == R.id.action_graph_statistics) {
+     * findViewById(R.id.relativeLayoutGeneral).setVisibility(View.GONE);
+     * findViewById(R.id.relativeLayoutGraph).setVisibility(View.VISIBLE);
+     * }
+     * return true;
+     * }
+     * });
+     * }
+     */
 
     private void initTabs() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);

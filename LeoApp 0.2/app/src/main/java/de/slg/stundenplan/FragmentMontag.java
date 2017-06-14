@@ -15,19 +15,17 @@ import de.slg.leoapp.R;
 public class FragmentMontag extends Fragment {
 
     View v;
-    private ListView listW;
-    private WochentagAdapter wtAdapter;
     private Fach[] fachArray;
 
     @Override
     public View onCreateView(LayoutInflater layIn, ViewGroup container, Bundle savedInstanceState) {
         v = layIn.inflate(R.layout.fragment_wochentag, container, false);
-        listW = (ListView) v.findViewById(R.id.listW);
+        ListView listW = (ListView) v.findViewById(R.id.listW);
 
         Stundenplanverwalter sv = new Stundenplanverwalter(getContext(), "meinefaecher.txt");
         fachArray = sv.gibFaecherSortTag(1);
 
-        wtAdapter = new WochentagAdapter(getContext(), fachArray);
+        WochentagAdapter wtAdapter = new WochentagAdapter(getContext(), fachArray);
         listW.setAdapter(wtAdapter);
 
         listW.setOnItemClickListener(new AdapterView.OnItemClickListener() {

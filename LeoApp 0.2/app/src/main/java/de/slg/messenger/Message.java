@@ -15,7 +15,7 @@ public class Message {
     boolean read;
     String senderName = null;
 
-    Message(int messageId, String messageText, long sendDate, int chatId, int senderId, boolean read) {
+    public Message(int messageId, String messageText, long sendDate, int chatId, int senderId, boolean read) {
         this.messageId = messageId;
         this.messageText = "" + messageText;
         this.senderId = senderId;
@@ -33,10 +33,6 @@ public class Message {
 
     void setSenderName(String senderName) {
         this.senderName = senderName;
-    }
-
-    boolean allAttributesSet() {
-        return messageId > 0 && chatId > 0 && senderId > 0;
     }
 
     public String getDate() {

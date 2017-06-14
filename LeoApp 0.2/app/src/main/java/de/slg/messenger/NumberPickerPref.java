@@ -51,7 +51,7 @@ public class NumberPickerPref extends DialogPreference {
         super.onBindDialogView(view);
         picker.setMinValue(MIN_VALUE);
         picker.setMaxValue(MAX_VALUE);
-        picker.setDisplayedValues(new String[] { "5 "+ MainActivity.ref.getString(R.string.seconds), "10 "+ MainActivity.ref.getString(R.string.seconds), "15 "+MainActivity.ref.getString(R.string.seconds), "30 "+MainActivity.ref.getString(R.string.seconds), "1 "+MainActivity.ref.getString(R.string.minute), "2 "+MainActivity.ref.getString(R.string.minutes), "5 "+MainActivity.ref.getString(R.string.minutes)});
+        picker.setDisplayedValues(new String[]{"5 " + MainActivity.ref.getString(R.string.seconds), "10 " + MainActivity.ref.getString(R.string.seconds), "15 " + MainActivity.ref.getString(R.string.seconds), "30 " + MainActivity.ref.getString(R.string.seconds), "1 " + MainActivity.ref.getString(R.string.minute), "2 " + MainActivity.ref.getString(R.string.minutes), "5 " + MainActivity.ref.getString(R.string.minutes)});
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);

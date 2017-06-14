@@ -16,9 +16,9 @@ import de.slg.startseite.MainActivity;
 
 public class NumberPickerPref extends DialogPreference {
 
-    public static final int MAX_VALUE = 12;
-    public static final int MIN_VALUE = 1;
-    public static final boolean WRAP_SELECTOR_WHEEL = true;
+    private static final int MAX_VALUE = 12;
+    private static final int MIN_VALUE = 1;
+    private static final boolean WRAP_SELECTOR_WHEEL = true;
 
     private NumberPicker picker;
     private int value;
@@ -51,7 +51,7 @@ public class NumberPickerPref extends DialogPreference {
         super.onBindDialogView(view);
         picker.setMinValue(MIN_VALUE);
         picker.setMaxValue(MAX_VALUE);
-        picker.setDisplayedValues( new String[] { "1 "+ MainActivity.ref.getString(R.string.month), "2 "+ MainActivity.ref.getString(R.string.months), "3 "+MainActivity.ref.getString(R.string.months), "4 "+MainActivity.ref.getString(R.string.months), "5 "+MainActivity.ref.getString(R.string.months), "6 "+MainActivity.ref.getString(R.string.months), "7 "+MainActivity.ref.getString(R.string.months), "8 "+MainActivity.ref.getString(R.string.months), "9 "+MainActivity.ref.getString(R.string.months), "10 "+MainActivity.ref.getString(R.string.months), "11 "+MainActivity.ref.getString(R.string.months), "1 "+MainActivity.ref.getString(R.string.year)} );
+        picker.setDisplayedValues(new String[]{"1 " + MainActivity.ref.getString(R.string.month), "2 " + MainActivity.ref.getString(R.string.months), "3 " + MainActivity.ref.getString(R.string.months), "4 " + MainActivity.ref.getString(R.string.months), "5 " + MainActivity.ref.getString(R.string.months), "6 " + MainActivity.ref.getString(R.string.months), "7 " + MainActivity.ref.getString(R.string.months), "8 " + MainActivity.ref.getString(R.string.months), "9 " + MainActivity.ref.getString(R.string.months), "10 " + MainActivity.ref.getString(R.string.months), "11 " + MainActivity.ref.getString(R.string.months), "1 " + MainActivity.ref.getString(R.string.year)});
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -73,12 +73,12 @@ public class NumberPickerPref extends DialogPreference {
         return a.getInt(index, MIN_VALUE);
     }
 
-    public void setValue(int value) {
+    private void setValue(int value) {
         this.value = value;
         persistInt(this.value);
     }
 
-    public int getValue() {
+    private int getValue() {
         this.value = getPersistedInt(1);
         return this.value;
     }

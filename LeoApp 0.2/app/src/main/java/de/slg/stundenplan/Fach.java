@@ -52,7 +52,7 @@ public class Fach {
     }
 
     private String macheStundenName(int pStunde) {
-        if (ende == true) {
+        if (ende) {
             //Log.e("Luzzia", Integer.toString(pStunde));
             return cc.getString(R.string.später);
         }
@@ -134,15 +134,11 @@ public class Fach {
 
     //Getter und Setter
 
-    public void toggleSchriftlich() {
-        schriftlich = !schriftlich;
-    }
-
-    public void setzeNotiz(String pNotiz) {
+    void setzeNotiz(String pNotiz) {
         notiz = pNotiz;
     }
 
-    public void setzeSchriftlich(boolean b) {
+    void setzeSchriftlich(boolean b) {
         schriftlich = b;
     }
 
@@ -154,7 +150,7 @@ public class Fach {
         return fachkuerzel;
     }
 
-    public String gibName() {
+    String gibName() {
         return fachname;
     }
 
@@ -162,23 +158,23 @@ public class Fach {
         return lehrer;
     }
 
-    public String gibRaum() {
+    String gibRaum() {
         return raum;
     }
 
-    public String gibTag() {
+    String gibTag() {
         return Integer.toString(tag);
     }
 
-    public String gibStunde() {
+    String gibStunde() {
         return Integer.toString(stunde);
     }
 
-    public String gibStundenName() {
+    String gibStundenName() {
         return this.macheStundenName(stunde);
     }
 
-    public String gibNotiz() {
+    String gibNotiz() {
         return notiz;
     }
 

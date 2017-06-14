@@ -12,9 +12,9 @@ import android.widget.NumberPicker;
 
 public class ClassPickerPref extends DialogPreference {
 
-    public static final int MAX_VALUE = 12;
-    public static final int MIN_VALUE = 5;
-    public static final boolean WRAP_SELECTOR_WHEEL = false;
+    private static final int MAX_VALUE = 12;
+    private static final int MIN_VALUE = 5;
+    private static final boolean WRAP_SELECTOR_WHEEL = false;
 
     private NumberPicker picker;
     private int value;
@@ -47,7 +47,7 @@ public class ClassPickerPref extends DialogPreference {
         super.onBindDialogView(view);
         picker.setMinValue(MIN_VALUE);
         picker.setMaxValue(MAX_VALUE);
-        picker.setDisplayedValues( new String[] { "5", "6", "7", "8", "9", "EF", "Q1", "Q2" } );
+        picker.setDisplayedValues(new String[]{"5", "6", "7", "8", "9", "EF", "Q1", "Q2"});
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -69,12 +69,12 @@ public class ClassPickerPref extends DialogPreference {
         return a.getInt(index, MIN_VALUE);
     }
 
-    public void setValue(int value) {
+    private void setValue(int value) {
         this.value = value;
         persistInt(this.value);
     }
 
-    public int getValue() {
+    private int getValue() {
         this.value = getPersistedInt(2);
         return this.value;
     }

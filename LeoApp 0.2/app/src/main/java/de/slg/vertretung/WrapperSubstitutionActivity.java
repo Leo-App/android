@@ -2,7 +2,6 @@ package de.slg.vertretung;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import de.slg.essensqr.WrapperQRActivity;
@@ -31,7 +29,6 @@ import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stimmungsbarometer.ZeitraumFragment;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 
 
@@ -48,13 +45,22 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
 
         initToolbar();
         initTabs();
+        initNavigationView();
 
     }
 
     private void initTabs() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pagerS);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayoutS);
-        fragments = new SubstitutionFragment[]{new SubstitutionFragment(), new SubstitutionFragment()};
+
+        Date d = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getDefault());
+        c.setTime(d);
+        c.add(Calendar.DATE, 1);
+        Date dT = c.getTime();
+
+        fragments = new SubstitutionFragment[]{new SubstitutionFragment().setDate(d), new SubstitutionFragment().setDate(dT)};
 
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -156,13 +162,13 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getDefault());
         c.setTime(d);
-        if(today)
-            c.add(Calendar.DATE, -1);
+        if (!today)
+            c.add(Calendar.DATE, 1);
 
 
-        return new String[]{"MO", "DI", "MI", "DO", "FR", "SA", "SO"}[c.get(Calendar.DAY_OF_WEEK)-1]+". "+c.get(Calendar.DAY_OF_MONTH)+"."
-                +c.get(Calendar.MONTH)+"."
-                +c.get(Calendar.YEAR);
+        return new String[]{"SO", "MO", "DI", "MI", "DO", "FR", "SA"}[c.get(Calendar.DAY_OF_WEEK) - 1] + ". " + c.get(Calendar.DAY_OF_MONTH) + "."
+                + c.get(Calendar.MONTH) + "."
+                + c.get(Calendar.YEAR);
 
     }
 

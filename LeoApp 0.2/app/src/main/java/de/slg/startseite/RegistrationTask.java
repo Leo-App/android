@@ -18,12 +18,12 @@ import java.net.URL;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 
-public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
+class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
     private MainActivity c;
     private boolean connection;
 
-    public RegistrationTask(MainActivity c) {
+    RegistrationTask(MainActivity c) {
 
         this.c = c;
 
@@ -39,13 +39,13 @@ public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
         Log.d("LeoApp", "test");
 
-        if(!connection)
+        if (!connection)
             return false;
 
         try {
 
             int klasse = params[1].equals("2") ? 0 : -1;
-            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/addUser.php?key=5453&name="+params[0]+"&permission="+params[1]+"&klasse="+klasse);
+            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/addUser.php?key=5453&name=" + params[0] + "&permission=" + params[1] + "&klasse=" + klasse);
 
             Log.d("LeoApp", "URL SET");
 
@@ -73,10 +73,10 @@ public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
         Log.d("LeoApp", result);
 
-        if(result.startsWith("-"))
+        if (result.startsWith("-"))
             return false;
 
-        if(result.startsWith("_new_")) {
+        if (result.startsWith("_new_")) {
 
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
             SharedPreferences.Editor e = pref.edit();
@@ -89,7 +89,7 @@ public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
             return true;
 
-        } else if(result.startsWith("_old_")) {
+        } else if (result.startsWith("_old_")) {
 
             Log.d("LeoApp", "inRightPart");
 
@@ -98,8 +98,8 @@ public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
             SharedPreferences.Editor e = pref.edit();
             e.putInt("pref_key_general_permission", Integer.parseInt(params[1]));
-            e.putString("pref_key_username_general", data[data.length-1]);
-            e.putInt("pref_key_general_id", Integer.parseInt(data[data.length-3]));
+            e.putString("pref_key_username_general", data[data.length - 1]);
+            e.putInt("pref_key_general_id", Integer.parseInt(data[data.length - 3]));
             e.apply();
 
             PreferenceActivity.setCurrentUsername(pref.getString("pref_key_username_general", ""));
@@ -113,7 +113,7 @@ public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean b) {
-        if(b) {
+        if (b) {
 
             MainActivity.title.setTextColor(Color.GREEN);
             MainActivity.title.setText(c.getString(R.string.title_info_auth));
@@ -129,7 +129,7 @@ public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
         } else {
 
-            if(!connection) {
+            if (!connection) {
                 showSnackbar();
                 MainActivity.pb.setVisibility(View.GONE);
                 MainActivity.title.setVisibility(View.VISIBLE);
@@ -168,7 +168,7 @@ public class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
     }
 
-    public boolean hasActiveInternetConnection() {
+    private boolean hasActiveInternetConnection() {
 
         try {
             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());

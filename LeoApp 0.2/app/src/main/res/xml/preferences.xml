@@ -44,7 +44,7 @@
             android:title="@string/settings_title_camera" />
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="pref_key_notification"
+            android:key="pref_key_notification_essensqr"
             android:summary="@string/settings_summary_notification"
             android:title="@string/settings_title_notification" />
 
@@ -175,17 +175,65 @@
         android:key="pref_key_general_settings"
         android:title="@string/settings_category_subst">
 
-        <EditTextPreference
-            android:enabled="true"
-            android:key="pref_key_username_school"
-            android:summary="@string/settings_summary_username_school"
-            android:title="@string/settings_title_username_school" />
+        <PreferenceScreen
+            android:key="button_voicemail_category_key"
+            android:title="@string/settings_screen_slg_data"
+            android:persistent="false"
+            >
 
-        <EditTextPreference
-            android:enabled="true"
-            android:key="pref_key_password_school"
-            android:summary="@string/settings_summary_password_school"
-            android:title="@string/settings_title_password_school" />
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_username_school"
+                android:summary="@string/settings_summary_username_school"
+                android:title="@string/settings_title_username_school" />
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_password_school"
+                android:summary="@string/settings_summary_password_school"
+                android:title="@string/settings_title_password_school" />
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="button_voicemail_category_key"
+            android:title="@string/settings_screen_cg_data"
+            android:persistent="false"
+            >
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_username_school"
+                android:summary="@string/settings_summary_username_school"
+                android:title="@string/settings_title_username_school" />
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_password_school"
+                android:summary="@string/settings_summary_password_school"
+                android:title="@string/settings_title_password_school" />
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="button_voicemail_category_key"
+            android:title="@string/settings_screen_kkg_data"
+            android:persistent="false"
+            >
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_username_school"
+                android:summary="@string/settings_summary_username_school"
+                android:title="@string/settings_title_username_school" />
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_password_school"
+                android:summary="@string/settings_summary_password_school"
+                android:title="@string/settings_title_password_school" />
+
+        </PreferenceScreen>
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -225,6 +273,7 @@
             android:key="pref_key_filterby_schedule"
             android:summary="@string/settings_summary_filterby_schedule"
             android:title="@string/settings_title_filterby_schedule" />
+
 
 
     </PreferenceCategory>

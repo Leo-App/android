@@ -108,7 +108,7 @@ public class KlausurActivity extends AppCompatActivity {
     }
 
     private void klausurLöschen() {
-        if (currentKlausur.getFach() != "")
+        if (!currentKlausur.getFach().equals(""))
             klausurplanActivity.remove(currentKlausur);
     }
 
@@ -124,9 +124,7 @@ public class KlausurActivity extends AppCompatActivity {
         } catch (NumberFormatException e) {
             return false;
         }
-        if (month < 1 || day < 1 || day > 31 || month > 12)
-            return false;
-        return true;
+        return !(month < 1 || day < 1 || day > 31 || month > 12);
     }
 
     private Date getDate(String s) {

@@ -46,7 +46,7 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
             int id = pref.getInt("pref_key_general_id", -1);
             String username = pref.getString("pref_key_username_general", "").replace(' ', '+');
 
-            URL interfaceDB = new URL("http://moritz.liegmanns.de/updateUsername.php?key=5453&userid="+id+"&username="+username);
+            URL interfaceDB = new URL("http://moritz.liegmanns.de/updateUsername.php?key=5453&userid=" + id + "&username=" + username);
 
             in = null;
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
@@ -69,9 +69,9 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
                 }
         }
 
-        if(result.startsWith("-")) {
+        if (result.startsWith("-")) {
 
-            if(result.startsWith("-username"))
+            if (result.startsWith("-username"))
                 return ReturnValues.USERNAME_TAKEN;
 
             return ReturnValues.ERROR;
@@ -164,7 +164,7 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     }
 
 
-    public boolean hasActiveInternetConnection() {
+    private boolean hasActiveInternetConnection() {
 
         try {
             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());

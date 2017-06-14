@@ -16,8 +16,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.List;
+import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
-import de.slg.startseite.MainActivity;
 import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.Stundenplanverwalter;
 
@@ -126,7 +126,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
             for (klausurenAusZeile.toFirst(); klausurenAusZeile.hasAccess(); klausurenAusZeile.next())
                 //Log.e("klausurenAusZeile", klausurenAusZeile.getContent());
-                if (datum != null && istImStundenplan(klausurenAusZeile.getContent().replace('_', ' '), MainActivity.pref.getBoolean("pref_key_test_timetable_sync", false)))
+                if (datum != null && istImStundenplan(klausurenAusZeile.getContent().replace('_', ' '), Start.pref.getBoolean("pref_key_test_timetable_sync", false)))
                     listeMitHeruntergeladenenKlausuren.append(new Klausur(klausurenAusZeile.getContent().replace('_', ' '), datum, null, null)); //neue Klausuren(in der Zeile enthaltenes Datum, gefundene Klausuren (Kürzel)) werden angehängt
 
         }

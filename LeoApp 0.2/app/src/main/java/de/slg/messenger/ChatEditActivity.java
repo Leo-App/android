@@ -92,7 +92,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void addUsers(User... users) {
         new AddUser().execute(users);
-        ReceiveService.receive();
+        Utils.receive();
         usersOfChat1 = Utils.getMessengerDBConnection().getUsersInChat(currentChat, false);
         usersOfChat2 = Utils.getMessengerDBConnection().getUsersInChat(currentChat, true);
         usersNotInChat = Utils.getMessengerDBConnection().getUsersNotInChat(currentChat);

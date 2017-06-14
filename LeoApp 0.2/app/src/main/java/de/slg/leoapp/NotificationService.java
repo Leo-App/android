@@ -5,26 +5,19 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.renderscript.RenderScript;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.AppCompatDrawableManager;
 import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.slg.essensqr.*;
+import de.slg.essensqr.SQLiteHandler;
 import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.startseite.MainActivity;
@@ -40,7 +33,6 @@ public class NotificationService extends IntentService {
 
     public NotificationService() {
         super("notification-service-leo");
-        notificationManager = (NotificationManager) MainActivity.ref.getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -48,7 +40,10 @@ public class NotificationService extends IntentService {
 
         Log.wtf("LeoApp", "firstCalled");
 
-        boolean loggedin = MainActivity.pref.getBoolean("pref_key_status_loggedin", false);
+        Utils.context = getApplicationContext();
+        notificationManager = Utils.getNotificationManager();
+
+        boolean loggedin = Start.pref.getBoolean("pref_key_status_loggedin", false);
 
         if (!loggedin)
             return;
@@ -68,7 +63,7 @@ public class NotificationService extends IntentService {
 
             Date d = new Date();
 
-            Log.wtf("LeoApp", "Time: "+d.getHours()+":"+d.getMinutes()+" Scheduled: "+hours+":"+minutes);
+            Log.wtf("LeoApp", "Time: " + d.getHours() + ":" + d.getMinutes() + " Scheduled: " + hours + ":" + minutes);
 
             if (d.getDay() != 0 && d.getDay() != 6 && d.getHours() == hours && d.getMinutes() == minutes) {
 
@@ -79,8 +74,8 @@ public class NotificationService extends IntentService {
 
                 Cursor c = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
 
-                if(c.getCount() == 0) {
-                    showNotification();
+                if (c.getCount() == 0) {
+                    essensqrNotification();
                     return;
                 }
 
@@ -91,8 +86,8 @@ public class NotificationService extends IntentService {
 
                 c = dbw.rawQuery("SELECT o.DATEU as date FROM USERORDERS o JOIN STATISTICS s ON s.LASTORDER = o.ID WHERE s.ID = " + maxid, null);
 
-                if(c.getCount() == 0) {
-                    showNotification();
+                if (c.getCount() == 0) {
+                    essensqrNotification();
                     return;
                 }
 
@@ -105,7 +100,7 @@ public class NotificationService extends IntentService {
                 try {
                     Date dateD = df.parse(date);
                     if (dateD.before(new Date()))
-                        showNotification();
+                        essensqrNotification();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -116,40 +111,42 @@ public class NotificationService extends IntentService {
     }
 
     public static void actualize() {
-        String time = MainActivity.pref.getString("pref_key_notification_time", "00:00");
+        String time = Start.pref.getString("pref_key_notification_time", "00:00");
 
         hours = Short.parseShort(time.split(":")[0]);
         minutes = Short.parseShort(time.split(":")[1]);
     }
 
-    private void showNotification() {
-        Intent resultIntent = new Intent(this, MainActivity.class);
+    private void essensqrNotification() {
+        if (Start.pref.getBoolean("pref_key_notification_essensqr", true)) {
+            Intent resultIntent = new Intent(this, MainActivity.class);
 
-        final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
+            final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
 
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        this,
-                        0,
-                        resultIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            this,
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setLargeIcon(icon)
-                        .setSmallIcon(R.mipmap.qr_code)
-                        .setVibrate(new long[]{200})
-                        .setContentTitle("LeoApp")
-                        .setContentText(getString(R.string.notification_summary_notif))
-                        .setContentIntent(resultPendingIntent);
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(this)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setLargeIcon(icon)
+                            .setSmallIcon(R.drawable.qrcode)
+                            .setVibrate(new long[]{200})
+                            .setContentTitle("LeoApp")
+                            .setContentText(getString(R.string.notification_summary_notif))
+                            .setContentIntent(resultPendingIntent);
 
-        notificationManager.notify(101, mBuilder.build());
+            notificationManager.notify(101, mBuilder.build());
+        }
     }
 
     public void messengerNotification() {
-        if (Utils.getMessengerDBConnection().hasUnreadMessages()) {
+        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMessengerDBConnection().hasUnreadMessages()) {
             Message[] messages = Utils.getMessengerDBConnection().getUnreadMessages();
             String s = "";
             for (Message m : messages)

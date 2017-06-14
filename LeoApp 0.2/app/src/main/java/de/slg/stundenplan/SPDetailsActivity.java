@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
@@ -48,7 +47,7 @@ public class SPDetailsActivity extends AppCompatActivity {
         stuVe = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
         faecherSP = stuVe.gibFaecherSort();
 
-        pos = this.sucheFachPos(tag,stunde);
+        pos = this.sucheFachPos(tag, stunde);
 
         TextView twName = (TextView) this.findViewById(R.id.name_detail);
         TextView twTag = (TextView) this.findViewById(R.id.tag_details);
@@ -58,7 +57,7 @@ public class SPDetailsActivity extends AppCompatActivity {
         etNotiz = (EditText) this.findViewById(R.id.notizFeld_details);
         cbSchrift = (CheckBox) this.findViewById(R.id.checkBox_schriftlich);
 
-        if(pos!=-1) {
+        if (pos != -1) {
             //Log.e("Luzzzia", "Name ist: " + faecherSP[pos].gibName() + "Raum: " + faecherSP[pos].gibRaum() );
             twName.setText(faecherSP[pos].gibName() + " - " + faecherSP[pos].gibKurz());
             twTag.setText(this.macheTag(Integer.parseInt(faecherSP[pos].gibTag())));
@@ -66,7 +65,7 @@ public class SPDetailsActivity extends AppCompatActivity {
             twRaum.setText(faecherSP[pos].gibRaum());
             twLehrer.setText(faecherSP[pos].gibLehrer());
             etNotiz.setText(faecherSP[pos].gibNotiz());
-            if(faecherSP[pos].gibSchriftlich()) {
+            if (faecherSP[pos].gibSchriftlich()) {
                 cbSchrift.setChecked(true);
             }
         }
@@ -74,7 +73,7 @@ public class SPDetailsActivity extends AppCompatActivity {
         etNotiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(etNotiz.getText().toString().equals("notiz")) {
+                if (etNotiz.getText().toString().equals("notiz")) {
                     etNotiz.setText("");
                 }
             }
@@ -90,12 +89,12 @@ public class SPDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == R.id.action_det_speichern) {
-            if(cbSchrift.isChecked()!=faecherSP[pos].gibSchriftlich()) {
+            if (cbSchrift.isChecked() != faecherSP[pos].gibSchriftlich()) {
                 faecherSP[pos].setzeSchriftlich(cbSchrift.isChecked());
             }
-            Log.e("Luzzzia", "Output: "+etNotiz.getText()+"Länge: "+etNotiz.getText().length());
-            if(!etNotiz.getText().toString().equals("")) {
-                faecherSP[pos].setzeNotiz(""+etNotiz.getText());
+            Log.e("Luzzzia", "Output: " + etNotiz.getText() + "Länge: " + etNotiz.getText().length());
+            if (!etNotiz.getText().toString().equals("")) {
+                faecherSP[pos].setzeNotiz("" + etNotiz.getText());
             } else {
                 faecherSP[pos].setzeNotiz("notiz");
             }
@@ -123,8 +122,8 @@ public class SPDetailsActivity extends AppCompatActivity {
     }
 
     private int sucheFachPos(String pTag, String pStunde) {
-        for(int c=0; c<faecherSP.length; c++) {
-            if(faecherSP[c].gibTag().equals(pTag)&&faecherSP[c].gibStunde().equals(pStunde)) {
+        for (int c = 0; c < faecherSP.length; c++) {
+            if (faecherSP[c].gibTag().equals(pTag) && faecherSP[c].gibStunde().equals(pStunde)) {
                 return c;
             }
         }
@@ -132,12 +131,10 @@ public class SPDetailsActivity extends AppCompatActivity {
     }
 
     private void deexistiere() {
-        BufferedWriter bw = null;
+        BufferedWriter bw;
         try {
             bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("meinefaecher.txt", MODE_PRIVATE)));
             bw.write("");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -37,7 +37,7 @@ public class InfoActivity extends AppCompatActivity {
         String version = pInfo.versionName;
         int verCode = pInfo.versionCode;
 
-        ((TextView)findViewById(R.id.textView6Info)).setText("Version "+version+" ("+verCode+")");
+        ((TextView) findViewById(R.id.textView6Info)).setText("Version " + version + " (" + verCode + ")");
 
     }
 

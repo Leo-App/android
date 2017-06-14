@@ -16,16 +16,16 @@ public class TimePickerPreference extends DialogPreference {
     private int lastMinute;
     private TimePicker picker;
 
-    public static int getHour(String time) {
-        String[] pieces=time.split(":");
+    private static int getHour(String time) {
+        String[] pieces = time.split(":");
 
-        return(Integer.parseInt(pieces[0]));
+        return (Integer.parseInt(pieces[0]));
     }
 
-    public static int getMinute(String time) {
-        String[] pieces=time.split(":");
+    private static int getMinute(String time) {
+        String[] pieces = time.split(":");
 
-        return(Integer.parseInt(pieces[1]));
+        return (Integer.parseInt(pieces[1]));
     }
 
     public TimePickerPreference(Context ctxt, AttributeSet attrs) {
@@ -37,11 +37,11 @@ public class TimePickerPreference extends DialogPreference {
 
     @Override
     protected View onCreateDialogView() {
-        picker=new TimePicker(getContext());
+        picker = new TimePicker(getContext());
 
         picker.setIs24HourView(true);
 
-        return(picker);
+        return (picker);
     }
 
     @Override
@@ -57,10 +57,10 @@ public class TimePickerPreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
-            lastHour=picker.getCurrentHour();
-            lastMinute=picker.getCurrentMinute();
+            lastHour = picker.getCurrentHour();
+            lastMinute = picker.getCurrentMinute();
 
-            String time= String.valueOf(lastHour)+":"+ String.valueOf(lastMinute);
+            String time = String.valueOf(lastHour) + ":" + String.valueOf(lastMinute);
 
             if (callChangeListener(time)) {
                 persistString(time);
@@ -70,7 +70,7 @@ public class TimePickerPreference extends DialogPreference {
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
-        return(a.getString(index));
+        return (a.getString(index));
     }
 
     @Override
@@ -78,18 +78,16 @@ public class TimePickerPreference extends DialogPreference {
         String time;
 
         if (restoreValue) {
-            if (defaultValue==null) {
-                time=getPersistedString("00:00");
+            if (defaultValue == null) {
+                time = getPersistedString("00:00");
+            } else {
+                time = getPersistedString(defaultValue.toString());
             }
-            else {
-                time=getPersistedString(defaultValue.toString());
-            }
-        }
-        else {
-            time=defaultValue.toString();
+        } else {
+            time = defaultValue.toString();
         }
 
-        lastHour=getHour(time);
-        lastMinute=getMinute(time);
+        lastHour = getHour(time);
+        lastMinute = getMinute(time);
     }
 }

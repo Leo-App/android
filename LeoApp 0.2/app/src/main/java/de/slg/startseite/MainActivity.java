@@ -2,14 +2,13 @@ package de.slg.startseite;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -41,6 +40,7 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ZXingScannerView scV;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
     private boolean runningScan;
-    public static SharedPreferences pref;
     private static boolean verified;
     public static Intent service;
     public static MainActivity ref;
@@ -76,10 +75,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.wtf("LeoApp", "called onCreate main");
 
-        initPreference(getApplicationContext());
-        int id = pref.getInt("pref_key_general_id", -1);
-        boolean hide = pref.getBoolean("pref_key_dont_remind_me", false);
-        boolean synchronize = pref.getBoolean("pref_key_level_has_to_be_synchronized", false);
+        int id = Start.pref.getInt("pref_key_general_id", -1);
+        boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
+        boolean synchronize = Start.pref.getBoolean("pref_key_level_has_to_be_synchronized", false);
 
         initToolbar();
         initCardViews();
@@ -102,15 +100,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (verified)
             updateButtons();
 
-        Log.wtf("LeoApp", String.valueOf(pref.getBoolean("pref_key_notification", false)));
+        Log.wtf("LeoApp", String.valueOf(Start.pref.getBoolean("pref_key_notification_essensqr", false)));
 
-        if (pref.getBoolean("pref_key_notification", false) && service == null) {
+        if (Start.pref.getBoolean("pref_key_notification_essensqr", false) && service == null) {
             Log.wtf("LeoApp", "called Service");
             service = new Intent(this, NotificationService.class);
             startService(service);
         }
 
-        if (!WrapperQRActivity.mensaModeRunning && pref.getBoolean("pref_key_mensa_mode", false)) {
+        if (!WrapperQRActivity.mensaModeRunning && Start.pref.getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(this, WrapperQRActivity.class));
         } else
             WrapperQRActivity.mensaModeRunning = false;
@@ -119,10 +117,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void synchronizeUsername() {
         new SyncTaskName().execute();
-    }
-
-    public static void initPreference(Context context) {
-        pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     private void initToolbar() {
@@ -153,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
                 Intent i;
                 switch (menuItem.getItemId()) {
@@ -259,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (!isVerified())
                     showDialog();
                 else {
-                    SharedPreferences.Editor e = pref.edit();
+                    SharedPreferences.Editor e = Start.pref.edit();
                     e.putBoolean("pref_key_dont_remind_me", true);
                     e.apply();
                     findViewById(R.id.card_view0).setVisibility(View.GONE);
@@ -345,14 +339,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             Log.d("LeoApp", "No permission. Checking");
-            if (!(ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA))) {
-                Log.d("LeoApp", "No permission. Checking if check allowed");
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CAMERA},
-                        MY_PERMISSIONS_REQUEST_USE_CAMERA);
-                Log.d("LeoApp", "No permission. Checked");
-            }
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_USE_CAMERA);
+            Log.d("LeoApp", "No permission. Checked");
         } else {
             scV = new ZXingScannerView(getApplicationContext());
             setContentView(scV);
@@ -429,7 +419,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_USE_CAMERA: {
                 if (grantResults.length > 0

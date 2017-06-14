@@ -1,6 +1,7 @@
 package de.slg.stundenplan;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +15,14 @@ import java.util.ArrayList;
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 
-public class AuswahlAdapter extends ArrayAdapter<Fach> {
+class AuswahlAdapter extends ArrayAdapter<Fach> {
 
     private Context context;
-    private int id = R.layout.list_item_kurs;
     private Fach[] fachArray;
     private View[] views;
     private Stundenplanverwalter sv;
 
-    private List<String> ausgewählteFächer, ausgewählteStunden;
-
-    public AuswahlAdapter(Context context, Fach[] pFacher, Stundenplanverwalter psv) {
+    AuswahlAdapter(Context context, Fach[] pFacher, Stundenplanverwalter psv) {
         super(context, R.layout.list_item_kurs, pFacher);
         this.context = context;
         fachArray = pFacher;
@@ -32,11 +30,13 @@ public class AuswahlAdapter extends ArrayAdapter<Fach> {
         sv = psv;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(int position, View view, @NonNull ViewGroup parent) {
         if (position < fachArray.length && fachArray[0] != null) {
             if (views[position] == null) {
                 LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                int id = R.layout.list_item_kurs;
                 view = layoutInflater.inflate(id, null);
             }
             view.setEnabled(true);
@@ -56,10 +56,10 @@ public class AuswahlAdapter extends ArrayAdapter<Fach> {
         return view;
     }
 
-    public void refresh() {
-        ausgewählteFächer = new List<>();
-        ausgewählteStunden = new List<>();
-        int [] selected = getSelectedIndices();
+    void refresh() {
+        List<String> ausgewählteFächer = new List<>();
+        List<String> ausgewählteStunden = new List<>();
+        int[] selected = getSelectedIndices();
         for (int i : selected) {
             ausgewählteFächer.append(fachArray[i].gibName().split(" ")[0]);
             ArrayList<Fach> faecherInKurs = sv.sucheFacherKurzel(fachArray[i].gibKurz());
@@ -117,15 +117,15 @@ public class AuswahlAdapter extends ArrayAdapter<Fach> {
         return indices;
     }
 
-    public boolean isOneSelected() {
+    boolean isOneSelected() {
         for (View v : views) {
-            if (v != null && ((CheckBox)v.findViewById(R.id.checkBox)).isChecked())
+            if (v != null && ((CheckBox) v.findViewById(R.id.checkBox)).isChecked())
                 return true;
         }
         return false;
     }
 
-    public Fach[] gibAlleMarkierten() {
+    Fach[] gibAlleMarkierten() {
         Fach[] mark = new Fach[gibAnzahlMarkierte()];
         int c = 0;
         for (int i = 0; i < fachArray.length; i++) {
@@ -142,7 +142,7 @@ public class AuswahlAdapter extends ArrayAdapter<Fach> {
         return mark;
     }
 
-    public int gibAnzahlMarkierte() {
+    private int gibAnzahlMarkierte() {
         int markierte = 0;
         for (int i = 0; i < fachArray.length; i++) {
             if (views[i] != null) {

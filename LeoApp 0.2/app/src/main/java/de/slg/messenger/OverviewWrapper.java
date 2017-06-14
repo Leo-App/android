@@ -175,7 +175,7 @@ public class OverviewWrapper extends AppCompatActivity {
         Utils.getMessengerDBConnection().setOverviewWrapper(this);
         userArray = Utils.getMessengerDBConnection().getUsers();
         chatArray = Utils.getMessengerDBConnection().getChats();
-        ReceiveService.receive();
+        Utils.receive();
     }
 
     public int indexOf(Chat c) {

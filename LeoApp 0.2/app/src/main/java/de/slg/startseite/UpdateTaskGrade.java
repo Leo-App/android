@@ -41,7 +41,7 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
             klasse = klasse.replace("11", "Q1");
             klasse = klasse.replace("12", "Q2");
 
-            URL interfaceDB = new URL("http://moritz.liegmanns.de/updateKlasse.php?key=5453&userid="+id+"&userklasse="+klasse);
+            URL interfaceDB = new URL("http://moritz.liegmanns.de/updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse);
 
             in = null;
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
@@ -70,7 +70,7 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean b) {
 
-        if(!b) {
+        if (!b) {
 
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
             SharedPreferences.Editor e = pref.edit();
@@ -81,7 +81,7 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
 
     }
 
-    public boolean hasActiveInternetConnection() {
+    private boolean hasActiveInternetConnection() {
 
         try {
             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());

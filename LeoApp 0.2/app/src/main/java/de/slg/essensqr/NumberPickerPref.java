@@ -18,9 +18,9 @@ import de.slg.startseite.MainActivity;
 
 public class NumberPickerPref extends DialogPreference {
 
-    public static final int MAX_VALUE = 10;
-    public static final int MIN_VALUE = 2;
-    public static final boolean WRAP_SELECTOR_WHEEL = true;
+    private static final int MAX_VALUE = 10;
+    private static final int MIN_VALUE = 2;
+    private static final boolean WRAP_SELECTOR_WHEEL = true;
 
     private NumberPicker picker;
     private int value;
@@ -56,11 +56,11 @@ public class NumberPickerPref extends DialogPreference {
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        picker.setDisplayedValues(new String[] { "2 "+ MainActivity.ref.getString(R.string.seconds), "3 "
-                + MainActivity.ref.getString(R.string.seconds), "4 "+MainActivity.ref.getString(R.string.seconds), "5 "
-                + MainActivity.ref.getString(R.string.seconds), "6 "+MainActivity.ref.getString(R.string.seconds), "7 "
-                + MainActivity.ref.getString(R.string.seconds), "8 "+MainActivity.ref.getString(R.string.seconds), "9 "
-                + MainActivity.ref.getString(R.string.seconds), "10 "+MainActivity.ref.getString(R.string.seconds)});
+        picker.setDisplayedValues(new String[]{"2 " + MainActivity.ref.getString(R.string.seconds), "3 "
+                + MainActivity.ref.getString(R.string.seconds), "4 " + MainActivity.ref.getString(R.string.seconds), "5 "
+                + MainActivity.ref.getString(R.string.seconds), "6 " + MainActivity.ref.getString(R.string.seconds), "7 "
+                + MainActivity.ref.getString(R.string.seconds), "8 " + MainActivity.ref.getString(R.string.seconds), "9 "
+                + MainActivity.ref.getString(R.string.seconds), "10 " + MainActivity.ref.getString(R.string.seconds)});
     }
 
     @Override
@@ -79,14 +79,14 @@ public class NumberPickerPref extends DialogPreference {
         return a.getInt(index, MIN_VALUE);
     }
 
-    public void setValue(int value) {
+    private void setValue(int value) {
         this.value = value;
         persistInt(this.value);
     }
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        if(state == null || !state.getClass().equals(SavedState.class))
+        if (state == null || !state.getClass().equals(SavedState.class))
             super.onRestoreInstanceState(state);
         else {
             SavedState myState = (SavedState) state;
@@ -94,7 +94,7 @@ public class NumberPickerPref extends DialogPreference {
         }
     }
 
-    public int getValue() {
+    private int getValue() {
         this.value = getPersistedInt(2);
         return this.value;
     }
@@ -103,7 +103,7 @@ public class NumberPickerPref extends DialogPreference {
 
         int number;
 
-        public SavedState(Parcel source) {
+        SavedState(Parcel source) {
             super(source);
             number = source.readInt();
         }

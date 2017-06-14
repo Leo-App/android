@@ -10,70 +10,75 @@ import android.util.Log;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.User;
+import de.slg.leoapp.Utils;
 
 public class DBConnection {
 
     private SQLiteDatabase database;
     private DBHelper helper;
-    private User currentUser;
     private OverviewWrapper wrapper;
 
-    public DBConnection(Context context, User currentUser) {
+    public DBConnection(Context context) {
         helper = new DBHelper(context);
         database = helper.getWritableDatabase();
-        this.currentUser = currentUser;
     }
 
-    public void close() {
-        helper.close();
+    private synchronized Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
+        return database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
     }
 
-    void insertMessage(Message m) {
-        if (m != null && m.allAttributesSet()) {
+    private long insert(String table, String nullColumnHack, ContentValues values) {
+        long l = database.insert(table, nullColumnHack, values);
+        if (wrapper != null)
+            wrapper.notifyUpdate();
+        return l;
+    }
+
+    public void insertMessage(Message m) {
+        if (m != null) {
+            database.execSQL("DELETE FROM " + DBHelper.TABLE_MESSAGES + " WHERE " + DBHelper.MESSAGES_ID + " = " + m.messageId);
             ContentValues values = new ContentValues();
             values.put(DBHelper.MESSAGES_ID, m.messageId);
             values.put(DBHelper.MESSAGE_TEXT, m.messageText);
             values.put(DBHelper.MESSAGE_DATE, m.sendDate.getTime());
             values.put(DBHelper.CHAT_ID, m.chatId);
             values.put(DBHelper.USER_ID, m.senderId);
-            values.put(DBHelper.MESSAGE_READ, m.senderId != currentUser.userId ? 0 : 1);
+            values.put(DBHelper.MESSAGE_READ, m.senderId != Utils.getUserID() ? 0 : 1);
             insert(DBHelper.TABLE_MESSAGES, null, values);
-            Log.i("DBConnection", "inserted: " + m.toString());
         }
     }
 
-    void insertUser(User u) {
-        if (u != null && u.allAttributesSet()) {
+    public void insertUser(User u) {
+        if (u != null) {
+            database.execSQL("DELETE FROM " + DBHelper.TABLE_USERS + " WHERE " + DBHelper.USER_ID + " = " + u.userId);
             ContentValues values = new ContentValues();
             values.put(DBHelper.USER_ID, u.userId);
             values.put(DBHelper.USER_NAME, u.userName);
             values.put(DBHelper.USER_KLASSE, u.klasse);
             values.put(DBHelper.USER_PERMISSION, u.permission);
             insert(DBHelper.TABLE_USERS, null, values);
-            Log.i("DBConnection", "inserted: " + u.toString());
         }
     }
 
-    void insertAssoziation(Assoziation a) {
-        if (a != null && a.allAttributesSet()) {
+    public void insertAssoziation(Assoziation a) {
+        if (a != null) {
             database.execSQL("DELETE FROM " + DBHelper.TABLE_ASSOZIATION + " WHERE " + DBHelper.CHAT_ID + " = " + a.chatID + " AND " + DBHelper.USER_ID + " = " + a.userID);
             ContentValues values = new ContentValues();
             values.put(DBHelper.CHAT_ID, a.chatID);
             values.put(DBHelper.USER_ID, a.userID);
             values.put(DBHelper.ASSOZIATION_REMOVED, a.removed ? 1 : 0);
             insert(DBHelper.TABLE_ASSOZIATION, null, values);
-            Log.i("DBConnection", "inserted: " + a.toString());
         }
     }
 
-    void insertChat(Chat c) {
-        if (c != null && c.allAttributesSet()) {
+    public void insertChat(Chat c) {
+        if (c != null) {
+            database.execSQL("DELETE FROM " + DBHelper.TABLE_CHATS + " WHERE " + DBHelper.CHAT_ID + " = " + c.chatId);
             ContentValues values = new ContentValues();
             values.put(DBHelper.CHAT_ID, c.chatId);
             values.put(DBHelper.CHAT_NAME, c.chatName);
             values.put(DBHelper.CHAT_TYPE, c.chatTyp.toString());
             insert(DBHelper.TABLE_CHATS, null, values);
-            Log.i("DBConnection", "inserted: " + c.toString());
         }
     }
 
@@ -96,7 +101,7 @@ public class DBConnection {
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
             array[i] = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5) != 0);
             int current = array[i].senderId;
-            if (current != currentUser.userId) {
+            if (current != Utils.getUserID()) {
                 String username = null;
                 for (User user : users) {
                     if (user.userId == current) {
@@ -106,7 +111,7 @@ public class DBConnection {
                 }
                 array[i].setSenderName(username);
             } else {
-                array[i].setSenderName(currentUser.userName);
+                array[i].setSenderName(Utils.getUserName());
             }
         }
         cursor.close();
@@ -178,7 +183,7 @@ public class DBConnection {
         cursor.moveToFirst();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             int current = cursor.getInt(0);
-            if (current != currentUser.userId) {
+            if (current != Utils.getUserID()) {
                 for (User user : users)
                     if (user.userId == current) {
                         list.append(user);
@@ -188,7 +193,7 @@ public class DBConnection {
                 meIs = true;
         }
         if (meInclusive && meIs) {
-            list.append(currentUser);
+            list.append(Utils.getCurrentUser());
         }
         User[] array = new User[list.length()];
         list.fill(array);
@@ -251,25 +256,19 @@ public class DBConnection {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[] {DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_READ + " != 0", null, null, null, null);
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_READ + " != 0", null, null, null, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
     }
 
-    private synchronized Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
-        return database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
-    }
-
-    private long insert(String table, String nullColumnHack, ContentValues values) {
-        long l = database.insert(table, nullColumnHack, values);
-        if (wrapper != null)
-            wrapper.notifyUpdate();
-        return l;
-    }
-
     void setOverviewWrapper(OverviewWrapper wrapper) {
         this.wrapper = wrapper;
+    }
+
+    public void close() {
+        wrapper = null;
+        helper.close();
     }
 
     private class DBHelper extends SQLiteOpenHelper {

@@ -4,7 +4,6 @@ import android.content.Context;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -14,7 +13,7 @@ public class Stundenplanverwalter {
 
     private String dateiName;
     private Fach[] meineFaecher;
-    Context ac;
+    private Context ac;
 
     /**
      * public Stundenplanverwalter(ArrayList<Fach> f) {
@@ -68,8 +67,6 @@ public class Stundenplanverwalter {
                     i++;
                 }
                 br.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -78,14 +75,14 @@ public class Stundenplanverwalter {
         }
     }
 
-    public void inTextDatei(Context ac, Fach[] f) {
+    void inTextDatei(Context ac, Fach[] f) {
         meineFaecher = f; //Achtung verändert mein Fächer
         try {
             BufferedWriter br = new BufferedWriter(new OutputStreamWriter(ac.openFileOutput("meinefaecher.txt", Context.MODE_PRIVATE)));
             int i = 0;
             while (i < meineFaecher.length && meineFaecher[i] != null) {
                 String s = "nicht";
-                if (meineFaecher[i].gibSchriftlich() == true) {
+                if (meineFaecher[i].gibSchriftlich()) {
                     s = "schriftlich";
                 }
                 br.write(meineFaecher[i].gibName() + ";" + meineFaecher[i].gibKurz() + ";" + meineFaecher[i].gibRaum() + ";" + meineFaecher[i].gibLehrer() + ";" + meineFaecher[i].gibTag() + ";" + meineFaecher[i].gibStunde() + ";" + s + ";" + meineFaecher[i].gibNotiz());
@@ -94,14 +91,12 @@ public class Stundenplanverwalter {
                 i++;
             }
             br.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Fach[] generiereFreistunden() {
+    private Fach[] generiereFreistunden() {
         //Hier weiterarbeiten...
         meineFaecher = faecherSort(); //Achtung meineFächer wird verändert
         ArrayList<Fach> a = new ArrayList<>();
@@ -135,7 +130,7 @@ public class Stundenplanverwalter {
         return this.macheArray(a, a.size()); //Soll der das wirklich mit meineFaecher tun?                                                                                    !!!!!!
     }
 
-    public Fach[] gibFaecherSort() {
+    Fach[] gibFaecherSort() {
         //gibt das FachArray mit Freistunden
         if (schonMitFreistunden()) {
             return faecherSort();
@@ -143,7 +138,7 @@ public class Stundenplanverwalter {
         return this.generiereFreistunden();
     }
 
-    public Fach[] gibFaecherSortTag(int pTag) {
+    Fach[] gibFaecherSortTag(int pTag) {
         Fach[] fach;
         if (schonMitFreistunden()) {
             fach = faecherSort();
@@ -151,15 +146,15 @@ public class Stundenplanverwalter {
             fach = this.generiereFreistunden();
         }
         ArrayList<Fach> a = new ArrayList<>();
-        for (int i = 0; i < fach.length; i++) {
-            if (Integer.parseInt(fach[i].gibTag()) == pTag) {
-                a.add(fach[i]);
+        for (Fach aFach : fach) {
+            if (Integer.parseInt(aFach.gibTag()) == pTag) {
+                a.add(aFach);
             }
         }
         return this.macheArray(a, a.size());
     }
 
-    public Fach[] gibFacherSortStunde(int pStunde) {
+    Fach[] gibFacherSortStunde(int pStunde) {
         Fach[] fach;
         if (schonMitFreistunden()) {
             fach = faecherSort();
@@ -167,32 +162,32 @@ public class Stundenplanverwalter {
             fach = this.generiereFreistunden();
         }
         ArrayList<Fach> a = new ArrayList<>();
-        for (int h = 0; h < fach.length; h++) {
-            if (Integer.parseInt(fach[h].gibStunde()) == pStunde) {
-                a.add(fach[h]);
+        for (Fach aFach : fach) {
+            if (Integer.parseInt(aFach.gibStunde()) == pStunde) {
+                a.add(aFach);
             }
         }
         return this.macheArray(a, a.size());
     }
 
-    public Fach[] faecherSort() {
+    private Fach[] faecherSort() {
         ArrayList<Fach> f = new ArrayList<>();
-        for (int i = 0; i < meineFaecher.length; i++) { //Geht das ursprungsarray durch
+        for (Fach aMeineFaecher : meineFaecher) { //Geht das ursprungsarray durch
             int x = 0;
-            int tag = Integer.parseInt(meineFaecher[i].gibTag());
+            int tag = Integer.parseInt(aMeineFaecher.gibTag());
             while (x < f.size() && Integer.parseInt(f.get(x).gibTag()) < tag) { //Geht so lange durch wie der Tag größer ist
                 x++;
             }
             if (x >= f.size()) { //Wenn bereits am Ende angelangt...
-                f.add(meineFaecher[i]);
+                f.add(aMeineFaecher);
             } else {
-                while (x < f.size() && Integer.parseInt(f.get(x).gibTag()) == tag && Integer.parseInt(f.get(x).gibStunde()) < Integer.parseInt(meineFaecher[i].gibStunde())) { //geht durch solange Stunde größer
+                while (x < f.size() && Integer.parseInt(f.get(x).gibTag()) == tag && Integer.parseInt(f.get(x).gibStunde()) < Integer.parseInt(aMeineFaecher.gibStunde())) { //geht durch solange Stunde größer
                     x++;
                 }
                 if (x >= f.size()) { //Wenn am Ende angelangt...
-                    f.add(meineFaecher[i]);
+                    f.add(aMeineFaecher);
                 } else {
-                    f.add(x, meineFaecher[i]); //Fügt in der Mitte ein
+                    f.add(x, aMeineFaecher); //Fügt in der Mitte ein
                 }
             }
         }
@@ -211,7 +206,7 @@ public class Stundenplanverwalter {
         return this.macheArray(a, a.size());
     }
 
-    public int ersterFundFach(String pKurzel) {
+    private int ersterFundFach(String pKurzel) {
         for (int m = 0; m < meineFaecher.length; m++) {
             if (meineFaecher[m].gibKurz().equals(pKurzel)) {
                 return m;
@@ -220,7 +215,7 @@ public class Stundenplanverwalter {
         return -1;
     }
 
-    public Fach[] macheArray(ArrayList<Fach> liste, int pLang) { //Brauche ich den int Parameter überhaupt????               // TODO: 27.05.2017
+    private Fach[] macheArray(ArrayList<Fach> liste, int pLang) { //Brauche ich den int Parameter überhaupt????               // TODO: 27.05.2017
         Fach[] f = new Fach[pLang];
         for (int i = 0; i < liste.size(); i++) {
             f[i] = liste.get(i);
@@ -228,19 +223,19 @@ public class Stundenplanverwalter {
         return f;
     } //Vielleicht sollte ich diese Methode weniger oft benutzen...
 
-    public ArrayList<Fach> sucheFacherKurzel(String pKurzel) {
+    ArrayList<Fach> sucheFacherKurzel(String pKurzel) {
         ArrayList<Fach> f = new ArrayList<>();
-        for (int i = 0; i < meineFaecher.length; i++) {
-            if (meineFaecher[i].gibKurz().equals(pKurzel)) {
-                f.add(meineFaecher[i]);
+        for (Fach aMeineFaecher : meineFaecher) {
+            if (aMeineFaecher.gibKurz().equals(pKurzel)) {
+                f.add(aMeineFaecher);
             }
         }
         return f;
     }
 
-    public boolean schonMitFreistunden() {
-        for (int z = 0; z < meineFaecher.length; z++) {
-            if (meineFaecher[z].gibKurz().equals("")) {
+    private boolean schonMitFreistunden() {
+        for (Fach aMeineFaecher : meineFaecher) {
+            if (aMeineFaecher.gibKurz().equals("")) {
                 return true;
             }
         }

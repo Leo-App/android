@@ -6,11 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 class EmpfangeDaten extends AsyncTask<Void, Void, Ergebnis[][]> {
@@ -18,7 +15,7 @@ class EmpfangeDaten extends AsyncTask<Void, Void, Ergebnis[][]> {
     private int userid;
     private String[] splitI, splitS, splitL, splitA;
 
-    public EmpfangeDaten(int userid) {
+    EmpfangeDaten(int userid) {
         this.userid = userid;
         splitI = new String[0];
         splitS = new String[0];

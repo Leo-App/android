@@ -1,6 +1,5 @@
 package de.slg.vertretung;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,14 +24,14 @@ public class SubstitutionFragment extends Fragment {
                 R.layout.fragment_subst, container, false);
 
 
-
         return rootView;
 
     }
 
-    void setDate(Date d) {
+    SubstitutionFragment setDate(Date d) {
 
         this.d = d;
+        return this;
 
     }
 
