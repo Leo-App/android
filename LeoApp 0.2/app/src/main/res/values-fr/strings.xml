@@ -160,15 +160,14 @@
     <string name="settings_name_changed">Nom changé!</string>
 
     <!--Essensbons-->
-    <string name="settings_title_customid">Customer ID</string>
     <string name="settings_summary_customid">Entre ton ID d\'utilisateur de lunch.leo-ac.de</string>
     <string name="settings_title_pw">Passwort</string>
     <string name="settings_summary_pw">Entre ton mot de passe de lunch.leo-ac.de</string>
     <string name="settings_title_sync">Auto-Sync</string>
     <string name="settings_summary_sync">Syncronisers dates au lancement de l\'APP</string>
-    <string name="settings_title_fade">Automatisch ausblenden</string>
+    <string name="settings_title_fade">Opprimer automatiquement</string>
     <string name="settings_summary_fade">Informatons du scan sont automqtiquement opprimés</string>
-    <string name="settings_title_fade_time">Zeitraum</string>
+    <string name="settings_title_fade_time">"Temps "</string>
     <string name="settings_summary_fade_time">Temps jusqu\'à que le fênetre de dialogue ferme</string>
     <string name="settings_title_camera">utilser caméra frontale</string>
     <string name="settings_summary_camera">Utilise la caméra frontale pour scanner</string>
@@ -205,7 +204,7 @@
     <!--Kontakt & Informationen-->
     <string name="settings_category_info">Contact &#38; Informations</string>
     <string name="settings_title_version">Version</string>
-    <string name="settings_title_contact">Kontakt</string>
+    <string name="settings_title_contact">Contact</string>
     <string name="speichern">Speichern</string>
     <string name="info_screen_title">LeoApp pour Android</string>
     <string name="info_screen_second">Développe par ...</string>
@@ -224,7 +223,7 @@
     <string name="settings_summary_notification_subst">Veux tu avoir des information sur les remplacements?</string>
     <string name="settings_summary_password_school">Entre le mot de passe du SLG</string>
     <string name="settings_summary_username_school">Entre ton nom d\'utilisateur du SLG</string>
-    <string name="settings_title_filter_subst">Filter</string>
+    <string name="settings_title_filter_subst">Filtre</string>
     <string name="settings_title_filterby_level">Stufe</string>
     <string name="settings_title_filterby_schedule">Stundenplan</string>
     <string name="settings_title_interval_subst">Intervalle</string>

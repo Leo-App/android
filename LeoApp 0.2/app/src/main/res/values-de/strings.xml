@@ -162,7 +162,6 @@
     <string name="settings_name_changed">Namensänderung übernommen</string>
 
     <!--Essensbons-->
-    <string name="settings_title_customid">Customer ID</string>
     <string name="settings_summary_customid">Gib deine lunch.leo-ac.de Benutzer-ID ein</string>
     <string name="settings_title_pw">Passwort</string>
     <string name="settings_summary_pw">Gib dein lunch.leo-ac.de Passwort ein</string>

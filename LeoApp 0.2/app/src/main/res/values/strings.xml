@@ -104,7 +104,7 @@
     <string name="explain_desc_2">Use the Scan Button below to start the camera and move the green box above the QR-Code you intend on scanning and wait for the app to process the results.</string>
     <string name="explain_title_3">Step 2</string>
     <string name="explain_desc_3">After a successful scan you will get all necessary information: Mainly whether or not the code has already been used and which menu was ordered.</string>
-    <string name="settings_title_customid">Customer ID</string>
+    <string name="settings_title_customid" translatable="false">Customer ID</string>
     <string name="settings_summary_customid">Enter your lunch.leo-ac.de customer ID</string>
     <string name="settings_title_pw">Password</string>
     <string name="settings_summary_pw">Enter your lunch.leo-ac.de password</string>
