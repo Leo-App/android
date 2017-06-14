@@ -154,7 +154,7 @@
     <!--Generell-->
     <string name="settings_category_general">Général</string>
     <string name="settings_title_username">Benutzername</string>
-    <string name="settings_title_level">Stufe/Klasse</string>
+    <string name="settings_title_level">Classe/Année</string>
     <string name="settings_snackbar_username_taken">Ce nom d\'utilisateur est déjà utilié</string>
     <string name="settings_toast_username_success">Benutzername geändert!</string>
     <string name="settings_name_changed">Nom changé!</string>
@@ -224,9 +224,9 @@
     <string name="settings_summary_password_school">Entre le mot de passe du SLG</string>
     <string name="settings_summary_username_school">Entre ton nom d\'utilisateur du SLG</string>
     <string name="settings_title_filter_subst">Filtre</string>
-    <string name="settings_title_filterby_level">Stufe</string>
-    <string name="settings_title_filterby_schedule">Stundenplan</string>
-    <string name="settings_title_interval_subst">Intervalle</string>
+    <string name="settings_title_filterby_level">Année</string>
+    <string name="settings_title_filterby_schedule">Emploi de temps</string>
+    <string name="settings_title_interval_subst">Interval</string>
     <string name="settings_title_network">nur WLAN</string>
     <string name="settings_title_password_school">Passwort</string>
     <string name="settings_title_username_school">Benutzername</string>

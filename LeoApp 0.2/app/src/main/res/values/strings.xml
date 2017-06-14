@@ -120,7 +120,7 @@
     <string name="snackbar_no_connection_info_check">No internet connection to check login data</string>
     <string name="snackbar_not_correct_info">Login data not correct</string>
     <string name="popup_code_not_valid">Code not valid or already used</string>
-    <string name="settings_title_mode">MensaMode&#8482;</string>
+    <string name="settings_title_mode" translatable="false">MensaMode&#8482;</string>
     <string name="settings_summary_mode">MensaMode&#8482; for mensa staff</string>
     <string name="settings_title_notification">Notification</string>
     <string name="settings_summary_notification">Notify me on missing synchronisation</string>

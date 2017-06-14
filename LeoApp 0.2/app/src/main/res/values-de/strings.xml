@@ -173,7 +173,6 @@
     <string name="settings_summary_fade_time">Zeit bis das Informationsfenster sich schließt</string>
     <string name="settings_title_camera">Frontkamera verwenden</string>
     <string name="settings_summary_camera">Benutzt die Frontkamera zum Scannen</string>
-    <string name="settings_title_mode">MensaMode&#8482;</string>
     <string name="settings_summary_mode">MensaMode&#8482; für das Mensa Personal</string>
     <string name="settings_title_notification">Benachrichtigungen erhalten</string>
     <string name="settings_summary_notification">Benachrichtigung, wenn noch nicht synchronisiert wurde</string>
