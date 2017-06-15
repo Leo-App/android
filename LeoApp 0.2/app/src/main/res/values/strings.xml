@@ -221,17 +221,13 @@
     <string name="settings_title_filterby_level">Grade</string>
     <string name="settings_summary_filterby_schedule">Filter by schedule</string>
     <string name="settings_title_filterby_schedule">Schedule</string>
-<<<<<<< HEAD
     <string name="settings_summary_test_timetable">Filter by schedule</string>
     <string name="settings_title_test_timetable">filter</string>
     <string name="info_screen_fourth">No responsibility is accepted for the accuracy of this information</string>
     <string name="info_screen_second">Developed by ????</string>
-=======
     <string name="settings_screen_slg_data">SLG Accessdata</string>
     <string name="settings_screen_cg_data">Couven Accessdata</string>
     <string name="settings_screen_kkg_data">KKG Accessdata</string>
     <string name="settings_no_access_data">No access data needed</string>
-
->>>>>>> fa01ca0c0d803dd4fc8b7950748abe62c678fc2d
 
 </resources>
