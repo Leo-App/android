@@ -272,7 +272,6 @@ public class DBConnection {
     }
 
     private class DBHelper extends SQLiteOpenHelper {
-
         static final String DATABASE_NAME = "messenger";
         static final String TABLE_MESSAGES = "messages";
         static final String MESSAGES_ID = "mid";
