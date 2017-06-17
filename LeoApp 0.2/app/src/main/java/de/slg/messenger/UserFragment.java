@@ -20,7 +20,6 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class UserFragment extends Fragment {
-
     public View rootView;
     public ListView lvUsers;
 
@@ -87,7 +86,12 @@ public class UserFragment extends Fragment {
         private void sendChat(Chat chat) {
             try {
                 HttpURLConnection connection = (HttpURLConnection) new URL(generateURL(chat)).openConnection();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new URL(generateURL(chat))
+                                                .openConnection()
+                                                .getInputStream(), "UTF-8"));
                 String erg = "";
                 String l;
                 while ((l = reader.readLine()) != null)
@@ -102,8 +106,12 @@ public class UserFragment extends Fragment {
         private boolean sendAssoziation(Assoziation assoziation) {
             if (assoziation != null)
                 try {
-                    HttpURLConnection connection = (HttpURLConnection) new URL(generateURL(assoziation)).openConnection();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(generateURL(assoziation))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null) {
 
                     }

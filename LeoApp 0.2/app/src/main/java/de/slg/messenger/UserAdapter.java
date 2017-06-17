@@ -13,7 +13,6 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.User;
 
 class UserAdapter extends ArrayAdapter<User> {
-
     private int resId;
     private User[] users;
     private LayoutInflater inflater;

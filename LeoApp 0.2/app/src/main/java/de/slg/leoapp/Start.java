@@ -10,7 +10,6 @@ import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.AbstimmActivity;
 
 public class Start extends Activity {
-
     public static SharedPreferences pref;
 
     @Override

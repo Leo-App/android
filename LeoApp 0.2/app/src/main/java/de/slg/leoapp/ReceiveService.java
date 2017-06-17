@@ -18,12 +18,12 @@ import de.slg.messenger.Message;
 public class ReceiveService extends Service {
 
     private boolean running, receive;
-    private static long intervall;
+    private static long interval;
 
     public ReceiveService() {
         running = true;
         receive = false;
-        intervall = getIntervall(Start.pref.getInt("pref_key_refresh", 2));
+        interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
         Utils.registerReceiveService(this);
     }
 
@@ -44,7 +44,7 @@ public class ReceiveService extends Service {
         running = false;
     }
 
-    private static long getIntervall(int selection) {
+    private static long getInterval(int selection) {
         switch (selection) {
             case 0:
                 return 5000;
@@ -63,8 +63,8 @@ public class ReceiveService extends Service {
         }
     }
 
-    public static void setIntervall(int selection) {
-        intervall = getIntervall(selection);
+    public static void setInterval(int selection) {
+        interval = getInterval(selection);
     }
 
     public void receive() {
@@ -78,7 +78,7 @@ public class ReceiveService extends Service {
             while (running) {
                 try {
                     new ReceiveTask().execute();
-                    for (int i = 0; i < intervall && running && !receive; i++) {
+                    for (int i = 0; i < interval && running && !receive; i++) {
                         sleep(1);
                     }
                     receive = false;
@@ -89,7 +89,7 @@ public class ReceiveService extends Service {
         }
     }
 
-    private static class ReceiveTask extends AsyncTask<Void, Void, Void> {
+    private class ReceiveTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             assoziationen();

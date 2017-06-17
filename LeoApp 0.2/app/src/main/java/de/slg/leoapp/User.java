@@ -13,9 +13,4 @@ public class User {
         this.permission = permission;
         this.klasse = klasse;
     }
-
-    @Override
-    public String toString() {
-        return "id: " + userId + ", name: " + userName + ", permission: " + permission + ", klasse: " + klasse;
-    }
 }

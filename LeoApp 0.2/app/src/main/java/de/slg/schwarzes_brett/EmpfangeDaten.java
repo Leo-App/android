@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
-
     private Context c;
 
     EmpfangeDaten(Context c) {
@@ -43,4 +42,3 @@ class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
         return null;
     }
 }
-

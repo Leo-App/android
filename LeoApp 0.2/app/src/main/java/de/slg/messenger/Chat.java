@@ -1,7 +1,6 @@
 package de.slg.messenger;
 
 public class Chat {
-
     int chatId;
     String chatName;
     final Chattype chatTyp;
@@ -12,11 +11,6 @@ public class Chat {
         this.chatId = cId;
         this.chatName = cName;
         this.chatTyp = cTyp;
-    }
-
-    @Override
-    public String toString() {
-        return "id: " + chatId + ", name: " + chatName + ", typ: " + chatTyp.toString();
     }
 
     @Override

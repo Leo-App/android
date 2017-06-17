@@ -23,7 +23,6 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ChatEditActivity extends AppCompatActivity {
-
     public static Chat currentChat;
     public static User currentUser = Utils.getCurrentUser();
     private Menu menu;

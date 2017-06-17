@@ -22,7 +22,6 @@ import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.ReceiveService;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
@@ -31,9 +30,7 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 
 public class OverviewWrapper extends AppCompatActivity {
-
     private DrawerLayout drawerLayout;
-
     public ChatsFragment cFragment;
     public UserFragment uFragment;
     public Chat[] chatArray = null;
@@ -72,6 +69,12 @@ public class OverviewWrapper extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    @Override
+    public void finish() {
+        Utils.getMessengerDBConnection().setOverviewWrapper(null);
+        super.finish();
     }
 
     private void initToolbar() {
@@ -201,11 +204,5 @@ public class OverviewWrapper extends AppCompatActivity {
         ChatActivity chatActivity = Utils.getChatActivity();
         if (chatActivity != null)
             chatActivity.refreshUI();
-    }
-
-    @Override
-    public void finish() {
-        Utils.getMessengerDBConnection().setOverviewWrapper(null);
-        super.finish();
     }
 }

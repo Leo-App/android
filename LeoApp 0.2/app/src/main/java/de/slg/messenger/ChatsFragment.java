@@ -19,7 +19,6 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ChatsFragment extends Fragment {
-
     public View rootView;
     public ListView lvChats;
 

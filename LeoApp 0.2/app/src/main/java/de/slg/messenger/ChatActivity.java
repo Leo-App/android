@@ -28,12 +28,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.ReceiveService;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
-
     public static Chat chat;
     public static String chatname;
     private User currentUser;
@@ -303,7 +301,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private class SendChatname extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected Void doInBackground(Void... params) {
             if (chat != null && Utils.checkNetwork())

@@ -31,7 +31,6 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class AddGroupChatActivity extends AppCompatActivity {
-
     private EditText etChatname;
     private UserAdapter userAdapter;
     private boolean chatnameSet, usersSelected;
@@ -108,10 +107,12 @@ public class AddGroupChatActivity extends AppCompatActivity {
     private void initEditText() {
         etChatname = (EditText) findViewById(R.id.editTextChatName);
         etChatname.addTextChangedListener(new TextWatcher() {
+            @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
+            @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
@@ -155,8 +156,12 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
         private void sendChat(Chat chat) {
             try {
-                HttpURLConnection connection = (HttpURLConnection) new URL(generateURL(chat)).openConnection();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new URL(generateURL(chat))
+                                                .openConnection()
+                                                .getInputStream(), "UTF-8"));
                 String erg = "";
                 String l;
                 while ((l = reader.readLine()) != null)
@@ -171,8 +176,12 @@ public class AddGroupChatActivity extends AppCompatActivity {
         private boolean sendAssoziation(Assoziation assoziation) {
             if (assoziation != null)
                 try {
-                    HttpURLConnection connection = (HttpURLConnection) new URL(generateURL(assoziation)).openConnection();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(generateURL(assoziation))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
                     String erg = "";
                     String l;
                     while ((l = reader.readLine()) != null)
