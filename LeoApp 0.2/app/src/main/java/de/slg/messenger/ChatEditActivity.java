@@ -18,13 +18,11 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.ReceiveService;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ChatEditActivity extends AppCompatActivity {
-    public static Chat currentChat;
-    public static User currentUser = Utils.getCurrentUser();
+    static Chat currentChat;
     private Menu menu;
     private ListView lvUsers;
     private UserAdapter uOfChat1, uOfChat2, uRest;
@@ -44,7 +42,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (Utils.getMessengerDBConnection().isUserInChat(currentUser, currentChat))
+        if (Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat))
             getMenuInflater().inflate(R.menu.messenger_chat_edit, menu);
         this.menu = menu;
         return true;
@@ -129,11 +127,11 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void initLeaveButton() {
         Button buttonLeave = (Button) findViewById(R.id.buttonLeaveChat);
-        if (Utils.getMessengerDBConnection().isUserInChat(currentUser, currentChat)) {
+        if (Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat)) {
             buttonLeave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    removeUsers(currentUser);
+                    removeUsers(Utils.getCurrentUser());
                     finish();
                     startActivity(new Intent(getApplicationContext(), OverviewWrapper.class));
                 }

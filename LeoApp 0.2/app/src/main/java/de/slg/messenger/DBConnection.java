@@ -262,7 +262,7 @@ public class DBConnection {
         return b;
     }
 
-    void setOverviewWrapper(OverviewWrapper wrapper) {
+    public void setOverviewWrapper(OverviewWrapper wrapper) {
         this.wrapper = wrapper;
     }
 

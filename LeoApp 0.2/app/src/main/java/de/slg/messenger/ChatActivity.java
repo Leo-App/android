@@ -28,13 +28,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
     public static Chat chat;
     public static String chatname;
-    private User currentUser;
     private Message[] messagesArray;
 
     private Menu menu;
@@ -46,11 +44,10 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Utils.registerChatActivity(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
-        Utils.registerChatActivity(this);
-        currentUser = Utils.getCurrentUser();
 
         messagesArray = new Message[0];
         Utils.receive();
@@ -212,7 +209,7 @@ public class ChatActivity extends AppCompatActivity {
             Message current = messagesArray[position];
             View v = holder.itemView;
             boolean first = position == 0 || !gleicherTag(current.sendDate, messagesArray[position - 1].sendDate);
-            boolean mine = current.senderId == currentUser.userId;
+            boolean mine = current.senderId == Utils.getUserID();
             if (mine) {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
@@ -273,7 +270,7 @@ public class ChatActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            if (currentUser != null && chat != null && Utils.checkNetwork() && Utils.getMessengerDBConnection().isUserInChat(currentUser, chat) && !params[0].equals("")) {
+            if (chat != null && Utils.checkNetwork() && Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), chat) && !params[0].equals("")) {
                 try {
                     BufferedReader reader =
                             new BufferedReader(
@@ -295,8 +292,8 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         private String generateURL(String message) {
-            message = message.replace(' ', '+').replaceAll(System.getProperty("line.separator"), "_l_");
-            return "http://moritz.liegmanns.de/messenger/send.php?key=5453&userid=" + currentUser.userId + "&message=" + message + "&chatid=" + chat.chatId;
+            message = message.replace(' ', '+').replace(System.getProperty("line.separator"), "_l_");
+            return "http://moritz.liegmanns.de/messenger/send.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message + "&chatid=" + chat.chatId;
         }
     }
 
