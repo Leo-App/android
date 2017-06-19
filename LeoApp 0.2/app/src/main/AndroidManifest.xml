@@ -1,6 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.slg.leoapp">
 
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/leo_app_icon"
@@ -89,12 +96,5 @@
             android:screenOrientation="portrait" />
 
     </application>
-
-    <uses-feature android:name="android.hardware.camera" />
-
-    <uses-upermission android:name="android.upermission.CAMERA" />
-    <uses-upermission android:name="android.upermission.ACCESS_NETWORK_STATE" />
-    <uses-upermission android:name="android.upermission.INTERNET" />
-    <uses-upermission android:name="android.upermission.VIBRATE" />
 
 </manifest>

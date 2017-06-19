@@ -22,7 +22,7 @@ public class DBConnection {
         database = helper.getWritableDatabase();
     }
 
-    private synchronized Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
+    private Cursor query(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
         return database.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
     }
 
@@ -271,7 +271,7 @@ public class DBConnection {
         static final String DATABASE_NAME = "messenger";
         static final String TABLE_MESSAGES = "messages";
         static final String MESSAGES_ID = "mid";
-        static final String MESSAGE_TEXT = "m";
+        static final String MESSAGE_TEXT = "mtext";
         static final String MESSAGE_DATE = "mdate";
         static final String MESSAGE_READ = "mgelesen";
         static final String TABLE_CHATS = "chats";

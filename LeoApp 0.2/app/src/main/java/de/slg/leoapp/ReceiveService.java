@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -107,17 +106,20 @@ public class ReceiveService extends Service {
                                             new URL(generateURL(Operator.Nachricht))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    String erg = "";
+                    StringBuilder builder = new StringBuilder();
                     String l;
                     while ((l = reader.readLine()) != null)
-                        erg += l;
-                    erg = erg.replaceAll("_l_", System.getProperty("line.separator"));
-                    String[] result = erg.split("_nextMessage_");
-                    Log.i("Tag", erg);
+                        builder.append(l).append(System.getProperty("line.separator"));
+                    String[] result = builder.toString().split("_nextMessage_");
                     for (String s : result) {
                         String[] message = s.split(";");
                         if (message.length == 5) {
-                            Message m = new Message(Integer.parseInt(message[0]), message[1], Long.parseLong(message[2] + "000"), Integer.parseInt(message[3]), Integer.parseInt(message[4]), false);
+                            int mid = Integer.parseInt(message[0]);
+                            String mtext = message[1];
+                            long mdate = Long.parseLong(message[2] + "000");
+                            int cid = Integer.parseInt(message[3]);
+                            int uid = Integer.parseInt(message[4]);
+                            Message m = new Message(mid, mtext, mdate, cid, uid, false);
                             Utils.getMessengerDBConnection().insertMessage(m);
                         }
                     }
@@ -136,10 +138,11 @@ public class ReceiveService extends Service {
                                             new URL(generateURL(Operator.Chat))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    String erg = "";
+                    StringBuilder builder = new StringBuilder();
                     String l;
                     while ((l = reader.readLine()) != null)
-                        erg += l;
+                        builder.append(l);
+                    String erg = builder.toString();
                     String[] result = erg.split("_nextChat_");
                     for (String s : result) {
                         String[] current = s.split(";");
@@ -163,10 +166,11 @@ public class ReceiveService extends Service {
                                             new URL(generateURL(Operator.Benutzer))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    String erg = "";
+                    StringBuilder builder = new StringBuilder();
                     String l;
                     while ((l = reader.readLine()) != null)
-                        erg += l;
+                        builder.append(l);
+                    String erg = builder.toString();
                     String[] result = erg.split("_nextUser_");
                     for (String s : result) {
                         String[] current = s.split(";");
@@ -190,10 +194,11 @@ public class ReceiveService extends Service {
                                             new URL(generateURL(Operator.Assoziation))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    String erg = "";
+                    StringBuilder builder = new StringBuilder();
                     String l;
                     while ((l = reader.readLine()) != null)
-                        erg += l;
+                        builder.append(l);
+                    String erg = builder.toString();
                     String[] result = erg.split("_nextAssoziation_");
                     for (String s : result) {
                         String[] current = s.split(";");
