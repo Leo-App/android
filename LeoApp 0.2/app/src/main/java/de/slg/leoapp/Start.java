@@ -22,7 +22,7 @@ public class Start extends Activity {
 
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
-        if (Utils.isVerified() && !Utils.getLastVote().equals(Utils.getCurrentDate("dd.MM"))) {
+        if (Utils.checkNetwork() && Utils.isVerified() && !Utils.getLastVote().equals(Utils.getCurrentDate("dd.MM"))) {
             startActivity(new Intent(getApplicationContext(), AbstimmActivity.class));
         }
 

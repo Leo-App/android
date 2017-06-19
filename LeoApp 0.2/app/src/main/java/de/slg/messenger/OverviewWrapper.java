@@ -56,7 +56,7 @@ public class OverviewWrapper extends AppCompatActivity {
         setContentView(R.layout.activity_wrapper_messenger);
 
         initToolbar();
-        initDatabase();
+        initArrays();
         initNavigationView();
         initTabs();
 
@@ -186,7 +186,7 @@ public class OverviewWrapper extends AppCompatActivity {
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
-    private void initDatabase() {
+    private void initArrays() {
         userArray = Utils.getMessengerDBConnection().getUsers();
         chatArray = Utils.getMessengerDBConnection().getChats();
         Utils.receive();
@@ -264,7 +264,6 @@ public class OverviewWrapper extends AppCompatActivity {
         }
 
         private class CreateChat extends AsyncTask<Chat, Void, Void> {
-
             private User other;
 
             CreateChat(User other) {
@@ -368,25 +367,22 @@ public class OverviewWrapper extends AppCompatActivity {
         }
 
         private class ChatAdapter extends ArrayAdapter<Chat> {
-            private Context context;
+            private LayoutInflater inflater;
             private int resId;
             private Chat[] chats;
-            private User currentUser;
 
             ChatAdapter(Context context, Chat[] chats) {
                 super(context, R.layout.list_item_chat, chats);
-                this.context = context;
+                this.inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
                 this.resId = R.layout.list_item_chat;
                 this.chats = chats;
-                this.currentUser = Utils.getCurrentUser();
             }
 
             @NonNull
             @Override
             public View getView(int position, View v, @NonNull ViewGroup parent) {
                 if (v == null) {
-                    LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(resId, null);
+                    v = inflater.inflate(resId, null);
                 }
                 TextView chatname = (TextView) v.findViewById(R.id.chatname);
                 TextView lastMessage = (TextView) v.findViewById(R.id.letzteNachricht);
@@ -399,7 +395,7 @@ public class OverviewWrapper extends AppCompatActivity {
                     } else {
                         String[] s = chats[position].cname.split(" - ");
                         int idO;
-                        if (currentUser.uid == Integer.parseInt(s[0]))
+                        if (Utils.getUserID() == Integer.parseInt(s[0]))
                             idO = Integer.parseInt(s[1]);
                         else
                             idO = Integer.parseInt(s[0]);
@@ -415,7 +411,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
                     if (chats[position].ctype == Chat.Chattype.GROUP)
                         icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
-                    if (chats[position].m != null && chats[position].m.uid != currentUser.uid && !chats[position].m.mread)
+                    if (chats[position].m != null && chats[position].m.uid != Utils.getUserID() && !chats[position].m.mread)
                         notify.setVisibility(View.VISIBLE);
                 }
                 return v;

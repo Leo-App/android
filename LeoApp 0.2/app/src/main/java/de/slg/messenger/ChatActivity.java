@@ -69,16 +69,16 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == android.R.id.home) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
-        } else if (mi.getItemId() == R.id.action_edtiParticipants) {
+        } else if (item.getItemId() == R.id.action_edtiParticipants) {
             startEditChat();
-        } else if (mi.getItemId() == R.id.action_editChat) {
+        } else if (item.getItemId() == R.id.action_editChat) {
             setChatNameEditable(true);
-        } else if (mi.getItemId() == R.id.action_cancel) {
+        } else if (item.getItemId() == R.id.action_cancel) {
             setChatNameEditable(false);
-        } else if (mi.getItemId() == R.id.action_confirm) {
+        } else if (item.getItemId() == R.id.action_confirm) {
             confirmEdit();
             setChatNameEditable(false);
         }

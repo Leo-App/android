@@ -142,7 +142,6 @@ public class ChatEditActivity extends AppCompatActivity {
     }
 
     private class AddUser extends AsyncTask<User, Void, Void> {
-
         @Override
         protected Void doInBackground(User... params) {
             for (User u : params) {
@@ -181,7 +180,6 @@ public class ChatEditActivity extends AppCompatActivity {
     }
 
     private class RemoveUser extends AsyncTask<User, Void, Void> {
-
         @Override
         protected Void doInBackground(User... params) {
             for (User u : params) {

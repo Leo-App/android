@@ -13,7 +13,6 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class DBConnection {
-
     private SQLiteDatabase database;
     private DBHelper helper;
     private OverviewWrapper wrapper;
