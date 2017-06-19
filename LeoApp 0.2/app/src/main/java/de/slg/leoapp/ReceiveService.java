@@ -29,8 +29,7 @@ public class ReceiveService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LoopThread thread = new LoopThread();
-        thread.start();
+        new LoopThread().start();
         return START_REDELIVER_INTENT;
     }
 

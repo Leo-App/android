@@ -188,7 +188,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private class MessageAdapter extends RecyclerView.Adapter<ViewHolder> {
-
         private Chat.Chattype chattype;
         private LayoutInflater inflater;
         private TextView nachricht, absender, uhrzeit, datum;
@@ -267,7 +266,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private class SendMessage extends AsyncTask<String, Void, Void> {
-
         @Override
         protected Void doInBackground(String... params) {
             if (chat != null && Utils.checkNetwork() && Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), chat) && !params[0].equals("")) {
