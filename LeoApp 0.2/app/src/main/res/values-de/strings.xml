@@ -15,7 +15,6 @@
     <string name="title_home">Startseite</string>
     <string name="title_foodmarks">Essensbons</string>
     <string name="title_testplan">Klausurplan</string>
-    <string name="title_messenger">Messenger</string>
     <string name="title_tutoring">Nachhilfebörse</string>
     <string name="title_news">Schwarzes Brett</string>
     <string name="title_survey">Stimmungsbarometer</string>
@@ -76,7 +75,6 @@
     <string name="button_scan">Scannen</string>
     <string name="action_refresh">Aktualisieren</string>
     <string name="button_sidemenu">Navigation</string>
-    <string name="textview_placeholder"> </string>
     <string name="qr_display_title">Deine Menu für heute\, den</string>
     <string name="dialog_desc_valid">Bestelltes Menu:</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
@@ -165,7 +163,6 @@
     <string name="settings_summary_customid">Gib deine lunch.leo-ac.de Benutzer-ID ein</string>
     <string name="settings_title_pw">Passwort</string>
     <string name="settings_summary_pw">Gib dein lunch.leo-ac.de Passwort ein</string>
-    <string name="settings_title_sync">Auto-Sync</string>
     <string name="settings_summary_sync">Daten beim App-Start synchronisieren</string>
     <string name="settings_title_fade">Automatisch ausblenden</string>
     <string name="settings_summary_fade">Scan-Informationen werden automatisch ausgeblendet</string>
@@ -204,7 +201,6 @@
 
     <!--Kontakt & Informationen-->
     <string name="settings_category_info">Kontakt &#38; Informationen</string>
-    <string name="settings_title_version">Version</string>
     <string name="settings_title_contact">Kontakt</string>
     <string name="speichern">Speichern</string>
     <string name="info_screen_title">LeoApp für Android</string>
