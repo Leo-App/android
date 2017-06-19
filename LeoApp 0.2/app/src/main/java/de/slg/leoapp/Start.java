@@ -28,6 +28,5 @@ public class Start extends Activity {
 
         startService(new Intent(getApplicationContext(), ReceiveService.class));
         finish();
-        deleteDatabase("messenger");
     }
 }
