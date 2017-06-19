@@ -102,7 +102,12 @@ public class ReceiveService extends Service {
         private void nachricht() {
             if (Utils.isVerified() && Utils.checkNetwork()) {
                 try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Nachricht)).openConnection().getInputStream(), "UTF-8"));
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(generateURL(Operator.Nachricht))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
                     String erg = "";
                     String l;
                     while ((l = reader.readLine()) != null)
@@ -126,7 +131,12 @@ public class ReceiveService extends Service {
         private void chat() {
             if (Utils.isVerified() && Utils.checkNetwork()) {
                 try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Chat)).openConnection().getInputStream(), "UTF-8"));
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(generateURL(Operator.Chat))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
                     String erg = "";
                     String l;
                     while ((l = reader.readLine()) != null)
@@ -148,7 +158,12 @@ public class ReceiveService extends Service {
         private void benutzer() {
             if (Utils.isVerified() && Utils.checkNetwork()) {
                 try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Benutzer)).openConnection().getInputStream(), "UTF-8"));
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(generateURL(Operator.Benutzer))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
                     String erg = "";
                     String l;
                     while ((l = reader.readLine()) != null)
@@ -170,7 +185,12 @@ public class ReceiveService extends Service {
         private void assoziationen() {
             if (Utils.isVerified() && Utils.checkNetwork()) {
                 try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(generateURL(Operator.Assoziation)).openConnection().getInputStream(), "UTF-8"));
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(generateURL(Operator.Assoziation))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
                     String erg = "";
                     String l;
                     while ((l = reader.readLine()) != null)

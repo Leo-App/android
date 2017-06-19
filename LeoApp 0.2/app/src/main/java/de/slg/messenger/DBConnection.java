@@ -236,7 +236,7 @@ public class DBConnection {
 
     public Message[] getUnreadMessages() {
         String[] columns = {DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.CHAT_ID, DBHelper.USER_ID};
-        String condiotion = DBHelper.MESSAGE_READ + " = 0";
+        String condiotion = DBHelper.MESSAGE_DATE + " > " + Utils.getLastMessengerNotification().getTime();
         Cursor cursor = query(DBHelper.TABLE_MESSAGES, columns, condiotion, null, null, null, DBHelper.CHAT_ID + ", " + DBHelper.MESSAGE_DATE);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
@@ -256,7 +256,7 @@ public class DBConnection {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_READ + " != 0", null, null, null, null);
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_DATE + " > " + Utils.getLastMessengerNotification().getTime(), null, null, null, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
