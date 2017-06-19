@@ -106,6 +106,7 @@ public abstract class Utils {
 
     public static void registerOverviewWrapper(OverviewWrapper overviewWrapper) {
         Utils.overviewWrapper = overviewWrapper;
+        getMessengerDBConnection().setOverviewWrapper(overviewWrapper);
     }
 
     public static void registerChatActivity(ChatActivity chatActivity) {
@@ -127,5 +128,15 @@ public abstract class Utils {
 
     public static ChatActivity getChatActivity() {
         return chatActivity;
+    }
+
+    public static Date getLastMessengerNotification() {
+        return new Date(Start.pref.getLong("pref_key_general_last_notification_messenger", 0));
+    }
+
+    public static void notifiedMessenger() {
+        Start.pref.edit()
+                .putLong("pref_key_general_last_notification_messenger", new Date().getTime())
+                .apply();
     }
 }

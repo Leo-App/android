@@ -102,7 +102,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
         String code = customerString + "-M" + act.getMenu() + "-" + dateS + "-";
 
-        int c1 = Integer.valueOf(dateS.substring(0, 3) + dateS.substring(4));
+        int c1 = Integer.valueOf(dateS.substring(0, 2) + dateS.substring(4));
         customerid = (act.getMenu() == 2) ? customerid / 2 : customerid / 3;
         c1 += customerid;
 

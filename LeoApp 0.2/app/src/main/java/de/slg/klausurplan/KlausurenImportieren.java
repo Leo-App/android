@@ -25,7 +25,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
     private BufferedReader reader;
     private Context context;
-    private int year;
+    private int year, halbjahr;
     private List<Klausur> listeMitHeruntergeladenenKlausuren;
     private List<String> kuerzelStundenplan;
 
@@ -142,7 +142,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
             if (c.length() > 0) {
                 boolean istGK = c.matches("[A-Z]{1,3}_*[GLK]{1,2}_*[0-9]_*[A-Z|ÄÖÜ]{3}_*[0-9]{1,2}.*"); //Format FF_G1_LLL__19_
-                boolean istLK = c.matches("[A-Z]{1,3}_*[A-Z|ÄÖÜ]{3}_*[0-9]{1,2}.*");//Format FF_LLL_12_
+                boolean istLK = c.matches("[A-Z]{1,3}_*[A-ZÄÖÜ]{3}_*[0-9]{1,2}.*");//Format FF_LLL_12_
 
                 if (c.length() >= 12 && istGK) {
                     String klausur = c.substring(0, 12); // etwas zu viel, um mehr Leerzeichen zuzulassen (es gibt jedoch keine kürzeren GK Klausuren, da kürzestes Format: F_G1_LLL__1_)
@@ -177,7 +177,6 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
                 int offset = line.indexOf("Klausurplan") + 11;
                 int end = line.indexOf(".Halbjahr");
                 String substring = line.substring(offset, end); // 2016/17, EF-Q2  2
-                int halbjahr;
                 if (substring.charAt(substring.length() - 1) == '1')
                     halbjahr = 1;
                 else
@@ -204,6 +203,8 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             int day = Integer.parseInt(parts[0]); //Log.e("date", ""+day);
             int month = Integer.parseInt(parts[1]);// Log.e("date", ""+month);
             int year = Integer.parseInt(parts[2]);// Log.e("date", ""+year);
+            if (halbjahr == 1 && month <4)
+                year++;
             Calendar c = new GregorianCalendar();
             c.set(year, month - 1, day);//Log.e("date", c.getTime().toString());
             return c.getTime();

@@ -1,8 +1,5 @@
 package de.slg.schwarzes_brett;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,34 +13,54 @@ import de.slg.leoapp.R;
 
 class ExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private Activity context;
-    private Map<String, List<String>> schwarzesBrett;
-    private List<String> eintraege;
+    private Map<String, List<String>> eintraege;
+    private List<String> titel;
+    private LayoutInflater inflater;
 
-    ExpandableListAdapter(Activity context, List<String> eintraege, Map<String, List<String>> schwarzesBrett) {
-        this.context = context;
-        this.schwarzesBrett = schwarzesBrett;
+    ExpandableListAdapter(LayoutInflater inflater, List<String> titel, Map<String, List<String>> eintraege) {
+        this.inflater = inflater;
         this.eintraege = eintraege;
+        this.titel = titel;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        if (convertView == null)
+            convertView = inflater.inflate(R.layout.list_item_expandable_title, null);
+
+        TextView textView = (TextView) convertView.findViewById(R.id.textView);
+        textView.setText((String) getGroup(groupPosition));
+        return convertView;
+    }
+
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        if (convertView == null)
+            convertView = inflater.inflate(R.layout.list_item_expandable_child, null);
+
+        TextView textView = (TextView) convertView.findViewById(R.id.textView);
+        textView.setText((String) getChild(groupPosition, childPosition));
+        return convertView;
     }
 
     @Override
     public int getGroupCount() {
-        return eintraege.size();
+        return titel.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return schwarzesBrett.get(eintraege.get(groupPosition)).size();
+        return eintraege.get(titel.get(groupPosition)).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return eintraege.get(groupPosition);
+        return titel.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return schwarzesBrett.get(eintraege.get(groupPosition)).get(childPosition);
+        return eintraege.get(titel.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -59,35 +76,6 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean hasStableIds() {
         return true;
-    }
-
-    @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        String laptopName = (String) getGroup(groupPosition);
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_item_expandable_title,
-                    null);
-        }
-        TextView item = (TextView) convertView.findViewById(R.id.laptop);
-        item.setTypeface(null, Typeface.BOLD);
-        item.setText(laptopName);
-        return convertView;
-    }
-
-    @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String laptop = (String) getChild(groupPosition, childPosition);
-        LayoutInflater inflater = context.getLayoutInflater();
-
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_item_expandable_child, null);
-        }
-
-        TextView item = (TextView) convertView.findViewById(R.id.laptop);
-        item.setText(laptop);
-        return convertView;
     }
 
     @Override

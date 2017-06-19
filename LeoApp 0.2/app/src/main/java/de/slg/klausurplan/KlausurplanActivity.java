@@ -251,7 +251,7 @@ public class KlausurplanActivity extends AppCompatActivity {
         if (!klausurList.contains(k)) {
             for (klausurList.toFirst(); klausurList.hasAccess(); klausurList.next())
                 if (klausurList.getContent().after(k)) {
-                    klausurList.insert(k);
+                    klausurList.insertBefore(k);
                     if (refresh)
                         refresh();
                     return;

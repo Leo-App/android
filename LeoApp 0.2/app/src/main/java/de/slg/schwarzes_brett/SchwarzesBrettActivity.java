@@ -138,8 +138,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private void initExpandableListView() {
         ExpandableListView expListView = (ExpandableListView) findViewById(R.id.eintraege);
-        expandableListAdapter = new ExpandableListAdapter(
-                this, groupList, schwarzesBrett);
+        expandableListAdapter = new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett);
         expListView.setAdapter(expandableListAdapter);
 
         expListView.setOnChildClickListener(new OnChildClickListener() {

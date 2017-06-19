@@ -2,16 +2,18 @@ package de.slg.leoapp;
 
 import java.util.Iterator;
 
-public class List<ContentType> implements Iterable<ContentType>, Cloneable {
+@SuppressWarnings({"WeakerAccess", "unused"})
+public class List<ContentType> implements Iterable<ContentType> {
 
     private Node first, last, current;
-    private int length;
+    private int length, index;
 
     public List() {
         first = null;
         last = null;
         current = null;
         length = 0;
+        index = -1;
     }
 
     public List(ContentType[] array) {
@@ -19,6 +21,7 @@ public class List<ContentType> implements Iterable<ContentType>, Cloneable {
         last = null;
         current = null;
         length = 0;
+        index = 0;
         adapt(array);
     }
 
@@ -48,24 +51,30 @@ public class List<ContentType> implements Iterable<ContentType>, Cloneable {
 
     public void next() {
         current = current.next;
+        index++;
     }
 
     public void previous() {
         current = current.previous;
+        index--;
     }
 
     public void toFirst() {
-        if (!isEmpty())
+        if (!isEmpty()) {
             current = first;
+            index = 0;
+        }
     }
 
     public void toLast() {
-        if (!isEmpty())
+        if (!isEmpty()) {
             current = last;
+            index = length;
+        }
     }
 
     public void toIndex(int index) {
-        for (int i = 0; i < index; i++)
+        while (hasAccess() && this.index < index)
             next();
     }
 
@@ -92,7 +101,7 @@ public class List<ContentType> implements Iterable<ContentType>, Cloneable {
             current.content = pContent;
     }
 
-    public void insert(ContentType pContent) {
+    public void insertBefore(ContentType pContent) {
         if (pContent != null) {
             if (hasAccess()) {
                 Node newNode = new Node(pContent);
@@ -100,6 +109,7 @@ public class List<ContentType> implements Iterable<ContentType>, Cloneable {
                     first = newNode;
                 newNode.insertBefore(current, newNode == first);
                 length++;
+                index++;
             } else {
                 if (isEmpty()) {
                     Node newNode = new Node(pContent);
@@ -113,7 +123,7 @@ public class List<ContentType> implements Iterable<ContentType>, Cloneable {
         }
     }
 
-    public void insertNext(ContentType pContent) {
+    public void insertBehind(ContentType pContent) {
         if (pContent != null) {
             if (hasAccess()) {
                 Node newNode = new Node(pContent);
@@ -135,7 +145,7 @@ public class List<ContentType> implements Iterable<ContentType>, Cloneable {
     public void append(ContentType pContent) {
         if (pContent != null) {
             if (this.isEmpty()) {
-                this.insert(pContent);
+                this.insertBefore(pContent);
             } else {
                 Node newNode = new Node(pContent);
                 newNode.insertBehind(last, true);
@@ -186,14 +196,6 @@ public class List<ContentType> implements Iterable<ContentType>, Cloneable {
             append(c);
     }
 
-    @Override
-    public List<ContentType> clone() {
-        List<ContentType> list = new List<>();
-        for (ContentType c : this)
-            list.append(c);
-        return list;
-    }
-
     public ContentType[] fill(ContentType[] array) {
         toFirst();
         for (int i = 0; i < array.length; i++, next())
@@ -203,6 +205,10 @@ public class List<ContentType> implements Iterable<ContentType>, Cloneable {
 
     public int length() {
         return length;
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     public boolean contains(ContentType object) {
@@ -218,15 +224,14 @@ public class List<ContentType> implements Iterable<ContentType>, Cloneable {
             toLast();
             return getContent();
         }
-        for (toFirst(); hasAccess() && index > 0; next()) {
-            index--;
-        }
+        toIndex(index);
         return getContent();
     }
 
     @Override
     public Iterator<ContentType> iterator() {
         current = null;
+        index = -1;
         return new Iterator<ContentType>() {
             @Override
             public boolean hasNext() {

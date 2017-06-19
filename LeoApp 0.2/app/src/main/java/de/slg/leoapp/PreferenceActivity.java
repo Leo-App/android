@@ -1,6 +1,5 @@
 package de.slg.leoapp;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -8,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
@@ -84,14 +82,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         getDelegate().onPostCreate(savedInstanceState);
     }
 
-    public ActionBar getSupportActionBar() {
-        return getDelegate().getSupportActionBar();
-    }
-
-    public void setSupportActionBar(@Nullable Toolbar toolbar) {
-        getDelegate().setSupportActionBar(toolbar);
-    }
-
     @Override
     @NonNull
     public MenuInflater getMenuInflater() {
@@ -112,7 +102,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         getDelegate().setContentView(view, params);
     }
-
 
     @Override
     protected void onPostResume() {
@@ -142,162 +131,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     protected void onDestroy() {
         super.onDestroy();
         getDelegate().onDestroy();
-    }
-
-    public void invalidateOptionsMenu() {
-        getDelegate().invalidateOptionsMenu();
-    }
-
-    private void initPreferenceChanges() {
-
-        pref = getPreferenceScreen().getSharedPreferences();
-
-        progressBar = (ProgressBar) findViewById(R.id.progressBar2);
-        progressBar.setVisibility(View.INVISIBLE);
-
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        hideProgressBar();
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        //TODO Backgroundtask um Schulzugangsdaten zu überprüfen
-
-        findPreference("pref_key_filterby_level").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
-        findPreference("pref_key_filterby_schedule").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
-
-        int permission = pref.getInt("pref_key_general_permission", 0);
-        currentUsername = pref.getString("pref_key_username_general", "");
-
-        String res = String.valueOf(pref.getInt("pref_key_level_general", 0));
-        res = res.replace("10", "EF");
-        res = res.replace("11", "Q1");
-        res = res.replace("12", "Q2");
-
-        if (res.equals("0"))
-            res = "N/A";
-
-        findPreference("pref_key_level_general").setSummary(res);
-        findPreference("pref_key_username_general").setSummary(currentUsername);
-
-        if (permission == 2 || !Utils.isVerified()) {
-            findPreference("pref_key_level_general").setEnabled(false);
-            findPreference("pref_key_username_general").setSummary("N/A");
-        }
-
-        if (!Utils.isVerified())
-            findPreference("pref_key_username_general").setEnabled(false);
-
-        PackageInfo pInfo = null;
-        try {
-            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        String version = pInfo.versionName;
-        int verCode = pInfo.versionCode;
-
-        findPreference("pref_key_version_app").setSummary(version + " (" + verCode + ")");
-
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        if (!getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_id", "").equals("")) {
-
-            Preference connectionPref = findPreference("pref_key_qr_id");
-            connectionPref.setSummary(getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_id", ""));
-
-        }
-
-        if (!getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_pw", "").equals("")) {
-
-            Preference connectionPref = findPreference("pref_key_qr_pw");
-            connectionPref.setSummary(getRepl(getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_pw", "passwort")));
-
-        }
-
-        Preference connectionPref = findPreference("pref_key_qr_autofade_time");
-        connectionPref.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_qr_autofade", false));
-
-        Preference notifPref = findPreference("pref_key_notification_time");
-        notifPref.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_notification", false));
-
-        SharedPreferences.Editor editor = getPreferenceScreen().getSharedPreferences().edit();
-        editor.putBoolean("pref_key_status_loggedin", getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_status_loggedin", false));
-        editor.apply();
-
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void initToolbar() {
-        Toolbar actionBar = (Toolbar) findViewById(R.id.toolbarSettings);
-        actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        actionBar.setTitle(getString(R.string.title_settings));
-        setSupportActionBar(actionBar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
-        return true;
-    }
-
-    private void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.settings).setChecked(true);
-
-        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
-                        break;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
-                        break;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-                    case R.id.nachhilfe:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan:
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                        break;
-                    case R.id.startseite:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                startActivity(i);
-                finish();
-                return true;
-            }
-        });
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.getUserName());
     }
 
     @Override
@@ -382,6 +215,169 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+        return true;
+    }
+
+    private void initPreferenceChanges() {
+
+        pref = getPreferenceScreen().getSharedPreferences();
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar2);
+        progressBar.setVisibility(View.INVISIBLE);
+
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        hideProgressBar();
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //TODO Backgroundtask um Schulzugangsdaten zu überprüfen
+
+        findPreference("pref_key_filterby_level").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
+        findPreference("pref_key_filterby_schedule").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
+
+        int permission = pref.getInt("pref_key_general_permission", 0);
+        currentUsername = pref.getString("pref_key_username_general", "");
+
+        String res = String.valueOf(pref.getInt("pref_key_level_general", 0));
+        res = res.replace("10", "EF");
+        res = res.replace("11", "Q1");
+        res = res.replace("12", "Q2");
+
+        if (res.equals("0"))
+            res = "N/A";
+
+        findPreference("pref_key_level_general").setSummary(res);
+        findPreference("pref_key_username_general").setSummary(currentUsername);
+
+        if (permission == 2 || !Utils.isVerified()) {
+            findPreference("pref_key_level_general").setEnabled(false);
+            findPreference("pref_key_username_general").setSummary("N/A");
+        }
+
+        if (!Utils.isVerified())
+            findPreference("pref_key_username_general").setEnabled(false);
+
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = pInfo.versionName;
+        int verCode = pInfo.versionCode;
+
+        findPreference("pref_key_version_app").setSummary(version + " (" + verCode + ")");
+
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        if (!getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_id", "").equals("")) {
+
+            Preference connectionPref = findPreference("pref_key_qr_id");
+            connectionPref.setSummary(getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_id", ""));
+
+        }
+
+        if (!getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_pw", "").equals("")) {
+
+            Preference connectionPref = findPreference("pref_key_qr_pw");
+            connectionPref.setSummary(getRepl(getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_pw", "passwort")));
+
+        }
+
+        Preference connectionPref = findPreference("pref_key_qr_autofade_time");
+        connectionPref.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_qr_autofade", false));
+
+        Preference notifPref = findPreference("pref_key_notification_time");
+        notifPref.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_notification", false));
+
+        SharedPreferences.Editor editor = getPreferenceScreen().getSharedPreferences().edit();
+        editor.putBoolean("pref_key_status_loggedin", getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_status_loggedin", false));
+        editor.apply();
+
+    }
+
+    private void initToolbar() {
+        Toolbar actionBar = (Toolbar) findViewById(R.id.toolbarSettings);
+        actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        actionBar.setTitle(getString(R.string.title_settings));
+        setSupportActionBar(actionBar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    private void initNavigationView() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
+        navigationView.getMenu().findItem(R.id.settings).setChecked(true);
+
+        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                drawerLayout.closeDrawers();
+                Intent i;
+                switch (menuItem.getItemId()) {
+                    case R.id.foodmarks:
+                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        break;
+                    case R.id.messenger:
+                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                        break;
+                    case R.id.newsboard:
+                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
+                        break;
+                    case R.id.nachhilfe:
+                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        break;
+                    case R.id.stundenplan:
+                        i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
+                        break;
+                    case R.id.barometer:
+                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
+                        break;
+                    case R.id.klausurplan:
+                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
+                        break;
+                    case R.id.startseite:
+                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        break;
+                    case R.id.settings:
+                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
+                        break;
+                    default:
+                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
+                startActivity(i);
+                finish();
+                return true;
+            }
+        });
+        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+        username.setText(Utils.getUserName());
+    }
+
+    public ActionBar getSupportActionBar() {
+        return getDelegate().getSupportActionBar();
+    }
+
+    public void setSupportActionBar(@Nullable Toolbar toolbar) {
+        getDelegate().setSupportActionBar(toolbar);
+    }
+
+    public void invalidateOptionsMenu() {
+        getDelegate().invalidateOptionsMenu();
+    }
+
     private String getRepl(String s) {
 
         StringBuilder b = new StringBuilder();
@@ -397,25 +393,19 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     }
 
     private boolean contains(String s, String reg) {
-
         for (char c : s.toCharArray()) {
-
             boolean ok = false;
             for (char d : reg.toCharArray()) {
-
                 if (c == d)
                     ok = true;
-
             }
             if (!ok)
                 return false;
         }
-
         return true;
     }
 
     private void showSnackbar() {
-
         final Snackbar cS = Snackbar.make(findViewById(R.id.coords), R.string.snackbar_no_connection_info_check, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
         cS.setAction(getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
@@ -425,11 +415,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             }
         });
         cS.show();
-
     }
 
     private void showSnackbar2() {
-
         final Snackbar cS = Snackbar.make(findViewById(R.id.coords), R.string.snackbar_not_correct_info, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
         cS.setAction(getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
@@ -439,7 +427,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             }
         });
         cS.show();
-
     }
 
     private class PreferenceTask extends AsyncTask<Void, Void, Auth> {
@@ -553,15 +540,11 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     }
 
     public static void setCurrentUsername(String newName) {
-
         currentUsername = newName;
-
     }
 
     public View getCoordinatorLayout() {
-
         return findViewById(R.id.coords);
-
     }
 
     private AppCompatDelegate getDelegate() {
@@ -570,5 +553,4 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         }
         return mDelegate;
     }
-
 }

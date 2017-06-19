@@ -81,6 +81,6 @@ public class NumberPickerPref extends DialogPreference {
     private void setValue(int value) {
         this.value = value;
         persistInt(this.value);
-        ReceiveService.setIntervall(value);
+        ReceiveService.setInterval(value);
     }
 }

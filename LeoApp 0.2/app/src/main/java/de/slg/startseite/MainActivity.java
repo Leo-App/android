@@ -338,11 +338,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b.dismiss();
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            Log.d("LeoApp", "No permission. Checking");
+            Log.d("LeoApp", "No upermission. Checking");
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     MY_PERMISSIONS_REQUEST_USE_CAMERA);
-            Log.d("LeoApp", "No permission. Checked");
+            Log.d("LeoApp", "No upermission. Checked");
         } else {
             scV = new ZXingScannerView(getApplicationContext());
             setContentView(scV);

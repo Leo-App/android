@@ -4,9 +4,7 @@ import android.os.AsyncTask;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.GregorianCalendar;
 
@@ -26,11 +24,12 @@ class EmpfangeDaten extends AsyncTask<Void, Void, Ergebnis[][]> {
     @Override
     protected Ergebnis[][] doInBackground(Void... voids) {
         try {
-            URL url = new URL("http://moritz.liegmanns.de/stimmungsbarometer/ergebnisse.php?key=5453&userid=" + userid);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = connection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-            BufferedReader reader = new BufferedReader(inputStreamReader);
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    new URL("http://moritz.liegmanns.de/stimmungsbarometer/ergebnisse.php?key=5453&userid=" + userid)
+                                            .openConnection()
+                                            .getInputStream(), "UTF-8"));
             String line;
             String s = "";
             while ((line = reader.readLine()) != null)

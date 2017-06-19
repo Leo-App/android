@@ -1,19 +1,13 @@
 package de.slg.messenger;
 
 public class Assoziation {
+    final int cid;
+    final int uid;
+    final boolean aremoved;
 
-    final int chatID;
-    final int userID;
-    final boolean removed;
-
-    public Assoziation(int cid, int uid, boolean removed) {
-        this.chatID = cid;
-        this.userID = uid;
-        this.removed = removed;
-    }
-
-    @Override
-    public String toString() {
-        return "chat: " + chatID + ", user: " + userID + ", entfernt: " + removed;
+    public Assoziation(int cid, int uid, boolean aremoved) {
+        this.cid = cid;
+        this.uid = uid;
+        this.aremoved = aremoved;
     }
 }

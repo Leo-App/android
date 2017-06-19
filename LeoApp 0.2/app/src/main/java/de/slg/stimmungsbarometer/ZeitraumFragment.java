@@ -49,7 +49,7 @@ public class ZeitraumFragment extends Fragment {
                     Calendar c = new GregorianCalendar();
                     c.setTime(new Date(current.date.getTime()));
                     c.add(Calendar.DAY_OF_MONTH, -1);
-                    list.insertNext(new Ergebnis(c.getTime(), -1, current.ich, current.schueler, current.lehrer, current.alle));
+                    list.insertBehind(new Ergebnis(c.getTime(), -1, current.ich, current.schueler, current.lehrer, current.alle));
                 }
             }
             data[i] = list.fill(new Ergebnis[list.length()]);

@@ -7,43 +7,43 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class Message {
-    final int messageId;
-    final String messageText;
-    final Date sendDate;
-    final int chatId;
-    final int senderId;
-    boolean read;
-    String senderName = null;
+    final int mid;
+    final String mtext;
+    final Date mdate;
+    final int cid;
+    final int uid;
+    boolean mread;
+    String uname = null;
 
-    public Message(int messageId, String messageText, long sendDate, int chatId, int senderId, boolean read) {
-        this.messageId = messageId;
-        this.messageText = "" + messageText;
-        this.senderId = senderId;
-        this.sendDate = new Date(sendDate);
-        this.chatId = chatId;
-        this.read = read;
+    public Message(int mid, String mtext, long mdate, int cid, int uid, boolean mread) {
+        this.mid = mid;
+        this.mtext = "" + mtext;
+        this.uid = uid;
+        this.mdate = new Date(mdate);
+        this.cid = cid;
+        this.mread = mread;
     }
 
     @Override
     public String toString() {
-        if (senderName != null)
-            return senderName + ": " + messageText;
-        return messageText;
+        if (uname != null)
+            return uname + ": " + mtext;
+        return mtext;
     }
 
-    void setSenderName(String senderName) {
-        this.senderName = senderName;
+    void setUname(String uname) {
+        this.uname = uname;
     }
 
     public String getDate() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
-        if (gleicherTag(sendDate))
+        if (gleicherTag(mdate))
             return "Heute";
-        else if (vorherigerTag(sendDate))
+        else if (vorherigerTag(mdate))
             return "Gestern";
-        else if (gleichesJahr(sendDate))
+        else if (gleichesJahr(mdate))
             simpleDateFormat = new SimpleDateFormat("dd.MM", Locale.GERMANY);
-        return simpleDateFormat.format(sendDate);
+        return simpleDateFormat.format(mdate);
     }
 
     private boolean gleichesJahr(Date pDate) {
@@ -69,6 +69,6 @@ public class Message {
     }
 
     String getTime() {
-        return new SimpleDateFormat("HH:mm:ss", Locale.GERMANY).format(sendDate);
+        return new SimpleDateFormat("HH:mm:ss", Locale.GERMANY).format(mdate);
     }
 }

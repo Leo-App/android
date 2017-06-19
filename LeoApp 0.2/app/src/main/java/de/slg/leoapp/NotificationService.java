@@ -164,6 +164,7 @@ public class NotificationService extends IntentService {
                             .setContentIntent(pendingIntent)
                             .build();
             notificationManager.notify(5453, notification);
+            Utils.notifiedMessenger();
         }
     }
 }

@@ -28,15 +28,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.ReceiveService;
-import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
-
     public static Chat chat;
     public static String chatname;
-    private User currentUser;
     private Message[] messagesArray;
 
     private Menu menu;
@@ -48,11 +44,10 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Utils.registerChatActivity(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
-        Utils.registerChatActivity(this);
-        currentUser = Utils.getCurrentUser();
 
         messagesArray = new Message[0];
         Utils.receive();
@@ -68,7 +63,7 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.messenger_chat, menu);
         this.menu = menu;
-        if (chat.chatTyp == Chat.Chattype.PRIVATE)
+        if (chat.ctype == Chat.Chattype.PRIVATE)
             menu.clear();
         return true;
     }
@@ -160,19 +155,19 @@ public class ChatActivity extends AppCompatActivity {
         if (b) {
             menu.clear();
             getSupportActionBar().setTitle("");
-            etEditChatName.setText(chat.chatName);
+            etEditChatName.setText(chat.cname);
             etEditChatName.setVisibility(View.VISIBLE);
             getMenuInflater().inflate(R.menu.messenger_confirm_action, menu);
         } else {
             menu.clear();
-            getSupportActionBar().setTitle(chat.chatName);
+            getSupportActionBar().setTitle(chat.cname);
             etEditChatName.setVisibility(View.GONE);
             getMenuInflater().inflate(R.menu.messenger_chat, menu);
         }
     }
 
     private void confirmEdit() {
-        chat.chatName = etEditChatName.getText().toString();
+        chat.cname = etEditChatName.getText().toString();
         new SendChatname().execute();
     }
 
@@ -193,7 +188,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private class MessageAdapter extends RecyclerView.Adapter<ViewHolder> {
-
         private Chat.Chattype chattype;
         private LayoutInflater inflater;
         private TextView nachricht, absender, uhrzeit, datum;
@@ -201,7 +195,7 @@ public class ChatActivity extends AppCompatActivity {
         MessageAdapter() {
             super();
             this.inflater = getLayoutInflater();
-            this.chattype = chat.chatTyp;
+            this.chattype = chat.ctype;
         }
 
         @Override
@@ -213,8 +207,8 @@ public class ChatActivity extends AppCompatActivity {
         public void onBindViewHolder(ViewHolder holder, int position) {
             Message current = messagesArray[position];
             View v = holder.itemView;
-            boolean first = position == 0 || !gleicherTag(current.sendDate, messagesArray[position - 1].sendDate);
-            boolean mine = current.senderId == currentUser.userId;
+            boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
+            boolean mine = current.uid == Utils.getUserID();
             if (mine) {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
@@ -233,7 +227,7 @@ public class ChatActivity extends AppCompatActivity {
                 l3.setGravity(Gravity.START);
                 l3.setEnabled(false);
                 absender = (TextView) v.findViewById(R.id.absender);
-                absender.setText(current.senderName);
+                absender.setText(current.uname);
                 if (chattype == Chat.Chattype.PRIVATE) {
                     v.findViewById(R.id.absender).setVisibility(View.GONE);
                 } else {
@@ -241,7 +235,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
             nachricht = (TextView) v.findViewById(R.id.nachricht);
-            nachricht.setText(current.messageText);
+            nachricht.setText(current.mtext);
             uhrzeit = (TextView) v.findViewById(R.id.datum);
             uhrzeit.setVisibility(View.VISIBLE);
             uhrzeit.setText(current.getTime());
@@ -251,7 +245,7 @@ public class ChatActivity extends AppCompatActivity {
                 datum.setText(current.getDate());
             } else {
                 v.findViewById(R.id.textViewDate).setVisibility(View.GONE);
-                if (current.senderId == messagesArray[position - 1].senderId) {
+                if (current.uid == messagesArray[position - 1].uid) {
                     v.findViewById(R.id.absender).setVisibility(View.GONE);
                     v.findViewById(R.id.space).setVisibility(View.GONE);
                 }
@@ -272,10 +266,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private class SendMessage extends AsyncTask<String, Void, Void> {
-
         @Override
         protected Void doInBackground(String... params) {
-            if (currentUser != null && chat != null && Utils.checkNetwork() && Utils.getMessengerDBConnection().isUserInChat(currentUser, chat) && !params[0].equals("")) {
+            if (chat != null && Utils.checkNetwork() && Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), chat) && !params[0].equals("")) {
                 try {
                     BufferedReader reader =
                             new BufferedReader(
@@ -297,13 +290,12 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         private String generateURL(String message) {
-            message = message.replace(' ', '+').replaceAll(System.getProperty("line.separator"), "_l_");
-            return "http://moritz.liegmanns.de/messenger/send.php?key=5453&userid=" + currentUser.userId + "&message=" + message + "&chatid=" + chat.chatId;
+            message = message.replace(' ', '+').replace(System.getProperty("line.separator"), "_l_");
+            return "http://moritz.liegmanns.de/messenger/send.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message + "&chatid=" + chat.cid;
         }
     }
 
     private class SendChatname extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected Void doInBackground(Void... params) {
             if (chat != null && Utils.checkNetwork())
@@ -326,8 +318,8 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         private String generateURL() {
-            String chatname = chat.chatName.replace(' ', '+');
-            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + chat.chatId + "&chatname=" + chatname;
+            String chatname = chat.cname.replace(' ', '+');
+            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + chat.cid + "&chatname=" + chatname;
         }
     }
 }
