@@ -1,16 +1,16 @@
 package de.slg.messenger;
 
 public class Chat {
-    int chatId;
-    String chatName;
-    final Chattype chatTyp;
-    Message letzeNachricht;
-    String chatTitle;
+    int cid;
+    String cname;
+    final Chattype ctype;
+    Message m;
+    String ctitle;
 
-    public Chat(int cId, String cName, Chattype cTyp) {
-        this.chatId = cId;
-        this.chatName = cName;
-        this.chatTyp = cTyp;
+    public Chat(int cid, String cname, Chattype ctype) {
+        this.cid = cid;
+        this.cname = cname;
+        this.ctype = ctype;
     }
 
     @Override
@@ -18,16 +18,16 @@ public class Chat {
         if (!(o instanceof Chat))
             return false;
         Chat c = (Chat) o;
-        if (chatTyp != Chattype.PRIVATE || c.chatTyp != Chattype.PRIVATE)
-            return chatId == c.chatId;
-        String[] s1 = c.chatName.split(" - ");
-        String[] s2 = chatName.split(" - ");
+        if (ctype != Chattype.PRIVATE || c.ctype != Chattype.PRIVATE)
+            return cid == c.cid;
+        String[] s1 = c.cname.split(" - ");
+        String[] s2 = cname.split(" - ");
         return s1.length == 2 && s2.length == 2 && ((s1[0].equals(s2[0]) && s1[1].equals(s2[1])) || (s1[0].equals(s2[1]) && s1[1].equals(s2[0])));
     }
 
     void setLetzteNachricht(Message m) {
         if (m != null)
-            letzeNachricht = m;
+            this.m = m;
     }
 
     public enum Chattype {

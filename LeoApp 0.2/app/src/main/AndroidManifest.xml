@@ -92,9 +92,9 @@
 
     <uses-feature android:name="android.hardware.camera" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-upermission android:name="android.upermission.CAMERA" />
+    <uses-upermission android:name="android.upermission.ACCESS_NETWORK_STATE" />
+    <uses-upermission android:name="android.upermission.INTERNET" />
+    <uses-upermission android:name="android.upermission.VIBRATE" />
 
 </manifest>

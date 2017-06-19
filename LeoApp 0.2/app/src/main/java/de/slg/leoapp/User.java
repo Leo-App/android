@@ -1,16 +1,15 @@
 package de.slg.leoapp;
 
 public class User {
+    public final int uid;
+    public final String uname;
+    public String ustufe;
+    public int upermission;
 
-    public final int userId;
-    public final String userName;
-    public String klasse;
-    public int permission;
-
-    public User(int userId, String userName, String klasse, int permission) {
-        this.userName = userName;
-        this.userId = userId;
-        this.permission = permission;
-        this.klasse = klasse;
+    public User(int uid, String uname, String ustufe, int upermission) {
+        this.uname = uname;
+        this.uid = uid;
+        this.upermission = upermission;
+        this.ustufe = ustufe;
     }
 }

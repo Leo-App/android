@@ -63,7 +63,7 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.messenger_chat, menu);
         this.menu = menu;
-        if (chat.chatTyp == Chat.Chattype.PRIVATE)
+        if (chat.ctype == Chat.Chattype.PRIVATE)
             menu.clear();
         return true;
     }
@@ -155,19 +155,19 @@ public class ChatActivity extends AppCompatActivity {
         if (b) {
             menu.clear();
             getSupportActionBar().setTitle("");
-            etEditChatName.setText(chat.chatName);
+            etEditChatName.setText(chat.cname);
             etEditChatName.setVisibility(View.VISIBLE);
             getMenuInflater().inflate(R.menu.messenger_confirm_action, menu);
         } else {
             menu.clear();
-            getSupportActionBar().setTitle(chat.chatName);
+            getSupportActionBar().setTitle(chat.cname);
             etEditChatName.setVisibility(View.GONE);
             getMenuInflater().inflate(R.menu.messenger_chat, menu);
         }
     }
 
     private void confirmEdit() {
-        chat.chatName = etEditChatName.getText().toString();
+        chat.cname = etEditChatName.getText().toString();
         new SendChatname().execute();
     }
 
@@ -195,7 +195,7 @@ public class ChatActivity extends AppCompatActivity {
         MessageAdapter() {
             super();
             this.inflater = getLayoutInflater();
-            this.chattype = chat.chatTyp;
+            this.chattype = chat.ctype;
         }
 
         @Override
@@ -207,8 +207,8 @@ public class ChatActivity extends AppCompatActivity {
         public void onBindViewHolder(ViewHolder holder, int position) {
             Message current = messagesArray[position];
             View v = holder.itemView;
-            boolean first = position == 0 || !gleicherTag(current.sendDate, messagesArray[position - 1].sendDate);
-            boolean mine = current.senderId == Utils.getUserID();
+            boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
+            boolean mine = current.uid == Utils.getUserID();
             if (mine) {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
@@ -227,7 +227,7 @@ public class ChatActivity extends AppCompatActivity {
                 l3.setGravity(Gravity.START);
                 l3.setEnabled(false);
                 absender = (TextView) v.findViewById(R.id.absender);
-                absender.setText(current.senderName);
+                absender.setText(current.uname);
                 if (chattype == Chat.Chattype.PRIVATE) {
                     v.findViewById(R.id.absender).setVisibility(View.GONE);
                 } else {
@@ -235,7 +235,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
             nachricht = (TextView) v.findViewById(R.id.nachricht);
-            nachricht.setText(current.messageText);
+            nachricht.setText(current.mtext);
             uhrzeit = (TextView) v.findViewById(R.id.datum);
             uhrzeit.setVisibility(View.VISIBLE);
             uhrzeit.setText(current.getTime());
@@ -245,7 +245,7 @@ public class ChatActivity extends AppCompatActivity {
                 datum.setText(current.getDate());
             } else {
                 v.findViewById(R.id.textViewDate).setVisibility(View.GONE);
-                if (current.senderId == messagesArray[position - 1].senderId) {
+                if (current.uid == messagesArray[position - 1].uid) {
                     v.findViewById(R.id.absender).setVisibility(View.GONE);
                     v.findViewById(R.id.space).setVisibility(View.GONE);
                 }
@@ -291,7 +291,7 @@ public class ChatActivity extends AppCompatActivity {
 
         private String generateURL(String message) {
             message = message.replace(' ', '+').replace(System.getProperty("line.separator"), "_l_");
-            return "http://moritz.liegmanns.de/messenger/send.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message + "&chatid=" + chat.chatId;
+            return "http://moritz.liegmanns.de/messenger/send.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message + "&chatid=" + chat.cid;
         }
     }
 
@@ -318,8 +318,8 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         private String generateURL() {
-            String chatname = chat.chatName.replace(' ', '+');
-            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + chat.chatId + "&chatname=" + chatname;
+            String chatname = chat.cname.replace(' ', '+');
+            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + chat.cid + "&chatname=" + chatname;
         }
     }
 }

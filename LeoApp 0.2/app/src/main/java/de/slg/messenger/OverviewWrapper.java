@@ -202,7 +202,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
     public User findUser(int id) {
         for (User u : userArray)
-            if (u.userId == id)
+            if (u.uid == id)
                 return u;
         return null;
     }
@@ -237,8 +237,8 @@ public class OverviewWrapper extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().userArray.length) {
                         User clickedUser = Utils.getOverviewWrapper().userArray[position];
-                        ChatActivity.chatname = clickedUser.userName;
-                        Chat newChat = new Chat(-1, "" + clickedUser.userId + " - " + Utils.getCurrentUser().userId, Chat.Chattype.PRIVATE);
+                        ChatActivity.chatname = clickedUser.uname;
+                        Chat newChat = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
                         int index = Utils.getOverviewWrapper().indexOf(newChat);
                         if (index == -1) {
                             new CreateChat(clickedUser).execute(newChat);
@@ -246,7 +246,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         } else {
                             ChatActivity.chat = Utils.getOverviewWrapper().chatArray[index];
                         }
-                        ChatActivity.chatname = clickedUser.userName;
+                        ChatActivity.chatname = clickedUser.uname;
                         startActivity(new Intent(getContext(), ChatActivity.class));
                     }
                 }
@@ -275,8 +275,8 @@ public class OverviewWrapper extends AppCompatActivity {
             protected Void doInBackground(Chat... params) {
                 if (Utils.checkNetwork()) {
                     sendChat(params[0]);
-                    sendAssoziation(new Assoziation(params[0].chatId, Utils.getUserID(), false));
-                    sendAssoziation(new Assoziation(params[0].chatId, other.userId, false));
+                    sendAssoziation(new Assoziation(params[0].cid, Utils.getUserID(), false));
+                    sendAssoziation(new Assoziation(params[0].cid, other.uid, false));
                 }
                 return null;
             }
@@ -294,7 +294,7 @@ public class OverviewWrapper extends AppCompatActivity {
                     while ((l = reader.readLine()) != null)
                         erg += l;
                     if (!erg.equals("error in chat"))
-                        chat.chatId = Integer.parseInt(erg);
+                        chat.cid = Integer.parseInt(erg);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -320,12 +320,12 @@ public class OverviewWrapper extends AppCompatActivity {
             }
 
             private String generateURL(Chat chat) {
-                String chatname = chat.chatName.replace(' ', '+');
+                String chatname = chat.cname.replace(' ', '+');
                 return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase();
             }
 
             private String generateURL(Assoziation assoziation) {
-                return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.userID + "&chatid=" + assoziation.chatID;
+                return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
             }
         }
     }
@@ -349,7 +349,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().chatArray.length) {
-                        ChatActivity.chatname = Utils.getOverviewWrapper().chatArray[position].chatTitle;
+                        ChatActivity.chatname = Utils.getOverviewWrapper().chatArray[position].ctitle;
                         ChatActivity.chat = Utils.getOverviewWrapper().chatArray[position];
                         startActivity(new Intent(getContext(), ChatActivity.class));
                     }
@@ -393,29 +393,29 @@ public class OverviewWrapper extends AppCompatActivity {
                 ImageView icon = (ImageView) v.findViewById(R.id.iconChat);
                 ImageView notify = (ImageView) v.findViewById(R.id.notify);
                 if (position < chats.length && chats[position] != null) {
-                    if (chats[position].chatTyp == Chat.Chattype.GROUP) {
-                        chatname.setText(chats[position].chatName);
-                        chats[position].chatTitle = chats[position].chatName;
+                    if (chats[position].ctype == Chat.Chattype.GROUP) {
+                        chatname.setText(chats[position].cname);
+                        chats[position].ctitle = chats[position].cname;
                     } else {
-                        String[] s = chats[position].chatName.split(" - ");
+                        String[] s = chats[position].cname.split(" - ");
                         int idO;
-                        if (currentUser.userId == Integer.parseInt(s[0]))
+                        if (currentUser.uid == Integer.parseInt(s[0]))
                             idO = Integer.parseInt(s[1]);
                         else
                             idO = Integer.parseInt(s[0]);
                         User o = Utils.getOverviewWrapper().findUser(idO);
                         if (o != null) {
-                            chatname.setText(o.userName);
-                            chats[position].chatTitle = o.userName;
+                            chatname.setText(o.uname);
+                            chats[position].ctitle = o.uname;
                         }
                     }
-                    if (chats[position].letzeNachricht != null)
-                        lastMessage.setText(chats[position].letzeNachricht.toString());
-                    if (chats[position].chatTyp == Chat.Chattype.PRIVATE)
+                    if (chats[position].m != null)
+                        lastMessage.setText(chats[position].m.toString());
+                    if (chats[position].ctype == Chat.Chattype.PRIVATE)
                         icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
-                    if (chats[position].chatTyp == Chat.Chattype.GROUP)
+                    if (chats[position].ctype == Chat.Chattype.GROUP)
                         icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
-                    if (chats[position].letzeNachricht != null && chats[position].letzeNachricht.senderId != currentUser.userId && !chats[position].letzeNachricht.read)
+                    if (chats[position].m != null && chats[position].m.uid != currentUser.uid && !chats[position].m.mread)
                         notify.setVisibility(View.VISIBLE);
                 }
                 return v;

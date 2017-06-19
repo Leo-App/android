@@ -23,7 +23,6 @@ import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import de.slg.leoapp.R;
@@ -143,13 +142,13 @@ public class AddGroupChatActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             sendChat(newChat);
             User[] members = userAdapter.getSelected();
-            sendAssoziation(new Assoziation(newChat.chatId, Utils.getUserID(), false));
+            sendAssoziation(new Assoziation(newChat.cid, Utils.getUserID(), false));
             ChatActivity.chat = newChat;
-            ChatActivity.chatname = newChat.chatName;
+            ChatActivity.chatname = newChat.cname;
             startActivity(new Intent(getApplicationContext(), ChatActivity.class));
             finish();
             for (User member : members) {
-                sendAssoziation(new Assoziation(newChat.chatId, member.userId, false));
+                sendAssoziation(new Assoziation(newChat.cid, member.uid, false));
             }
             return null;
         }
@@ -167,7 +166,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 while ((l = reader.readLine()) != null)
                     erg += l;
                 Log.i("SendTask", "result of send Chat: " + erg);
-                chat.chatId = Integer.parseInt(erg);
+                chat.cid = Integer.parseInt(erg);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -195,12 +194,12 @@ public class AddGroupChatActivity extends AppCompatActivity {
         }
 
         private String generateURL(Chat chat) {
-            String chatname = chat.chatName.replace(' ', '+');
+            String chatname = chat.cname.replace(' ', '+');
             return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.GROUP.toString().toLowerCase();
         }
 
         private String generateURL(Assoziation assoziation) {
-            return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.userID + "&chatid=" + assoziation.chatID;
+            return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
     }
 }

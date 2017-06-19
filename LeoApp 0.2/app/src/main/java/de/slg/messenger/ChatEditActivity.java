@@ -98,7 +98,7 @@ public class ChatEditActivity extends AppCompatActivity {
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarEditChat);
         actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        actionBar.setTitle(currentChat.chatName);
+        actionBar.setTitle(currentChat.cname);
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -146,7 +146,7 @@ public class ChatEditActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(User... params) {
             for (User u : params) {
-                sendAssoziation(new Assoziation(currentChat.chatId, u.userId, false));
+                sendAssoziation(new Assoziation(currentChat.cid, u.uid, false));
             }
             return null;
         }
@@ -170,7 +170,7 @@ public class ChatEditActivity extends AppCompatActivity {
         }
 
         private String generateURL(Assoziation assoziation) {
-            return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.userID + "&chatid=" + assoziation.chatID;
+            return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
 
         @Override
@@ -185,7 +185,7 @@ public class ChatEditActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(User... params) {
             for (User u : params) {
-                removeAssoziation(new Assoziation(currentChat.chatId, u.userId, false));
+                removeAssoziation(new Assoziation(currentChat.cid, u.uid, false));
                 Utils.getMessengerDBConnection().removeUserFromChat(u, currentChat);
             }
             return null;
@@ -210,7 +210,7 @@ public class ChatEditActivity extends AppCompatActivity {
         }
 
         private String generateURL(Assoziation assoziation) {
-            return "http://moritz.liegmanns.de/messenger/removeAssoziation.php?key=5453&chatid=" + assoziation.chatID + "&userid=" + assoziation.userID;
+            return "http://moritz.liegmanns.de/messenger/removeAssoziation.php?key=5453&chatid=" + assoziation.cid + "&userid=" + assoziation.uid;
         }
 
         @Override
