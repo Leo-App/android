@@ -6,8 +6,8 @@
     <string name="toolbar" translatable="false">Toolbar</string>
     <string name="action_save">Save</string>
     <string name="action_delete">delete</string>
-    <string name="title_activity">Klausur</string>
-    <string name="snackbar_ungültig">Fach oder Datum ungültig</string>
+    <string name="title_activity">Test</string>
+    <string name="snackbar_ungültig">Subject or date are incorrect</string>
     <string name="dismiss" translatable="false">OK</string>
     <string name="snackbar_gelöscht">Alle Klausuren gelöscht</string>
     <string name="snackbar_undo">Undo</string>
@@ -27,7 +27,7 @@
     <string name="title_home">Home</string>
     <string name="title_foodmarks">Foodmarks</string>
     <string name="title_testplan">Testplan</string>
-    <string name="title_messenger">Messenger</string>
+    <string name="title_messenger" translatable="false">Messenger</string>
     <string name="title_tutoring">Tutoring</string>
     <string name="title_news">News</string>
     <string name="title_survey">Moodsurvey</string>
@@ -75,7 +75,7 @@
     <string name="settings_toast_username_success">Username changed!</string>
 
     <string name="settings_category_info">Contact &#38; Information</string>
-    <string name="settings_title_version">Version</string>
+    <string name="settings_title_version" translatable="false">Version</string>
     <string name="settings_summary_version" translatable="false">LeoApp v1.0.1</string>
     <string name="settings_title_contact">Contact</string>
     <string name="settings_summary_contact" translatable="false">email\@maildomain.de</string>
@@ -91,7 +91,7 @@
     <string name="button_confirm" translatable="false">OK</string>
     <string name="action_refresh">Refresh</string>
     <string name="button_sidemenu">Navigation</string>
-    <string name="textview_placeholder"> </string>
+    <string name="textview_placeholder" translatable="false"> </string>
     <string name="qr_display_title">Your Order for today\, the</string>
     <string name="qr_display_menu" translatable="false">Menu</string>
     <string name="dialog_desc_valid">Ordered menu:</string>
@@ -108,7 +108,7 @@
     <string name="settings_summary_customid">Enter your lunch.leo-ac.de customer ID</string>
     <string name="settings_title_pw">Password</string>
     <string name="settings_summary_pw">Enter your lunch.leo-ac.de password</string>
-    <string name="settings_title_sync">Auto-Sync</string>
+    <string name="settings_title_sync" translatable="false">Auto-Sync</string>
     <string name="settings_summary_sync">Synchronize data on app start</string>
     <string name="settings_title_fade">Auto dismiss</string>
     <string name="settings_summary_fade">Automatically dismiss scan-information</string>
@@ -135,7 +135,7 @@
     <string name="month">month</string>
     <string name="months">months</string>
     <string name="year">year</string>
-    <string name="stunden">Stunden</string>
+    <string name="stunden">hours</string>
     <string name="bearbeiten">edit</string>
     <string name="speichern">save</string>
     <string name="mo">Mon</string>
@@ -154,11 +154,11 @@
     <string name="latein">Latin</string>
     <string name="franze">French</string>
     <string name="englisch">English</string>
-    <string name="spanisch">Spanisch</string>
+    <string name="spanisch">Spanish</string>
     <string name="bili">history bilingual</string>
     <string name="geschichte">History</string>
     <string name="geo">Geography</string>
-    <string name="sowi">Sozialwissenschaften</string>
+    <string name="sowi">Social sciences</string>
     <string name="pada">Pedagogy</string>
     <string name="reliKat" translatable="false">Religion Kath.</string>
     <string name="reliEv" translatable="false">Religion Ev.</string>
@@ -171,7 +171,7 @@
     <string name="kunst">Art</string>
     <string name="musik">Music</string>
     <string name="SnackBarMes">Plan konnte nicht geladen werden</string>
-    <string name="später">später</string>
+    <string name="später">later</string>
     <string name="lk">Higher Level</string>
     <string name="montag">Monday</string>
     <string name="dienstag">Tueseday</string>

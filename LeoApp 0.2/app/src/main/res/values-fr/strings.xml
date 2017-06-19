@@ -11,10 +11,9 @@
 
     <!-- Titel -->
 
-    <string name="title_home">Startseite</string>
-    <string name="title_foodmarks">Essensbons</string>
+    <string name="title_home">page d\'accueil</string>
+    <string name="title_foodmarks">bons d\'achat de dîner</string>
     <string name="title_testplan">Klausurplan</string>
-    <string name="title_messenger">Messenger</string>
     <string name="title_tutoring">Nachhilfebörse</string>
     <string name="title_news">Schwarzes Brett</string>
     <string name="title_survey">Stimmungsbarometer</string>
@@ -28,34 +27,34 @@
     <string name="button_info_auth">vérifier</string>
     <string name="button_info_noreminder">Awesome!</string>
 
-    <string name="title_info_auth_failed">Du bist noch nicht verifiziert</string>
-    <string name="title_info_auth">Du bist verifiziert</string>
-    <string name="summary_info_auth_success">Du bist jetzt verifiziert und kannst alle Funktionen benutzen!</string>
-    <string name="summary_info_auth">Einige Funktionen benötigen eine Verifizierung. Verifiziere dich hier.</string>
-    <string name="summary_info_auth_failed">Anscheinend ist etwas schiefgelaufen. Versichere dich, dass dein QR-Code gültig ist und versuch es erneut</string>
+    <string name="title_info_auth_failed">Tu n\'est pas encore vérifié</string>
+    <string name="title_info_auth">Tu est vérifié</string>
+    <string name="summary_info_auth_success">Tu es maintenant verifié</string>
+    <string name="summary_info_auth">Quelques fonctions ne peuvent pas être utilisés sans vérification. Tu peux te vérifier en cliquant sur le boutton en bas</string>
+    <string name="summary_info_auth_failed">Il semble que quelque chose n\'a pas marché. Vérifies que le QR-Code est valide et l\'essaye encore un fois</string>
 
-    <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Du brauchst nur noch den QR-Code vorzuzeigen und erhälst dein bestelltes Menu</string>
-    <string name="summary_info_testplan">Hier findest du eine Sammlung deiner anstehenden Klausuren. Ergänze dein Profil um die Filterfunktion zu verwenden oder füge deine eigenen Einträge hinzu.</string>
-    <string name="summary_info_messenger">Mithilfe dieser Funktion kannst du mit deinen Klassenkameraden und Lehrern kommunizieren, ohne dass diese deine Telefonnummer erfahren. Du kannst in Gruppen oder privat chatten. Deinen Benutzernamen kannst du in den Einstellungen ändern.</string>
-    <string name="summary_info_tutoring">Brauchst du Nachhilfe in einem Fach? Bitte einfach darum in der Nachhilfebörse!</string>
-    <string name="summary_info_news">Hier stehen alle wichtigen Neuigkeiten über dein Schulleben.</string>
-    <string name="summary_info_survey">In deiser Funktion kannst du jeden Tag deine Stimmung angeben und auch die der Anderen sehen.</string>
-    <string name="summary_info_schedule">Wähle deine belegten Kurse aus und dir wird ein automatischer Stundenplan generiert. Diesen kannst du natürlich noch anpassen.</string>
+    <string name="summary_info_foodmark">Avec cette fonction tu peux confirmer ta commande de dîner digitale. Il faut juste montrer le QR-Code au personnel de la cantine</string>
+    <string name="summary_info_testplan">Ici tu trouves une liste de tes épreuves. Tu peux les filtrer dans les régalges ou ajouter d\'autres épreuves</string>
+    <string name="summary_info_messenger">Tu peux utiliser cette fonction pour communiquer avec les élèves de ta classe ou tes profs sans les donner ton numméro de protable. Tu peux créer des groupes ou juste chatter avec une persone. Ton nom d\'utilisateur peut être changé dans les réglages</string>
+    <string name="summary_info_tutoring">As tu besoin dun tuteur/une tutrice ou veux tutoyer quelq\'un? Tu peux ajouter une message sur le bord des touteur</string>
+    <string name="summary_info_news">Ici tu trouves tous les nouveaux concernat ta vie scolaire</string>
+    <string name="summary_info_survey">Avec cette fonction tu peux juger ton état d\'âme et voir les reponses des autres</string>
+    <string name="summary_info_schedule">Choisis tes matières/classes pour qu\'on peut automatiquement génerer ton emploi de temps</string>
 
     <string name="dialog_verify_title">Verification</string>
     <string name="dialog_verify_info">Connecte-toi sur un des ordinateurs de l\'école avec TON compte et lance le programme de verification</string>
 
-    <string name="snackbar_no_connection_info">Keine Internetverbindung</string>
-    <string name="snackbar_no_connection_button">OK</string>
+    <string name="snackbar_no_connection_info">Pas de connection internet</string>
+    <string name="snackbar_no_connection_button">O.K.</string>
 
 
     <!-- Klausurplan -->
 
-    <string name="title_activity">Klausur</string>
-    <string name="snackbar_ungültig">Fach oder Datum ungültig</string>
-    <string name="snackbar_gelöscht">Alle Klausuren gelöscht</string>
-    <string name="snackbar_undo">Rückgängig</string>
-    <string name="subject">Fach</string>
+    <string name="title_activity">Epreuve</string>
+    <string name="snackbar_ungültig">Matière ou date incorrects</string>
+    <string name="snackbar_gelöscht">Tous les épreuves supprimés</string>
+    <string name="snackbar_undo">Annuler</string>
+    <string name="subject">Matière</string>
     <string name="date">Date</string>
     <string name="date_format">DD.MM.YY</string>
     <string name="note">Note</string>
@@ -75,7 +74,6 @@
     <string name="button_scan">scanner</string>
     <string name="action_refresh">actualiser</string>
     <string name="button_sidemenu">Navigation</string>
-    <string name="textview_placeholder"> </string>
     <string name="qr_display_title">Ta commande pour aujourd\'hui, le</string>
     <string name="dialog_desc_valid">Menu commandé</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
@@ -87,8 +85,8 @@
     <string name="explain_title_3">Étape 2</string>
     <string name="explain_desc_3">Si le scan a marché tu recois tous les informations importantes: le menu commandé et si tu as déjà utilise le code.\"</string>
     <string name="invalidId">Fausse ID d\'utilisateur</string>
-    <string name="snackbar_no_connection_info_check">Login-Daten können nicht überprüft werden. Bitte überprüfe deine Netzwerkverbindung</string>
-    <string name="snackbar_not_correct_info">Login-Daten inkorrekt</string>
+    <string name="snackbar_no_connection_info_check">Dates de conection n\'ont pas pu être vérifies. S.T.P. verifies que tu as une connection internet active</string>
+    <string name="snackbar_not_correct_info">Dates de connection incorrects</string>
     <string name="popup_code_not_valid">Le QR-Code a déjà été utilisé</string>
     <string name="notification_summary_notif">Tu n\'a pas encore syncronisé tes commandes</string>
     <string name="login_success">Login avec succès</string>
@@ -107,7 +105,7 @@
 
     <!-- Stundenplan -->
 
-    <string name="stunden">Stunden</string>
+    <string name="stunden">heures</string>
     <string name="bearbeiten">éditer</string>
     <string name="mo">Lu</string>
     <string name="montag">Lundi</string>
@@ -125,11 +123,11 @@
     <string name="latein">Latin</string>
     <string name="franze">Francais</string>
     <string name="englisch">Anglais</string>
-    <string name="spanisch">Spanisch</string>
+    <string name="spanisch">Espagnol</string>
     <string name="bili">histoire bilingue</string>
     <string name="geschichte">Histoire</string>
     <string name="geo">Géographie</string>
-    <string name="sowi">Sozialwissenschaften</string>
+    <string name="sowi">Sciences sociales</string>
     <string name="pada">Pédagogie</string>
     <string name="philo">Philosophie</string>
     <string name="info">Informatique</string>
@@ -140,7 +138,7 @@
     <string name="kunst">Arts plastiques</string>
     <string name="musik">Musique</string>
     <string name="SnackBarMes">Le plan n\'a pas pu être chargé</string>
-    <string name="später">später</string>
+    <string name="später">plus tard</string>
     <string name="lk">Cours Intensifs</string>
     <string name="zeit">Zeit</string>
     <string name="raum">Salle</string>
@@ -153,17 +151,16 @@
 
     <!--Generell-->
     <string name="settings_category_general">Général</string>
-    <string name="settings_title_username">Benutzername</string>
+    <string name="settings_title_username">Nom d\'utilisateur</string>
     <string name="settings_title_level">Classe/Année</string>
     <string name="settings_snackbar_username_taken">Ce nom d\'utilisateur est déjà utilié</string>
-    <string name="settings_toast_username_success">Benutzername geändert!</string>
+    <string name="settings_toast_username_success">Nom d\'utilisateur changé</string>
     <string name="settings_name_changed">Nom changé!</string>
 
     <!--Essensbons-->
     <string name="settings_summary_customid">Entre ton ID d\'utilisateur de lunch.leo-ac.de</string>
-    <string name="settings_title_pw">Passwort</string>
+    <string name="settings_title_pw">Mot de passe</string>
     <string name="settings_summary_pw">Entre ton mot de passe de lunch.leo-ac.de</string>
-    <string name="settings_title_sync">Auto-Sync</string>
     <string name="settings_summary_sync">Syncronisers dates au lancement de l\'APP</string>
     <string name="settings_title_fade">Opprimer automatiquement</string>
     <string name="settings_summary_fade">Informatons du scan sont automqtiquement opprimés</string>
@@ -171,22 +168,21 @@
     <string name="settings_summary_fade_time">Temps jusqu\'à que le fênetre de dialogue ferme</string>
     <string name="settings_title_camera">utilser caméra frontale</string>
     <string name="settings_summary_camera">Utilise la caméra frontale pour scanner</string>
-    <string name="settings_title_mode">MensaMode&#8482;</string>
     <string name="settings_summary_mode">MensaMode&#8482; pour le personnel de la cantine</string>
-    <string name="settings_title_notification">Benachrichtigungen erhalten</string>
+    <string name="settings_title_notification">Recevoir notifications</string>
     <string name="settings_summary_notification">Notification, si je n\'ai pas encore syncronisé</string>
-    <string name="settings_title_notification_time">Uhrzeit</string>
+    <string name="settings_title_notification_time">Temps de notification</string>
     <string name="settings_summary_notification_time">Quand veux tu être rappelé?</string>
 
     <!--Klausurplan-->
     <string name="settings_summary_notification_test">Informe moi sur les prochains epreuves</string>
     <string name="settings_summary_testplan_time">Supprimer tous les épreuves après...</string>
-    <string name="settings_title_testplan_time">Klausuren löschen</string>
+    <string name="settings_title_testplan_time">Suprimer epreuves</string>
     <string name="settings_summary_test_timetable">filtrer par emploi</string>
-    <string name="settings_title_test_timetable">Filtern</string>
+    <string name="settings_title_test_timetable">filtrer</string>
 
     <!--Messenger-->
-    <string name="settings_title_refresh_interval">Aktualisierungsintervall</string>
+    <string name="settings_title_refresh_interval">Intervall d\'actualisation</string>
     <string name="settings_summary_refresh_interval">Interval entre les syncronisations</string>
     <string name="settings_summary_notification_messenger">Informe moi s\'il y a nouveaux messages</string>
     <string name="messenger_notification_title">Nouveau Message!</string>
@@ -203,9 +199,8 @@
 
     <!--Kontakt & Informationen-->
     <string name="settings_category_info">Contact &#38; Informations</string>
-    <string name="settings_title_version">Version</string>
     <string name="settings_title_contact">Contact</string>
-    <string name="speichern">Speichern</string>
+    <string name="speichern">sauver</string>
     <string name="info_screen_title">LeoApp pour Android</string>
     <string name="info_screen_second">Développe par ...</string>
     <string name="info_screen_fourth">Toutes les informations sont sans garantie</string>
@@ -227,9 +222,9 @@
     <string name="settings_title_filterby_level">Année</string>
     <string name="settings_title_filterby_schedule">Emploi de temps</string>
     <string name="settings_title_interval_subst">Interval</string>
-    <string name="settings_title_network">nur WLAN</string>
-    <string name="settings_title_password_school">Passwort</string>
-    <string name="settings_title_username_school">Benutzername</string>
+    <string name="settings_title_network">Seulement avec WiFi</string>
+    <string name="settings_title_password_school">Mot de passe</string>
+    <string name="settings_title_username_school">Nom d\'utilisateur</string>
     <string name="title_subst">Vertretung</string>
     <string name="settings_category_subst">Remplacant</string>
     <string name="mache_bild">Créer un image</string>
