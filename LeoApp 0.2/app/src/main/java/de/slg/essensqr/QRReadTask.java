@@ -119,7 +119,9 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
 
         Log.d("LeoApp", "passed logic date test");
 
-        String subsum = "" + parts[2].substring(0, 3) + "" + parts[2].substring(4);
+        String subsum = "" + parts[2].substring(0, 2) + "" + parts[2].substring(4);
+
+        Log.d("LeoApp", subsum);
 
         try {
             int menu = Integer.parseInt(String.valueOf(parts[1].charAt(1)));
@@ -151,7 +153,7 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
             ((TextView) v.findViewById(R.id.textView4)).setText(act.getString(R.string.dialog_desc_valid) + "\t" + orderedMenu);
             interval = new long[]{0, 200, 100, 200};
         } else {
-            v = inflater.inflate(R.layout.dialog_layout, null);
+            v = inflater.inflate(R.layout.dialog_layout_essen, null);
             interval = new long[]{0, 1000, 500, 1000};
         }
 
