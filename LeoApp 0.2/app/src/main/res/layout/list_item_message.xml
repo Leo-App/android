@@ -38,18 +38,15 @@
             android:id="@+id/wrapperlayout2"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textViewDate"
             android:gravity="right">
 
             <LinearLayout
                 android:id="@+id/wrapperlayout3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:background="@drawable/chatbubble"
-                android:elevation="1dp"
-                android:orientation="horizontal"
-                android:gravity="right"
-                android:padding="2dp">
+                android:elevation="1dp">
 
                 <RelativeLayout
                     android:id="@+id/wrapperlayout4"
@@ -60,9 +57,10 @@
                         android:id="@+id/absender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
                         android:lines="1"
-                        android:text="Absender"
-                        android:layout_alignParentTop="true"
+                        android:maxWidth="260dp"
+                        android:text="@string/textview_placeholder"
                         android:textColor="@color/colorText"
                         android:textSize="13sp" />
 
@@ -70,22 +68,25 @@
                         android:id="@+id/nachricht"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/absender"
-                        android:text="Nachricht"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@id/absender"
+                        android:maxWidth="255dp"
+                        android:text="@string/textview_placeholder"
                         android:textColor="@color/colorText"
                         android:textSize="18sp" />
 
-                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/datum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/nachricht"
+                        android:layout_toRightOf="@id/nachricht"
+                        android:lines="1"
+                        android:text="@string/textview_placeholder"
+                        android:textColor="@color/colorText"
+                        android:textSize="11sp" />
 
-                <TextView
-                    android:id="@+id/datum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:lines="1"
-                    android:text="Datum"
-                    android:textColor="@color/colorText"
-                    android:textSize="11sp" />
+                </RelativeLayout>
 
             </LinearLayout>
 

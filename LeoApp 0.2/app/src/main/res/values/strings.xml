@@ -91,7 +91,7 @@
     <string name="button_confirm" translatable="false">OK</string>
     <string name="action_refresh">Refresh</string>
     <string name="button_sidemenu">Navigation</string>
-    <string name="textview_placeholder" translatable="false"> </string>
+    <string name="textview_placeholder" translatable="false">placeholder</string>
     <string name="qr_display_title">Your Order for today\, the</string>
     <string name="qr_display_menu" translatable="false">Menu</string>
     <string name="dialog_desc_valid">Ordered menu:</string>

@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.ReceiveService;
 import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
@@ -99,7 +101,7 @@ public class ChatActivity extends AppCompatActivity {
     private void initToolbar() {
         String chatname = chat.cname;
         if (chat.ctype == Chat.Chattype.PRIVATE) {
-            String[] split = chat.cname.split(" ");
+            String[] split = chat.cname.split(" - ");
             if (split[0].equals("" + Utils.getUserID()))
                 chatname = Utils.getMessengerDBConnection().getUname(Integer.parseInt(split[1]));
             else
@@ -237,20 +239,16 @@ public class ChatActivity extends AppCompatActivity {
             if (mine) {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
-                LinearLayout l3 = (LinearLayout) v.findViewById(R.id.wrapperlayout3);
                 l1.setGravity(Gravity.END);
                 l2.setGravity(Gravity.END);
-                l3.setGravity(Gravity.END);
-                l3.setEnabled(true);
+                v.findViewById(R.id.wrapperlayout3).setEnabled(true);
                 v.findViewById(R.id.absender).setVisibility(View.GONE);
             } else {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
-                LinearLayout l3 = (LinearLayout) v.findViewById(R.id.wrapperlayout3);
                 l1.setGravity(Gravity.START);
                 l2.setGravity(Gravity.START);
-                l3.setGravity(Gravity.START);
-                l3.setEnabled(false);
+                v.findViewById(R.id.wrapperlayout3).setEnabled(false);
                 absender = (TextView) v.findViewById(R.id.absender);
                 absender.setText(current.uname);
                 if (chattype == Chat.Chattype.PRIVATE) {
