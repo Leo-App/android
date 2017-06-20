@@ -154,6 +154,17 @@ public class Stundenplanverwalter {
         return this.macheArray(a, a.size());
     }
 
+    public Fach[] gibFaecherKurzTag(int pTag) {
+        Fach[] fach = gibFaecherKurz();
+        ArrayList<Fach> a = new ArrayList<>();
+        for(int i=0; i<fach.length; i++) {
+            if(Integer.parseInt(fach[i].gibTag())==pTag) {
+                a.add(fach[i]);
+            }
+        }
+        return this.macheArray(a, a.size());
+    }
+
     Fach[] gibFacherSortStunde(int pStunde) {
         Fach[] fach;
         if (schonMitFreistunden()) {
