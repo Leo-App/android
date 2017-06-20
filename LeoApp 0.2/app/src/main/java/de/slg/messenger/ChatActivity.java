@@ -298,6 +298,7 @@ public class ChatActivity extends AppCompatActivity {
                     snackbar.show();
                     return null;
                 }
+
                 try {
                     BufferedReader reader =
                             new BufferedReader(

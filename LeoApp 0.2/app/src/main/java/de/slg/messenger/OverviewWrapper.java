@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -293,8 +294,10 @@ public class OverviewWrapper extends AppCompatActivity {
                     String l;
                     while ((l = reader.readLine()) != null)
                         erg += l;
-                    if (!erg.equals("error in chat"))
+                    if (!erg.startsWith("error"))
                         chat.cid = Integer.parseInt(erg);
+                    else
+                        Log.e("Error", erg);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -309,9 +312,7 @@ public class OverviewWrapper extends AppCompatActivity {
                                                 new URL(generateURL(assoziation))
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null) {
-
-                        }
+                        while (reader.readLine() != null);
                         return true;
                     } catch (Exception e) {
                         e.printStackTrace();
