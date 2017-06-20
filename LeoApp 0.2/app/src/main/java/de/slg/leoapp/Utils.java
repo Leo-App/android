@@ -134,7 +134,7 @@ public abstract class Utils {
         return new Date(Start.pref.getLong("pref_key_general_last_notification_messenger", 0));
     }
 
-    public static void notifiedMessenger() {
+    static void notifiedMessenger() {
         Start.pref.edit()
                 .putLong("pref_key_general_last_notification_messenger", new Date().getTime())
                 .apply();

@@ -164,7 +164,6 @@ public class ChatActivity extends AppCompatActivity {
                 new SendMessage().execute(message);
                 etMessage.setText("");
                 Utils.receive();
-                refreshUI();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Verbinde dich mit dem Internet um Nchrichten zu senden.", Toast.LENGTH_SHORT).show();
@@ -202,6 +201,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void run() {
                 rvMessages.swapAdapter(new MessageAdapter(), false);
+                rvMessages.scrollToPosition(messagesArray.length - 1);
             }
         });
     }
