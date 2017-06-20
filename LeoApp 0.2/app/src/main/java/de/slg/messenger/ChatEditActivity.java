@@ -3,6 +3,7 @@ package de.slg.messenger;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -97,7 +98,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarEditChat);
-        actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         actionBar.setTitle(currentChat.cname);
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
@@ -159,9 +160,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                             new URL(generateURL(assoziation))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null) {
-
-                    }
+                    while (reader.readLine() != null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -198,9 +197,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                             new URL(generateURL(assoziation))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null) {
-
-                    }
+                    while (reader.readLine() != null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

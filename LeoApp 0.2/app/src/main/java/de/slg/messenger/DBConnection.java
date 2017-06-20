@@ -215,6 +215,17 @@ public class DBConnection {
         return array;
     }
 
+    String getUname(int uid) {
+        Cursor cursor = query(DBHelper.TABLE_USERS, new String[]{DBHelper.USER_NAME}, DBHelper.USER_ID + " = " + uid, null, null, null, null);
+        String erg = null;
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            erg = cursor.getString(0);
+        }
+        cursor.close();
+        return erg;
+    }
+
     Message[] getMessagesFromChat(Chat c) {
         if (c == null)
             return new Message[0];

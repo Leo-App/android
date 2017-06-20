@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -72,7 +73,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarAddChat);
-        actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         actionBar.setTitle(getString(R.string.title_new_groupchat));
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
@@ -91,9 +92,9 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
                 checkBox.setChecked(!checkBox.isChecked());
                 TextView username = (TextView) view.findViewById(R.id.username);
-                int color = getResources().getColor(R.color.colorAccent);
+                int color = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
                 if (!checkBox.isChecked())
-                    color = getResources().getColor(R.color.colorText);
+                    color = ContextCompat.getColor(getApplicationContext(), R.color.colorText);
                 username.setTextColor(color);
                 usersSelected = userAdapter.selectCount() > 0;
                 menu.clear();

@@ -9,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -91,7 +92,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarOverview);
-        actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         actionBar.setTitle("Messenger");
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);

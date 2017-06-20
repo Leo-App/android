@@ -23,7 +23,6 @@ import java.util.concurrent.ExecutionException;
 import de.slg.leoapp.R;
 
 public class AuswahlActivity extends AppCompatActivity {
-
     private Menu menu;
     private AuswahlAdapter auswahlAdapter;
     private Stundenplanverwalter sv;

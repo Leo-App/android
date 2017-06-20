@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,6 +41,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private RecyclerView rvMessages;
     private EditText etMessage;
+    private Snackbar snackbar;
     private String message;
 
     @Override
@@ -55,6 +57,7 @@ public class ChatActivity extends AppCompatActivity {
         initToolbar();
         initSendMessage();
         initRecyclerView();
+        initSnackbar();
 
         Utils.getMessengerDBConnection().setMessagesRead(chat);
     }
@@ -94,8 +97,16 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
+        String chatname = chat.cname;
+        if (chat.ctype == Chat.Chattype.PRIVATE) {
+            String[] split = chat.cname.split(" ");
+            if (split[0].equals("" + Utils.getUserID()))
+                chatname = Utils.getMessengerDBConnection().getUname(Integer.parseInt(split[1]));
+            else
+                chatname = Utils.getMessengerDBConnection().getUname(Integer.parseInt(split[0]));
+        }
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarChat);
-        actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         actionBar.setTitle(chatname);
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
@@ -116,6 +127,20 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
+    }
+
+    private void initSnackbar() {
+        snackbar = Snackbar
+                .make(findViewById(R.id.coordinatorLayout),
+                        "Something went wrong! Please restart the app",
+                        Snackbar.LENGTH_LONG)
+                .setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
+                .setAction(getString(R.string.snackbar_undo), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                });
     }
 
     private String getMessage() {
@@ -269,6 +294,10 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... params) {
             if (chat != null && Utils.checkNetwork() && Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), chat) && !params[0].equals("")) {
+                if (chat.cid == -1) {
+                    snackbar.show();
+                    return null;
+                }
                 try {
                     BufferedReader reader =
                             new BufferedReader(
@@ -276,12 +305,7 @@ public class ChatActivity extends AppCompatActivity {
                                             new URL(generateURL(params[0]))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    String erg = "";
-                    String l;
-                    Log.i("Tag", "Nachricht " + params[0]);
-                    while ((l = reader.readLine()) != null)
-                        erg += l;
-                    Log.d("Debug", "result of send Message: " + erg);
+                    while (reader.readLine() != null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -305,11 +329,7 @@ public class ChatActivity extends AppCompatActivity {
                                             new URL(generateURL())
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    String erg = "";
-                    String l;
-                    while ((l = reader.readLine()) != null)
-                        erg += l;
-                    Log.d("Debug", "result of send Chatname: " + erg);
+                    while (reader.readLine() != null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

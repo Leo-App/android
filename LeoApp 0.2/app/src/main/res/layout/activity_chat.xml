@@ -1,104 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/actionBarChat"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent">
-
-            <EditText
-                android:id="@+id/editTextEditChatName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:hint="Chatname"
-                android:inputType="text"
-                android:lines="1"
-                android:maxLines="1"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:visibility="gone" />
-
-        </LinearLayout>
-
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/messageToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="bottom"
-        android:background="@color/colorInactive"
-        android:minHeight="?attr/actionBarSize"
-        android:paddingBottom="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:theme="?attr/actionBarTheme"
-        android:weightSum="1">
-
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/actionBarChat"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.13"
-            android:paddingLeft="0dp"
-            android:paddingRight="10dp">
+            android:layout_height="?actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/sendButton"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
-                android:clickable="true"
-                android:tint="@android:color/background_light"
-                app:elevation="0dp"
-                app:fabSize="mini"
-                app:srcCompat="@drawable/ic_send_black_24dp" />
+                android:background="@android:color/transparent">
 
-            <EditText
-                android:id="@+id/inputMessage"
+                <EditText
+                    android:id="@+id/editTextEditChatName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Chatname"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/messageToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="bottom"
+            android:background="@color/colorInactive"
+            android:minHeight="?attr/actionBarSize"
+            android:paddingBottom="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:theme="?attr/actionBarTheme"
+            android:weightSum="1">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_margin="2dp"
-                android:layout_toLeftOf="@+id/sendButton"
-                android:layout_toStartOf="@+id/sendButton"
-                android:ems="10"
-                android:inputType="textMultiLine|textCapSentences" />
+                android:layout_height="match_parent"
+                android:layout_weight="1.13"
+                android:paddingLeft="0dp"
+                android:paddingRight="10dp">
 
-        </RelativeLayout>
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/sendButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="true"
+                    android:tint="@android:color/background_light"
+                    app:elevation="0dp"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_send_black_24dp" />
 
-    </android.support.v7.widget.Toolbar>
+                <EditText
+                    android:id="@+id/inputMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="2dp"
+                    android:layout_toLeftOf="@+id/sendButton"
+                    android:layout_toStartOf="@+id/sendButton"
+                    android:ems="10"
+                    android:inputType="textMultiLine|textCapSentences" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewMessages"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/messageToolbar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/actionBarChat"
-        android:background="@color/colorChatBackground"
-        android:paddingBottom="2dp"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/list_item_message" />
+            </RelativeLayout>
 
-</RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewMessages"
+            tools:listitem="@layout/list_item_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/messageToolbar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/actionBarChat"
+            android:background="@color/colorChatBackground"
+            android:paddingBottom="2dp"
+            android:scrollbars="vertical" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
