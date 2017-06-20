@@ -159,8 +159,15 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         groupList = new ArrayList<>();
         SQLiteConnector db = new SQLiteConnector(getBaseContext());
         SQLiteDatabase dbh = db.getWritableDatabase();
-        Cursor myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, null, null, null, null, null);
-        schwarzesBrett = new LinkedHashMap<>();
+        Cursor myCursor = null;
+        if(Utils.getUserStufe()!= "") {
+            String stufe = Utils.getUserStufe();
+            myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, stufe + " = adressat", null, null, null, null);
+        }
+        else {
+            myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, null , null, null, null, null);
+        }
+            schwarzesBrett = new LinkedHashMap<>();
         for (myCursor.moveToFirst(); !myCursor.isAfterLast(); myCursor.moveToNext()) {
             Log.e("Tag", "title: " + myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.tableResult.titel)));
             groupList.add(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.tableResult.titel)));
