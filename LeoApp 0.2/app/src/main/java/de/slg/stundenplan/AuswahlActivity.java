@@ -18,6 +18,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
 
@@ -26,6 +27,7 @@ public class AuswahlActivity extends AppCompatActivity {
     private Menu menu;
     private AuswahlAdapter auswahlAdapter;
     private Stundenplanverwalter sv;
+    private FachImporter importer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,8 @@ public class AuswahlActivity extends AppCompatActivity {
         String stufe = shaPre.getString("pref_key_level_general", "Q1"); //Ähm ich würde vllt nicht Q1 nehmen, wenn noch keine Stufe eingestellt ist ^Gianni TODO Lesen
 
         if (!fileExistiert()) {
-            FachImporter fi = new FachImporter(getApplicationContext(), stufe);
-            fi.execute();
+            importer = new FachImporter(getApplicationContext(), stufe);
+            importer.execute();
         }
 
         initToolbar();
@@ -77,6 +79,12 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private void initSV() {
+        if (importer != null)
+            try {
+                importer.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
         sv = new Stundenplanverwalter(getApplicationContext(), "allefaecher.txt");
         if (sv.gibFaecherSort().length == 0) {
             Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes, Snackbar.LENGTH_SHORT);
@@ -85,10 +93,10 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu me) {
-        this.menu = me;
-        getMenuInflater().inflate(R.menu.stundenplan_auswahl, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_speichern);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.stundenplan_auswahl, this.menu);
+        MenuItem menuItem = this.menu.findItem(R.id.action_speichern);
         menuItem.setVisible(false);
         menuItem.setEnabled(false);
         return true;
@@ -105,13 +113,11 @@ public class AuswahlActivity extends AppCompatActivity {
         if (mi.getItemId() == R.id.action_speichern) {
             sv.inTextDatei(getApplicationContext(), auswahlAdapter.gibAlleMarkierten());
             startActivity(new Intent(getApplicationContext(), WrapperStundenplanActivity.class));
-            finish();
         } else if (mi.getItemId() == R.id.action_refresh) {
             this.deexistiere();
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class)); //Auch hässlich // TODO: 27.05.2017
-        } else if (mi.getItemId() == android.R.id.home) {
-            onBackPressed();
         }
+        finish();
         return true;
     }
 
@@ -129,10 +135,13 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private void deexistiere() {
-        BufferedWriter bw;
         try {
-            bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("allefaecher.txt", MODE_PRIVATE)));
+            BufferedWriter bw =
+                    new BufferedWriter(
+                            new OutputStreamWriter(
+                                    openFileOutput("allefaecher.txt", MODE_PRIVATE)));
             bw.write("");
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
