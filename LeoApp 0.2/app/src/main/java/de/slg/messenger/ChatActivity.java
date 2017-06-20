@@ -336,8 +336,7 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         private String generateURL() {
-            String chatname = chat.cname.replace(' ', '+');
-            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + chat.cid + "&chatname=" + chatname;
+            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + chat.cid + "&chatname=" + chat.cname.replace(" ", "%20");
         }
     }
 }

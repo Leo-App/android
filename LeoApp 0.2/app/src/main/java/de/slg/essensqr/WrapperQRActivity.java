@@ -92,6 +92,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
                 Intent i;
+                boolean settings = false;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
                         i = null;
@@ -118,6 +119,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
                         i = null;
                         break;
                     case R.id.settings:
+                        settings = true;
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;
                     default:
@@ -126,7 +128,8 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
                 }
                 if (i != null)
                     startActivity(i);
-                finish();
+                if(!settings)
+                    finish();
                 return true;
             }
         });
