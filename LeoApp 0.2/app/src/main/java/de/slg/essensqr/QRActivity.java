@@ -36,7 +36,9 @@ public class QRActivity extends Fragment {
         iv1 = (ImageView) rootView.findViewById(R.id.imageView);
         iv2 = (ImageView) rootView.findViewById(R.id.imageViewError);
         TextView t = (TextView) rootView.findViewById(R.id.textViewDatum);
+        t.bringToFront();
         t2 = (TextView) rootView.findViewById(R.id.textViewMenu);
+        t2.bringToFront();
         t3 = (TextView) rootView.findViewById(R.id.textViewMenuDetails);
         spinner = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 
