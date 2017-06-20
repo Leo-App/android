@@ -48,7 +48,7 @@ public abstract class Utils {
 
     public static String getUserStufe() {
         int i = Start.pref.getInt("pref_key_level_general", -1);
-        if (i != -1 && i >= 5)
+        if (i >= 5)
             return new String[]{"5", "6", "7", "8", "9", "EF", "Q1", "Q2"}[i - 5];
         return "";
     }
