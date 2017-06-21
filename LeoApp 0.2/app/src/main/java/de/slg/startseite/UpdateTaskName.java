@@ -11,15 +11,14 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     private PreferenceActivity c;
-    private boolean connection;
     private String old;
 
     public UpdateTaskName(PreferenceActivity c, String oldUsername) {
@@ -35,16 +34,12 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
         BufferedReader in = null;
         String result = "";
 
-        connection = hasActiveInternetConnection();
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
-
-        if (!connection)
+        if (!Utils.checkNetwork())
             return ReturnValues.NO_CONNECTION;
-
         try {
 
-            int id = pref.getInt("pref_key_general_id", -1);
-            String username = pref.getString("pref_key_username_general", "").replace(' ', '+');
+            int id = Utils.getUserID();
+            String username = Utils.getUserName().replace(' ', '+');
 
             URL interfaceDB = new URL("http://moritz.liegmanns.de/updateUsername.php?key=5453&userid=" + id + "&username=" + username);
 
@@ -87,7 +82,6 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
         c.hideProgressBar();
 
         switch (b) {
-
             case USERNAME_TAKEN:
                 resetName();
                 showSnackbar2();
@@ -161,19 +155,4 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
         cS.show();
 
     }
-
-
-    private boolean hasActiveInternetConnection() {
-        try {
-            HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
-            urlc.setRequestProperty("User-Agent", "Test");
-            urlc.setRequestProperty("Connection", "close");
-            urlc.setConnectTimeout(1500);
-            urlc.connect();
-            return urlc.getResponseCode() == 200;
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
 }

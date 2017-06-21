@@ -15,19 +15,18 @@ import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
 
 public class ReceiveService extends Service {
-
     private boolean running, receive;
     private static long interval;
 
     public ReceiveService() {
         running = true;
         receive = false;
-        interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
-        Utils.registerReceiveService(this);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
+        Utils.registerReceiveService(this);
         new LoopThread().start();
         return START_REDELIVER_INTENT;
     }
@@ -77,9 +76,11 @@ public class ReceiveService extends Service {
             while (running) {
                 try {
                     new ReceiveTask().execute();
-                    for (int i = 0; i < interval && running && !receive; i++) {
+                    new SendTask().execute();
+
+                    for (int i = 0; i < interval && running && !receive; i++)
                         sleep(1);
-                    }
+
                     receive = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -233,6 +234,33 @@ public class ReceiveService extends Service {
         protected void onPostExecute(Void aVoid) {
             if (Utils.getOverviewWrapper() != null)
                 Utils.getOverviewWrapper().notifyUpdate();
+        }
+    }
+
+    private class SendTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (Utils.checkNetwork()) {
+                Message[] array = Utils.getMessengerDBConnection().getUnsendMessages();
+                for (Message m : array) {
+                    try {
+                        BufferedReader reader =
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                new URL(generateURL(m.mtext, m.cid))
+                                                        .openConnection()
+                                                        .getInputStream(), "UTF-8"));
+                        while (reader.readLine() != null) ;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return null;
+        }
+
+        private String generateURL(String message, int cid) {
+            return "http://moritz.liegmanns.de/messenger/send.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
         }
     }
 

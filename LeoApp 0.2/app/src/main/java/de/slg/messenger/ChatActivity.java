@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +28,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import de.slg.leoapp.R;
-import de.slg.leoapp.ReceiveService;
-import de.slg.leoapp.Utils;
 import de.slg.leoapp.List;
+import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
     public static Chat chat;
@@ -168,14 +166,10 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage() {
         String message = getMessage();
-        if (Utils.checkNetwork()) {
-            if (message.length() > 0 && chat != null) {
-                new SendMessage().execute(message);
-                etMessage.setText("");
-                Utils.receive();
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "Verbinde dich mit dem Internet um Nchrichten zu senden.", Toast.LENGTH_SHORT).show();
+        if (message.length() > 0 && chat != null) {
+            new SendMessage().execute(message);
+            etMessage.setText("");
+            Utils.receive();
         }
     }
 
@@ -299,27 +293,33 @@ public class ChatActivity extends AppCompatActivity {
     private class SendMessage extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
-            if (chat != null && Utils.checkNetwork() && Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), chat) && !params[0].equals("")) {
+            if (Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), chat)) {
                 if (chat.cid == -1) {
                     snackbar.show();
-                    return null;
-                }
-
-                List<Message> messageList = new List<>(messagesArray);
-                messageList.append(new Message(0, params[0], new Date().getTime(), chat.cid, Utils.getUserID(), true));
-                messagesArray = messageList.fill(new Message[messageList.length()]);
-                refreshUI(false);
-
-                try {
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            new URL(generateURL(params[0]))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null) ;
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else if (!Utils.checkNetwork()) {
+                    Utils.getMessengerDBConnection().insertUnsendMessage(params[0], chat.cid);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Nachricht wird versendet, sobald du dich mit dem Internet verbindest", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    List<Message> messageList = new List<>(messagesArray);
+                    messageList.append(new Message(0, params[0], new Date().getTime(), chat.cid, Utils.getUserID(), true));
+                    messagesArray = messageList.fill(new Message[messageList.length()]);
+                    refreshUI(false);
+                    try {
+                        BufferedReader reader =
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                new URL(generateURL(params[0]))
+                                                        .openConnection()
+                                                        .getInputStream(), "UTF-8"));
+                        while (reader.readLine() != null) ;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             return null;

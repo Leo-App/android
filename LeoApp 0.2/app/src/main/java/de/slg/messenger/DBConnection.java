@@ -265,12 +265,22 @@ public class DBConnection {
         return b;
     }
 
-    void insertWaitingMessage(String mtext, int cid) {
+    void insertUnsendMessage(String mtext, int cid) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.MESSAGES_ID, "null");
         values.put(DBHelper.MESSAGE_TEXT, mtext);
         values.put(DBHelper.CHAT_ID, cid);
-        insert(DBHelper.TABLE_MESSAGES_WAITING, null, values);
+        insert(DBHelper.TABLE_MESSAGES_UNSEND, null, values);
+    }
+
+    public Message[] getUnsendMessages() {
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, new String[]{DBHelper.MESSAGE_TEXT, DBHelper.CHAT_ID}, null, null, null, null, null);
+        Message[] array = new Message[cursor.getCount()];
+        cursor.moveToFirst();
+        for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
+            array[i] = new Message(-1, cursor.getString(0), 0, cursor.getInt(1), 0, false);
+        }
+        return array;
     }
 
     public void close() {
@@ -295,7 +305,7 @@ public class DBConnection {
         static final String USER_NAME = "uname";
         static final String USER_KLASSE = "uklasse";
         static final String USER_PERMISSION = "upermission";
-        static final String TABLE_MESSAGES_WAITING = "messages_waiting";
+        static final String TABLE_MESSAGES_UNSEND = "messages_unsend";
 
         DBHelper(Context context) {
             super(context, DATABASE_NAME, null, 1);
@@ -341,7 +351,7 @@ public class DBConnection {
                 e.printStackTrace();
             }
             try {
-                db.execSQL("CREATE TABLE " + TABLE_MESSAGES_WAITING + " (" +
+                db.execSQL("CREATE TABLE " + TABLE_MESSAGES_UNSEND + " (" +
                         MESSAGES_ID + " INTEGER PRIMARY KEY, " +
                         MESSAGE_TEXT + " TEXT NOT NULL, " +
                         CHAT_ID + " TEXT)");
