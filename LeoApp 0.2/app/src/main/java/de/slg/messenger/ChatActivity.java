@@ -32,6 +32,7 @@ import java.util.GregorianCalendar;
 import de.slg.leoapp.R;
 import de.slg.leoapp.ReceiveService;
 import de.slg.leoapp.Utils;
+import de.slg.leoapp.List;
 
 public class ChatActivity extends AppCompatActivity {
     public static Chat chat;
@@ -88,6 +89,12 @@ public class ChatActivity extends AppCompatActivity {
             setChatNameEditable(false);
         }
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.registerChatActivity(null);
     }
 
     private void initRecyclerView() {
@@ -197,8 +204,9 @@ public class ChatActivity extends AppCompatActivity {
         new SendChatname().execute();
     }
 
-    public void refreshUI() {
-        messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(chat);
+    public void refreshUI(boolean refreshMessages) {
+        if (refreshMessages)
+            messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(chat);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -297,6 +305,11 @@ public class ChatActivity extends AppCompatActivity {
                     return null;
                 }
 
+                List<Message> messageList = new List<>(messagesArray);
+                messageList.append(new Message(0, params[0], new Date().getTime(), chat.cid, Utils.getUserID(), true));
+                messagesArray = messageList.fill(new Message[messageList.length()]);
+                refreshUI(false);
+
                 try {
                     BufferedReader reader =
                             new BufferedReader(
@@ -304,7 +317,7 @@ public class ChatActivity extends AppCompatActivity {
                                             new URL(generateURL(params[0]))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null);
+                    while (reader.readLine() != null) ;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -328,7 +341,7 @@ public class ChatActivity extends AppCompatActivity {
                                             new URL(generateURL())
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null);
+                    while (reader.readLine() != null) ;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -15,7 +15,6 @@ import de.slg.leoapp.Utils;
 public class DBConnection {
     private SQLiteDatabase database;
     private DBHelper helper;
-    private OverviewWrapper wrapper;
 
     public DBConnection(Context context) {
         helper = new DBHelper(context);
@@ -27,10 +26,7 @@ public class DBConnection {
     }
 
     private long insert(String table, String nullColumnHack, ContentValues values) {
-        long l = database.insert(table, nullColumnHack, values);
-        if (wrapper != null)
-            wrapper.notifyUpdate();
-        return l;
+        return database.insert(table, nullColumnHack, values);
     }
 
     public void insertMessage(Message m) {
@@ -269,12 +265,7 @@ public class DBConnection {
         return b;
     }
 
-    public void setOverviewWrapper(OverviewWrapper wrapper) {
-        this.wrapper = wrapper;
-    }
-
     public void close() {
-        wrapper = null;
         helper.close();
     }
 

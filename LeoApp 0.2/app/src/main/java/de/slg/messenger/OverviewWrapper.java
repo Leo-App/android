@@ -87,7 +87,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
     @Override
     public void finish() {
-        Utils.getMessengerDBConnection().setOverviewWrapper(null);
+        Utils.registerOverviewWrapper(null);
         super.finish();
     }
 
@@ -216,7 +216,7 @@ public class OverviewWrapper extends AppCompatActivity {
         cFragment.refreshUI();
         ChatActivity chatActivity = Utils.getChatActivity();
         if (chatActivity != null)
-            chatActivity.refreshUI();
+            chatActivity.refreshUI(true);
     }
 
     public static class UserFragment extends Fragment {
