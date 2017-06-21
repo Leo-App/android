@@ -16,11 +16,15 @@ import android.util.Log;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Calendar;
 
 import de.slg.essensqr.SQLiteHandler;
 import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.startseite.MainActivity;
+import de.slg.stundenplan.Fach;
+import de.slg.stundenplan.Stundenplanverwalter;
+import de.slg.stundenplan.WrapperStundenplanActivity;
 
 @SuppressWarnings("deprecation")
 @SuppressLint("SimpleDateFormat")
@@ -143,6 +147,66 @@ public class NotificationService extends IntentService {
 
             notificationManager.notify(101, mBuilder.build());
         }
+    }
+
+    private void stundenplanNotification() {
+        Stundenplanverwalter sv = new Stundenplanverwalter(WrapperStundenplanActivity.c, "meinefaecher.txt");
+
+        Fach[] f = sv.gibFaecherKurzTag(this.gibDatum());
+        String s = "";
+        for(int i=0; i<f.length; i++) {
+            s = s + ", " + f[i].gibName();
+        }
+        if (Start.pref.getBoolean("pref_key_notification_schedule", true)) {
+            Intent resultIntent = new Intent(this, WrapperStundenplanActivity.class);
+
+            final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
+
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            this,
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(this)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setLargeIcon(icon)
+                            .setSmallIcon(R.drawable.qrcode)
+                            .setVibrate(new long[]{200})
+                            .setContentTitle("LeoApp")
+                            .setContentText(s)
+                            .setContentIntent(resultPendingIntent);
+
+            notificationManager.notify(101, mBuilder.build());
+            //Ich weiß nicht ob das hier läuft aber es zerstört nichts...
+        }
+    }
+
+    private int gibDatum() {
+        Calendar c = Calendar.getInstance();
+        int i = c.DAY_OF_WEEK;
+        switch(i) {
+            case 1:
+                return 0;
+            case 2:
+                return 1;
+            case 3:
+                return 2;
+            case 4:
+                return 3;
+            case 5:
+                return 4;
+            case 6:
+                return 5;
+            case 7:
+                return 0;
+            default:
+                return 0;
+        }
+
     }
 
     public void messengerNotification() {

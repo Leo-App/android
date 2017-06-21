@@ -1,5 +1,6 @@
 package de.slg.stundenplan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -99,8 +100,9 @@ public class SPDetailsActivity extends AppCompatActivity {
                 faecherSP[pos].setzeNotiz("notiz");
             }
             stuVe.inTextDatei(getApplicationContext(), faecherSP);
+            startActivity(new Intent(getApplicationContext(), WrapperStundenplanActivity.class));
+            this.finish();
         }
-        onBackPressed();
         return true;
     }
 
