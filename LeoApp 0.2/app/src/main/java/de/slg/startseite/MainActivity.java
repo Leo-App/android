@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.wtf("LeoApp", "called onCreate main");
 
-        int id = Start.pref.getInt("pref_key_general_id", -1);
+        int id = Utils.getUserID();
         boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
         boolean synchronize = Start.pref.getBoolean("pref_key_level_has_to_be_synchronized", false);
 
