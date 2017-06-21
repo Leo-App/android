@@ -352,7 +352,7 @@ public class DBConnection {
             }
             try {
                 db.execSQL("CREATE TABLE " + TABLE_MESSAGES_UNSEND + " (" +
-                        MESSAGES_ID + " INTEGER PRIMARY KEY, " +
+                        MESSAGES_ID + " INTEGER PRIMARY KEY AUTO_INCREMENT, " +
                         MESSAGE_TEXT + " TEXT NOT NULL, " +
                         CHAT_ID + " TEXT)");
             } catch (SQLException e) {
