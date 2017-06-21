@@ -118,7 +118,6 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
         e.putString("pref_key_username_general", old);
         e.apply();
 
-
     }
 
     private void showSnackbar() {
@@ -165,7 +164,6 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
 
 
     private boolean hasActiveInternetConnection() {
-
         try {
             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
             urlc.setRequestProperty("User-Agent", "Test");
