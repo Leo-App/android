@@ -1,5 +1,6 @@
 package de.slg.stundenplan;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,6 +41,8 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     public static String akTag;
     public static String akStunde;
+    public static boolean neu;
+    public static Context c;
 
 
     @Override
@@ -51,6 +54,8 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
         }
         Log.e("Luzzzia", "Meine Fächer existiert");
+
+        c = getApplicationContext();
 
         setContentView(R.layout.activity_wrapper_stundenplan);
 

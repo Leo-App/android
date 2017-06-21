@@ -114,7 +114,7 @@ public class AuswahlActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), WrapperStundenplanActivity.class));
         } else if (mi.getItemId() == R.id.action_refresh) {
             this.deexistiere();
-            startActivity(new Intent(getApplicationContext(), AuswahlActivity.class)); //Auch hässlich // TODO: 27.05.2017
+            startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
         }
         finish();
         return true;

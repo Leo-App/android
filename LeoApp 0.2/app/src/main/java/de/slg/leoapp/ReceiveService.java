@@ -40,6 +40,7 @@ public class ReceiveService extends Service {
     @Override
     public void onDestroy() {
         running = false;
+        Utils.registerReceiveService(null);
     }
 
     private static long getInterval(int selection) {
@@ -90,10 +91,10 @@ public class ReceiveService extends Service {
     private class ReceiveTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
+            nachricht();
             assoziationen();
             chat();
             benutzer();
-            nachricht();
             return null;
         }
 
@@ -226,6 +227,12 @@ public class ReceiveService extends Service {
                 default:
                     return "";
             }
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (Utils.getOverviewWrapper() != null)
+                Utils.getOverviewWrapper().notifyUpdate();
         }
     }
 

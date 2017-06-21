@@ -106,7 +106,6 @@ public abstract class Utils {
 
     public static void registerOverviewWrapper(OverviewWrapper overviewWrapper) {
         Utils.overviewWrapper = overviewWrapper;
-        getMessengerDBConnection().setOverviewWrapper(overviewWrapper);
     }
 
     public static void registerChatActivity(ChatActivity chatActivity) {

@@ -150,7 +150,7 @@ public class Fach {
         return fachkuerzel;
     }
 
-    String gibName() {
+    public String gibName() {
         return fachname;
     }
 

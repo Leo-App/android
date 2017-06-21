@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.ReceiveService;
 import de.slg.leoapp.Utils;
+import de.slg.leoapp.List;
 
 public class ChatActivity extends AppCompatActivity {
     public static Chat chat;
@@ -88,6 +91,12 @@ public class ChatActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.registerChatActivity(null);
+    }
+
     private void initRecyclerView() {
         messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(chat);
 
@@ -99,7 +108,7 @@ public class ChatActivity extends AppCompatActivity {
     private void initToolbar() {
         String chatname = chat.cname;
         if (chat.ctype == Chat.Chattype.PRIVATE) {
-            String[] split = chat.cname.split(" ");
+            String[] split = chat.cname.split(" - ");
             if (split[0].equals("" + Utils.getUserID()))
                 chatname = Utils.getMessengerDBConnection().getUname(Integer.parseInt(split[1]));
             else
@@ -195,8 +204,9 @@ public class ChatActivity extends AppCompatActivity {
         new SendChatname().execute();
     }
 
-    public void refreshUI() {
-        messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(chat);
+    public void refreshUI(boolean refreshMessages) {
+        if (refreshMessages)
+            messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(chat);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -237,20 +247,16 @@ public class ChatActivity extends AppCompatActivity {
             if (mine) {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
-                LinearLayout l3 = (LinearLayout) v.findViewById(R.id.wrapperlayout3);
                 l1.setGravity(Gravity.END);
                 l2.setGravity(Gravity.END);
-                l3.setGravity(Gravity.END);
-                l3.setEnabled(true);
+                v.findViewById(R.id.wrapperlayout3).setEnabled(true);
                 v.findViewById(R.id.absender).setVisibility(View.GONE);
             } else {
                 LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
                 LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
-                LinearLayout l3 = (LinearLayout) v.findViewById(R.id.wrapperlayout3);
                 l1.setGravity(Gravity.START);
                 l2.setGravity(Gravity.START);
-                l3.setGravity(Gravity.START);
-                l3.setEnabled(false);
+                v.findViewById(R.id.wrapperlayout3).setEnabled(false);
                 absender = (TextView) v.findViewById(R.id.absender);
                 absender.setText(current.uname);
                 if (chattype == Chat.Chattype.PRIVATE) {
@@ -299,6 +305,11 @@ public class ChatActivity extends AppCompatActivity {
                     return null;
                 }
 
+                List<Message> messageList = new List<>(messagesArray);
+                messageList.append(new Message(0, params[0], new Date().getTime(), chat.cid, Utils.getUserID(), true));
+                messagesArray = messageList.fill(new Message[messageList.length()]);
+                refreshUI(false);
+
                 try {
                     BufferedReader reader =
                             new BufferedReader(
@@ -306,7 +317,7 @@ public class ChatActivity extends AppCompatActivity {
                                             new URL(generateURL(params[0]))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null);
+                    while (reader.readLine() != null) ;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -330,7 +341,7 @@ public class ChatActivity extends AppCompatActivity {
                                             new URL(generateURL())
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null);
+                    while (reader.readLine() != null) ;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
