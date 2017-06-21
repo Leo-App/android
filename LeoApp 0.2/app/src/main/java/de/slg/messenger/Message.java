@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-public class Message {
+class Message {
     final int mid;
     final String mtext;
     final Date mdate;
@@ -15,7 +15,7 @@ public class Message {
     boolean mread;
     String uname = null;
 
-    public Message(int mid, String mtext, long mdate, int cid, int uid, boolean mread) {
+    Message(int mid, String mtext, long mdate, int cid, int uid, boolean mread) {
         this.mid = mid;
         this.mtext = "" + mtext;
         this.uid = uid;

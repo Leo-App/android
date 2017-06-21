@@ -10,6 +10,7 @@ import java.util.Date;
 
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.DBConnection;
+import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
 
 public abstract class Utils {

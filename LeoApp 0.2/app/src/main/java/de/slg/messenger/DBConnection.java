@@ -265,6 +265,14 @@ public class DBConnection {
         return b;
     }
 
+    void insertWaitingMessage(String mtext, int cid) {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.MESSAGES_ID, "null");
+        values.put(DBHelper.MESSAGE_TEXT, mtext);
+        values.put(DBHelper.CHAT_ID, cid);
+        insert(DBHelper.TABLE_MESSAGES_WAITING, null, values);
+    }
+
     public void close() {
         helper.close();
     }
@@ -287,6 +295,7 @@ public class DBConnection {
         static final String USER_NAME = "uname";
         static final String USER_KLASSE = "uklasse";
         static final String USER_PERMISSION = "upermission";
+        static final String TABLE_MESSAGES_WAITING = "messages_waiting";
 
         DBHelper(Context context) {
             super(context, DATABASE_NAME, null, 1);
@@ -328,6 +337,14 @@ public class DBConnection {
                         USER_NAME + " TEXT NOT NULL, " +
                         USER_KLASSE + " TEXT, " +
                         USER_PERMISSION + " INTEGER NOT NULL)");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                db.execSQL("CREATE TABLE " + TABLE_MESSAGES_WAITING + " (" +
+                        MESSAGES_ID + " INTEGER PRIMARY KEY, " +
+                        MESSAGE_TEXT + " TEXT NOT NULL, " +
+                        CHAT_ID + " TEXT)");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
