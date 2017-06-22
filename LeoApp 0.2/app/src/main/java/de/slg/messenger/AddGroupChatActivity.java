@@ -143,7 +143,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
             sendChat(newChat);
             User[] members = userAdapter.getSelected();
             sendAssoziation(new Assoziation(newChat.cid, Utils.getUserID(), false));
-            ChatActivity.chat = newChat;
+            ChatActivity.currentChat = newChat;
             ChatActivity.chatname = newChat.cname;
             startActivity(new Intent(getApplicationContext(), ChatActivity.class));
             finish();

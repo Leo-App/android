@@ -262,7 +262,6 @@ public class DBConnection {
 
     void insertUnsendMessage(String mtext, int cid) {
         ContentValues values = new ContentValues();
-        values.put(DBHelper.MESSAGES_ID, "null");
         values.put(DBHelper.MESSAGE_TEXT, mtext);
         values.put(DBHelper.CHAT_ID, cid);
         insert(DBHelper.TABLE_MESSAGES_UNSEND, null, values);

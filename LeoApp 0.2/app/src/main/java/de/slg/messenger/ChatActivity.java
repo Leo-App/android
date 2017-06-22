@@ -33,7 +33,7 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
-    public static Chat chat;
+    public static Chat currentChat;
     public static String chatname;
     private Message[] messagesArray;
 
@@ -60,14 +60,14 @@ public class ChatActivity extends AppCompatActivity {
         initRecyclerView();
         initSnackbar();
 
-        Utils.getMessengerDBConnection().setMessagesRead(chat);
+        Utils.getMessengerDBConnection().setMessagesRead(currentChat);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.messenger_chat, menu);
         this.menu = menu;
-        if (chat.ctype == Chat.Chattype.PRIVATE)
+        if (currentChat.ctype == Chat.Chattype.PRIVATE || !Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat))
             menu.clear();
         return true;
     }
@@ -96,7 +96,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(chat);
+        messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(currentChat);
 
         rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -104,9 +104,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        String chatname = chat.cname;
-        if (chat.ctype == Chat.Chattype.PRIVATE) {
-            String[] split = chat.cname.split(" - ");
+        String chatname = currentChat.cname;
+        if (currentChat.ctype == Chat.Chattype.PRIVATE) {
+            String[] split = currentChat.cname.split(" - ");
             if (split[0].equals("" + Utils.getUserID()))
                 chatname = Utils.getMessengerDBConnection().getUname(Integer.parseInt(split[1]));
             else
@@ -134,6 +134,12 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
+
+        if (!Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat)) {
+            etMessage.setEnabled(false);
+            etMessage.setHint("Du bist nicht mehr in diesem Chat!");
+            sendButton.setEnabled(false);
+        }
     }
 
     private void initSnackbar() {
@@ -166,7 +172,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage() {
         String message = getMessage();
-        if (message.length() > 0 && chat != null) {
+        if (message.length() > 0 && currentChat != null) {
             new SendMessage().execute(message);
             etMessage.setText("");
             Utils.receive();
@@ -174,7 +180,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void startEditChat() {
-        ChatEditActivity.currentChat = chat;
+        ChatEditActivity.currentChat = currentChat;
         startActivity(new Intent(getApplicationContext(), ChatEditActivity.class));
     }
 
@@ -182,25 +188,25 @@ public class ChatActivity extends AppCompatActivity {
         if (b) {
             menu.clear();
             getSupportActionBar().setTitle("");
-            etEditChatName.setText(chat.cname);
+            etEditChatName.setText(currentChat.cname);
             etEditChatName.setVisibility(View.VISIBLE);
             getMenuInflater().inflate(R.menu.messenger_confirm_action, menu);
         } else {
             menu.clear();
-            getSupportActionBar().setTitle(chat.cname);
+            getSupportActionBar().setTitle(currentChat.cname);
             etEditChatName.setVisibility(View.GONE);
             getMenuInflater().inflate(R.menu.messenger_chat, menu);
         }
     }
 
     private void confirmEdit() {
-        chat.cname = etEditChatName.getText().toString();
+        currentChat.cname = etEditChatName.getText().toString();
         new SendChatname().execute();
     }
 
     public void refreshUI(boolean refreshMessages) {
         if (refreshMessages)
-            messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(chat);
+            messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(currentChat);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -224,7 +230,7 @@ public class ChatActivity extends AppCompatActivity {
         MessageAdapter() {
             super();
             this.inflater = getLayoutInflater();
-            this.chattype = chat.ctype;
+            this.chattype = currentChat.ctype;
         }
 
         @Override
@@ -293,11 +299,11 @@ public class ChatActivity extends AppCompatActivity {
     private class SendMessage extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
-            if (Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), chat)) {
-                if (chat.cid == -1) {
+            if (Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat)) {
+                if (currentChat.cid == -1) {
                     snackbar.show();
                 } else if (!Utils.checkNetwork()) {
-                    Utils.getMessengerDBConnection().insertUnsendMessage(params[0], chat.cid);
+                    Utils.getMessengerDBConnection().insertUnsendMessage(params[0], currentChat.cid);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -306,7 +312,7 @@ public class ChatActivity extends AppCompatActivity {
                     });
                 } else {
                     List<Message> messageList = new List<>(messagesArray);
-                    messageList.append(new Message(0, params[0], new Date().getTime(), chat.cid, Utils.getUserID(), true));
+                    messageList.append(new Message(0, params[0], new Date().getTime(), currentChat.cid, Utils.getUserID(), true));
                     messagesArray = messageList.fill(new Message[messageList.length()]);
                     refreshUI(false);
                     try {
@@ -326,14 +332,14 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         private String generateURL(String message) {
-            return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + chat.cid;
+            return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + currentChat.cid;
         }
     }
 
     private class SendChatname extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            if (chat != null && Utils.checkNetwork())
+            if (currentChat != null && Utils.checkNetwork())
                 try {
                     BufferedReader reader =
                             new BufferedReader(
@@ -349,7 +355,7 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         private String generateURL() {
-            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + chat.cid + "&chatname=" + chat.cname.replace(" ", "%20");
+            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + currentChat.cid + "&chatname=" + currentChat.cname.replace(" ", "%20");
         }
     }
 }

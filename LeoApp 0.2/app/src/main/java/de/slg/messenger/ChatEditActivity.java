@@ -45,6 +45,8 @@ public class ChatEditActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat))
             getMenuInflater().inflate(R.menu.messenger_chat_edit, menu);
+        if (!Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat))
+            menu.clear();
         this.menu = menu;
         return true;
     }

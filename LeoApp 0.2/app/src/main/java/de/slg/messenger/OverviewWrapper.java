@@ -244,9 +244,9 @@ public class OverviewWrapper extends AppCompatActivity {
                         int index = Utils.getOverviewWrapper().indexOf(newChat);
                         if (index == -1) {
                             new CreateChat(clickedUser).execute(newChat);
-                            ChatActivity.chat = newChat;
+                            ChatActivity.currentChat = newChat;
                         } else {
-                            ChatActivity.chat = Utils.getOverviewWrapper().chatArray[index];
+                            ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[index];
                         }
                         ChatActivity.chatname = clickedUser.uname;
                         startActivity(new Intent(getContext(), ChatActivity.class));
@@ -351,7 +351,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().chatArray.length) {
                         ChatActivity.chatname = Utils.getOverviewWrapper().chatArray[position].ctitle;
-                        ChatActivity.chat = Utils.getOverviewWrapper().chatArray[position];
+                        ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[position];
                         startActivity(new Intent(getContext(), ChatActivity.class));
                     }
                 }

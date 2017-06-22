@@ -78,7 +78,7 @@ public class ReceiveService extends Service {
             while (running) {
                 try {
                     new ReceiveTask().execute();
-                    //new SendTask().execute();
+                    new SendTask().execute();
 
                     for (int i = 0; i < interval && running && !receive; i++)
                         sleep(1);
@@ -253,11 +253,12 @@ public class ReceiveService extends Service {
                                                 new URL(generateURL(m.mtext, m.cid))
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null) ;
+                        while (reader.readLine() != null);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
+                Utils.getMessengerDBConnection().clearTable(DBConnection.DBHelper.TABLE_MESSAGES_UNSEND);
             }
             return null;
         }
