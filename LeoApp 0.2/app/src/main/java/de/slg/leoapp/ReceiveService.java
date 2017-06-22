@@ -27,6 +27,7 @@ public class ReceiveService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Start.initPref(getApplicationContext());
         interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
         Utils.registerReceiveService(this);
         new LoopThread().start();

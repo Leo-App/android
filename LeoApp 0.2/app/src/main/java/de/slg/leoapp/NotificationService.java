@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import de.slg.essensqr.SQLiteHandler;
 import de.slg.messenger.Message;
@@ -186,8 +187,9 @@ public class NotificationService extends IntentService {
     }
 
     private int gibDatum() {
-        Calendar c = Calendar.getInstance();
-        int i = c.DAY_OF_WEEK;
+        Calendar c = new GregorianCalendar();
+        c.setTime(new Date());
+        int i = c.get(Calendar.DAY_OF_WEEK);
         switch(i) {
             case 1:
                 return 0;

@@ -34,7 +34,6 @@ import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
     public static Chat currentChat;
-    public static String chatname;
     private Message[] messagesArray;
 
     private Menu menu;

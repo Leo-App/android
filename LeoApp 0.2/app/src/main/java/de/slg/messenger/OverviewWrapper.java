@@ -239,7 +239,6 @@ public class OverviewWrapper extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().userArray.length) {
                         User clickedUser = Utils.getOverviewWrapper().userArray[position];
-                        ChatActivity.chatname = clickedUser.uname;
                         Chat newChat = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
                         int index = Utils.getOverviewWrapper().indexOf(newChat);
                         if (index == -1) {
@@ -248,7 +247,6 @@ public class OverviewWrapper extends AppCompatActivity {
                         } else {
                             ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[index];
                         }
-                        ChatActivity.chatname = clickedUser.uname;
                         startActivity(new Intent(getContext(), ChatActivity.class));
                     }
                 }
@@ -350,7 +348,6 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().chatArray.length) {
-                        ChatActivity.chatname = Utils.getOverviewWrapper().chatArray[position].ctitle;
                         ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[position];
                         startActivity(new Intent(getContext(), ChatActivity.class));
                     }
