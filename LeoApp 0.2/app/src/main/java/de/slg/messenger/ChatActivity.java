@@ -301,7 +301,7 @@ public class ChatActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "Nachricht wird versendet, sobald du dich mit dem Internet verbindest", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Nachricht wird MÖGLICHERWEISE versendet, sobald du dich mit dem Internet verbindest", Toast.LENGTH_LONG).show();
                         }
                     });
                 } else {
