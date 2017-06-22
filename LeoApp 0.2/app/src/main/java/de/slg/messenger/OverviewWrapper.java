@@ -276,8 +276,8 @@ public class OverviewWrapper extends AppCompatActivity {
             protected Void doInBackground(Chat... params) {
                 if (Utils.checkNetwork()) {
                     sendChat(params[0]);
-                    sendAssoziation(new Assoziation(params[0].cid, Utils.getUserID(), false));
-                    sendAssoziation(new Assoziation(params[0].cid, other.uid, false));
+                    sendAssoziation(new Assoziation(params[0].cid, Utils.getUserID()));
+                    sendAssoziation(new Assoziation(params[0].cid, other.uid));
                 }
                 return null;
             }

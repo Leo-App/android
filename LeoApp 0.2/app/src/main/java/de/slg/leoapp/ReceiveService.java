@@ -208,7 +208,7 @@ public class ReceiveService extends Service {
                     for (String s : result) {
                         String[] current = s.split("_;_");
                         if (current.length == 2) {
-                            Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]), false);
+                            Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]));
                             Utils.getMessengerDBConnection().insertAssoziation(a);
                         }
                     }

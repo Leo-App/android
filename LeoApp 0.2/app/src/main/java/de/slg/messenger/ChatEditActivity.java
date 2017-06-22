@@ -148,7 +148,7 @@ public class ChatEditActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(User... params) {
             for (User u : params) {
-                sendAssoziation(new Assoziation(currentChat.cid, u.uid, false));
+                sendAssoziation(new Assoziation(currentChat.cid, u.uid));
             }
             return null;
         }
@@ -184,7 +184,7 @@ public class ChatEditActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(User... params) {
             for (User u : params)
-                removeAssoziation(new Assoziation(currentChat.cid, u.uid, false));
+                removeAssoziation(new Assoziation(currentChat.cid, u.uid));
             return null;
         }
 
