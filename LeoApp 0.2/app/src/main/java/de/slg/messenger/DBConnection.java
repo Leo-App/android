@@ -354,7 +354,7 @@ public class DBConnection {
                 db.execSQL("CREATE TABLE " + TABLE_MESSAGES_UNSEND + " (" +
                         MESSAGES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         MESSAGE_TEXT + " TEXT NOT NULL, " +
-                        CHAT_ID + " TEXT)");
+                        CHAT_ID + " INTEGER NOT NULL)");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
