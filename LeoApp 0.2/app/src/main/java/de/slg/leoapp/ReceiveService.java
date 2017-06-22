@@ -20,16 +20,13 @@ public class ReceiveService extends Service {
     private boolean running, receive;
     private static long interval;
 
-    public ReceiveService() {
-        running = true;
-        receive = false;
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Start.initPref(getApplicationContext());
         interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
         Utils.registerReceiveService(this);
+        running = true;
+        receive = false;
         new LoopThread().start();
         return START_REDELIVER_INTENT;
     }
