@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Looper;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ import java.net.URL;
 
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
+import de.slg.messenger.DBConnection;
 import de.slg.messenger.Message;
 
 public class ReceiveService extends Service {
@@ -76,7 +78,7 @@ public class ReceiveService extends Service {
             while (running) {
                 try {
                     new ReceiveTask().execute();
-                    new SendTask().execute();
+                    //new SendTask().execute();
 
                     for (int i = 0; i < interval && running && !receive; i++)
                         sleep(1);
@@ -114,7 +116,7 @@ public class ReceiveService extends Service {
                         builder.append(l).append(System.getProperty("line.separator"));
                     String[] result = builder.toString().split("_nextMessage_");
                     for (String s : result) {
-                        String[] message = s.split(";");
+                        String[] message = s.split("_;_");
                         if (message.length == 5) {
                             int mid = Integer.parseInt(message[0]);
                             String mtext = message[1];
@@ -147,7 +149,7 @@ public class ReceiveService extends Service {
                     String erg = builder.toString();
                     String[] result = erg.split("_nextChat_");
                     for (String s : result) {
-                        String[] current = s.split(";");
+                        String[] current = s.split("_;_");
                         if (current.length == 3) {
                             Chat c = new Chat(Integer.parseInt(current[0]), current[1], Chat.Chattype.valueOf(current[2].toUpperCase()));
                             Utils.getMessengerDBConnection().insertChat(c);
@@ -175,7 +177,7 @@ public class ReceiveService extends Service {
                     String erg = builder.toString();
                     String[] result = erg.split("_nextUser_");
                     for (String s : result) {
-                        String[] current = s.split(";");
+                        String[] current = s.split("_;_");
                         if (current.length == 4) {
                             User u = new User(Integer.parseInt(current[0]), current[1], current[2], Integer.parseInt(current[3]));
                             Utils.getMessengerDBConnection().insertUser(u);
@@ -202,10 +204,11 @@ public class ReceiveService extends Service {
                         builder.append(l);
                     String erg = builder.toString();
                     String[] result = erg.split("_nextAssoziation_");
+                    Utils.getMessengerDBConnection().clearTable(DBConnection.DBHelper.TABLE_ASSOZIATION);
                     for (String s : result) {
-                        String[] current = s.split(";");
-                        if (current.length == 3) {
-                            Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]), Boolean.parseBoolean(current[2]));
+                        String[] current = s.split("_;_");
+                        if (current.length == 2) {
+                            Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]), false);
                             Utils.getMessengerDBConnection().insertAssoziation(a);
                         }
                     }
@@ -218,7 +221,7 @@ public class ReceiveService extends Service {
         private String generateURL(Operator o) {
             switch (o) {
                 case Nachricht:
-                    return "http://moritz.liegmanns.de/messenger/receive.php?key=5453&userid=" + Utils.getUserID();
+                    return "http://moritz.liegmanns.de/messenger/getMessages.php?key=5453&userid=" + Utils.getUserID();
                 case Benutzer:
                     return "http://moritz.liegmanns.de/messenger/getUsers.php?key=5453&userid=" + Utils.getUserID();
                 case Chat:
@@ -260,7 +263,7 @@ public class ReceiveService extends Service {
         }
 
         private String generateURL(String message, int cid) {
-            return "http://moritz.liegmanns.de/messenger/send.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
+            return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
         }
     }
 

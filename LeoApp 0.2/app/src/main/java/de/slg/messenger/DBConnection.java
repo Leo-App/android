@@ -61,7 +61,6 @@ public class DBConnection {
             ContentValues values = new ContentValues();
             values.put(DBHelper.CHAT_ID, a.cid);
             values.put(DBHelper.USER_ID, a.uid);
-            values.put(DBHelper.ASSOZIATION_REMOVED, a.aremoved ? 1 : 0);
             insert(DBHelper.TABLE_ASSOZIATION, null, values);
         }
     }
@@ -81,10 +80,6 @@ public class DBConnection {
         if (c != null) {
             database.execSQL("UPDATE " + DBHelper.TABLE_MESSAGES + " SET " + DBHelper.MESSAGE_READ + " = 1 WHERE " + DBHelper.TABLE_MESSAGES + "." + DBHelper.CHAT_ID + " = " + c.cid);
         }
-    }
-
-    void removeUserFromChat(User u, Chat c) {
-        database.execSQL("UPDATE " + DBHelper.TABLE_ASSOZIATION + " SET " + DBHelper.ASSOZIATION_REMOVED + " = 1 WHERE " + DBHelper.CHAT_ID + " = " + c.cid + " AND " + DBHelper.USER_ID + " = " + u.uid);
     }
 
     private Message[] getMessages() {
@@ -169,8 +164,8 @@ public class DBConnection {
         boolean meIs = false;
         User[] users = getUsers();
         List<User> list = new List<>();
-        String[] columns = {DBHelper.TABLE_ASSOZIATION + "." + DBHelper.USER_ID, DBHelper.TABLE_ASSOZIATION + "." + DBHelper.ASSOZIATION_REMOVED};
-        String condition = DBHelper.TABLE_ASSOZIATION + "." + DBHelper.CHAT_ID + " = " + c.cid + " AND " + DBHelper.TABLE_ASSOZIATION + "." + DBHelper.ASSOZIATION_REMOVED + " = 0 AND " + DBHelper.TABLE_USERS + "." + DBHelper.USER_ID + " = " + DBHelper.TABLE_ASSOZIATION + "." + DBHelper.USER_ID;
+        String[] columns = {DBHelper.TABLE_ASSOZIATION + "." + DBHelper.USER_ID};
+        String condition = DBHelper.TABLE_ASSOZIATION + "." + DBHelper.CHAT_ID + " = " + c.cid + " AND " + DBHelper.TABLE_USERS + "." + DBHelper.USER_ID + " = " + DBHelper.TABLE_ASSOZIATION + "." + DBHelper.USER_ID;
         Cursor cursor = query(DBHelper.TABLE_ASSOZIATION + ", " + DBHelper.TABLE_USERS, columns, condition, null, null, null, DBHelper.TABLE_USERS + "." + DBHelper.USER_NAME);
         cursor.moveToFirst();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -251,7 +246,7 @@ public class DBConnection {
 
     boolean isUserInChat(User u, Chat c) {
         String[] columns = {DBHelper.USER_ID};
-        String condition = DBHelper.CHAT_ID + " = " + c.cid + " AND " + DBHelper.ASSOZIATION_REMOVED + " = 0 AND " + DBHelper.USER_ID + " = " + u.uid;
+        String condition = DBHelper.CHAT_ID + " = " + c.cid + " AND " + DBHelper.USER_ID + " = " + u.uid;
         Cursor cursor = query(DBHelper.TABLE_ASSOZIATION, columns, condition, null, null, null, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
@@ -283,29 +278,36 @@ public class DBConnection {
         return array;
     }
 
+    void removeUserFormChat(int uid, int cid) {
+        database.execSQL("DELETE FROM " + DBHelper.TABLE_ASSOZIATION + " WHERE " + DBHelper.USER_ID + " = " + uid + " AND " + DBHelper.CHAT_ID + " = " + cid);
+    }
+
+    public void clearTable(String table) {
+        database.execSQL("DELETE FROM " + table);
+    }
+
     public void close() {
         helper.close();
     }
 
-    private class DBHelper extends SQLiteOpenHelper {
-        static final String DATABASE_NAME = "messenger";
-        static final String TABLE_MESSAGES = "messages";
+    public class DBHelper extends SQLiteOpenHelper {
+        public static final String DATABASE_NAME = "messenger";
+        public static final String TABLE_MESSAGES = "messages";
         static final String MESSAGES_ID = "mid";
         static final String MESSAGE_TEXT = "mtext";
         static final String MESSAGE_DATE = "mdate";
         static final String MESSAGE_READ = "mgelesen";
-        static final String TABLE_CHATS = "chats";
+        public static final String TABLE_CHATS = "chats";
         static final String CHAT_ID = "cid";
         static final String CHAT_NAME = "cname";
         static final String CHAT_TYPE = "ctype";
-        static final String TABLE_ASSOZIATION = "assoziation";
-        static final String ASSOZIATION_REMOVED = "aremoved";
-        static final String TABLE_USERS = "users";
+        public static final String TABLE_ASSOZIATION = "assoziation";
+        public static final String TABLE_USERS = "users";
         static final String USER_ID = "uid";
         static final String USER_NAME = "uname";
         static final String USER_KLASSE = "uklasse";
         static final String USER_PERMISSION = "upermission";
-        static final String TABLE_MESSAGES_UNSEND = "messages_unsend";
+        public static final String TABLE_MESSAGES_UNSEND = "messages_unsend";
 
         DBHelper(Context context) {
             super(context, DATABASE_NAME, null, 1);
@@ -336,8 +338,7 @@ public class DBConnection {
             try {
                 db.execSQL("CREATE TABLE " + TABLE_ASSOZIATION + " (" +
                         CHAT_ID + " INTEGER NOT NULL, " +
-                        USER_ID + " INTEGER NOT NULL, " +
-                        ASSOZIATION_REMOVED + " INTEGER NOT NULL)");
+                        USER_ID + " INTEGER NOT NULL)");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

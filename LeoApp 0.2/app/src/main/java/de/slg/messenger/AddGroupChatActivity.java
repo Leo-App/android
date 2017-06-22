@@ -138,7 +138,6 @@ public class AddGroupChatActivity extends AppCompatActivity {
     }
 
     private class CreateChat extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected Void doInBackground(Void... params) {
             sendChat(newChat);
@@ -200,7 +199,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
         }
 
         private String generateURL(Assoziation assoziation) {
-            return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+            return "http://moritz.liegmanns.de/messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
     }
 }

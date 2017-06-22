@@ -326,7 +326,7 @@ public class OverviewWrapper extends AppCompatActivity {
             }
 
             private String generateURL(Assoziation assoziation) {
-                return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+                return "http://moritz.liegmanns.de/messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
             }
         }
     }
