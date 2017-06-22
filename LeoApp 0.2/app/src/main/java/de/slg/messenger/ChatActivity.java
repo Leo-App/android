@@ -298,33 +298,39 @@ public class ChatActivity extends AppCompatActivity {
     private class SendMessage extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
-            if (Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat)) {
-                if (currentChat.cid == -1) {
-                    snackbar.show();
-                } else if (!Utils.checkNetwork()) {
-                    Utils.getMessengerDBConnection().insertUnsendMessage(params[0], currentChat.cid);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "Nachricht wird MÖGLICHERWEISE versendet, sobald du dich mit dem Internet verbindest", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } else {
-                    List<Message> messageList = new List<>(messagesArray);
-                    messageList.append(new Message(0, params[0], new Date().getTime(), currentChat.cid, Utils.getUserID(), true));
-                    messagesArray = messageList.fill(new Message[messageList.length()]);
-                    refreshUI(false);
-                    try {
-                        BufferedReader reader =
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                new URL(generateURL(params[0]))
-                                                        .openConnection()
-                                                        .getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null) ;
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            if (currentChat.cid == -1) {
+                snackbar.show();
+            } else if (!Utils.checkNetwork()) {
+                Utils.getMessengerDBConnection().insertUnsendMessage(params[0], currentChat.cid);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "Nachricht wird versendet, sobald du dich mit dem Internet verbindest",
+                                Toast.LENGTH_LONG).show();
                     }
+                });
+            } else {
+                List<Message> messageList = new List<>(messagesArray);
+                messageList.append(
+                        new Message(0,
+                                params[0],
+                                new Date().getTime(),
+                                currentChat.cid,
+                                Utils.getUserID(),
+                                true));
+                messagesArray = messageList.fill(new Message[messageList.length()]);
+                refreshUI(false);
+                try {
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(generateURL(params[0]))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
+                    while (reader.readLine() != null) ;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
             return null;
