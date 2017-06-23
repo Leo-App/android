@@ -162,7 +162,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         Cursor myCursor = null;
         if(Utils.getUserStufe()!= "") {
             String stufe = Utils.getUserStufe();
-            myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, stufe + " = adressat", null, null, null, null);
+            myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, "adressat = '" + stufe + "'", null, null, null, null);
         }
         else {
             myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, null , null, null, null, null);

@@ -138,18 +138,16 @@ public class AddGroupChatActivity extends AppCompatActivity {
     }
 
     private class CreateChat extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected Void doInBackground(Void... params) {
             sendChat(newChat);
             User[] members = userAdapter.getSelected();
-            sendAssoziation(new Assoziation(newChat.cid, Utils.getUserID(), false));
-            ChatActivity.chat = newChat;
-            ChatActivity.chatname = newChat.cname;
+            sendAssoziation(new Assoziation(newChat.cid, Utils.getUserID()));
+            ChatActivity.currentChat = newChat;
             startActivity(new Intent(getApplicationContext(), ChatActivity.class));
             finish();
             for (User member : members) {
-                sendAssoziation(new Assoziation(newChat.cid, member.uid, false));
+                sendAssoziation(new Assoziation(newChat.cid, member.uid));
             }
             return null;
         }
@@ -200,7 +198,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
         }
 
         private String generateURL(Assoziation assoziation) {
-            return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+            return "http://moritz.liegmanns.de/messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
     }
 }

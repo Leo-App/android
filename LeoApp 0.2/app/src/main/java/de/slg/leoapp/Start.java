@@ -1,6 +1,7 @@
 package de.slg.leoapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ public class Start extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        initPref(getApplicationContext());
 
         Utils.context = getApplicationContext();
 
@@ -28,5 +29,9 @@ public class Start extends Activity {
 
         startService(new Intent(getApplicationContext(), ReceiveService.class));
         finish();
+    }
+
+    public static void initPref(Context context) {
+        pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 }

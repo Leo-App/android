@@ -87,7 +87,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
     @Override
     public void finish() {
-        Utils.getMessengerDBConnection().setOverviewWrapper(null);
+        Utils.registerOverviewWrapper(null);
         super.finish();
     }
 
@@ -216,7 +216,7 @@ public class OverviewWrapper extends AppCompatActivity {
         cFragment.refreshUI();
         ChatActivity chatActivity = Utils.getChatActivity();
         if (chatActivity != null)
-            chatActivity.refreshUI();
+            chatActivity.refreshUI(true);
     }
 
     public static class UserFragment extends Fragment {
@@ -239,16 +239,14 @@ public class OverviewWrapper extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().userArray.length) {
                         User clickedUser = Utils.getOverviewWrapper().userArray[position];
-                        ChatActivity.chatname = clickedUser.uname;
                         Chat newChat = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
                         int index = Utils.getOverviewWrapper().indexOf(newChat);
                         if (index == -1) {
                             new CreateChat(clickedUser).execute(newChat);
-                            ChatActivity.chat = newChat;
+                            ChatActivity.currentChat = newChat;
                         } else {
-                            ChatActivity.chat = Utils.getOverviewWrapper().chatArray[index];
+                            ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[index];
                         }
-                        ChatActivity.chatname = clickedUser.uname;
                         startActivity(new Intent(getContext(), ChatActivity.class));
                     }
                 }
@@ -276,8 +274,8 @@ public class OverviewWrapper extends AppCompatActivity {
             protected Void doInBackground(Chat... params) {
                 if (Utils.checkNetwork()) {
                     sendChat(params[0]);
-                    sendAssoziation(new Assoziation(params[0].cid, Utils.getUserID(), false));
-                    sendAssoziation(new Assoziation(params[0].cid, other.uid, false));
+                    sendAssoziation(new Assoziation(params[0].cid, Utils.getUserID()));
+                    sendAssoziation(new Assoziation(params[0].cid, other.uid));
                 }
                 return null;
             }
@@ -326,7 +324,7 @@ public class OverviewWrapper extends AppCompatActivity {
             }
 
             private String generateURL(Assoziation assoziation) {
-                return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+                return "http://moritz.liegmanns.de/messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
             }
         }
     }
@@ -350,8 +348,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().chatArray.length) {
-                        ChatActivity.chatname = Utils.getOverviewWrapper().chatArray[position].ctitle;
-                        ChatActivity.chat = Utils.getOverviewWrapper().chatArray[position];
+                        ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[position];
                         startActivity(new Intent(getContext(), ChatActivity.class));
                     }
                 }

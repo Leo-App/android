@@ -8,9 +8,9 @@ import java.util.Locale;
 
 public class Message {
     final int mid;
-    final String mtext;
+    public final String mtext;
     final Date mdate;
-    final int cid;
+    public final int cid;
     final int uid;
     boolean mread;
     String uname = null;

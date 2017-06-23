@@ -6,14 +6,13 @@ import java.util.Iterator;
 public class List<ContentType> implements Iterable<ContentType> {
 
     private Node first, last, current;
-    private int length, index;
+    private int length;
 
     public List() {
         first = null;
         last = null;
         current = null;
         length = 0;
-        index = -1;
     }
 
     public List(ContentType[] array) {
@@ -21,7 +20,6 @@ public class List<ContentType> implements Iterable<ContentType> {
         last = null;
         current = null;
         length = 0;
-        index = 0;
         adapt(array);
     }
 
@@ -51,31 +49,30 @@ public class List<ContentType> implements Iterable<ContentType> {
 
     public void next() {
         current = current.next;
-        index++;
     }
 
     public void previous() {
         current = current.previous;
-        index--;
     }
 
     public void toFirst() {
         if (!isEmpty()) {
             current = first;
-            index = 0;
         }
     }
 
     public void toLast() {
         if (!isEmpty()) {
             current = last;
-            index = length;
         }
     }
 
     public void toIndex(int index) {
-        while (hasAccess() && this.index < index)
-            next();
+        if (index >= length)
+            toLast();
+        else
+            for (toFirst(); hasAccess() && index > 0; next())
+                index--;
     }
 
     public ContentType getContent() {
@@ -109,7 +106,6 @@ public class List<ContentType> implements Iterable<ContentType> {
                     first = newNode;
                 newNode.insertBefore(current, newNode == first);
                 length++;
-                index++;
             } else {
                 if (isEmpty()) {
                     Node newNode = new Node(pContent);
@@ -207,10 +203,6 @@ public class List<ContentType> implements Iterable<ContentType> {
         return length;
     }
 
-    public int getIndex() {
-        return index;
-    }
-
     public boolean contains(ContentType object) {
         for (toFirst(); hasAccess(); next()) {
             if (object.equals(getContent()))
@@ -220,10 +212,6 @@ public class List<ContentType> implements Iterable<ContentType> {
     }
 
     public ContentType getObjectAt(int index) {
-        if (index > length()) {
-            toLast();
-            return getContent();
-        }
         toIndex(index);
         return getContent();
     }
@@ -231,7 +219,6 @@ public class List<ContentType> implements Iterable<ContentType> {
     @Override
     public Iterator<ContentType> iterator() {
         current = null;
-        index = -1;
         return new Iterator<ContentType>() {
             @Override
             public boolean hasNext() {

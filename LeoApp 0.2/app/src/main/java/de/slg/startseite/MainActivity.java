@@ -52,7 +52,6 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler {
-
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     public static View v;
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static MainActivity ref;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         runningScan = false;
         ref = this;
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.wtf("LeoApp", "called onCreate main");
 
-        int id = Start.pref.getInt("pref_key_general_id", -1);
+        int id = Utils.getUserID();
         boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
         boolean synchronize = Start.pref.getBoolean("pref_key_level_has_to_be_synchronized", false);
 
@@ -419,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_USE_CAMERA: {
                 if (grantResults.length > 0

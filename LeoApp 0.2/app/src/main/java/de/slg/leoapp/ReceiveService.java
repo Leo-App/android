@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Looper;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,22 +13,20 @@ import java.net.URL;
 
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
+import de.slg.messenger.DBConnection;
 import de.slg.messenger.Message;
 
 public class ReceiveService extends Service {
-
     private boolean running, receive;
     private static long interval;
 
-    public ReceiveService() {
-        running = true;
-        receive = false;
-        interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
-        Utils.registerReceiveService(this);
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Start.initPref(getApplicationContext());
+        interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
+        Utils.registerReceiveService(this);
+        running = true;
+        receive = false;
         new LoopThread().start();
         return START_REDELIVER_INTENT;
     }
@@ -40,6 +39,7 @@ public class ReceiveService extends Service {
     @Override
     public void onDestroy() {
         running = false;
+        Utils.registerReceiveService(null);
     }
 
     private static long getInterval(int selection) {
@@ -76,9 +76,11 @@ public class ReceiveService extends Service {
             while (running) {
                 try {
                     new ReceiveTask().execute();
-                    for (int i = 0; i < interval && running && !receive; i++) {
+                    new SendTask().execute();
+
+                    for (int i = 0; i < interval && running && !receive; i++)
                         sleep(1);
-                    }
+
                     receive = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -90,10 +92,10 @@ public class ReceiveService extends Service {
     private class ReceiveTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
+            nachricht();
             assoziationen();
             chat();
             benutzer();
-            nachricht();
             return null;
         }
 
@@ -112,7 +114,7 @@ public class ReceiveService extends Service {
                         builder.append(l).append(System.getProperty("line.separator"));
                     String[] result = builder.toString().split("_nextMessage_");
                     for (String s : result) {
-                        String[] message = s.split(";");
+                        String[] message = s.split("_;_");
                         if (message.length == 5) {
                             int mid = Integer.parseInt(message[0]);
                             String mtext = message[1];
@@ -145,7 +147,7 @@ public class ReceiveService extends Service {
                     String erg = builder.toString();
                     String[] result = erg.split("_nextChat_");
                     for (String s : result) {
-                        String[] current = s.split(";");
+                        String[] current = s.split("_;_");
                         if (current.length == 3) {
                             Chat c = new Chat(Integer.parseInt(current[0]), current[1], Chat.Chattype.valueOf(current[2].toUpperCase()));
                             Utils.getMessengerDBConnection().insertChat(c);
@@ -173,7 +175,7 @@ public class ReceiveService extends Service {
                     String erg = builder.toString();
                     String[] result = erg.split("_nextUser_");
                     for (String s : result) {
-                        String[] current = s.split(";");
+                        String[] current = s.split("_;_");
                         if (current.length == 4) {
                             User u = new User(Integer.parseInt(current[0]), current[1], current[2], Integer.parseInt(current[3]));
                             Utils.getMessengerDBConnection().insertUser(u);
@@ -200,10 +202,11 @@ public class ReceiveService extends Service {
                         builder.append(l);
                     String erg = builder.toString();
                     String[] result = erg.split("_nextAssoziation_");
+                    Utils.getMessengerDBConnection().clearTable(DBConnection.DBHelper.TABLE_ASSOZIATION);
                     for (String s : result) {
-                        String[] current = s.split(";");
-                        if (current.length == 3) {
-                            Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]), Boolean.parseBoolean(current[2]));
+                        String[] current = s.split("_;_");
+                        if (current.length == 2) {
+                            Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]));
                             Utils.getMessengerDBConnection().insertAssoziation(a);
                         }
                     }
@@ -216,7 +219,7 @@ public class ReceiveService extends Service {
         private String generateURL(Operator o) {
             switch (o) {
                 case Nachricht:
-                    return "http://moritz.liegmanns.de/messenger/receive.php?key=5453&userid=" + Utils.getUserID();
+                    return "http://moritz.liegmanns.de/messenger/getMessages.php?key=5453&userid=" + Utils.getUserID();
                 case Benutzer:
                     return "http://moritz.liegmanns.de/messenger/getUsers.php?key=5453&userid=" + Utils.getUserID();
                 case Chat:
@@ -226,6 +229,40 @@ public class ReceiveService extends Service {
                 default:
                     return "";
             }
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (Utils.getOverviewWrapper() != null)
+                Utils.getOverviewWrapper().notifyUpdate();
+        }
+    }
+
+    private class SendTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (Utils.checkNetwork()) {
+                Message[] array = Utils.getMessengerDBConnection().getUnsendMessages();
+                for (Message m : array) {
+                    try {
+                        BufferedReader reader =
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                new URL(generateURL(m.mtext, m.cid))
+                                                        .openConnection()
+                                                        .getInputStream(), "UTF-8"));
+                        while (reader.readLine() != null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                Utils.getMessengerDBConnection().clearTable(DBConnection.DBHelper.TABLE_MESSAGES_UNSEND);
+            }
+            return null;
+        }
+
+        private String generateURL(String message, int cid) {
+            return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
         }
     }
 

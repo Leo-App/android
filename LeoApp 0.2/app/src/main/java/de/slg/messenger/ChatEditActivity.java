@@ -45,6 +45,8 @@ public class ChatEditActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat))
             getMenuInflater().inflate(R.menu.messenger_chat_edit, menu);
+        if (!Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat))
+            menu.clear();
         this.menu = menu;
         return true;
     }
@@ -146,7 +148,7 @@ public class ChatEditActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(User... params) {
             for (User u : params) {
-                sendAssoziation(new Assoziation(currentChat.cid, u.uid, false));
+                sendAssoziation(new Assoziation(currentChat.cid, u.uid));
             }
             return null;
         }
@@ -168,7 +170,7 @@ public class ChatEditActivity extends AppCompatActivity {
         }
 
         private String generateURL(Assoziation assoziation) {
-            return "http://moritz.liegmanns.de/messenger/addUserToChat.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+            return "http://moritz.liegmanns.de/messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
 
         @Override
@@ -181,10 +183,8 @@ public class ChatEditActivity extends AppCompatActivity {
     private class RemoveUser extends AsyncTask<User, Void, Void> {
         @Override
         protected Void doInBackground(User... params) {
-            for (User u : params) {
-                removeAssoziation(new Assoziation(currentChat.cid, u.uid, false));
-                Utils.getMessengerDBConnection().removeUserFromChat(u, currentChat);
-            }
+            for (User u : params)
+                removeAssoziation(new Assoziation(currentChat.cid, u.uid));
             return null;
         }
 
@@ -198,6 +198,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null);
+                    Utils.getMessengerDBConnection().removeUserFormChat(assoziation.uid, assoziation.cid);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

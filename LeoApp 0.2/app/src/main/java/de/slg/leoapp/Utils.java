@@ -10,6 +10,7 @@ import java.util.Date;
 
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.DBConnection;
+import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
 
 public abstract class Utils {
@@ -106,7 +107,6 @@ public abstract class Utils {
 
     public static void registerOverviewWrapper(OverviewWrapper overviewWrapper) {
         Utils.overviewWrapper = overviewWrapper;
-        getMessengerDBConnection().setOverviewWrapper(overviewWrapper);
     }
 
     public static void registerChatActivity(ChatActivity chatActivity) {
