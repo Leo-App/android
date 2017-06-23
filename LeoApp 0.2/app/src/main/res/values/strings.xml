@@ -5,7 +5,7 @@
 
     <string name="toolbar" translatable="false">Toolbar</string>
     <string name="action_save">Save</string>
-    <string name="action_delete">delete</string>
+    <string name="action_delete">Delete</string>
     <string name="title_activity">Test</string>
     <string name="snackbar_ungültig">Subject or date are incorrect</string>
     <string name="dismiss" translatable="false">OK</string>
@@ -15,12 +15,12 @@
     <string name="subject">Subject</string>
 
     <string name="date">Date</string>
-    <string name="date_format">DD.MM.YY</string>
+    <string name="date_format" translatable="false">DD.MM.YY</string>
     <string name="note">Note</string>
     <string name="grade">Grade</string>
-    <string name="week">week</string>
+    <string name="week">Week</string>
     <string name="action_load">load exams</string>
-    <string name="action_delete_all">suprimer tous</string>
+    <string name="action_delete_all">Suprimer tous</string>
 
     <!-- Menu titles -->
 
@@ -80,9 +80,9 @@
     <string name="settings_title_contact">Contact</string>
     <string name="settings_summary_contact" translatable="false">email\@maildomain.de</string>
 
-    <string name="action_leave_chat">leave chat</string>
+    <string name="action_leave_chat">Leave chat</string>
     <string name="name_of_chat">Chatname</string>
-    <string name="title_new_groupchat">Neue Gruppe</string>
+    <string name="title_new_groupchat">New group</string>
     <string name="serviceDescription">Receives messages while the app is closed</string>
 
     <string name="toolbar_scan">Scan!</string>
@@ -93,7 +93,7 @@
     <string name="button_sidemenu">Navigation</string>
     <string name="textview_placeholder" translatable="false">placeholder</string>
     <string name="qr_display_title">Your Order for today\, the</string>
-    <string name="qr_display_menu" translatable="false">Menu</string>
+    <string name="qr_display_menu">Menu</string>
     <string name="dialog_desc_valid">Ordered menu:</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
     <string name="qr_display_not_ordered">You have no order for today</string>
@@ -131,13 +131,13 @@
     <string name="settings_summary_notification_test">Notify me on approaching tests</string>
     <string name="settings_summary_notification_survey">Notify me, if I haven\\\'nt voted yet</string>
     <string name="settings_summary_notification_schedule">Notify me about my lessons tomorrow</string>
-    <string name="settings_summary_notification_news">Notify me about new messages</string>
-    <string name="month">month</string>
-    <string name="months">months</string>
-    <string name="year">year</string>
-    <string name="stunden">hours</string>
-    <string name="bearbeiten">edit</string>
-    <string name="speichern">save</string>
+    <string name="settings_summary_notification_news">Notify me about new entries événements</string>
+    <string name="month">Month</string>
+    <string name="months">Months</string>
+    <string name="year">Year</string>
+    <string name="stunden">Hours</string>
+    <string name="bearbeiten">Edit</string>
+    <string name="speichern">Save</string>
     <string name="mo">Mon</string>
     <string name="di">Tue</string>
     <string name="mi">Wed</string>
@@ -155,7 +155,7 @@
     <string name="franze">French</string>
     <string name="englisch">English</string>
     <string name="spanisch">Spanish</string>
-    <string name="bili">history bilingual</string>
+    <string name="bili">History bilingual</string>
     <string name="geschichte">History</string>
     <string name="geo">Geography</string>
     <string name="sowi">Social sciences</string>
@@ -166,34 +166,34 @@
     <string name="info">Informatik</string>
     <string name="chemie">Chemistry</string>
     <string name="physik">Physics</string>
-    <string name="bio">biology</string>
+    <string name="bio">Biology</string>
     <string name="literatur">Literature</string>
     <string name="kunst">Art</string>
     <string name="musik">Music</string>
     <string name="SnackBarMes">Plan konnte nicht geladen werden</string>
-    <string name="später">later</string>
+    <string name="später">Later</string>
     <string name="lk">Higher Level</string>
     <string name="montag">Monday</string>
     <string name="dienstag">Tueseday</string>
     <string name="mittwoch">Wednesday</string>
     <string name="donnerstag">Thursday</string>
     <string name="freitag">Friday</string>
-    <string name="zeit">time</string>
+    <string name="zeit">Time</string>
     <string name="raum">Room</string>
     <string name="lehrer">Teacher</string>
     <string name="schriftlich">Written</string>
     <string name="notizen">Notes</string>
     <string name="mache_bild">Print</string>
-    <string name="seconds">seconds</string>
+    <string name="seconds">Seconds</string>
     <string name="settings_summary_notification_messenger">Notify me about new messages</string>
     <string name="settings_summary_refresh_interval">Refresh Interval</string>
     <string name="settings_summary_testplan_time">How old may your test be</string>
     <string name="settings_title_refresh_interval">Refresh Time</string>
     <string name="settings_title_testplan_time">Delete test</string>
-    <string name="minute">minute</string>
-    <string name="minutes">minutes</string>
-    <string name="hour">hour</string>
-    <string name="hours">hours</string>
+    <string name="minute">Minute</string>
+    <string name="minutes">Minutes</string>
+    <string name="hour">Hour</string>
+    <string name="hours">Hours</string>
     <string name="button_next">Next</string>
     <string name="toolbar_name_info">About</string>
     <string name="heute">Today</string>
@@ -224,10 +224,11 @@
     <string name="settings_summary_test_timetable">Filter by schedule</string>
     <string name="settings_title_test_timetable">filter</string>
     <string name="info_screen_fourth">No responsibility is accepted for the accuracy of this information</string>
-    <string name="info_screen_second">Developed by ????</string>
+    <string name="info_screen_second">Developed in an informatics project by students of the SLG</string>
     <string name="settings_screen_slg_data">SLG Accessdata</string>
     <string name="settings_screen_cg_data">Couven Accessdata</string>
     <string name="settings_screen_kkg_data">KKG Accessdata</string>
     <string name="settings_no_access_data">No access data needed</string>
+    <string name="SnackBarMes2">Noch keine Stufe eingestellt</string>
 
 </resources>

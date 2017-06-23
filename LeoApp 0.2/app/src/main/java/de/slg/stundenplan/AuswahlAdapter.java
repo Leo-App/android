@@ -51,6 +51,7 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
             twFach.setText(fachArray[position].gibName());
             twKuerzel.setText(fachArray[position].gibKurz());
             twLehrer.setText(fachArray[position].gibLehrer());
+            refresh();
         }
         views[position] = view;
         return view;

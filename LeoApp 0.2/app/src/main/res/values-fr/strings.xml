@@ -3,8 +3,8 @@
     <string name="drawer_placeholder">\@ Nom d\'utilisateur</string>
     <string name="drawer_profile_title">Ton profil</string>
 
-    <string name="action_save">sauver</string>
-    <string name="action_delete">suprimer</string>
+    <string name="action_save">Sauver</string>
+    <string name="action_delete">Suprimer</string>
     <string name="cancel">Annuler</string>
     <string name="error">Désolé, quelque chose ne marche pas</string>
 
@@ -12,20 +12,20 @@
     <!-- Titel -->
 
     <string name="title_home">page d\'accueil</string>
-    <string name="title_foodmarks">bons d\'achat de dîner</string>
-    <string name="title_testplan">Klausurplan</string>
-    <string name="title_tutoring">Nachhilfebörse</string>
-    <string name="title_news">Schwarzes Brett</string>
-    <string name="title_survey">Stimmungsbarometer</string>
-    <string name="title_plan">Stundenplan</string>
-    <string name="title_settings">Einstellungen</string>
+    <string name="title_foodmarks">Bons d\'âchat de répas</string>
+    <string name="title_testplan">Plan des épreuves</string>
+    <string name="title_tutoring">Cherche des touteurs</string>
+    <string name="title_news">Nouveautés</string>
+    <string name="title_survey">Monitorage d\'humeur</string>
+    <string name="title_plan">Emploi de temps</string>
+    <string name="title_settings">Réglages</string>
 
 
     <!-- Startseite -->
 
     <string name="button_info_try">Essayer</string>
-    <string name="button_info_auth">vérifier</string>
-    <string name="button_info_noreminder">Awesome!</string>
+    <string name="button_info_auth">Vérifier</string>
+    <string name="button_info_noreminder">Génial!</string>
 
     <string name="title_info_auth_failed">Tu n\'est pas encore vérifié</string>
     <string name="title_info_auth">Tu est vérifié</string>
@@ -56,28 +56,27 @@
     <string name="snackbar_undo">Annuler</string>
     <string name="subject">Matière</string>
     <string name="date">Date</string>
-    <string name="date_format">DD.MM.YY</string>
     <string name="note">Note</string>
     <string name="grade">Note</string>
-    <string name="week">Woche</string>
-    <string name="action_load">charge Klausuren</string>
+    <string name="week">Semaine</string>
+    <string name="action_load">Charger épreuves</string>
     <string name="action_delete_all">Alles löschen</string>
     <string name="month">Mois</string>
     <string name="months">Mois</string>
-    <string name="year">Jahr</string>
+    <string name="year">Année</string>
 
 
     <!-- Essensbons -->
 
-    <string name="toolbar_scan">Scannen!</string>
-    <string name="toolbar_title">Essensbons</string>
-    <string name="button_scan">scanner</string>
-    <string name="action_refresh">actualiser</string>
+    <string name="toolbar_scan">Scanner!</string>
+    <string name="toolbar_title">Bons d\'âchat du répas</string>
+    <string name="button_scan">Scanner</string>
+    <string name="action_refresh">Actualiser</string>
     <string name="button_sidemenu">Navigation</string>
     <string name="qr_display_title">Ta commande pour aujourd\'hui, le</string>
     <string name="dialog_desc_valid">Menu commandé</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
-    <string name="qr_display_not_ordered">Tu n\'as pas fait une commande pour auijourd\'hui</string>
+    <string name="qr_display_not_ordered">Tu n\'as pas fait une commande pour aujourd\'hui</string>
     <string name="qr_display_not_loggedin">Tu n\'est pas connecté, STP vérifie tes dates</string>
     <string name="explain_desc_1">Cette function remplace les bons d\'achat pour le repas avec des QR-Codes, éventuellement tu ne veux pas l\'utiliser.</string>
     <string name="explain_title_2">Étape 1</string>
@@ -85,7 +84,7 @@
     <string name="explain_title_3">Étape 2</string>
     <string name="explain_desc_3">Si le scan a marché tu recois tous les informations importantes: le menu commandé et si tu as déjà utilise le code.\"</string>
     <string name="invalidId">Fausse ID d\'utilisateur</string>
-    <string name="snackbar_no_connection_info_check">Dates de conection n\'ont pas pu être vérifies. S.T.P. verifies que tu as une connection internet active</string>
+    <string name="snackbar_no_connection_info_check">Dates de connection n\'ont pas pu être vérifies. S.T.P. verifies que tu as une connection internet active</string>
     <string name="snackbar_not_correct_info">Dates de connection incorrects</string>
     <string name="popup_code_not_valid">Le QR-Code a déjà été utilisé</string>
     <string name="notification_summary_notif">Tu n\'a pas encore syncronisé tes commandes</string>
@@ -94,19 +93,19 @@
 
     <!-- Messenger -->
 
-    <string name="action_leave_chat">quiter chat</string>
+    <string name="action_leave_chat">Quiter chat</string>
     <string name="name_of_chat">Nom du chat</string>
-    <string name="title_new_groupchat">Neue Gruppe</string>
+    <string name="title_new_groupchat">Nouvelle groupe</string>
     <string name="serviceDescription">Recoit des messages pendant l\'app n\'est pas utilisé</string>
-    <string name="seconds">secondes</string>
+    <string name="seconds">Secondes</string>
     <string name="minute">Minute</string>
     <string name="minutes">Minutes</string>
 
 
     <!-- Stundenplan -->
 
-    <string name="stunden">heures</string>
-    <string name="bearbeiten">éditer</string>
+    <string name="stunden">Heures</string>
+    <string name="bearbeiten">Éditer</string>
     <string name="mo">Lu</string>
     <string name="montag">Lundi</string>
     <string name="di">Ma</string>
@@ -124,23 +123,23 @@
     <string name="franze">Francais</string>
     <string name="englisch">Anglais</string>
     <string name="spanisch">Espagnol</string>
-    <string name="bili">histoire bilingue</string>
+    <string name="bili">Histoire bilingue</string>
     <string name="geschichte">Histoire</string>
     <string name="geo">Géographie</string>
     <string name="sowi">Sciences sociales</string>
     <string name="pada">Pédagogie</string>
     <string name="philo">Philosophie</string>
     <string name="info">Informatique</string>
-    <string name="chemie">chimie</string>
+    <string name="chemie">Chimie</string>
     <string name="physik">Physique</string>
-    <string name="bio">biologie</string>
+    <string name="bio">Biologie</string>
     <string name="literatur">Literatur</string>
     <string name="kunst">Arts plastiques</string>
     <string name="musik">Musique</string>
     <string name="SnackBarMes">Le plan n\'a pas pu être chargé</string>
-    <string name="später">plus tard</string>
+    <string name="später">Plus tard</string>
     <string name="lk">Cours Intensifs</string>
-    <string name="zeit">Zeit</string>
+    <string name="zeit">Temps</string>
     <string name="raum">Salle</string>
     <string name="lehrer">Prof</string>
     <string name="schriftlich">Écrit</string>
@@ -153,7 +152,7 @@
     <string name="settings_category_general">Général</string>
     <string name="settings_title_username">Nom d\'utilisateur</string>
     <string name="settings_title_level">Classe/Année</string>
-    <string name="settings_snackbar_username_taken">Ce nom d\'utilisateur est déjà utilié</string>
+    <string name="settings_snackbar_username_taken">Ce nom d\'utilisateur est déjà utilisé</string>
     <string name="settings_toast_username_success">Nom d\'utilisateur changé</string>
     <string name="settings_name_changed">Nom changé!</string>
 
@@ -161,31 +160,31 @@
     <string name="settings_summary_customid">Entre ton ID d\'utilisateur de lunch.leo-ac.de</string>
     <string name="settings_title_pw">Mot de passe</string>
     <string name="settings_summary_pw">Entre ton mot de passe de lunch.leo-ac.de</string>
-    <string name="settings_summary_sync">Syncronisers dates au lancement de l\'APP</string>
+    <string name="settings_summary_sync">Syncroniser dates au lancement de l\'APP</string>
     <string name="settings_title_fade">Opprimer automatiquement</string>
     <string name="settings_summary_fade">Informatons du scan sont automqtiquement opprimés</string>
     <string name="settings_title_fade_time">"Temps "</string>
     <string name="settings_summary_fade_time">Temps jusqu\'à que le fênetre de dialogue ferme</string>
-    <string name="settings_title_camera">utilser caméra frontale</string>
+    <string name="settings_title_camera">Utilser caméra frontale</string>
     <string name="settings_summary_camera">Utilise la caméra frontale pour scanner</string>
     <string name="settings_summary_mode">MensaMode&#8482; pour le personnel de la cantine</string>
     <string name="settings_title_notification">Recevoir notifications</string>
-    <string name="settings_summary_notification">Notification, si je n\'ai pas encore syncronisé</string>
+    <string name="settings_summary_notification">Notification, si tu n\'a pas encore syncronisé</string>
     <string name="settings_title_notification_time">Temps de notification</string>
     <string name="settings_summary_notification_time">Quand veux tu être rappelé?</string>
 
     <!--Klausurplan-->
     <string name="settings_summary_notification_test">Informe moi sur les prochains epreuves</string>
     <string name="settings_summary_testplan_time">Supprimer tous les épreuves après...</string>
-    <string name="settings_title_testplan_time">Suprimer epreuves</string>
+    <string name="settings_title_testplan_time">Suprimer épreuves</string>
     <string name="settings_summary_test_timetable">filtrer par emploi</string>
     <string name="settings_title_test_timetable">filtrer</string>
 
     <!--Messenger-->
-    <string name="settings_title_refresh_interval">Intervall d\'actualisation</string>
+    <string name="settings_title_refresh_interval">Intervalle d\'actualisation</string>
     <string name="settings_summary_refresh_interval">Interval entre les syncronisations</string>
     <string name="settings_summary_notification_messenger">Informe moi s\'il y a nouveaux messages</string>
-    <string name="messenger_notification_title">Nouveau Message!</string>
+    <string name="messenger_notification_title">Nouveaux messages!</string>
 
     <!--Schwarzes Brett-->
     <string name="settings_summary_notification_news">Informe moi s\'il y a nouveaux messages</string>
@@ -195,19 +194,19 @@
     <string name="heute">Aujourd\'hui</string>
 
     <!--Stundenplan-->
-    <string name="settings_summary_notification_schedule">Informe moi sur mes cours de demain</string>
+    <string name="settings_summary_notification_schedule">Informe moi sur mes cours pour demain</string>
 
     <!--Kontakt & Informationen-->
     <string name="settings_category_info">Contact &#38; Informations</string>
     <string name="settings_title_contact">Contact</string>
-    <string name="speichern">sauver</string>
+    <string name="speichern">Sauver</string>
     <string name="info_screen_title">LeoApp pour Android</string>
-    <string name="info_screen_second">Développe par ...</string>
+    <string name="info_screen_second">Développé dans un projet d\'informatique du SLG</string>
     <string name="info_screen_fourth">Toutes les informations sont sans garantie</string>
     <string name="info_screen_fifth">Développeurs</string>
-    <string name="toolbar_title_screen">Über die App</string>
-    <string name="button_next">suivant</string>
-    <string name="toolbar_name_info">Über die App</string>
+    <string name="toolbar_title_screen">Sur l\'app</string>
+    <string name="button_next">Suivant</string>
+    <string name="toolbar_name_info">Sur l\'app</string>
     <string name="hour">Heure</string>
     <string name="hours">Heures</string>
     <string name="settings_summary_filter_subst">Veux tu filtrer tes dates?</string>
@@ -221,11 +220,16 @@
     <string name="settings_title_filter_subst">Filtre</string>
     <string name="settings_title_filterby_level">Année</string>
     <string name="settings_title_filterby_schedule">Emploi de temps</string>
-    <string name="settings_title_interval_subst">Interval</string>
+    <string name="settings_title_interval_subst">Intervalle</string>
     <string name="settings_title_network">Seulement avec WiFi</string>
     <string name="settings_title_password_school">Mot de passe</string>
     <string name="settings_title_username_school">Nom d\'utilisateur</string>
-    <string name="title_subst">Vertretung</string>
+    <string name="title_subst">Plan des Remplacants</string>
     <string name="settings_category_subst">Remplacant</string>
     <string name="mache_bild">Créer un image</string>
+    <string name="qr_display_menu" translatable="false">Menu</string>
+    <string name="settings_no_access_data">Aucunes dates d\'enrégistrement nécessaires</string>
+    <string name="settings_screen_cg_data">Dates d\'enrégistrement Couven</string>
+    <string name="settings_screen_kkg_data">Dates d\'enrégistrement KKG</string>
+    <string name="settings_screen_slg_data">Dates d\'enrégistrement SLG</string>
 </resources>

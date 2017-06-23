@@ -33,12 +33,17 @@ public class AuswahlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auswahl);
 
-        SharedPreferences shaPre = getSharedPreferences("", MODE_PRIVATE); //Jaja, hier fehlt noch der Name... TODO: 27.05.2017
-        String stufe = shaPre.getString("pref_key_level_general", "Q1"); //Ähm ich würde vllt nicht Q1 nehmen, wenn noch keine Stufe eingestellt ist ^Gianni TODO Lesen
+        SharedPreferences shaPre = getSharedPreferences("", MODE_PRIVATE); //Ach, hier ist der Fehler TODO: 27.05.2017
+        String stufe = shaPre.getString("pref_key_level_general", null);
 
-        if (!fileExistiert()) {
+        if (!fileExistiert() && stufe!=null) {
             importer = new FachImporter(getApplicationContext(), stufe);
             importer.execute();
+        }
+        if (stufe==null) {
+            Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes2, Snackbar.LENGTH_SHORT);
+            snack.show();
+            //Ich will einen Button der direkt zu den Einstellungen geht!!!!
         }
 
         initToolbar();
