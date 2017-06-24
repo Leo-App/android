@@ -95,8 +95,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
                 boolean settings = false;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = null;
-                        break;
+                        return true;
                     case R.id.messenger:
                         i = new Intent(getApplicationContext(), OverviewWrapper.class);
                         break;

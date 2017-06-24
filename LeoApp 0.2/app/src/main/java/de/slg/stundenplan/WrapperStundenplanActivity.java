@@ -170,8 +170,7 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         break;
                     case R.id.stundenplan:
-                        i = null;
-                        break;
+                        return true;
                     case R.id.barometer:
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
                         break;

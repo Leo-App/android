@@ -100,8 +100,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), OverviewWrapper.class);
                         break;
                     case R.id.newsboard:
-                        i = null;
-                        break;
+                        return true;
                     case R.id.nachhilfe:
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         break;

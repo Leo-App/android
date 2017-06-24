@@ -149,8 +149,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
                         break;
                     case R.id.messenger:
-                        i = null;
-                        break;
+                        return true;
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;

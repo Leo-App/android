@@ -233,6 +233,10 @@
     <string name="settings_screen_cg_data">Anmeldedaten Couven</string>
     <string name="settings_screen_kkg_data">Anmeldedaten KKG</string>
     <string name="settings_screen_slg_data">Anmeldedaten SLG</string>
+    <string name="edit_chat">Chatnamen ändern</string>
+    <string name="SnackBarMes2">Noch keine Stufe eingestellt</string>
+    <string name="add_user">Benutzer zu diesem Chat hinzufügen</string>
+    <string name="remove_users">Benutzer aus diesem Chat entfernen</string>
 
 
 </resources>

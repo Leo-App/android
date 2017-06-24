@@ -36,9 +36,6 @@ public class ChatActivity extends AppCompatActivity {
     public static Chat currentChat;
     private Message[] messagesArray;
 
-    private Menu menu;
-    private EditText etEditChatName;
-
     private RecyclerView rvMessages;
     private EditText etMessage;
     private Snackbar snackbar;
@@ -65,7 +62,6 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.messenger_chat, menu);
-        this.menu = menu;
         if (currentChat.ctype == Chat.Chattype.PRIVATE || !Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat))
             menu.clear();
         return true;
@@ -77,13 +73,6 @@ public class ChatActivity extends AppCompatActivity {
             onBackPressed();
         } else if (item.getItemId() == R.id.action_edtiParticipants) {
             startEditChat();
-        } else if (item.getItemId() == R.id.action_editChat) {
-            setChatNameEditable(true);
-        } else if (item.getItemId() == R.id.action_cancel) {
-            setChatNameEditable(false);
-        } else if (item.getItemId() == R.id.action_confirm) {
-            confirmEdit();
-            setChatNameEditable(false);
         }
         return true;
     }
@@ -92,6 +81,12 @@ public class ChatActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         Utils.registerChatActivity(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSupportActionBar().setTitle(currentChat.cname);
     }
 
     private void initRecyclerView() {
@@ -116,9 +111,6 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        etEditChatName = (EditText) findViewById(R.id.editTextEditChatName);
-        etEditChatName.setVisibility(View.GONE);
     }
 
     private void initSendMessage() {
@@ -179,26 +171,6 @@ public class ChatActivity extends AppCompatActivity {
     private void startEditChat() {
         ChatEditActivity.currentChat = currentChat;
         startActivity(new Intent(getApplicationContext(), ChatEditActivity.class));
-    }
-
-    private void setChatNameEditable(boolean b) {
-        if (b) {
-            menu.clear();
-            getSupportActionBar().setTitle("");
-            etEditChatName.setText(currentChat.cname);
-            etEditChatName.setVisibility(View.VISIBLE);
-            getMenuInflater().inflate(R.menu.messenger_confirm_action, menu);
-        } else {
-            menu.clear();
-            getSupportActionBar().setTitle(currentChat.cname);
-            etEditChatName.setVisibility(View.GONE);
-            getMenuInflater().inflate(R.menu.messenger_chat, menu);
-        }
-    }
-
-    private void confirmEdit() {
-        currentChat.cname = etEditChatName.getText().toString();
-        new SendChatname().execute();
     }
 
     public void refreshUI(boolean refreshMessages, final boolean scroll) {
@@ -347,29 +319,6 @@ public class ChatActivity extends AppCompatActivity {
 
         private String generateURL(String message) {
             return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + currentChat.cid;
-        }
-    }
-
-    private class SendChatname extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (currentChat != null && Utils.checkNetwork())
-                try {
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            new URL(generateURL())
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null) ;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            return null;
-        }
-
-        private String generateURL() {
-            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + currentChat.cid + "&chatname=" + currentChat.cname.replace(" ", "%20");
         }
     }
 }

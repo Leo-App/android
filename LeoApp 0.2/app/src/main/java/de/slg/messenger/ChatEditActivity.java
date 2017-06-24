@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -55,6 +57,8 @@ public class ChatEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == android.R.id.home) {
             onBackPressed();
+        } else if (mi.getItemId() == R.id.action_editChat) {
+            showDialogChatname();
         } else if (mi.getItemId() == R.id.action_addUserToChat) {
             lvUsers.setAdapter(uRest);
             menu.clear();
@@ -144,6 +148,30 @@ public class ChatEditActivity extends AppCompatActivity {
         }
     }
 
+    private void showDialogChatname() {
+        final AlertDialog builder = new AlertDialog.Builder(this).create();
+        View v = getLayoutInflater().inflate(R.layout.dialog_layout_chatname, null);
+
+        final TextView textView = (TextView) v.findViewById(R.id.etChatname);
+        textView.setText(currentChat.cname);
+        v.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
+        v.findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SendChatname().execute(String.valueOf(textView.getText()));
+                builder.dismiss();
+            }
+        });
+
+        builder.setView(v);
+        builder.show();
+    }
+
     private class AddUser extends AsyncTask<User, Void, Void> {
         @Override
         protected Void doInBackground(User... params) {
@@ -162,7 +190,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                             new URL(generateURL(assoziation))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null);
+                    while (reader.readLine() != null) ;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -197,7 +225,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                             new URL(generateURL(assoziation))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null);
+                    while (reader.readLine() != null) ;
                     Utils.getMessengerDBConnection().removeUserFormChat(assoziation.uid, assoziation.cid);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -213,6 +241,36 @@ public class ChatEditActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getMessengerDBConnection().getUsersInChat(currentChat, true), false));
             super.onPostExecute(aVoid);
+        }
+    }
+
+    private class SendChatname extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            if (currentChat != null && Utils.checkNetwork())
+                try {
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(generateURL(params[0]))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
+                    while (reader.readLine() != null) ;
+                    currentChat.cname = params[0];
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            return null;
+        }
+
+        private String generateURL(String name) {
+            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + currentChat.cid + "&chatname=" + name.replace(" ", "%20");
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Utils.receive();
+            getSupportActionBar().setTitle(currentChat.cname);
         }
     }
 }

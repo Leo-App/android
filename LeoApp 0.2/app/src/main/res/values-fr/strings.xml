@@ -232,4 +232,5 @@
     <string name="settings_screen_cg_data">Dates d\'enrégistrement Couven</string>
     <string name="settings_screen_kkg_data">Dates d\'enrégistrement KKG</string>
     <string name="settings_screen_slg_data">Dates d\'enrégistrement SLG</string>
+    <string name="edit_chat">Change Chatname</string>
 </resources>

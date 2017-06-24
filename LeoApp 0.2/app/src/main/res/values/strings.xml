@@ -229,6 +229,10 @@
     <string name="settings_screen_cg_data">Couven Accessdata</string>
     <string name="settings_screen_kkg_data">KKG Accessdata</string>
     <string name="settings_no_access_data">No access data needed</string>
-    <string name="SnackBarMes2">Noch keine Stufe eingestellt</string>
+    <string name="SnackBarMes2">No Grade selected</string>
+    <string name="edit_chat">Change Chatname</string>
+    <string name="add_user">Add User to Chat</string>
+    <string name="remove_users">Remove User from Chat</string>
+    <string name="chat_info">Info</string>
 
 </resources>

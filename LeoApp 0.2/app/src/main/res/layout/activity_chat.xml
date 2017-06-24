@@ -17,28 +17,7 @@
             android:background="@color/colorPrimary"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent">
-
-                <EditText
-                    android:id="@+id/editTextEditChatName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Chatname"
-                    android:inputType="text"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp"
-                    android:visibility="gone" />
-
-            </LinearLayout>
-
-        </android.support.v7.widget.Toolbar>
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/messageToolbar"

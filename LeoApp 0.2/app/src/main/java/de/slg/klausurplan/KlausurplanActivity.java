@@ -160,8 +160,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
                         break;
                     case R.id.klausurplan:
-                        i = null;
-                        break;
+                        return true;
                     case R.id.startseite:
                         i = null;
                         break;

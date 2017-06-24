@@ -4,15 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_editChat"
-        android:icon="@drawable/ic_edit_white_24dp"
-        android:title="edit Chat"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_edtiParticipants"
         android:icon="@drawable/ic_info_outline_white_24dp"
-        android:title="edit Participants"
-        app:showAsAction="always" />
+        android:title="@string/chat_info"
+        app:showAsAction="ifRoom" />
 
 </menu>

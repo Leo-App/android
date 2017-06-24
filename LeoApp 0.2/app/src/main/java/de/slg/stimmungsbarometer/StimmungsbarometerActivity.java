@@ -139,8 +139,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;
                     case R.id.barometer:
-                        i = null;
-                        break;
+                        return true;
                     case R.id.klausurplan:
                         i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                         break;
