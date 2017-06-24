@@ -16,6 +16,7 @@ public class Start extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_start);
 
         initPref(getApplicationContext());
 
@@ -23,11 +24,12 @@ public class Start extends Activity {
 
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
-        if (Utils.checkNetwork() && Utils.isVerified() && !Utils.getLastVote().equals(Utils.getCurrentDate("dd.MM"))) {
+        if (Utils.showVoteOnStartup()) {
             startActivity(new Intent(getApplicationContext(), AbstimmActivity.class));
         }
 
         startService(new Intent(getApplicationContext(), ReceiveService.class));
+
         finish();
     }
 

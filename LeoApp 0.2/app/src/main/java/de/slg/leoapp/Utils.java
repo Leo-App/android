@@ -4,9 +4,14 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.DBConnection;
@@ -138,5 +143,36 @@ public abstract class Utils {
         Start.pref.edit()
                 .putLong("pref_key_general_last_notification_messenger", new Date().getTime())
                 .apply();
+    }
+
+    static boolean showVoteOnStartup() {
+        boolean b = Utils.checkNetwork() && Utils.isVerified();
+        if (b) {
+            AsyncTask<Void, Void, Boolean> t = new AsyncTask<Void, Void, Boolean>() {
+                private boolean b;
+                @Override
+                protected Boolean doInBackground(Void... params) {
+                    try {
+                        BufferedReader reader =
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                new URL("http://moritz.liegmanns.de/stimmungsbarometer/voted.php?key=5453&userid=" + getUserID())
+                                                        .openConnection()
+                                                        .getInputStream(), "UTF-8"));
+                        b = !Boolean.parseBoolean(reader.readLine());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return b;
+                }
+            };
+            t.execute();
+            try {
+                return t.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 }
