@@ -26,7 +26,7 @@
 
     <string name="button_info_try">Ausprobieren</string>
     <string name="button_info_auth">Verifizieren</string>
-    <string name="button_info_noreminder">Awesome!</string>
+    <string name="button_info_noreminder">Super!</string>
 
     <string name="title_info_auth_failed">Du bist noch nicht verifiziert</string>
     <string name="title_info_auth">Du bist verifiziert</string>
@@ -57,7 +57,6 @@
     <string name="snackbar_undo">Rückgängig</string>
     <string name="subject">Fach</string>
     <string name="date">Datum</string>
-    <string name="date_format">DD.MM.YY</string>
     <string name="note">Notiz</string>
     <string name="grade">Note</string>
     <string name="week">Woche</string>
@@ -108,7 +107,7 @@
     <!-- Stundenplan -->
 
     <string name="stunden">Stunden</string>
-    <string name="bearbeiten">bearbeiten</string>
+    <string name="bearbeiten">Bearbeiten</string>
     <string name="mo">Mo</string>
     <string name="montag">Montag</string>
     <string name="di">Di</string>
@@ -126,7 +125,7 @@
     <string name="franze">Französisch</string>
     <string name="englisch">Englisch</string>
     <string name="spanisch">Spanisch</string>
-    <string name="bili">Geschichte Billingual</string>
+    <string name="bili">Geschichte billingual</string>
     <string name="geschichte">Geschichte</string>
     <string name="geo">Erdkunde</string>
     <string name="sowi">Sozialwissenschaften</string>
@@ -140,7 +139,7 @@
     <string name="kunst">Kunst</string>
     <string name="musik">Musik</string>
     <string name="SnackBarMes">Plan konnte nicht geladen werden</string>
-    <string name="später">später</string>
+    <string name="später">Später</string>
     <string name="lk">Leistungskurs</string>
     <string name="zeit">Zeit</string>
     <string name="raum">Raum</string>
@@ -230,6 +229,10 @@
     <string name="settings_title_username_school">Benutzername</string>
     <string name="title_subst">Vertretung</string>
     <string name="settings_category_subst">Vertretung</string>
+    <string name="settings_no_access_data">Keine Anmeldedaten benötigt</string>
+    <string name="settings_screen_cg_data">Anmeldedaten Couven</string>
+    <string name="settings_screen_kkg_data">Anmeldedaten KKG</string>
+    <string name="settings_screen_slg_data">Anmeldedaten SLG</string>
 
 
 </resources>

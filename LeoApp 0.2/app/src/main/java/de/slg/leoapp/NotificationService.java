@@ -35,6 +35,8 @@ public class NotificationService extends IntentService {
 
     private static short hours;
     private static short minutes;
+    private static short hoursTT;
+    private static short minutesTT;
 
     public NotificationService() {
         super("notification-service-leo");
@@ -59,7 +61,7 @@ public class NotificationService extends IntentService {
             Log.wtf("LeoApp", "iterationCall");
 
             try {
-                Thread.sleep(59000);
+                Thread.sleep(59990);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -69,6 +71,10 @@ public class NotificationService extends IntentService {
             Date d = new Date();
 
             Log.wtf("LeoApp", "Time: " + d.getHours() + ":" + d.getMinutes() + " Scheduled: " + hours + ":" + minutes);
+
+            if(d.getDay() != 5 && d.getDay() != 6 && d.getHours() == hoursTT && d.getMinutes() == minutesTT) {
+                this.stundenplanNotification();
+            }
 
             if (d.getDay() != 0 && d.getDay() != 6 && d.getHours() == hours && d.getMinutes() == minutes) {
 
@@ -120,6 +126,11 @@ public class NotificationService extends IntentService {
 
         hours = Short.parseShort(time.split(":")[0]);
         minutes = Short.parseShort(time.split(":")[1]);
+
+        String ti = Start.pref.getString("pref_key_notification_time_schedule", "00:00");
+
+        hoursTT = Short.parseShort(ti.split(":")[0]);
+        minutesTT = Short.parseShort(ti.split(":")[1]);
     }
 
     private void essensqrNotification() {
@@ -152,11 +163,12 @@ public class NotificationService extends IntentService {
 
     private void stundenplanNotification() {
         Stundenplanverwalter sv = new Stundenplanverwalter(WrapperStundenplanActivity.c, "meinefaecher.txt");
-
-        Fach[] f = sv.gibFaecherKurzTag(this.gibDatum());
         String s = "";
-        for(int i=0; i<f.length; i++) {
-            s = s + ", " + f[i].gibName();
+        if(this.gibDatum()<5) {
+            Fach[] f = sv.gibFaecherKurzTag(this.gibDatum()+1);
+            for(int i=0; i<f.length; i++) {
+                s = s + ", " + f[i].gibName();
+            }
         }
         if (Start.pref.getBoolean("pref_key_notification_schedule", true)) {
             Intent resultIntent = new Intent(this, WrapperStundenplanActivity.class);
@@ -204,9 +216,9 @@ public class NotificationService extends IntentService {
             case 6:
                 return 5;
             case 7:
-                return 0;
+                return 6;
             default:
-                return 0;
+                return 6;
         }
 
     }

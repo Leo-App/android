@@ -211,6 +211,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 findPreference("pref_key_filterby_schedule").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
                 break;
 
+            case "pref_key_notification_time_schedule":
+                NotificationService.actualize();
+                break;
         }
 
     }
