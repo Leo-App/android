@@ -289,8 +289,8 @@ public class ChatActivity extends AppCompatActivity {
                                 Utils.getUserID(),
                                 true));
                 messagesArray = messageList.fill(new Message[messageList.length()]);
-                refreshUI(false, true);
                 if (!Utils.checkNetwork()) {
+                    refreshUI(false, true);
                     Utils.getMessengerDBConnection().insertUnsendMessage(params[0], currentChat.cid);
                     runOnUiThread(new Runnable() {
                         @Override
@@ -301,6 +301,9 @@ public class ChatActivity extends AppCompatActivity {
                         }
                     });
                 } else {
+                    messagesArray[messagesArray.length - 1].mdate = new Date();
+                    messagesArray[messagesArray.length - 1].sending = true;
+                    refreshUI(false, true);
                     try {
                         BufferedReader reader =
                                 new BufferedReader(

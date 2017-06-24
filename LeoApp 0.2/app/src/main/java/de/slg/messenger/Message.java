@@ -9,11 +9,12 @@ import java.util.Locale;
 public class Message {
     final int mid;
     public final String mtext;
-    final Date mdate;
+    Date mdate;
     public final int cid;
     final int uid;
     boolean mread;
     String uname = null;
+    boolean sending;
 
     public Message(int mid, String mtext, long mdate, int cid, int uid, boolean mread) {
         this.mid = mid;
@@ -22,6 +23,7 @@ public class Message {
         this.mdate = new Date(mdate);
         this.cid = cid;
         this.mread = mread;
+        sending = false;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class Message {
 
     public String getDate() {
         if (mdate.getTime() == 0)
-            return "Senden...";
+            return "Warteschlange";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
         if (gleicherTag(mdate))
             return "Heute";
@@ -71,7 +73,7 @@ public class Message {
     }
 
     String getTime() {
-        if (mdate.getTime() == 0)
+        if (mdate.getTime() == 0 || sending)
             return "";
         return new SimpleDateFormat("HH:mm:ss", Locale.GERMANY).format(mdate);
     }

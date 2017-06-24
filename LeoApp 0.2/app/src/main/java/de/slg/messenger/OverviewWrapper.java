@@ -72,10 +72,10 @@ public class OverviewWrapper extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == android.R.id.home) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
-        } else if (mi.getItemId() == R.id.action_add) {
+        } else if (item.getItemId() == R.id.action_add) {
             if (Utils.checkNetwork()) {
                 startActivity(new Intent(getApplicationContext(), AddGroupChatActivity.class));
             } else {
@@ -261,71 +261,6 @@ public class OverviewWrapper extends AppCompatActivity {
                 }
             });
         }
-
-        private class CreateChat extends AsyncTask<Chat, Void, Void> {
-            private User other;
-
-            CreateChat(User other) {
-                this.other = other;
-            }
-
-            @Override
-            protected Void doInBackground(Chat... params) {
-                if (Utils.checkNetwork()) {
-                    sendChat(params[0]);
-                    sendAssoziation(new Assoziation(params[0].cid, Utils.getUserID()));
-                    sendAssoziation(new Assoziation(params[0].cid, other.uid));
-                }
-                return null;
-            }
-
-            private void sendChat(Chat chat) {
-                try {
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            new URL(generateURL(chat))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
-                    String erg = "";
-                    String l;
-                    while ((l = reader.readLine()) != null)
-                        erg += l;
-                    if (!erg.startsWith("error"))
-                        chat.cid = Integer.parseInt(erg);
-                    else
-                        Log.e("Error", erg);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            private boolean sendAssoziation(Assoziation assoziation) {
-                if (assoziation != null)
-                    try {
-                        BufferedReader reader =
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                new URL(generateURL(assoziation))
-                                                        .openConnection()
-                                                        .getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null);
-                        return true;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                return false;
-            }
-
-            private String generateURL(Chat chat) {
-                String chatname = chat.cname.replace(' ', '+');
-                return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase();
-            }
-
-            private String generateURL(Assoziation assoziation) {
-                return "http://moritz.liegmanns.de/messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
-            }
-        }
     }
 
     public static class ChatsFragment extends Fragment {
@@ -363,57 +298,122 @@ public class OverviewWrapper extends AppCompatActivity {
                 }
             });
         }
+    }
 
-        private class ChatAdapter extends ArrayAdapter<Chat> {
-            private LayoutInflater inflater;
-            private int resId;
-            private Chat[] chats;
+    private static class ChatAdapter extends ArrayAdapter<Chat> {
+        private LayoutInflater inflater;
+        private int resId;
+        private Chat[] chats;
 
-            ChatAdapter(Context context, Chat[] chats) {
-                super(context, R.layout.list_item_chat, chats);
-                this.inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-                this.resId = R.layout.list_item_chat;
-                this.chats = chats;
+        ChatAdapter(Context context, Chat[] chats) {
+            super(context, R.layout.list_item_chat, chats);
+            this.inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            this.resId = R.layout.list_item_chat;
+            this.chats = chats;
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View v, @NonNull ViewGroup parent) {
+            if (v == null) {
+                v = inflater.inflate(resId, null);
             }
-
-            @NonNull
-            @Override
-            public View getView(int position, View v, @NonNull ViewGroup parent) {
-                if (v == null) {
-                    v = inflater.inflate(resId, null);
-                }
-                TextView chatname = (TextView) v.findViewById(R.id.chatname);
-                TextView lastMessage = (TextView) v.findViewById(R.id.letzteNachricht);
-                ImageView icon = (ImageView) v.findViewById(R.id.iconChat);
-                ImageView notify = (ImageView) v.findViewById(R.id.notify);
-                if (position < chats.length && chats[position] != null) {
-                    if (chats[position].ctype == Chat.Chattype.GROUP) {
-                        chatname.setText(chats[position].cname);
-                        chats[position].ctitle = chats[position].cname;
-                    } else {
-                        String[] s = chats[position].cname.split(" - ");
-                        int idO;
-                        if (Utils.getUserID() == Integer.parseInt(s[0]))
-                            idO = Integer.parseInt(s[1]);
-                        else
-                            idO = Integer.parseInt(s[0]);
-                        User o = Utils.getOverviewWrapper().findUser(idO);
-                        if (o != null) {
-                            chatname.setText(o.uname);
-                            chats[position].ctitle = o.uname;
-                        }
+            TextView chatname = (TextView) v.findViewById(R.id.chatname);
+            TextView lastMessage = (TextView) v.findViewById(R.id.letzteNachricht);
+            ImageView icon = (ImageView) v.findViewById(R.id.iconChat);
+            ImageView notify = (ImageView) v.findViewById(R.id.notify);
+            if (position < chats.length && chats[position] != null) {
+                if (chats[position].ctype == Chat.Chattype.GROUP) {
+                    chatname.setText(chats[position].cname);
+                    chats[position].ctitle = chats[position].cname;
+                } else {
+                    String[] s = chats[position].cname.split(" - ");
+                    int idO;
+                    if (Utils.getUserID() == Integer.parseInt(s[0]))
+                        idO = Integer.parseInt(s[1]);
+                    else
+                        idO = Integer.parseInt(s[0]);
+                    User o = Utils.getOverviewWrapper().findUser(idO);
+                    if (o != null) {
+                        chatname.setText(o.uname);
+                        chats[position].ctitle = o.uname;
                     }
-                    if (chats[position].m != null)
-                        lastMessage.setText(chats[position].m.toString());
-                    if (chats[position].ctype == Chat.Chattype.PRIVATE)
-                        icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
-                    if (chats[position].ctype == Chat.Chattype.GROUP)
-                        icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
-                    if (chats[position].m != null && chats[position].m.uid != Utils.getUserID() && !chats[position].m.mread)
-                        notify.setVisibility(View.VISIBLE);
                 }
-                return v;
+                if (chats[position].m != null)
+                    lastMessage.setText(chats[position].m.toString());
+                if (chats[position].ctype == Chat.Chattype.PRIVATE)
+                    icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
+                if (chats[position].ctype == Chat.Chattype.GROUP)
+                    icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
+                if (chats[position].m != null && chats[position].m.uid != Utils.getUserID() && !chats[position].m.mread)
+                    notify.setVisibility(View.VISIBLE);
             }
+            return v;
+        }
+    }
+
+    private static class CreateChat extends AsyncTask<Chat, Void, Void> {
+        private User other;
+
+        CreateChat(User other) {
+            this.other = other;
+        }
+
+        @Override
+        protected Void doInBackground(Chat... params) {
+            if (Utils.checkNetwork()) {
+                sendChat(params[0]);
+                sendAssoziation(new Assoziation(params[0].cid, Utils.getUserID()));
+                sendAssoziation(new Assoziation(params[0].cid, other.uid));
+            }
+            return null;
+        }
+
+        private void sendChat(Chat chat) {
+            try {
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new URL(generateURL(chat))
+                                                .openConnection()
+                                                .getInputStream(), "UTF-8"));
+                String erg = "";
+                String l;
+                while ((l = reader.readLine()) != null)
+                    erg += l;
+                if (!erg.startsWith("error"))
+                    chat.cid = Integer.parseInt(erg);
+                else
+                    Log.e("Error", erg);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private boolean sendAssoziation(Assoziation assoziation) {
+            if (assoziation != null)
+                try {
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(generateURL(assoziation))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
+                    while (reader.readLine() != null);
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            return false;
+        }
+
+        private String generateURL(Chat chat) {
+            String chatname = chat.cname.replace(' ', '+');
+            return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase();
+        }
+
+        private String generateURL(Assoziation assoziation) {
+            return "http://moritz.liegmanns.de/messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
     }
 }
