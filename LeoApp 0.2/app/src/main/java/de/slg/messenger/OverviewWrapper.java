@@ -241,7 +241,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         Chat newChat = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
                         int index = Utils.getOverviewWrapper().indexOf(newChat);
                         if (index == -1) {
-                            new CreateChat(clickedUser).execute(newChat);
+                            new CreateChat().execute(newChat);
                             ChatActivity.currentChat = newChat;
                         } else {
                             ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[index];
@@ -353,67 +353,34 @@ public class OverviewWrapper extends AppCompatActivity {
     }
 
     private static class CreateChat extends AsyncTask<Chat, Void, Void> {
-        private User other;
-
-        CreateChat(User other) {
-            this.other = other;
-        }
-
         @Override
         protected Void doInBackground(Chat... params) {
             if (Utils.checkNetwork()) {
-                sendChat(params[0]);
-                sendAssoziation(new Assoziation(params[0].cid, Utils.getUserID()));
-                sendAssoziation(new Assoziation(params[0].cid, other.uid));
-            }
-            return null;
-        }
-
-        private void sendChat(Chat chat) {
-            try {
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        new URL(generateURL(chat))
-                                                .openConnection()
-                                                .getInputStream(), "UTF-8"));
-                String erg = "";
-                String l;
-                while ((l = reader.readLine()) != null)
-                    erg += l;
-                if (!erg.startsWith("error"))
-                    chat.cid = Integer.parseInt(erg);
-                else
-                    Log.e("Error", erg);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        private boolean sendAssoziation(Assoziation assoziation) {
-            if (assoziation != null)
                 try {
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(generateURL(assoziation))
+                                            new URL(generateURL(params[0]))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null);
-                    return true;
+                    String erg = "";
+                    String l;
+                    while ((l = reader.readLine()) != null)
+                        erg += l;
+                    if (!erg.startsWith("error"))
+                        params[0].cid = Integer.parseInt(erg);
+                    else
+                        Log.e("Error", erg);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            return false;
+            }
+            return null;
         }
 
         private String generateURL(Chat chat) {
             String chatname = chat.cname.replace(' ', '+');
             return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase();
-        }
-
-        private String generateURL(Assoziation assoziation) {
-            return "http://moritz.liegmanns.de/messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
     }
 }

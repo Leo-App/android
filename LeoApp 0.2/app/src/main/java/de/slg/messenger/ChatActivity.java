@@ -70,7 +70,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            finish();
         } else if (item.getItemId() == R.id.action_edtiParticipants) {
             startEditChat();
         }
@@ -126,7 +126,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if (!Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat)) {
             etMessage.setEnabled(false);
-            etMessage.setHint("Du bist nicht mehr in diesem Chat!");
+            etMessage.setHint("Du bist nicht in diesem Chat!");
             sendButton.setEnabled(false);
         }
     }
@@ -292,14 +292,6 @@ public class ChatActivity extends AppCompatActivity {
                 if (!Utils.checkNetwork()) {
                     refreshUI(false, true);
                     Utils.getMessengerDBConnection().insertUnsendMessage(params[0], currentChat.cid);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "Nachricht wird versendet, sobald du dich mit dem Internet verbindest",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
                 } else {
                     messagesArray[messagesArray.length - 1].mdate = new Date();
                     messagesArray[messagesArray.length - 1].sending = true;

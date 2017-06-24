@@ -1,6 +1,5 @@
 package de.slg.messenger;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,11 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -74,7 +71,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarAddChat);
         actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        actionBar.setTitle(getString(R.string.title_new_groupchat));
+        actionBar.setTitle(R.string.title_new_groupchat);
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -129,15 +126,20 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
     private class CreateChat extends AsyncTask<Void, Void, Void> {
         @Override
+        protected void onPreExecute() {
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected Void doInBackground(Void... params) {
             sendChat(newChat);
-            User[] members = userAdapter.getSelected();
-            sendAssoziation(new Assoziation(newChat.cid, Utils.getUserID()));
-            ChatActivity.currentChat = newChat;
-            startActivity(new Intent(getApplicationContext(), ChatActivity.class));
-            finish();
-            for (User member : members) {
-                sendAssoziation(new Assoziation(newChat.cid, member.uid));
+            if (newChat.cid != -1) {
+                User[] members = userAdapter.getSelected();
+                sendAssoziation(new Assoziation(newChat.cid, Utils.getUserID()));
+                Utils.receive();
+                for (User member : members) {
+                    sendAssoziation(new Assoziation(newChat.cid, member.uid));
+                }
             }
             return null;
         }
@@ -154,8 +156,10 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 String l;
                 while ((l = reader.readLine()) != null)
                     erg += l;
-                Log.i("SendTask", "result of send Chat: " + erg);
-                chat.cid = Integer.parseInt(erg);
+                if (!erg.startsWith("error"))
+                    chat.cid = Integer.parseInt(erg);
+                else
+                    Log.e("Error", erg);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -183,7 +187,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
         }
 
         private String generateURL(Chat chat) {
-            String chatname = chat.cname.replace(' ', '+');
+            String chatname = chat.cname.replace(" ", "%20");
             return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.GROUP.toString().toLowerCase();
         }
 
@@ -193,6 +197,9 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            findViewById(R.id.progressBar).setVisibility(View.GONE);
+            ChatActivity.currentChat = newChat;
+            startActivity(new Intent(getApplicationContext(), ChatActivity.class));
             finish();
         }
     }
