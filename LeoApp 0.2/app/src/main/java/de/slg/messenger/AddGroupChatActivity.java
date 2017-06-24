@@ -61,7 +61,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_saveChat) {
             createNewChat();
         } else if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            finish();
         }
         return true;
     }
@@ -123,16 +123,6 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 menu.clear();
                 if (chatnameSet && usersSelected)
                     getMenuInflater().inflate(R.menu.messenger_add_chat, menu);
-            }
-        });
-        etChatname.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(etChatname.getWindowToken(), 0);
-                }
-                return true;
             }
         });
     }
@@ -199,6 +189,11 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
         private String generateURL(Assoziation assoziation) {
             return "http://moritz.liegmanns.de/messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            finish();
         }
     }
 }
