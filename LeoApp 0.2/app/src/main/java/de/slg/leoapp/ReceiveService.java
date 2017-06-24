@@ -75,8 +75,8 @@ public class ReceiveService extends Service {
             Looper.prepare();
             while (running) {
                 try {
-                    new ReceiveTask().execute();
                     new SendTask().execute();
+                    new ReceiveTask().execute();
 
                     for (int i = 0; i < interval && running && !receive; i++)
                         sleep(1);

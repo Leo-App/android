@@ -36,6 +36,8 @@ public class Message {
     }
 
     public String getDate() {
+        if (mdate.getTime() == 0)
+            return "Senden...";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
         if (gleicherTag(mdate))
             return "Heute";
@@ -69,6 +71,8 @@ public class Message {
     }
 
     String getTime() {
+        if (mdate.getTime() == 0)
+            return "";
         return new SimpleDateFormat("HH:mm:ss", Locale.GERMANY).format(mdate);
     }
 }

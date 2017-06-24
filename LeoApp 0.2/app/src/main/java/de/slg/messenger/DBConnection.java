@@ -57,7 +57,6 @@ public class DBConnection {
 
     public void insertAssoziation(Assoziation a) {
         if (a != null) {
-            database.execSQL("DELETE FROM " + DBHelper.TABLE_ASSOZIATION + " WHERE " + DBHelper.CHAT_ID + " = " + a.cid + " AND " + DBHelper.USER_ID + " = " + a.uid);
             ContentValues values = new ContentValues();
             values.put(DBHelper.CHAT_ID, a.cid);
             values.put(DBHelper.USER_ID, a.uid);
@@ -82,27 +81,37 @@ public class DBConnection {
         }
     }
 
-    private Message[] getMessages() {
+    private Message[] getMessages(boolean ungesendete) {
         User[] users = getUsers();
         String[] columns = {DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.CHAT_ID, DBHelper.USER_ID, DBHelper.MESSAGE_READ};
         Cursor cursor = query(DBHelper.TABLE_MESSAGES, columns, null, null, null, null, DBHelper.CHAT_ID + ", " + DBHelper.MESSAGE_DATE);
-        Message[] array = new Message[cursor.getCount()];
-        cursor.moveToFirst();
-        for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
-            array[i] = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5) != 0);
-            if (array[i].uid != Utils.getUserID()) {
+        List<Message> messageList = new List<>();
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            Message m = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), cursor.getInt(5) != 0);
+            if (m.uid != Utils.getUserID()) {
                 for (User user : users) {
-                    if (user.uid == array[i].uid) {
-                        array[i].setUname(user.uname);
+                    if (user.uid == m.uid) {
+                        m.setUname(user.uname);
                         break;
                     }
                 }
             } else {
-                array[i].setUname(Utils.getUserName());
+                m.setUname(Utils.getUserName());
             }
+            messageList.append(m);
         }
         cursor.close();
-        return array;
+        if (ungesendete) {
+            columns = new String[]{DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.CHAT_ID};
+            cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, columns, null, null, null, null, DBHelper.CHAT_ID + ", " + DBHelper.MESSAGES_ID);
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                Message m = new Message(cursor.getInt(0), cursor.getString(1), 0, cursor.getInt(2), Utils.getUserID(), false);
+                m.setUname(Utils.getUserName());
+                messageList.append(m);
+            }
+            cursor.close();
+        }
+        return messageList.fill(new Message[messageList.length()]);
     }
 
     User[] getUsers() {
@@ -124,7 +133,7 @@ public class DBConnection {
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++) {
             array[i] = new Chat(cursor.getInt(0), cursor.getString(1), Chat.Chattype.valueOf(cursor.getString(2).toUpperCase()));
-            Message[] mArray = getMessagesFromChat(array[i]);
+            Message[] mArray = getMessagesFromChat(array[i], false);
             if (mArray.length != 0)
                 array[i].setLetzteNachricht(mArray[mArray.length - 1]);
             cursor.moveToNext();
@@ -217,11 +226,11 @@ public class DBConnection {
         return erg;
     }
 
-    Message[] getMessagesFromChat(Chat c) {
+    Message[] getMessagesFromChat(Chat c, boolean ungesendete) {
         if (c == null)
             return new Message[0];
         List<Message> messages = new List<>();
-        messages.adapt(getMessages());
+        messages.adapt(getMessages(ungesendete));
         for (messages.toFirst(); messages.hasAccess(); )
             if (messages.getContent().cid != c.cid)
                 messages.remove();

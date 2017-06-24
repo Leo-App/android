@@ -40,55 +40,59 @@
             android:layout_height="wrap_content"
             android:gravity="right">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/wrapperlayout3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:background="@drawable/chatbubble"
-                android:elevation="1dp">
+                android:padding="3dp">
 
-                <RelativeLayout
-                    android:id="@+id/wrapperlayout4"
+                <TextView
+                    android:id="@+id/absender"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:lines="1"
+                    android:maxWidth="260dp"
+                    android:text="@string/textview_placeholder"
+                    android:textColor="@color/colorText"
+                    android:textSize="13sp" />
 
-                    <TextView
-                        android:id="@+id/absender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:lines="1"
-                        android:maxWidth="260dp"
-                        android:text="@string/textview_placeholder"
-                        android:textColor="@color/colorText"
-                        android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/nachricht"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/absender"
+                    android:maxWidth="255dp"
+                    android:text="@string/textview_placeholder"
+                    android:textColor="@color/colorText"
+                    android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/nachricht"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_below="@id/absender"
-                        android:maxWidth="255dp"
-                        android:text="@string/textview_placeholder"
-                        android:textColor="@color/colorText"
-                        android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/datum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/nachricht"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/nachricht"
+                    android:lines="1"
+                    android:text="@string/textview_placeholder"
+                    android:textColor="@color/colorText"
+                    android:textSize="11sp" />
 
-                    <TextView
-                        android:id="@+id/datum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/nachricht"
-                        android:layout_toRightOf="@id/nachricht"
-                        android:lines="1"
-                        android:text="@string/textview_placeholder"
-                        android:textColor="@color/colorText"
-                        android:textSize="11sp" />
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignBottom="@id/nachricht"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/nachricht"
+                    android:indeterminateTint="@android:color/white"
+                    android:visibility="gone" />
 
-                </RelativeLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 

@@ -216,7 +216,7 @@ public class OverviewWrapper extends AppCompatActivity {
         cFragment.refreshUI();
         ChatActivity chatActivity = Utils.getChatActivity();
         if (chatActivity != null)
-            chatActivity.refreshUI(true);
+            chatActivity.refreshUI(true, false);
     }
 
     public static class UserFragment extends Fragment {

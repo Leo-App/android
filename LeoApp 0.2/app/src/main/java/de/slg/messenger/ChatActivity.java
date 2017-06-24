@@ -95,11 +95,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(currentChat);
-
         rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        rvMessages.setAdapter(new MessageAdapter());
+        refreshUI(true, true);
     }
 
     private void initToolbar() {
@@ -203,14 +201,15 @@ public class ChatActivity extends AppCompatActivity {
         new SendChatname().execute();
     }
 
-    public void refreshUI(boolean refreshMessages) {
+    public void refreshUI(boolean refreshMessages, final boolean scroll) {
         if (refreshMessages)
-            messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(currentChat);
+            messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(currentChat, true);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 rvMessages.swapAdapter(new MessageAdapter(), false);
-                rvMessages.scrollToPosition(messagesArray.length - 1);
+                if (scroll)
+                    rvMessages.scrollToPosition(messagesArray.length - 1);
             }
         });
     }
@@ -268,7 +267,15 @@ public class ChatActivity extends AppCompatActivity {
             nachricht.setText(current.mtext);
             uhrzeit = (TextView) v.findViewById(R.id.datum);
             uhrzeit.setVisibility(View.VISIBLE);
-            uhrzeit.setText(current.getTime());
+            String time = current.getTime();
+            if (time.equals("")) {
+                uhrzeit.setVisibility(View.GONE);
+                v.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+            } else {
+                uhrzeit.setVisibility(View.VISIBLE);
+                v.findViewById(R.id.progressBar).setVisibility(View.GONE);
+                uhrzeit.setText(current.getTime());
+            }
             if (first) {
                 datum = (TextView) v.findViewById(R.id.textViewDate);
                 datum.setVisibility(View.VISIBLE);
@@ -300,37 +307,39 @@ public class ChatActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
             if (currentChat.cid == -1) {
                 snackbar.show();
-            } else if (!Utils.checkNetwork()) {
-                Utils.getMessengerDBConnection().insertUnsendMessage(params[0], currentChat.cid);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),
-                                "Nachricht wird versendet, sobald du dich mit dem Internet verbindest",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
             } else {
                 List<Message> messageList = new List<>(messagesArray);
                 messageList.append(
                         new Message(0,
                                 params[0],
-                                new Date().getTime(),
+                                0,
                                 currentChat.cid,
                                 Utils.getUserID(),
                                 true));
                 messagesArray = messageList.fill(new Message[messageList.length()]);
-                refreshUI(false);
-                try {
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            new URL(generateURL(params[0]))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null) ;
-                } catch (Exception e) {
-                    e.printStackTrace();
+                refreshUI(false, true);
+                if (!Utils.checkNetwork()) {
+                    Utils.getMessengerDBConnection().insertUnsendMessage(params[0], currentChat.cid);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    "Nachricht wird versendet, sobald du dich mit dem Internet verbindest",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    try {
+                        BufferedReader reader =
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                new URL(generateURL(params[0]))
+                                                        .openConnection()
+                                                        .getInputStream(), "UTF-8"));
+                        while (reader.readLine() != null) ;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             return null;
