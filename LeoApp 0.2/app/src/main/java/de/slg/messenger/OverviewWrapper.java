@@ -319,34 +319,27 @@ public class OverviewWrapper extends AppCompatActivity {
                 v = inflater.inflate(resId, null);
             }
             TextView chatname = (TextView) v.findViewById(R.id.chatname);
-            TextView lastMessage = (TextView) v.findViewById(R.id.letzteNachricht);
+            TextView lastSender = (TextView) v.findViewById(R.id.letzteNachrichtAbsender);
+            TextView lastMessage = (TextView) v.findViewById(R.id.letzteNachrichtText);
             ImageView icon = (ImageView) v.findViewById(R.id.iconChat);
-            ImageView notify = (ImageView) v.findViewById(R.id.notify);
             if (position < chats.length && chats[position] != null) {
-                if (chats[position].ctype == Chat.Chattype.GROUP) {
-                    chatname.setText(chats[position].cname);
-                    chats[position].ctitle = chats[position].cname;
-                } else {
-                    String[] s = chats[position].cname.split(" - ");
-                    int idO;
-                    if (Utils.getUserID() == Integer.parseInt(s[0]))
-                        idO = Integer.parseInt(s[1]);
+                chatname.setText(chats[position].cname);
+                if (chats[position].m != null) {
+                    lastMessage.setText(chats[position].m.mtext);
+                    lastSender.setText(chats[position].m.uname);
+                    if (!chats[position].m.mread)
+                        v.findViewById(R.id.notify).setVisibility(View.VISIBLE);
                     else
-                        idO = Integer.parseInt(s[0]);
-                    User o = Utils.getOverviewWrapper().findUser(idO);
-                    if (o != null) {
-                        chatname.setText(o.uname);
-                        chats[position].ctitle = o.uname;
-                    }
+                        v.findViewById(R.id.notify).setVisibility(View.GONE);
+                } else {
+                    v.findViewById(R.id.textView3).setVisibility(View.INVISIBLE);
+                    v.findViewById(R.id.notify).setVisibility(View.INVISIBLE);
                 }
-                if (chats[position].m != null)
-                    lastMessage.setText(chats[position].m.toString());
-                if (chats[position].ctype == Chat.Chattype.PRIVATE)
+                if (chats[position].ctype == Chat.Chattype.PRIVATE) {
                     icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
-                if (chats[position].ctype == Chat.Chattype.GROUP)
+                } else {
                     icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
-                if (chats[position].m != null && chats[position].m.uid != Utils.getUserID() && !chats[position].m.mread)
-                    notify.setVisibility(View.VISIBLE);
+                }
             }
             return v;
         }

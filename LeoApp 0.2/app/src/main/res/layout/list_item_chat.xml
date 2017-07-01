@@ -28,16 +28,39 @@
         tools:text="Chatname" />
 
     <TextView
-        android:id="@+id/letzteNachricht"
-        android:layout_width="match_parent"
+        android:id="@+id/letzteNachrichtAbsender"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/chatname"
         android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iconChat"
+        android:maxLines="1"
+        android:textColor="@color/colorText"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="Absender" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/letzteNachrichtAbsender"
+        android:layout_toRightOf="@id/letzteNachrichtAbsender"
+        android:maxLines="1"
+        android:text=": "
+        android:textColor="@color/colorText"
+        android:textSize="11.4sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/letzteNachrichtText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chatname"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/notify"
-        android:layout_toRightOf="@id/iconChat"
-        android:lines="1"
-        android:ellipsize="marquee"
+        android:layout_toRightOf="@id/textView3"
+        android:maxLines="1"
         android:textColor="@color/colorText"
         android:textSize="12sp"
         tools:text="letzte Nachricht" />
@@ -51,7 +74,7 @@
         android:layout_centerVertical="true"
         android:background="@drawable/back"
         android:padding="2dp"
-        android:visibility="invisible"
-        android:src="@drawable/ic_priority_high_white_24dp" />
+        android:src="@drawable/ic_priority_high_white_24dp"
+        android:visibility="invisible" />
 
 </RelativeLayout>

@@ -24,6 +24,7 @@
         android:textColor="@color/colorText"
         android:textSize="18sp"
         android:textStyle="normal|bold"
+        android:maxLines="1"
         tools:text="Username" />
 
     <CheckBox

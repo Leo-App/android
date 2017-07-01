@@ -45,7 +45,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/chatbubble"
-                android:padding="3dp">
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp">
 
                 <TextView
                     android:id="@+id/absender"
@@ -53,7 +56,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:lines="1"
-                    android:maxWidth="260dp"
                     android:text="@string/textview_placeholder"
                     android:textColor="@color/colorText"
                     android:textSize="13sp" />
@@ -64,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@id/absender"
-                    android:maxWidth="255dp"
+                    android:maxWidth="240dp"
                     android:text="@string/textview_placeholder"
                     android:textColor="@color/colorText"
                     android:textSize="18sp" />

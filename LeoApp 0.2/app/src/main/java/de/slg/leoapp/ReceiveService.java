@@ -25,6 +25,7 @@ public class ReceiveService extends Service {
         Start.initPref(getApplicationContext());
         interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
         Utils.registerReceiveService(this);
+        Utils.context = getApplicationContext();
         running = true;
         receive = false;
         new LoopThread().start();

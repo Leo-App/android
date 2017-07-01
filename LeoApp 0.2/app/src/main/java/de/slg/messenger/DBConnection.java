@@ -129,44 +129,39 @@ public class DBConnection {
     Chat[] getChats() {
         String[] columns = {DBHelper.CHAT_ID, DBHelper.CHAT_NAME, DBHelper.CHAT_TYPE};
         Cursor cursor = query(DBHelper.TABLE_CHATS, columns, null, null, null, null, DBHelper.CHAT_ID);
-        Chat[] array = new Chat[cursor.getCount()];
-        cursor.moveToFirst();
-        for (int i = 0; i < array.length; i++) {
-            array[i] = new Chat(cursor.getInt(0), cursor.getString(1), Chat.Chattype.valueOf(cursor.getString(2).toUpperCase()));
-            Message[] mArray = getMessagesFromChat(array[i], false);
-            if (mArray.length != 0)
-                array[i].setLetzteNachricht(mArray[mArray.length - 1]);
-            cursor.moveToNext();
+        List<Chat> list = new List<>();
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            Chat current = new Chat(cursor.getInt(0), cursor.getString(1), Chat.Chattype.valueOf(cursor.getString(2).toUpperCase()));
+            list.append(current);
+            Message[] mArray = getMessagesFromChat(current, false);
+            if (mArray.length != 0) {
+                current.setLetzteNachricht(mArray[mArray.length - 1]);
+            }
+            if (current.ctype.equals(Chat.Chattype.PRIVATE)) {
+                String[] split = current.cname.split(" - ");
+                if (split[0].equals("" + Utils.getUserID())) {
+                    current.cname = getUname(Integer.parseInt(split[1]));
+                } else {
+                    current.cname = getUname(Integer.parseInt(split[0]));
+                }
+            }
         }
-        List<Chat> list = new List<>(array);
+        cursor.close();
         for (int limit = list.length(); limit > 0; limit--) {
-            list.toFirst();
-            Chat max = null;
             int iMax = 0;
-            for (int i = 0; i < limit; i++, list.next()) {
-                if (list.getContent().m != null) {
-                    max = list.getContent();
-                    iMax = i;
-                    break;
-                }
-            }
-            for (int i = iMax; max != null && i < limit; list.next(), i++) {
-                if (list.getContent().m != null && max.m != null && list.getContent().m.mdate.after(max.m.mdate)) {
+            for (list.toFirst(); iMax < limit - 1 && list.getContent().m == null; iMax++, list.next());
+            Chat max = list.getContent();
+            for (int i = iMax; max.m != null && i < limit; list.next(), i++) {
+                if (list.getContent().m != null && list.getContent().m.mdate.after(max.m.mdate)) {
                     max = list.getContent();
                     iMax = i;
                 }
             }
-            if (max == null) {
-                list.toFirst();
-                max = list.getContent();
-            }
-            list.toFirst();
             list.toIndex(iMax);
             list.remove();
             list.append(max);
         }
-        cursor.close();
-        return list.fill(array);
+        return list.fill(new Chat[list.length()]);
     }
 
     User[] getUsersInChat(Chat c, boolean meInclusive) {
@@ -300,17 +295,17 @@ public class DBConnection {
 
     public class DBHelper extends SQLiteOpenHelper {
         public static final String DATABASE_NAME = "messenger";
-        public static final String TABLE_MESSAGES = "messages";
+        static final String TABLE_MESSAGES = "messages";
         static final String MESSAGES_ID = "mid";
         static final String MESSAGE_TEXT = "mtext";
         static final String MESSAGE_DATE = "mdate";
         static final String MESSAGE_READ = "mgelesen";
-        public static final String TABLE_CHATS = "chats";
+        static final String TABLE_CHATS = "chats";
         static final String CHAT_ID = "cid";
         static final String CHAT_NAME = "cname";
         static final String CHAT_TYPE = "ctype";
         public static final String TABLE_ASSOZIATION = "assoziation";
-        public static final String TABLE_USERS = "users";
+        static final String TABLE_USERS = "users";
         static final String USER_ID = "uid";
         static final String USER_NAME = "uname";
         static final String USER_KLASSE = "uklasse";

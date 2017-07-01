@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -96,18 +95,10 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        String chatname = currentChat.cname;
-        if (currentChat.ctype == Chat.Chattype.PRIVATE) {
-            String[] split = currentChat.cname.split(" - ");
-            if (split[0].equals("" + Utils.getUserID()))
-                chatname = Utils.getMessengerDBConnection().getUname(Integer.parseInt(split[1]));
-            else
-                chatname = Utils.getMessengerDBConnection().getUname(Integer.parseInt(split[0]));
-        }
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarChat);
         actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        actionBar.setTitle(chatname);
         setSupportActionBar(actionBar);
+        getSupportActionBar().setTitle(currentChat.cname);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

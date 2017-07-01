@@ -5,7 +5,6 @@ public class Chat {
     String cname;
     final Chattype ctype;
     Message m;
-    String ctitle;
 
     public Chat(int cid, String cname, Chattype ctype) {
         this.cid = cid;
