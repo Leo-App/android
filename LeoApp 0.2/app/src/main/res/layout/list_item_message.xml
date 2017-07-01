@@ -13,13 +13,14 @@
 
     <TextView
         android:id="@+id/textViewDate"
-        android:layout_width="90dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/space"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="6dp"
         android:alpha="0.8"
         android:background="@color/colorPrimary"
+        android:minWidth="90dp"
         android:padding="2dp"
         android:text="DD.MM.YY"
         android:textAlignment="center"
@@ -45,10 +46,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/chatbubble"
+                android:paddingBottom="1dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:paddingTop="1dp"
-                android:paddingBottom="1dp">
+                android:paddingTop="1dp">
 
                 <TextView
                     android:id="@+id/absender"
@@ -89,9 +90,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignBottom="@id/nachricht"
+                    android:layout_marginBottom="3dp"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/nachricht"
-                    android:layout_marginBottom="3dp"
                     android:indeterminateTint="@android:color/white"
                     android:visibility="gone" />
 

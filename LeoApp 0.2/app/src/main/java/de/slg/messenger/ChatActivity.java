@@ -16,7 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -86,6 +88,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getSupportActionBar().setTitle(currentChat.cname);
+        refreshUI(false, true);
     }
 
     private void initRecyclerView() {
@@ -98,7 +101,6 @@ public class ChatActivity extends AppCompatActivity {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarChat);
         actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(actionBar);
-        getSupportActionBar().setTitle(currentChat.cname);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -107,7 +109,7 @@ public class ChatActivity extends AppCompatActivity {
     private void initSendMessage() {
         etMessage = (EditText) findViewById(R.id.inputMessage);
 
-        FloatingActionButton sendButton = (FloatingActionButton) findViewById(R.id.sendButton);
+        ImageButton sendButton = (ImageButton) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
