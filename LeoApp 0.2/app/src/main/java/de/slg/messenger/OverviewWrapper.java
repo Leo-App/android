@@ -193,21 +193,6 @@ public class OverviewWrapper extends AppCompatActivity {
         Utils.receive();
     }
 
-    public int indexOf(Chat c) {
-        if (c != null && chatArray != null)
-            for (int i = 0; i < chatArray.length; i++)
-                if (c.equals(chatArray[i]))
-                    return i;
-        return -1;
-    }
-
-    public User findUser(int id) {
-        for (User u : userArray)
-            if (u.uid == id)
-                return u;
-        return null;
-    }
-
     public void notifyUpdate() {
         chatArray = Utils.getMessengerDBConnection().getChats();
         userArray = Utils.getMessengerDBConnection().getUsers();
@@ -238,14 +223,12 @@ public class OverviewWrapper extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().userArray.length) {
                         User clickedUser = Utils.getOverviewWrapper().userArray[position];
-                        Chat newChat = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
-                        int index = Utils.getOverviewWrapper().indexOf(newChat);
-                        if (index == -1) {
-                            new CreateChat().execute(newChat);
-                            ChatActivity.currentChat = newChat;
-                        } else {
-                            ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[index];
+                        Chat c = Utils.getMessengerDBConnection().getChatWith(clickedUser.uid);
+                        if (c == null) {
+                            c = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
+                            new CreateChat().execute(c);
                         }
+                        ChatActivity.currentChat = c;
                         startActivity(new Intent(getContext(), ChatActivity.class));
                     }
                 }

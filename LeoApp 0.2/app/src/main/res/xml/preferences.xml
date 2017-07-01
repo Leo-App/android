@@ -274,8 +274,6 @@
             android:summary="@string/settings_summary_filterby_schedule"
             android:title="@string/settings_title_filterby_schedule" />
 
-
-
     </PreferenceCategory>
 
 

@@ -48,6 +48,8 @@ public class NotificationService extends IntentService {
         Log.wtf("LeoApp", "firstCalled");
 
         Utils.context = getApplicationContext();
+        Start.initPref(getApplicationContext());
+
         notificationManager = Utils.getNotificationManager();
 
         boolean loggedin = Start.pref.getBoolean("pref_key_status_loggedin", false);
@@ -115,9 +117,13 @@ public class NotificationService extends IntentService {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-                messengerNotification();
             }
+            messengerNotification();
+            klausurplanNotification();
+            nachhilfeNotification();
+            schwarzesBrettNotification();
+            stimmungsbarometerNotification();
+            vertretungsplanNotification();
         }
     }
 
@@ -161,6 +167,51 @@ public class NotificationService extends IntentService {
         }
     }
 
+    private void klausurplanNotification() {
+        if (Start.pref.getBoolean("pref_key_notification_test", true)) {
+
+        }
+    }
+
+    public void messengerNotification() {
+        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMessengerDBConnection().hasUnreadMessages()) {
+            Message[] messages = Utils.getMessengerDBConnection().getUnreadMessages();
+            String s = "";
+            for (Message m : messages)
+                s += m.toString() + System.getProperty("line.separator");
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);
+            Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
+            Notification notification =
+                    new NotificationCompat.Builder(getApplicationContext())
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setLargeIcon(icon)
+                            .setVibrate(new long[]{200, 100, 200})
+                            .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
+                            .setContentTitle(getString(R.string.messenger_notification_title))
+                            .setContentText(s)
+                            .setContentIntent(pendingIntent)
+                            .build();
+            notificationManager.notify(5453, notification);
+            Utils.notifiedMessenger();
+        }
+    }
+
+    private void nachhilfeNotification() {
+
+    }
+
+    private void schwarzesBrettNotification() {
+        if (Start.pref.getBoolean("pref_key_notification_news", true)) {
+
+        }
+    }
+
+    private void stimmungsbarometerNotification() {
+        if (Start.pref.getBoolean("pref_key_notification_survey", true)) {
+
+        }
+    }
+
     private void stundenplanNotification() {
         Stundenplanverwalter sv = new Stundenplanverwalter(WrapperStundenplanActivity.c, "meinefaecher.txt");
         String s = "";
@@ -198,6 +249,12 @@ public class NotificationService extends IntentService {
         }
     }
 
+    private void vertretungsplanNotification() {
+        if (Start.pref.getBoolean("pref_key_notification_subst", true)) {
+
+        }
+    }
+
     private int gibDatum() {
         Calendar c = new GregorianCalendar();
         c.setTime(new Date());
@@ -221,28 +278,5 @@ public class NotificationService extends IntentService {
                 return 6;
         }
 
-    }
-
-    public void messengerNotification() {
-        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMessengerDBConnection().hasUnreadMessages()) {
-            Message[] messages = Utils.getMessengerDBConnection().getUnreadMessages();
-            String s = "";
-            for (Message m : messages)
-                s += m.toString() + System.getProperty("line.separator");
-            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);
-            Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
-            Notification notification =
-                    new NotificationCompat.Builder(getApplicationContext())
-                            .setPriority(NotificationCompat.PRIORITY_HIGH)
-                            .setLargeIcon(icon)
-                            .setVibrate(new long[]{200, 100, 200})
-                            .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
-                            .setContentTitle(getString(R.string.messenger_notification_title))
-                            .setContentText(s)
-                            .setContentIntent(pendingIntent)
-                            .build();
-            notificationManager.notify(5453, notification);
-            Utils.notifiedMessenger();
-        }
     }
 }

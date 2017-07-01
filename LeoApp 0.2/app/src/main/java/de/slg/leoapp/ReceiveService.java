@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,10 +21,10 @@ public class ReceiveService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Utils.context = getApplicationContext();
         Start.initPref(getApplicationContext());
         interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
         Utils.registerReceiveService(this);
-        Utils.context = getApplicationContext();
         running = true;
         receive = false;
         new LoopThread().start();
@@ -253,11 +252,11 @@ public class ReceiveService extends Service {
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
                         while (reader.readLine() != null);
+                        Utils.getMessengerDBConnection().removeUnsendMessage(m.mid);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                Utils.getMessengerDBConnection().clearTable(DBConnection.DBHelper.TABLE_MESSAGES_UNSEND);
             }
             return null;
         }

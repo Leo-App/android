@@ -210,7 +210,7 @@ public class DBConnection {
         return array;
     }
 
-    String getUname(int uid) {
+    private String getUname(int uid) {
         Cursor cursor = query(DBHelper.TABLE_USERS, new String[]{DBHelper.USER_NAME}, DBHelper.USER_ID + " = " + uid, null, null, null, null);
         String erg = null;
         if (cursor.getCount() > 0) {
@@ -272,17 +272,31 @@ public class DBConnection {
     }
 
     public Message[] getUnsendMessages() {
-        Cursor cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, new String[]{DBHelper.MESSAGE_TEXT, DBHelper.CHAT_ID}, null, null, null, null, null);
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, new String[]{DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.CHAT_ID}, null, null, null, null, null);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
-            array[i] = new Message(-1, cursor.getString(0), 0, cursor.getInt(1), 0, false);
+            array[i] = new Message(cursor.getInt(0), cursor.getString(1), 0, cursor.getInt(2), 0, false);
         }
+        cursor.close();
         return array;
+    }
+
+    public void removeUnsendMessage(int mid) {
+        database.execSQL("DELETE FROM " + DBHelper.TABLE_MESSAGES_UNSEND + " WHERE " + DBHelper.MESSAGES_ID + " = " + mid);
     }
 
     void removeUserFormChat(int uid, int cid) {
         database.execSQL("DELETE FROM " + DBHelper.TABLE_ASSOZIATION + " WHERE " + DBHelper.USER_ID + " = " + uid + " AND " + DBHelper.CHAT_ID + " = " + cid);
+    }
+
+    Chat getChatWith(int uid) {
+        Chat[] chats = getChats();
+        String uname = getUname(uid);
+        for (Chat c : chats)
+            if (c.cname.equals(uname))
+                return c;
+        return null;
     }
 
     public void clearTable(String table) {
@@ -310,7 +324,7 @@ public class DBConnection {
         static final String USER_NAME = "uname";
         static final String USER_KLASSE = "uklasse";
         static final String USER_PERMISSION = "upermission";
-        public static final String TABLE_MESSAGES_UNSEND = "messages_unsend";
+        static final String TABLE_MESSAGES_UNSEND = "messages_unsend";
 
         DBHelper(Context context) {
             super(context, DATABASE_NAME, null, 1);

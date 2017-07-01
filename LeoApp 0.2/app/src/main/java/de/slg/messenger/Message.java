@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class Message {
-    final int mid;
+    public final int mid;
     public final String mtext;
     Date mdate;
     public final int cid;
