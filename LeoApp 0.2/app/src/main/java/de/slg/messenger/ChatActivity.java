@@ -176,8 +176,8 @@ public class ChatActivity extends AppCompatActivity {
         private Chat.Chattype chattype;
         private LayoutInflater inflater;
         private TextView nachricht, absender, uhrzeit, datum;
-        private LinearLayout l1, l2;
-        private View l3, space, progressbar;
+        private LinearLayout l;
+        private View chatbubble, space, progressbar;
 
         MessageAdapter() {
             super();
@@ -198,8 +198,8 @@ public class ChatActivity extends AppCompatActivity {
             nachricht = (TextView) v.findViewById(R.id.nachricht);
             absender = (TextView) v.findViewById(R.id.absender);
             uhrzeit = (TextView) v.findViewById(R.id.datum);
-            l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
-            l3 = v.findViewById(R.id.wrapperlayout2);
+            l = (LinearLayout) v.findViewById(R.id.chatbubblewrapper);
+            chatbubble = v.findViewById(R.id.chatbubble);
             space = v.findViewById(R.id.space);
             progressbar = v.findViewById(R.id.progressBar);
 
@@ -209,14 +209,14 @@ public class ChatActivity extends AppCompatActivity {
             datum.setText(current.getDate(getApplicationContext()));
 
             boolean mine = current.uid == Utils.getUserID();
-            l3.setEnabled(mine);
+            chatbubble.setEnabled(mine);
             if (mine) {
-                l1.setGravity(Gravity.END);
+                l.setGravity(Gravity.RIGHT);
                 absender.setVisibility(View.GONE);
                 nachricht.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
                 uhrzeit.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
             } else {
-                l1.setGravity(Gravity.START);
+                l.setGravity(Gravity.LEFT);
                 nachricht.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
                 uhrzeit.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
                 if (chattype == Chat.Chattype.PRIVATE) {
