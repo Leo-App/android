@@ -237,7 +237,7 @@ public class ChatActivity extends AppCompatActivity {
             if (first) {
                 datum = (TextView) v.findViewById(R.id.textViewDate);
                 datum.setVisibility(View.VISIBLE);
-                datum.setText(current.getDate());
+                datum.setText(current.getDate(getApplicationContext()));
             } else {
                 v.findViewById(R.id.textViewDate).setVisibility(View.GONE);
                 if (current.uid == messagesArray[position - 1].uid) {

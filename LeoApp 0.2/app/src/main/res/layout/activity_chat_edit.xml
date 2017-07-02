@@ -12,14 +12,18 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/listViewUsersEdit"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layoutding2"
+        android:layout_below="@id/actionBarEditChat" />
+
+    <LinearLayout
         android:id="@+id/layoutding2"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="bottom"
         android:layout_margin="4dp"
         android:background="@android:color/holo_red_dark"
         android:orientation="horizontal">
@@ -39,13 +43,5 @@
             android:textStyle="normal|bold" />
 
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/listViewUsersEdit"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/layoutding2"
-        android:layout_below="@id/actionBarEditChat"
-        android:layout_weight="0.95" />
 
 </RelativeLayout>

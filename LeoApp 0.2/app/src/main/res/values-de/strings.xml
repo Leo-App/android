@@ -102,7 +102,9 @@
     <string name="seconds">Sekunden</string>
     <string name="minute">Minute</string>
     <string name="minutes">Minuten</string>
-
+    <string name="today">Heute</string>
+    <string name="yesterday">Gestern</string>
+    <string name="queue">Warteschlange</string>
 
     <!-- Stundenplan -->
 

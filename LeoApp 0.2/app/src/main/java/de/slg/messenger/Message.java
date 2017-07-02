@@ -1,10 +1,14 @@
 package de.slg.messenger;
 
+import android.content.Context;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
+import de.slg.leoapp.R;
 
 public class Message {
     public final int mid;
@@ -37,14 +41,14 @@ public class Message {
         this.uname = uname;
     }
 
-    public String getDate() {
+    String getDate(Context c) {
         if (mdate.getTime() == 0)
-            return "Warteschlange";
+            return c.getString(R.string.queue);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
         if (gleicherTag(mdate))
-            return "Heute";
+            return c.getString(R.string.today);
         else if (vorherigerTag(mdate))
-            return "Gestern";
+            return c.getString(R.string.yesterday);
         else if (gleichesJahr(mdate))
             simpleDateFormat = new SimpleDateFormat("dd.MM", Locale.GERMANY);
         return simpleDateFormat.format(mdate);
