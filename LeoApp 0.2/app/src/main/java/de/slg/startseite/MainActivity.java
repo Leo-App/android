@@ -224,13 +224,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void updateButtons() {
-        Button b3, b4, b5;
+        Button b3, b4, b5, b6;
         b3 = (Button) findViewById(R.id.buttonCardView3);
         b4 = (Button) findViewById(R.id.buttonCardView4);
         b5 = (Button) findViewById(R.id.buttonCardView5);
+        b6 = (Button) findViewById(R.id.buttonCardView8);
         b3.setText(getString(R.string.button_info_try));
         b4.setText(getString(R.string.button_info_try));
         b5.setText(getString(R.string.button_info_try));
+        b6.setText(getString(R.string.button_info_try));
     }
 
     @Override
@@ -286,8 +288,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
                 break;
             case R.id.buttonCardView8:
-                i = new Intent(getApplicationContext(), AuswahlActivity.class);
-                break;
+                if (isVerified()) {
+                    i = new Intent(getApplicationContext(), AuswahlActivity.class);
+                    break;
+                } else
+                    showDialog();
         }
         if (i != null)
             startActivity(i);

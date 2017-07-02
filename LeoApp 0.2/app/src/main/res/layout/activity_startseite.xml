@@ -435,7 +435,7 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true"
-                                android:text="@string/button_info_try"
+                                android:text="@string/button_info_auth"
                                 android:textAllCaps="true" />
                         </RelativeLayout>
                     </android.support.v7.widget.CardView>
