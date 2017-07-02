@@ -37,70 +37,62 @@
         android:gravity="right"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/wrapperlayout2"
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right">
+            android:background="@drawable/chatbubble"
+            android:paddingBottom="1dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="1dp">
 
-            <RelativeLayout
-                android:id="@+id/wrapperlayout3"
+            <TextView
+                android:id="@+id/absender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/chatbubble"
-                android:paddingBottom="1dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="1dp">
+                android:layout_alignParentLeft="true"
+                android:lines="1"
+                android:text="@string/textview_placeholder"
+                android:textColor="@color/colorText"
+                android:textSize="13sp" />
 
-                <TextView
-                    android:id="@+id/absender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:lines="1"
-                    android:text="@string/textview_placeholder"
-                    android:textColor="@color/colorText"
-                    android:textSize="13sp" />
+            <TextView
+                android:id="@+id/nachricht"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/absender"
+                android:maxWidth="240dp"
+                android:text="@string/textview_placeholder"
+                android:textColor="@color/colorText"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/nachricht"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/absender"
-                    android:maxWidth="240dp"
-                    android:text="@string/textview_placeholder"
-                    android:textColor="@color/colorText"
-                    android:textSize="18sp" />
+            <TextView
+                android:id="@+id/datum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/nachricht"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/nachricht"
+                android:lines="1"
+                android:text="@string/textview_placeholder"
+                android:textColor="@color/colorText"
+                android:textSize="11sp" />
 
-                <TextView
-                    android:id="@+id/datum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/nachricht"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@id/nachricht"
-                    android:lines="1"
-                    android:text="@string/textview_placeholder"
-                    android:textColor="@color/colorText"
-                    android:textSize="11sp" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignBottom="@id/nachricht"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/nachricht"
+                android:indeterminateTint="@android:color/white"
+                android:visibility="gone" />
 
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignBottom="@id/nachricht"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@id/nachricht"
-                    android:indeterminateTint="@android:color/white"
-                    android:visibility="gone" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

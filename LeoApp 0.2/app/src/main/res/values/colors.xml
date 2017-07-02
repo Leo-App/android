@@ -5,7 +5,7 @@
     <color name="colorAccent">#0190f6</color>
     <color name="colorInactive">#bcbcbc</color>
     <color name="colorChatBackground">#546e7a</color>
-    <color name="colorTabIndicator">#ffffff</color>
+    <color name="colorTabIndicator">#fff</color>
     <color name="colorText">#000</color>
     <color name="colorTextGreyed">#FFD8D8D8</color>
     <color name="colorWocheBackground">#dfdfdf</color>

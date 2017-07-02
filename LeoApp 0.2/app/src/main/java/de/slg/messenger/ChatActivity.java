@@ -172,16 +172,12 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder {
-        ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
-    private class MessageAdapter extends RecyclerView.Adapter<ViewHolder> {
+    private class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
         private Chat.Chattype chattype;
         private LayoutInflater inflater;
         private TextView nachricht, absender, uhrzeit, datum;
+        private LinearLayout l1, l2;
+        private View l3, space, progressbar;
 
         MessageAdapter() {
             super();
@@ -198,51 +194,55 @@ public class ChatActivity extends AppCompatActivity {
         public void onBindViewHolder(ViewHolder holder, int position) {
             Message current = messagesArray[position];
             View v = holder.itemView;
-            boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
+            datum = (TextView) v.findViewById(R.id.textViewDate);
+            nachricht = (TextView) v.findViewById(R.id.nachricht);
+            absender = (TextView) v.findViewById(R.id.absender);
+            uhrzeit = (TextView) v.findViewById(R.id.datum);
+            l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
+            l3 = v.findViewById(R.id.wrapperlayout2);
+            space = v.findViewById(R.id.space);
+            progressbar = v.findViewById(R.id.progressBar);
+
+            nachricht.setText(current.mtext);
+            absender.setText(current.uname);
+            uhrzeit.setText(current.getTime());
+            datum.setText(current.getDate(getApplicationContext()));
+
             boolean mine = current.uid == Utils.getUserID();
+            l3.setEnabled(mine);
             if (mine) {
-                LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
-                LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
                 l1.setGravity(Gravity.END);
-                l2.setGravity(Gravity.END);
-                v.findViewById(R.id.wrapperlayout3).setEnabled(true);
-                v.findViewById(R.id.absender).setVisibility(View.GONE);
+                absender.setVisibility(View.GONE);
+                nachricht.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
+                uhrzeit.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
             } else {
-                LinearLayout l1 = (LinearLayout) v.findViewById(R.id.wrapperlayout1);
-                LinearLayout l2 = (LinearLayout) v.findViewById(R.id.wrapperlayout2);
                 l1.setGravity(Gravity.START);
-                l2.setGravity(Gravity.START);
-                v.findViewById(R.id.wrapperlayout3).setEnabled(false);
-                absender = (TextView) v.findViewById(R.id.absender);
-                absender.setText(current.uname);
+                nachricht.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
+                uhrzeit.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
                 if (chattype == Chat.Chattype.PRIVATE) {
-                    v.findViewById(R.id.absender).setVisibility(View.GONE);
+                    absender.setVisibility(View.GONE);
                 } else {
-                    v.findViewById(R.id.absender).setVisibility(View.VISIBLE);
+                    absender.setVisibility(View.VISIBLE);
                 }
             }
-            nachricht = (TextView) v.findViewById(R.id.nachricht);
-            nachricht.setText(current.mtext);
-            uhrzeit = (TextView) v.findViewById(R.id.datum);
-            uhrzeit.setVisibility(View.VISIBLE);
-            String time = current.getTime();
-            if (time.equals("")) {
+
+            boolean send = uhrzeit.getText().toString().equals("");
+            if (send) {
                 uhrzeit.setVisibility(View.GONE);
-                v.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+                progressbar.setVisibility(View.VISIBLE);
             } else {
                 uhrzeit.setVisibility(View.VISIBLE);
-                v.findViewById(R.id.progressBar).setVisibility(View.GONE);
-                uhrzeit.setText(current.getTime());
+                progressbar.setVisibility(View.GONE);
             }
+
+            boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
             if (first) {
-                datum = (TextView) v.findViewById(R.id.textViewDate);
                 datum.setVisibility(View.VISIBLE);
-                datum.setText(current.getDate(getApplicationContext()));
             } else {
-                v.findViewById(R.id.textViewDate).setVisibility(View.GONE);
+                datum.setVisibility(View.GONE);
                 if (current.uid == messagesArray[position - 1].uid) {
-                    v.findViewById(R.id.absender).setVisibility(View.GONE);
-                    v.findViewById(R.id.space).setVisibility(View.GONE);
+                    absender.setVisibility(View.GONE);
+                    space.setVisibility(View.GONE);
                 }
             }
         }
@@ -257,6 +257,12 @@ public class ChatActivity extends AppCompatActivity {
             c1.setTime(pDate1);
             c2.setTime(pDate2);
             return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH);
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            ViewHolder(View itemView) {
+                super(itemView);
+            }
         }
     }
 
