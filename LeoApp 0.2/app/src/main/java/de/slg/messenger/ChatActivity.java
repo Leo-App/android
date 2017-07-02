@@ -32,7 +32,7 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
-    public static Chat currentChat;
+    static Chat currentChat;
     private Message[] messagesArray;
 
     private RecyclerView rvMessages;
@@ -71,7 +71,7 @@ public class ChatActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
         } else if (item.getItemId() == R.id.action_edtiParticipants) {
-            startEditChat();
+            startActivity(new Intent(getApplicationContext(), ChatEditActivity.class));
         }
         return true;
     }
@@ -159,14 +159,9 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    private void startEditChat() {
-        ChatEditActivity.currentChat = currentChat;
-        startActivity(new Intent(getApplicationContext(), ChatEditActivity.class));
-    }
-
     public void refreshUI(boolean refreshMessages, final boolean scroll) {
         if (refreshMessages)
-            messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(currentChat, true);
+            messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(currentChat.cid);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

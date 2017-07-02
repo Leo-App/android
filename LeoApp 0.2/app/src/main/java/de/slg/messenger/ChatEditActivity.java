@@ -25,7 +25,7 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ChatEditActivity extends AppCompatActivity {
-    static Chat currentChat;
+    private Chat currentChat;
     private Menu menu;
     private ListView lvUsers;
     private UserAdapter uOfChat1, uOfChat2, uRest;
@@ -37,6 +37,7 @@ public class ChatEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_chat_edit);
+        currentChat = ChatActivity.currentChat;
 
         initToolbar();
         initListView();
