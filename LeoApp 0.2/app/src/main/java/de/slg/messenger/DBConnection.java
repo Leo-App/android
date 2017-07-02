@@ -327,7 +327,7 @@ public class DBConnection {
         public void onCreate(SQLiteDatabase db) {
             Log.i("DBHelper", "Datenbank wird erstellt");
             try {
-                db.execSQL("CREATE TABLE " + TABLE_MESSAGES + " (" +
+                db.execSQL("CREATE TABLE IF NOT EXISTS" + TABLE_MESSAGES + " (" +
                         MESSAGES_ID + " INTEGER PRIMARY KEY, " +
                         MESSAGE_TEXT + " TEXT NOT NULL, " +
                         MESSAGE_DATE + " TEXT NOT NULL, " +
@@ -338,7 +338,7 @@ public class DBConnection {
                 e.printStackTrace();
             }
             try {
-                db.execSQL("CREATE TABLE " + TABLE_CHATS + " (" +
+                db.execSQL("CREATE TABLE IF NOT EXISTS" + TABLE_CHATS + " (" +
                         CHAT_ID + " INTEGER PRIMARY KEY, " +
                         CHAT_NAME + " TEXT NOT NULL, " +
                         CHAT_TYPE + " TEXT NOT NULL)");
@@ -346,14 +346,14 @@ public class DBConnection {
                 e.printStackTrace();
             }
             try {
-                db.execSQL("CREATE TABLE " + TABLE_ASSOZIATION + " (" +
+                db.execSQL("CREATE TABLE IF NOT EXISTS" + TABLE_ASSOZIATION + " (" +
                         CHAT_ID + " INTEGER NOT NULL, " +
                         USER_ID + " INTEGER NOT NULL)");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             try {
-                db.execSQL("CREATE TABLE " + TABLE_USERS + " (" +
+                db.execSQL("CREATE TABLE IF NOT EXISTS" + TABLE_USERS + " (" +
                         USER_ID + " INTEGER PRIMARY KEY, " +
                         USER_NAME + " TEXT NOT NULL, " +
                         USER_KLASSE + " TEXT, " +
@@ -362,7 +362,7 @@ public class DBConnection {
                 e.printStackTrace();
             }
             try {
-                db.execSQL("CREATE TABLE " + TABLE_MESSAGES_UNSEND + " (" +
+                db.execSQL("CREATE TABLE IF NOT EXISTS" + TABLE_MESSAGES_UNSEND + " (" +
                         MESSAGES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         MESSAGE_TEXT + " TEXT NOT NULL, " +
                         CHAT_ID + " INTEGER NOT NULL)");

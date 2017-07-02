@@ -28,7 +28,7 @@ public class Start extends Activity {
             startActivity(new Intent(getApplicationContext(), AbstimmActivity.class));
         }
 
-        startService(new Intent(getApplicationContext(), ReceiveService.class));
+ //       startService(new Intent(getApplicationContext(), ReceiveService.class));
 
         finish();
     }

@@ -25,7 +25,7 @@
                 android:layout_marginTop="30dp"
                 android:text="@string/qr_display_title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#0190f6" />
+                android:textColor="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/textViewDatum"
@@ -35,7 +35,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="@string/textview_placeholder"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#0190f6" />
+                android:textColor="@color/colorPrimary" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -76,7 +76,7 @@
                 android:gravity="center"
                 android:text="@string/textview_placeholder"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#0190f6" />
+                android:textColor="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/textViewMenuDetails"
@@ -88,7 +88,7 @@
                 android:gravity="center"
                 android:text="@string/textview_placeholder"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#0190f6"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="italic" />
 
         </RelativeLayout>

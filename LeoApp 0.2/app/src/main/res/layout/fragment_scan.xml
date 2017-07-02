@@ -31,7 +31,7 @@
                     android:singleLine="false"
                     android:text="@string/explain_title_1"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#0190f6" />
+                    android:textColor="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/textViewDesc_1"
@@ -55,7 +55,7 @@
                     android:layout_marginTop="35dp"
                     android:text="@string/explain_title_2"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#0190f6" />
+                    android:textColor="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/textViewDesc_2"
@@ -79,7 +79,7 @@
                     android:layout_marginTop="35dp"
                     android:text="@string/explain_title_3"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#0190f6" />
+                    android:textColor="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/textViewDesc_3"
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_margin="20dp"
-            android:background="#0190f6"
+            android:background="@color/colorPrimary"
             android:drawableLeft="@drawable/qrcode_scan"
             android:elevation="4dp"
             android:padding="12dp"
