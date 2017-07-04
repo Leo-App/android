@@ -21,6 +21,7 @@
             android:layout_height="25dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:id="@+id/info_card_icon"
             android:layout_alignParentRight="true"
             card_view:srcCompat="@drawable/qrcode"
             android:tint="#9E9E9E"
