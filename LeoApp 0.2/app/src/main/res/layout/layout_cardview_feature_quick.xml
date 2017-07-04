@@ -54,5 +54,14 @@
             android:text="@string/textview_placeholder"
             android:textAllCaps="true"
             android:textSize="0sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/info_content0"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+        </RelativeLayout>
+
     </RelativeLayout>
 </android.support.v7.widget.CardView>
