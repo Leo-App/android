@@ -206,7 +206,7 @@ public class ChatActivity extends AppCompatActivity {
             nachricht.setText(current.mtext);
             absender.setText(current.uname);
             uhrzeit.setText(current.getTime());
-            datum.setText(current.getDate(getApplicationContext()));
+            datum.setText(current.getDate());
 
             boolean mine = current.uid == Utils.getUserID();
             chatbubble.setEnabled(mine);

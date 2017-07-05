@@ -142,7 +142,7 @@
         android:title="@string/title_survey">
 
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="pref_key_notification_survey"
             android:summary="@string/settings_summary_notification_survey"
             android:title="@string/settings_title_notification" />
@@ -151,6 +151,12 @@
             android:key="pref_key_notification_time_survey"
             android:summary="@string/settings_summary_notification_time"
             android:title="@string/settings_title_notification_time" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_key_show_reasons_survey"
+            android:summary="@string/settings_summary_notification_survey"
+            android:title="@string/settings_title_notification" />
 
     </PreferenceCategory>
 
@@ -275,7 +281,6 @@
             android:title="@string/settings_title_filterby_schedule" />
 
     </PreferenceCategory>
-
 
     <PreferenceCategory
         android:key="pref_key_info_settings"
