@@ -11,26 +11,93 @@ import android.widget.TextView;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
+import de.slg.leoapp.Start;
+import de.slg.leoapp.Utils;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-    List<Card> cards;
+    private List<Card> cards;
 
     {
 
         cards = new List<>();
-        //TODO: Liste befüllen nach eingestellter Reihenfolge/Inhalt/Layout - Speichern in Preferences?
+
+        String card_config = Start.pref.getString("pref_key_card_config",
+                "FOODMARKS;TESTPLAN;MESSENGER;TUTORING;NEWS;SURVEY;SCHEDULE;SUBSTITUTION");
+
+        for(String card : card_config.split(";")) {
+
+            CardType type = CardType.valueOf(card);
+
+            InfoCard c;
+
+            switch (type) {
+
+                case FOODMARKS:
+                    cards.append(c = new InfoCard(false));
+                    c.title = Utils.getString(R.string.title_foodmarks);
+                    c.descr = Utils.getString(R.string.summary_info_foodmark);
+                    c.buttonDescr = Utils.getString(R.string.button_info_try);
+                    break;
+                case TESTPLAN:
+                    cards.append(c = new InfoCard(false));
+                    c.title = Utils.getString(R.string.title_testplan);
+                    c.descr = Utils.getString(R.string.summary_info_testplan);
+                    c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                    break;
+                case MESSENGER:
+                    cards.append(c = new InfoCard(true));
+                    c.title = Utils.getString(R.string.title_messenger);
+                    c.descr = Utils.getString(R.string.summary_info_messenger);
+                    c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                    break;
+                case TUTORING:
+                    cards.append(c = new InfoCard(false));
+                    c.title = Utils.getString(R.string.title_tutoring);
+                    c.descr = Utils.getString(R.string.summary_info_tutoring);
+                    c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                    break;
+                case NEWS:
+                    cards.append(c = new InfoCard(false));
+                    c.title = Utils.getString(R.string.title_news);
+                    c.descr = Utils.getString(R.string.summary_info_news);
+                    c.buttonDescr = Utils.getString(R.string.button_info_try);
+                    break;
+                case SURVEY:
+                    cards.append(c = new InfoCard(false));
+                    c.title = Utils.getString(R.string.title_survey);
+                    c.descr = Utils.getString(R.string.summary_info_survey);
+                    c.buttonDescr = Utils.getString(R.string.button_info_try);
+                    break;
+                case SCHEDULE:
+                    cards.append(c = new InfoCard(false));
+                    c.title = Utils.getString(R.string.title_plan);
+                    c.descr = Utils.getString(R.string.summary_info_schedule);
+                    c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                    break;
+                case SUBSTITUTION:
+                    cards.append(c = new InfoCard(false));
+                    c.title = Utils.getString(R.string.title_subst);
+                    c.descr = Utils.getString(R.string.summary_info_subst);
+                    c.buttonDescr = Utils.getString(R.string.button_info_try);
+                    break;
+                default:
+                    cards.append(new MiscCard(false, type));
+
+            }
+
+        }
 
     }
 
-    public class CardViewHolder extends RecyclerView.ViewHolder {
+    class CardViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView title, description;
-        public Button button;
-        public ImageView icon;
-        public RelativeLayout content;
+        TextView title, description;
+        Button button;
+        ImageView icon;
+        RelativeLayout content;
 
-        public CardViewHolder(View itemView) {
+        CardViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.info_title0);
             description = (TextView) itemView.findViewById(R.id.info_text0);
@@ -81,7 +148,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         cards.toIndex(position);
         Card ref = cards.getContent();
 
-        boolean quickLayout = false; //TODO: Richtigen Wert abrufen - Preferences?
+        boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
 
         return quickLayout ? 0 : ref.large ? 1 : 2;
     }
@@ -91,7 +158,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         cards.toIndex(position);
         Card c = cards.getContent();
 
-        if(c instanceof InfoCard) {
+        if (c instanceof InfoCard) {
             InfoCard ref = (InfoCard) c;
             holder.button.setText(ref.buttonDescr);
             holder.title.setText(ref.title);
@@ -106,9 +173,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
             switch (ref.type) { //TODO: Layout in content entsprechend anpassen
 
+
                 case WEATHER:
-                    break;
-                case ALARM:
                     break;
                 case NEXT_TEST:
                     break;

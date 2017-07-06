@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b8.setOnClickListener(this);
     }
 
-    public void updateButtons() {
+    public void updateButtons() { //TODO: Quick Layout & RecyclerView berücksichtigen
         Button b3, b4, b5, b6;
         b3 = (Button) findViewById(R.id.buttonCardView3);
         b4 = (Button) findViewById(R.id.buttonCardView4);
