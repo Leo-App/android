@@ -47,6 +47,9 @@
 
     <string name="snackbar_no_connection_info">Keine Internetverbindung</string>
     <string name="snackbar_no_connection_button">OK</string>
+        
+    <string name="drawer_placeholder_name">giaspi270700</string>
+    <string name="drawer_placeholder_grade">Q1</string>
 
 
     <!-- Klausurplan -->

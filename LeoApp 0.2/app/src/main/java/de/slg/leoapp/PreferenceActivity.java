@@ -25,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -367,6 +368,12 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         });
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
+
+        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
+        grade.setText(Utils.getUserStufe());
+
+        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+        mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
     public ActionBar getSupportActionBar() {

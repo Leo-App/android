@@ -30,26 +30,33 @@
         android:layout_toRightOf="@+id/profile_image"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/profil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:paddingBottom="4dp"
-            android:text="@string/drawer_profile_title"
-            android:textColor="#000"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:text="@string/drawer_placeholder"
-            android:textColor="#000"
-            android:textSize="14sp" />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/profile_image"
+        android:layout_alignStart="@+id/profile_image"
+        android:layout_below="@+id/profile_image"
+        android:layout_marginTop="13dp"
+        android:gravity="start"
+        android:paddingBottom="4dp"
+        android:text="@string/drawer_placeholder_name"
+        android:textColor="#000"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/grade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username"
+        android:layout_below="@+id/username"
+        android:gravity="start"
+        android:text="@string/drawer_placeholder_grade"
+        android:textColor="#000"
+        android:textSize="14sp" />
 
 </RelativeLayout>

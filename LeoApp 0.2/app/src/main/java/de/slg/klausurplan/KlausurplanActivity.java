@@ -179,6 +179,9 @@ public class KlausurplanActivity extends AppCompatActivity {
         });
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
+
+        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
+        grade.setText(Utils.getUserStufe());
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
