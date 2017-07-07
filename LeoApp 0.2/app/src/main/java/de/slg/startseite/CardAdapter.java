@@ -1,5 +1,6 @@
 package de.slg.startseite;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import de.slg.essensqr.WrapperQRActivity;
 import de.slg.leoapp.GraphicUtils;
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
+import de.slg.schwarzes_brett.SchwarzesBrettActivity;
+import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
+import de.slg.stundenplan.StundenplanActivity;
 
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
@@ -45,7 +50,12 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.descr = Utils.getString(R.string.summary_info_foodmark);
                     c.buttonDescr = Utils.getString(R.string.button_info_try);
                     c.icon = R.drawable.qrcode;
-
+                    c.buttonListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperQRActivity.class));
+                        }
+                    };
                     break;
                 case TESTPLAN:
                     cards.append(c = new InfoCard(false));
@@ -53,7 +63,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.descr = Utils.getString(R.string.summary_info_testplan);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
                     c.enabled = Utils.isVerified();
-                    c.icon = R.drawable.ic_content_paste_white_24dp;
+                    c.icon = R.drawable.content_paste;
                     break;
                 case MESSENGER:
                     cards.append(c = new InfoCard(true));
@@ -61,7 +71,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.descr = Utils.getString(R.string.summary_info_messenger);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
                     c.enabled = Utils.isVerified();
-                    c.icon = R.drawable.ic_question_answer_white_24dp;
+                    c.icon = R.drawable.messenger;
                     break;
                 case TUTORING:
                     cards.append(c = new InfoCard(false));
@@ -69,21 +79,33 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.descr = Utils.getString(R.string.summary_info_tutoring);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
                     c.enabled = Utils.isVerified();
-                    c.icon = R.drawable.ic_people_white_24dp;
+                    c.icon = R.drawable.account_multiple;
                     break;
                 case NEWS:
                     cards.append(c = new InfoCard(false));
                     c.title = Utils.getString(R.string.title_news);
                     c.descr = Utils.getString(R.string.summary_info_news);
                     c.buttonDescr = Utils.getString(R.string.button_info_try);
-                    c.icon = R.drawable.ic_event_note_white_24dp;
+                    c.icon = R.drawable.ic_event_note_white_24px;
+                    c.buttonListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, SchwarzesBrettActivity.class));
+                        }
+                    };
                     break;
                 case SURVEY:
                     cards.append(c = new InfoCard(false));
                     c.title = Utils.getString(R.string.title_survey);
                     c.descr = Utils.getString(R.string.summary_info_survey);
                     c.buttonDescr = Utils.getString(R.string.button_info_try);
-                    c.icon = R.drawable.ic_insert_emoticon_white_24dp;
+                    c.icon = R.drawable.emoticon;
+                    c.buttonListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, StimmungsbarometerActivity.class));
+                        }
+                    };
                     break;
                 case SCHEDULE:
                     cards.append(c = new InfoCard(false));
@@ -91,7 +113,13 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.descr = Utils.getString(R.string.summary_info_schedule);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
                     c.enabled = Utils.isVerified();
-                    c.icon = R.drawable.ic_event_white_24dp;
+                    c.icon = R.drawable.schedule;
+                    c.buttonListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, StundenplanActivity.class));
+                        }
+                    };
                     break;
                 case SUBSTITUTION:
                     cards.append(c = new InfoCard(false));
@@ -99,6 +127,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.descr = Utils.getString(R.string.summary_info_subst);
                     c.buttonDescr = Utils.getString(R.string.button_info_try);
                     c.icon = R.drawable.ic_account_switch;
+
                     break;
                 case WEATHER:
                     cards.append(m = new MiscCard(false, type));

@@ -262,7 +262,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (item.getItemId() == R.id.action_appedit) {
             editing = true;
-            invalidateOptionsMenu();
+
+            final Handler handler = new Handler(); //Short delay for aesthetics
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    invalidateOptionsMenu();
+                }
+            }, 100);
+
         }
         if (item.getItemId() == R.id.action_appedit_done) {
             editing = false;
