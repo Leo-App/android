@@ -235,5 +235,6 @@
     <string name="add_user">Add User to Chat</string>
     <string name="remove_users">Remove User from Chat</string>
     <string name="chat_info">Info</string>
+    <string name="drawer_placeholder_name"></string>
 
 </resources>

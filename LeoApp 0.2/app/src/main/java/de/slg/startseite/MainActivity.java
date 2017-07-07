@@ -69,12 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ZXingScannerView scV;
 
     private static boolean verified;
+    private static boolean editing;
 
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
 
     private boolean runningScan;
 
-    private CardAdapter mAdapter;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
 
@@ -136,6 +136,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    void updateButtons() { //TODO: Save remove
+
     }
 
     @Override
@@ -211,11 +215,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initCardViews() {
 
+        findViewById(R.id.buttonCardView0).setOnClickListener(this);
+        findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
+
         TextView version = (TextView) findViewById(R.id.versioncode_maincard);
         version.setText(Utils.getAppVersionName());
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
-        mAdapter = new CardAdapter();
+        CardAdapter mAdapter = new CardAdapter();
 
         boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
 
@@ -245,9 +252,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void updateButtons() { //TODO: Quick Layout & RecyclerView berücksichtigen
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -256,14 +260,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (item.getItemId() == R.id.action_appinfo) {
             startActivity(new Intent(getApplicationContext(), InfoActivity.class));
         }
+        if (item.getItemId() == R.id.action_appedit) {
+            editing = true;
+            invalidateOptionsMenu();
+        }
+        if (item.getItemId() == R.id.action_appedit_done) {
+            editing = false;
+            invalidateOptionsMenu();
+        }
+        if (item.getItemId() == R.id.action_appinfo_quick) {
+            item.setChecked(!item.isChecked());
+            SharedPreferences.Editor edit = Start.pref.edit();
+            edit.putBoolean("pref_key_card_config_quick", item.isChecked());
+            edit.apply();
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+        }
         return true;
     }
 
     @Override
     public void onClick(View v) {
-        Intent i = null;
-  /*      switch (v.getId()) {
-            case R.id.buttonCardView0:
+            if(v.getId() == R.id.buttonCardView0) {
                 if (!isVerified())
                     showDialog();
                 else {
@@ -272,43 +290,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.apply();
                     findViewById(R.id.card_view0).setVisibility(View.GONE);
                 }
-                break;
-            case R.id.buttonCardView1:
-                i = new Intent(getApplicationContext(), WrapperQRActivity.class);
-                break;
-            case R.id.buttonCardView3:
-                if (isVerified()) {
-                    i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                    break;
-                } else
-                    showDialog();
-            case R.id.buttonCardView4:
-                if (isVerified()) {
-                    i = new Intent(getApplicationContext(), OverviewWrapper.class);
-                    break;
-                } else
-                    showDialog();
-            case R.id.buttonCardView5:
-                if (isVerified()) {
-                    i = new Intent(getApplicationContext(), MainActivity.class);
-                    break;
-                } else
-                    showDialog();
-            case R.id.buttonCardView2:
-                i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                break;
-            case R.id.buttonCardView7:
-                i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                break;
-            case R.id.buttonCardView8:
-                if (isVerified()) {
-                    i = new Intent(getApplicationContext(), AuswahlActivity.class);
-                    break;
-                } else
-                    showDialog();
-        }
-        if (i != null)
-            startActivity(i); */
+            } else {
+                SharedPreferences.Editor e = Start.pref.edit();
+                e.putBoolean("pref_key_dont_remind_me", true);
+                e.apply();
+                findViewById(R.id.card_view0).setVisibility(View.GONE);
+            }
     }
 
     private void showDialog() {
@@ -347,7 +334,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.startseite, menu);
+        if(editing) {
+            getMenuInflater().inflate(R.menu.startseite_edit, menu);
+            menu.findItem(R.id.action_appinfo_quick).setChecked(Start.pref.getBoolean("pref_key_card_config_quick", false));
+        } else
+            getMenuInflater().inflate(R.menu.startseite, menu);
+
         return true;
     }
 

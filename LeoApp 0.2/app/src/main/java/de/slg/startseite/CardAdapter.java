@@ -1,5 +1,6 @@
 package de.slg.startseite;
 
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -51,6 +52,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.title = Utils.getString(R.string.title_testplan);
                     c.descr = Utils.getString(R.string.summary_info_testplan);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                    c.enabled = Utils.isVerified();
                     c.icon = R.drawable.ic_content_paste_white_24dp;
                     break;
                 case MESSENGER:
@@ -58,6 +60,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.title = Utils.getString(R.string.title_messenger);
                     c.descr = Utils.getString(R.string.summary_info_messenger);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                    c.enabled = Utils.isVerified();
                     c.icon = R.drawable.ic_question_answer_white_24dp;
                     break;
                 case TUTORING:
@@ -65,6 +68,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.title = Utils.getString(R.string.title_tutoring);
                     c.descr = Utils.getString(R.string.summary_info_tutoring);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                    c.enabled = Utils.isVerified();
                     c.icon = R.drawable.ic_people_white_24dp;
                     break;
                 case NEWS:
@@ -86,6 +90,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.title = Utils.getString(R.string.title_plan);
                     c.descr = Utils.getString(R.string.summary_info_schedule);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                    c.enabled = Utils.isVerified();
                     c.icon = R.drawable.ic_event_white_24dp;
                     break;
                 case SUBSTITUTION:
@@ -171,7 +176,6 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
         }
 
-
     }
 
     @Override
@@ -193,26 +197,21 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
         if (c instanceof InfoCard) {
             InfoCard ref = (InfoCard) c;
             holder.button.setText(ref.buttonDescr);
+            holder.button.setOnClickListener(ref.buttonListener);
             holder.title.setText(ref.title);
             holder.description.setText(ref.descr);
             holder.content.setVisibility(View.GONE);
             holder.icon.setImageResource(ref.icon);
+            if(!ref.enabled)
+                holder.icon.setColorFilter(Color.GRAY);
         } else {
             MiscCard ref = (MiscCard) c;
             holder.button.setText(ref.type.toString());
             holder.title.setText("");
             holder.description.setText("");
             holder.content.setVisibility(View.VISIBLE);
-
-            switch (ref.type) { //TODO: Layout in content entsprechend anpassen
-
-                case WEATHER:
-                    break;
-                case NEXT_TEST:
-                    break;
-            }
-
         }
+
     }
 
     @Override

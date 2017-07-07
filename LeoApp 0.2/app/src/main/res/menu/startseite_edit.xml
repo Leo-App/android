@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_appinfo_quick"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        android:title="@string/cards_quick"
+        android:checkable="true"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_appedit_done"
+        android:icon="@drawable/ic_done_white_24dp"
+        android:title="@string/cards_customize"
+        app:showAsAction="ifRoom"/>
+
+</menu>

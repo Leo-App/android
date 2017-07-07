@@ -242,6 +242,8 @@
     <string name="SnackBarMes2">Noch keine Stufe eingestellt</string>
     <string name="add_user">Benutzer zu diesem Chat hinzufügen</string>
     <string name="remove_users">Benutzer aus diesem Chat entfernen</string>
-
+    <string name="button_card_dismiss">Ausblenden</string>
+    <string name="cards_customize">Anpassen</string>
+    <string name="cards_quick">Schnellzugriff</string>
 
 </resources>
