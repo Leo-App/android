@@ -23,8 +23,11 @@
                 android:elevation="4dp"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -32,8 +35,9 @@
                     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_viewMain"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="175dp"
                         android:layout_marginTop="10dp"
+                        card_view:cardCornerRadius="0dp"
                         android:layout_gravity="center">
 
                         <RelativeLayout
@@ -67,11 +71,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="12sp"
-                                android:layout_margin="5dp"
+                                android:id="@+id/versioncode_maincard"
+                                android:layout_margin="10dp"
                                 android:layout_alignParentBottom="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true"
-                                android:text="snapshot 0.2.5" />
+                                />
 
                         </RelativeLayout>
                     </android.support.v7.widget.CardView>
@@ -141,13 +146,18 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="-10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recyclerViewCards"
                         android:layout_below="@+id/card_view0"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp" />
+                        />
 
                 </RelativeLayout>
-
+        </ScrollView>
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>

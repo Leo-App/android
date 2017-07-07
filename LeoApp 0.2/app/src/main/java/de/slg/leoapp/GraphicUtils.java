@@ -3,6 +3,7 @@ package de.slg.leoapp;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 public abstract class GraphicUtils {
@@ -18,6 +19,20 @@ public abstract class GraphicUtils {
 
         Resources r = Utils.context.getResources();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, r.getDisplayMetrics());
+
+    }
+
+    public static int getDisplayHeight() {
+
+        DisplayMetrics dm = Utils.context.getResources().getDisplayMetrics();
+        return dm.heightPixels;
+
+    }
+
+    public static int getDisplayWidth() {
+
+        DisplayMetrics dm = Utils.context.getResources().getDisplayMetrics();
+        return dm.widthPixels;
 
     }
 

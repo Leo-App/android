@@ -34,7 +34,7 @@
     <string name="summary_info_auth">Einige Funktionen benötigen eine Verifizierung. Verifiziere dich hier.</string>
     <string name="summary_info_auth_failed">Anscheinend ist etwas schiefgelaufen. Versichere dich, dass dein QR-Code gültig ist und versuch es erneut</string>
 
-    <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Du brauchst nur noch den QR-Code vorzuzeigen und erhälst dein bestelltes Menü</string>
+    <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Nachdem du in den Einstellungen deine Zugangsdaten angegeben hast, brauchst du nur noch den anschließend generierten QR-Code vorzuzeigen und du erhälst dein bestelltes Menü.</string>
     <string name="summary_info_testplan">Hier findest du eine Sammlung deiner anstehenden Klausuren. Ergänze dein Profil um die Filterfunktion zu verwenden oder füge deine eigenen Einträge hinzu.</string>
     <string name="summary_info_messenger">Mithilfe dieser Funktion kannst du mit deinen Klassenkameraden und Lehrern kommunizieren, ohne dass diese deine Telefonnummer erfahren. Du kannst in Gruppen oder privat chatten. Deinen Benutzernamen kannst du in den Einstellungen ändern.</string>
     <string name="summary_info_tutoring">Brauchst du Nachhilfe in einem Fach? Bitte einfach darum in der Nachhilfebörse!</string>

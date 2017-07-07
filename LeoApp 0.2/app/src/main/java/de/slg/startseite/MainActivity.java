@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +17,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -52,27 +56,34 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler {
-    private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
+
     public static View v;
     public static ProgressBar pb;
     public static TextView title, info;
     public static Button verify;
-    public ZXingScannerView scV;
-    private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
-    private boolean runningScan;
-    private static boolean verified;
     public static Intent service;
     public static MainActivity ref;
+
+    public ZXingScannerView scV;
+
+    private static boolean verified;
+
+    private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
+
+    private boolean runningScan;
+
+    private CardAdapter mAdapter;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         runningScan = false;
         ref = this;
-        setContentView(R.layout.activity_startseite);
 
-        Log.wtf("LeoApp", "called onCreate main");
+        setContentView(R.layout.activity_startseite);
 
         int id = Utils.getUserID();
         boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
@@ -99,10 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (verified)
             updateButtons();
 
-        Log.wtf("LeoApp", String.valueOf(Start.pref.getBoolean("pref_key_notification_essensqr", false)));
-
         if (Start.pref.getBoolean("pref_key_notification_essensqr", false) && service == null) {
-            Log.wtf("LeoApp", "called Service");
             service = new Intent(this, NotificationService.class);
             startService(service);
         }
@@ -200,43 +208,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initCardViews() {
-        v = findViewById(R.id.coordinator);
-        pb = (ProgressBar) findViewById(R.id.progressBar1);
-        title = (TextView) findViewById(R.id.info_title0);
-        info = (TextView) findViewById(R.id.info_text0);
-        verify = (Button) findViewById(R.id.buttonCardView0);
 
-        Button b1, b2, b3, b4, b5, b6, b7, b8;
+        TextView version = (TextView) findViewById(R.id.versioncode_maincard);
+        version.setText(Utils.getAppVersionName());
 
-        b1 = verify;
-        b2 = (Button) findViewById(R.id.buttonCardView1);
-        b3 = (Button) findViewById(R.id.buttonCardView2);
-        b4 = (Button) findViewById(R.id.buttonCardView3);
-        b5 = (Button) findViewById(R.id.buttonCardView4);
-        b6 = (Button) findViewById(R.id.buttonCardView5);
-        b7 = (Button) findViewById(R.id.buttonCardView7);
-        b8 = (Button) findViewById(R.id.buttonCardView8);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
+        mAdapter = new CardAdapter();
 
-        b1.setOnClickListener(this);
-        b2.setOnClickListener(this);
-        b3.setOnClickListener(this);
-        b4.setOnClickListener(this);
-        b5.setOnClickListener(this);
-        b6.setOnClickListener(this);
-        b7.setOnClickListener(this);
-        b8.setOnClickListener(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 
     public void updateButtons() { //TODO: Quick Layout & RecyclerView berücksichtigen
-        Button b3, b4, b5, b6;
-        b3 = (Button) findViewById(R.id.buttonCardView3);
-        b4 = (Button) findViewById(R.id.buttonCardView4);
-        b5 = (Button) findViewById(R.id.buttonCardView5);
-        b6 = (Button) findViewById(R.id.buttonCardView8);
-        b3.setText(getString(R.string.button_info_try));
-        b4.setText(getString(R.string.button_info_try));
-        b5.setText(getString(R.string.button_info_try));
-        b6.setText(getString(R.string.button_info_try));
     }
 
     @Override
@@ -253,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent i = null;
-        switch (v.getId()) {
+  /*      switch (v.getId()) {
             case R.id.buttonCardView0:
                 if (!isVerified())
                     showDialog();
@@ -299,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     showDialog();
         }
         if (i != null)
-            startActivity(i);
+            startActivity(i); */
     }
 
     private void showDialog() {
