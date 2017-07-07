@@ -18,8 +18,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -215,12 +217,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext()) {
+        boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
+
+        RecyclerView.LayoutManager mLayoutManager = quickLayout
+
+        ?
+
+        new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        }
+
+        :
+
+        new LinearLayoutManager(getApplicationContext()) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         };
+
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);

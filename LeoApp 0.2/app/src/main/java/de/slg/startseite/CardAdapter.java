@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,7 +18,7 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     private final List<Card> cards;
 
@@ -38,7 +39,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             switch (type) {
 
                 case FOODMARKS:
-                    cards.append(c = new InfoCard(false));
+                    cards.append(c = new InfoCard(true));
                     c.title = Utils.getString(R.string.title_foodmarks);
                     c.descr = Utils.getString(R.string.summary_info_foodmark);
                     c.buttonDescr = Utils.getString(R.string.button_info_try);
@@ -120,14 +121,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         CardViewHolder(View itemView) {
             super(itemView);
+
             title = (TextView) itemView.findViewById(R.id.info_title0);
             description = (TextView) itemView.findViewById(R.id.info_text0);
             button = (Button) itemView.findViewById(R.id.buttonCardView0);
-
             content = (RelativeLayout) itemView.findViewById(R.id.info_content0);
-
             icon = (ImageView) itemView.findViewById(R.id.info_card_icon);
-
             wrapper = (CardView)  itemView.findViewById(R.id.card_preset);
         }
 
@@ -157,11 +156,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 CardViewHolder ret = new CardViewHolder(itemView);
 
                 ret.wrapper.requestLayout();
-                ret.wrapper.getLayoutParams().height = GraphicUtils.getDisplayWidth()/2-(int)GraphicUtils.dpToPx(30);
+                ret.wrapper.getLayoutParams().height = GraphicUtils.getDisplayWidth()/2-(int)GraphicUtils.dpToPx(20);
                 ret.wrapper.getLayoutParams().width = ret.wrapper.getLayoutParams().height;
 
-                ret.icon.getLayoutParams().height = (ret.wrapper.getLayoutParams().height/100)*70;
-                ret.icon.getLayoutParams().width = (ret.wrapper.getLayoutParams().height/100)*70;
+                ret.icon.getLayoutParams().height = (ret.wrapper.getLayoutParams().height/100)*65; //Icon 65% of quick tile
+                ret.icon.getLayoutParams().width = (ret.wrapper.getLayoutParams().height/100)*65;
 
                 return ret;
             default:
@@ -180,7 +179,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         cards.toIndex(position);
         Card ref = cards.getContent();
 
-        boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", true); //TODO: Default value auf false
+        boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
 
         return quickLayout ? 2 : ref.large ? 1 : 0;
     }
@@ -190,12 +189,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         cards.toIndex(position);
         Card c = cards.getContent();
 
+
         if (c instanceof InfoCard) {
             InfoCard ref = (InfoCard) c;
             holder.button.setText(ref.buttonDescr);
             holder.title.setText(ref.title);
             holder.description.setText(ref.descr);
             holder.content.setVisibility(View.GONE);
+            holder.icon.setImageResource(ref.icon);
         } else {
             MiscCard ref = (MiscCard) c;
             holder.button.setText(ref.type.toString());
