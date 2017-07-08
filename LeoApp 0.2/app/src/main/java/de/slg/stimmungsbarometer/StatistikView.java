@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import de.slg.leoapp.R;
@@ -18,6 +19,11 @@ public class StatistikView extends View {
     private Ergebnis[][] data;
     private int baseLineY, baseLineX, abstandX, abstandY, radius;
 
+    private boolean ich;
+    private boolean schueler;
+    private boolean lehrer;
+    private boolean alle;
+
     public StatistikView(Context context, Ergebnis[][] data) {
         super(context);
         this.data = data;
@@ -29,9 +35,8 @@ public class StatistikView extends View {
     private void init() {
         bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
         bitmapCanvas.setBitmap(bitmap);
-        bitmapCanvas.drawColor(getResources().getColor(android.R.color.background_light));
 
-        paint.setColor(Color.WHITE);
+        paint.setColor(ContextCompat.getColor(getContext(), android.R.color.background_light));
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
 
@@ -44,10 +49,6 @@ public class StatistikView extends View {
             abstandX = bitmapCanvas.getWidth() * 9 / 10;
         radius = 5;
 
-        drawBackground();
-        drawPoints();
-        drawGraph();
-
         isInitialized = true;
     }
 
@@ -55,34 +56,43 @@ public class StatistikView extends View {
     public void onDraw(Canvas canvas) {
         if (!isInitialized)
             init();
+        ich = StimmungsbarometerActivity.drawIch;
+        schueler = StimmungsbarometerActivity.drawSchueler;
+        lehrer = StimmungsbarometerActivity.drawLehrer;
+        alle = StimmungsbarometerActivity.drawAlle;
+        drawBackground();
+        drawPoints();
+        drawGraph();
         canvas.drawBitmap(bitmap, 0, 0, paint);
     }
 
     private void drawBackground() {
+        bitmapCanvas.drawColor(ContextCompat.getColor(getContext(), android.R.color.background_light));
+
         Paint p1 = new Paint();
         p1.setStrokeWidth(3);
-        p1.setColor(getResources().getColor(R.color.colorBadMood));
-        bitmapCanvas.drawLine(0, baseLineY, bitmapCanvas.getWidth(), baseLineY, p1);
+        p1.setColor(ContextCompat.getColor(getContext(), R.color.colorBadMood));
+        bitmapCanvas.drawLine(0, baseLineY, getWidth(), baseLineY, p1);
 
         Paint p2 = new Paint();
         p2.setStrokeWidth(3);
-        p2.setColor(getResources().getColor(R.color.colorDissatisfied));
-        bitmapCanvas.drawLine(0, baseLineY - abstandY, bitmapCanvas.getWidth(), baseLineY - abstandY, p2);
+        p2.setColor(ContextCompat.getColor(getContext(), R.color.colorDissatisfied));
+        bitmapCanvas.drawLine(0, baseLineY - abstandY, getWidth(), baseLineY - abstandY, p2);
 
         Paint p3 = new Paint();
         p3.setStrokeWidth(3);
-        p3.setColor(getResources().getColor(R.color.colorNeutral));
-        bitmapCanvas.drawLine(0, baseLineY - (2 * abstandY), bitmapCanvas.getWidth(), baseLineY - (2 * abstandY), p3);
+        p3.setColor(ContextCompat.getColor(getContext(), R.color.colorNeutral));
+        bitmapCanvas.drawLine(0, baseLineY - (2 * abstandY), getWidth(), baseLineY - (2 * abstandY), p3);
 
         Paint p4 = new Paint();
         p4.setStrokeWidth(3);
-        p4.setColor(getResources().getColor(R.color.colorSatisfied));
-        bitmapCanvas.drawLine(0, baseLineY - (3 * abstandY), bitmapCanvas.getWidth(), baseLineY - (3 * abstandY), p4);
+        p4.setColor(ContextCompat.getColor(getContext(), R.color.colorSatisfied));
+        bitmapCanvas.drawLine(0, baseLineY - (3 * abstandY), getWidth(), baseLineY - (3 * abstandY), p4);
 
         Paint p5 = new Paint();
         p5.setStrokeWidth(3);
-        p5.setColor(getResources().getColor(R.color.colorVerySatisfied));
-        bitmapCanvas.drawLine(0, baseLineY - (4 * abstandY), bitmapCanvas.getWidth(), baseLineY - (4 * abstandY), p5);
+        p5.setColor(ContextCompat.getColor(getContext(), R.color.colorVerySatisfied));
+        bitmapCanvas.drawLine(0, baseLineY - (4 * abstandY), getWidth(), baseLineY - (4 * abstandY), p5);
     }
 
     private void drawPoints() {
@@ -91,13 +101,25 @@ public class StatistikView extends View {
                 if (current[i].value != -1) {
                     Paint p = new Paint();
                     if (current[i].ich)
-                        p.setColor(getResources().getColor(R.color.colorIch));
+                        if (this.ich)
+                            p.setColor(ContextCompat.getColor(getContext(), R.color.colorIch));
+                        else
+                            break;
                     else if (current[i].schueler)
-                        p.setColor(getResources().getColor(R.color.colorSchueler));
+                        if (this.schueler)
+                            p.setColor(ContextCompat.getColor(getContext(), R.color.colorSchueler));
+                        else
+                            break;
                     else if (current[i].lehrer)
-                        p.setColor(getResources().getColor(R.color.colorLehrer));
+                        if (this.lehrer)
+                            p.setColor(ContextCompat.getColor(getContext(), R.color.colorLehrer));
+                        else
+                            break;
                     else if (current[i].alle)
-                        p.setColor(getResources().getColor(R.color.colorAlle));
+                        if (this.alle)
+                            p.setColor(ContextCompat.getColor(getContext(), R.color.colorAlle));
+                        else
+                            break;
                     bitmapCanvas.drawCircle(bitmapCanvas.getWidth() - (baseLineX + i * abstandX), (float) (baseLineY - (5 - current[i].value) * abstandY), radius, p);
                 }
             }
@@ -112,13 +134,25 @@ public class StatistikView extends View {
                     Paint p = new Paint();
                     p.setStrokeWidth(3);
                     if (current[i].ich)
-                        p.setColor(getResources().getColor(R.color.colorIch));
+                        if (this.ich)
+                            p.setColor(ContextCompat.getColor(getContext(), R.color.colorIch));
+                        else
+                            break;
                     else if (current[i].schueler)
-                        p.setColor(getResources().getColor(R.color.colorSchueler));
+                        if (this.schueler)
+                            p.setColor(ContextCompat.getColor(getContext(), R.color.colorSchueler));
+                        else
+                            break;
                     else if (current[i].lehrer)
-                        p.setColor(getResources().getColor(R.color.colorLehrer));
+                        if (this.lehrer)
+                            p.setColor(ContextCompat.getColor(getContext(), R.color.colorLehrer));
+                        else
+                            break;
                     else if (current[i].alle)
-                        p.setColor(getResources().getColor(R.color.colorAlle));
+                        if (this.alle)
+                            p.setColor(ContextCompat.getColor(getContext(), R.color.colorAlle));
+                        else
+                            break;
                     if (i != previous) {
                         bitmapCanvas.drawLine(bitmapCanvas.getWidth() - (baseLineX + previous * abstandX), (float) (baseLineY - (5 - current[previous].value) * abstandY), bitmapCanvas.getWidth() - (baseLineX + i * abstandX), (float) (baseLineY - (5 - current[i].value) * abstandY), p);
                     }

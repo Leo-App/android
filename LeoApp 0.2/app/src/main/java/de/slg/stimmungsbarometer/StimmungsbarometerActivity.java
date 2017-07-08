@@ -7,13 +7,16 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,8 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
 
+    static boolean drawIch = true, drawSchueler = true, drawLehrer = true, drawAlle = true;
+
     private static Ergebnis[][] daten;
 
     private ZeitraumFragment[] fragments;
@@ -46,29 +51,71 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         initToolbar();
         initTabs();
         initNavigationView();
+        initLayouts();
     }
 
-    /**
-     * private void initBottomNavigationView() {
-     * findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
-     * findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
-     * <p>
-     * BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-     * bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-     * //@Override
-     * public boolean onNavigationItemSelected(MenuItem item) {
-     * if (item.getItemId() == R.id.action_general_statistics) {
-     * findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
-     * findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
-     * } else if (item.getItemId() == R.id.action_graph_statistics) {
-     * findViewById(R.id.relativeLayoutGeneral).setVisibility(View.GONE);
-     * findViewById(R.id.relativeLayoutGraph).setVisibility(View.VISIBLE);
-     * }
-     * return true;
-     * }
-     * });
-     * }
-     */
+    private void initLayouts() {
+        LinearLayout lI = (LinearLayout) findViewById(R.id.linearLayoutIch);
+        LinearLayout lS = (LinearLayout) findViewById(R.id.linearLayoutSchueler);
+        LinearLayout lL = (LinearLayout) findViewById(R.id.linearLayoutLehrer);
+        LinearLayout lA = (LinearLayout) findViewById(R.id.linearLayoutAlle);
+
+        lI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView t = (TextView) v.findViewById(R.id.textViewIch);
+                drawIch = !drawIch;
+                if (drawIch)
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerySatisfied));
+                else
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                updateFragments();
+            }
+        });
+        lS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView t = (TextView) v.findViewById(R.id.textViewSchueler);
+                drawSchueler = !drawSchueler;
+                if (drawSchueler)
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorNeutral));
+                else
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                updateFragments();
+            }
+        });
+        lL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView t = (TextView) v.findViewById(R.id.textViewLehrer);
+                drawLehrer = !drawLehrer;
+                if (drawLehrer)
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_purple));
+                else
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                updateFragments();
+            }
+        });
+        lA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView t = (TextView) v.findViewById(R.id.textViewAlle);
+                drawAlle = !drawAlle;
+                if (drawAlle)
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+                else
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                updateFragments();
+            }
+        });
+    }
+
+    private void updateFragments() {
+        fragments[0].update();
+        fragments[1].update();
+        fragments[2].update();
+        fragments[3].update();
+    }
 
     private void initTabs() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);

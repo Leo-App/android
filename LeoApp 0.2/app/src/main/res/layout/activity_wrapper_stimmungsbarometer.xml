@@ -59,7 +59,7 @@
 
                 <LinearLayout
                     android:id="@+id/linearLayoutIch"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
@@ -85,7 +85,7 @@
 
                 <LinearLayout
                     android:id="@+id/linearLayoutSchueler"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/linearLayoutIch"
                     android:layout_marginTop="5dp"
@@ -111,7 +111,7 @@
 
                 <LinearLayout
                     android:id="@+id/linearLayoutLehrer"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/linearLayoutSchueler"
                     android:layout_marginTop="5dp"
@@ -137,7 +137,7 @@
 
                 <LinearLayout
                     android:id="@+id/linearLayoutAlle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/linearLayoutLehrer"
                     android:layout_marginTop="5dp"
