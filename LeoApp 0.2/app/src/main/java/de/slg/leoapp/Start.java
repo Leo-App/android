@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import de.slg.startseite.MainActivity;
-import de.slg.stimmungsbarometer.AbstimmActivity;
+import de.slg.stimmungsbarometer.AbstimmDialog;
 
 public class Start extends Activity {
     public static SharedPreferences pref;
@@ -22,11 +22,10 @@ public class Start extends Activity {
 
         Utils.context = getApplicationContext();
 
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-
-        if (Utils.showVoteOnStartup()) {
-            startActivity(new Intent(getApplicationContext(), AbstimmActivity.class));
-        }
+        boolean showDialog = Utils.showVoteOnStartup() || true;
+        Intent main = new Intent(getApplicationContext(), MainActivity.class)
+                .putExtra("show_dialog", showDialog);
+        startActivity(main);
 
         startService(new Intent(getApplicationContext(), ReceiveService.class));
         startService(new Intent(getApplicationContext(), NotificationService.class));

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="Wie geht's dir?"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:gravity="center_horizontal"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/imageButtonVS"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:layout_toLeftOf="@id/imageButtonS"
+            android:background="@drawable/smiley_background"
+            android:backgroundTint="@color/very_satisfied_background"
+            android:scaleType="fitCenter"
+            android:tint="@color/very_satisfied_image"
+            app:srcCompat="@drawable/ic_sentiment_very_satisfied_white_24px" />
+
+        <ImageButton
+            android:id="@+id/imageButtonS"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:layout_toLeftOf="@id/imageButtonN"
+            android:background="@drawable/smiley_background"
+            android:backgroundTint="@color/satisfied_background"
+            android:scaleType="fitCenter"
+            android:tint="@color/satisfied_image"
+            app:srcCompat="@drawable/ic_sentiment_satisfied_white_24px" />
+
+        <ImageButton
+            android:id="@+id/imageButtonN"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/smiley_background"
+            android:backgroundTint="@color/neutral_background"
+            android:scaleType="fitCenter"
+            android:tint="@color/neutral_image"
+            app:srcCompat="@drawable/ic_sentiment_neutral_white_24px" />
+
+        <ImageButton
+            android:id="@+id/imageButtonD"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/imageButtonN"
+            android:adjustViewBounds="false"
+            android:background="@drawable/smiley_background"
+            android:backgroundTint="@color/dissatisfied_background"
+            android:scaleType="fitCenter"
+            android:tint="@color/dissatisfied_image"
+            app:srcCompat="@drawable/ic_sentiment_dissatisfied_white_24px" />
+
+        <ImageButton
+            android:id="@+id/imageButtonB"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/imageButtonD"
+            android:background="@drawable/smiley_background"
+            android:backgroundTint="@color/bad_mood_background"
+            android:scaleType="fitCenter"
+            android:tint="@color/bad_mood_image"
+            app:srcCompat="@drawable/ic_sentiment_very_dissatisfied_white_24px" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="visible"
+        android:layout_below="@+id/relativeLayout2">
+
+        <TextView
+            android:id="@+id/textViewWhy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:text="Warum?"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17sp" />
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="148dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/textViewWhy"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/buttonDialog1"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/buttonDialog2"
+        android:layout_toLeftOf="@+id/buttonDialog2"
+        android:layout_toStartOf="@+id/buttonDialog2"
+        android:text="@string/cancel"
+        android:textAllCaps="true" />
+
+    <Button
+        android:id="@+id/buttonDialog2"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/relativeLayout"
+        android:text="@string/confirm"
+        android:textAllCaps="true" />
+
+</RelativeLayout>

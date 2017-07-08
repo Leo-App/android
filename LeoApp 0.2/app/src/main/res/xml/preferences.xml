@@ -153,10 +153,10 @@
             android:title="@string/settings_title_notification_time" />
 
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="pref_key_show_reasons_survey"
-            android:summary="@string/settings_summary_notification_survey"
-            android:title="@string/settings_title_notification" />
+            android:summary="@string/settings_summary_reasons_survey"
+            android:title="@string/settings_title_reasons_survey" />
 
     </PreferenceCategory>
 
