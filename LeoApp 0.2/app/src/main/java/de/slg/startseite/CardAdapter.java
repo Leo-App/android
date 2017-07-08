@@ -15,11 +15,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import de.slg.essensqr.WrapperQRActivity;
+import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.GraphicUtils;
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
+import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
@@ -64,6 +66,15 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
                     c.enabled = Utils.isVerified();
                     c.icon = R.drawable.content_paste;
+                    c.buttonListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(Utils.isVerified())
+                                MainActivity.ref.startActivity(new Intent(MainActivity.ref, KlausurplanActivity.class));
+                            else
+                                MainActivity.ref.showDialog();
+                        }
+                    };
                     break;
                 case MESSENGER:
                     cards.append(c = new InfoCard(true));
@@ -72,6 +83,15 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
                     c.enabled = Utils.isVerified();
                     c.icon = R.drawable.messenger;
+                    c.buttonListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(Utils.isVerified())
+                                MainActivity.ref.startActivity(new Intent(MainActivity.ref, OverviewWrapper.class));
+                            else
+                                MainActivity.ref.showDialog();
+                        }
+                    };
                     break;
                 case TUTORING:
                     cards.append(c = new InfoCard(false));

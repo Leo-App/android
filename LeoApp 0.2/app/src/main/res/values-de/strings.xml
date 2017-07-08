@@ -245,5 +245,6 @@
     <string name="button_card_dismiss">Ausblenden</string>
     <string name="cards_customize">Anpassen</string>
     <string name="cards_quick">Schnellzugriff</string>
+    <string name="set_changes">Übernehmen</string>
 
 </resources>

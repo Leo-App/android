@@ -23,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -77,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private CardAdapter mAdapter;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,8 +224,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView version = (TextView) findViewById(R.id.versioncode_maincard);
         version.setText(Utils.getAppVersionName());
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
-        CardAdapter mAdapter = new CardAdapter();
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
+        mAdapter = new CardAdapter();
 
         boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
 
@@ -246,6 +249,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         };
 
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(quickLayout ?
+                ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if (!editing) return 0;
+                return makeMovementFlags(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+                
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
@@ -281,8 +310,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences.Editor edit = Start.pref.edit();
             edit.putBoolean("pref_key_card_config_quick", item.isChecked());
             edit.apply();
-            finish();
-            startActivity(new Intent(this, MainActivity.class));
+            initCardViews();
+//          finish();
+//          startActivity(new Intent(this, MainActivity.class));
         }
         return true;
     }
@@ -306,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
     }
 
-    private void showDialog() {
+    public void showDialog() {
         final AlertDialog builder = new AlertDialog.Builder(this).create();
         LayoutInflater inflater = getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_layout, null);
