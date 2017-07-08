@@ -45,8 +45,6 @@ public class NotificationService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Log.wtf("LeoApp", "firstCalled");
-
         Utils.context = getApplicationContext();
         Start.initPref(getApplicationContext());
 
@@ -60,8 +58,6 @@ public class NotificationService extends IntentService {
             nachhilfeNotification();
             schwarzesBrettNotification();
             vertretungsplanNotification();
-
-            Log.wtf("LeoApp", "iterationCall");
 
             someLoopStuff();
         }
@@ -174,13 +170,15 @@ public class NotificationService extends IntentService {
 
     public void messengerNotification() {
         if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMessengerDBConnection().hasUnreadMessages()) {
-            Message[] messages = Utils.getMessengerDBConnection().getUnreadMessages();
+            NotificationCompat.MessagingStyle style = new NotificationCompat.MessagingStyle(Utils.getUserName()).addMessage("Hallo", new Date().getTime(), "Ich");
             StringBuilder builder = new StringBuilder();
-            for (Message m : messages)
-                builder.append(m.uname)
+            for (NotificationCompat.MessagingStyle.Message m : Utils.getMessengerDBConnection().getUnreadMessages()) {
+                style.addMessage(m);
+                builder.append(m.getSender())
                         .append(": ")
-                        .append(m.mtext)
+                        .append(m.getText())
                         .append(System.getProperty("line.separator"));
+            }
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);
             Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
             Notification notification =

@@ -1,7 +1,5 @@
 package de.slg.messenger;
 
-import android.content.Context;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,7 +12,7 @@ import de.slg.leoapp.Utils;
 public class Message {
     public final int mid;
     public final String mtext;
-    Date mdate;
+    public Date mdate;
     public final int cid;
     final int uid;
     boolean mread;

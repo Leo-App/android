@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp"
-        android:background="@drawable/back"
+        android:background="@drawable/back_profile_picture"
         android:elevation="4dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_account_circle_black_24dp"

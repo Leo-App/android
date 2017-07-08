@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.util.Date;
@@ -74,22 +75,20 @@ public class DBConnection {
         return list.fill(new Message[list.length()]);
     }
 
-    public Message[] getUnreadMessages() {
-        String[] columns = {DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.CHAT_ID, DBHelper.USER_ID};
-        String condition = DBHelper.MESSAGE_DATE + " > " + Utils.getLatestMessageDate();
+    public NotificationCompat.MessagingStyle.Message[] getUnreadMessages() {
+        String[] columns = {DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.USER_ID};
+        String condition = DBHelper.MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + DBHelper.USER_ID + " != " + Utils.getUserID();
         Cursor cursor = query(DBHelper.TABLE_MESSAGES, columns, condition, null, null, null, DBHelper.CHAT_ID + ", " + DBHelper.MESSAGE_DATE);
-        Message[] array = new Message[cursor.getCount()];
+        NotificationCompat.MessagingStyle.Message[] array = new NotificationCompat.MessagingStyle.Message[cursor.getCount()];
         cursor.moveToFirst();
-        for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
-            array[i] = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), false);
-            array[i].setUname(getUname(cursor.getInt(4)));
-        }
+        for (int i = 0; i < array.length; i++, cursor.moveToNext())
+            array[i] = new NotificationCompat.MessagingStyle.Message(cursor.getString(0), cursor.getLong(1), getUname(cursor.getInt(2)));
         cursor.close();
         return array;
     }
 
     public boolean hasUnreadMessages() {
-        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_DATE + " > " + Utils.getLatestMessageDate(), null, null, null, null);
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + DBHelper.USER_ID + " != " + Utils.getUserID(), null, null, null, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
