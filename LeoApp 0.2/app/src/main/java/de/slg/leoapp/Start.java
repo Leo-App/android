@@ -24,10 +24,10 @@ public class Start extends Activity {
         final Intent main = new Intent(getApplicationContext(), MainActivity.class)
                 .putExtra("show_dialog", Utils.showVoteOnStartup());
 
-        startActivity(main);
-
         startService(new Intent(getApplicationContext(), ReceiveService.class));
         startService(new Intent(getApplicationContext(), NotificationService.class));
+
+        startActivity(main);
 
         finish();
     }

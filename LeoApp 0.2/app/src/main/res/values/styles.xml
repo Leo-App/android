@@ -33,12 +33,8 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
-    <style name="StartTheme" parent="Theme.AppCompat.Light.NoActionBar" />
-
-    <!--
     <style name="StartTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@drawable/splash_screen</item>
+        <item name="android:background">@drawable/ic_leoapp_logo</item>
     </style>
-    -->
 
 </resources>
