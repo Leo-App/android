@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Looper;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -54,6 +54,7 @@ import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
+import de.slg.stimmungsbarometer.AbstimmDialog;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.AuswahlActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
@@ -92,6 +93,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ref = this;
 
         setContentView(R.layout.activity_startseite);
+      
+        if (getIntent().getBooleanExtra("show_dialog", true))
+            new AbstimmDialog(this).show();
+
+        Log.i("LeoApp", "called onCreate main");
 
         int id = Utils.getUserID();
         boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
@@ -118,10 +124,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (verified)
             updateButtons();
 
+/*
         if (Start.pref.getBoolean("pref_key_notification_essensqr", false) && service == null) {
             service = new Intent(this, NotificationService.class);
             startService(service);
         }
+        */ //TODO: Frage an Moritz: Sollte das hier raus? Löse gerade Mergeconflicts
 
         if (!WrapperQRActivity.mensaModeRunning && Start.pref.getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(this, WrapperQRActivity.class));

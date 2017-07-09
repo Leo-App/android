@@ -26,7 +26,8 @@
 
         <activity
             android:name=".Start"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/StartTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -66,7 +67,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="de.slg.stimmungsbarometer.AbstimmActivity"
+            android:name="de.slg.stimmungsbarometer.AbstimmDialog"
             android:screenOrientation="portrait" />
         <activity
             android:name="de.slg.stimmungsbarometer.StimmungsbarometerActivity"

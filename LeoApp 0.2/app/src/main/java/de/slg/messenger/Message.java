@@ -1,7 +1,5 @@
 package de.slg.messenger;
 
-import android.content.Context;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,15 +7,16 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class Message {
     public final int mid;
     public final String mtext;
-    Date mdate;
+    public Date mdate;
     public final int cid;
     final int uid;
     boolean mread;
-    String uname = null;
+    public String uname = null;
     boolean sending;
 
     public Message(int mid, String mtext, long mdate, int cid, int uid, boolean mread) {
@@ -41,14 +40,14 @@ public class Message {
         this.uname = uname;
     }
 
-    String getDate(Context c) {
+    String getDate() {
         if (mdate.getTime() == 0)
-            return c.getString(R.string.queue);
+            return Utils.getString(R.string.queue);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
         if (gleicherTag(mdate))
-            return c.getString(R.string.today);
+            return Utils.getString(R.string.today);
         else if (vorherigerTag(mdate))
-            return c.getString(R.string.yesterday);
+            return Utils.getString(R.string.yesterday);
         else if (gleichesJahr(mdate))
             simpleDateFormat = new SimpleDateFormat("dd.MM", Locale.GERMANY);
         return simpleDateFormat.format(mdate);

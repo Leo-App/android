@@ -1,22 +1,31 @@
 package de.slg.stimmungsbarometer;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.essensqr.WrapperQRActivity;
@@ -33,6 +42,8 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
 
+    static boolean drawIch = true, drawSchueler = true, drawLehrer = true, drawAlle = true;
+
     private static Ergebnis[][] daten;
 
     private ZeitraumFragment[] fragments;
@@ -46,29 +57,87 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         initToolbar();
         initTabs();
         initNavigationView();
+        initLayouts();
     }
 
-    /**
-     * private void initBottomNavigationView() {
-     * findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
-     * findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
-     * <p>
-     * BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-     * bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-     * //@Override
-     * public boolean onNavigationItemSelected(MenuItem item) {
-     * if (item.getItemId() == R.id.action_general_statistics) {
-     * findViewById(R.id.relativeLayoutGraph).setVisibility(View.GONE);
-     * findViewById(R.id.relativeLayoutGeneral).setVisibility(View.VISIBLE);
-     * } else if (item.getItemId() == R.id.action_graph_statistics) {
-     * findViewById(R.id.relativeLayoutGeneral).setVisibility(View.GONE);
-     * findViewById(R.id.relativeLayoutGraph).setVisibility(View.VISIBLE);
-     * }
-     * return true;
-     * }
-     * });
-     * }
-     */
+    private void initLayouts() {
+        LinearLayout lI = (LinearLayout) findViewById(R.id.linearLayoutIch);
+        LinearLayout lS = (LinearLayout) findViewById(R.id.linearLayoutSchueler);
+        LinearLayout lL = (LinearLayout) findViewById(R.id.linearLayoutLehrer);
+        LinearLayout lA = (LinearLayout) findViewById(R.id.linearLayoutAlle);
+
+        lI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView t = (TextView) v.findViewById(R.id.textViewIch);
+                ImageView i = (ImageView) v.findViewById(R.id.imageViewIch);
+                drawIch = !drawIch;
+                if (drawIch) {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorIch));
+                    i.setImageResource(R.color.colorIch);
+                } else {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                    i.setImageResource(R.color.colorInactive);
+                }
+                updateFragments();
+            }
+        });
+        lS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView t = (TextView) v.findViewById(R.id.textViewSchueler);
+                ImageView i = (ImageView) v.findViewById(R.id.imageViewSchueler);
+                drawSchueler = !drawSchueler;
+                if (drawSchueler) {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSchueler));
+                    i.setImageResource(R.color.colorSchueler);
+                } else {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                    i.setImageResource(R.color.colorInactive);
+                }
+                updateFragments();
+            }
+        });
+        lL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView t = (TextView) v.findViewById(R.id.textViewLehrer);
+                ImageView i = (ImageView) v.findViewById(R.id.imageViewLehrer);
+                drawLehrer = !drawLehrer;
+                if (drawLehrer) {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorLehrer));
+                    i.setImageResource(R.color.colorLehrer);
+                } else {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                    i.setImageResource(R.color.colorInactive);
+                }
+                updateFragments();
+            }
+        });
+        lA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView t = (TextView) v.findViewById(R.id.textViewAlle);
+                ImageView i = (ImageView) v.findViewById(R.id.imageViewAlle);
+                drawAlle = !drawAlle;
+                if (drawAlle) {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAlle));
+                    i.setImageResource(R.color.colorAlle);
+                } else {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                    i.setImageResource(R.color.colorInactive);
+                }
+                updateFragments();
+            }
+        });
+    }
+
+    private void updateFragments() {
+        fragments[0].update();
+        fragments[1].update();
+        fragments[2].update();
+        fragments[3].update();
+    }
 
     private void initTabs() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -98,7 +167,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarStatistik);
-        myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_survey));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
@@ -171,7 +240,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
 
     public static Ergebnis[][] empfangeDaten() {
         if (daten == null) {
-            EmpfangeDaten empfangeDaten = new EmpfangeDaten(Utils.getUserID());
+            EmpfangeDaten empfangeDaten = new EmpfangeDaten();
             empfangeDaten.execute();
             try {
                 daten = empfangeDaten.get();
@@ -188,5 +257,79 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return true;
+    }
+
+    private static class EmpfangeDaten extends AsyncTask<Void, Void, Ergebnis[][]> {
+        private String[] splitI, splitS, splitL, splitA;
+
+        EmpfangeDaten() {
+            splitI = new String[0];
+            splitS = new String[0];
+            splitL = new String[0];
+            splitA = new String[0];
+        }
+
+        @Override
+        protected Ergebnis[][] doInBackground(Void... voids) {
+            try {
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new URL("http://moritz.liegmanns.de/stimmungsbarometer/ergebnisse.php?key=5453&userid=" + Utils.getUserID())
+                                                .openConnection()
+                                                .getInputStream(), "UTF-8"));
+                String line;
+                StringBuilder builder = new StringBuilder();
+                while ((line = reader.readLine()) != null)
+                    builder.append(line);
+                String[] e = builder.toString().split("_abschnitt_");
+                reader.close();
+                if (!e[0].equals("."))
+                    splitI = e[0].split("_next_");
+                if (!e[1].equals("."))
+                    splitS = e[1].split("_next_");
+                if (!e[2].equals("."))
+                    splitL = e[2].split("_next_");
+                if (!e[3].equals("."))
+                    splitA = e[3].split("_next_");
+                Ergebnis[][] ergebnisse = new Ergebnis[4][];
+                ergebnisse[0] = new Ergebnis[splitI.length];
+                ergebnisse[1] = new Ergebnis[splitS.length];
+                ergebnisse[2] = new Ergebnis[splitL.length];
+                ergebnisse[3] = new Ergebnis[splitA.length];
+                for (int i = 0; i < ergebnisse[0].length; i++) {
+                    String[] current = splitI[i].split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        ergebnisse[0][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), true, false, false, false);
+                    }
+                }
+                for (int i = 0; i < ergebnisse[1].length; i++) {
+                    String[] current = splitS[i].split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        ergebnisse[1][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, true, false, false);
+                    }
+                }
+                for (int i = 0; i < ergebnisse[2].length; i++) {
+                    String[] current = splitL[i].split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        ergebnisse[2][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, true, false);
+                    }
+                }
+                for (int i = 0; i < ergebnisse[3].length; i++) {
+                    String[] current = splitA[i].split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        ergebnisse[3][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, false, true);
+                    }
+                }
+                return ergebnisse;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

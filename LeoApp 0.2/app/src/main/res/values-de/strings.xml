@@ -200,6 +200,8 @@
     <!--Stimmungsbarometer-->
     <string name="settings_summary_notification_survey">Informiere mich, falls ich noch nicht abgestimmt habe</string>
     <string name="heute">Heute</string>
+    <string name="settings_title_reasons_survey">Gründe</string>
+    <string name="settings_summary_reasons_survey">Gründe beim Abstimmen anzeigen</string>
 
     <!--Stundenplan-->
     <string name="settings_summary_notification_schedule">Informiere mich über die Fächer des nächsten Tages</string>

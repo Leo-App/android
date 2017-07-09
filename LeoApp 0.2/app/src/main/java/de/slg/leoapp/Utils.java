@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutionException;
 
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.DBConnection;
-import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
 
 public abstract class Utils {
@@ -98,7 +97,7 @@ public abstract class Utils {
         }
     }
 
-    static String getLastVote() {
+    private static String getLastVote() {
         return Start.pref.getString("pref_key_general_last_vote", "00.00");
     }
 
@@ -113,7 +112,7 @@ public abstract class Utils {
         return context.getString(id);
     }
 
-    static String getCurrentDate(String pattern) {
+    private static String getCurrentDate(String pattern) {
         return new SimpleDateFormat(pattern).format(new Date());
     }
 
@@ -152,18 +151,20 @@ public abstract class Utils {
         return chatActivity;
     }
 
-    public static Date getLastMessengerNotification() {
-        return new Date(Start.pref.getLong("pref_key_general_last_notification_messenger", 0));
+    public static long getLatestMessageDate() {
+        return Start.pref.getLong("pref_key_general_last_notification_messenger", 0);
     }
 
     static void notifiedMessenger() {
         Start.pref.edit()
-                .putLong("pref_key_general_last_notification_messenger", new Date().getTime())
+                .putLong("pref_key_general_last_notification_messenger", getMessengerDBConnection().getLatestDateInDB())
                 .apply();
     }
 
     static boolean showVoteOnStartup() {
-        boolean b = Utils.checkNetwork() && Utils.isVerified();
+        if (getLastVote().equals(getCurrentDate("dd.MM")))
+            return false;
+        boolean b = isVerified() && checkNetwork();
         if (b) {
             AsyncTask<Void, Void, Boolean> t = new AsyncTask<Void, Void, Boolean>() {
                 private boolean b;
@@ -191,5 +192,15 @@ public abstract class Utils {
             }
         }
         return false;
+    }
+
+    public static long getLatestSchwarzesBrettDate() {
+        return Start.pref.getLong("pref_key_general_last_notification_schwarzes_brett", 0);
+    }
+
+    static void notifiedSchwarzesBrett() {
+        Start.pref.edit()
+                .putLong("pref_key_general_last_notification_schwarzes_brett", 0)
+                .apply();
     }
 }

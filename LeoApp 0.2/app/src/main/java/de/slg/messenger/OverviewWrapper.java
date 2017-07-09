@@ -62,7 +62,7 @@ public class OverviewWrapper extends AppCompatActivity {
         initNavigationView();
         initTabs();
 
-        Utils.getNotificationManager().cancelAll();
+        Utils.getNotificationManager().cancel(5453);
     }
 
     @Override

@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Locale;
 
 class Ergebnis {
-
     final Date date;
     final double value;
     final boolean ich;

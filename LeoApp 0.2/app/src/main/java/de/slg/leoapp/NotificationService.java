@@ -45,85 +45,21 @@ public class NotificationService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Log.wtf("LeoApp", "firstCalled");
-
         Utils.context = getApplicationContext();
         Start.initPref(getApplicationContext());
 
         notificationManager = Utils.getNotificationManager();
 
-        boolean loggedin = Start.pref.getBoolean("pref_key_status_loggedin", false);
-
-        if (!loggedin)
-            return;
-
         actualize();
         while (true) {
 
-            Log.wtf("LeoApp", "iterationCall");
-
-            try {
-                Thread.sleep(59990);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            Log.wtf("LeoApp", "thread wake call");
-
-            Date d = new Date();
-
-            Log.wtf("LeoApp", "Time: " + d.getHours() + ":" + d.getMinutes() + " Scheduled: " + hours + ":" + minutes);
-
-            if(d.getDay() != 5 && d.getDay() != 6 && d.getHours() == hoursTT && d.getMinutes() == minutesTT) {
-                this.stundenplanNotification();
-            }
-
-            if (d.getDay() != 0 && d.getDay() != 6 && d.getHours() == hours && d.getMinutes() == minutes) {
-
-                de.slg.essensqr.SQLitePrinter.printDatabase(getApplicationContext());
-
-                SQLiteHandler db = new SQLiteHandler(this);
-                SQLiteDatabase dbw = db.getReadableDatabase();
-
-                Cursor c = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
-
-                if (c.getCount() == 0) {
-                    essensqrNotification();
-                    return;
-                }
-
-                c.moveToFirst();
-                int maxid = c.getInt(c.getColumnIndex("id"));
-
-                c.close();
-
-                c = dbw.rawQuery("SELECT o.DATEU as date FROM USERORDERS o JOIN STATISTICS s ON s.LASTORDER = o.ID WHERE s.ID = " + maxid, null);
-
-                if (c.getCount() == 0) {
-                    essensqrNotification();
-                    return;
-                }
-
-                c.moveToFirst();
-                String date = c.getString(c.getColumnIndex("date"));
-                c.close();
-
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-                try {
-                    Date dateD = df.parse(date);
-                    if (dateD.before(new Date()))
-                        essensqrNotification();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
             messengerNotification();
             klausurplanNotification();
             nachhilfeNotification();
             schwarzesBrettNotification();
-            stimmungsbarometerNotification();
             vertretungsplanNotification();
+
+            someLoopStuff();
         }
     }
 
@@ -137,6 +73,65 @@ public class NotificationService extends IntentService {
 
         hoursTT = Short.parseShort(ti.split(":")[0]);
         minutesTT = Short.parseShort(ti.split(":")[1]);
+    }
+
+    private void someLoopStuff() {
+        try {
+            Thread.sleep(59990);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Log.wtf("LeoApp", "thread wake call");
+
+        Date d = new Date();
+
+        Log.wtf("LeoApp", "Time: " + d.getHours() + ":" + d.getMinutes() + " Scheduled: " + hours + ":" + minutes);
+
+        if (d.getDay() != 5 && d.getDay() != 6 && d.getHours() == hoursTT && d.getMinutes() == minutesTT) {
+            this.stundenplanNotification();
+        }
+
+        if (d.getDay() != 0 && d.getDay() != 6 && d.getHours() == hours && d.getMinutes() == minutes) {
+
+            de.slg.essensqr.SQLitePrinter.printDatabase(getApplicationContext());
+
+            SQLiteHandler db = new SQLiteHandler(this);
+            SQLiteDatabase dbw = db.getReadableDatabase();
+
+            Cursor c = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
+
+            if (c.getCount() == 0) {
+                essensqrNotification();
+                return;
+            }
+
+            c.moveToFirst();
+            int maxid = c.getInt(c.getColumnIndex("id"));
+
+            c.close();
+
+            c = dbw.rawQuery("SELECT o.DATEU as date FROM USERORDERS o JOIN STATISTICS s ON s.LASTORDER = o.ID WHERE s.ID = " + maxid, null);
+
+            if (c.getCount() == 0) {
+                essensqrNotification();
+                return;
+            }
+
+            c.moveToFirst();
+            String date = c.getString(c.getColumnIndex("date"));
+            c.close();
+
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+            try {
+                Date dateD = df.parse(date);
+                if (dateD.before(new Date()))
+                    essensqrNotification();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void essensqrNotification() {
@@ -175,10 +170,15 @@ public class NotificationService extends IntentService {
 
     public void messengerNotification() {
         if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMessengerDBConnection().hasUnreadMessages()) {
-            Message[] messages = Utils.getMessengerDBConnection().getUnreadMessages();
-            String s = "";
-            for (Message m : messages)
-                s += m.toString() + System.getProperty("line.separator");
+            NotificationCompat.MessagingStyle style = new NotificationCompat.MessagingStyle(Utils.getUserName()).addMessage("Hallo", new Date().getTime(), "Ich");
+            StringBuilder builder = new StringBuilder();
+            for (NotificationCompat.MessagingStyle.Message m : Utils.getMessengerDBConnection().getUnreadMessages()) {
+                style.addMessage(m);
+                builder.append(m.getSender())
+                        .append(": ")
+                        .append(m.getText())
+                        .append(System.getProperty("line.separator"));
+            }
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);
             Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
             Notification notification =
@@ -188,8 +188,8 @@ public class NotificationService extends IntentService {
                             .setVibrate(new long[]{200, 100, 200})
                             .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
                             .setContentTitle(getString(R.string.messenger_notification_title))
-                            .setContentText(s)
                             .setContentIntent(pendingIntent)
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText(builder.toString()))
                             .build();
             notificationManager.notify(5453, notification);
             Utils.notifiedMessenger();
@@ -206,19 +206,13 @@ public class NotificationService extends IntentService {
         }
     }
 
-    private void stimmungsbarometerNotification() {
-        if (Start.pref.getBoolean("pref_key_notification_survey", true)) {
-
-        }
-    }
-
     private void stundenplanNotification() {
         Stundenplanverwalter sv = new Stundenplanverwalter(WrapperStundenplanActivity.c, "meinefaecher.txt");
-        String s = "";
-        if(this.gibDatum()<5) {
-            Fach[] f = sv.gibFaecherKurzTag(this.gibDatum()+1);
-            for(int i=0; i<f.length; i++) {
-                s = s + ", " + f[i].gibName();
+        StringBuilder builder = new StringBuilder();
+        if (gibWochentag() < 5) {
+            Fach[] f = sv.gibFaecherKurzTag(gibWochentag() + 1);
+            for (Fach aF : f) {
+                builder.append(", ").append(aF.gibName());
             }
         }
         if (Start.pref.getBoolean("pref_key_notification_schedule", true)) {
@@ -241,7 +235,7 @@ public class NotificationService extends IntentService {
                             .setSmallIcon(R.drawable.qrcode)
                             .setVibrate(new long[]{200})
                             .setContentTitle("LeoApp")
-                            .setContentText(s)
+                            .setContentText(builder.toString())
                             .setContentIntent(resultPendingIntent);
 
             notificationManager.notify(101, mBuilder.build());
@@ -255,28 +249,22 @@ public class NotificationService extends IntentService {
         }
     }
 
-    private int gibDatum() {
+    private int gibWochentag() {
         Calendar c = new GregorianCalendar();
         c.setTime(new Date());
         int i = c.get(Calendar.DAY_OF_WEEK);
-        switch(i) {
-            case 1:
-                return 0;
-            case 2:
-                return 1;
-            case 3:
-                return 2;
-            case 4:
-                return 3;
-            case 5:
-                return 4;
-            case 6:
-                return 5;
-            case 7:
-                return 6;
-            default:
-                return 6;
-        }
-
+        if (i == Calendar.MONDAY)
+            return 1;
+        if (i == Calendar.TUESDAY)
+            return 2;
+        if (i == Calendar.WEDNESDAY)
+            return 3;
+        if (i == Calendar.THURSDAY)
+            return 4;
+        if (i == Calendar.FRIDAY)
+            return 5;
+        if (i == Calendar.SATURDAY)
+            return 6;
+        return 0;
     }
 }

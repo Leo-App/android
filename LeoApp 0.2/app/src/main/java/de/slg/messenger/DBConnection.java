@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import java.util.Date;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.User;
@@ -72,23 +75,33 @@ public class DBConnection {
         return list.fill(new Message[list.length()]);
     }
 
-    public Message[] getUnreadMessages() {
-        String[] columns = {DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.CHAT_ID, DBHelper.USER_ID};
-        String condition = DBHelper.MESSAGE_DATE + " > " + Utils.getLastMessengerNotification().getTime();
+    public NotificationCompat.MessagingStyle.Message[] getUnreadMessages() {
+        String[] columns = {DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.USER_ID};
+        String condition = DBHelper.MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + DBHelper.USER_ID + " != " + Utils.getUserID();
         Cursor cursor = query(DBHelper.TABLE_MESSAGES, columns, condition, null, null, null, DBHelper.CHAT_ID + ", " + DBHelper.MESSAGE_DATE);
-        Message[] array = new Message[cursor.getCount()];
+        NotificationCompat.MessagingStyle.Message[] array = new NotificationCompat.MessagingStyle.Message[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext())
-            array[i] = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getInt(3), cursor.getInt(4), false);
+            array[i] = new NotificationCompat.MessagingStyle.Message(cursor.getString(0), cursor.getLong(1), getUname(cursor.getInt(2)));
         cursor.close();
         return array;
     }
 
     public boolean hasUnreadMessages() {
-        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_DATE + " > " + Utils.getLastMessengerNotification().getTime(), null, null, null, null);
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + DBHelper.USER_ID + " != " + Utils.getUserID(), null, null, null, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
+    }
+
+    public long getLatestDateInDB() {
+        Cursor cursor = database.query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGE_DATE}, null, null, null, null, DBHelper.MESSAGE_DATE + " DESC", "1");
+        cursor.moveToFirst();
+        long l = 0;
+        if (cursor.getCount() > 0)
+            l = cursor.getLong(0);
+        cursor.close();
+        return l;
     }
 
     void setMessagesRead(Chat c) {
