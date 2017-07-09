@@ -4,11 +4,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -16,7 +19,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,6 +43,7 @@ import com.google.zxing.Result;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.StringJoiner;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -53,26 +63,37 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler {
-    private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
+
     public static View v;
     public static ProgressBar pb;
     public static TextView title, info;
     public static Button verify;
-    public ZXingScannerView scV;
-    private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
-    private boolean runningScan;
-    private static boolean verified;
     public static Intent service;
     public static MainActivity ref;
+
+    public ZXingScannerView scV;
+
+    private static boolean verified;
+    private static boolean editing;
+
+    private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
+
+    private boolean runningScan;
+
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private CardAdapter mAdapter;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         runningScan = false;
         ref = this;
-        setContentView(R.layout.activity_startseite);
 
+        setContentView(R.layout.activity_startseite);
+      
         if (getIntent().getBooleanExtra("show_dialog", true))
             new AbstimmDialog(this).show();
 
@@ -103,6 +124,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (verified)
             updateButtons();
 
+/*
+        if (Start.pref.getBoolean("pref_key_notification_essensqr", false) && service == null) {
+            service = new Intent(this, NotificationService.class);
+            startService(service);
+        }
+        */ //TODO: Frage an Moritz: Sollte das hier raus? Löse gerade Mergeconflicts
+
         if (!WrapperQRActivity.mensaModeRunning && Start.pref.getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(this, WrapperQRActivity.class));
         } else
@@ -122,6 +150,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    void updateButtons() { //TODO: Save remove
+
     }
 
     @Override
@@ -187,48 +219,99 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
+
+        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
+        grade.setText(Utils.getUserStufe());
+
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
     private void initCardViews() {
-        v = findViewById(R.id.coordinator);
-        pb = (ProgressBar) findViewById(R.id.progressBar1);
-        title = (TextView) findViewById(R.id.info_title0);
-        info = (TextView) findViewById(R.id.info_text0);
-        verify = (Button) findViewById(R.id.buttonCardView0);
 
-        Button b1, b2, b3, b4, b5, b6, b7, b8;
+        findViewById(R.id.buttonCardView0).setOnClickListener(this);
+        findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
 
-        b1 = verify;
-        b2 = (Button) findViewById(R.id.buttonCardView1);
-        b3 = (Button) findViewById(R.id.buttonCardView2);
-        b4 = (Button) findViewById(R.id.buttonCardView3);
-        b5 = (Button) findViewById(R.id.buttonCardView4);
-        b6 = (Button) findViewById(R.id.buttonCardView5);
-        b7 = (Button) findViewById(R.id.buttonCardView7);
-        b8 = (Button) findViewById(R.id.buttonCardView8);
+        TextView version = (TextView) findViewById(R.id.versioncode_maincard);
+        version.setText(Utils.getAppVersionName());
 
-        b1.setOnClickListener(this);
-        b2.setOnClickListener(this);
-        b3.setOnClickListener(this);
-        b4.setOnClickListener(this);
-        b5.setOnClickListener(this);
-        b6.setOnClickListener(this);
-        b7.setOnClickListener(this);
-        b8.setOnClickListener(this);
-    }
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
+        mAdapter = new CardAdapter();
 
-    public void updateButtons() {
-        Button b3, b4, b5, b6;
-        b3 = (Button) findViewById(R.id.buttonCardView3);
-        b4 = (Button) findViewById(R.id.buttonCardView4);
-        b5 = (Button) findViewById(R.id.buttonCardView5);
-        b6 = (Button) findViewById(R.id.buttonCardView8);
-        b3.setText(getString(R.string.button_info_try));
-        b4.setText(getString(R.string.button_info_try));
-        b5.setText(getString(R.string.button_info_try));
-        b6.setText(getString(R.string.button_info_try));
+        boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
+
+        RecyclerView.LayoutManager mLayoutManager = quickLayout
+
+                ?
+
+                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                }
+
+                :
+
+                new LinearLayoutManager(getApplicationContext()) {
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                };
+
+        final RecyclerView.LayoutManager mLayoutManagerAlternative = quickLayout ?
+                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) : new LinearLayoutManager(getApplicationContext()); //TODO: Use alternative LayoutManager in edit mode to enable vertical scrolling
+
+            //TODO: Write to Preferences after Editing
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(quickLayout ?
+                ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if (!editing) return 0;
+
+                boolean quick = Start.pref.getBoolean("pref_key_card_config_quick", false);
+                return makeMovementFlags(quick ? ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                int fromPos = viewHolder.getAdapterPosition();
+                int toPos = target.getAdapterPosition();
+
+                mAdapter.cards.toIndex(fromPos);
+                Card current = mAdapter.cards.getContent();
+
+                mAdapter.cards.remove();
+                mAdapter.cards.toIndex(toPos);
+                mAdapter.cards.insertBefore(current);
+
+                mAdapter.notifyDataSetChanged();
+
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+
+                mAdapter.cards.toIndex(viewHolder.getOldPosition());
+                mAdapter.cards.remove();
+                mAdapter.notifyDataSetChanged();
+
+            }
+
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -239,62 +322,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (item.getItemId() == R.id.action_appinfo) {
             startActivity(new Intent(getApplicationContext(), InfoActivity.class));
         }
+        if (item.getItemId() == R.id.action_appedit) {
+            editing = true;
+
+            final Handler handler = new Handler(); //Short delay for aesthetics
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    invalidateOptionsMenu();
+                }
+            }, 100);
+
+        }
+        if (item.getItemId() == R.id.action_appedit_done) {
+            editing = false;
+            writeToPreferences();
+            invalidateOptionsMenu();
+        }
+        if (item.getItemId() == R.id.action_appinfo_quick) {
+            item.setChecked(!item.isChecked());
+            SharedPreferences.Editor edit = Start.pref.edit();
+            edit.putBoolean("pref_key_card_config_quick", item.isChecked());
+            edit.apply();
+            initCardViews();
+        }
         return true;
+    }
+
+    private void writeToPreferences() {
+
+        StringBuilder b = new StringBuilder();
+        mAdapter.cards.toFirst();
+
+        b.append(mAdapter.cards.getContent().type);
+        mAdapter.cards.next();
+
+        for(; mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
+
+            b.append(";").append(mAdapter.cards.getContent().type.toString());
+
+        }
+
+        SharedPreferences.Editor e = Start.pref.edit();
+        e.putString("pref_key_card_config", b.toString());
+        e.apply();
+
     }
 
     @Override
     public void onClick(View v) {
-        Intent i = null;
-        switch (v.getId()) {
-            case R.id.buttonCardView0:
-                if (!isVerified())
-                    showDialog();
-                else {
-                    SharedPreferences.Editor e = Start.pref.edit();
-                    e.putBoolean("pref_key_dont_remind_me", true);
-                    e.apply();
-                    findViewById(R.id.card_view0).setVisibility(View.GONE);
-                }
-                break;
-            case R.id.buttonCardView1:
-                i = new Intent(getApplicationContext(), WrapperQRActivity.class);
-                break;
-            case R.id.buttonCardView3:
-                if (isVerified()) {
-                    i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                    break;
-                } else
-                    showDialog();
-            case R.id.buttonCardView4:
-                if (isVerified()) {
-                    i = new Intent(getApplicationContext(), OverviewWrapper.class);
-                    break;
-                } else
-                    showDialog();
-            case R.id.buttonCardView5:
-                if (isVerified()) {
-                    i = new Intent(getApplicationContext(), MainActivity.class);
-                    break;
-                } else
-                    showDialog();
-            case R.id.buttonCardView2:
-                i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                break;
-            case R.id.buttonCardView7:
-                i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                break;
-            case R.id.buttonCardView8:
-                if (isVerified()) {
-                    i = new Intent(getApplicationContext(), AuswahlActivity.class);
-                    break;
-                } else
-                    showDialog();
+        if (v.getId() == R.id.buttonCardView0) {
+            if (!isVerified())
+                showDialog();
+            else {
+                SharedPreferences.Editor e = Start.pref.edit();
+                e.putBoolean("pref_key_dont_remind_me", true);
+                e.apply();
+                findViewById(R.id.card_view0).setVisibility(View.GONE);
+            }
+        } else {
+            SharedPreferences.Editor e = Start.pref.edit();
+            e.putBoolean("pref_key_dont_remind_me", true);
+            e.apply();
+            findViewById(R.id.card_view0).setVisibility(View.GONE);
         }
-        if (i != null)
-            startActivity(i);
     }
 
-    private void showDialog() {
+    public void showDialog() {
         final AlertDialog builder = new AlertDialog.Builder(this).create();
         LayoutInflater inflater = getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_layout, null);
@@ -330,7 +424,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.startseite, menu);
+        if (editing) {
+            getMenuInflater().inflate(R.menu.startseite_edit, menu);
+            menu.findItem(R.id.action_appinfo_quick).setChecked(Start.pref.getBoolean("pref_key_card_config_quick", false));
+        } else
+            getMenuInflater().inflate(R.menu.startseite, menu);
+
         return true;
     }
 

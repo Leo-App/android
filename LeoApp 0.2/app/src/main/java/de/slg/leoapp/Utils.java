@@ -1,7 +1,10 @@
 package de.slg.leoapp;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -20,6 +23,7 @@ import de.slg.messenger.OverviewWrapper;
 public abstract class Utils {
     public static Context context;
     private static DBConnection dbConnection;
+    @SuppressLint("StaticFieldLeak")
     private static OverviewWrapper overviewWrapper;
     private static ChatActivity chatActivity;
     private static ReceiveService receiveService;
@@ -35,6 +39,19 @@ public abstract class Utils {
         return false;
     }
 
+    public static String getAppVersionName() {
+
+        PackageInfo pInfo = null;
+        try {
+            pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return pInfo.versionName;
+
+    }
+
     public static NotificationManager getNotificationManager() {
         return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
@@ -48,7 +65,7 @@ public abstract class Utils {
     }
 
     public static String getUserName() {
-        return Start.pref.getString("pref_key_username_general", context.getString(R.string.drawer_placeholder));
+        return Start.pref.getString("pref_key_username_general", context.getString(R.string.drawer_placeholder_name));
     }
 
     public static String getUserStufe() {

@@ -176,7 +176,7 @@
     <!--Klausurplan-->
     <string name="settings_summary_notification_test">Informe moi sur les prochains epreuves</string>
     <string name="settings_summary_testplan_time">Supprimer tous les épreuves après...</string>
-    <string name="settings_title_testplan_time">Suprimer épreuves</string>
+    <string name="settings_title_testplan_time">Supprimer épreuves</string>
     <string name="settings_summary_test_timetable">filtrer par emploi</string>
     <string name="settings_title_test_timetable">filtrer</string>
 

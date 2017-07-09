@@ -34,7 +34,7 @@
     <string name="summary_info_auth">Einige Funktionen benötigen eine Verifizierung. Verifiziere dich hier.</string>
     <string name="summary_info_auth_failed">Anscheinend ist etwas schiefgelaufen. Versichere dich, dass dein QR-Code gültig ist und versuch es erneut</string>
 
-    <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Du brauchst nur noch den QR-Code vorzuzeigen und erhälst dein bestelltes Menü</string>
+    <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Nachdem du in den Einstellungen deine Zugangsdaten angegeben hast, brauchst du nur noch den anschließend generierten QR-Code vorzuzeigen und du erhälst dein bestelltes Menü.</string>
     <string name="summary_info_testplan">Hier findest du eine Sammlung deiner anstehenden Klausuren. Ergänze dein Profil um die Filterfunktion zu verwenden oder füge deine eigenen Einträge hinzu.</string>
     <string name="summary_info_messenger">Mithilfe dieser Funktion kannst du mit deinen Klassenkameraden und Lehrern kommunizieren, ohne dass diese deine Telefonnummer erfahren. Du kannst in Gruppen oder privat chatten. Deinen Benutzernamen kannst du in den Einstellungen ändern.</string>
     <string name="summary_info_tutoring">Brauchst du Nachhilfe in einem Fach? Bitte einfach darum in der Nachhilfebörse!</string>
@@ -47,6 +47,9 @@
 
     <string name="snackbar_no_connection_info">Keine Internetverbindung</string>
     <string name="snackbar_no_connection_button">OK</string>
+        
+    <string name="drawer_placeholder_name">giaspi270700</string>
+    <string name="drawer_placeholder_grade">Q1</string>
 
 
     <!-- Klausurplan -->
@@ -79,7 +82,7 @@
     <string name="dialog_desc_valid_id">User-ID: </string>
     <string name="qr_display_not_ordered">Du hast für den heutigen Tag kein Essen bestellt</string>
     <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine angegebenen Daten</string>
-    <string name="explain_desc_1">Diese Funktion ersetzt die Essensbons aus Papier mit digitalen QR-Codes. Vielleicht findest du dafür keinen Nutzen.</string>
+    <string name="explain_desc_1">Mit dieser Funktion lassen sich die QR-Codes der Essensbestellung überprüfen.</string>
     <string name="explain_title_2">Schritt 1</string>
     <string name="explain_desc_2">Klicke auf den \"Scannen\"-Button und halte den grün umrandeten Bereich über den zu scannenden QR-Code.</string>
     <string name="explain_title_3">Schritt 2</string>
@@ -241,6 +244,9 @@
     <string name="SnackBarMes2">Noch keine Stufe eingestellt</string>
     <string name="add_user">Benutzer zu diesem Chat hinzufügen</string>
     <string name="remove_users">Benutzer aus diesem Chat entfernen</string>
-
+    <string name="button_card_dismiss">Ausblenden</string>
+    <string name="cards_customize">Anpassen</string>
+    <string name="cards_quick">Schnellzugriff</string>
+    <string name="set_changes">Übernehmen</string>
 
 </resources>
