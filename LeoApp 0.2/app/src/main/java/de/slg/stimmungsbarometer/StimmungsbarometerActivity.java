@@ -1,6 +1,7 @@
 package de.slg.stimmungsbarometer;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -20,6 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.essensqr.WrapperQRActivity;
@@ -64,11 +70,15 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView t = (TextView) v.findViewById(R.id.textViewIch);
+                ImageView i = (ImageView) v.findViewById(R.id.imageViewIch);
                 drawIch = !drawIch;
-                if (drawIch)
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerySatisfied));
-                else
+                if (drawIch) {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorIch));
+                    i.setImageResource(R.color.colorIch);
+                } else {
                     t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                    i.setImageResource(R.color.colorInactive);
+                }
                 updateFragments();
             }
         });
@@ -76,11 +86,15 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView t = (TextView) v.findViewById(R.id.textViewSchueler);
+                ImageView i = (ImageView) v.findViewById(R.id.imageViewSchueler);
                 drawSchueler = !drawSchueler;
-                if (drawSchueler)
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorNeutral));
-                else
+                if (drawSchueler) {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSchueler));
+                    i.setImageResource(R.color.colorSchueler);
+                } else {
                     t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                    i.setImageResource(R.color.colorInactive);
+                }
                 updateFragments();
             }
         });
@@ -88,11 +102,15 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView t = (TextView) v.findViewById(R.id.textViewLehrer);
+                ImageView i = (ImageView) v.findViewById(R.id.imageViewLehrer);
                 drawLehrer = !drawLehrer;
-                if (drawLehrer)
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_purple));
-                else
+                if (drawLehrer) {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorLehrer));
+                    i.setImageResource(R.color.colorLehrer);
+                } else {
                     t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                    i.setImageResource(R.color.colorInactive);
+                }
                 updateFragments();
             }
         });
@@ -100,11 +118,15 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 TextView t = (TextView) v.findViewById(R.id.textViewAlle);
+                ImageView i = (ImageView) v.findViewById(R.id.imageViewAlle);
                 drawAlle = !drawAlle;
-                if (drawAlle)
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-                else
+                if (drawAlle) {
+                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAlle));
+                    i.setImageResource(R.color.colorAlle);
+                } else {
                     t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
+                    i.setImageResource(R.color.colorInactive);
+                }
                 updateFragments();
             }
         });
@@ -145,7 +167,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarStatistik);
-        myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_survey));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
@@ -214,7 +236,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
 
     public static Ergebnis[][] empfangeDaten() {
         if (daten == null) {
-            EmpfangeDaten empfangeDaten = new EmpfangeDaten(Utils.getUserID());
+            EmpfangeDaten empfangeDaten = new EmpfangeDaten();
             empfangeDaten.execute();
             try {
                 daten = empfangeDaten.get();
@@ -231,5 +253,79 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return true;
+    }
+
+    private static class EmpfangeDaten extends AsyncTask<Void, Void, Ergebnis[][]> {
+        private String[] splitI, splitS, splitL, splitA;
+
+        EmpfangeDaten() {
+            splitI = new String[0];
+            splitS = new String[0];
+            splitL = new String[0];
+            splitA = new String[0];
+        }
+
+        @Override
+        protected Ergebnis[][] doInBackground(Void... voids) {
+            try {
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new URL("http://moritz.liegmanns.de/stimmungsbarometer/ergebnisse.php?key=5453&userid=" + Utils.getUserID())
+                                                .openConnection()
+                                                .getInputStream(), "UTF-8"));
+                String line;
+                StringBuilder builder = new StringBuilder();
+                while ((line = reader.readLine()) != null)
+                    builder.append(line);
+                String[] e = builder.toString().split("_abschnitt_");
+                reader.close();
+                if (!e[0].equals("."))
+                    splitI = e[0].split("_next_");
+                if (!e[1].equals("."))
+                    splitS = e[1].split("_next_");
+                if (!e[2].equals("."))
+                    splitL = e[2].split("_next_");
+                if (!e[3].equals("."))
+                    splitA = e[3].split("_next_");
+                Ergebnis[][] ergebnisse = new Ergebnis[4][];
+                ergebnisse[0] = new Ergebnis[splitI.length];
+                ergebnisse[1] = new Ergebnis[splitS.length];
+                ergebnisse[2] = new Ergebnis[splitL.length];
+                ergebnisse[3] = new Ergebnis[splitA.length];
+                for (int i = 0; i < ergebnisse[0].length; i++) {
+                    String[] current = splitI[i].split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        ergebnisse[0][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), true, false, false, false);
+                    }
+                }
+                for (int i = 0; i < ergebnisse[1].length; i++) {
+                    String[] current = splitS[i].split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        ergebnisse[1][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, true, false, false);
+                    }
+                }
+                for (int i = 0; i < ergebnisse[2].length; i++) {
+                    String[] current = splitL[i].split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        ergebnisse[2][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, true, false);
+                    }
+                }
+                for (int i = 0; i < ergebnisse[3].length; i++) {
+                    String[] current = splitA[i].split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        ergebnisse[3][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, false, true);
+                    }
+                }
+                return ergebnisse;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

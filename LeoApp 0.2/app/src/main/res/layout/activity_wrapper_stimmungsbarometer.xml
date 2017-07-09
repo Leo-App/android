@@ -70,7 +70,7 @@
                         android:layout_height="20dp"
                         android:layout_weight="1"
                         android:scaleType="center"
-                        app:srcCompat="@color/colorVerySatisfied" />
+                        app:srcCompat="@color/colorIch" />
 
                     <TextView
                         android:id="@+id/textViewIch"
@@ -96,7 +96,7 @@
                         android:layout_width="36dp"
                         android:layout_height="20dp"
                         android:layout_weight="1"
-                        app:srcCompat="@color/colorNeutral" />
+                        app:srcCompat="@color/colorSchueler" />
 
                     <TextView
                         android:id="@+id/textViewSchueler"
@@ -105,7 +105,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:text="Schüler"
-                        android:textColor="@color/colorNeutral" />
+                        android:textColor="@color/colorSchueler" />
 
                 </LinearLayout>
 
@@ -122,7 +122,7 @@
                         android:layout_width="36dp"
                         android:layout_height="20dp"
                         android:layout_weight="1"
-                        app:srcCompat="@android:color/holo_purple" />
+                        app:srcCompat="@color/colorLehrer" />
 
                     <TextView
                         android:id="@+id/textViewLehrer"
@@ -131,7 +131,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:text="Lehrer"
-                        android:textColor="@android:color/holo_purple" />
+                        android:textColor="@color/colorLehrer" />
 
                 </LinearLayout>
 
@@ -148,7 +148,7 @@
                         android:layout_width="36dp"
                         android:layout_height="20dp"
                         android:layout_weight="1"
-                        app:srcCompat="@color/colorAccent" />
+                        app:srcCompat="@color/colorAlle" />
 
                     <TextView
                         android:id="@+id/textViewAlle"
@@ -157,7 +157,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:text="Alle"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorAlle" />
 
                 </LinearLayout>
 

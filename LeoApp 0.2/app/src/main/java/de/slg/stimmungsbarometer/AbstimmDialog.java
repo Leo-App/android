@@ -1,15 +1,27 @@
 package de.slg.stimmungsbarometer;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
@@ -176,6 +188,50 @@ public class AbstimmDialog extends AlertDialog {
             this.voteid = voteid;
             this.userid = userid;
             this.grund = grund;
+        }
+    }
+
+    private class ListAdapterGrund extends ArrayAdapter<String> {
+
+        private Context context;
+        private String[] gruende;
+
+        ListAdapterGrund(Context context, String[] gruende) {
+            super(context, R.layout.list_item_grund, gruende);
+            this.gruende = gruende;
+            this.context = context;
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, View v, @NonNull ViewGroup group) {
+            if (v == null)
+                v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_item_grund, null);
+            TextView grund = (TextView) v.findViewById(R.id.textViewGrund);
+            grund.setText(gruende[position]);
+            return v;
+        }
+    }
+
+    private class SendeDaten extends AsyncTask<Wahl, Void, Void> {
+        @Override
+        protected Void doInBackground(AbstimmDialog.Wahl... wahls) {
+            if (wahls[0] != null) {
+                try {
+                    AbstimmDialog.Wahl w = wahls[0];
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL("http://moritz.liegmanns.de/stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
+                    while (reader.readLine() != null) ;
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
         }
     }
 }
