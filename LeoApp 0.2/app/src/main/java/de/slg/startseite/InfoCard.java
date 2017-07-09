@@ -9,8 +9,8 @@ public class InfoCard extends Card {
     View.OnClickListener buttonListener;
     boolean enabled;
 
-    public InfoCard(boolean large) {
-        super(large);
+    public InfoCard(boolean large, CardType type) {
+        super(large, type);
         enabled = true;
     }
 }

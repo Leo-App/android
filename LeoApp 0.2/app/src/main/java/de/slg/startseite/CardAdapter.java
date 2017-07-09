@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,7 +26,7 @@ import de.slg.stundenplan.StundenplanActivity;
 
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-    private final List<Card> cards;
+    final List<Card> cards;
 
     {
 
@@ -47,7 +45,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             switch (type) {
 
                 case FOODMARKS:
-                    cards.append(c = new InfoCard(true));
+                    cards.append(c = new InfoCard(true, type));
                     c.title = Utils.getString(R.string.title_foodmarks);
                     c.descr = Utils.getString(R.string.summary_info_foodmark);
                     c.buttonDescr = Utils.getString(R.string.button_info_try);
@@ -60,7 +58,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     };
                     break;
                 case TESTPLAN:
-                    cards.append(c = new InfoCard(false));
+                    cards.append(c = new InfoCard(false, type));
                     c.title = Utils.getString(R.string.title_testplan);
                     c.descr = Utils.getString(R.string.summary_info_testplan);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
@@ -77,7 +75,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     };
                     break;
                 case MESSENGER:
-                    cards.append(c = new InfoCard(true));
+                    cards.append(c = new InfoCard(true, type));
                     c.title = Utils.getString(R.string.title_messenger);
                     c.descr = Utils.getString(R.string.summary_info_messenger);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
@@ -94,7 +92,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     };
                     break;
                 case TUTORING:
-                    cards.append(c = new InfoCard(false));
+                    cards.append(c = new InfoCard(false, type));
                     c.title = Utils.getString(R.string.title_tutoring);
                     c.descr = Utils.getString(R.string.summary_info_tutoring);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
@@ -102,7 +100,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.icon = R.drawable.account_multiple;
                     break;
                 case NEWS:
-                    cards.append(c = new InfoCard(false));
+                    cards.append(c = new InfoCard(false, type));
                     c.title = Utils.getString(R.string.title_news);
                     c.descr = Utils.getString(R.string.summary_info_news);
                     c.buttonDescr = Utils.getString(R.string.button_info_try);
@@ -115,7 +113,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     };
                     break;
                 case SURVEY:
-                    cards.append(c = new InfoCard(false));
+                    cards.append(c = new InfoCard(false, type));
                     c.title = Utils.getString(R.string.title_survey);
                     c.descr = Utils.getString(R.string.summary_info_survey);
                     c.buttonDescr = Utils.getString(R.string.button_info_try);
@@ -128,7 +126,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     };
                     break;
                 case SCHEDULE:
-                    cards.append(c = new InfoCard(false));
+                    cards.append(c = new InfoCard(false, type));
                     c.title = Utils.getString(R.string.title_plan);
                     c.descr = Utils.getString(R.string.summary_info_schedule);
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
@@ -142,7 +140,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     };
                     break;
                 case SUBSTITUTION:
-                    cards.append(c = new InfoCard(false));
+                    cards.append(c = new InfoCard(false, type));
                     c.title = Utils.getString(R.string.title_subst);
                     c.descr = Utils.getString(R.string.summary_info_subst);
                     c.buttonDescr = Utils.getString(R.string.button_info_try);
@@ -150,12 +148,12 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
                     break;
                 case WEATHER:
-                    cards.append(m = new MiscCard(false, type));
+                    cards.append(m = new MiscCard(false, type, true));
                     m.title = Utils.getString(R.string.title_subst);
 
                     break;
                 case NEXT_TEST:
-                    cards.append(m = new MiscCard(false, type));
+                    cards.append(m = new MiscCard(false, type, true));
                     m.title = Utils.getString(R.string.title_subst);
                     break;
 

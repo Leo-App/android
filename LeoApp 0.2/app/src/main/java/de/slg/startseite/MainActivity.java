@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -41,6 +43,7 @@ import com.google.zxing.Result;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.StringJoiner;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -231,23 +234,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         RecyclerView.LayoutManager mLayoutManager = quickLayout
 
-        ?
+                ?
 
-        new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        }
+                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                }
 
-        :
+                :
 
-        new LinearLayoutManager(getApplicationContext()) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
+                new LinearLayoutManager(getApplicationContext()) {
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                };
+
+        final RecyclerView.LayoutManager mLayoutManagerAlternative = quickLayout ?
+                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) : new LinearLayoutManager(getApplicationContext()); //TODO: Use alternative LayoutManager in edit mode to enable vertical scrolling
+
+            //TODO: Write to Preferences after Editing
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(quickLayout ?
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN,
@@ -256,20 +264,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 if (!editing) return 0;
-                return makeMovementFlags(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+
+                boolean quick = Start.pref.getBoolean("pref_key_card_config_quick", false);
+                return makeMovementFlags(quick ? ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
             }
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
+                int fromPos = viewHolder.getAdapterPosition();
+                int toPos = target.getAdapterPosition();
+
+                mAdapter.cards.toIndex(fromPos);
+                Card current = mAdapter.cards.getContent();
+
+                mAdapter.cards.remove();
+                mAdapter.cards.toIndex(toPos);
+                mAdapter.cards.insertBefore(current);
+
+                mAdapter.notifyDataSetChanged();
+
+                return true;
             }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
 
-                
+                mAdapter.cards.toIndex(viewHolder.getOldPosition());
+                mAdapter.cards.remove();
+                mAdapter.notifyDataSetChanged();
 
             }
+
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
@@ -303,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (item.getItemId() == R.id.action_appedit_done) {
             editing = false;
+            writeToPreferences();
             invalidateOptionsMenu();
         }
         if (item.getItemId() == R.id.action_appinfo_quick) {
@@ -311,29 +337,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             edit.putBoolean("pref_key_card_config_quick", item.isChecked());
             edit.apply();
             initCardViews();
-//          finish();
-//          startActivity(new Intent(this, MainActivity.class));
         }
         return true;
     }
 
+    private void writeToPreferences() {
+
+        StringBuilder b = new StringBuilder();
+        mAdapter.cards.toFirst();
+
+        b.append(mAdapter.cards.getContent().type);
+        mAdapter.cards.next();
+
+        for(; mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
+
+            b.append(";").append(mAdapter.cards.getContent().type.toString());
+
+        }
+
+        SharedPreferences.Editor e = Start.pref.edit();
+        e.putString("pref_key_card_config", b.toString());
+        e.apply();
+
+    }
+
     @Override
     public void onClick(View v) {
-            if(v.getId() == R.id.buttonCardView0) {
-                if (!isVerified())
-                    showDialog();
-                else {
-                    SharedPreferences.Editor e = Start.pref.edit();
-                    e.putBoolean("pref_key_dont_remind_me", true);
-                    e.apply();
-                    findViewById(R.id.card_view0).setVisibility(View.GONE);
-                }
-            } else {
+        if (v.getId() == R.id.buttonCardView0) {
+            if (!isVerified())
+                showDialog();
+            else {
                 SharedPreferences.Editor e = Start.pref.edit();
                 e.putBoolean("pref_key_dont_remind_me", true);
                 e.apply();
                 findViewById(R.id.card_view0).setVisibility(View.GONE);
             }
+        } else {
+            SharedPreferences.Editor e = Start.pref.edit();
+            e.putBoolean("pref_key_dont_remind_me", true);
+            e.apply();
+            findViewById(R.id.card_view0).setVisibility(View.GONE);
+        }
     }
 
     public void showDialog() {
@@ -372,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(editing) {
+        if (editing) {
             getMenuInflater().inflate(R.menu.startseite_edit, menu);
             menu.findItem(R.id.action_appinfo_quick).setChecked(Start.pref.getBoolean("pref_key_card_config_quick", false));
         } else
