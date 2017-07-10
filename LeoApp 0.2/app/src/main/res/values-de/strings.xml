@@ -265,4 +265,6 @@
         <item>Politik</item>
     </string-array>
 
+    <string name="tutoring_title_new">Neue Anzeige</string>
+
 </resources>

@@ -26,7 +26,7 @@ class NachhilfeAdapter extends ArrayAdapter<String> {
 
     @NonNull
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(int position, View view, @NonNull ViewGroup parent) {
         if (view == null) {
             view = inflater.inflate(resId, null);
         }

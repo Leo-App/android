@@ -21,8 +21,6 @@ class EmpfangeFaecherUser extends AsyncTask< Void, Void ,String[] > {
             while ((l = reader.readLine()) != null)
                 erg += l;
             result = erg.split("_next_");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

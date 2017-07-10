@@ -1,6 +1,7 @@
 package de.slg.nachhilfe;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,26 +19,36 @@ import de.slg.leoapp.R;
 
 public class Hinzufuegen extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private String fach;
+
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hinzufuegen);
-        Toolbar hans = (Toolbar)findViewById(R.id.actionBarNavDrawer1);
-        hans.setTitleTextColor(getResources().getColor(android.R.color.white));
-        setSupportActionBar(hans);
-        getSupportActionBar().setTitle("Neue Anzeige");
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Fach_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
+        initToolbar();
+
     }
+
+    private void initToolbar() {
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.actionBarNavDrawer1);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getString(R.string.tutoring_title_new));
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_hinzufuegen,menu);
+        getMenuInflater().inflate(R.menu.menu_hinzufuegen, menu);
         return true;
     }
 
@@ -51,52 +62,46 @@ public class Hinzufuegen extends AppCompatActivity implements AdapterView.OnItem
         fach = "Mathe";
     }
 
-    public boolean ueberpruefe(){
+    public boolean ueberpruefe() {
         EmpfangeFaecherUser toll = new EmpfangeFaecherUser();
         toll.execute();
         setContentView(R.layout.activity_nachhilfeboerse);
         String[] faecher = new String[0];
         try {
             faecher = toll.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        boolean b = false;
-        for(int i = 0;i< faecher.length;i++){
-            if(faecher[i] == fach){
-                b = true;
-            }
-        }
-        return b;
-    }
 
+        for (String s : faecher) {
+            if (s.equals(fach))
+                return true;
+        }
+
+        return false;
+    }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
 
-            if(mi.getItemId() == R.id.Aktion1){
-                Intent intent = new Intent(this, Nachhilfeboerse.class);
-                startActivity(intent);
+        if (mi.getItemId() == R.id.Aktion1) {
+            Intent intent = new Intent(this, Nachhilfeboerse.class);
+            startActivity(intent);
+        } else {
+            if (mi.getItemId() == R.id.Aktion2) {
+                if (ueberpruefe()) {
+
+                } else {
+                    AnzeigeEinreichen s = new AnzeigeEinreichen();
+                    s.execute(fach);
+                    Intent intent = new Intent(this, Nachhilfeboerse.class);
+                    startActivity(intent);
+
+                }
             }
-            else
-                {
-                    if(mi.getItemId() == R.id.Aktion2){
-                        if(ueberpruefe()){
+        }
 
-                        }
-                        else{
-                            AnzeigeEinreichen s = new AnzeigeEinreichen();
-                            s.execute(fach);
-                            Intent intent = new Intent(this, Nachhilfeboerse.class);
-                            startActivity(intent);
-
-                    }
-                }
-                }
-
-    return true;
+        return true;
     }
 }

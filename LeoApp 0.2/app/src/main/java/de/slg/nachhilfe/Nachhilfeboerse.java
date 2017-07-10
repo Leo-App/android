@@ -1,6 +1,7 @@
 package de.slg.nachhilfe;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -67,7 +68,7 @@ public class Nachhilfeboerse extends AppCompatActivity {
     private void initToolbar() {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarNavDrawer);
-        myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        myToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_tutoring));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
