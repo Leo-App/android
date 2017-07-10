@@ -112,6 +112,7 @@ public class ReceiveService extends Service {
                     String l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l).append(System.getProperty("line.separator"));
+                    reader.close();
                     String[] result = builder.toString().split("_nextMessage_");
                     for (String s : result) {
                         String[] message = s.split("_;_");
@@ -144,6 +145,7 @@ public class ReceiveService extends Service {
                     String l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l);
+                    reader.close();
                     String erg = builder.toString();
                     String[] result = erg.split("_nextChat_");
                     for (String s : result) {
@@ -172,6 +174,7 @@ public class ReceiveService extends Service {
                     String l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l);
+                    reader.close();
                     String erg = builder.toString();
                     String[] result = erg.split("_nextUser_");
                     for (String s : result) {
@@ -200,6 +203,7 @@ public class ReceiveService extends Service {
                     String l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l);
+                    reader.close();
                     String erg = builder.toString();
                     String[] result = erg.split("_nextAssoziation_");
                     Utils.getDB().clearTable(DBConnection.DBHelper.TABLE_ASSOZIATION);
@@ -251,7 +255,8 @@ public class ReceiveService extends Service {
                                                 new URL(generateURL(m.mtext, m.cid))
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null);
+                        while (reader.readLine() != null) ;
+                        reader.close();
                         Utils.getDB().removeUnsendMessage(m.mid);
                     } catch (Exception e) {
                         e.printStackTrace();

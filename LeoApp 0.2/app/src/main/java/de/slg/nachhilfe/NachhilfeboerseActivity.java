@@ -31,7 +31,6 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
-
 public class NachhilfeboerseActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -39,27 +38,12 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-        EmpfangeFaecher toll = new EmpfangeFaecher();
-        toll.execute();
         setContentView(R.layout.activity_nachhilfeboerse);
-        String[] result = new String[0];
-        try {
-            result = toll.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        NachhilfeAdapter adapter = new NachhilfeAdapter(getApplicationContext(), result);
-
-        help = (ListView) findViewById(R.id.ListView1);
-        help.setAdapter(adapter);
-        help.setClickable(true);
 
         initToolbar();
+        initListView();
         initNavigationView();
-
     }
 
     private void initToolbar() {
@@ -141,6 +125,21 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
+    private void initListView() {
+        EmpfangeFaecher toll = new EmpfangeFaecher();
+        toll.execute();
+        String[] result = new String[0];
+        try {
+            result = toll.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        NachhilfeAdapter adapter = new NachhilfeAdapter(getApplicationContext(), result);
+        help = (ListView) findViewById(R.id.ListView1);
+        help.setAdapter(adapter);
+        help.setClickable(true);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_nachhilfe, menu);
@@ -186,7 +185,3 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
 
     }
 }
-
-
-
-

@@ -192,6 +192,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null) ;
+                    reader.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -227,6 +228,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null) ;
+                    reader.close();
                     Utils.getDB().removeUserFormChat(assoziation.uid, assoziation.cid);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -257,6 +259,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null) ;
+                    reader.close();
                     currentChat.cname = params[0];
                 } catch (Exception e) {
                     e.printStackTrace();

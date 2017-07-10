@@ -299,6 +299,7 @@ public class ChatActivity extends AppCompatActivity {
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
                         while (reader.readLine() != null) ;
+                        reader.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

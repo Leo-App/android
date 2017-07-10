@@ -19,11 +19,7 @@ class AnzeigeEinreichen extends AsyncTask<String, Void, Void> {
                                     .openConnection()
                                     .getInputStream(), "UTF-8"));
 
-            String line;
-            String st = "";
-            while ((line = reader.readLine()) != null) {
-                st += line;
-            }
+            while (reader.readLine() != null) ;
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();

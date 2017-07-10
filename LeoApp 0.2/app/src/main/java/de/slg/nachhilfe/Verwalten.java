@@ -2,6 +2,7 @@ package de.slg.nachhilfe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -32,7 +33,7 @@ public class Verwalten extends AppCompatActivity {
         vl.setAdapter(adapter);
         vl.setClickable(true);
         Toolbar hans = (Toolbar) findViewById(R.id.actionBarNavDrawer2);
-        hans.setTitleTextColor(getResources().getColor(android.R.color.white));
+        hans.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(hans);
         getSupportActionBar().setTitle("Ihre Anzeigen"); //TODO: String Ressource
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);

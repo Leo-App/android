@@ -357,6 +357,7 @@ public class OverviewWrapper extends AppCompatActivity {
                     String l;
                     while ((l = reader.readLine()) != null)
                         erg += l;
+                    reader.close();
                     if (!erg.startsWith("error"))
                         params[0].cid = Integer.parseInt(erg);
                     else

@@ -16,8 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
 
-
-public class Hinzufuegen extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class Hinzufuegen extends AppCompatActivity {
     private String fach;
 
     @Override
@@ -25,18 +24,11 @@ public class Hinzufuegen extends AppCompatActivity implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hinzufuegen);
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Fach_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-
         initToolbar();
-
+        initSpinner();
     }
 
     private void initToolbar() {
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.actionBarNavDrawer1);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
@@ -44,22 +36,30 @@ public class Hinzufuegen extends AppCompatActivity implements AdapterView.OnItem
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
+    private void initSpinner() {
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Fach_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                fach = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                fach = "Mathe";
+            }
+        });
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_hinzufuegen, menu);
         return true;
-    }
-
-    public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
-
-        fach = (String) parent.getItemAtPosition(pos);
-    }
-
-    public void onNothingSelected(AdapterView<?> parent) {
-        fach = "Mathe";
     }
 
     public boolean ueberpruefe() {
@@ -81,10 +81,8 @@ public class Hinzufuegen extends AppCompatActivity implements AdapterView.OnItem
         return false;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
-
         if (mi.getItemId() == R.id.Aktion1) {
             Intent intent = new Intent(this, NachhilfeboerseActivity.class);
             startActivity(intent);

@@ -156,6 +156,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 String l;
                 while ((l = reader.readLine()) != null)
                     erg += l;
+                reader.close();
                 if (!erg.startsWith("error"))
                     chat.cid = Integer.parseInt(erg);
                 else
