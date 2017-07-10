@@ -33,8 +33,9 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
-    <style name="StartTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="StartTheme" parent="Theme.AppCompat.Light">
         <item name="android:background">@drawable/ic_leoapp_logo</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
 </resources>

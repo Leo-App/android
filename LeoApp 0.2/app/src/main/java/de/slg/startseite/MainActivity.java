@@ -93,11 +93,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ref = this;
 
         setContentView(R.layout.activity_startseite);
-      
+
         if (getIntent().getBooleanExtra("show_dialog", true))
             new AbstimmDialog(this).show();
 
         Log.i("LeoApp", "called onCreate main");
+
+        title = (TextView) findViewById(R.id.info_title0);
+        info = (TextView) findViewById(R.id.info_text0);
+        verify = (Button) findViewById(R.id.buttonCardView0);
 
         int id = Utils.getUserID();
         boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
@@ -113,10 +117,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new UpdateTaskGrade(this).execute();
 
         if (verified = id > -1) {
-            MainActivity.title.setTextColor(Color.GREEN);
-            MainActivity.title.setText(getString(R.string.title_info_auth));
-            MainActivity.info.setText(getString(R.string.summary_info_auth_success));
-            MainActivity.verify.setText(getString(R.string.button_info_noreminder));
+            title.setTextColor(Color.GREEN);
+            title.setText(getString(R.string.title_info_auth));
+            info.setText(getString(R.string.summary_info_auth_success));
+            verify.setText(getString(R.string.button_info_noreminder));
             updateButtons();
         }
         if (hide)

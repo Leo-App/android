@@ -23,11 +23,12 @@
                 android:elevation="4dp"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                />
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -36,9 +37,9 @@
                         android:id="@+id/card_viewMain"
                         android:layout_width="match_parent"
                         android:layout_height="175dp"
+                        android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        card_view:cardCornerRadius="0dp"
-                        android:layout_gravity="center">
+                        card_view:cardCornerRadius="0dp">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -47,45 +48,45 @@
                             android:paddingLeft="15dp">
 
                             <ImageView
+                                android:id="@+id/imageView3"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:src="@mipmap/leo_app_icon"
-                                android:layout_centerVertical="true"
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
-                                android:id="@+id/imageView3" />
+                                android:layout_centerVertical="true"
+                                android:src="@mipmap/leo_app_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="56dp"
+                                android:layout_marginStart="56dp"
+                                android:layout_toEndOf="@+id/imageView3"
+                                android:layout_toRightOf="@+id/imageView3"
                                 android:text="LeoApp"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="25sp"
-                                android:layout_centerVertical="true"
-                                android:layout_toRightOf="@+id/imageView3"
-                                android:layout_toEndOf="@+id/imageView3"
-                                android:layout_marginLeft="56dp"
-                                android:layout_marginStart="56dp" />
+                                android:textSize="25sp" />
 
                             <TextView
+                                android:id="@+id/versioncode_maincard"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="12sp"
-                                android:id="@+id/versioncode_maincard"
-                                android:layout_margin="10dp"
                                 android:layout_alignParentBottom="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true"
-                                />
+                                android:layout_margin="10dp"
+                                android:textSize="12sp" />
 
                         </RelativeLayout>
+
                     </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/card_view0"
-                        android:layout_below="@+id/card_viewMain"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
+                        android:layout_below="@+id/card_viewMain"
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -147,28 +148,31 @@
                                 style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/button_card_dismiss"
-                                android:textAllCaps="true"
                                 android:layout_alignParentBottom="true"
-                                android:layout_toLeftOf="@+id/buttonDismissCardView0"
-                                android:layout_toStartOf="@+id/buttonDismissCardView0" />
+                                android:layout_toLeftOf="@id/buttonCardView0"
+                                android:layout_toStartOf="@id/buttonCardView0"
+                                android:text="@string/button_card_dismiss"
+                                android:textAllCaps="true" />
+
                         </RelativeLayout>
+
                     </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.RecyclerView
-                        android:layout_width="match_parent"
-                        android:clipToPadding="false"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="-10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_height="wrap_content"
                         android:id="@+id/recyclerViewCards"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/card_view0"
                         android:layout_centerHorizontal="true"
-                        />
+                        android:layout_marginBottom="10dp"
+                        android:clipToPadding="false"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="-10dp" />
 
                 </RelativeLayout>
-        </ScrollView>
+
+            </ScrollView>
+
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>
