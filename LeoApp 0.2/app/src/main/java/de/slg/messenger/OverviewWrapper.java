@@ -79,7 +79,7 @@ public class OverviewWrapper extends AppCompatActivity {
             if (Utils.checkNetwork()) {
                 startActivity(new Intent(getApplicationContext(), AddGroupChatActivity.class));
             } else {
-                Toast.makeText(getApplicationContext(), "Verbinde dich mit dem Internet um neue Gruppen zu erstellen.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.need_internet, Toast.LENGTH_SHORT).show();
             }
         }
         return true;
@@ -230,8 +230,12 @@ public class OverviewWrapper extends AppCompatActivity {
                         Intent i = new Intent(getContext(), ChatActivity.class)
                                 .putExtra("loading", c == null);
                         if (c == null) {
-                            c = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
-                            new CreateChat().execute(c);
+                            if (Utils.checkNetwork()) {
+                                c = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
+                                new CreateChat().execute(c);
+                            } else {
+                                Toast.makeText(getContext(), R.string.need_internet, Toast.LENGTH_SHORT).show();
+                            }
                         }
                         ChatActivity.currentChat = c;
                         startActivity(i);
