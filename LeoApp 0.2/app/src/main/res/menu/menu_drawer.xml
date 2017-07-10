@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single" android:id="@+id/nav0">
+        <item
+            android:id="@+id/home"
+            android:checked="false"
+            android:icon="@drawable/ic_home_white_24dp"
+            android:title="@string/menu_title_home" />  <!-- Startseite ganz oben -->
+        <item
+            android:id="@+id/foodmarks"
+            android:checked="false"
+            android:icon="@mipmap/qr_code"
+            android:title="@string/menu_title_foodmarks" /> <!-- Essensbons -->
+        <item
+            android:id="@+id/testplan"
+            android:checked="false"
+            android:icon="@drawable/ic_content_paste_white_24dp"
+            android:title="@string/menu_title_testplan" /> <!-- Klausurplan -->
+        <item
+            android:id="@+id/messenger"
+            android:checked="false"
+            android:icon="@drawable/ic_question_answer_white_24dp"
+            android:title="@string/menu_title_messenger" /> <!-- Messenger -->
+        <item
+            android:id="@+id/studenthelp"
+            android:checked="false"
+            android:icon="@drawable/ic_people_white_24dp"
+            android:title="@string/menu_title_studenthelp" /> <!-- Nachhilfebörse -->
+        <item
+            android:id="@+id/newsboard"
+            android:checked="false"
+            android:icon="@drawable/ic_event_note_white_24dp"
+            android:title="@string/menu_title_news" /> <!-- Schwarzes Brett -->
+        <item
+            android:id="@+id/survey"
+            android:checked="false"
+            android:icon="@drawable/ic_insert_emoticon_white_24dp"
+            android:title="@string/menu_title_survey" /> <!-- Stimmungsbarometer -->
+        <item
+            android:id="@+id/studentplan"
+            android:checked="false"
+            android:icon="@drawable/ic_event_white_24dp"
+            android:title="@string/menu_title_plan" /> <!-- Stundenplan -->
+    </group>
+    <group android:checkableBehavior="single" android:id="@+id/nav1">
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings_white_24dp"
+            android:title="@string/menu_title_settings" />
+    </group>
+</menu>

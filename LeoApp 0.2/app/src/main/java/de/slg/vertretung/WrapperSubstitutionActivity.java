@@ -26,6 +26,7 @@ import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
+import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
@@ -120,7 +121,7 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
                     case R.id.nachhilfe:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
                         break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
@@ -135,8 +136,7 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
                         i = null;
                         break;
                     case R.id.vertretung:
-                        i = null;
-                        break;
+                        return true;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;

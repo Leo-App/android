@@ -251,4 +251,22 @@
     <string name="set_changes">Übernehmen</string>
     <string name="chat_info">Information</string>
 
+    <!--Nachhilfebörse-->
+
+    <string-array name="Fach_array">
+        <item>Mathe</item>
+        <item>Englisch</item>
+        <item>Deutsch</item>
+        <item>Französisch</item>
+        <item>Latein</item>
+        <item>Physik</item>
+        <item>Chemie</item>
+        <item>Biologie</item>
+        <item>Geschichte</item>
+        <item>Erdkunde</item>
+        <item>Politik</item>
+    </string-array>
+
+    <string name="tutoring_title_new">Neue Anzeige</string>
+
 </resources>
