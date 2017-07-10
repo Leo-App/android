@@ -14,10 +14,10 @@ public class Start extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initPref(getApplicationContext());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_start);
-
-        initPref(getApplicationContext());
 
         Utils.context = getApplicationContext();
 

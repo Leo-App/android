@@ -61,6 +61,8 @@ public abstract class Utils {
     }
 
     public static int getUserID() {
+        if (Start.pref == null)
+            Start.initPref(context);
         return Start.pref.getInt("pref_key_general_id", -1);
     }
 
@@ -120,7 +122,7 @@ public abstract class Utils {
         return getUserID() > -1;
     }
 
-    public static DBConnection getMessengerDBConnection() {
+    public static DBConnection getDB() {
         if (dbConnection == null)
             dbConnection = new DBConnection(context);
         return dbConnection;
@@ -157,7 +159,7 @@ public abstract class Utils {
 
     static void notifiedMessenger() {
         Start.pref.edit()
-                .putLong("pref_key_general_last_notification_messenger", getMessengerDBConnection().getLatestDateInDB())
+                .putLong("pref_key_general_last_notification_messenger", getDB().getLatestDateInDB())
                 .apply();
     }
 

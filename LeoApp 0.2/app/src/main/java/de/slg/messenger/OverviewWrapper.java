@@ -191,14 +191,14 @@ public class OverviewWrapper extends AppCompatActivity {
     }
 
     private void initArrays() {
-        userArray = Utils.getMessengerDBConnection().getUsers();
-        chatArray = Utils.getMessengerDBConnection().getChats();
+        userArray = Utils.getDB().getUsers();
+        chatArray = Utils.getDB().getChats();
         Utils.receive();
     }
 
     public void notifyUpdate() {
-        chatArray = Utils.getMessengerDBConnection().getChats();
-        userArray = Utils.getMessengerDBConnection().getUsers();
+        chatArray = Utils.getDB().getChats();
+        userArray = Utils.getDB().getUsers();
         uFragment.refreshUI();
         cFragment.refreshUI();
         ChatActivity chatActivity = Utils.getChatActivity();
@@ -226,13 +226,15 @@ public class OverviewWrapper extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().userArray.length) {
                         User clickedUser = Utils.getOverviewWrapper().userArray[position];
-                        Chat c = Utils.getMessengerDBConnection().getChatWith(clickedUser.uid);
+                        Chat c = Utils.getDB().getChatWith(clickedUser.uid);
+                        Intent i = new Intent(getContext(), ChatActivity.class)
+                                .putExtra("loading", c == null);
                         if (c == null) {
                             c = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
                             new CreateChat().execute(c);
                         }
                         ChatActivity.currentChat = c;
-                        startActivity(new Intent(getContext(), ChatActivity.class));
+                        startActivity(i);
                     }
                 }
             });
@@ -269,7 +271,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().chatArray.length) {
                         ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[position];
-                        startActivity(new Intent(getContext(), ChatActivity.class));
+                        startActivity(new Intent(getContext(), ChatActivity.class).putExtra("loading", false));
                     }
                 }
             });
@@ -350,6 +352,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         params[0].cid = Integer.parseInt(erg);
                     else
                         Log.e("Error", erg);
+                    Utils.getDB().insertAssoziation(new Assoziation(params[0].cid, Utils.getUserID()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -359,6 +362,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
         private String generateURL(Chat chat) {
             String chatname = chat.cname.replace(' ', '+');
+            Utils.getDB().setChatname(chat);
             return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase();
         }
     }

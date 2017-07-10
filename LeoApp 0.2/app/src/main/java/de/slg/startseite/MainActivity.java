@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         runningScan = false;
         ref = this;
+        Utils.context = getApplicationContext();
 
         setContentView(R.layout.activity_startseite);
 
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         title = (TextView) findViewById(R.id.info_title0);
         info = (TextView) findViewById(R.id.info_text0);
         verify = (Button) findViewById(R.id.buttonCardView0);
+        pb = (ProgressBar) findViewById(R.id.progressBar1);
 
         int id = Utils.getUserID();
         boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
@@ -486,10 +488,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final Runnable r = new Runnable() {
                 @Override
                 public void run() {
-                    MainActivity.pb.setVisibility(View.VISIBLE);
-                    MainActivity.title.setVisibility(View.GONE);
-                    MainActivity.info.setVisibility(View.GONE);
-                    MainActivity.verify.setVisibility(View.GONE);
+                    pb.setVisibility(View.VISIBLE);
+                    title.setVisibility(View.GONE);
+                    info.setVisibility(View.GONE);
+                    verify.setVisibility(View.GONE);
 
                     RegistrationTask t = new RegistrationTask(MainActivity.this);
                     t.execute(data[0], String.valueOf(data[1]));

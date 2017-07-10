@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -123,7 +122,7 @@ public class ReceiveService extends Service {
                             int cid = Integer.parseInt(message[3]);
                             int uid = Integer.parseInt(message[4]);
                             Message m = new Message(mid, mtext, mdate, cid, uid, false);
-                            Utils.getMessengerDBConnection().insertMessage(m);
+                            Utils.getDB().insertMessage(m);
                         }
                     }
                 } catch (Exception e) {
@@ -151,7 +150,7 @@ public class ReceiveService extends Service {
                         String[] current = s.split("_;_");
                         if (current.length == 3) {
                             Chat c = new Chat(Integer.parseInt(current[0]), current[1], Chat.Chattype.valueOf(current[2].toUpperCase()));
-                            Utils.getMessengerDBConnection().insertChat(c);
+                            Utils.getDB().insertChat(c);
                         }
                     }
                 } catch (Exception e) {
@@ -179,7 +178,7 @@ public class ReceiveService extends Service {
                         String[] current = s.split("_;_");
                         if (current.length == 4) {
                             User u = new User(Integer.parseInt(current[0]), current[1], current[2], Integer.parseInt(current[3]));
-                            Utils.getMessengerDBConnection().insertUser(u);
+                            Utils.getDB().insertUser(u);
                         }
                     }
                 } catch (Exception e) {
@@ -203,12 +202,12 @@ public class ReceiveService extends Service {
                         builder.append(l);
                     String erg = builder.toString();
                     String[] result = erg.split("_nextAssoziation_");
-                    Utils.getMessengerDBConnection().clearTable(DBConnection.DBHelper.TABLE_ASSOZIATION);
+                    Utils.getDB().clearTable(DBConnection.DBHelper.TABLE_ASSOZIATION);
                     for (String s : result) {
                         String[] current = s.split("_;_");
                         if (current.length == 2) {
                             Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]));
-                            Utils.getMessengerDBConnection().insertAssoziation(a);
+                            Utils.getDB().insertAssoziation(a);
                         }
                     }
                 } catch (Exception e) {
@@ -243,7 +242,7 @@ public class ReceiveService extends Service {
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
-                Message[] array = Utils.getMessengerDBConnection().getUnsendMessages();
+                Message[] array = Utils.getDB().getUnsendMessages();
                 for (Message m : array) {
                     try {
                         BufferedReader reader =
@@ -253,7 +252,7 @@ public class ReceiveService extends Service {
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
                         while (reader.readLine() != null);
-                        Utils.getMessengerDBConnection().removeUnsendMessage(m.mid);
+                        Utils.getDB().removeUnsendMessage(m.mid);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

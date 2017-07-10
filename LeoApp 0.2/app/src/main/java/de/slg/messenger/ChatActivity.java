@@ -37,6 +37,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private RecyclerView rvMessages;
     private EditText etMessage;
+    private ImageButton sendButton;
     private Snackbar snackbar;
     private String message;
 
@@ -55,13 +56,13 @@ public class ChatActivity extends AppCompatActivity {
         initRecyclerView();
         initSnackbar();
 
-        Utils.getMessengerDBConnection().setMessagesRead(currentChat);
+        Utils.getDB().setMessagesRead(currentChat);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.messenger_chat, menu);
-        if (currentChat.ctype == Chat.Chattype.PRIVATE || !Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat))
+        if (currentChat.ctype == Chat.Chattype.PRIVATE || !Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat))
             menu.clear();
         return true;
     }
@@ -107,7 +108,7 @@ public class ChatActivity extends AppCompatActivity {
     private void initSendMessage() {
         etMessage = (EditText) findViewById(R.id.inputMessage);
 
-        ImageButton sendButton = (ImageButton) findViewById(R.id.sendButton);
+        sendButton = (ImageButton) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,7 +116,9 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        if (!Utils.getMessengerDBConnection().isUserInChat(Utils.getCurrentUser(), currentChat)) {
+        if (getIntent().getBooleanExtra("loading", false)) {
+            new WaitForLoad().execute();
+        } else if (!Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat)) {
             etMessage.setEnabled(false);
             etMessage.setHint("Du bist nicht in diesem Chat!");
             sendButton.setEnabled(false);
@@ -161,7 +164,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void refreshUI(boolean refreshMessages, final boolean scroll) {
         if (refreshMessages)
-            messagesArray = Utils.getMessengerDBConnection().getMessagesFromChat(currentChat.cid);
+            messagesArray = Utils.getDB().getMessagesFromChat(currentChat.cid);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -283,7 +286,7 @@ public class ChatActivity extends AppCompatActivity {
                 messagesArray = messageList.fill(new Message[messageList.length()]);
                 if (!Utils.checkNetwork()) {
                     refreshUI(false, true);
-                    Utils.getMessengerDBConnection().insertUnsendMessage(params[0], currentChat.cid);
+                    Utils.getDB().insertUnsendMessage(params[0], currentChat.cid);
                 } else {
                     messagesArray[messagesArray.length - 1].mdate = new Date();
                     messagesArray[messagesArray.length - 1].sending = true;
@@ -306,6 +309,28 @@ public class ChatActivity extends AppCompatActivity {
 
         private String generateURL(String message) {
             return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + currentChat.cid;
+        }
+    }
+
+    private class WaitForLoad extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            findViewById(R.id.progressBar3).setVisibility(View.VISIBLE);
+            sendButton.setEnabled(false);
+            Utils.receive();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            while (currentChat.cid == -1) ;
+            while (!Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat)) ;
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            findViewById(R.id.progressBar3).setVisibility(View.GONE);
+            sendButton.setEnabled(true);
         }
     }
 }
