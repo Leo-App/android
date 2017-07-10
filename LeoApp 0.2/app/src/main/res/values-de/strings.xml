@@ -249,4 +249,20 @@
     <string name="cards_quick">Schnellzugriff</string>
     <string name="set_changes">Übernehmen</string>
 
+    <!--Nachhilfebörse-->
+
+    <string-array name="Fach_array">
+        <item>Mathe</item>
+        <item>Englisch</item>
+        <item>Deutsch</item>
+        <item>Französisch</item>
+        <item>Latein</item>
+        <item>Physik</item>
+        <item>Chemie</item>
+        <item>Biologie</item>
+        <item>Geschichte</item>
+        <item>Erdkunde</item>
+        <item>Politik</item>
+    </string-array>
+
 </resources>
