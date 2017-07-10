@@ -6,12 +6,12 @@
         android:id="@+id/Aktion1"
         android:title="Item"
         app:showAsAction="always"
-        android:icon="@drawable/ic_cancel_white_24dp"
+        android:icon="@drawable/ic_clear_white_24dp"
         />
     <item
         android:id="@+id/Aktion2"
         android:title="Item"
         app:showAsAction="always"
-        android:icon="@drawable/ic_send_white_24dp"
+        android:icon="@drawable/ic_done_white_24dp"
         />
 </menu>

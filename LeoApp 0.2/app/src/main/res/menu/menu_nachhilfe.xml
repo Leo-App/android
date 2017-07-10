@@ -12,7 +12,7 @@
         android:id="@+id/Action2"
         android:title="Item"
         app:showAsAction="always"
-        android:icon="@drawable/ic_sync_white_24dp"
+        android:icon="@drawable/ic_refresh_white_24dp"
         />
     <item
         android:id="@+id/Action1"
