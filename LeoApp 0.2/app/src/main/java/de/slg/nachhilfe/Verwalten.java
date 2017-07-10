@@ -44,7 +44,7 @@ public class Verwalten extends AppCompatActivity {
 
         if(mi.getItemId() == R.id.Akktion1) {
 
-            Intent intent = new Intent(this, Nachhilfeboerse.class);
+            Intent intent = new Intent(this, NachhilfeboerseActivity.class);
             startActivity(intent);
 
         }

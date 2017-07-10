@@ -31,7 +31,7 @@ import de.slg.stundenplan.WrapperStundenplanActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
 
-public class Nachhilfeboerse extends AppCompatActivity {
+public class NachhilfeboerseActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ListView help;

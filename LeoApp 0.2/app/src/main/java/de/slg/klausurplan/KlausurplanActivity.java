@@ -38,10 +38,12 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
+import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.vertretung.WrapperSubstitutionActivity;
 
 public class KlausurplanActivity extends AppCompatActivity {
 
@@ -151,7 +153,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
                     case R.id.nachhilfe:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
                         break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
@@ -163,6 +165,9 @@ public class KlausurplanActivity extends AppCompatActivity {
                         return true;
                     case R.id.startseite:
                         i = null;
+                        break;
+                    case R.id.vertretung:
+                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
                         break;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);

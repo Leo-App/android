@@ -86,7 +86,7 @@ public class Hinzufuegen extends AppCompatActivity implements AdapterView.OnItem
     public boolean onOptionsItemSelected(MenuItem mi) {
 
         if (mi.getItemId() == R.id.Aktion1) {
-            Intent intent = new Intent(this, Nachhilfeboerse.class);
+            Intent intent = new Intent(this, NachhilfeboerseActivity.class);
             startActivity(intent);
         } else {
             if (mi.getItemId() == R.id.Aktion2) {
@@ -95,7 +95,7 @@ public class Hinzufuegen extends AppCompatActivity implements AdapterView.OnItem
                 } else {
                     AnzeigeEinreichen s = new AnzeigeEinreichen();
                     s.execute(fach);
-                    Intent intent = new Intent(this, Nachhilfeboerse.class);
+                    Intent intent = new Intent(this, NachhilfeboerseActivity.class);
                     startActivity(intent);
 
                 }
