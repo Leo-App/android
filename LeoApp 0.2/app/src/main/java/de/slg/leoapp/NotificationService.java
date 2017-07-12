@@ -75,7 +75,7 @@ public class NotificationService extends IntentService {
     private void someLoopStuff() {
         Date d = new Date();
 
-        Log.i("LeoApp", "Time: " + d.getHours() + ":" + d.getMinutes() + " Scheduled: " + hours + ":" + minutes);
+        //Log.i("LeoApp", "Time: " + d.getHours() + ":" + d.getMinutes() + " Scheduled: " + hours + ":" + minutes);
 
         if (d.getDay() != 5 && d.getDay() != 6 && d.getHours() == hoursTT && d.getMinutes() == minutesTT) {
             this.stundenplanNotification();
