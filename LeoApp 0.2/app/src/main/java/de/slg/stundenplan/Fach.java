@@ -6,16 +6,16 @@ import de.slg.leoapp.R;
 
 public class Fach {
 
-    private String fachname;
-    private String fachkuerzel;
-    private String raum;
-    private String lehrer;
-    private int tag;
-    private int stunde;
+    private final String fachname;
+    private final String fachkuerzel;
+    private final String raum;
+    private final String lehrer;
+    private final int tag;
+    private final int stunde;
     private boolean schriftlich;
     private boolean ende;
     private String notiz;
-    private Context cc;
+    private final Context cc;
 
     public Fach(String pFachkurzel, String pRaum, String pLehrer, String pTag, String pStunde, Context pContext) {
         //Erstellt ein Fach

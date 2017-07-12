@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 public class Stundenplanverwalter {
 
-    private String dateiName;
+    private final String dateiName;
     private Fach[] meineFaecher;
-    private Context ac;
+    private final Context ac;
 
     /**
      * public Stundenplanverwalter(ArrayList<Fach> f) {
@@ -157,9 +157,9 @@ public class Stundenplanverwalter {
     public Fach[] gibFaecherKurzTag(int pTag) {
         Fach[] fach = gibFaecherKurz();
         ArrayList<Fach> a = new ArrayList<>();
-        for(int i=0; i<fach.length; i++) {
-            if(Integer.parseInt(fach[i].gibTag())==pTag) {
-                a.add(fach[i]);
+        for (Fach aFach : fach) {
+            if (Integer.parseInt(aFach.gibTag()) == pTag) {
+                a.add(aFach);
             }
         }
         return this.macheArray(a, a.size());

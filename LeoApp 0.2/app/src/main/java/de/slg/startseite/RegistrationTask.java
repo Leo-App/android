@@ -24,7 +24,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
     //TODO verifizierungsmode funktioniert bei einigen cards nicht
     //TODO anzeige stimmung auswählen
 
-    private MainActivity c;
+    private final MainActivity c;
     private boolean connection;
 
     RegistrationTask(MainActivity c) {

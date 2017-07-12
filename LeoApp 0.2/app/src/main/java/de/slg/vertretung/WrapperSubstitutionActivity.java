@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -86,7 +87,7 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbarS);
-        myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_subst));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);

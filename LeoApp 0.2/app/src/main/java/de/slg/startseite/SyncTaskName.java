@@ -1,7 +1,6 @@
 package de.slg.startseite;
 
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;

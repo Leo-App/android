@@ -7,14 +7,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 class SQLiteConnector extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "entries.db";
-    private String createTable = "CREATE TABLE " + tableResult.tableName + " (" +
+    private final String createTable = "CREATE TABLE " + tableResult.tableName + " (" +
             tableResult.id + " INTEGER AUTO_INCREMENT PRIMARY KEY, " +
             tableResult.titel + " TEXT NOT NULL, " +
             tableResult.adressat + " TEXT NOT NULL, " +
             tableResult.inhalt + " TEXT NOT NULL, " +
             tableResult.erstelldatum + " TEXT NOT NULL, " +
             tableResult.ablaufdatum + " TEXT NOT NULL)";
-    private String delete = "DROP TABLE IF EXISTS " + tableResult.tableName;
+    private final String delete = "DROP TABLE IF EXISTS " + tableResult.tableName;
 
     SQLiteConnector(Context c) {
         super(c, DATABASE_NAME, null, 1);

@@ -24,7 +24,7 @@ import de.slg.stundenplan.Stundenplanverwalter;
 class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
     private BufferedReader reader;
-    private Context context;
+    private final Context context;
     private int year, halbjahr;
     private List<Klausur> listeMitHeruntergeladenenKlausuren;
     private List<String> kuerzelStundenplan;

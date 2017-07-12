@@ -13,11 +13,11 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.User;
 
 class UserAdapter extends ArrayAdapter<User> {
-    private int resId;
-    private User[] users;
-    private LayoutInflater inflater;
-    private boolean selectable;
-    private View[] views;
+    private final int resId;
+    private final User[] users;
+    private final LayoutInflater inflater;
+    private final boolean selectable;
+    private final View[] views;
 
     UserAdapter(Context context, User[] users, boolean selectable) {
         super(context, R.layout.list_item_user, users);

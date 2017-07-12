@@ -2,8 +2,6 @@ package de.slg.leoapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -55,7 +53,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     private ProgressBar progressBar;
     private final static char[] hexArray = "0123456789abcdef".toCharArray();
     private static String currentUsername;
-    protected SharedPreferences pref;
+    private SharedPreferences pref;
     private DrawerLayout drawerLayout;
 
     private AppCompatDelegate mDelegate; //Downwards compatibility
@@ -367,11 +365,11 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
-    public ActionBar getSupportActionBar() {
+    private ActionBar getSupportActionBar() {
         return getDelegate().getSupportActionBar();
     }
 
-    public void setSupportActionBar(@Nullable Toolbar toolbar) {
+    private void setSupportActionBar(@Nullable Toolbar toolbar) {
         getDelegate().setSupportActionBar(toolbar);
     }
 
@@ -494,8 +492,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
             progressBar.setVisibility(View.INVISIBLE);
 
-            MainActivity.service = null;
-
             switch (result) {
 
                 case VALID:
@@ -522,7 +518,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     }
 
-    public static String bytesToHex(byte[] bytes) {
+    private static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
@@ -536,7 +532,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         findViewById(R.id.progressBar2).setVisibility(View.GONE);
     }
 
-    public void showProgressBar() {
+    private void showProgressBar() {
         findViewById(R.id.progressBar2).setVisibility(View.VISIBLE);
     }
 

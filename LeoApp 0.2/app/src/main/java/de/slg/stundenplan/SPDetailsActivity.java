@@ -2,6 +2,7 @@ package de.slg.stundenplan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,15 +20,13 @@ import java.io.OutputStreamWriter;
 import de.slg.leoapp.R;
 
 public class SPDetailsActivity extends AppCompatActivity {
-    Stundenplanverwalter stuVe;
-    Fach[] faecherSP;
-    String tag;
-    String stunde;
+    private Stundenplanverwalter stuVe;
+    private Fach[] faecherSP;
 
-    EditText etNotiz;
-    CheckBox cbSchrift;
+    private EditText etNotiz;
+    private CheckBox cbSchrift;
 
-    int pos;
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +34,15 @@ public class SPDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sp_details);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_plan));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        //Log.e("Luzzzia","Ich bin in SP-Details");
-        tag = WrapperStundenplanActivity.akTag;
-        stunde = WrapperStundenplanActivity.akStunde;
+        String tag = WrapperStundenplanActivity.akTag;
+        String stunde = WrapperStundenplanActivity.akStunde;
         stuVe = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
         faecherSP = stuVe.gibFaecherSort();
 
@@ -59,7 +57,6 @@ public class SPDetailsActivity extends AppCompatActivity {
         cbSchrift = (CheckBox) this.findViewById(R.id.checkBox_schriftlich);
 
         if (pos != -1) {
-            //Log.e("Luzzzia", "Name ist: " + faecherSP[pos].gibName() + "Raum: " + faecherSP[pos].gibRaum() );
             twName.setText(faecherSP[pos].gibName() + " - " + faecherSP[pos].gibKurz());
             twTag.setText(this.macheTag(Integer.parseInt(faecherSP[pos].gibTag())));
             twZeit.setText(faecherSP[pos].gibStundenName());

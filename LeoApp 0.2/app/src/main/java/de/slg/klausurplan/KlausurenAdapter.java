@@ -2,6 +2,7 @@ package de.slg.klausurplan;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,11 @@ import de.slg.leoapp.R;
 
 class KlausurenAdapter extends ArrayAdapter<Klausur> {
 
-    private Context context;
-    private int resId;
-    private List<Klausur> klausuren;
-    private LayoutInflater layoutInflater;
-    private int markieren;
+    private final Context context;
+    private final int resId;
+    private final List<Klausur> klausuren;
+    private final LayoutInflater layoutInflater;
+    private final int markieren;
 
     KlausurenAdapter(Context context, List<Klausur> objects, int markieren) {
         super(context, R.layout.list_item_klausur, objects.fill(new Klausur[objects.length()]));
@@ -43,9 +44,9 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
         if (klausuren.getObjectAt(position) != null) {
             tv.setText(klausuren.getObjectAt(position).toString());
             if (position == markieren) {
-                tv.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                tv.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
             } else {
-                tv.setTextColor(context.getResources().getColor(android.R.color.black));
+                tv.setTextColor(ContextCompat.getColor(context, android.R.color.black));
             }
         }
         return v;

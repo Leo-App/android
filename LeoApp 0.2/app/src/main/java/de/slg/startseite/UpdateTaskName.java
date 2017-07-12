@@ -18,8 +18,8 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
-    private PreferenceActivity c;
-    private String old;
+    private final PreferenceActivity c;
+    private final String old;
 
     public UpdateTaskName(PreferenceActivity c, String oldUsername) {
 

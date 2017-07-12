@@ -37,9 +37,9 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
     private View target;
     private short menu;
-    private Fragment qr;
+    private final Fragment qr;
     private boolean connection;
-    private boolean onAppStart;
+    private final boolean onAppStart;
     private String descr;
 
     QRWriteTask(Fragment a, boolean startedOnAppStart) {

@@ -15,8 +15,8 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.essensqr.SQLiteHandler;
@@ -29,7 +29,6 @@ import de.slg.stundenplan.WrapperStundenplanActivity;
 @SuppressWarnings("deprecation")
 @SuppressLint("SimpleDateFormat")
 public class NotificationService extends IntentService {
-
     private NotificationManager notificationManager;
 
     private static short hours;
@@ -51,7 +50,6 @@ public class NotificationService extends IntentService {
 
         actualize();
         while (true) {
-
             messengerNotification();
             klausurplanNotification();
             nachhilfeNotification();
@@ -75,17 +73,9 @@ public class NotificationService extends IntentService {
     }
 
     private void someLoopStuff() {
-        try {
-            Thread.sleep(59990);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Log.wtf("LeoApp", "thread wake call");
-
         Date d = new Date();
 
-        Log.wtf("LeoApp", "Time: " + d.getHours() + ":" + d.getMinutes() + " Scheduled: " + hours + ":" + minutes);
+        Log.i("LeoApp", "Time: " + d.getHours() + ":" + d.getMinutes() + " Scheduled: " + hours + ":" + minutes);
 
         if (d.getDay() != 5 && d.getDay() != 6 && d.getHours() == hoursTT && d.getMinutes() == minutesTT) {
             this.stundenplanNotification();
@@ -167,12 +157,10 @@ public class NotificationService extends IntentService {
         }
     }
 
-    public void messengerNotification() {
+    private void messengerNotification() {
         if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getDB().hasUnreadMessages()) {
-            NotificationCompat.MessagingStyle style = new NotificationCompat.MessagingStyle(Utils.getUserName()).addMessage("Hallo", new Date().getTime(), "Ich");
             StringBuilder builder = new StringBuilder();
             for (NotificationCompat.MessagingStyle.Message m : Utils.getDB().getUnreadMessages()) {
-                style.addMessage(m);
                 builder.append(m.getSender())
                         .append(": ")
                         .append(m.getText())
@@ -206,7 +194,7 @@ public class NotificationService extends IntentService {
     }
 
     private void stundenplanNotification() {
-        Stundenplanverwalter sv = new Stundenplanverwalter(WrapperStundenplanActivity.c, "meinefaecher.txt");
+        Stundenplanverwalter sv = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
         StringBuilder builder = new StringBuilder();
         if (gibWochentag() < 5) {
             Fach[] f = sv.gibFaecherKurzTag(gibWochentag() + 1);

@@ -4,14 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -23,7 +20,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
@@ -43,11 +39,9 @@ import com.google.zxing.Result;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.StringJoiner;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
@@ -57,7 +51,6 @@ import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.AbstimmDialog;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.AuswahlActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -69,10 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static ProgressBar pb;
     public static TextView title, info;
     public static Button verify;
-    public static Intent service;
     public static MainActivity ref;
 
-    public ZXingScannerView scV;
+    private ZXingScannerView scV;
 
     private static boolean verified;
     private static boolean editing;
@@ -84,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private CardAdapter mAdapter;
-    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    void updateButtons() { //TODO: Save remove
+    private void updateButtons() { //TODO: Save remove
 
     }
 
@@ -243,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView version = (TextView) findViewById(R.id.versioncode_maincard);
         version.setText(Utils.getAppVersionName());
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();
 
         boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
@@ -420,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.show();
     }
 
-    public static boolean isVerified() {
+    private static boolean isVerified() {
         return verified;
     }
 

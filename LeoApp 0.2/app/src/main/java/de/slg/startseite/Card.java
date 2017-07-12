@@ -1,13 +1,13 @@
 package de.slg.startseite;
 
-public abstract class Card {
+abstract class Card {
 
-    boolean large;
+    final boolean large;
     String title;
     int icon;
-    CardType type;
+    final CardType type;
 
-    public Card(boolean large, CardType type) {
+    Card(boolean large, CardType type) {
 
         this.large = large;
         this.type = type;

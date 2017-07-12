@@ -19,7 +19,7 @@ import de.slg.leoapp.R;
 
 class QRReadTask extends AsyncTask<String, Integer, Boolean> {
 
-    private WrapperQRActivity act;
+    private final WrapperQRActivity act;
     private int orderedMenu;
 
     QRReadTask(WrapperQRActivity act) {

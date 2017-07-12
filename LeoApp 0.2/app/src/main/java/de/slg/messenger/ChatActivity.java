@@ -176,8 +176,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
-        private Chat.Chattype chattype;
-        private LayoutInflater inflater;
+        private final Chat.Chattype chattype;
+        private final LayoutInflater inflater;
         private TextView nachricht, absender, uhrzeit, datum;
         private LinearLayout l;
         private View chatbubble, space, progressbar;

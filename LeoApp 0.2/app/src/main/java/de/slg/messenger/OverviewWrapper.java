@@ -47,14 +47,15 @@ import de.slg.vertretung.WrapperSubstitutionActivity;
 
 public class OverviewWrapper extends AppCompatActivity {
     private DrawerLayout drawerLayout;
-    public ChatsFragment cFragment;
-    public UserFragment uFragment;
-    public Chat[] chatArray = null;
-    public User[] userArray = null;
+    private ChatsFragment cFragment;
+    private UserFragment uFragment;
+    private Chat[] chatArray = null;
+    private User[] userArray = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.registerOverviewWrapper(this);
+        Utils.context = getApplicationContext();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_messenger);
@@ -237,7 +238,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         if (c == null) {
                             if (Utils.checkNetwork()) {
                                 c = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
-                                new CreateChat().execute(c);
+                                new CreateChat(c).execute();
                             } else {
                                 Toast.makeText(getContext(), R.string.need_internet, Toast.LENGTH_SHORT).show();
                             }
@@ -298,9 +299,9 @@ public class OverviewWrapper extends AppCompatActivity {
     }
 
     private static class ChatAdapter extends ArrayAdapter<Chat> {
-        private LayoutInflater inflater;
-        private int resId;
-        private Chat[] chats;
+        private final LayoutInflater inflater;
+        private final int resId;
+        private final Chat[] chats;
 
         ChatAdapter(Context context, Chat[] chats) {
             super(context, R.layout.list_item_chat, chats);
@@ -342,15 +343,23 @@ public class OverviewWrapper extends AppCompatActivity {
         }
     }
 
-    private static class CreateChat extends AsyncTask<Chat, Void, Void> {
+    private static class CreateChat extends AsyncTask<Void, Void, Void> {
+        private final Chat c;
+        private final String url;
+
+        CreateChat(Chat c) {
+            this.c = c;
+            url = generateURL(c);
+        }
+
         @Override
-        protected Void doInBackground(Chat... params) {
+        protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
                 try {
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(generateURL(params[0]))
+                                            new URL(url)
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     String erg = "";
@@ -359,10 +368,10 @@ public class OverviewWrapper extends AppCompatActivity {
                         erg += l;
                     reader.close();
                     if (!erg.startsWith("error"))
-                        params[0].cid = Integer.parseInt(erg);
+                        c.cid = Integer.parseInt(erg);
                     else
                         Log.e("Error", erg);
-                    Utils.getDB().insertAssoziation(new Assoziation(params[0].cid, Utils.getUserID()));
+                    Utils.getDB().insertAssoziation(new Assoziation(c.cid, Utils.getUserID()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -374,6 +383,11 @@ public class OverviewWrapper extends AppCompatActivity {
             String chatname = chat.cname.replace(' ', '+');
             Utils.getDB().setChatname(chat);
             return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Utils.receive();
         }
     }
 }

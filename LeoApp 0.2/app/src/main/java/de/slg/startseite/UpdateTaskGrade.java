@@ -13,8 +13,7 @@ import java.net.URL;
 
 public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
 
-    private boolean connection;
-    private Context c;
+    private final Context c;
 
     public UpdateTaskGrade(Context c) {
 
@@ -27,7 +26,7 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
         BufferedReader in = null;
         String result = "";
 
-        connection = hasActiveInternetConnection();
+        boolean connection = hasActiveInternetConnection();
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
 
         if (!connection)

@@ -165,11 +165,12 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     class CardViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, description;
-        Button button;
-        ImageView icon;
-        RelativeLayout content;
-        CardView wrapper;
+        final TextView title;
+        final TextView description;
+        final Button button;
+        final ImageView icon;
+        final RelativeLayout content;
+        final CardView wrapper;
 
         CardViewHolder(View itemView) {
             super(itemView);

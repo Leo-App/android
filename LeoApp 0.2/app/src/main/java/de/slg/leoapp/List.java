@@ -68,11 +68,10 @@ public class List<ContentType> implements Iterable<ContentType> {
     }
 
     public void toIndex(int index) {
-        if (index >= length)
+        if (index >= length - 1)
             toLast();
         else
-            for (toFirst(); hasAccess() && index > 0; next())
-                index--;
+            for (toFirst(); hasAccess() && index > 0; next(), index--) ;
     }
 
     public ContentType getContent() {

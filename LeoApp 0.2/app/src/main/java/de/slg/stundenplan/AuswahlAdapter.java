@@ -2,6 +2,7 @@ package de.slg.stundenplan;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,10 @@ import de.slg.leoapp.R;
 
 class AuswahlAdapter extends ArrayAdapter<Fach> {
 
-    private Context context;
-    private Fach[] fachArray;
-    private View[] views;
-    private Stundenplanverwalter sv;
+    private final Context context;
+    private final Fach[] fachArray;
+    private final View[] views;
+    private final Stundenplanverwalter sv;
 
     AuswahlAdapter(Context context, Fach[] pFacher, Stundenplanverwalter psv) {
         super(context, R.layout.list_item_kurs, pFacher);
@@ -76,25 +77,25 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
                     TextView tvFach = (TextView) views[i].findViewById(R.id.fach_auswahl);
                     TextView tvKuerzel = (TextView) views[i].findViewById(R.id.kürzel_auswahl);
                     TextView tvLehrer = (TextView) views[i].findViewById(R.id.lehrer_auswahl);
-                    tvFach.setTextColor(context.getResources().getColor(R.color.colorAccent));
-                    tvKuerzel.setTextColor(context.getResources().getColor(R.color.colorAccent));
-                    tvLehrer.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                    tvFach.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+                    tvKuerzel.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+                    tvLehrer.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                 } else if (ausgewählteFächer.contains(fachArray[i].gibName().split(" ")[0]) || ausgewählteStunden.contains(fachArray[i].gibStunde() + "." + fachArray[i].gibTag())) {
                     views[i].setEnabled(false);
                     TextView tvFach = (TextView) views[i].findViewById(R.id.fach_auswahl);
                     TextView tvKuerzel = (TextView) views[i].findViewById(R.id.kürzel_auswahl);
                     TextView tvLehrer = (TextView) views[i].findViewById(R.id.lehrer_auswahl);
-                    tvFach.setTextColor(context.getResources().getColor(R.color.colorTextGreyed));
-                    tvKuerzel.setTextColor(context.getResources().getColor(R.color.colorTextGreyed));
-                    tvLehrer.setTextColor(context.getResources().getColor(R.color.colorTextGreyed));
+                    tvFach.setTextColor(ContextCompat.getColor(context, R.color.colorTextGreyed));
+                    tvKuerzel.setTextColor(ContextCompat.getColor(context, R.color.colorTextGreyed));
+                    tvLehrer.setTextColor(ContextCompat.getColor(context, R.color.colorTextGreyed));
                 } else {
                     views[i].setEnabled(true);
                     TextView tvFach = (TextView) views[i].findViewById(R.id.fach_auswahl);
                     TextView tvKuerzel = (TextView) views[i].findViewById(R.id.kürzel_auswahl);
                     TextView tvLehrer = (TextView) views[i].findViewById(R.id.lehrer_auswahl);
-                    tvFach.setTextColor(context.getResources().getColor(R.color.colorText));
-                    tvKuerzel.setTextColor(context.getResources().getColor(R.color.colorText));
-                    tvLehrer.setTextColor(context.getResources().getColor(R.color.colorText));
+                    tvFach.setTextColor(ContextCompat.getColor(context, R.color.colorText));
+                    tvKuerzel.setTextColor(ContextCompat.getColor(context, R.color.colorText));
+                    tvLehrer.setTextColor(ContextCompat.getColor(context, R.color.colorText));
                 }
             }
         }

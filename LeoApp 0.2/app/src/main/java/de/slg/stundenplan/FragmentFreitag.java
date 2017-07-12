@@ -14,12 +14,11 @@ import de.slg.leoapp.R;
 
 public class FragmentFreitag extends Fragment {
 
-    View v;
     private Fach[] fachArray;
 
     @Override
     public View onCreateView(LayoutInflater layIn, ViewGroup container, Bundle savedInstanceState) {
-        v = layIn.inflate(R.layout.fragment_wochentag, container, false);
+        View v = layIn.inflate(R.layout.fragment_wochentag, container, false);
         ListView listW = (ListView) v.findViewById(R.id.listW);
 
         Stundenplanverwalter sv = new Stundenplanverwalter(getContext(), "meinefaecher.txt");

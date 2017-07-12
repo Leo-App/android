@@ -4,9 +4,9 @@ import java.util.Date;
 
 class Order {
 
-    private Date date;
-    private short menu;
-    private String descr;
+    private final Date date;
+    private final short menu;
+    private final String descr;
 
     Order(Date d, short m, String s) {
 

@@ -16,17 +16,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.DBConnection;
 import de.slg.messenger.OverviewWrapper;
 
+@SuppressLint("StaticFieldLeak")
 public abstract class Utils {
     public static Context context;
     private static DBConnection dbConnection;
-    @SuppressLint("StaticFieldLeak")
     private static OverviewWrapper overviewWrapper;
     private static ChatActivity chatActivity;
     private static ReceiveService receiveService;
+    private static KlausurplanActivity klausurplanActivity;
 
     public static boolean checkNetwork() {
         ConnectivityManager c = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -105,7 +107,7 @@ public abstract class Utils {
 
     public static void setLastVote(int vote) {
         Start.pref.edit()
-                .putString("pref_key_general_last_vote", getCurrentDate("dd.MM"))
+                .putString("pref_key_general_last_vote", getCurrentDate())
                 .putInt("pref_key_general_vote_id", vote)
                 .apply();
     }
@@ -114,8 +116,8 @@ public abstract class Utils {
         return context.getString(id);
     }
 
-    private static String getCurrentDate(String pattern) {
-        return new SimpleDateFormat(pattern).format(new Date());
+    private static String getCurrentDate() {
+        return new SimpleDateFormat("dd.MM").format(new Date());
     }
 
     public static boolean isVerified() {
@@ -164,7 +166,7 @@ public abstract class Utils {
     }
 
     static boolean showVoteOnStartup() {
-        if (getLastVote().equals(getCurrentDate("dd.MM")))
+        if (getLastVote().equals(getCurrentDate()))
             return false;
         boolean b = isVerified() && checkNetwork();
         if (b) {
@@ -204,5 +206,13 @@ public abstract class Utils {
         Start.pref.edit()
                 .putLong("pref_key_general_last_notification_schwarzes_brett", 0)
                 .apply();
+    }
+
+    public static void registerKlausurplanActivity(KlausurplanActivity activity) {
+        klausurplanActivity = activity;
+    }
+
+    public static KlausurplanActivity getKlausurplanActivity() {
+        return klausurplanActivity;
     }
 }

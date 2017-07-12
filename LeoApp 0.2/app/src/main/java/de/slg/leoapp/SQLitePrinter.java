@@ -18,7 +18,7 @@ class SQLitePrinter {
 
     private final class checkTask extends AsyncTask<Void, Void, Void> {
 
-        private Context c;
+        private final Context c;
 
         checkTask(Context c) {
             this.c = c;

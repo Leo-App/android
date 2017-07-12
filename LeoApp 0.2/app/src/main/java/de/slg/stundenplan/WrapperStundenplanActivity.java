@@ -1,6 +1,5 @@
 package de.slg.stundenplan;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -43,8 +43,6 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     public static String akTag;
     public static String akStunde;
-    public static boolean neu;
-    public static Context c;
 
 
     @Override
@@ -57,12 +55,10 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
         }
         Log.e("Luzzzia", "Meine Fächer existiert");
 
-        c = getApplicationContext();
-
         setContentView(R.layout.activity_wrapper_stundenplan);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_plan));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);

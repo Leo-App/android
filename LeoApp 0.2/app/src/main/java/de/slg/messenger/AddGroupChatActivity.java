@@ -167,7 +167,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
             }
         }
 
-        private boolean sendAssoziation(Assoziation assoziation) {
+        private void sendAssoziation(Assoziation assoziation) {
             if (assoziation != null)
                 try {
                     BufferedReader reader =
@@ -181,11 +181,9 @@ public class AddGroupChatActivity extends AppCompatActivity {
                     while ((l = reader.readLine()) != null)
                         erg += l;
                     Log.d("SendTask", "result of send Assoziation: " + erg);
-                    return true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            return false;
         }
 
         private String generateURL(Chat chat) {
@@ -199,9 +197,10 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            Utils.receive();
             findViewById(R.id.progressBar).setVisibility(View.GONE);
             ChatActivity.currentChat = newChat;
-            startActivity(new Intent(getApplicationContext(), ChatActivity.class));
+            startActivity(new Intent(getApplicationContext(), ChatActivity.class).putExtra("loading", true));
             finish();
         }
     }

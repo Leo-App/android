@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -53,7 +54,7 @@ public class AuswahlActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.stunden));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);

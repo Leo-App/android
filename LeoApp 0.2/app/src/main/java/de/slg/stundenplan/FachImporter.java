@@ -14,12 +14,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 class FachImporter extends AsyncTask<Void, Void, ArrayList<Fach>> {
-    private Context con;
+    private final Context context;
     private ArrayList<Fach> facherAT;
-    private String stufe;
+    private final String stufe;
 
     FachImporter(Context c, String pStufe) {
-        this.con = c;
+        this.context = c;
         stufe = pStufe;
     }
 
@@ -32,7 +32,7 @@ class FachImporter extends AsyncTask<Void, Void, ArrayList<Fach>> {
             connection.setRequestMethod("GET");
             connection.setDoOutput(true);
             connection.connect();
-            FileOutputStream fos = con.openFileOutput("testdaten.txt", Context.MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput("testdaten.txt", Context.MODE_PRIVATE);
             InputStream inSt = connection.getInputStream();
             byte[] buffer = new byte[1024];
             int bufferLength;
@@ -44,8 +44,8 @@ class FachImporter extends AsyncTask<Void, Void, ArrayList<Fach>> {
             String zeile;
             String[] fach;
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.openFileInput("testdaten.txt")));
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(con.openFileOutput("allefaecher.txt", Context.MODE_PRIVATE)));
+            BufferedReader br = new BufferedReader(new InputStreamReader(context.openFileInput("testdaten.txt")));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(context.openFileOutput("allefaecher.txt", Context.MODE_PRIVATE)));
 
             zeile = br.readLine();
             while (zeile != null) {
@@ -53,7 +53,7 @@ class FachImporter extends AsyncTask<Void, Void, ArrayList<Fach>> {
                 zeile = this.ignoriereAT(zeile);
                 fach = zeile.split(",");
                 if (fach[1].equals(stufe)) {
-                    facherAT.add(new Fach(fach[3], fach[4], fach[2], fach[5], fach[6], con));
+                    facherAT.add(new Fach(fach[3], fach[4], fach[2], fach[5], fach[6], context));
                     bw.write("Name;" + fach[3] + ";" + fach[4] + ";" + fach[2] + ";" + fach[5] + ";" + fach[6] + ";nicht;notiz");
                     bw.newLine();
                 }

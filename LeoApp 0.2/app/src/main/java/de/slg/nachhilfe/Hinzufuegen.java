@@ -62,7 +62,7 @@ public class Hinzufuegen extends AppCompatActivity {
         return true;
     }
 
-    public boolean ueberpruefe() {
+    private boolean ueberpruefe() {
         EmpfangeFaecherUser toll = new EmpfangeFaecherUser();
         toll.execute();
         setContentView(R.layout.activity_nachhilfeboerse);

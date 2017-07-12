@@ -11,9 +11,9 @@ import android.widget.TextView;
 import de.slg.leoapp.R;
 
 class WochentagAdapter extends ArrayAdapter<Fach> {
-    private Context cont;
-    private Fach[] fachAd;
-    private View[] viAd;
+    private final Context cont;
+    private final Fach[] fachAd;
+    private final View[] viAd;
 
     WochentagAdapter(Context pCont, Fach[] pFach) {
         super(pCont, R.layout.list_item_schulstunde, pFach);

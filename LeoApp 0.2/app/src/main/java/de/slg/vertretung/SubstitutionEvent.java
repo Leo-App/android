@@ -2,7 +2,7 @@ package de.slg.vertretung;
 
 import java.util.Date;
 
-public class SubstitutionEvent {
+class SubstitutionEvent {
 
     private String school;
     private String schoolClass;
@@ -75,7 +75,7 @@ public class SubstitutionEvent {
      *
      * @param pSchool Name of the school
      */
-    public void setSchool(String pSchool) {
+    private void setSchool(String pSchool) {
         school = pSchool;
     }
 
@@ -93,7 +93,7 @@ public class SubstitutionEvent {
      *
      * @param pSchoolClass School class
      */
-    public void setSchoolClass(String pSchoolClass) {
+    private void setSchoolClass(String pSchoolClass) {
         pSchoolClass = pSchoolClass.replaceAll("\\(", "");
         pSchoolClass = pSchoolClass.replaceAll("\\)", "");
         schoolClass = pSchoolClass;
@@ -104,7 +104,7 @@ public class SubstitutionEvent {
      *
      * @param pPeriod Period
      */
-    public void setPeriod(String pPeriod) {
+    private void setPeriod(String pPeriod) {
         period = pPeriod;
     }
 
@@ -122,7 +122,7 @@ public class SubstitutionEvent {
      *
      * @param pTeacher Identification code of the teacher, who would normally teach this class
      */
-    public void setTeacher(String pTeacher) {
+    private void setTeacher(String pTeacher) {
         teacher = pTeacher;
     }
 
@@ -140,7 +140,7 @@ public class SubstitutionEvent {
      *
      * @param pSubject Identification code of the subject
      */
-    public void setSubject(String pSubject) {
+    private void setSubject(String pSubject) {
         subject = pSubject;
     }
 
@@ -158,7 +158,7 @@ public class SubstitutionEvent {
      *
      * @param pSubstitute Identification Code of the substitute
      */
-    public void setSubstitute(String pSubstitute) {
+    private void setSubstitute(String pSubstitute) {
         substitute = pSubstitute;
     }
 
@@ -176,7 +176,7 @@ public class SubstitutionEvent {
      *
      * @param pRoom Room
      */
-    public void setRoom(String pRoom) {
+    private void setRoom(String pRoom) {
         room = pRoom;
     }
 
@@ -203,7 +203,7 @@ public class SubstitutionEvent {
      *
      * @param pCancellation Boolean whether the class is cancelled or not
      */
-    public void setCancellation(boolean pCancellation) {
+    private void setCancellation(boolean pCancellation) {
         cancellation = pCancellation;
     }
 
@@ -212,7 +212,7 @@ public class SubstitutionEvent {
      *
      * @return Note
      */
-    public String getNote() {
+    private String getNote() {
         return note;
     }
 
@@ -221,7 +221,7 @@ public class SubstitutionEvent {
      *
      * @param pNote Note
      */
-    public void setNote(String pNote) {
+    private void setNote(String pNote) {
         note = pNote;
     }
 
@@ -239,7 +239,7 @@ public class SubstitutionEvent {
      *
      * @param pDate Date
      */
-    public void setDate(Date pDate) {
+    private void setDate(Date pDate) {
         date = pDate;
     }
 
