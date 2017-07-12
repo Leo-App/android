@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         info = (TextView) findViewById(R.id.info_text0);
         verify = (Button) findViewById(R.id.buttonCardView0);
         pb = (ProgressBar) findViewById(R.id.progressBar1);
+        v = findViewById(R.id.coordinator);
 
         int id = Utils.getUserID();
         boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);

@@ -20,6 +20,10 @@ import de.slg.leoapp.R;
 
 class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
+    //TODO im editmodus sind button benutzbar
+    //TODO verifizierungsmode funktioniert bei einigen cards nicht
+    //TODO anzeige stimmung auswählen
+
     private MainActivity c;
     private boolean connection;
 

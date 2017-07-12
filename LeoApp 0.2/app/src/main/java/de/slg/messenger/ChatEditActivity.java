@@ -114,6 +114,7 @@ public class ChatEditActivity extends AppCompatActivity {
     }
 
     private void initListView() {
+        mode = "";
         lvUsers = (ListView) findViewById(R.id.listViewUsersEdit);
         usersOfChat1 = Utils.getDB().getUsersInChat(currentChat, false);
         usersOfChat2 = Utils.getDB().getUsersInChat(currentChat, true);

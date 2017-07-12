@@ -67,7 +67,7 @@ public class DBConnection {
         columns = new String[]{DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT};
         cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, columns, condition, null, null, null, DBHelper.MESSAGES_ID);
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            Message m = new Message(cursor.getInt(0), cursor.getString(1), 0, cursor.getInt(2), Utils.getUserID(), false);
+            Message m = new Message(cursor.getInt(0), cursor.getString(1), 0, cid, Utils.getUserID(), false);
             m.setUname(Utils.getUserName());
             list.append(m);
         }
