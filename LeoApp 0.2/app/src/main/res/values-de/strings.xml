@@ -268,5 +268,7 @@
     </string-array>
 
     <string name="tutoring_title_new">Neue Anzeige</string>
+    <string name="settings_summary_messenger_sync">Deine Nachrichten und Chats werden von diesem Gerät gelöscht und neu vom Server heruntergeladen.</string>
+    <string name="settings_title_messenger_sync">Synchronisieren</string>
 
 </resources>

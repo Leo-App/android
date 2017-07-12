@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,9 +46,9 @@ public class ChatEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat))
+        if (Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid))
             getMenuInflater().inflate(R.menu.messenger_chat_edit, menu);
-        if (!Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat))
+        if (!Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid))
             menu.clear();
         this.menu = menu;
         return true;
@@ -137,7 +136,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void initLeaveButton() {
         Button buttonLeave = (Button) findViewById(R.id.buttonLeaveChat);
-        if (Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat)) {
+        if (Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid)) {
             buttonLeave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

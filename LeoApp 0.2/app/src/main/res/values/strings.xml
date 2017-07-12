@@ -242,5 +242,7 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="drawer_placeholder_grade">Q1</string>
+    <string name="settings_summary_messenger_sync">All your Chats will be removed from this device and received from the Server.</string>
+    <string name="settings_title_messenger_sync">Synchronize your device</string>
 
 </resources>

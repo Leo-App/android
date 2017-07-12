@@ -130,6 +130,10 @@ public abstract class Utils {
         return dbConnection;
     }
 
+    static void resetDB() {
+        dbConnection = null;
+    }
+
     public static void registerOverviewWrapper(OverviewWrapper overviewWrapper) {
         Utils.overviewWrapper = overviewWrapper;
     }

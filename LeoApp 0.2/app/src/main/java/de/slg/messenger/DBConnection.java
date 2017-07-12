@@ -15,19 +15,17 @@ import de.slg.leoapp.Utils;
 
 public class DBConnection {
     private final SQLiteDatabase database;
-    private final DBHelper helper;
 
     public DBConnection(Context context) {
-        helper = new DBHelper(context);
+        DBHelper helper = new DBHelper(context);
         database = helper.getWritableDatabase();
     }
 
     //Message
     public void insertMessage(Message m) {
-        if (m != null) {
-            database.execSQL("DELETE FROM " + DBHelper.TABLE_MESSAGES + " WHERE " + DBHelper.MESSAGES_ID + " = " + m.mid);
+        if (m != null && !contains(m)) {
             ContentValues values = new ContentValues();
-            values.put(DBHelper.MESSAGES_ID, m.mid);
+            values.put(DBHelper.MESSAGE_ID, m.mid);
             values.put(DBHelper.MESSAGE_TEXT, m.mtext);
             values.put(DBHelper.MESSAGE_DATE, m.mdate.getTime());
             values.put(DBHelper.CHAT_ID, m.cid);
@@ -38,7 +36,7 @@ public class DBConnection {
     }
 
     private Message getLastMessage(int cid) {
-        String[] columns = {DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.USER_ID, DBHelper.MESSAGE_READ};
+        String[] columns = {DBHelper.MESSAGE_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.USER_ID, DBHelper.MESSAGE_READ};
         String condition = DBHelper.CHAT_ID + " = " + cid;
         Cursor cursor = database.query(DBHelper.TABLE_MESSAGES, columns, condition, null, null, null, DBHelper.MESSAGE_DATE + " DESC", "1");
         cursor.moveToFirst();
@@ -52,7 +50,7 @@ public class DBConnection {
     }
 
     Message[] getMessagesFromChat(int cid) {
-        String[] columns = {DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.USER_ID, DBHelper.MESSAGE_READ};
+        String[] columns = {DBHelper.MESSAGE_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.USER_ID, DBHelper.MESSAGE_READ};
         String condition = DBHelper.CHAT_ID + " = " + cid;
         Cursor cursor = query(DBHelper.TABLE_MESSAGES, columns, condition, null, DBHelper.MESSAGE_DATE);
         List<Message> list = new List<>();
@@ -62,8 +60,8 @@ public class DBConnection {
             list.append(m);
         }
         cursor.close();
-        columns = new String[]{DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT};
-        cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, columns, condition, null, DBHelper.MESSAGES_ID);
+        columns = new String[]{DBHelper.MESSAGE_ID, DBHelper.MESSAGE_TEXT};
+        cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, columns, condition, null, DBHelper.MESSAGE_ID);
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Message m = new Message(cursor.getInt(0), cursor.getString(1), 0, cid, Utils.getUserID(), false);
             m.setUname(Utils.getUserName());
@@ -86,7 +84,7 @@ public class DBConnection {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGES_ID}, DBHelper.MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + DBHelper.USER_ID + " != " + Utils.getUserID(), null, null);
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGE_ID}, DBHelper.MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + DBHelper.USER_ID + " != " + Utils.getUserID(), null, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -102,10 +100,8 @@ public class DBConnection {
         return l;
     }
 
-    void setMessagesRead(Chat c) {
-        if (c != null) {
-            database.execSQL("UPDATE " + DBHelper.TABLE_MESSAGES + " SET " + DBHelper.MESSAGE_READ + " = 1 WHERE " + DBHelper.TABLE_MESSAGES + "." + DBHelper.CHAT_ID + " = " + c.cid);
-        }
+    void setMessagesRead(int cid) {
+        database.execSQL("UPDATE " + DBHelper.TABLE_MESSAGES + " SET " + DBHelper.MESSAGE_READ + " = 1 WHERE " + DBHelper.CHAT_ID + " = " + cid);
     }
 
     void insertUnsendMessage(String mtext, int cid) {
@@ -116,7 +112,7 @@ public class DBConnection {
     }
 
     public Message[] getUnsendMessages() {
-        Cursor cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, new String[]{DBHelper.MESSAGES_ID, DBHelper.MESSAGE_TEXT, DBHelper.CHAT_ID}, null, null, null);
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, new String[]{DBHelper.MESSAGE_ID, DBHelper.MESSAGE_TEXT, DBHelper.CHAT_ID}, null, null, null);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
@@ -127,13 +123,19 @@ public class DBConnection {
     }
 
     public void removeUnsendMessage(int mid) {
-        database.execSQL("DELETE FROM " + DBHelper.TABLE_MESSAGES_UNSEND + " WHERE " + DBHelper.MESSAGES_ID + " = " + mid);
+        database.execSQL("DELETE FROM " + DBHelper.TABLE_MESSAGES_UNSEND + " WHERE " + DBHelper.MESSAGE_ID + " = " + mid);
+    }
+
+    private boolean contains(Message m) {
+        Cursor cursor = query(DBHelper.TABLE_MESSAGES, new String[]{DBHelper.MESSAGE_ID}, DBHelper.MESSAGE_ID + " = " + m.mid, null, null);
+        boolean b = cursor.getCount() > 0;
+        cursor.close();
+        return b;
     }
 
     //User
     public void insertUser(User u) {
-        if (u != null) {
-            database.execSQL("DELETE FROM " + DBHelper.TABLE_USERS + " WHERE " + DBHelper.USER_ID + " = " + u.uid);
+        if (u != null && !contains(u)) {
             ContentValues values = new ContentValues();
             values.put(DBHelper.USER_ID, u.uid);
             values.put(DBHelper.USER_NAME, u.uname);
@@ -168,10 +170,16 @@ public class DBConnection {
         return erg;
     }
 
+    private boolean contains(User u) {
+        Cursor cursor = query(DBHelper.TABLE_USERS, new String[]{DBHelper.USER_ID}, DBHelper.USER_ID + " = " + u.uid, null, null);
+        boolean b = cursor.getCount() > 0;
+        cursor.close();
+        return b;
+    }
+
     //Chat
     public void insertChat(Chat c) {
-        if (c != null) {
-            database.execSQL("DELETE FROM " + DBHelper.TABLE_CHATS + " WHERE " + DBHelper.CHAT_ID + " = " + c.cid);
+        if (c != null && !contains(c)) {
             ContentValues values = new ContentValues();
             values.put(DBHelper.CHAT_ID, c.cid);
             values.put(DBHelper.CHAT_NAME, c.cname);
@@ -236,6 +244,13 @@ public class DBConnection {
         }
     }
 
+    private boolean contains(Chat c) {
+        Cursor cursor = query(DBHelper.TABLE_CHATS, new String[]{DBHelper.CHAT_ID}, DBHelper.CHAT_ID + " = " + c.cid, null, null);
+        boolean b = cursor.getCount() > 0;
+        cursor.close();
+        return b;
+    }
+
     //Assoziation
     public void insertAssoziation(Assoziation a) {
         if (a != null) {
@@ -246,9 +261,9 @@ public class DBConnection {
         }
     }
 
-    boolean userInChat(User u, Chat c) {
+    boolean userInChat(int uid, int cid) {
         String[] columns = {DBHelper.USER_ID};
-        String condition = DBHelper.CHAT_ID + " = " + c.cid + " AND " + DBHelper.USER_ID + " = " + u.uid;
+        String condition = DBHelper.CHAT_ID + " = " + cid + " AND " + DBHelper.USER_ID + " = " + uid;
         Cursor cursor = query(DBHelper.TABLE_ASSOZIATION, columns, condition, null, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
@@ -321,7 +336,7 @@ public class DBConnection {
     public class DBHelper extends SQLiteOpenHelper {
         public static final String DATABASE_NAME = "messenger";
         static final String TABLE_MESSAGES = "messages";
-        static final String MESSAGES_ID = "mid";
+        static final String MESSAGE_ID = "mid";
         static final String MESSAGE_TEXT = "mtext";
         static final String MESSAGE_DATE = "mdate";
         static final String MESSAGE_READ = "mgelesen";
@@ -346,7 +361,7 @@ public class DBConnection {
             Log.i("DBHelper", "Datenbank wird erstellt");
             try {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " (" +
-                        MESSAGES_ID + " INTEGER PRIMARY KEY, " +
+                        MESSAGE_ID + " INTEGER PRIMARY KEY, " +
                         MESSAGE_TEXT + " TEXT NOT NULL, " +
                         MESSAGE_DATE + " TEXT NOT NULL, " +
                         CHAT_ID + " INTEGER NOT NULL, " +
@@ -381,7 +396,7 @@ public class DBConnection {
             }
             try {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES_UNSEND + " (" +
-                        MESSAGES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        MESSAGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         MESSAGE_TEXT + " TEXT NOT NULL, " +
                         CHAT_ID + " INTEGER NOT NULL)");
             } catch (SQLException e) {

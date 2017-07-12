@@ -39,6 +39,7 @@ import java.security.NoSuchAlgorithmException;
 import de.slg.essensqr.Auth;
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.messenger.DBConnection;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
@@ -290,6 +291,17 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         editor.putBoolean("pref_key_status_loggedin", getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_status_loggedin", false));
         editor.apply();
 
+        Preference syncPref = findPreference("pref_key_sync_messenger");
+        syncPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Utils.resetDB();
+                deleteDatabase(DBConnection.DBHelper.DATABASE_NAME);
+                Utils.receive();
+                return Utils.checkNetwork();
+            }
+        });
+
     }
 
     private void initToolbar() {
@@ -429,8 +441,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     }
 
     private class PreferenceTask extends AsyncTask<Void, Void, Auth> {
-
-
         @Override
         protected Auth doInBackground(Void... params) {
 

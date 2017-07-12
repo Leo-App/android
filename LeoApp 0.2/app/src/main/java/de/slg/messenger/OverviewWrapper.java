@@ -56,6 +56,7 @@ public class OverviewWrapper extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Utils.registerOverviewWrapper(this);
         Utils.context = getApplicationContext();
+        Utils.getDB();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_messenger);
@@ -282,6 +283,7 @@ public class OverviewWrapper extends AppCompatActivity {
                     if (position < Utils.getOverviewWrapper().chatArray.length) {
                         ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[position];
                         startActivity(new Intent(getContext(), ChatActivity.class).putExtra("loading", false));
+                        view.findViewById(R.id.notify).setVisibility(View.GONE);
                     }
                 }
             });
@@ -338,6 +340,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 } else {
                     icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
                 }
+                icon.setEnabled(Utils.getDB().userInChat(Utils.getUserID(), chats[position].cid));
             }
             return v;
         }

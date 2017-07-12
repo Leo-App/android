@@ -118,6 +118,11 @@
             android:summary="@string/settings_summary_notification_messenger"
             android:title="@string/settings_title_notification" />
 
+        <Preference
+            android:key="pref_key_sync_messenger"
+            android:summary="@string/settings_summary_messenger_sync"
+            android:title="@string/settings_title_messenger_sync" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

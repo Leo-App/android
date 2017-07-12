@@ -56,14 +56,13 @@ public class ChatActivity extends AppCompatActivity {
         initRecyclerView();
         initSnackbar();
 
-        Utils.getDB().setMessagesRead(currentChat);
+        Utils.getDB().setMessagesRead(currentChat.cid);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.messenger_chat, menu);
-        if (currentChat.ctype == Chat.Chattype.PRIVATE || !Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat))
-            menu.clear();
+        if (currentChat.ctype != Chat.Chattype.PRIVATE && Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid))
+            getMenuInflater().inflate(R.menu.messenger_chat, menu);
         return true;
     }
 
@@ -92,8 +91,10 @@ public class ChatActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
+        rvMessages.setVisibility(View.INVISIBLE);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         refreshUI(true, true);
+        rvMessages.setVisibility(View.VISIBLE);
     }
 
     private void initToolbar() {
@@ -118,7 +119,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if (getIntent().getBooleanExtra("loading", false)) {
             new WaitForLoad().execute();
-        } else if (!Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat)) {
+        } else if (!Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid)) {
             etMessage.setEnabled(false);
             etMessage.setHint("Du bist nicht in diesem Chat!");
             sendButton.setEnabled(false);
@@ -324,7 +325,7 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             while (currentChat.cid == -1) ;
-            while (!Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat)) ;
+            while (!Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid)) ;
             return null;
         }
 
