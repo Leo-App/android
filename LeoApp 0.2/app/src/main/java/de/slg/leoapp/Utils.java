@@ -130,7 +130,7 @@ public abstract class Utils {
         return dbConnection;
     }
 
-    static void resetDB() {
+    static void invalidateDB() {
         dbConnection = null;
     }
 

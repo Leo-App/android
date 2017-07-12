@@ -295,7 +295,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         syncPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Utils.resetDB();
+                Utils.invalidateDB();
                 deleteDatabase(DBConnection.DBHelper.DATABASE_NAME);
                 Utils.receive();
                 return Utils.checkNetwork();
