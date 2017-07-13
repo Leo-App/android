@@ -22,6 +22,7 @@ import java.io.OutputStreamWriter;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class AuswahlActivity extends AppCompatActivity {
     private Menu menu;
@@ -34,22 +35,22 @@ public class AuswahlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auswahl);
 
-        SharedPreferences shaPre = getSharedPreferences("", MODE_PRIVATE); //Ach, hier ist der Fehler TODO: 27.05.2017
-        String stufe = shaPre.getString("pref_key_level_general", null);
+        String stufe = Utils.getUserStufe();
 
-        if (!fileExistiert() && stufe!=null) {
+        if (!fileExistiert() && stufe != null) {
             importer = new FachImporter(getApplicationContext(), stufe);
             importer.execute();
         }
-        if (stufe==null) {
-            Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes2, Snackbar.LENGTH_SHORT);
-            snack.show();
-            //Ich will einen Button der direkt zu den Einstellungen geht!!!!
-        }
 
         initToolbar();
-        initSV();
-        initListView();
+
+        if (stufe == null) {
+            Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes2, Snackbar.LENGTH_SHORT).show();
+            //TODO Ich will einen Button der direkt zu den Einstellungen geht!!!!
+        } else {
+            initSV();
+            initListView();
+        }
     }
 
     private void initToolbar() {
@@ -84,12 +85,12 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private void initSV() {
-        if (importer != null)
-            try {
+        try {
+            if (importer != null)
                 importer.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         sv = new Stundenplanverwalter(getApplicationContext(), "allefaecher.txt");
         if (sv.gibFaecherSort().length == 0) {
             Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes, Snackbar.LENGTH_SHORT);
@@ -119,7 +120,7 @@ public class AuswahlActivity extends AppCompatActivity {
             sv.inTextDatei(getApplicationContext(), auswahlAdapter.gibAlleMarkierten());
             startActivity(new Intent(getApplicationContext(), WrapperStundenplanActivity.class));
         } else if (mi.getItemId() == R.id.action_refresh) {
-            this.deexistiere();
+            deleteFile("allefaecher.txt");
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
         }
         finish();
@@ -137,18 +138,5 @@ public class AuswahlActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return false;
-    }
-
-    private void deexistiere() {
-        try {
-            BufferedWriter bw =
-                    new BufferedWriter(
-                            new OutputStreamWriter(
-                                    openFileOutput("allefaecher.txt", MODE_PRIVATE)));
-            bw.write("");
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

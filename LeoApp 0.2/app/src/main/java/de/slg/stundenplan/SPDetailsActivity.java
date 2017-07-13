@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,14 +12,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
 import de.slg.leoapp.R;
 
 public class SPDetailsActivity extends AppCompatActivity {
-    private Stundenplanverwalter stuVe;
+    private Stundenplanverwalter stundenplanverwalter;
     private Fach[] faecherSP;
 
     private EditText etNotiz;
@@ -43,18 +38,18 @@ public class SPDetailsActivity extends AppCompatActivity {
 
         String tag = WrapperStundenplanActivity.akTag;
         String stunde = WrapperStundenplanActivity.akStunde;
-        stuVe = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
-        faecherSP = stuVe.gibFaecherSort();
+        stundenplanverwalter = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
+        faecherSP = stundenplanverwalter.gibFaecherSort();
 
-        pos = this.sucheFachPos(tag, stunde);
+        pos = sucheFachPos(tag, stunde);
 
-        TextView twName = (TextView) this.findViewById(R.id.name_detail);
-        TextView twTag = (TextView) this.findViewById(R.id.tag_details);
-        TextView twZeit = (TextView) this.findViewById(R.id.uhrzeit_details);
-        TextView twRaum = (TextView) this.findViewById(R.id.raumnr_details);
-        TextView twLehrer = (TextView) this.findViewById(R.id.lehrerK_details);
-        etNotiz = (EditText) this.findViewById(R.id.notizFeld_details);
-        cbSchrift = (CheckBox) this.findViewById(R.id.checkBox_schriftlich);
+        TextView twName = (TextView) findViewById(R.id.name_detail);
+        TextView twTag = (TextView) findViewById(R.id.tag_details);
+        TextView twZeit = (TextView) findViewById(R.id.uhrzeit_details);
+        TextView twRaum = (TextView) findViewById(R.id.raumnr_details);
+        TextView twLehrer = (TextView) findViewById(R.id.lehrerK_details);
+        etNotiz = (EditText) findViewById(R.id.notizFeld_details);
+        cbSchrift = (CheckBox) findViewById(R.id.checkBox_schriftlich);
 
         if (pos != -1) {
             twName.setText(faecherSP[pos].gibName() + " - " + faecherSP[pos].gibKurz());
@@ -90,13 +85,12 @@ public class SPDetailsActivity extends AppCompatActivity {
             if (cbSchrift.isChecked() != faecherSP[pos].gibSchriftlich()) {
                 faecherSP[pos].setzeSchriftlich(cbSchrift.isChecked());
             }
-            Log.e("Luzzzia", "Output: " + etNotiz.getText() + "Länge: " + etNotiz.getText().length());
             if (!etNotiz.getText().toString().equals("")) {
                 faecherSP[pos].setzeNotiz("" + etNotiz.getText());
             } else {
                 faecherSP[pos].setzeNotiz("notiz");
             }
-            stuVe.inTextDatei(getApplicationContext(), faecherSP);
+            stundenplanverwalter.inTextDatei(getApplicationContext(), faecherSP);
             startActivity(new Intent(getApplicationContext(), WrapperStundenplanActivity.class));
             this.finish();
         }
@@ -130,12 +124,6 @@ public class SPDetailsActivity extends AppCompatActivity {
     }
 
     private void deexistiere() {
-        BufferedWriter bw;
-        try {
-            bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("meinefaecher.txt", MODE_PRIVATE)));
-            bw.write("");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        deleteFile("meinefaecher.txt");
     }
 }

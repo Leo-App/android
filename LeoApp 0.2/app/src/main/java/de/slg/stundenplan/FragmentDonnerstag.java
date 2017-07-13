@@ -33,7 +33,6 @@ public class FragmentDonnerstag extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 WrapperStundenplanActivity.akTag = "4";
                 WrapperStundenplanActivity.akStunde = fachArray[position].gibStunde();
-                Log.e("Luzzzia", WrapperStundenplanActivity.akTag + ";" + WrapperStundenplanActivity.akStunde);
                 startActivity(new Intent(getContext(), SPDetailsActivity.class));
             }
         });

@@ -3,7 +3,6 @@ package de.slg.stundenplan;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +40,6 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
                 view = layoutInflater.inflate(id, null);
             }
             view.setEnabled(true);
-            Log.e("Test", "Fach: " + fachArray[position].gibName());
-            Log.e("Test", "Kuerzel: " + fachArray[position].gibKurz());
-            Log.e("Test", "Lehrer: " + fachArray[position].gibLehrer());
-            Log.e("Test", "Stunden: " + fachArray[position].gibStunde());
             TextView twFach = (TextView) view.findViewById(R.id.fach_auswahl);
             TextView twKuerzel = (TextView) view.findViewById(R.id.kürzel_auswahl);
             TextView twLehrer = (TextView) view.findViewById(R.id.lehrer_auswahl);

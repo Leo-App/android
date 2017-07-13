@@ -57,67 +57,9 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_wrapper_stundenplan);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(getString(R.string.title_plan));
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
+        initToolbar();
         initNavigationView();
-
-        FragmentPagerAdapter frAd = new FragmentPagerAdapter(getSupportFragmentManager()) {
-
-            @Override
-            public int getCount() {
-                return 5;
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                switch (position) {
-                    case 0:
-                        return new FragmentMontag();
-                    case 1:
-                        return new FragmentDienstag();
-                    case 2:
-                        return new FragmentMittwoch();
-                    case 3:
-                        return new FragmentDonnerstag();
-                    case 4:
-                        return new FragmentFreitag();
-                    default:
-                        return new FragmentMontag();
-                }
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return getString(R.string.mo);
-                    case 1:
-                        return getString(R.string.di);
-                    case 2:
-                        return getString(R.string.mi);
-                    case 3:
-                        return getString(R.string.don);
-                    case 4:
-                        return getString(R.string.fr);
-                    default:
-                        return null;
-                }
-            }
-
-        };
-
-        ViewPager vP = (ViewPager) findViewById(R.id.viPager);
-        vP.setAdapter(frAd);
-
-        TabLayout tl = (TabLayout) findViewById(R.id.tablayout);
-        tl.setupWithViewPager(vP);
-
+        initTabs();
     }
 
     @Override
@@ -204,13 +146,75 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
+    private void initToolbar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle(getString(R.string.title_plan));
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    private void initTabs() {
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public int getCount() {
+                return 5;
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+                switch (position) {
+                    case 0:
+                        return new FragmentMontag();
+                    case 1:
+                        return new FragmentDienstag();
+                    case 2:
+                        return new FragmentMittwoch();
+                    case 3:
+                        return new FragmentDonnerstag();
+                    case 4:
+                        return new FragmentFreitag();
+                    default:
+                        return new FragmentMontag();
+                }
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position) {
+                    case 0:
+                        return getString(R.string.mo);
+                    case 1:
+                        return getString(R.string.di);
+                    case 2:
+                        return getString(R.string.mi);
+                    case 3:
+                        return getString(R.string.don);
+                    case 4:
+                        return getString(R.string.fr);
+                    default:
+                        return null;
+                }
+            }
+        };
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viPager);
+        viewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
     private boolean fileExistiert() {
-        BufferedReader br;
         try {
-            br = new BufferedReader(new InputStreamReader(openFileInput("meinefaecher.txt")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("meinefaecher.txt")));
             if (br.readLine() != null) {
+                br.close();
                 return true;
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -218,10 +222,10 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
     }
 
     private void deexistiere() {
-        BufferedWriter bw;
         try {
-            bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("meinefaecher.txt", MODE_PRIVATE)));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("meinefaecher.txt", MODE_PRIVATE)));
             bw.write("");
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

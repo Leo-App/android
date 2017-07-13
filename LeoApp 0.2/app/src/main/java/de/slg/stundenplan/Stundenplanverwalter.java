@@ -13,7 +13,7 @@ public class Stundenplanverwalter {
 
     private final String dateiName;
     private Fach[] meineFaecher;
-    private final Context ac;
+    private final Context context;
 
     /**
      * public Stundenplanverwalter(ArrayList<Fach> f) {
@@ -22,16 +22,16 @@ public class Stundenplanverwalter {
      * DateiName = "allefaecher.txt";
      * }
      * <p>
-     * public Stundenplanverwalter(Context pAc) {
+     * public Stundenplanverwalter(Context context) {
      * //1. Constructor, erstellt FachArray aus der Datei
-     * ac = pAc;
+     * context = context;
      * dateiName = "meinefaecher.txt";
      * meineFaecher = this.auslesen();
      * }
      */
 
-    public Stundenplanverwalter(Context pAc, String datei) {
-        ac = pAc;
+    public Stundenplanverwalter(Context context, String datei) {
+        this.context = context;
         dateiName = datei;
         meineFaecher = this.auslesen();
     }
@@ -51,12 +51,12 @@ public class Stundenplanverwalter {
             String[] fach;
             ArrayList<Fach> facher = new ArrayList<>();
             try {
-                BufferedReader br = new BufferedReader(new InputStreamReader(ac.openFileInput(dateiName)));
+                BufferedReader br = new BufferedReader(new InputStreamReader(context.openFileInput(dateiName)));
                 int i = 0;
                 zeile = br.readLine();
                 while (zeile != null) {
                     fach = zeile.split(";");
-                    facher.add(i, new Fach(fach[1], fach[2], fach[3], fach[4], fach[5], ac));
+                    facher.add(i, new Fach(fach[1], fach[2], fach[3], fach[4], fach[5], context));
                     boolean b = false;
                     if (fach[6].equals("schriftlich")) {
                         b = true;
@@ -70,7 +70,7 @@ public class Stundenplanverwalter {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            this.inTextDatei(ac, this.macheArray(facher, facher.size()));
+            this.inTextDatei(context, this.macheArray(facher, facher.size()));
             return this.macheArray(facher, facher.size());
         }
     }
@@ -108,16 +108,16 @@ public class Stundenplanverwalter {
                 int frei = (Integer.parseInt(meineFaecher[i].gibStunde())) - aktuelleStunde;
                 if (frei > 1) { //Wenn Stunden zwischen der vorherigen und der neuen fehlen
                     aktuelleStunde = aktuelleStunde + 1;
-                    a.add(new Fach("", "", "", Integer.toString(aktuellerTag), Integer.toString(aktuelleStunde), ac)); //Füge eine Freistunde hinzu
+                    a.add(new Fach("", "", "", Integer.toString(aktuellerTag), Integer.toString(aktuelleStunde), context)); //Füge eine Freistunde hinzu
                 } else { //Wenn die beiden Stunden direkt aufeinander folgen
                     aktuelleStunde = Integer.parseInt(meineFaecher[i].gibStunde());
                     a.add(meineFaecher[i]); //Füge dieses Fach ein
                     /*if(i<(meineFaecher.length-1) && (Integer.parseInt(meineFaecher[i+1].gibTag()))>aktuellerTag) { //Wenn es die letzte Stunde des Tages ist
                         //Log.e("Luzzia", "bin in IF an "+i);
-                        a.add(new Fach("","","",Integer.toString(aktuellerTag),Integer.toString(aktuelleStunde),ac)); //Mache eine letzte Freistunde
+                        a.add(new Fach("","","",Integer.toString(aktuellerTag),Integer.toString(aktuelleStunde),context)); //Mache eine letzte Freistunde
                         a.get(a.size()-1).setzeEnde(true);
                     } else if(i>=meineFaecher.length-1) {
-                        a.add(new Fach("","","",Integer.toString(aktuellerTag),Integer.toString(aktuelleStunde+1),ac)); //Neue Freistunde ganz am Ende
+                        a.add(new Fach("","","",Integer.toString(aktuellerTag),Integer.toString(aktuelleStunde+1),context)); //Neue Freistunde ganz am Ende
                         a.get(a.size()-1).setzeEnde(true);
                     }*/ //Das hier hat das Problem mit der hinzugefügten Stunde gemacht... muss ich mal gucken // TODO: 28.05.2017
                     i++; //Nächstes Fach betrachten
