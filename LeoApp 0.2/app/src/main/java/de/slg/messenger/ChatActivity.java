@@ -310,7 +310,7 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         private String generateURL(String message) {
-            return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A").replace("'", "\\'") + "&chatid=" + currentChat.cid;
+            return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + currentChat.cid;
         }
     }
 
