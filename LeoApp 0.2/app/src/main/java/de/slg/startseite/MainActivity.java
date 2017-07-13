@@ -116,19 +116,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             title.setText(getString(R.string.title_info_auth));
             info.setText(getString(R.string.summary_info_auth_success));
             verify.setText(getString(R.string.button_info_noreminder));
-            updateButtons();
         }
         if (hide)
             findViewById(R.id.card_view0).setVisibility(View.GONE);
-        if (verified)
-            updateButtons();
-
-/*
-        if (Start.pref.getBoolean("pref_key_notification_essensqr", false) && service == null) {
-            service = new Intent(this, NotificationService.class);
-            startService(service);
-        }
-        */ //TODO: Frage an Moritz: Sollte das hier raus? Löse gerade Mergeconflicts
 
         if (!WrapperQRActivity.mensaModeRunning && Start.pref.getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(this, WrapperQRActivity.class));
@@ -149,10 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void updateButtons() { //TODO: Save remove
-
     }
 
     @Override
