@@ -287,7 +287,6 @@ public class OverviewWrapper extends AppCompatActivity {
                     }
                 }
             });
-            lvChats.setOnGest
             lvChats.setAdapter(new ChatAdapter(Utils.getOverviewWrapper().getApplicationContext(), Utils.getOverviewWrapper().chatArray));
         }
 
