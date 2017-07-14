@@ -31,13 +31,14 @@ public class DBConnection {
             values.put(DBHelper.CHAT_ID, m.cid);
             values.put(DBHelper.USER_ID, m.uid);
             values.put(DBHelper.MESSAGE_READ, m.uid != Utils.getUserID() ? 0 : 1);
+            values.put(DBHelper.MESSAGE_DELETED, 0);
             insert(DBHelper.TABLE_MESSAGES, values);
         }
     }
 
     private Message getLastMessage(int cid) {
         String[] columns = {DBHelper.MESSAGE_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.USER_ID, DBHelper.MESSAGE_READ};
-        String condition = DBHelper.CHAT_ID + " = " + cid;
+        String condition = DBHelper.CHAT_ID + " = " + cid + " AND " + DBHelper.MESSAGE_DELETED + " = 0";
         Cursor cursor = database.query(DBHelper.TABLE_MESSAGES, columns, condition, null, null, null, DBHelper.MESSAGE_DATE + " DESC", "1");
         cursor.moveToFirst();
         Message m = null;
@@ -51,7 +52,7 @@ public class DBConnection {
 
     Message[] getMessagesFromChat(int cid) {
         String[] columns = {DBHelper.MESSAGE_ID, DBHelper.MESSAGE_TEXT, DBHelper.MESSAGE_DATE, DBHelper.USER_ID, DBHelper.MESSAGE_READ};
-        String condition = DBHelper.CHAT_ID + " = " + cid;
+        String condition = DBHelper.CHAT_ID + " = " + cid + " AND " + DBHelper.MESSAGE_DELETED + " = 0";
         Cursor cursor = query(DBHelper.TABLE_MESSAGES, columns, condition, null, DBHelper.MESSAGE_DATE);
         List<Message> list = new List<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -61,7 +62,7 @@ public class DBConnection {
         }
         cursor.close();
         columns = new String[]{DBHelper.MESSAGE_ID, DBHelper.MESSAGE_TEXT};
-        cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, columns, condition, null, DBHelper.MESSAGE_ID);
+        cursor = query(DBHelper.TABLE_MESSAGES_UNSEND, columns, condition.substring(0, condition.indexOf(" AND")), null, DBHelper.MESSAGE_ID);
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Message m = new Message(cursor.getInt(0), cursor.getString(1), 0, cid, Utils.getUserID(), false);
             m.setUname(Utils.getUserName());
@@ -133,6 +134,10 @@ public class DBConnection {
         return b;
     }
 
+    void deleteMessage(int mid) {
+        database.execSQL("UPDATE " + DBHelper.TABLE_MESSAGES + " SET " + DBHelper.MESSAGE_DELETED + " = 1 WHERE " + DBHelper.MESSAGE_ID + " = " + mid);
+    }
+
     //User
     public void insertUser(User u) {
         if (u != null && !contains(u)) {
@@ -184,6 +189,7 @@ public class DBConnection {
             values.put(DBHelper.CHAT_ID, c.cid);
             values.put(DBHelper.CHAT_NAME, c.cname);
             values.put(DBHelper.CHAT_TYPE, c.ctype.toString());
+            values.put(DBHelper.CHAT_DELETED, 0);
             insert(DBHelper.TABLE_CHATS, values);
         }
     }
@@ -249,6 +255,10 @@ public class DBConnection {
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
+    }
+
+    void deleteChat(int cid) {
+        database.execSQL("UPDATE " + DBHelper.TABLE_CHATS + " SET " + DBHelper.CHAT_DELETED + " = 1 WHERE " + DBHelper.CHAT_ID + " = " + cid);
     }
 
     //Assoziation
@@ -340,11 +350,16 @@ public class DBConnection {
         static final String MESSAGE_TEXT = "mtext";
         static final String MESSAGE_DATE = "mdate";
         static final String MESSAGE_READ = "mgelesen";
+        static final String MESSAGE_DELETED = "mdeleted";
+
         static final String TABLE_CHATS = "chats";
         static final String CHAT_ID = "cid";
         static final String CHAT_NAME = "cname";
         static final String CHAT_TYPE = "ctype";
+        static final String CHAT_DELETED = "cdeleted";
+
         public static final String TABLE_ASSOZIATION = "assoziation";
+
         static final String TABLE_USERS = "users";
         static final String USER_ID = "uid";
         static final String USER_NAME = "uname";
@@ -366,7 +381,8 @@ public class DBConnection {
                         MESSAGE_DATE + " TEXT NOT NULL, " +
                         CHAT_ID + " INTEGER NOT NULL, " +
                         USER_ID + " INTEGER NOT NULL, " +
-                        MESSAGE_READ + " INTEGER NOT NULL)");
+                        MESSAGE_READ + " INTEGER NOT NULL, " +
+                        MESSAGE_DELETED + " INTEGER NOT NULL)");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -374,7 +390,8 @@ public class DBConnection {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATS + " (" +
                         CHAT_ID + " INTEGER PRIMARY KEY, " +
                         CHAT_NAME + " TEXT NOT NULL, " +
-                        CHAT_TYPE + " TEXT NOT NULL)");
+                        CHAT_TYPE + " TEXT NOT NULL, " +
+                        CHAT_DELETED + " INTEGER NOT NULL)");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

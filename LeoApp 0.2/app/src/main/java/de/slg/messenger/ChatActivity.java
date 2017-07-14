@@ -34,12 +34,19 @@ import de.slg.leoapp.Utils;
 public class ChatActivity extends AppCompatActivity {
     static Chat currentChat;
     private Message[] messagesArray;
+    private boolean[] selected;
+    private boolean hasSelected;
 
     private RecyclerView rvMessages;
     private EditText etMessage;
     private ImageButton sendButton;
     private Snackbar snackbar;
     private String message;
+
+    private View.OnLongClickListener longClickListener;
+    private View.OnClickListener clickListener;
+    private View.OnClickListener disableListener;
+    private MenuItem delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +68,10 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (currentChat.ctype != Chat.Chattype.PRIVATE && Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid))
-            getMenuInflater().inflate(R.menu.messenger_chat, menu);
+        getMenuInflater().inflate(R.menu.messenger_chat, menu);
+        menu.findItem(R.id.action_chat_info).setVisible(currentChat.ctype != Chat.Chattype.PRIVATE && Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid));
+        delete = menu.findItem(R.id.action_delete);
+        delete.setVisible(hasSelected);
         return true;
     }
 
@@ -70,8 +79,10 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
-        } else if (item.getItemId() == R.id.action_edtiParticipants) {
+        } else if (item.getItemId() == R.id.action_chat_info) {
             startActivity(new Intent(getApplicationContext(), ChatEditActivity.class));
+        } else if (item.getItemId() == R.id.action_delete) {
+            deleteSelectedMessages();
         }
         return true;
     }
@@ -90,6 +101,46 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
+        selected = new boolean[messagesArray.length];
+        hasSelected = false;
+
+        longClickListener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int index = rvMessages.getChildLayoutPosition(v);
+                if (messagesArray[index].mdate.getTime() > 0) {
+                    hasSelected = true;
+                    delete.setVisible(true);
+                    v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
+                    selected[index] = true;
+                    v.setOnClickListener(disableListener);
+                    return true;
+                }
+                return false;
+            }
+        };
+        clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = rvMessages.getChildLayoutPosition(v);
+                if (hasSelected && messagesArray[index].mdate.getTime() > 0) {
+                    v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
+                    selected[index] = true;
+                    v.setOnClickListener(disableListener);
+                }
+            }
+        };
+        disableListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
+                selected[rvMessages.getChildLayoutPosition(v)] = false;
+                v.setOnLongClickListener(longClickListener);
+                v.setOnClickListener(clickListener);
+                setHasSelected();
+            }
+        };
+
         rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
         rvMessages.setVisibility(View.INVISIBLE);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -119,7 +170,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if (getIntent().getBooleanExtra("loading", false)) {
             new WaitForLoad().execute();
-        } else if (!Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid)) {
+        } else if (currentChat.ctype == Chat.Chattype.GROUP && !Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid)) {
             etMessage.setEnabled(false);
             etMessage.setHint("Du bist nicht in diesem Chat!");
             sendButton.setEnabled(false);
@@ -164,8 +215,14 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public void refreshUI(boolean refreshMessages, final boolean scroll) {
-        if (refreshMessages)
+        if (refreshMessages) {
             messagesArray = Utils.getDB().getMessagesFromChat(currentChat.cid);
+        }
+        if (messagesArray.length > selected.length) {
+            boolean[] sOld = selected;
+            selected = new boolean[messagesArray.length];
+            System.arraycopy(sOld, 0, selected, 0, sOld.length);
+        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -174,6 +231,27 @@ public class ChatActivity extends AppCompatActivity {
                     rvMessages.scrollToPosition(messagesArray.length - 1);
             }
         });
+    }
+
+    private void setHasSelected() {
+        hasSelected = false;
+        for (boolean b : selected) {
+            if (b) {
+                hasSelected = true;
+                break;
+            }
+        }
+        delete.setVisible(hasSelected);
+    }
+
+    private void deleteSelectedMessages() {
+        for (int i = 0; i < selected.length; i++) {
+            if (selected[i]) {
+                Utils.getDB().deleteMessage(messagesArray[i].mid);
+            }
+        }
+        selected = new boolean[messagesArray.length];
+        refreshUI(true, true);
     }
 
     private class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
@@ -249,6 +327,11 @@ public class ChatActivity extends AppCompatActivity {
                     space.setVisibility(View.GONE);
                 }
             }
+            if (selected[position]) {
+                v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
+            } else {
+                v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
+            }
         }
 
         @Override
@@ -266,6 +349,8 @@ public class ChatActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             ViewHolder(View itemView) {
                 super(itemView);
+                itemView.setOnLongClickListener(longClickListener);
+                itemView.setOnClickListener(clickListener);
             }
         }
     }
@@ -276,18 +361,19 @@ public class ChatActivity extends AppCompatActivity {
             if (currentChat.cid == -1) {
                 snackbar.show();
             } else {
-                List<Message> messageList = new List<>(messagesArray);
-                messageList.append(
+                Message[] mOld = messagesArray;
+                messagesArray = new Message[mOld.length + 1];
+                System.arraycopy(mOld, 0, messagesArray, 0, mOld.length);
+                messagesArray[mOld.length] =
                         new Message(0,
                                 params[0],
                                 0,
                                 currentChat.cid,
                                 Utils.getUserID(),
-                                true));
-                messagesArray = messageList.fill(new Message[messageList.length()]);
+                                true);
                 if (!Utils.checkNetwork()) {
-                    refreshUI(false, true);
                     Utils.getDB().insertUnsendMessage(params[0], currentChat.cid);
+                    refreshUI(true, true);
                 } else {
                     messagesArray[messagesArray.length - 1].mdate = new Date();
                     messagesArray[messagesArray.length - 1].sending = true;
