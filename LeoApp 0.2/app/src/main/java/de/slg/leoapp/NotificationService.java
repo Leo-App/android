@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -158,9 +157,9 @@ public class NotificationService extends IntentService {
     }
 
     private void messengerNotification() {
-        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getDB().hasUnreadMessages()) {
+        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMDB().hasUnreadMessages()) {
             StringBuilder builder = new StringBuilder();
-            for (NotificationCompat.MessagingStyle.Message m : Utils.getDB().getUnreadMessages()) {
+            for (NotificationCompat.MessagingStyle.Message m : Utils.getMDB().getUnreadMessages()) {
                 builder.append(m.getSender())
                         .append(": ")
                         .append(m.getText())

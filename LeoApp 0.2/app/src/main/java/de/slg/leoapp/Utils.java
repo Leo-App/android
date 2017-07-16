@@ -20,6 +20,7 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.DBConnection;
 import de.slg.messenger.OverviewWrapper;
+import de.slg.stundenplan.StundenplanDB;
 
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
@@ -29,6 +30,7 @@ public abstract class Utils {
     private static ChatActivity chatActivity;
     private static ReceiveService receiveService;
     private static KlausurplanActivity klausurplanActivity;
+    private static StundenplanDB stundenplanDB;
 
     public static boolean checkNetwork() {
         ConnectivityManager c = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -124,14 +126,20 @@ public abstract class Utils {
         return getUserID() > -1;
     }
 
-    public static DBConnection getDB() {
+    public static DBConnection getMDB() {
         if (dbConnection == null)
             dbConnection = new DBConnection(context);
         return dbConnection;
     }
 
-    static void invalidateDB() {
+    static void invalidateMDB() {
         dbConnection = null;
+    }
+
+    public static StundenplanDB getStundDB() {
+        if (stundenplanDB == null)
+            stundenplanDB = new StundenplanDB(context, 1);
+        return stundenplanDB;
     }
 
     public static void registerOverviewWrapper(OverviewWrapper overviewWrapper) {
@@ -165,7 +173,7 @@ public abstract class Utils {
 
     static void notifiedMessenger() {
         Start.pref.edit()
-                .putLong("pref_key_general_last_notification_messenger", getDB().getLatestDateInDB())
+                .putLong("pref_key_general_last_notification_messenger", getMDB().getLatestDateInDB())
                 .apply();
     }
 

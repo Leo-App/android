@@ -98,9 +98,9 @@ public class StundenplanView extends View {
             Fach[] f = sV.gibFacherSortStunde(i);
             String[] namen = new String[5];
             for (Fach aF : f) {
-                namen[Integer.parseInt(aF.gibTag()) - 1] = aF.gibName().split(" ")[0];
+                namen[aF.gibTag() - 1] = aF.gibName().split(" ")[0];
                 if (aF.gibName().equals("") && !aF.gibNotiz().equals("notiz")) {
-                    namen[Integer.parseInt(aF.gibTag()) - 1] = aF.gibNotiz().split(" ")[0];
+                    namen[aF.gibTag() - 1] = aF.gibNotiz().split(" ")[0];
                 }
             }
             for (int m = 0; m < namen.length; m++) {

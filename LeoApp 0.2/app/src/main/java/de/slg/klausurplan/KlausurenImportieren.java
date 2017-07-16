@@ -216,7 +216,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
         if (nachKlausurplanFiltern) {
             if (kuerzelStundenplan == null) {
                 Stundenplanverwalter verwalter = new Stundenplanverwalter(context, "meinefaecher.txt");
-                Fach[] arrayFach = verwalter.gibFaecherKurz();
+                Fach[] arrayFach = verwalter.gibFaecherKuerzel();
                 kuerzelStundenplan = new List<>();
                 for (Fach anArrayFach : arrayFach) {
                     if (anArrayFach.gibSchriftlich()) {

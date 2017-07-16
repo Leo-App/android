@@ -59,7 +59,7 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
         int[] selected = getSelectedIndices();
         for (int i : selected) {
             ausgewählteFächer.append(fachArray[i].gibName().split(" ")[0]);
-            ArrayList<Fach> faecherInKurs = sv.sucheFacherKurzel(fachArray[i].gibKurz());
+            ArrayList<Fach> faecherInKurs = sv.gibFaecherMitKuerzel(fachArray[i].gibKurz());
             for (Fach f : faecherInKurs) {
                 ausgewählteStunden.append(f.gibStunde() + "." + f.gibTag());
             }
@@ -128,7 +128,7 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
         for (int i = 0; i < fachArray.length; i++) {
             if (views[i] != null) {
                 if (((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked()) {
-                    ArrayList<Fach> f = sv.sucheFacherKurzel(fachArray[i].gibKurz());
+                    ArrayList<Fach> f = sv.gibFaecherMitKuerzel(fachArray[i].gibKurz());
                     for (int x = 0; x < f.size(); x++) {
                         mark[c] = f.get(x);
                         c++;
@@ -144,7 +144,7 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
         for (int i = 0; i < fachArray.length; i++) {
             if (views[i] != null) {
                 if (((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked()) {
-                    ArrayList<Fach> f = sv.sucheFacherKurzel(fachArray[i].gibKurz());
+                    ArrayList<Fach> f = sv.gibFaecherMitKuerzel(fachArray[i].gibKurz());
                     markierte = markierte + f.size();
                 }
             }

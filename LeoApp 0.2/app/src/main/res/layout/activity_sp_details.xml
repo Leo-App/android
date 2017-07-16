@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         android:elevation="0dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <TextView
@@ -24,6 +24,7 @@
         android:layout_marginStart="22dp"
         android:layout_marginTop="25dp"
         android:text="FachName - FachKürzel"
+        android:textColor="@android:color/black"
         android:textSize="24sp" />
 
     <TextView
@@ -35,6 +36,7 @@
         android:layout_below="@+id/name_detail"
         android:layout_marginTop="26dp"
         android:text="@string/zeit"
+        android:textColor="@android:color/black"
         android:textSize="22sp" />
 
     <TextView
@@ -46,6 +48,7 @@
         android:layout_below="@+id/zeit_details"
         android:layout_marginTop="12dp"
         android:text="Wochentag"
+        android:textColor="@android:color/black"
         android:textSize="18sp" />
 
     <TextView
@@ -58,6 +61,7 @@
         android:layout_toEndOf="@+id/tag_details"
         android:layout_toRightOf="@+id/tag_details"
         android:text="00:00-00:00"
+        android:textColor="@android:color/black"
         android:textSize="18sp" />
 
     <TextView
@@ -69,6 +73,7 @@
         android:layout_below="@+id/tag_details"
         android:layout_marginTop="23dp"
         android:text="@string/raum"
+        android:textColor="@android:color/black"
         android:textSize="22sp" />
 
     <TextView
@@ -80,6 +85,7 @@
         android:layout_below="@+id/raum_details"
         android:layout_marginTop="13dp"
         android:text="00000"
+        android:textColor="@android:color/black"
         android:textSize="18sp" />
 
     <TextView
@@ -91,52 +97,45 @@
         android:layout_below="@+id/raumnr_details"
         android:layout_marginTop="25dp"
         android:text="@string/lehrer"
+        android:textColor="@android:color/black"
         android:textSize="22sp" />
 
     <TextView
         android:id="@+id/lehrerK_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lehrer_details"
+        android:layout_alignStart="@+id/lehrer_details"
+        android:layout_below="@+id/lehrer_details"
         android:layout_marginTop="13dp"
         android:text="XXX"
-        android:textSize="18sp"
-        android:layout_below="@+id/lehrer_details"
-        android:layout_alignLeft="@+id/lehrer_details"
-        android:layout_alignStart="@+id/lehrer_details" />
-
-    <TextView
-        android:id="@+id/schriftlich_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/lehrerK_details"
-        android:layout_alignStart="@+id/lehrerK_details"
-        android:layout_below="@+id/lehrerK_details"
-        android:layout_marginTop="24dp"
-        android:text="@string/schriftlich"
-        android:textSize="22sp" />
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
     <CheckBox
         android:id="@+id/checkBox_schriftlich"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/schriftlich_details"
-        android:layout_alignBottom="@+id/schriftlich_details"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp"
-        android:layout_toEndOf="@+id/notizFeld_details"
-        android:layout_toRightOf="@+id/notizFeld_details"
-        android:buttonTint="@color/colorAccent" />
+        android:layout_alignLeft="@+id/lehrerK_details"
+        android:layout_alignStart="@+id/lehrerK_details"
+        android:layout_below="@+id/lehrerK_details"
+        android:layout_marginTop="20dp"
+        android:buttonTint="@color/colorAccent"
+        android:text="@string/schriftlich"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/notiz_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/checkBox_schriftlich"
+        android:layout_alignStart="@+id/checkBox_schriftlich"
+        android:layout_below="@+id/checkBox_schriftlich"
         android:layout_marginTop="21dp"
         android:text="@string/notizen"
-        android:textSize="22sp"
-        android:layout_below="@+id/checkBox_schriftlich"
-        android:layout_alignLeft="@+id/schriftlich_details"
-        android:layout_alignStart="@+id/schriftlich_details" />
+        android:textColor="@android:color/black"
+        android:textSize="22sp" />
 
     <EditText
         android:id="@+id/notizFeld_details"
@@ -147,7 +146,8 @@
         android:layout_below="@+id/notiz_details"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="@string/notizen"
         android:inputType="text"
-        android:text="notiz" />
+        android:textColor="@android:color/black" />
 
 </RelativeLayout>

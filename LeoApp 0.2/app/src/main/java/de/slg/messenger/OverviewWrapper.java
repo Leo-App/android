@@ -56,7 +56,7 @@ public class OverviewWrapper extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Utils.registerOverviewWrapper(this);
         Utils.context = getApplicationContext();
-        Utils.getDB();
+        Utils.getMDB();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_messenger);
@@ -198,14 +198,14 @@ public class OverviewWrapper extends AppCompatActivity {
     }
 
     private void initArrays() {
-        userArray = Utils.getDB().getUsers();
-        chatArray = Utils.getDB().getChats();
+        userArray = Utils.getMDB().getUsers();
+        chatArray = Utils.getMDB().getChats();
         Utils.receive();
     }
 
     public void notifyUpdate() {
-        chatArray = Utils.getDB().getChats();
-        userArray = Utils.getDB().getUsers();
+        chatArray = Utils.getMDB().getChats();
+        userArray = Utils.getMDB().getUsers();
         uFragment.refreshUI();
         cFragment.refreshUI();
         ChatActivity chatActivity = Utils.getChatActivity();
@@ -233,7 +233,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().userArray.length) {
                         User clickedUser = Utils.getOverviewWrapper().userArray[position];
-                        Chat c = Utils.getDB().getChatWith(clickedUser.uid);
+                        Chat c = Utils.getMDB().getChatWith(clickedUser.uid);
                         Intent i = new Intent(getContext(), ChatActivity.class)
                                 .putExtra("loading", c == null);
                         if (c == null) {
@@ -340,7 +340,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 } else {
                     icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
                 }
-                icon.setEnabled(Utils.getDB().userInChat(Utils.getUserID(), chats[position].cid));
+                icon.setEnabled(Utils.getMDB().userInChat(Utils.getUserID(), chats[position].cid));
             }
             return v;
         }
@@ -374,7 +374,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         c.cid = Integer.parseInt(erg);
                     else
                         Log.e("Error", erg);
-                    Utils.getDB().insertAssoziation(new Assoziation(c.cid, Utils.getUserID()));
+                    Utils.getMDB().insertAssoziation(new Assoziation(c.cid, Utils.getUserID()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -384,7 +384,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
         private String generateURL(Chat chat) {
             String chatname = chat.cname.replace(' ', '+');
-            Utils.getDB().setChatname(chat);
+            Utils.getMDB().setChatname(chat);
             return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase();
         }
 

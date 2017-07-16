@@ -3,58 +3,60 @@ package de.slg.stundenplan;
 import android.content.Context;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class Fach {
-
+    private int id;
     private final String fachname;
     private final String fachkuerzel;
     private final String raum;
     private final String lehrer;
-    private final int tag;
-    private final int stunde;
+    private int tag;
+    private int stunde;
     private boolean schriftlich;
     private boolean ende;
     private String notiz;
-    private final Context cc;
+    private final Context context;
 
     public Fach(String pFachkurzel, String pRaum, String pLehrer, String pTag, String pStunde, Context pContext) {
         //Erstellt ein Fach
-        cc = pContext;
+        context = pContext;
         tag = Integer.parseInt(pTag);
         stunde = Integer.parseInt(pStunde);
         fachkuerzel = pFachkurzel;
-        fachname = this.macheFachname();
+        fachname = this.gibFachname();
         raum = pRaum;
         lehrer = pLehrer;
         schriftlich = false;
-        notiz = "notiz";
+        notiz = "";
         ende = false;
     }
 
-    private String macheFachname() {
-        //Erstellt aus dem Kürzel einen voll ausgeschriebenen Fachnamen
-        //Nutzt MACHEFACHNAMETEIL
-        if (fachkuerzel.length() <= 1) {
-            //Log.e("Luzzzia", "fachkürzel ist zu klein: "+fachkuerzel.length()+ " "+tag+","+stunde);
-            return "";
-        } else {
-            String kurzelTeil = "";
-            for (int i = 0; i < 2; i++) {
-                kurzelTeil = kurzelTeil + fachkuerzel.charAt(i);
-            }
-            String name = this.macheFachnameTeil(kurzelTeil);
-            if (fachkuerzel.charAt(2) == 'L') {
-                name = name + " " + cc.getString(R.string.lk);
-            }
-            return name;
-        }
-        //Funktioniert voll und ganz
+    public Fach(int id, String kurz, String name, String lehrer, String raum, Context pContext) {
+        this.id = id;
+        this.context = pContext;
+        this.fachkuerzel = kurz;
+        this.fachname = name;
+        this.raum = raum;
+        this.lehrer = lehrer;
     }
 
-    private String macheStundenName(int pStunde) {
+    private String gibFachname() {
+        if (fachkuerzel.length() <= 1) {
+            return "";
+        }
+        String kurzelTeil = fachkuerzel.substring(0, 2);
+        String name = this.gibFachnameTeil(kurzelTeil);
+        if (fachkuerzel.charAt(2) == 'L') {
+            name = name + " " + Utils.getString(R.string.lk);
+        }
+        return name;
+    }
+
+    private String gibStundenName(int pStunde) {
         if (ende) {
             //Log.e("Luzzia", Integer.toString(pStunde));
-            return cc.getString(R.string.später);
+            return context.getString(R.string.später);
         }
         switch (pStunde) {
             case 1:
@@ -82,51 +84,51 @@ public class Fach {
         }
     }
 
-    private String macheFachnameTeil(String pKurzelTeil) {
+    private String gibFachnameTeil(String pKurzelTeil) {
         //Macht den ersten Teil von MACHEFACHNAME (da switch case nicht ohne return?)
         switch (pKurzelTeil.toUpperCase()) {
             case "M ":
-                return cc.getString(R.string.mathe);
+                return context.getString(R.string.mathe);
             case "D ":
-                return cc.getString(R.string.deutsch);
+                return context.getString(R.string.deutsch);
             case "L ":
-                return cc.getString(R.string.latein);
+                return context.getString(R.string.latein);
             case "F ":
-                return cc.getString(R.string.franze);
+                return context.getString(R.string.franze);
             case "E ":
-                return cc.getString(R.string.englisch);
+                return context.getString(R.string.englisch);
             case "S ":
-                return cc.getString(R.string.spanisch);
+                return context.getString(R.string.spanisch);
             case "GF":
-                return cc.getString(R.string.bili);
+                return context.getString(R.string.bili);
             case "GE":
-                return cc.getString(R.string.geschichte);
+                return context.getString(R.string.geschichte);
             case "EK":
-                return cc.getString(R.string.geo);
+                return context.getString(R.string.geo);
             case "SW":
-                return cc.getString(R.string.sowi);
+                return context.getString(R.string.sowi);
             case "PA":
-                return cc.getString(R.string.pada);
+                return context.getString(R.string.pada);
             case "KR":
-                return cc.getString(R.string.reliKat);
+                return context.getString(R.string.reliKat);
             case "ER":
-                return cc.getString(R.string.reliEv);
+                return context.getString(R.string.reliEv);
             case "PL":
-                return cc.getString(R.string.philo); // ist das so? // TODO: 28.05.2017
+                return context.getString(R.string.philo); // ist das so? // TODO: 28.05.2017
             case "IF":
-                return cc.getString(R.string.info);
+                return context.getString(R.string.info);
             case "CH":
-                return cc.getString(R.string.chemie);
+                return context.getString(R.string.chemie);
             case "PH":
-                return cc.getString(R.string.physik);
+                return context.getString(R.string.physik);
             case "BI":
-                return cc.getString(R.string.bio);
+                return context.getString(R.string.bio);
             case "LI":
-                return cc.getString(R.string.literatur);
+                return context.getString(R.string.literatur);
             case "KU":
-                return cc.getString(R.string.kunst);
+                return context.getString(R.string.kunst);
             case "MU":
-                return cc.getString(R.string.musik);
+                return context.getString(R.string.musik);
             default:
                 return pKurzelTeil;
         }
@@ -136,10 +138,14 @@ public class Fach {
 
     void setzeNotiz(String pNotiz) {
         notiz = pNotiz;
+        if (id != 0)
+            Utils.getStundDB().setzeNotiz(pNotiz, id);
     }
 
     void setzeSchriftlich(boolean b) {
         schriftlich = b;
+        if (id != 0)
+            Utils.getStundDB().setzeSchriftlich(b, id);
     }
 
     public void setzeEnde(boolean b) {
@@ -162,16 +168,16 @@ public class Fach {
         return raum;
     }
 
-    String gibTag() {
-        return Integer.toString(tag);
+    int gibTag() {
+        return tag;
     }
 
-    String gibStunde() {
-        return Integer.toString(stunde);
+    int gibStunde() {
+        return stunde;
     }
 
     String gibStundenName() {
-        return this.macheStundenName(stunde);
+        return this.gibStundenName(stunde);
     }
 
     String gibNotiz() {

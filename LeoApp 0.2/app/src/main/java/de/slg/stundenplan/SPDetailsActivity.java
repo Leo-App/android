@@ -36,12 +36,10 @@ public class SPDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        String tag = WrapperStundenplanActivity.akTag;
-        String stunde = WrapperStundenplanActivity.akStunde;
         stundenplanverwalter = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
         faecherSP = stundenplanverwalter.gibFaecherSort();
 
-        pos = sucheFachPos(tag, stunde);
+        pos = sucheFachPos(WrapperStundenplanActivity.akTag, WrapperStundenplanActivity.akStunde);
 
         TextView twName = (TextView) findViewById(R.id.name_detail);
         TextView twTag = (TextView) findViewById(R.id.tag_details);
@@ -53,7 +51,7 @@ public class SPDetailsActivity extends AppCompatActivity {
 
         if (pos != -1) {
             twName.setText(faecherSP[pos].gibName() + " - " + faecherSP[pos].gibKurz());
-            twTag.setText(this.macheTag(Integer.parseInt(faecherSP[pos].gibTag())));
+            twTag.setText(this.macheTag(faecherSP[pos].gibTag()));
             twZeit.setText(faecherSP[pos].gibStundenName());
             twRaum.setText(faecherSP[pos].gibRaum());
             twLehrer.setText(faecherSP[pos].gibLehrer());
@@ -62,15 +60,6 @@ public class SPDetailsActivity extends AppCompatActivity {
                 cbSchrift.setChecked(true);
             }
         }
-
-        etNotiz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (etNotiz.getText().toString().equals("notiz")) {
-                    etNotiz.setText("");
-                }
-            }
-        });
     }
 
     @Override
@@ -85,15 +74,11 @@ public class SPDetailsActivity extends AppCompatActivity {
             if (cbSchrift.isChecked() != faecherSP[pos].gibSchriftlich()) {
                 faecherSP[pos].setzeSchriftlich(cbSchrift.isChecked());
             }
-            if (!etNotiz.getText().toString().equals("")) {
-                faecherSP[pos].setzeNotiz("" + etNotiz.getText());
-            } else {
-                faecherSP[pos].setzeNotiz("notiz");
-            }
-            stundenplanverwalter.inTextDatei(getApplicationContext(), faecherSP);
+            faecherSP[pos].setzeNotiz(etNotiz.getText().toString());
+            stundenplanverwalter.inTextDatei(faecherSP);
             startActivity(new Intent(getApplicationContext(), WrapperStundenplanActivity.class));
-            this.finish();
         }
+        finish();
         return true;
     }
 
@@ -114,16 +99,12 @@ public class SPDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private int sucheFachPos(String pTag, String pStunde) {
+    private int sucheFachPos(int tag, int stunde) {
         for (int c = 0; c < faecherSP.length; c++) {
-            if (faecherSP[c].gibTag().equals(pTag) && faecherSP[c].gibStunde().equals(pStunde)) {
+            if (faecherSP[c].gibTag() == tag && faecherSP[c].gibStunde() == stunde) {
                 return c;
             }
         }
-        return -1; //Wenn nicht gefunden
-    }
-
-    private void deexistiere() {
-        deleteFile("meinefaecher.txt");
+        return -1;
     }
 }

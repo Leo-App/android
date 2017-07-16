@@ -27,7 +27,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
@@ -63,13 +62,13 @@ public class ChatActivity extends AppCompatActivity {
         initRecyclerView();
         initSnackbar();
 
-        Utils.getDB().setMessagesRead(currentChat.cid);
+        Utils.getMDB().setMessagesRead(currentChat.cid);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.messenger_chat, menu);
-        menu.findItem(R.id.action_chat_info).setVisible(currentChat.ctype != Chat.Chattype.PRIVATE && Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid));
+        menu.findItem(R.id.action_chat_info).setVisible(currentChat.ctype != Chat.Chattype.PRIVATE && Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid));
         delete = menu.findItem(R.id.action_delete);
         delete.setVisible(hasSelected);
         return true;
@@ -170,7 +169,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if (getIntent().getBooleanExtra("loading", false)) {
             new WaitForLoad().execute();
-        } else if (currentChat.ctype == Chat.Chattype.GROUP && !Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid)) {
+        } else if (currentChat.ctype == Chat.Chattype.GROUP && !Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid)) {
             etMessage.setEnabled(false);
             etMessage.setHint("Du bist nicht in diesem Chat!");
             sendButton.setEnabled(false);
@@ -216,7 +215,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void refreshUI(boolean refreshMessages, final boolean scroll) {
         if (refreshMessages) {
-            messagesArray = Utils.getDB().getMessagesFromChat(currentChat.cid);
+            messagesArray = Utils.getMDB().getMessagesFromChat(currentChat.cid);
         }
         if (messagesArray.length > selected.length) {
             boolean[] sOld = selected;
@@ -247,7 +246,7 @@ public class ChatActivity extends AppCompatActivity {
     private void deleteSelectedMessages() {
         for (int i = 0; i < selected.length; i++) {
             if (selected[i]) {
-                Utils.getDB().deleteMessage(messagesArray[i].mid);
+                Utils.getMDB().deleteMessage(messagesArray[i].mid);
             }
         }
         selected = new boolean[messagesArray.length];
@@ -372,7 +371,7 @@ public class ChatActivity extends AppCompatActivity {
                                 Utils.getUserID(),
                                 true);
                 if (!Utils.checkNetwork()) {
-                    Utils.getDB().insertUnsendMessage(params[0], currentChat.cid);
+                    Utils.getMDB().insertUnsendMessage(params[0], currentChat.cid);
                     refreshUI(true, true);
                 } else {
                     messagesArray[messagesArray.length - 1].mdate = new Date();
@@ -411,7 +410,7 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             while (currentChat.cid == -1) ;
-            while (!Utils.getDB().userInChat(Utils.getUserID(), currentChat.cid)) ;
+            while (!Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid)) ;
             return null;
         }
 

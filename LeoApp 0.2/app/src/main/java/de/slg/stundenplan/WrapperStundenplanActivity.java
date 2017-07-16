@@ -39,11 +39,9 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
 public class WrapperStundenplanActivity extends AppCompatActivity {
-
     private DrawerLayout drawerLayout;
-    public static String akTag;
-    public static String akStunde;
-
+    public static int akTag;
+    public static int akStunde;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

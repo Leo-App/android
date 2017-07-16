@@ -1,7 +1,6 @@
 package de.slg.stundenplan;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -15,10 +14,8 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
@@ -65,7 +62,7 @@ public class AuswahlActivity extends AppCompatActivity {
 
     private void initListView() {
         ListView listView = (ListView) findViewById(R.id.listA);
-        auswahlAdapter = new AuswahlAdapter(getApplicationContext(), sv.gibFaecherKurz(), sv);
+        auswahlAdapter = new AuswahlAdapter(getApplicationContext(), sv.gibFaecherKuerzel(), sv);
         listView.setAdapter(auswahlAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,16 +105,10 @@ public class AuswahlActivity extends AppCompatActivity {
         return true;
     }
 
-    /**
-     * Speichert alle ausgewählten Fächer in einem Array und diese mit
-     * der Methode SPEICHERN in einem Textdokument und
-     * Ruft die STUNDENPLAN ACTIVITY auf
-     * Ruft SPEICHERN und ALLEMARKIERTEN auf
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == R.id.action_speichern) {
-            sv.inTextDatei(getApplicationContext(), auswahlAdapter.gibAlleMarkierten());
+            sv.inTextDatei(auswahlAdapter.gibAlleMarkierten());
             startActivity(new Intent(getApplicationContext(), WrapperStundenplanActivity.class));
         } else if (mi.getItemId() == R.id.action_refresh) {
             deleteFile("allefaecher.txt");
@@ -128,12 +119,13 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private boolean fileExistiert() {
-        BufferedReader br;
         try {
-            br = new BufferedReader(new InputStreamReader(openFileInput("allefaecher.txt")));
-            if (br.readLine() != null) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("allefaecher.txt")));
+            if (reader.readLine() != null) {
+                reader.close();
                 return true;
             }
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

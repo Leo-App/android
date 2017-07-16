@@ -80,7 +80,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
     private void initListView() {
         ListView lvAllUsers = (ListView) findViewById(R.id.listViewAllUsers);
-        User[] allUsers = Utils.getDB().getUsers();
+        User[] allUsers = Utils.getMDB().getUsers();
         userAdapter = new UserAdapter(getApplicationContext(), allUsers, true);
         lvAllUsers.setAdapter(userAdapter);
         lvAllUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -161,7 +161,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
                     chat.cid = Integer.parseInt(erg);
                 else
                     Log.e("Error", erg);
-                Utils.getDB().insertAssoziation(new Assoziation(chat.cid, Utils.getUserID()));
+                Utils.getMDB().insertAssoziation(new Assoziation(chat.cid, Utils.getUserID()));
             } catch (IOException e) {
                 e.printStackTrace();
             }

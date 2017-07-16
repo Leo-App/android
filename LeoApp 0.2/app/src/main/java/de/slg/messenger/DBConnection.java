@@ -17,7 +17,7 @@ public class DBConnection {
     private final SQLiteDatabase database;
 
     public DBConnection(Context context) {
-        DBHelper helper = new DBHelper(context);
+        DBHelper helper = new DBHelper(context, 1);
         database = helper.getWritableDatabase();
     }
 
@@ -367,8 +367,8 @@ public class DBConnection {
         static final String USER_PERMISSION = "upermission";
         static final String TABLE_MESSAGES_UNSEND = "messages_unsend";
 
-        DBHelper(Context context) {
-            super(context, DATABASE_NAME, null, 1);
+        DBHelper(Context context, int version) {
+            super(context, DATABASE_NAME, null, version);
         }
 
         @Override
@@ -423,7 +423,51 @@ public class DBConnection {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+            try {
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " (" +
+                        MESSAGE_ID + " INTEGER PRIMARY KEY, " +
+                        MESSAGE_TEXT + " TEXT NOT NULL, " +
+                        MESSAGE_DATE + " TEXT NOT NULL, " +
+                        CHAT_ID + " INTEGER NOT NULL, " +
+                        USER_ID + " INTEGER NOT NULL, " +
+                        MESSAGE_READ + " INTEGER NOT NULL, " +
+                        MESSAGE_DELETED + " INTEGER NOT NULL)");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATS + " (" +
+                        CHAT_ID + " INTEGER PRIMARY KEY, " +
+                        CHAT_NAME + " TEXT NOT NULL, " +
+                        CHAT_TYPE + " TEXT NOT NULL, " +
+                        CHAT_DELETED + " INTEGER NOT NULL)");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_ASSOZIATION + " (" +
+                        CHAT_ID + " INTEGER NOT NULL, " +
+                        USER_ID + " INTEGER NOT NULL)");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_USERS + " (" +
+                        USER_ID + " INTEGER PRIMARY KEY, " +
+                        USER_NAME + " TEXT NOT NULL, " +
+                        USER_KLASSE + " TEXT, " +
+                        USER_PERMISSION + " INTEGER NOT NULL)");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES_UNSEND + " (" +
+                        MESSAGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        MESSAGE_TEXT + " TEXT NOT NULL, " +
+                        CHAT_ID + " INTEGER NOT NULL)");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

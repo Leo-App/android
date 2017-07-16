@@ -30,7 +30,7 @@ public class FragmentDienstag extends Fragment {
         listW.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                WrapperStundenplanActivity.akTag = "2";
+                WrapperStundenplanActivity.akTag = 2;
                 WrapperStundenplanActivity.akStunde = fachArray[position].gibStunde();
                 startActivity(new Intent(getContext(), SPDetailsActivity.class));
             }
