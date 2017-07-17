@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.GregorianCalendar;
-import java.util.concurrent.ExecutionException;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -43,23 +42,31 @@ import de.slg.vertretung.WrapperSubstitutionActivity;
 public class StimmungsbarometerActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-
-    static boolean drawIch = true, drawSchueler = true, drawLehrer = true, drawAlle = true;
+    private ZeitraumFragment[] fragments;
 
     private static Ergebnis[][] daten;
-
-    private ZeitraumFragment[] fragments;
+    static boolean drawIch = true, drawSchueler = true, drawLehrer = true, drawAlle = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stimmungsbarometer);
 
-        //initBottomNavigationView();
+        daten = new Ergebnis[4][0];
+        new EmpfangeDaten().execute();
+
         initToolbar();
         initTabs();
         initNavigationView();
         initLayouts();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem mi) {
+        if (mi.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+        return true;
     }
 
     private void initLayouts() {
@@ -243,28 +250,11 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
-    public static Ergebnis[][] empfangeDaten() {
-        if (daten == null) {
-            EmpfangeDaten empfangeDaten = new EmpfangeDaten();
-            empfangeDaten.execute();
-            try {
-                daten = empfangeDaten.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
+    public static Ergebnis[][] getData() {
         return daten;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
-        return true;
-    }
-
-    private static class EmpfangeDaten extends AsyncTask<Void, Void, Ergebnis[][]> {
+    private class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
         private String[] splitI, splitS, splitL, splitA;
 
         EmpfangeDaten() {
@@ -275,7 +265,12 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Ergebnis[][] doInBackground(Void... voids) {
+        protected void onPreExecute() {
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
             try {
                 BufferedReader reader =
                         new BufferedReader(
@@ -330,11 +325,19 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                         ergebnisse[3][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, false, true);
                     }
                 }
-                return ergebnisse;
+                daten = ergebnisse;
+                for (ZeitraumFragment f : fragments)
+                    f.fillData();
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            updateFragments();
+            findViewById(R.id.progressBar).setVisibility(View.GONE);
         }
     }
 }

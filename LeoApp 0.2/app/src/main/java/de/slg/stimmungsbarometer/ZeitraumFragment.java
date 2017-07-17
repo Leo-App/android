@@ -27,13 +27,13 @@ public class ZeitraumFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         fillData();
-        view = new StatistikView(getContext(), data);
+        view = new StatistikView(getContext());
 
         return view;
     }
 
-    private void fillData() {
-        Ergebnis[][] allData = StimmungsbarometerActivity.empfangeDaten();
+    void fillData() {
+        Ergebnis[][] allData = StimmungsbarometerActivity.getData();
         data = new Ergebnis[4][];
         for (int i = 0; i < allData.length; i++) {
             List<Ergebnis> list = new List<>();
@@ -141,7 +141,6 @@ public class ZeitraumFragment extends Fragment {
         private final Canvas bitmapCanvas;
         private boolean isInitialized;
         private final Paint paint;
-        private final Ergebnis[][] data;
         private int baseLineY, baseLineX, abstandX, abstandY, radius;
 
         private boolean ich;
@@ -149,17 +148,8 @@ public class ZeitraumFragment extends Fragment {
         private boolean lehrer;
         private boolean alle;
 
-        StatistikView(Context context, Ergebnis[][] data) {
+        StatistikView(Context context) {
             super(context);
-            this.data = data;
-            bitmapCanvas = new Canvas();
-            paint = new Paint();
-            isInitialized = false;
-        }
-
-        public StatistikView(Context context) {
-            super(context);
-            this.data = new Ergebnis[4][0];
             bitmapCanvas = new Canvas();
             paint = new Paint();
             isInitialized = false;

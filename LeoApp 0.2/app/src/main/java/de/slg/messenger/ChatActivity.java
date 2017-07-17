@@ -37,6 +37,7 @@ public class ChatActivity extends AppCompatActivity {
     private boolean hasSelected;
 
     private RecyclerView rvMessages;
+    private int standardBottom;
     private EditText etMessage;
     private ImageButton sendButton;
     private Snackbar snackbar;
@@ -144,6 +145,7 @@ public class ChatActivity extends AppCompatActivity {
         rvMessages.setVisibility(View.INVISIBLE);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         refreshUI(true, true);
+        standardBottom = rvMessages.getBottom();
         rvMessages.setVisibility(View.VISIBLE);
     }
 
