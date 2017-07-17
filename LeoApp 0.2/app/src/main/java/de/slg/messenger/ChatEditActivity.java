@@ -46,9 +46,9 @@ public class ChatEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat))
+        if (Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid))
             getMenuInflater().inflate(R.menu.messenger_chat_edit, menu);
-        if (!Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat))
+        if (!Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid))
             menu.clear();
         this.menu = menu;
         return true;
@@ -90,17 +90,17 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void removeUsers(User... users) {
         new RemoveUser().execute(users);
-        usersOfChat1 = Utils.getDB().getUsersInChat(currentChat, false);
-        usersOfChat2 = Utils.getDB().getUsersInChat(currentChat, true);
-        usersNotInChat = Utils.getDB().getUsersNotInChat(currentChat);
+        usersOfChat1 = Utils.getMDB().getUsersInChat(currentChat, false);
+        usersOfChat2 = Utils.getMDB().getUsersInChat(currentChat, true);
+        usersNotInChat = Utils.getMDB().getUsersNotInChat(currentChat);
     }
 
     private void addUsers(User... users) {
         new AddUser().execute(users);
         Utils.receive();
-        usersOfChat1 = Utils.getDB().getUsersInChat(currentChat, false);
-        usersOfChat2 = Utils.getDB().getUsersInChat(currentChat, true);
-        usersNotInChat = Utils.getDB().getUsersNotInChat(currentChat);
+        usersOfChat1 = Utils.getMDB().getUsersInChat(currentChat, false);
+        usersOfChat2 = Utils.getMDB().getUsersInChat(currentChat, true);
+        usersNotInChat = Utils.getMDB().getUsersNotInChat(currentChat);
     }
 
     private void initToolbar() {
@@ -114,10 +114,11 @@ public class ChatEditActivity extends AppCompatActivity {
     }
 
     private void initListView() {
+        mode = "";
         lvUsers = (ListView) findViewById(R.id.listViewUsersEdit);
-        usersOfChat1 = Utils.getDB().getUsersInChat(currentChat, false);
-        usersOfChat2 = Utils.getDB().getUsersInChat(currentChat, true);
-        usersNotInChat = Utils.getDB().getUsersNotInChat(currentChat);
+        usersOfChat1 = Utils.getMDB().getUsersInChat(currentChat, false);
+        usersOfChat2 = Utils.getMDB().getUsersInChat(currentChat, true);
+        usersNotInChat = Utils.getMDB().getUsersNotInChat(currentChat);
         uOfChat1 = new UserAdapter(getApplicationContext(), usersOfChat1, true);
         uOfChat2 = new UserAdapter(getApplicationContext(), usersOfChat2, false);
         uRest = new UserAdapter(getApplicationContext(), usersNotInChat, true);
@@ -135,7 +136,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void initLeaveButton() {
         Button buttonLeave = (Button) findViewById(R.id.buttonLeaveChat);
-        if (Utils.getDB().userInChat(Utils.getCurrentUser(), currentChat)) {
+        if (Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid)) {
             buttonLeave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -192,6 +193,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null) ;
+                    reader.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -204,7 +206,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getDB().getUsersInChat(currentChat, true), false));
+            lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getMDB().getUsersInChat(currentChat, true), false));
             super.onPostExecute(aVoid);
         }
     }
@@ -227,7 +229,8 @@ public class ChatEditActivity extends AppCompatActivity {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null) ;
-                    Utils.getDB().removeUserFormChat(assoziation.uid, assoziation.cid);
+                    reader.close();
+                    Utils.getMDB().removeUserFormChat(assoziation.uid, assoziation.cid);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -240,7 +243,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getDB().getUsersInChat(currentChat, true), false));
+            lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getMDB().getUsersInChat(currentChat, true), false));
             super.onPostExecute(aVoid);
         }
     }
@@ -257,6 +260,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null) ;
+                    reader.close();
                     currentChat.cname = params[0];
                 } catch (Exception e) {
                     e.printStackTrace();

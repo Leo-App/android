@@ -193,6 +193,7 @@
     <string name="settings_summary_refresh_interval">Zeitraum zwischen den Synchronisationsvorgängen</string>
     <string name="settings_summary_notification_messenger">Informiere mich über neue Nachrichten</string>
     <string name="messenger_notification_title">Neue Nachrichten!</string>
+    <string name="need_internet">Um diese Aktion aszuführen, brauchst du eine Internetverbindung</string>
 
     <!--Schwarzes Brett-->
     <string name="settings_summary_notification_news">Infromiere mich über neue Einträge</string>
@@ -248,6 +249,7 @@
     <string name="cards_customize">Anpassen</string>
     <string name="cards_quick">Schnellzugriff</string>
     <string name="set_changes">Übernehmen</string>
+    <string name="chat_info">Information</string>
 
     <!--Nachhilfebörse-->
 
@@ -266,5 +268,7 @@
     </string-array>
 
     <string name="tutoring_title_new">Neue Anzeige</string>
+    <string name="settings_summary_messenger_sync">Deine Nachrichten und Chats werden von diesem Gerät gelöscht und neu vom Server heruntergeladen.</string>
+    <string name="settings_title_messenger_sync">Synchronisieren</string>
 
 </resources>

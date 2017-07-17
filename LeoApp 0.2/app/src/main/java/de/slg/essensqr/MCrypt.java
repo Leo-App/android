@@ -9,8 +9,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 class MCrypt {
 
-    private IvParameterSpec ivspec;
-    private SecretKeySpec keyspec;
+    private final IvParameterSpec ivspec;
+    private final SecretKeySpec keyspec;
     private Cipher cipher;
 
     MCrypt() {

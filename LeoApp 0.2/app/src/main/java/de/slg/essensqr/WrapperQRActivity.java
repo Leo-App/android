@@ -148,8 +148,8 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         mViewPager = (ViewPager) findViewById(R.id.pager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
-            private QRActivity fragment1 = new QRActivity();
-            private ScanActivity fragment2 = new ScanActivity();
+            private final QRActivity fragment1 = new QRActivity();
+            private final ScanActivity fragment2 = new ScanActivity();
 
             @Override
             public Fragment getItem(int position) {
@@ -233,7 +233,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
     }
 
 
-    public void scan() {
+    private void scan() {
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {

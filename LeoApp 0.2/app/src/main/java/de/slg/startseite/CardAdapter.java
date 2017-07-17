@@ -23,6 +23,7 @@ import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
+import de.slg.stundenplan.WrapperStundenplanActivity;
 
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
@@ -135,7 +136,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.buttonListener = new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, StundenplanActivity.class));
+                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperStundenplanActivity.class));
                         }
                     };
                     break;
@@ -165,11 +166,12 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     class CardViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, description;
-        Button button;
-        ImageView icon;
-        RelativeLayout content;
-        CardView wrapper;
+        final TextView title;
+        final TextView description;
+        final Button button;
+        final ImageView icon;
+        final RelativeLayout content;
+        final CardView wrapper;
 
         CardViewHolder(View itemView) {
             super(itemView);

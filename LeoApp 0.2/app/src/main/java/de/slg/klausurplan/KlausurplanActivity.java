@@ -48,7 +48,7 @@ import de.slg.vertretung.WrapperSubstitutionActivity;
 public class KlausurplanActivity extends AppCompatActivity {
 
     private ListView lvKlausuren;
-    public List<Klausur> klausurList;
+    private List<Klausur> klausurList;
     private DrawerLayout drawerLayout;
     private Snackbar snackbar;
     private boolean confirmDelete;
@@ -57,6 +57,8 @@ public class KlausurplanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_klausurplan);
+
+        Utils.registerKlausurplanActivity(this);
 
         initList();
         initToolbar();
@@ -67,8 +69,6 @@ public class KlausurplanActivity extends AppCompatActivity {
 
         löscheAlteKlausuren(Start.pref.getInt("pref_key_delete", -1));
         filternNachStufe(Utils.getUserStufe());
-
-        KlausurActivity.klausurplanActivity = this;
 
         refresh();
     }
@@ -118,7 +118,7 @@ public class KlausurplanActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(getString(R.string.title_testplan));
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
@@ -242,7 +242,7 @@ public class KlausurplanActivity extends AppCompatActivity {
         readFromFile();
     }
 
-    public void refresh() {
+    private void refresh() {
         writeToFile();
         lvKlausuren.setAdapter(new KlausurenAdapter(getApplicationContext(), klausurList, findeNächsteKlausur()));
 
@@ -304,7 +304,7 @@ public class KlausurplanActivity extends AppCompatActivity {
             }
     }
 
-    public void löscheAlteKlausuren(int monate) {
+    private void löscheAlteKlausuren(int monate) {
         if (monate < 0)
             return;
 
@@ -352,7 +352,7 @@ public class KlausurplanActivity extends AppCompatActivity {
         }
     } //holt die Klausuren aus der Textdatei
 
-    public void writeToFile() {
+    private void writeToFile() {
         try {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput(getString(R.string.klausuren_filemane), MODE_PRIVATE)));
             for (klausurList.toFirst(); klausurList.hasAccess(); klausurList.next()) {

@@ -17,7 +17,6 @@ public class Start extends Activity {
         initPref(getApplicationContext());
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_start);
 
         Utils.context = getApplicationContext();
 

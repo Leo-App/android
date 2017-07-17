@@ -73,8 +73,9 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:padding="2dp"
+        android:background="@drawable/back_profile_picture"
+        android:backgroundTint="@color/colorAccent"
         android:src="@drawable/ic_priority_high_white_24dp"
-        android:tint="@color/colorAccent"
         android:visibility="gone" />
 
 </RelativeLayout>

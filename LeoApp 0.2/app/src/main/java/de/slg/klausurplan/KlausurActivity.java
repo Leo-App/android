@@ -16,11 +16,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class KlausurActivity extends AppCompatActivity {
 
     static Klausur currentKlausur;
-    static KlausurplanActivity klausurplanActivity;
     private EditText eingabeFach;
     private EditText eingabeDatum;
     private EditText eingabeNotiz;
@@ -61,7 +61,7 @@ public class KlausurActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(getString(R.string.title_activity));
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
@@ -99,17 +99,17 @@ public class KlausurActivity extends AppCompatActivity {
         currentKlausur.setNote(eingabeNote.getText().toString());
         if (currentKlausur.getFach().equals("")) {
             currentKlausur.setFach(eingabeFach.getText().toString());
-            klausurplanActivity.add(currentKlausur, true);
+            Utils.getKlausurplanActivity().add(currentKlausur, true);
         } else {
-            klausurplanActivity.remove(currentKlausur);
+            Utils.getKlausurplanActivity().remove(currentKlausur);
             currentKlausur.setFach(eingabeFach.getText().toString());
-            klausurplanActivity.add(currentKlausur, true);
+            Utils.getKlausurplanActivity().add(currentKlausur, true);
         }
     }
 
     private void klausurLöschen() {
         if (!currentKlausur.getFach().equals(""))
-            klausurplanActivity.remove(currentKlausur);
+            Utils.getKlausurplanActivity().remove(currentKlausur);
     }
 
     private boolean istDatumFormat(String s) {

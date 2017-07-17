@@ -5,11 +5,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -18,9 +16,7 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import de.slg.leoapp.R;
@@ -40,7 +36,7 @@ public class AbstimmDialog extends AlertDialog {
     private ImageButton bad_mood;
 
     private ListView listView;
-    private String[] gruende = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
+    private final String[] gruende = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
 
     public AbstimmDialog(@NonNull Context context) {
         super(context);
@@ -193,8 +189,8 @@ public class AbstimmDialog extends AlertDialog {
 
     private class ListAdapterGrund extends ArrayAdapter<String> {
 
-        private Context context;
-        private String[] gruende;
+        private final Context context;
+        private final String[] gruende;
 
         ListAdapterGrund(Context context, String[] gruende) {
             super(context, R.layout.list_item_grund, gruende);

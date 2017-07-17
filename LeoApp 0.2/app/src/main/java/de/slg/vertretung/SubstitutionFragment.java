@@ -13,14 +13,11 @@ import de.slg.leoapp.R;
 
 public class SubstitutionFragment extends Fragment {
 
-    private View rootView;
-    private Date d;
-
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(
+        View rootView = inflater.inflate(
                 R.layout.fragment_subst, container, false);
 
 
@@ -30,7 +27,7 @@ public class SubstitutionFragment extends Fragment {
 
     SubstitutionFragment setDate(Date d) {
 
-        this.d = d;
+        Date d1 = d;
         return this;
 
     }

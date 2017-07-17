@@ -24,7 +24,7 @@ import de.slg.stundenplan.Stundenplanverwalter;
 class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
     private BufferedReader reader;
-    private Context context;
+    private final Context context;
     private int year, halbjahr;
     private List<Klausur> listeMitHeruntergeladenenKlausuren;
     private List<String> kuerzelStundenplan;
@@ -216,7 +216,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
         if (nachKlausurplanFiltern) {
             if (kuerzelStundenplan == null) {
                 Stundenplanverwalter verwalter = new Stundenplanverwalter(context, "meinefaecher.txt");
-                Fach[] arrayFach = verwalter.gibFaecherKurz();
+                Fach[] arrayFach = verwalter.gibFaecherKuerzel();
                 kuerzelStundenplan = new List<>();
                 for (Fach anArrayFach : arrayFach) {
                     if (anArrayFach.gibSchriftlich()) {

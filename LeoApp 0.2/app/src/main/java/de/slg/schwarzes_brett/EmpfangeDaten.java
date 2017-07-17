@@ -13,7 +13,7 @@ import java.net.URL;
 import de.slg.leoapp.Utils;
 
 class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
-    private Context c;
+    private final Context c;
 
     EmpfangeDaten(Context c) {
         this.c = c;

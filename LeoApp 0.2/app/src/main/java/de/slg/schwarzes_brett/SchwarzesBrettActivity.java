@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -70,7 +71,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarNavDrawer);
-        myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Schwarzes Brett");
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
@@ -166,15 +167,15 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         groupList = new ArrayList<>();
         SQLiteConnector db = new SQLiteConnector(getBaseContext());
         SQLiteDatabase dbh = db.getWritableDatabase();
-        Cursor myCursor = null;
-        if(Utils.getUserStufe()!= "") {
-            String stufe = Utils.getUserStufe();
+        Cursor myCursor;
+        String stufe = Utils.getUserStufe();
+        if(!stufe.equals("")) {
             myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, "adressat = '" + stufe + "'", null, null, null, null);
         }
         else {
             myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, null , null, null, null, null);
         }
-            schwarzesBrett = new LinkedHashMap<>();
+        schwarzesBrett = new LinkedHashMap<>();
         for (myCursor.moveToFirst(); !myCursor.isAfterLast(); myCursor.moveToNext()) {
             Log.e("Tag", "title: " + myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.tableResult.titel)));
             groupList.add(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.tableResult.titel)));

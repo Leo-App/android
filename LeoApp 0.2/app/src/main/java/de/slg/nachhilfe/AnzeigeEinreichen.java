@@ -5,8 +5,6 @@ import android.os.AsyncTask;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 class AnzeigeEinreichen extends AsyncTask<String, Void, Void> {
@@ -19,11 +17,7 @@ class AnzeigeEinreichen extends AsyncTask<String, Void, Void> {
                                     .openConnection()
                                     .getInputStream(), "UTF-8"));
 
-            String line;
-            String st = "";
-            while ((line = reader.readLine()) != null) {
-                st += line;
-            }
+            while (reader.readLine() != null) ;
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -15,7 +15,7 @@ public class Message {
     public Date mdate;
     public final int cid;
     final int uid;
-    boolean mread;
+    final boolean mread;
     public String uname = null;
     boolean sending;
 

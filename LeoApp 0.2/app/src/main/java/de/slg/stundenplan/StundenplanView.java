@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -13,11 +14,11 @@ import de.slg.leoapp.R;
 
 public class StundenplanView extends View {
 
-    private Context context;
+    private final Context context;
     private Bitmap bitmap;
-    private Canvas bitmapCanvas;
+    private final Canvas bitmapCanvas;
     private boolean isInitialized;
-    private Paint paint;
+    private final Paint paint;
     private int baseLineY, baseLineX, abstandX, abstandY, paddingX, paddingY, baseline2Y;
 
     public StundenplanView(Context context) {
@@ -47,7 +48,7 @@ public class StundenplanView extends View {
     private void init() {
         bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
         bitmapCanvas.setBitmap(bitmap);
-        bitmapCanvas.drawColor(getResources().getColor(android.R.color.background_light));
+        bitmapCanvas.drawColor(ContextCompat.getColor(getContext(), android.R.color.background_light));
 
         paint.setColor(Color.WHITE);
         paint.setAntiAlias(true);
@@ -97,9 +98,9 @@ public class StundenplanView extends View {
             Fach[] f = sV.gibFacherSortStunde(i);
             String[] namen = new String[5];
             for (Fach aF : f) {
-                namen[Integer.parseInt(aF.gibTag()) - 1] = aF.gibName().split(" ")[0];
+                namen[aF.gibTag() - 1] = aF.gibName().split(" ")[0];
                 if (aF.gibName().equals("") && !aF.gibNotiz().equals("notiz")) {
-                    namen[Integer.parseInt(aF.gibTag()) - 1] = aF.gibNotiz().split(" ")[0];
+                    namen[aF.gibTag() - 1] = aF.gibNotiz().split(" ")[0];
                 }
             }
             for (int m = 0; m < namen.length; m++) {

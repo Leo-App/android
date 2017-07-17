@@ -13,9 +13,9 @@ import de.slg.leoapp.R;
 
 class ExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private Map<String, List<String>> eintraege;
-    private List<String> titel;
-    private LayoutInflater inflater;
+    private final Map<String, List<String>> eintraege;
+    private final List<String> titel;
+    private final LayoutInflater inflater;
 
     ExpandableListAdapter(LayoutInflater inflater, List<String> titel, Map<String, List<String>> eintraege) {
         this.inflater = inflater;

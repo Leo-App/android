@@ -67,9 +67,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="de.slg.stimmungsbarometer.AbstimmDialog"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="de.slg.stimmungsbarometer.StimmungsbarometerActivity"
             android:screenOrientation="portrait" />
 
@@ -88,12 +85,23 @@
             android:name="de.slg.stundenplan.WrapperStundenplanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.stundenplan.StundenplanActivity" />
+            android:name="de.slg.stundenplan.StundenplanActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="de.slg.stundenplan.SPDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="de.slg.stundenplan.AuswahlActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.nachhilfe.NachhilfeboerseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.nachhilfe.Hinzufuegen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.nachhilfe.Verwalten"
             android:screenOrientation="portrait" />
 
     </application>

@@ -14,12 +14,11 @@ import de.slg.leoapp.R;
 
 public class FragmentDonnerstag extends Fragment {
 
-    View v;
     private Fach[] fachArray;
 
     @Override
     public View onCreateView(LayoutInflater layIn, ViewGroup container, Bundle savedInstanceState) {
-        v = layIn.inflate(R.layout.fragment_wochentag, container, false);
+        View v = layIn.inflate(R.layout.fragment_wochentag, container, false);
         ListView listW = (ListView) v.findViewById(R.id.listW);
 
         Stundenplanverwalter sv = new Stundenplanverwalter(getContext(), "meinefaecher.txt");
@@ -32,9 +31,8 @@ public class FragmentDonnerstag extends Fragment {
         listW.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                WrapperStundenplanActivity.akTag = "4";
+                WrapperStundenplanActivity.akTag = 4;
                 WrapperStundenplanActivity.akStunde = fachArray[position].gibStunde();
-                Log.e("Luzzzia", WrapperStundenplanActivity.akTag + ";" + WrapperStundenplanActivity.akStunde);
                 startActivity(new Intent(getContext(), SPDetailsActivity.class));
             }
         });

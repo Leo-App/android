@@ -6,74 +6,74 @@ import android.os.AsyncTask;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
-class FachImporter extends AsyncTask<Void, Void, ArrayList<Fach>> {
-    private Context con;
-    private ArrayList<Fach> facherAT;
-    private String stufe;
+import de.slg.leoapp.Utils;
+
+class FachImporter extends AsyncTask<Void, Void, Void> {
+    private final Context context;
+    private final String stufe;
 
     FachImporter(Context c, String pStufe) {
-        this.con = c;
+        this.context = c;
         stufe = pStufe;
     }
 
     @Override
-    protected ArrayList<Fach> doInBackground(Void... parameter) {
-        try {
-            facherAT = new ArrayList<>();
-            URL url = new URL("http://moritz.liegmanns.de/testdaten.txt");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoOutput(true);
-            connection.connect();
-            FileOutputStream fos = con.openFileOutput("testdaten.txt", Context.MODE_PRIVATE);
-            InputStream inSt = connection.getInputStream();
-            byte[] buffer = new byte[1024];
-            int bufferLength;
-            while ((bufferLength = inSt.read(buffer)) > 0) {
-                fos.write(buffer, 0, bufferLength);
-            }
-            fos.close();
-
-            String zeile;
-            String[] fach;
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(con.openFileInput("testdaten.txt")));
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(con.openFileOutput("allefaecher.txt", Context.MODE_PRIVATE)));
-
-            zeile = br.readLine();
-            while (zeile != null) {
-                zeile = zeile.replace('"', '@');
-                zeile = this.ignoriereAT(zeile);
-                fach = zeile.split(",");
-                if (fach[1].equals(stufe)) {
-                    facherAT.add(new Fach(fach[3], fach[4], fach[2], fach[5], fach[6], con));
-                    bw.write("Name;" + fach[3] + ";" + fach[4] + ";" + fach[2] + ";" + fach[5] + ";" + fach[6] + ";nicht;notiz");
-                    bw.newLine();
+    protected Void doInBackground(Void... params) {
+        if (Utils.checkNetwork()) {
+            try {
+                InputStream inputStream =
+                        new URL("http://moritz.liegmanns.de/testdaten.txt")
+                                .openConnection()
+                                .getInputStream();
+                FileOutputStream fileOutput = context.openFileOutput("testdaten.txt", Context.MODE_PRIVATE);
+                byte[] buffer = new byte[1024];
+                int bufferLength;
+                while ((bufferLength = inputStream.read(buffer)) > 0) {
+                    fileOutput.write(buffer, 0, bufferLength);
                 }
-                zeile = br.readLine();
-            }
-            bw.close();
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return facherAT;
-    }
+                fileOutput.close();
+                inputStream.close();
 
-    private String ignoriereAT(String s) {
-        String erg = "";
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) != '@') {
-                erg = erg + s.charAt(i);
+                context.deleteFile("allefaecher.txt");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(context.openFileInput("testdaten.txt")));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(context.openFileOutput("allefaecher.txt", Context.MODE_PRIVATE)));
+
+                String lastKurzel = "";
+                long lastID = -1;
+
+                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                    String[] fach = line.replace("\"", "").split(",");
+                    if (fach[1].equals(stufe)) {
+                        String s = "Name;"
+                                + fach[3] + ";" //Kürzel
+                                + fach[4] + ";" //Raum
+                                + fach[2] + ";" //Lehrer
+                                + fach[5] + ";" //Tag
+                                + fach[6] + ";" //Stunde
+                                + "nicht" + ";"
+                                + " ";
+                        writer.write(s);
+                        writer.newLine();
+                        if (!fach[3].equals(lastKurzel)) {
+                            lastID = Utils.getStundDB().insertFach(fach[3], fach[2], fach[4]);
+                            lastKurzel = fach[3];
+                        }
+                        Utils.getStundDB().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]));
+                    }
+                }
+                writer.close();
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        return erg;
+        return null;
     }
 }

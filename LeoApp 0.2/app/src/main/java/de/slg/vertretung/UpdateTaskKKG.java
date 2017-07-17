@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import java.util.Date;
 
-public class UpdateTaskKKG extends AsyncTask<Date, Void, Boolean> {
+class UpdateTaskKKG extends AsyncTask<Date, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Date... params) {

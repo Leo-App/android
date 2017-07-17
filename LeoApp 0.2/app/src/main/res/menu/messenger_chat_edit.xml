@@ -17,7 +17,7 @@
 
     <item
         android:id="@+id/action_removeUsersFromChat"
-        android:icon="@drawable/ic_delete_white_24dp"
+        android:icon="@drawable/ic_remove_white_24dp"
         android:title="@string/remove_users"
         app:showAsAction="ifRoom" />
 

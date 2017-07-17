@@ -2,9 +2,9 @@ package de.slg.stundenplan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,22 +12,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
 import de.slg.leoapp.R;
 
 public class SPDetailsActivity extends AppCompatActivity {
-    Stundenplanverwalter stuVe;
-    Fach[] faecherSP;
-    String tag;
-    String stunde;
+    private Stundenplanverwalter stundenplanverwalter;
+    private Fach[] faecherSP;
 
-    EditText etNotiz;
-    CheckBox cbSchrift;
+    private EditText etNotiz;
+    private CheckBox cbSchrift;
 
-    int pos;
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,33 +29,29 @@ public class SPDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sp_details);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        myToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_plan));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        //Log.e("Luzzzia","Ich bin in SP-Details");
-        tag = WrapperStundenplanActivity.akTag;
-        stunde = WrapperStundenplanActivity.akStunde;
-        stuVe = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
-        faecherSP = stuVe.gibFaecherSort();
+        stundenplanverwalter = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
+        faecherSP = stundenplanverwalter.gibFaecherSort();
 
-        pos = this.sucheFachPos(tag, stunde);
+        pos = sucheFachPos(WrapperStundenplanActivity.akTag, WrapperStundenplanActivity.akStunde);
 
-        TextView twName = (TextView) this.findViewById(R.id.name_detail);
-        TextView twTag = (TextView) this.findViewById(R.id.tag_details);
-        TextView twZeit = (TextView) this.findViewById(R.id.uhrzeit_details);
-        TextView twRaum = (TextView) this.findViewById(R.id.raumnr_details);
-        TextView twLehrer = (TextView) this.findViewById(R.id.lehrerK_details);
-        etNotiz = (EditText) this.findViewById(R.id.notizFeld_details);
-        cbSchrift = (CheckBox) this.findViewById(R.id.checkBox_schriftlich);
+        TextView twName = (TextView) findViewById(R.id.name_detail);
+        TextView twTag = (TextView) findViewById(R.id.tag_details);
+        TextView twZeit = (TextView) findViewById(R.id.uhrzeit_details);
+        TextView twRaum = (TextView) findViewById(R.id.raumnr_details);
+        TextView twLehrer = (TextView) findViewById(R.id.lehrerK_details);
+        etNotiz = (EditText) findViewById(R.id.notizFeld_details);
+        cbSchrift = (CheckBox) findViewById(R.id.checkBox_schriftlich);
 
         if (pos != -1) {
-            //Log.e("Luzzzia", "Name ist: " + faecherSP[pos].gibName() + "Raum: " + faecherSP[pos].gibRaum() );
             twName.setText(faecherSP[pos].gibName() + " - " + faecherSP[pos].gibKurz());
-            twTag.setText(this.macheTag(Integer.parseInt(faecherSP[pos].gibTag())));
+            twTag.setText(this.macheTag(faecherSP[pos].gibTag()));
             twZeit.setText(faecherSP[pos].gibStundenName());
             twRaum.setText(faecherSP[pos].gibRaum());
             twLehrer.setText(faecherSP[pos].gibLehrer());
@@ -70,15 +60,6 @@ public class SPDetailsActivity extends AppCompatActivity {
                 cbSchrift.setChecked(true);
             }
         }
-
-        etNotiz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (etNotiz.getText().toString().equals("notiz")) {
-                    etNotiz.setText("");
-                }
-            }
-        });
     }
 
     @Override
@@ -93,16 +74,11 @@ public class SPDetailsActivity extends AppCompatActivity {
             if (cbSchrift.isChecked() != faecherSP[pos].gibSchriftlich()) {
                 faecherSP[pos].setzeSchriftlich(cbSchrift.isChecked());
             }
-            Log.e("Luzzzia", "Output: " + etNotiz.getText() + "Länge: " + etNotiz.getText().length());
-            if (!etNotiz.getText().toString().equals("")) {
-                faecherSP[pos].setzeNotiz("" + etNotiz.getText());
-            } else {
-                faecherSP[pos].setzeNotiz("notiz");
-            }
-            stuVe.inTextDatei(getApplicationContext(), faecherSP);
+            faecherSP[pos].setzeNotiz(etNotiz.getText().toString());
+            stundenplanverwalter.inTextDatei(faecherSP);
             startActivity(new Intent(getApplicationContext(), WrapperStundenplanActivity.class));
-            this.finish();
         }
+        finish();
         return true;
     }
 
@@ -123,22 +99,12 @@ public class SPDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private int sucheFachPos(String pTag, String pStunde) {
+    private int sucheFachPos(int tag, int stunde) {
         for (int c = 0; c < faecherSP.length; c++) {
-            if (faecherSP[c].gibTag().equals(pTag) && faecherSP[c].gibStunde().equals(pStunde)) {
+            if (faecherSP[c].gibTag() == tag && faecherSP[c].gibStunde() == stunde) {
                 return c;
             }
         }
-        return -1; //Wenn nicht gefunden
-    }
-
-    private void deexistiere() {
-        BufferedWriter bw;
-        try {
-            bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("meinefaecher.txt", MODE_PRIVATE)));
-            bw.write("");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return -1;
     }
 }

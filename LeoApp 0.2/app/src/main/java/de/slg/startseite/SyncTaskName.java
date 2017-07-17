@@ -1,7 +1,6 @@
 package de.slg.startseite;
 
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -50,9 +49,9 @@ class SyncTaskName extends AsyncTask<Void, Void, Void> {
         if (!result.equals(Utils.getUserName()))
             return null;
 
-        SharedPreferences.Editor e = Start.pref.edit();
-        e.putString("pref_key_username_general", result);
-        e.apply();
+        Start.pref.edit()
+                .putString("pref_key_username_general", result)
+                .apply();
 
         return null;
     }

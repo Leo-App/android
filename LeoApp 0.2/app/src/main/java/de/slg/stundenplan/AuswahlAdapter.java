@@ -2,7 +2,7 @@ package de.slg.stundenplan;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +17,10 @@ import de.slg.leoapp.R;
 
 class AuswahlAdapter extends ArrayAdapter<Fach> {
 
-    private Context context;
-    private Fach[] fachArray;
-    private View[] views;
-    private Stundenplanverwalter sv;
+    private final Context context;
+    private final Fach[] fachArray;
+    private final View[] views;
+    private final Stundenplanverwalter sv;
 
     AuswahlAdapter(Context context, Fach[] pFacher, Stundenplanverwalter psv) {
         super(context, R.layout.list_item_kurs, pFacher);
@@ -40,10 +40,6 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
                 view = layoutInflater.inflate(id, null);
             }
             view.setEnabled(true);
-            Log.e("Test", "Fach: " + fachArray[position].gibName());
-            Log.e("Test", "Kuerzel: " + fachArray[position].gibKurz());
-            Log.e("Test", "Lehrer: " + fachArray[position].gibLehrer());
-            Log.e("Test", "Stunden: " + fachArray[position].gibStunde());
             TextView twFach = (TextView) view.findViewById(R.id.fach_auswahl);
             TextView twKuerzel = (TextView) view.findViewById(R.id.kürzel_auswahl);
             TextView twLehrer = (TextView) view.findViewById(R.id.lehrer_auswahl);
@@ -63,7 +59,7 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
         int[] selected = getSelectedIndices();
         for (int i : selected) {
             ausgewählteFächer.append(fachArray[i].gibName().split(" ")[0]);
-            ArrayList<Fach> faecherInKurs = sv.sucheFacherKurzel(fachArray[i].gibKurz());
+            ArrayList<Fach> faecherInKurs = sv.gibFaecherMitKuerzel(fachArray[i].gibKurz());
             for (Fach f : faecherInKurs) {
                 ausgewählteStunden.append(f.gibStunde() + "." + f.gibTag());
             }
@@ -76,25 +72,25 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
                     TextView tvFach = (TextView) views[i].findViewById(R.id.fach_auswahl);
                     TextView tvKuerzel = (TextView) views[i].findViewById(R.id.kürzel_auswahl);
                     TextView tvLehrer = (TextView) views[i].findViewById(R.id.lehrer_auswahl);
-                    tvFach.setTextColor(context.getResources().getColor(R.color.colorAccent));
-                    tvKuerzel.setTextColor(context.getResources().getColor(R.color.colorAccent));
-                    tvLehrer.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                    tvFach.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+                    tvKuerzel.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+                    tvLehrer.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                 } else if (ausgewählteFächer.contains(fachArray[i].gibName().split(" ")[0]) || ausgewählteStunden.contains(fachArray[i].gibStunde() + "." + fachArray[i].gibTag())) {
                     views[i].setEnabled(false);
                     TextView tvFach = (TextView) views[i].findViewById(R.id.fach_auswahl);
                     TextView tvKuerzel = (TextView) views[i].findViewById(R.id.kürzel_auswahl);
                     TextView tvLehrer = (TextView) views[i].findViewById(R.id.lehrer_auswahl);
-                    tvFach.setTextColor(context.getResources().getColor(R.color.colorTextGreyed));
-                    tvKuerzel.setTextColor(context.getResources().getColor(R.color.colorTextGreyed));
-                    tvLehrer.setTextColor(context.getResources().getColor(R.color.colorTextGreyed));
+                    tvFach.setTextColor(ContextCompat.getColor(context, R.color.colorTextGreyed));
+                    tvKuerzel.setTextColor(ContextCompat.getColor(context, R.color.colorTextGreyed));
+                    tvLehrer.setTextColor(ContextCompat.getColor(context, R.color.colorTextGreyed));
                 } else {
                     views[i].setEnabled(true);
                     TextView tvFach = (TextView) views[i].findViewById(R.id.fach_auswahl);
                     TextView tvKuerzel = (TextView) views[i].findViewById(R.id.kürzel_auswahl);
                     TextView tvLehrer = (TextView) views[i].findViewById(R.id.lehrer_auswahl);
-                    tvFach.setTextColor(context.getResources().getColor(R.color.colorText));
-                    tvKuerzel.setTextColor(context.getResources().getColor(R.color.colorText));
-                    tvLehrer.setTextColor(context.getResources().getColor(R.color.colorText));
+                    tvFach.setTextColor(ContextCompat.getColor(context, R.color.colorText));
+                    tvKuerzel.setTextColor(ContextCompat.getColor(context, R.color.colorText));
+                    tvLehrer.setTextColor(ContextCompat.getColor(context, R.color.colorText));
                 }
             }
         }
@@ -132,7 +128,7 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
         for (int i = 0; i < fachArray.length; i++) {
             if (views[i] != null) {
                 if (((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked()) {
-                    ArrayList<Fach> f = sv.sucheFacherKurzel(fachArray[i].gibKurz());
+                    ArrayList<Fach> f = sv.gibFaecherMitKuerzel(fachArray[i].gibKurz());
                     for (int x = 0; x < f.size(); x++) {
                         mark[c] = f.get(x);
                         c++;
@@ -148,7 +144,7 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
         for (int i = 0; i < fachArray.length; i++) {
             if (views[i] != null) {
                 if (((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked()) {
-                    ArrayList<Fach> f = sv.sucheFacherKurzel(fachArray[i].gibKurz());
+                    ArrayList<Fach> f = sv.gibFaecherMitKuerzel(fachArray[i].gibKurz());
                     markierte = markierte + f.size();
                 }
             }

@@ -138,10 +138,10 @@ public class ZeitraumFragment extends Fragment {
 
     private class StatistikView extends View {
         private Bitmap bitmap;
-        private Canvas bitmapCanvas;
+        private final Canvas bitmapCanvas;
         private boolean isInitialized;
-        private Paint paint;
-        private Ergebnis[][] data;
+        private final Paint paint;
+        private final Ergebnis[][] data;
         private int baseLineY, baseLineX, abstandX, abstandY, radius;
 
         private boolean ich;

@@ -2,20 +2,20 @@ package de.slg.nachhilfe;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import de.slg.leoapp.R;
 
 
 class NachhilfeAdapter extends ArrayAdapter<String> {
 
-    private LayoutInflater inflater;
-    private String[] data;
-    private int resId;
+    private final LayoutInflater inflater;
+    private final String[] data;
+    private final int resId;
 
     NachhilfeAdapter(Context context, String[] data) {
         super(context, R.layout.list_item_nachhilfe, data);

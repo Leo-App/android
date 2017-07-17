@@ -112,6 +112,7 @@ public class ReceiveService extends Service {
                     String l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l).append(System.getProperty("line.separator"));
+                    reader.close();
                     String[] result = builder.toString().split("_nextMessage_");
                     for (String s : result) {
                         String[] message = s.split("_;_");
@@ -122,7 +123,7 @@ public class ReceiveService extends Service {
                             int cid = Integer.parseInt(message[3]);
                             int uid = Integer.parseInt(message[4]);
                             Message m = new Message(mid, mtext, mdate, cid, uid, false);
-                            Utils.getDB().insertMessage(m);
+                            Utils.getMDB().insertMessage(m);
                         }
                     }
                 } catch (Exception e) {
@@ -144,13 +145,14 @@ public class ReceiveService extends Service {
                     String l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l);
+                    reader.close();
                     String erg = builder.toString();
                     String[] result = erg.split("_nextChat_");
                     for (String s : result) {
                         String[] current = s.split("_;_");
                         if (current.length == 3) {
                             Chat c = new Chat(Integer.parseInt(current[0]), current[1], Chat.Chattype.valueOf(current[2].toUpperCase()));
-                            Utils.getDB().insertChat(c);
+                            Utils.getMDB().insertChat(c);
                         }
                     }
                 } catch (Exception e) {
@@ -172,13 +174,14 @@ public class ReceiveService extends Service {
                     String l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l);
+                    reader.close();
                     String erg = builder.toString();
                     String[] result = erg.split("_nextUser_");
                     for (String s : result) {
                         String[] current = s.split("_;_");
                         if (current.length == 4) {
                             User u = new User(Integer.parseInt(current[0]), current[1], current[2], Integer.parseInt(current[3]));
-                            Utils.getDB().insertUser(u);
+                            Utils.getMDB().insertUser(u);
                         }
                     }
                 } catch (Exception e) {
@@ -200,14 +203,15 @@ public class ReceiveService extends Service {
                     String l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l);
+                    reader.close();
                     String erg = builder.toString();
                     String[] result = erg.split("_nextAssoziation_");
-                    Utils.getDB().clearTable(DBConnection.DBHelper.TABLE_ASSOZIATION);
+                    Utils.getMDB().clearTable(DBConnection.DBHelper.TABLE_ASSOZIATION);
                     for (String s : result) {
                         String[] current = s.split("_;_");
                         if (current.length == 2) {
                             Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]));
-                            Utils.getDB().insertAssoziation(a);
+                            Utils.getMDB().insertAssoziation(a);
                         }
                     }
                 } catch (Exception e) {
@@ -242,7 +246,7 @@ public class ReceiveService extends Service {
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
-                Message[] array = Utils.getDB().getUnsendMessages();
+                Message[] array = Utils.getMDB().getUnsendMessages();
                 for (Message m : array) {
                     try {
                         BufferedReader reader =
@@ -251,8 +255,9 @@ public class ReceiveService extends Service {
                                                 new URL(generateURL(m.mtext, m.cid))
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null);
-                        Utils.getDB().removeUnsendMessage(m.mid);
+                        while (reader.readLine() != null) ;
+                        reader.close();
+                        Utils.getMDB().removeUnsendMessage(m.mid);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -12,8 +12,6 @@ import de.slg.leoapp.R;
 
 public class ScanActivity extends Fragment {
 
-    private Button btn;
-
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -21,9 +19,7 @@ public class ScanActivity extends Fragment {
         RelativeLayout rootView = (RelativeLayout) inflater.inflate(
                 R.layout.fragment_scan, container, false);
 
-        btn = (Button) rootView.findViewById(R.id.scan_button);
-
-        WrapperQRActivity.scan = btn;
+        WrapperQRActivity.scan = (Button) rootView.findViewById(R.id.scan_button);
 
         return rootView;
 
