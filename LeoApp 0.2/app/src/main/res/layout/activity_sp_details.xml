@@ -14,7 +14,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <TextView
-        android:id="@+id/name_detail"
+        android:id="@+id/name_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -23,55 +23,30 @@
         android:layout_marginLeft="22dp"
         android:layout_marginStart="22dp"
         android:layout_marginTop="25dp"
-        android:text="FachName - FachKürzel"
+        android:text="Fach Kurs"
         android:textColor="@android:color/black"
         android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/zeit_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/name_detail"
-        android:layout_alignStart="@+id/name_detail"
-        android:layout_below="@+id/name_detail"
-        android:layout_marginTop="26dp"
-        android:text="@string/zeit"
-        android:textColor="@android:color/black"
-        android:textSize="22sp" />
-
-    <TextView
-        android:id="@+id/tag_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/zeit_details"
-        android:layout_alignStart="@+id/zeit_details"
-        android:layout_below="@+id/zeit_details"
-        android:layout_marginTop="12dp"
-        android:text="Wochentag"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/uhrzeit_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tag_details"
-        android:layout_marginLeft="23dp"
-        android:layout_marginStart="23dp"
-        android:layout_toEndOf="@+id/tag_details"
-        android:layout_toRightOf="@+id/tag_details"
-        android:text="00:00-00:00"
+        android:layout_marginTop="21dp"
+        android:text="Zeiten"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_below="@+id/name_details"
+        android:layout_alignLeft="@+id/name_details"
+        android:layout_alignStart="@+id/name_details" />
 
     <TextView
         android:id="@+id/raum_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tag_details"
-        android:layout_alignStart="@+id/tag_details"
-        android:layout_below="@+id/tag_details"
-        android:layout_marginTop="23dp"
+        android:layout_alignLeft="@+id/uhrzeit_details"
+        android:layout_alignStart="@+id/uhrzeit_details"
+        android:layout_below="@+id/uhrzeit_details"
+        android:layout_marginTop="15dp"
         android:text="@string/raum"
         android:textColor="@android:color/black"
         android:textSize="22sp" />
@@ -125,29 +100,17 @@
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/notiz_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/checkBox_schriftlich"
-        android:layout_alignStart="@+id/checkBox_schriftlich"
-        android:layout_below="@+id/checkBox_schriftlich"
-        android:layout_marginTop="21dp"
-        android:text="@string/notizen"
-        android:textColor="@android:color/black"
-        android:textSize="22sp" />
-
     <EditText
         android:id="@+id/notizFeld_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/notiz_details"
-        android:layout_alignStart="@+id/notiz_details"
-        android:layout_below="@+id/notiz_details"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="22dp"
         android:ems="10"
         android:hint="@string/notizen"
         android:inputType="text"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/checkBox_schriftlich"
+        android:layout_alignLeft="@+id/checkBox_schriftlich"
+        android:layout_alignStart="@+id/checkBox_schriftlich" />
 
 </RelativeLayout>

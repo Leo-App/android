@@ -41,7 +41,7 @@ public class AuswahlActivity extends AppCompatActivity {
 
         initToolbar();
 
-        if (stufe == null) {
+        if (stufe.equals("")) {
             Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes2, Snackbar.LENGTH_SHORT).show();
             //TODO Ich will einen Button der direkt zu den Einstellungen geht!!!!
         } else {
@@ -109,7 +109,10 @@ public class AuswahlActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == R.id.action_speichern) {
             sv.inTextDatei(auswahlAdapter.gibAlleMarkierten());
-            startActivity(new Intent(getApplicationContext(), WrapperStundenplanActivity.class));
+            Utils.getStundDB().loescheWahlen();
+            for (String kurz : auswahlAdapter.gibMarkierteKurz()) {
+                Utils.getStundDB().waehleFach(Utils.getStundDB().idVonKuerzel(kurz));
+            }
         } else if (mi.getItemId() == R.id.action_refresh) {
             deleteFile("allefaecher.txt");
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));

@@ -6,79 +6,77 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 public class Fach {
-    private int id;
-    private final String fachname;
-    private final String fachkuerzel;
+    public final int id;
+    private final String name;
+    private final String kuerzel;
     private final String raum;
     private final String lehrer;
-    private int tag;
-    private int stunde;
+    private final int tag;
+    private final int stunde;
     private boolean schriftlich;
-    private boolean ende;
     private String notiz;
     private final Context context;
 
-    public Fach(String pFachkurzel, String pRaum, String pLehrer, String pTag, String pStunde, Context pContext) {
+    public Fach(String kurz, String raum, String lehrer, String tag, String stunde, Context context) {
         //Erstellt ein Fach
-        context = pContext;
-        tag = Integer.parseInt(pTag);
-        stunde = Integer.parseInt(pStunde);
-        fachkuerzel = pFachkurzel;
-        fachname = this.gibFachname();
-        raum = pRaum;
-        lehrer = pLehrer;
-        schriftlich = false;
-        notiz = "";
-        ende = false;
-    }
-
-    public Fach(int id, String kurz, String name, String lehrer, String raum, Context pContext) {
-        this.id = id;
-        this.context = pContext;
-        this.fachkuerzel = kurz;
-        this.fachname = name;
+        this.context = context;
+        this.tag = Integer.parseInt(tag);
+        this.stunde = Integer.parseInt(stunde);
+        kuerzel = kurz;
+        name = this.gibFachname();
         this.raum = raum;
         this.lehrer = lehrer;
+        schriftlich = false;
+        notiz = "";
+        id = Utils.getStundDB().idVonKuerzel(kurz);
+    }
+
+    public Fach(int id, String kurz, String name, String lehrer, String raum, int tag, int stunde, Context context) {
+        this.id = id;
+        this.context = context;
+        this.kuerzel = kurz;
+        this.name = name;
+        this.raum = raum;
+        this.lehrer = lehrer;
+        this.tag = tag;
+        this.stunde = stunde;
+        this.notiz = "";
     }
 
     private String gibFachname() {
-        if (fachkuerzel.length() <= 1) {
+        if (kuerzel.length() <= 1) {
             return "";
         }
-        String kurzelTeil = fachkuerzel.substring(0, 2);
+        String kurzelTeil = kuerzel.substring(0, 2);
         String name = this.gibFachnameTeil(kurzelTeil);
-        if (fachkuerzel.charAt(2) == 'L') {
+        if (kuerzel.charAt(2) == 'L') {
             name = name + " " + Utils.getString(R.string.lk);
         }
         return name;
     }
 
     private String gibStundenName(int pStunde) {
-        if (ende) {
-            //Log.e("Luzzia", Integer.toString(pStunde));
-            return context.getString(R.string.später);
-        }
         switch (pStunde) {
             case 1:
-                return "08:00-08:45";
+                return "08:00 - 08:45";
             case 2:
-                return "08:50-09:35";
+                return "08:50 - 09:35";
             case 3:
-                return "09:50-10:35";
+                return "09:50 - 10:35";
             case 4:
-                return "10:40-11:25";
+                return "10:40 - 11:25";
             case 5:
-                return "11:40-12:25";
+                return "11:40 - 12:25";
             case 6:
-                return "12:30-13:15";
+                return "12:30 - 13:15";
             case 7:
-                return "13:30-14:15";
+                return "13:30 - 14:15";
             case 8:
-                return "14:20-15:05";
+                return "14:20 - 15:05";
             case 9:
-                return "15:10-15:55";
+                return "15:10 - 15:55";
             case 10:
-                return "16:00-16:45";
+                return "16:00 - 16:45";
             default:
                 return Integer.toString(pStunde);
         }
@@ -136,28 +134,22 @@ public class Fach {
 
     //Getter und Setter
 
-    void setzeNotiz(String pNotiz) {
-        notiz = pNotiz;
-        if (id != 0)
-            Utils.getStundDB().setzeNotiz(pNotiz, id);
+    void setzeNotiz(String notiz) {
+        this.notiz = notiz;
+        Utils.getStundDB().setzeNotiz(notiz, id);
     }
 
     void setzeSchriftlich(boolean b) {
         schriftlich = b;
-        if (id != 0)
-            Utils.getStundDB().setzeSchriftlich(b, id);
-    }
-
-    public void setzeEnde(boolean b) {
-        ende = b;
+        Utils.getStundDB().setzeSchriftlich(b, id);
     }
 
     public String gibKurz() {
-        return fachkuerzel;
+        return kuerzel;
     }
 
     public String gibName() {
-        return fachname;
+        return name;
     }
 
     public String gibLehrer() {

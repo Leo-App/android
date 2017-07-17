@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class FragmentDienstag extends Fragment {
 
@@ -21,8 +22,7 @@ public class FragmentDienstag extends Fragment {
         View v = layIn.inflate(R.layout.fragment_wochentag, container, false);
         ListView listW = (ListView) v.findViewById(R.id.listW);
 
-        Stundenplanverwalter sv = new Stundenplanverwalter(getContext(), "meinefaecher.txt");
-        fachArray = sv.gibFaecherSortTag(2);
+        fachArray = Utils.getStundDB().gewaehlteFaecherAnTag(2);
 
         WochentagAdapter wtAdapter = new WochentagAdapter(getContext(), fachArray);
         listW.setAdapter(wtAdapter);

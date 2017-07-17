@@ -16,7 +16,6 @@ import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 
 class AuswahlAdapter extends ArrayAdapter<Fach> {
-
     private final Context context;
     private final Fach[] fachArray;
     private final View[] views;
@@ -150,5 +149,13 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
             }
         }
         return markierte;
+    }
+
+    String[] gibMarkierteKurz() {
+        List<String> liste = new List<>();
+        for (int i = 0; i < fachArray.length; i++)
+            if (views[i] != null && ((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked())
+                liste.append(fachArray[i].gibKurz());
+        return liste.fill(new String[liste.length()]);
     }
 }
