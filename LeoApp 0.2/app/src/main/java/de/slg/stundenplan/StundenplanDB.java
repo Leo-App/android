@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class StundenplanDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "stundenplan";
@@ -64,7 +65,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(FACH_ART, kurz.substring(2, 3) + "K");
         values.put(FACH_KURZEL, kurz);
-        values.put(FACH_NAME, macheFachnameTeil(kurz.substring(0, 2)));
+        values.put(FACH_NAME, kurzToFach(kurz.substring(0, 2)));
         values.put(FACH_LEHRER, lehrer);
         values.put(FACH_RAUM, raum);
         return database.insert(TABLE_FACHER, null, values);
@@ -82,7 +83,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(FACH_ID, fid);
         values.put(GEWAHLT_NOTIZ, "");
-        values.put(GEWAHLT_SCHRIFTLICH, false);
+        values.put(GEWAHLT_SCHRIFTLICH, 0);
         database.insert(TABLE_GEWAHLT, null, values);
     }
 
@@ -94,23 +95,58 @@ public class StundenplanDB extends SQLiteOpenHelper {
 
     void setzeSchriftlich(boolean schriftlich, int fid) {
         ContentValues values = new ContentValues();
-        values.put(GEWAHLT_SCHRIFTLICH, schriftlich);
+        values.put(GEWAHLT_SCHRIFTLICH, schriftlich ? 1 : 0);
         database.update(TABLE_GEWAHLT, values, FACH_ID + " = " + fid, null);
     }
 
+    void loescheWahlen() {
+        database.delete(TABLE_GEWAHLT, null, null);
+    }
+
     Fach[] getFaecher() {
-        String[] columns = {FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_RAUM};
-        Cursor cursor = database.query(TABLE_FACHER,columns, null, null, null, null, null);
+        String[] columns = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
+        Cursor cursor = database.query(TABLE_FACHER + ", " + TABLE_STUNDEN, columns, TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID, null, null, null, null);
         Fach[] faecher = new Fach[cursor.getCount()];
         int i = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
-            faecher[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK": ""), cursor.getString(4), cursor.getString(5), context);
+            faecher[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getInt(6), cursor.getInt(7), context);
         }
         cursor.close();
         return faecher;
     }
 
-    private String macheFachnameTeil(String pKurzelTeil) {
+    Fach[] gewaehlteFaecherAnTag(int tag) {
+        String table = TABLE_FACHER + ", " + TABLE_GEWAHLT + ", " + TABLE_STUNDEN;
+        String[] columns = {TABLE_FACHER + "." + FACH_ID,
+                FACH_KURZEL,
+                FACH_NAME,
+                FACH_ART,
+                FACH_LEHRER,
+                FACH_RAUM,
+                STUNDEN_STUNDE,
+                GEWAHLT_SCHRIFTLICH,
+                GEWAHLT_NOTIZ};
+        String selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + TABLE_FACHER + "." + FACH_ID + " = " + TABLE_GEWAHLT + "." + FACH_ID + " AND " + TABLE_STUNDEN + "." + STUNDEN_TAG + " = " + tag;
+        Cursor cursor = database.query(table, columns, selection, null, null, null, STUNDEN_STUNDE);
+        Fach[] faecher = new Fach[0];
+        if (cursor.getCount() > 0) {
+            cursor.moveToLast();
+            faecher = new Fach[cursor.getInt(6)];
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                faecher[cursor.getInt(6) - 1] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), tag, cursor.getInt(6), context);
+                faecher[cursor.getInt(6) - 1].setzeNotiz(cursor.getString(8));
+                faecher[cursor.getInt(6) - 1].setzeSchriftlich(cursor.getInt(7) == 1);
+            }
+            for (int i = 0; i < faecher.length; i++) {
+                if (faecher[i] == null)
+                    faecher[i] = new Fach(0, "", "", "", "", tag, i + 1, context);
+            }
+        }
+        cursor.close();
+        return faecher;
+    }
+
+    private String kurzToFach(String pKurzelTeil) {
         switch (pKurzelTeil.toUpperCase()) {
             case "M ":
                 return context.getString(R.string.mathe);
@@ -156,6 +192,100 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 return context.getString(R.string.musik);
             default:
                 return pKurzelTeil;
+        }
+    }
+
+    int idVonKuerzel(String kuerzel) {
+        Cursor cursor = database.query(TABLE_FACHER, new String[]{FACH_ID}, FACH_KURZEL + " = '" + kuerzel + "'", null, null, null, null);
+        int fid = 0;
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            fid = cursor.getInt(0);
+        }
+        cursor.close();
+        return fid;
+    }
+
+    String gibZeiten(Fach f) {
+        String condition, table;
+        if (f.id == 0) {
+            table = TABLE_STUNDEN + ", " + TABLE_FACHER;
+            condition = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_KURZEL + " = '" + f.gibKurz() + "'";
+        } else {
+            table = TABLE_STUNDEN;
+            condition = FACH_ID + " = " + f.id;
+        }
+        Cursor cursor = database.query(table, new String[]{STUNDEN_TAG, STUNDEN_STUNDE}, condition, null, null, null, STUNDEN_TAG + ", " + STUNDEN_STUNDE);
+        StringBuilder builder = new StringBuilder();
+        if (cursor.getCount() > 0) {
+            int[][] woche = new int[5][10];
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                woche[cursor.getInt(0) - 1][cursor.getInt(1) - 1] = 1;
+            }
+            cursor.close();
+            for (int i = 0; i < woche.length; i++) {
+                for (int j = 0; j < woche[i].length; j++) {
+                    if (woche[i][j] == 1) {
+                        if (builder.length() > 0)
+                            builder.append(System.getProperty("line.separator"));
+                        builder.append(tagToString(i + 1))
+                                .append(": ");
+                        String zeit = stundeToString(j + 1);
+                        if (j < woche[i].length - 1 && woche[i][j + 1] == 1) {
+                            zeit = zeit.substring(0, 8) + stundeToString(j + 2).substring(8);
+                        }
+                        builder.append(zeit);
+                        break;
+                    }
+                }
+            }
+        } else {
+            cursor.close();
+        }
+        return builder.toString();
+    }
+
+    private String tagToString(int tag) {
+        switch (tag) {
+            case 1:
+                return Utils.getString(R.string.montag);
+            case 2:
+                return Utils.getString(R.string.dienstag);
+            case 3:
+                return Utils.getString(R.string.mittwoch);
+            case 4:
+                return Utils.getString(R.string.donnerstag);
+            case 5:
+                return Utils.getString(R.string.freitag);
+            default:
+                return Utils.getString(R.string.montag);
+        }
+    }
+
+    private String stundeToString(int pStunde) {
+        switch (pStunde) {
+            case 1:
+                return "08:00 - 08:45";
+            case 2:
+                return "08:50 - 09:35";
+            case 3:
+                return "09:50 - 10:35";
+            case 4:
+                return "10:40 - 11:25";
+            case 5:
+                return "11:40 - 12:25";
+            case 6:
+                return "12:30 - 13:15";
+            case 7:
+                return "13:30 - 14:15";
+            case 8:
+                return "14:20 - 15:05";
+            case 9:
+                return "15:10 - 15:55";
+            case 10:
+                return "16:00 - 16:45";
+            default:
+                return Integer.toString(pStunde);
         }
     }
 }

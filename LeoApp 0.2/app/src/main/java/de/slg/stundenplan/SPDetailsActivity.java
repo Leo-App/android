@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class SPDetailsActivity extends AppCompatActivity {
     private Stundenplanverwalter stundenplanverwalter;
@@ -41,8 +41,7 @@ public class SPDetailsActivity extends AppCompatActivity {
 
         pos = sucheFachPos(WrapperStundenplanActivity.akTag, WrapperStundenplanActivity.akStunde);
 
-        TextView twName = (TextView) findViewById(R.id.name_detail);
-        TextView twTag = (TextView) findViewById(R.id.tag_details);
+        TextView twName = (TextView) findViewById(R.id.name_details);
         TextView twZeit = (TextView) findViewById(R.id.uhrzeit_details);
         TextView twRaum = (TextView) findViewById(R.id.raumnr_details);
         TextView twLehrer = (TextView) findViewById(R.id.lehrerK_details);
@@ -50,9 +49,8 @@ public class SPDetailsActivity extends AppCompatActivity {
         cbSchrift = (CheckBox) findViewById(R.id.checkBox_schriftlich);
 
         if (pos != -1) {
-            twName.setText(faecherSP[pos].gibName() + " - " + faecherSP[pos].gibKurz());
-            twTag.setText(this.macheTag(faecherSP[pos].gibTag()));
-            twZeit.setText(faecherSP[pos].gibStundenName());
+            twName.setText(faecherSP[pos].gibName() + " " + faecherSP[pos].gibKurz().substring(2));
+            twZeit.setText(Utils.getStundDB().gibZeiten(faecherSP[pos]));
             twRaum.setText(faecherSP[pos].gibRaum());
             twLehrer.setText(faecherSP[pos].gibLehrer());
             etNotiz.setText(faecherSP[pos].gibNotiz());

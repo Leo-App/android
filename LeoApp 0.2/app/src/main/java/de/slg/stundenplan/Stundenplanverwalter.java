@@ -9,8 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-import de.slg.leoapp.Utils;
-
 public class Stundenplanverwalter {
     private final String dateiName;
     private Fach[] meineFaecher;
@@ -20,12 +18,6 @@ public class Stundenplanverwalter {
         this.context = context;
         dateiName = datei;
         auslesen();
-    }
-
-    public Stundenplanverwalter(Context context) {
-        dateiName = null;
-        this.context = context;
-        meineFaecher = Utils.getStundDB().getFaecher();
     }
 
     private void auslesen() {
@@ -97,17 +89,6 @@ public class Stundenplanverwalter {
             return faecherSort();
         }
         return generiereFreistunden();
-    }
-
-    Fach[] gibFaecherSortTag(int pTag) {
-        Fach[] facher = gibFaecherSort();
-        ArrayList<Fach> arrayList = new ArrayList<>();
-        for (Fach fach : facher) {
-            if (fach.gibTag() == pTag) {
-                arrayList.add(fach);
-            }
-        }
-        return zuArray(arrayList);
     }
 
     public Fach[] gibFaecherKurzTag(int pTag) {

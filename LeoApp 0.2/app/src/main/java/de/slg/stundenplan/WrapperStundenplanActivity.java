@@ -50,13 +50,18 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
         if (!this.fileExistiert()) {
             Log.e("Luzzzia", "Meine Fächer existiert nicht");
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
-        }
-        Log.e("Luzzzia", "Meine Fächer existiert");
+        } else
+            Log.e("Luzzzia", "Meine Fächer existiert");
 
         setContentView(R.layout.activity_wrapper_stundenplan);
 
         initToolbar();
         initNavigationView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initTabs();
     }
 
@@ -217,15 +222,5 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return false;
-    }
-
-    private void deexistiere() {
-        try {
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("meinefaecher.txt", MODE_PRIVATE)));
-            bw.write("");
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

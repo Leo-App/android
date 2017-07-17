@@ -32,23 +32,23 @@ class WochentagAdapter extends ArrayAdapter<Fach> {
                 v = layIn.inflate(id2, null);
             }
 
-            TextView twFach = (TextView) v.findViewById(R.id.fach_wt);
-            TextView twLehrer = (TextView) v.findViewById(R.id.lehrer_wt);
-            TextView twRaum = (TextView) v.findViewById(R.id.raum_wt);
-            TextView twStunde = (TextView) v.findViewById(R.id.stunde_wt);
+            TextView tvFach = (TextView) v.findViewById(R.id.fach_wt);
+            TextView tvLehrer = (TextView) v.findViewById(R.id.lehrer_wt);
+            TextView tvRaum = (TextView) v.findViewById(R.id.raum_wt);
+            TextView tvStunde = (TextView) v.findViewById(R.id.stunde_wt);
 
             if (fachAd[position] != null) {
 
 
-                if (fachAd[position].gibName().equals("") && !fachAd[position].gibNotiz().equals("notiz")) {
+                if (fachAd[position].gibName().equals("") && !fachAd[position].gibNotiz().equals("")) {
                     String[] sa = fachAd[position].gibNotiz().split(" ");
-                    twFach.setText(sa[0]);
+                    tvFach.setText(sa[0]);
                 } else {
-                    twFach.setText(fachAd[position].gibName());
+                    tvFach.setText(fachAd[position].gibName());
                 }
-                twLehrer.setText(fachAd[position].gibLehrer());
-                twRaum.setText(fachAd[position].gibRaum());
-                twStunde.setText(fachAd[position].gibStundenName());
+                tvLehrer.setText(fachAd[position].gibLehrer());
+                tvRaum.setText(fachAd[position].gibRaum());
+                tvStunde.setText(fachAd[position].gibStundenName());
             }
         }
         viAd[position] = v;
