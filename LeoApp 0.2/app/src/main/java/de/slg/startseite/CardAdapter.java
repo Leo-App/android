@@ -136,7 +136,10 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.buttonListener = new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperStundenplanActivity.class));
+                            if(Utils.isVerified())
+                                MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperStundenplanActivity.class));
+                            else
+                                MainActivity.ref.showDialog();
                         }
                     };
                     break;
