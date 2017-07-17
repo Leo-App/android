@@ -31,9 +31,8 @@ public class FragmentMittwoch extends Fragment {
         listW.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                WrapperStundenplanActivity.akTag = 3;
-                WrapperStundenplanActivity.akStunde = fachArray[position].gibStunde();
-                startActivity(new Intent(getContext(), SPDetailsActivity.class));
+                startActivity(new Intent(getContext(), SPDetailsActivity.class)
+                        .putExtra("fid", fachArray[position].id));
             }
         });
 

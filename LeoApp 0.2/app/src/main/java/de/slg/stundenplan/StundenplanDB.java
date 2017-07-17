@@ -146,6 +146,31 @@ public class StundenplanDB extends SQLiteOpenHelper {
         return faecher;
     }
 
+    Fach getFach(int fid) {
+        String table = TABLE_FACHER + ", " + TABLE_GEWAHLT + ", " + TABLE_STUNDEN;
+        String[] columns = {TABLE_FACHER + "." + FACH_ID,
+                FACH_KURZEL,
+                FACH_NAME,
+                FACH_ART,
+                FACH_LEHRER,
+                FACH_RAUM,
+                STUNDEN_TAG,
+                STUNDEN_STUNDE,
+                GEWAHLT_SCHRIFTLICH,
+                GEWAHLT_NOTIZ};
+        String selection = TABLE_FACHER + "." + FACH_ID + " = " + fid + " AND " + TABLE_GEWAHLT + "." + FACH_ID + " = " + fid + " AND " + TABLE_STUNDEN + "." + FACH_ID + " = " + fid;
+        Cursor cursor = database.query(table, columns, selection, null, null, null, null);
+        Fach f = new Fach(0, "", "", "", "", 0, 0, context);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+                f = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getInt(6), cursor.getInt(7), context);
+                f.setzeNotiz(cursor.getString(9));
+                f.setzeSchriftlich(cursor.getInt(8) == 1);
+        }
+        cursor.close();
+        return f;
+    }
+
     private String kurzToFach(String pKurzelTeil) {
         switch (pKurzelTeil.toUpperCase()) {
             case "M ":
