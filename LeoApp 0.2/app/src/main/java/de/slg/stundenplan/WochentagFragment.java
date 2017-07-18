@@ -14,20 +14,15 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 public class WochentagFragment extends Fragment {
-
     private Fach[] fachArray;
     private int tag;
+    private ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater layIn, ViewGroup container, Bundle savedInstanceState) {
         View v = layIn.inflate(R.layout.fragment_wochentag, container, false);
-        ListView listView = (ListView) v.findViewById(R.id.listW);
 
-        fachArray = Utils.getStundDB().gewaehlteFaecherAnTag(tag);
-
-        WochentagAdapter adapter = new WochentagAdapter(getContext(), fachArray);
-        listView.setAdapter(adapter);
-
+        listView = (ListView) v.findViewById(R.id.listW);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -43,6 +38,13 @@ public class WochentagFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fachArray = Utils.getStundDB().gewaehlteFaecherAnTag(tag);
+        listView.setAdapter(new WochentagAdapter(getContext(), fachArray));
     }
 
     void setTag(int tag) {

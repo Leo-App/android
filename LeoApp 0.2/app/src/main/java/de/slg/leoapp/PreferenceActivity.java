@@ -302,6 +302,14 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             }
         });
 
+        Preference deleteFreistunden = findPreference("pref_key_sync_messenger");
+        deleteFreistunden.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+//                Utils.getStundDB().getWritableDatabase();
+                return true;
+            }
+        });
     }
 
     private void initToolbar() {

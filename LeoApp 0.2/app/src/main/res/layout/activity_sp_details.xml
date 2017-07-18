@@ -105,7 +105,7 @@
         android:layout_marginTop="22dp"
         android:ems="10"
         android:hint="@string/notizen"
-        android:inputType="text"
+        android:inputType="textCapSentences"
         android:textColor="@android:color/black"
         android:layout_alignRight="@+id/checkBox_schriftlich"
         android:layout_alignEnd="@+id/checkBox_schriftlich" />
