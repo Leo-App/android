@@ -146,7 +146,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         return faecher;
     }
 
-    Fach getFach(int fid) {
+    Fach getFach(int tag, int stunde) {
         String table = TABLE_FACHER + ", " + TABLE_GEWAHLT + ", " + TABLE_STUNDEN;
         String[] columns = {TABLE_FACHER + "." + FACH_ID,
                 FACH_KURZEL,
@@ -158,14 +158,14 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 STUNDEN_STUNDE,
                 GEWAHLT_SCHRIFTLICH,
                 GEWAHLT_NOTIZ};
-        String selection = TABLE_FACHER + "." + FACH_ID + " = " + fid + " AND " + TABLE_GEWAHLT + "." + FACH_ID + " = " + fid + " AND " + TABLE_STUNDEN + "." + FACH_ID + " = " + fid;
+        String selection = TABLE_GEWAHLT + "." + FACH_ID + " = " + TABLE_FACHER + "." + FACH_ID + " AND " + TABLE_STUNDEN + "." + FACH_ID + " = " + TABLE_FACHER + "." + FACH_ID + " AND " + TABLE_STUNDEN + "." + STUNDEN_TAG + " = " + tag + " AND " + TABLE_STUNDEN + "." + STUNDEN_STUNDE + " = " + stunde;
         Cursor cursor = database.query(table, columns, selection, null, null, null, null);
         Fach f = new Fach(0, "", "", "", "", 0, 0, context);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-                f = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getInt(6), cursor.getInt(7), context);
-                f.setzeNotiz(cursor.getString(9));
-                f.setzeSchriftlich(cursor.getInt(8) == 1);
+            f = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), tag, stunde, context);
+            f.setzeNotiz(cursor.getString(9));
+            f.setzeSchriftlich(cursor.getInt(8) == 1);
         }
         cursor.close();
         return f;
@@ -270,6 +270,10 @@ public class StundenplanDB extends SQLiteOpenHelper {
         return builder.toString();
     }
 
+    String gibZeit(int tag, int stunde) {
+        return tagToString(tag) + ": " + stundeToString(stunde);
+    }
+
     private String tagToString(int tag) {
         switch (tag) {
             case 1:
@@ -312,5 +316,26 @@ public class StundenplanDB extends SQLiteOpenHelper {
             default:
                 return Integer.toString(pStunde);
         }
+    }
+
+    int neueFreistunde(int tag, int stunde) {
+        ContentValues values = new ContentValues();
+        values.put(FACH_NAME, "");
+        values.put(FACH_ART, "FREI");
+        values.put(FACH_RAUM, "");
+        values.put(FACH_LEHRER, "");
+        values.put(FACH_KURZEL, "FREI");
+        int fid = (int) database.insert(TABLE_FACHER, null, values);
+        values.clear();
+        values.put(FACH_ID, fid);
+        values.put(STUNDEN_TAG, tag);
+        values.put(STUNDEN_STUNDE, stunde);
+        database.insert(TABLE_STUNDEN, null, values);
+        values.clear();
+        values.put(FACH_ID, fid);
+        values.put(GEWAHLT_NOTIZ, "");
+        values.put(GEWAHLT_SCHRIFTLICH, 0);
+        database.insert(TABLE_GEWAHLT, null, values);
+        return fid;
     }
 }

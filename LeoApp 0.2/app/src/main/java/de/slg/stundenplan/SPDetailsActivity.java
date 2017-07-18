@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ public class SPDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sp_details);
 
-        fach = Utils.getStundDB().getFach(getIntent().getIntExtra("fid", 0));
+        fach = Utils.getStundDB().getFach(getIntent().getIntExtra("tag", 0), getIntent().getIntExtra("stunde", 0));
 
         initToolbar();
         initDetails();
@@ -41,19 +42,29 @@ public class SPDetailsActivity extends AppCompatActivity {
     }
 
     private void initDetails() {
-        TextView twZeit = (TextView) findViewById(R.id.uhrzeit_details);
-        TextView twRaum = (TextView) findViewById(R.id.raumnr_details);
-        TextView twLehrer = (TextView) findViewById(R.id.lehrerK_details);
+        TextView tvZeit = (TextView) findViewById(R.id.uhrzeit_details);
+        TextView tvRaum = (TextView) findViewById(R.id.raumnr_details);
+        TextView tvLehrer = (TextView) findViewById(R.id.lehrerK_details);
         etNotiz = (EditText) findViewById(R.id.notizFeld_details);
         cbSchrift = (CheckBox) findViewById(R.id.checkBox_schriftlich);
 
-        getSupportActionBar().setTitle(fach.gibName() + " " + fach.gibKurz().substring(2));
-        twZeit.setText(Utils.getStundDB().gibZeiten(fach));
-        twRaum.setText(fach.gibRaum());
-        twLehrer.setText(fach.gibLehrer());
-        etNotiz.setText(fach.gibNotiz());
-        if (fach.gibSchriftlich()) {
-            cbSchrift.setChecked(true);
+        if (!fach.gibKurz().equals("FREI")) {
+            getSupportActionBar().setTitle(fach.gibName() + " " + fach.gibKurz().substring(2));
+            tvZeit.setText(Utils.getStundDB().gibZeiten(fach));
+            tvRaum.setText(fach.gibRaum());
+            tvLehrer.setText(fach.gibLehrer());
+            etNotiz.setText(fach.gibNotiz());
+            if (fach.gibSchriftlich()) {
+                cbSchrift.setChecked(true);
+            }
+        } else {
+            getSupportActionBar().setTitle("Freistunde");
+            tvRaum.setVisibility(View.GONE);
+            tvLehrer.setVisibility(View.GONE);
+            cbSchrift.setVisibility(View.GONE);
+            findViewById(R.id.raum_details).setVisibility(View.GONE);
+            findViewById(R.id.lehrer_details).setVisibility(View.GONE);
+            tvZeit.setText(Utils.getStundDB().gibZeit(fach.gibTag(), fach.gibStunde()));
         }
     }
 

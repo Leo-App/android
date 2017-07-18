@@ -38,8 +38,6 @@ class WochentagAdapter extends ArrayAdapter<Fach> {
             TextView tvStunde = (TextView) v.findViewById(R.id.stunde_wt);
 
             if (fachAd[position] != null) {
-
-
                 if (fachAd[position].gibName().equals("") && !fachAd[position].gibNotiz().equals("")) {
                     String[] sa = fachAd[position].gibNotiz().split(" ");
                     tvFach.setText(sa[0]);

@@ -21,10 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -40,8 +38,7 @@ import de.slg.vertretung.WrapperSubstitutionActivity;
 
 public class WrapperStundenplanActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
-    public static int akTag;
-    public static int akStunde;
+    private WochentagFragment[] fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +54,6 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
 
         initToolbar();
         initNavigationView();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         initTabs();
     }
 
@@ -160,6 +152,12 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
     }
 
     private void initTabs() {
+        fragments = new WochentagFragment[5];
+        for (int i = 0; i < fragments.length; i++) {
+            fragments[i] = new WochentagFragment();
+            fragments[i].setTag(i + 1);
+        }
+
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public int getCount() {
@@ -168,20 +166,7 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
 
             @Override
             public Fragment getItem(int position) {
-                switch (position) {
-                    case 0:
-                        return new FragmentMontag();
-                    case 1:
-                        return new FragmentDienstag();
-                    case 2:
-                        return new FragmentMittwoch();
-                    case 3:
-                        return new FragmentDonnerstag();
-                    case 4:
-                        return new FragmentFreitag();
-                    default:
-                        return new FragmentMontag();
-                }
+                return fragments[position];
             }
 
             @Override
