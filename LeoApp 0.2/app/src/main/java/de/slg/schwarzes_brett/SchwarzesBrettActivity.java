@@ -55,25 +55,25 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schwarzesbrett);
 
-        EmpfangeDaten e = new EmpfangeDaten(getApplicationContext());
-        e.execute();
+        EmpfangeDaten empfangeDaten = new EmpfangeDaten(getApplicationContext());
+        empfangeDaten.execute();
 
         initToolbar();
         initNavigationView();
         try {
-            e.get();
-        } catch (InterruptedException | ExecutionException e1) {
-            e1.printStackTrace();
+            empfangeDaten.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
         createGroupList();
         initExpandableListView();
     }
 
     private void initToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarNavDrawer);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarSchwarzesBrett);
         myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Schwarzes Brett");
+        getSupportActionBar().setTitle(R.string.title_news);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -148,6 +148,10 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         ExpandableListView expListView = (ExpandableListView) findViewById(R.id.eintraege);
         expandableListAdapter = new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett);
         expListView.setAdapter(expandableListAdapter);
+
+        if (groupList.size() == 0) {
+            findViewById(R.id.textView6).setVisibility(View.VISIBLE);
+        }
 
         expListView.setOnChildClickListener(new OnChildClickListener() {
 

@@ -12,7 +12,7 @@
         tools:context=".MainActivity">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/actionBarNavDrawer"
+            android:id="@+id/actionBarSchwarzesBrett"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentLeft="true"
@@ -28,11 +28,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_below="@+id/actionBarNavDrawer">
+            android:layout_below="@+id/actionBarSchwarzesBrett">
 
         </ExpandableListView>
-        
 
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionBarSchwarzesBrett"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Keine Einträge vorhanden"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
