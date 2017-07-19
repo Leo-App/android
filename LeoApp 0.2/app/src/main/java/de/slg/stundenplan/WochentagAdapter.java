@@ -47,6 +47,9 @@ class WochentagAdapter extends ArrayAdapter<Fach> {
                 tvLehrer.setText(fachAd[position].gibLehrer());
                 tvRaum.setText(fachAd[position].gibRaum());
                 tvStunde.setText(fachAd[position].gibStundenName());
+                if (fachAd[position].gibSchriftlich()) {
+                    v.findViewById(R.id.iconSchriftlich).setVisibility(View.VISIBLE);
+                }
             }
         }
         viAd[position] = v;

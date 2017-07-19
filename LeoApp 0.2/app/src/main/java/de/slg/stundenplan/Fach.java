@@ -40,6 +40,7 @@ public class Fach {
         this.lehrer = lehrer;
         this.tag = tag;
         this.stunde = stunde;
+        this.schriftlich = false;
         this.notiz = "";
     }
 
@@ -136,12 +137,10 @@ public class Fach {
 
     void setzeNotiz(String notiz) {
         this.notiz = notiz;
-        Utils.getStundDB().setzeNotiz(notiz, id);
     }
 
     void setzeSchriftlich(boolean b) {
         schriftlich = b;
-        Utils.getStundDB().setzeSchriftlich(b, id);
     }
 
     public String gibKurz() {

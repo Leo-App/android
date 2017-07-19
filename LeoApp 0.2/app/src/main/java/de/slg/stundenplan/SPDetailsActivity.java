@@ -54,9 +54,7 @@ public class SPDetailsActivity extends AppCompatActivity {
             tvRaum.setText(fach.gibRaum());
             tvLehrer.setText(fach.gibLehrer());
             etNotiz.setText(fach.gibNotiz());
-            if (fach.gibSchriftlich()) {
-                cbSchrift.setChecked(true);
-            }
+            cbSchrift.setChecked(fach.gibSchriftlich());
         } else {
             getSupportActionBar().setTitle("Freistunde");
             tvRaum.setVisibility(View.GONE);
@@ -65,6 +63,7 @@ public class SPDetailsActivity extends AppCompatActivity {
             findViewById(R.id.raum_details).setVisibility(View.GONE);
             findViewById(R.id.lehrer_details).setVisibility(View.GONE);
             tvZeit.setText(Utils.getStundDB().gibZeit(fach.gibTag(), fach.gibStunde()));
+            etNotiz.setText(fach.gibNotiz());
         }
     }
 
@@ -77,31 +76,25 @@ public class SPDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == R.id.action_det_speichern) {
-            if (cbSchrift.isChecked() != fach.gibSchriftlich()) {
-                fach.setzeSchriftlich(cbSchrift.isChecked());
+            String notiz = etNotiz.getText().toString();
+            if (!fach.gibKurz().equals("FREI")) {
+                boolean b = cbSchrift.isChecked();
+                fach.setzeSchriftlich(b);
+                Utils.getStundDB().setzeSchriftlich(b, fach.id);
             }
-            fach.setzeNotiz(etNotiz.getText().toString());
-            Fach[] mon = Utils.getStundDB().gewaehlteFaecherAnTag(1), die = Utils.getStundDB().gewaehlteFaecherAnTag(2), mit = Utils.getStundDB().gewaehlteFaecherAnTag(3), don = Utils.getStundDB().gewaehlteFaecherAnTag(4), fre = Utils.getStundDB().gewaehlteFaecherAnTag(5);
-            Fach[] alle = new Fach[mon.length + die.length + mit.length + don.length + fre.length];
-            int i = 0;
-            for (int iMo = 0; iMo < mon.length; iMo++, i++) {
-                alle[i] = mon[iMo];
-            }
-            for (int iDi = 0; iDi < die.length; iDi++, i++) {
-                alle[i] = die[iDi];
-            }
-            for (int iMi = 0; iMi < mit.length; iMi++, i++) {
-                alle[i] = mit[iMi];
-            }
-            for (int iDo = 0; iDo < don.length; iDo++, i++) {
-                alle[i] = don[iDo];
-            }
-            for (int iFr = 0; iFr < fre.length; iFr++, i++) {
-                alle[i] = fre[iFr];
-            }
-            new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt").inTextDatei(alle);
+            fach.setzeNotiz(notiz);
+            Utils.getStundDB().setzeNotiz(notiz, fach.id);
+            new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt")
+                    .inTextDatei(Utils.getStundDB().getGewaehlteFaecher());
         }
         finish();
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        if (fach.gibNotiz().equals(""))
+            Utils.getStundDB().deleteFreistunde(fach.gibTag(), fach.gibStunde());
     }
 }

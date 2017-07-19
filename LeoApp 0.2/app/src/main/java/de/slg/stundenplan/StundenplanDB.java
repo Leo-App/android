@@ -83,7 +83,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(FACH_ID, fid);
         values.put(GEWAHLT_NOTIZ, "");
-        values.put(GEWAHLT_SCHRIFTLICH, 0);
+        values.put(GEWAHLT_SCHRIFTLICH, mussSchriftlich(fid) ? 1 : 0);
         database.insert(TABLE_GEWAHLT, null, values);
     }
 
@@ -158,12 +158,20 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 STUNDEN_STUNDE,
                 GEWAHLT_SCHRIFTLICH,
                 GEWAHLT_NOTIZ};
-        String selection = TABLE_GEWAHLT + "." + FACH_ID + " = " + TABLE_FACHER + "." + FACH_ID + " AND " + TABLE_STUNDEN + "." + FACH_ID + " = " + TABLE_FACHER + "." + FACH_ID + " AND " + TABLE_STUNDEN + "." + STUNDEN_TAG + " = " + tag + " AND " + TABLE_STUNDEN + "." + STUNDEN_STUNDE + " = " + stunde;
+        String selection = TABLE_GEWAHLT + "." + FACH_ID + " = " + TABLE_FACHER + "." + FACH_ID
+                + " AND " + TABLE_STUNDEN + "." + FACH_ID + " = " + TABLE_FACHER + "." + FACH_ID
+                + " AND " + TABLE_STUNDEN + "." + STUNDEN_TAG + " = " + tag
+                + " AND " + TABLE_STUNDEN + "." + STUNDEN_STUNDE + " = " + stunde;
         Cursor cursor = database.query(table, columns, selection, null, null, null, null);
-        Fach f = new Fach(0, "", "", "", "", 0, 0, context);
+        Fach f = null;
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            f = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), tag, stunde, context);
+            f = new Fach(cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""),
+                    cursor.getString(4),
+                    cursor.getString(5),
+                    tag, stunde, context);
             f.setzeNotiz(cursor.getString(9));
             f.setzeSchriftlich(cursor.getInt(8) == 1);
         }
@@ -318,7 +326,10 @@ public class StundenplanDB extends SQLiteOpenHelper {
         }
     }
 
-    int neueFreistunde(int tag, int stunde) {
+    int freistunde(int tag, int stunde) {
+        Fach prev = getFach(tag, stunde);
+        if (prev != null)
+            return prev.id;
         ContentValues values = new ContentValues();
         values.put(FACH_NAME, "");
         values.put(FACH_ART, "FREI");
@@ -337,5 +348,54 @@ public class StundenplanDB extends SQLiteOpenHelper {
         values.put(GEWAHLT_SCHRIFTLICH, 0);
         database.insert(TABLE_GEWAHLT, null, values);
         return fid;
+    }
+
+    void deleteFreistunde(int tag, int stunde) {
+        String table = TABLE_FACHER + ", " + TABLE_STUNDEN;
+        String selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + STUNDEN_STUNDE + " = " + stunde + " AND " + STUNDEN_TAG + " = " + tag;
+        Cursor cursor = database.query(table, new String[]{TABLE_FACHER + "." + FACH_ID, FACH_ART}, selection, null, null, null, null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0 && cursor.getString(1).equals("FREI")) {
+            int fid = cursor.getInt(0);
+            database.delete(TABLE_FACHER, FACH_ID + " = " + fid, null);
+            database.delete(TABLE_STUNDEN, FACH_ID + " = " + fid, null);
+            database.delete(TABLE_GEWAHLT, FACH_ID + " = " + fid, null);
+        } else {
+            cursor.close();
+        }
+    }
+
+    Fach[] getGewaehlteFaecher() {
+        Fach[] mon = Utils.getStundDB().gewaehlteFaecherAnTag(1),
+                die = Utils.getStundDB().gewaehlteFaecherAnTag(2),
+                mit = Utils.getStundDB().gewaehlteFaecherAnTag(3),
+                don = Utils.getStundDB().gewaehlteFaecherAnTag(4),
+                fre = Utils.getStundDB().gewaehlteFaecherAnTag(5);
+        Fach[] alle = new Fach[mon.length + die.length + mit.length + don.length + fre.length];
+        int i = 0;
+        for (int iMo = 0; iMo < mon.length; iMo++, i++) {
+            alle[i] = mon[iMo];
+        }
+        for (int iDi = 0; iDi < die.length; iDi++, i++) {
+            alle[i] = die[iDi];
+        }
+        for (int iMi = 0; iMi < mit.length; iMi++, i++) {
+            alle[i] = mit[iMi];
+        }
+        for (int iDo = 0; iDo < don.length; iDo++, i++) {
+            alle[i] = don[iDo];
+        }
+        for (int iFr = 0; iFr < fre.length; iFr++, i++) {
+            alle[i] = fre[iFr];
+        }
+        return alle;
+    }
+
+    private boolean mussSchriftlich(int fid) {
+        Cursor cursor = database.query(TABLE_FACHER, new String[]{FACH_ART, FACH_NAME}, FACH_ID + " = " + fid, null, null, null, null);
+        cursor.moveToFirst();
+        boolean b = cursor.getCount() > 0 && (cursor.getString(0).equals("LK") || cursor.getString(1).equals(Utils.getString(R.string.deutsch)) || cursor.getString(1).equals(Utils.getString(R.string.mathe)));
+        cursor.close();
+        return b;
     }
 }

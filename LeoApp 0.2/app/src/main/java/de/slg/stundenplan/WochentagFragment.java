@@ -3,7 +3,6 @@ package de.slg.stundenplan;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ public class WochentagFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (fachArray[position].id <= 0) {
-                    Utils.getStundDB().neueFreistunde(tag, position + 1);
+                    Utils.getStundDB().freistunde(tag, position + 1);
                     fachArray[position] = Utils.getStundDB().getFach(tag, position + 1);
                     view.invalidate();
                 }
