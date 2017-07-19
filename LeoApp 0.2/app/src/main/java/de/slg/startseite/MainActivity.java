@@ -28,6 +28,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -250,8 +252,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final RecyclerView.LayoutManager mLayoutManagerAlternative = quickLayout ?
                 new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) : new LinearLayoutManager(getApplicationContext()); //TODO: Use alternative LayoutManager in edit mode to enable vertical scrolling
 
-            //TODO: Write to Preferences after Editing
-
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(quickLayout ?
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -365,13 +365,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 SharedPreferences.Editor e = Start.pref.edit();
                 e.putBoolean("pref_key_dont_remind_me", true);
                 e.apply();
-                findViewById(R.id.card_view0).setVisibility(View.GONE);
+                Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
+                findViewById(R.id.card_view0).startAnimation(anim);
+                final Handler handler = new Handler(); //Remove card after animation
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        findViewById(R.id.card_view0).setVisibility(View.GONE);
+                    }
+                }, 310);
             }
         } else {
             SharedPreferences.Editor e = Start.pref.edit();
             e.putBoolean("pref_key_dont_remind_me", true);
             e.apply();
-            findViewById(R.id.card_view0).setVisibility(View.GONE);
+            Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
+            findViewById(R.id.card_view0).startAnimation(anim);
+            final Handler handler = new Handler(); //Remove card after animation
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    findViewById(R.id.card_view0).setVisibility(View.GONE);
+                }
+            }, 310);
         }
     }
 
