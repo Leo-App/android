@@ -43,7 +43,7 @@ public class AuswahlActivity extends AppCompatActivity {
 
         if (stufe.equals("")) {
             Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes2, Snackbar.LENGTH_SHORT).show();
-            //TODO Ich will einen Button der direkt zu den Einstellungen geht!!!!
+//            TODO: Button zu den Einstellungen
         } else {
             initSV();
             initListView();

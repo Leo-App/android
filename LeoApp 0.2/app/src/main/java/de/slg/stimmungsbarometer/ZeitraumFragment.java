@@ -19,7 +19,6 @@ import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 
 public class ZeitraumFragment extends Fragment {
-
     public int zeitraum;
     private Ergebnis[][] data;
     private StatistikView view;
@@ -184,7 +183,7 @@ public class ZeitraumFragment extends Fragment {
                 abstandX = bitmapCanvas.getWidth() * 9 / (data[3].length * 10);
             else
                 abstandX = bitmapCanvas.getWidth() * 9 / 10;
-            radius = 5;
+            radius = 4;
 
             isInitialized = true;
         }

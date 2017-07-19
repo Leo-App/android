@@ -121,7 +121,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
         if (!connection) {
 
-            ((QRActivity) qr).showSnackBarNoConnection();
+            ((QRFragment) qr).showSnackBarNoConnection();
 
         }
 

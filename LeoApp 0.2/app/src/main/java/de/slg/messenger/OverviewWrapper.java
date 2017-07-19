@@ -276,6 +276,7 @@ public class OverviewWrapper extends AppCompatActivity {
         }
 
         private void initListView() {
+//            TODO: Chats stummstellen und löschen
             lvChats = (ListView) rootView.findViewById(R.id.listViewChats);
             lvChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

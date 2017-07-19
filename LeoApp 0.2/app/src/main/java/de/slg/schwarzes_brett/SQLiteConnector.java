@@ -20,7 +20,6 @@ class SQLiteConnector extends SQLiteOpenHelper {
         super(c, DATABASE_NAME, null, 1);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createTable);

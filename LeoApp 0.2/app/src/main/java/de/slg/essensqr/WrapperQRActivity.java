@@ -148,8 +148,8 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         mViewPager = (ViewPager) findViewById(R.id.pager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
-            private final QRActivity fragment1 = new QRActivity();
-            private final ScanActivity fragment2 = new ScanActivity();
+            private final QRFragment fragment1 = new QRFragment();
+            private final ScanFragment fragment2 = new ScanFragment();
 
             @Override
             public Fragment getItem(int position) {
@@ -175,7 +175,6 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
 
         };
         mViewPager.setAdapter(adapt);
-
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
@@ -219,7 +218,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
 
         if (item.getItemId() == R.id.action_refresh) {
 
-            ((QRActivity) adapt.getItem(0)).synchronize(false);
+            ((QRFragment) adapt.getItem(0)).synchronize(false);
             mViewPager.setCurrentItem(0);
 
         } else if (item.getItemId() == android.R.id.home) {

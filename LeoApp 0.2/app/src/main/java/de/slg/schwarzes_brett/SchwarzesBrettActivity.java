@@ -48,7 +48,6 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     private List<String> childList;
     private Map<String, List<String>> schwarzesBrett;
     private DrawerLayout drawerLayout;
-    private ExpandableListAdapter expandableListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,25 +145,12 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private void initExpandableListView() {
         ExpandableListView expListView = (ExpandableListView) findViewById(R.id.eintraege);
-        expandableListAdapter = new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett);
+        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett);
         expListView.setAdapter(expandableListAdapter);
 
         if (groupList.size() == 0) {
             findViewById(R.id.textView6).setVisibility(View.VISIBLE);
         }
-
-        expListView.setOnChildClickListener(new OnChildClickListener() {
-
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                final String selected = (String) expandableListAdapter.getChild(
-                        groupPosition, childPosition);
-                Toast.makeText(getBaseContext(), selected, Toast.LENGTH_LONG)
-                        .show();
-
-                return true;
-            }
-        });
     }
 
     private void createGroupList() {
@@ -186,7 +172,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             Date erstelldatum = new Date(myCursor.getLong(3));
             Date ablaufdatum = new Date(myCursor.getLong(4));
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
-            String[] s = {myCursor.getString(0), myCursor.getString(2), simpleDateFormat.format(erstelldatum), simpleDateFormat.format(ablaufdatum)};
+            String[] s = {myCursor.getString(0), myCursor.getString(2), "Gültig vom " + simpleDateFormat.format(erstelldatum) + " bis zum " + simpleDateFormat.format(ablaufdatum)};
             loadChild(s);
             schwarzesBrett.put(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.tableResult.titel)), childList);
         }

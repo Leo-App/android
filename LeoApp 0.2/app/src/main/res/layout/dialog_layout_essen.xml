@@ -25,5 +25,6 @@
         android:layout_marginBottom="20dp"
         android:text="@string/popup_code_not_valid" />
 
+    <!--TODO: Code auf diesem Gerät gescannt-->
 
 </RelativeLayout>

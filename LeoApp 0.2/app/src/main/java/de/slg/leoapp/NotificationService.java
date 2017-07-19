@@ -73,7 +73,7 @@ public class NotificationService extends IntentService {
 
     private void someLoopStuff() {
         Date d = new Date();
-
+//      TODO!!
         //Log.i("LeoApp", "Time: " + d.getHours() + ":" + d.getMinutes() + " Scheduled: " + hours + ":" + minutes);
 
         if (d.getDay() != 5 && d.getDay() != 6 && d.getHours() == hoursTT && d.getMinutes() == minutesTT) {
@@ -152,7 +152,7 @@ public class NotificationService extends IntentService {
 
     private void klausurplanNotification() {
         if (Start.pref.getBoolean("pref_key_notification_test", true)) {
-
+//          TODO
         }
     }
 
@@ -183,12 +183,12 @@ public class NotificationService extends IntentService {
     }
 
     private void nachhilfeNotification() {
-
+//          TODO
     }
 
     private void schwarzesBrettNotification() {
         if (Start.pref.getBoolean("pref_key_notification_news", true)) {
-
+//          TODO
         }
     }
 
@@ -231,7 +231,7 @@ public class NotificationService extends IntentService {
 
     private void vertretungsplanNotification() {
         if (Start.pref.getBoolean("pref_key_notification_subst", true)) {
-
+//          TODO
         }
     }
 
