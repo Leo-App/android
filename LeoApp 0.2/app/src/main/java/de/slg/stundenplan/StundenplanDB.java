@@ -264,10 +264,14 @@ public class StundenplanDB extends SQLiteOpenHelper {
                         builder.append(tagToString(i + 1))
                                 .append(": ");
                         String zeit = stundeToString(j + 1);
+                        String stunden = " (" + (j + 1) + '.';
                         if (j < woche[i].length - 1 && woche[i][j + 1] == 1) {
                             zeit = zeit.substring(0, 8) + stundeToString(j + 2).substring(8);
+                            stunden += " - " + (j + 2) + '.';
                         }
-                        builder.append(zeit);
+                        stunden += " Stunde)";
+                        builder.append(zeit)
+                                .append(stunden);
                         break;
                     }
                 }
@@ -279,7 +283,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
     }
 
     String gibZeit(int tag, int stunde) {
-        return tagToString(tag) + ": " + stundeToString(stunde);
+        return tagToString(tag) + ": " + stundeToString(stunde) + " (" + (stunde + 1) + ". Stunde)";
     }
 
     private String tagToString(int tag) {
