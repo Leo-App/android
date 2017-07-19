@@ -395,7 +395,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         return alle;
     }
 
-    private boolean mussSchriftlich(int fid) {
+    boolean mussSchriftlich(int fid) {
         Cursor cursor = database.query(TABLE_FACHER, new String[]{FACH_ART, FACH_NAME}, FACH_ID + " = " + fid, null, null, null, null);
         cursor.moveToFirst();
         boolean b = cursor.getCount() > 0 && (cursor.getString(0).equals("LK") || cursor.getString(1).equals(Utils.getString(R.string.deutsch)) || cursor.getString(1).equals(Utils.getString(R.string.mathe)));

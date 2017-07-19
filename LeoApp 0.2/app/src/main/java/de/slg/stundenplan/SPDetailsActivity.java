@@ -55,6 +55,7 @@ public class SPDetailsActivity extends AppCompatActivity {
             tvLehrer.setText(fach.gibLehrer());
             etNotiz.setText(fach.gibNotiz());
             cbSchrift.setChecked(fach.gibSchriftlich());
+            cbSchrift.setClickable(!Utils.getStundDB().mussSchriftlich(fach.id));
         } else {
             getSupportActionBar().setTitle("Freistunde");
             tvRaum.setVisibility(View.GONE);
