@@ -34,7 +34,7 @@
     </style>
 
     <style name="StartTheme" parent="Theme.AppCompat.Light">
-        <item name="android:background">@drawable/ic_leoapp_logo</item>
+        <item name="android:background">@drawable/leo_splash_edit</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 

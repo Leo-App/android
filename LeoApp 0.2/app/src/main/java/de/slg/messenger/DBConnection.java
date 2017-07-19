@@ -424,6 +424,15 @@ public class DBConnection {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             try {
+                db.execSQL("DROP TABLE " + TABLE_MESSAGES);
+                db.execSQL("DROP TABLE " + TABLE_CHATS);
+                db.execSQL("DROP TABLE " + TABLE_ASSOZIATION);
+                db.execSQL("DROP TABLE " + TABLE_USERS);
+                db.execSQL("DROP TABLE " + TABLE_MESSAGES_UNSEND);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " (" +
                         MESSAGE_ID + " INTEGER PRIMARY KEY, " +
                         MESSAGE_TEXT + " TEXT NOT NULL, " +
