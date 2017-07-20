@@ -17,7 +17,7 @@ public class DBConnection {
     private final SQLiteDatabase database;
 
     public DBConnection(Context context) {
-        DBHelper helper = new DBHelper(context, 1);
+        DBHelper helper = new DBHelper(context, 2);
         database = helper.getWritableDatabase();
     }
 
@@ -190,16 +190,18 @@ public class DBConnection {
             values.put(DBHelper.CHAT_NAME, c.cname);
             values.put(DBHelper.CHAT_TYPE, c.ctype.toString());
             values.put(DBHelper.CHAT_DELETED, 0);
+            values.put(DBHelper.CHAT_MUTE, 0);
             insert(DBHelper.TABLE_CHATS, values);
         }
     }
 
     Chat[] getChats() {
-        String[] columns = {DBHelper.CHAT_ID, DBHelper.CHAT_NAME, DBHelper.CHAT_TYPE};
-        Cursor cursor = query(DBHelper.TABLE_CHATS, columns, null, null, DBHelper.CHAT_ID);
+        String[] columns = {DBHelper.CHAT_ID, DBHelper.CHAT_NAME, DBHelper.CHAT_MUTE, DBHelper.CHAT_TYPE};
+        String selection = DBHelper.CHAT_DELETED + " = 0";
+        Cursor cursor = query(DBHelper.TABLE_CHATS, columns, selection, null, DBHelper.CHAT_ID);
         List<Chat> list = new List<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            Chat current = new Chat(cursor.getInt(0), cursor.getString(1), Chat.Chattype.valueOf(cursor.getString(2).toUpperCase()));
+            Chat current = new Chat(cursor.getInt(0), cursor.getString(1), cursor.getInt(2) == 1, Chat.Chattype.valueOf(cursor.getString(3).toUpperCase()));
             list.append(current);
             current.setLetzteNachricht(getLastMessage(current.cid));
             if (current.ctype.equals(Chat.Chattype.PRIVATE)) {
@@ -258,7 +260,19 @@ public class DBConnection {
     }
 
     void deleteChat(int cid) {
-        database.execSQL("UPDATE " + DBHelper.TABLE_CHATS + " SET " + DBHelper.CHAT_DELETED + " = 1 WHERE " + DBHelper.CHAT_ID + " = " + cid);
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.CHAT_DELETED, 1);
+        database.update(DBHelper.TABLE_CHATS, values, DBHelper.CHAT_ID + " = " + cid, null);
+        Message[] messages = getMessagesFromChat(cid);
+        for (Message m : messages) {
+            deleteMessage(m.mid);
+        }
+    }
+
+    void muteChat(int cid, boolean mute) {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.CHAT_MUTE, mute ? 1 : 0);
+        database.update(DBHelper.TABLE_CHATS, values, DBHelper.CHAT_ID + " = " + cid, null);
     }
 
     //Assoziation
@@ -357,6 +371,7 @@ public class DBConnection {
         static final String CHAT_NAME = "cname";
         static final String CHAT_TYPE = "ctype";
         static final String CHAT_DELETED = "cdeleted";
+        static final String CHAT_MUTE = "cmute";
 
         public static final String TABLE_ASSOZIATION = "assoziation";
 
@@ -391,7 +406,8 @@ public class DBConnection {
                         CHAT_ID + " INTEGER PRIMARY KEY, " +
                         CHAT_NAME + " TEXT NOT NULL, " +
                         CHAT_TYPE + " TEXT NOT NULL, " +
-                        CHAT_DELETED + " INTEGER NOT NULL)");
+                        CHAT_DELETED + " INTEGER NOT NULL, " +
+                        CHAT_MUTE + " INTEGER NOT NULL)");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -432,51 +448,7 @@ public class DBConnection {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            try {
-                db.execSQL("CREATE TABLE " + TABLE_MESSAGES + " (" +
-                        MESSAGE_ID + " INTEGER PRIMARY KEY, " +
-                        MESSAGE_TEXT + " TEXT NOT NULL, " +
-                        MESSAGE_DATE + " TEXT NOT NULL, " +
-                        CHAT_ID + " INTEGER NOT NULL, " +
-                        USER_ID + " INTEGER NOT NULL, " +
-                        MESSAGE_READ + " INTEGER NOT NULL, " +
-                        MESSAGE_DELETED + " INTEGER NOT NULL)");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                db.execSQL("CREATE TABLE " + TABLE_CHATS + " (" +
-                        CHAT_ID + " INTEGER PRIMARY KEY, " +
-                        CHAT_NAME + " TEXT NOT NULL, " +
-                        CHAT_TYPE + " TEXT NOT NULL, " +
-                        CHAT_DELETED + " INTEGER NOT NULL)");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                db.execSQL("CREATE TABLE " + TABLE_ASSOZIATION + " (" +
-                        CHAT_ID + " INTEGER NOT NULL, " +
-                        USER_ID + " INTEGER NOT NULL)");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                db.execSQL("CREATE TABLE " + TABLE_USERS + " (" +
-                        USER_ID + " INTEGER PRIMARY KEY, " +
-                        USER_NAME + " TEXT NOT NULL, " +
-                        USER_KLASSE + " TEXT, " +
-                        USER_PERMISSION + " INTEGER NOT NULL)");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                db.execSQL("CREATE TABLE " + TABLE_MESSAGES_UNSEND + " (" +
-                        MESSAGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        MESSAGE_TEXT + " TEXT NOT NULL, " +
-                        CHAT_ID + " INTEGER NOT NULL)");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            onCreate(db);
         }
     }
 }

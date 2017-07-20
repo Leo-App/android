@@ -64,7 +64,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
     }
 
     private void createNewChat() {
-        newChat = new Chat(-1, etChatname.getText().toString(), Chat.Chattype.GROUP);
+        newChat = new Chat(-1, etChatname.getText().toString(), false, Chat.Chattype.GROUP);
         new CreateChat().execute();
     }
 

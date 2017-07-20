@@ -3,12 +3,14 @@ package de.slg.messenger;
 public class Chat {
     int cid;
     String cname;
+    boolean mute;
     final Chattype ctype;
     Message m;
 
-    public Chat(int cid, String cname, Chattype ctype) {
+    public Chat(int cid, String cname, boolean mute, Chattype ctype) {
         this.cid = cid;
         this.cname = cname;
+        this.mute = mute;
         this.ctype = ctype;
     }
 

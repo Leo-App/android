@@ -238,7 +238,7 @@ public class OverviewWrapper extends AppCompatActivity {
                                 .putExtra("loading", c == null);
                         if (c == null) {
                             if (Utils.checkNetwork()) {
-                                c = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, Chat.Chattype.PRIVATE);
+                                c = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, false, Chat.Chattype.PRIVATE);
                                 new CreateChat(c).execute();
                             } else {
                                 Toast.makeText(getContext(), R.string.need_internet, Toast.LENGTH_SHORT).show();
@@ -265,6 +265,7 @@ public class OverviewWrapper extends AppCompatActivity {
     public static class ChatsFragment extends Fragment {
         public View rootView;
         public ListView lvChats;
+        private AdapterView.OnItemClickListener itemClick;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -276,16 +277,43 @@ public class OverviewWrapper extends AppCompatActivity {
         }
 
         private void initListView() {
-//            TODO: Chats stummstellen und löschen
             lvChats = (ListView) rootView.findViewById(R.id.listViewChats);
-            lvChats.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            itemClick = new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position < Utils.getOverviewWrapper().chatArray.length) {
                         ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[position];
                         startActivity(new Intent(getContext(), ChatActivity.class).putExtra("loading", false));
                         view.findViewById(R.id.notify).setVisibility(View.GONE);
+                        View delete = view.findViewById(R.id.imageButtonDelete);
+                        View mute = view.findViewById(R.id.imageButtonMute);
+                        mute.setVisibility(View.GONE);
+                        delete.setVisibility(View.GONE);
+                        mute.setOnClickListener(null);
+                        delete.setOnClickListener(null);
                     }
+                }
+            };
+            lvChats.setOnItemClickListener(itemClick);
+            lvChats.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                private int previousPosition = -1;
+                private int visibility;
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
+                    if (previousPosition != -1) {
+                        parent.getChildAt(previousPosition).findViewById(R.id.imageButtonDelete).setVisibility(View.GONE);
+                        parent.getChildAt(previousPosition).findViewById(R.id.imageButtonMute).setVisibility(View.GONE);
+                        parent.getChildAt(previousPosition).findViewById(R.id.notify).setVisibility(visibility);
+                    }
+                    previousPosition = position;
+                    final View delete = view.findViewById(R.id.imageButtonDelete);
+                    final View mute = view.findViewById(R.id.imageButtonMute);
+                    final View notify = view.findViewById(R.id.notify);
+                    visibility = notify.getVisibility();
+                    notify.setVisibility(View.GONE);
+                    delete.setVisibility(View.VISIBLE);
+                    mute.setVisibility(View.VISIBLE);
+                    return true;
                 }
             });
             lvChats.setAdapter(new ChatAdapter(Utils.getOverviewWrapper().getApplicationContext(), Utils.getOverviewWrapper().chatArray));
@@ -315,7 +343,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
         @NonNull
         @Override
-        public View getView(int position, View v, @NonNull ViewGroup parent) {
+        public View getView(final int position, View v, @NonNull ViewGroup parent) {
             if (v == null) {
                 v = inflater.inflate(resId, null);
             }
@@ -334,7 +362,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         v.findViewById(R.id.notify).setVisibility(View.GONE);
                 } else {
                     v.findViewById(R.id.textView3).setVisibility(View.INVISIBLE);
-                    v.findViewById(R.id.notify).setVisibility(View.INVISIBLE);
+                    v.findViewById(R.id.notify).setVisibility(View.GONE);
                 }
                 if (chats[position].ctype == Chat.Chattype.PRIVATE) {
                     icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
@@ -342,6 +370,39 @@ public class OverviewWrapper extends AppCompatActivity {
                     icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
                 }
                 icon.setEnabled(Utils.getMDB().userInChat(Utils.getUserID(), chats[position].cid));
+                final View delete = v.findViewById(R.id.imageButtonDelete);
+                final View mute = v.findViewById(R.id.imageButtonMute);
+                final View notify = v.findViewById(R.id.notify);
+                final int visibility = notify.getVisibility();
+                notify.setVisibility(View.GONE);
+                delete.setVisibility(View.VISIBLE);
+                mute.setVisibility(View.VISIBLE);
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Chat c = Utils.getOverviewWrapper().chatArray[position];
+                        Utils.getMDB().deleteChat(c.cid);
+                        delete.setVisibility(View.GONE);
+                        mute.setVisibility(View.GONE);
+                        notify.setVisibility(visibility);
+                        Utils.getOverviewWrapper().notifyUpdate();
+                        mute.setOnClickListener(null);
+                        delete.setOnClickListener(null);
+                    }
+                });
+                mute.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Chat c = Utils.getOverviewWrapper().chatArray[position];
+                        Utils.getMDB().muteChat(c.cid, true);
+                        delete.setVisibility(View.GONE);
+                        mute.setVisibility(View.GONE);
+                        notify.setVisibility(visibility);
+                        Utils.getOverviewWrapper().notifyUpdate();
+                        mute.setOnClickListener(null);
+                        delete.setOnClickListener(null);
+                    }
+                });
             }
             return v;
         }

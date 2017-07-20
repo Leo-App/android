@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="6dp">
 
     <ImageView
@@ -77,5 +78,29 @@
         android:backgroundTint="@color/colorAccent"
         android:src="@drawable/ic_priority_high_white_24dp"
         android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/imageButtonDelete"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        android:tint="@color/colorInactive"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_delete_white_24dp" />
+
+    <ImageButton
+        android:id="@+id/imageButtonMute"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@id/imageButtonDelete"
+        android:background="@android:color/transparent"
+        android:tint="@color/colorInactive"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_volume_off_white_24dp" />
 
 </RelativeLayout>
