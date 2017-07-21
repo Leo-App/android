@@ -151,11 +151,12 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     private void initTabs() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        fragments = new ZeitraumFragment[]{new ZeitraumFragment(), new ZeitraumFragment(), new ZeitraumFragment(), new ZeitraumFragment()};
-        fragments[0].zeitraum = 0;
-        fragments[1].zeitraum = 1;
-        fragments[2].zeitraum = 2;
-        fragments[3].zeitraum = 3;
+        fragments = new ZeitraumFragment[4];
+        for (int i = 0; i < fragments.length; i++) {
+            fragments[i] = new ZeitraumFragment();
+            fragments[i].zeitraum = i;
+            fragments[i].fillData();
+        }
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {

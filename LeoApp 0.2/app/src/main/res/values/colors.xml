@@ -15,7 +15,7 @@
     <color name="colorSatisfied">#aeea00</color>
     <color name="colorNeutral">#fb8c00</color>
     <color name="colorDissatisfied">#f44336</color>
-    <color name="colorBadMood">#ffcc0000</color>
+    <color name="colorBadMood">#cc0000</color>
 
     <color name="colorIch">#669900</color>
     <color name="colorSchueler">#ff8800</color>

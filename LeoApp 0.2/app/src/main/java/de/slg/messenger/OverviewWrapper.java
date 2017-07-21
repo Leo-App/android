@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -281,23 +282,19 @@ public class OverviewWrapper extends AppCompatActivity {
             itemClick = new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (position < Utils.getOverviewWrapper().chatArray.length) {
-                        ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[position];
-                        startActivity(new Intent(getContext(), ChatActivity.class).putExtra("loading", false));
-                        view.findViewById(R.id.notify).setVisibility(View.GONE);
-                        View delete = view.findViewById(R.id.imageButtonDelete);
-                        View mute = view.findViewById(R.id.imageButtonMute);
-                        mute.setVisibility(View.GONE);
-                        delete.setVisibility(View.GONE);
-                        mute.setOnClickListener(null);
-                        delete.setOnClickListener(null);
-                    }
+                    ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[position];
+                    startActivity(new Intent(getContext(), ChatActivity.class).putExtra("loading", false));
+                    view.findViewById(R.id.notify).setVisibility(View.GONE);
+                    view.findViewById(R.id.imageButtonDelete).setVisibility(View.GONE);
+                    view.findViewById(R.id.imageButtonMute).setVisibility(View.GONE);
+
                 }
             };
             lvChats.setOnItemClickListener(itemClick);
             lvChats.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 private int previousPosition = -1;
                 private int visibility;
+
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
                     if (previousPosition != -1) {
@@ -347,6 +344,7 @@ public class OverviewWrapper extends AppCompatActivity {
             if (v == null) {
                 v = inflater.inflate(resId, null);
             }
+            final Chat c = Utils.getOverviewWrapper().chatArray[position];
             TextView chatname = (TextView) v.findViewById(R.id.chatname);
             TextView lastSender = (TextView) v.findViewById(R.id.letzteNachrichtAbsender);
             TextView lastMessage = (TextView) v.findViewById(R.id.letzteNachrichtText);
@@ -372,35 +370,34 @@ public class OverviewWrapper extends AppCompatActivity {
                 icon.setEnabled(Utils.getMDB().userInChat(Utils.getUserID(), chats[position].cid));
                 final View delete = v.findViewById(R.id.imageButtonDelete);
                 final View mute = v.findViewById(R.id.imageButtonMute);
+                mute.setActivated(Utils.getOverviewWrapper().chatArray[position].mute);
                 final View notify = v.findViewById(R.id.notify);
                 final int visibility = notify.getVisibility();
-                notify.setVisibility(View.GONE);
-                delete.setVisibility(View.VISIBLE);
-                mute.setVisibility(View.VISIBLE);
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Chat c = Utils.getOverviewWrapper().chatArray[position];
                         Utils.getMDB().deleteChat(c.cid);
                         delete.setVisibility(View.GONE);
                         mute.setVisibility(View.GONE);
                         notify.setVisibility(visibility);
                         Utils.getOverviewWrapper().notifyUpdate();
-                        mute.setOnClickListener(null);
-                        delete.setOnClickListener(null);
                     }
                 });
                 mute.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Chat c = Utils.getOverviewWrapper().chatArray[position];
-                        Utils.getMDB().muteChat(c.cid, true);
-                        delete.setVisibility(View.GONE);
-                        mute.setVisibility(View.GONE);
-                        notify.setVisibility(visibility);
-                        Utils.getOverviewWrapper().notifyUpdate();
-                        mute.setOnClickListener(null);
-                        delete.setOnClickListener(null);
+                        Log.e("TAG", "onClick Mute");
+                        Utils.getMDB().muteChat(c.cid, !c.mute);
+                        mute.setActivated(!c.mute);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                delete.setVisibility(View.GONE);
+                                mute.setVisibility(View.GONE);
+                                notify.setVisibility(visibility);
+                                Utils.getOverviewWrapper().notifyUpdate();
+                            }
+                        }, 90);
                     }
                 });
             }
