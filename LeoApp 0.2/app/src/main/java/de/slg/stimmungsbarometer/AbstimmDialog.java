@@ -54,7 +54,6 @@ public class AbstimmDialog extends AlertDialog {
     }
 
     private void initSmileys() {
-//        TODO: Größe der Smileys anpassen
         very_satisfied = (ImageButton) findViewById(R.id.imageButtonVS);
         satisfied = (ImageButton) findViewById(R.id.imageButtonS);
         neutral = (ImageButton) findViewById(R.id.imageButtonN);

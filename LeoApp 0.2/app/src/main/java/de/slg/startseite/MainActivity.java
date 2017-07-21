@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
 
-
         runningScan = false;
         ref = this;
         Utils.context = getApplicationContext();
@@ -344,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b.append(mAdapter.cards.getContent().type);
         mAdapter.cards.next();
 
-        for(; mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
+        for (; mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
 
             b.append(";").append(mAdapter.cards.getContent().type.toString());
 
