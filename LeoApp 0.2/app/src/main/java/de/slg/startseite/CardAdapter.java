@@ -20,10 +20,12 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
+import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.vertretung.WrapperSubstitutionActivity;
 
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
@@ -36,7 +38,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
         String card_config = Start.pref.getString("pref_key_card_config",
                 "FOODMARKS;TESTPLAN;MESSENGER;TUTORING;NEWS;SURVEY;SCHEDULE;SUBSTITUTION");
 
-        for(String card : card_config.split(";")) {
+        for (String card : card_config.split(";")) {
 
             CardType type = CardType.valueOf(card);
 
@@ -68,7 +70,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.buttonListener = new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(Utils.isVerified())
+                            if (Utils.isVerified())
                                 MainActivity.ref.startActivity(new Intent(MainActivity.ref, KlausurplanActivity.class));
                             else
                                 MainActivity.ref.showDialog();
@@ -85,7 +87,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.buttonListener = new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(Utils.isVerified())
+                            if (Utils.isVerified())
                                 MainActivity.ref.startActivity(new Intent(MainActivity.ref, OverviewWrapper.class));
                             else
                                 MainActivity.ref.showDialog();
@@ -99,6 +101,15 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
                     c.enabled = Utils.isVerified();
                     c.icon = R.drawable.account_multiple;
+                    c.buttonListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (Utils.isVerified())
+                                MainActivity.ref.startActivity(new Intent(MainActivity.ref, NachhilfeboerseActivity.class));
+                            else
+                                MainActivity.ref.showDialog();
+                        }
+                    };
                     break;
                 case NEWS:
                     cards.append(c = new InfoCard(false, type));
@@ -136,7 +147,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.buttonListener = new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(Utils.isVerified())
+                            if (Utils.isVerified())
                                 MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperStundenplanActivity.class));
                             else
                                 MainActivity.ref.showDialog();
@@ -149,7 +160,12 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     c.descr = Utils.getString(R.string.summary_info_subst);
                     c.buttonDescr = Utils.getString(R.string.button_info_try);
                     c.icon = R.drawable.ic_account_switch;
-
+                    c.buttonListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperSubstitutionActivity.class));
+                        }
+                    };
                     break;
                 case WEATHER:
                     cards.append(m = new MiscCard(false, type, true));
@@ -184,7 +200,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             button = (Button) itemView.findViewById(R.id.buttonCardView0);
             content = (RelativeLayout) itemView.findViewById(R.id.info_content0);
             icon = (ImageView) itemView.findViewById(R.id.info_card_icon);
-            wrapper = (CardView)  itemView.findViewById(R.id.card_preset);
+            wrapper = (CardView) itemView.findViewById(R.id.card_preset);
         }
 
     }
@@ -213,11 +229,11 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 CardViewHolder ret = new CardViewHolder(itemView);
 
                 ret.wrapper.requestLayout();
-                ret.wrapper.getLayoutParams().height = GraphicUtils.getDisplayWidth()/2-(int)GraphicUtils.dpToPx(20);
+                ret.wrapper.getLayoutParams().height = GraphicUtils.getDisplayWidth() / 2 - (int) GraphicUtils.dpToPx(20);
                 ret.wrapper.getLayoutParams().width = ret.wrapper.getLayoutParams().height;
 
-                ret.icon.getLayoutParams().height = (ret.wrapper.getLayoutParams().height/100)*65; //Icon 65% of quick tile
-                ret.icon.getLayoutParams().width = (ret.wrapper.getLayoutParams().height/100)*65;
+                ret.icon.getLayoutParams().height = (ret.wrapper.getLayoutParams().height / 100) * 65; //Icon 65% of quick tile
+                ret.icon.getLayoutParams().width = (ret.wrapper.getLayoutParams().height / 100) * 65;
 
                 return ret;
             default:
@@ -254,7 +270,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             holder.description.setText(ref.descr);
             holder.content.setVisibility(View.GONE);
             holder.icon.setImageResource(ref.icon);
-            if(!ref.enabled)
+            if (!ref.enabled)
                 holder.icon.setColorFilter(Color.GRAY);
         } else {
             MiscCard ref = (MiscCard) c;
