@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,6 +33,7 @@ public class ReceiveService extends Service {
     }
 
     @Override
+    @Nullable
     public IBinder onBind(Intent intent) {
         return null;
     }

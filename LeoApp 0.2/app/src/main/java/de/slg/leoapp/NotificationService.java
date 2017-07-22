@@ -1,15 +1,16 @@
 package de.slg.leoapp;
 
-import android.annotation.SuppressLint;
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
 import java.text.ParseException;
@@ -26,37 +27,53 @@ import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.Stundenplanverwalter;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 
-@SuppressWarnings("deprecation")
-@SuppressLint("SimpleDateFormat")
-public class NotificationService extends IntentService {
+public class NotificationService extends Service {
     private NotificationManager notificationManager;
+
+    private boolean running;
 
     private static short hours;
     private static short minutes;
     private static short hoursTT;
     private static short minutesTT;
 
-    public NotificationService() {
-        super("notification-service-leo");
-    }
-
     @Override
-    protected void onHandleIntent(Intent intent) {
-
+    public int onStartCommand(Intent intent, int flags, int startId) {
         Utils.context = getApplicationContext();
         Start.initPref(getApplicationContext());
 
         notificationManager = Utils.getNotificationManager();
 
         actualize();
-        while (true) {
-            messengerNotification();
-            klausurplanNotification();
-            nachhilfeNotification();
-            schwarzesBrettNotification();
-            vertretungsplanNotification();
 
-            someLoopStuff();
+        new LoopThread().start();
+
+        return START_REDELIVER_INTENT;
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        running = false;
+    }
+
+    private class LoopThread extends Thread {
+        @Override
+        public void run() {
+            running = true;
+            while (running) {
+                klausurplanNotification();
+                messengerNotification();
+                nachhilfeNotification();
+                schwarzesBrettNotification();
+                vertretungsplanNotification();
+                someLoopStuff();
+            }
         }
     }
 
@@ -74,42 +91,43 @@ public class NotificationService extends IntentService {
 
     private void someLoopStuff() {
         Date d = new Date();
+        GregorianCalendar c = new GregorianCalendar();
+        c.setTime(d);
 //      TODO!!
-        //Log.i("LeoApp", "Time: " + d.getHours() + ":" + d.getMinutes() + " Scheduled: " + hours + ":" + minutes);
 
-        if (d.getDay() != 5 && d.getDay() != 6 && d.getHours() == hoursTT && d.getMinutes() == minutesTT) {
+        if (c.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursTT && c.get(Calendar.MINUTE) == minutesTT) {
             this.stundenplanNotification();
         }
 
-        if (d.getDay() != 0 && d.getDay() != 6 && d.getHours() == hours && d.getMinutes() == minutes) {
+        if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hours && c.get(Calendar.MINUTE) == minutes) {
 
             de.slg.essensqr.SQLitePrinter.printDatabase(getApplicationContext());
 
             SQLiteHandler db = new SQLiteHandler(this);
             SQLiteDatabase dbw = db.getReadableDatabase();
 
-            Cursor c = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
+            Cursor cursor = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
 
-            if (c.getCount() == 0) {
+            if (cursor.getCount() == 0) {
                 essensqrNotification();
                 return;
             }
 
-            c.moveToFirst();
-            int maxid = c.getInt(c.getColumnIndex("id"));
+            cursor.moveToFirst();
+            int maxid = cursor.getInt(cursor.getColumnIndex("id"));
 
-            c.close();
+            cursor.close();
 
-            c = dbw.rawQuery("SELECT o.DATEU as date FROM USERORDERS o JOIN STATISTICS s ON s.LASTORDER = o.ID WHERE s.ID = " + maxid, null);
+            cursor = dbw.rawQuery("SELECT o.DATEU as date FROM USERORDERS o JOIN STATISTICS s ON s.LASTORDER = o.ID WHERE s.ID = " + maxid, null);
 
-            if (c.getCount() == 0) {
+            if (cursor.getCount() == 0) {
                 essensqrNotification();
                 return;
             }
 
-            c.moveToFirst();
-            String date = c.getString(c.getColumnIndex("date"));
-            c.close();
+            cursor.moveToFirst();
+            String date = cursor.getString(cursor.getColumnIndex("date"));
+            cursor.close();
 
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
