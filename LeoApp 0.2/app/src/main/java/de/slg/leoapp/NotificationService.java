@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.essensqr.SQLiteHandler;
+import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.startseite.MainActivity;
 import de.slg.stundenplan.Fach;
@@ -159,10 +160,10 @@ public class NotificationService extends IntentService {
     private void messengerNotification() {
         if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMDB().hasUnreadMessages()) {
             StringBuilder builder = new StringBuilder();
-            for (NotificationCompat.MessagingStyle.Message m : Utils.getMDB().getUnreadMessages()) {
-                builder.append(m.getSender())
+            for (Message m : Utils.getMDB().getUnreadMessages()) {
+                builder.append(m.uname)
                         .append(": ")
-                        .append(m.getText())
+                        .append(m.mtext)
                         .append(System.getProperty("line.separator"));
             }
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);

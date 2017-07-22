@@ -367,7 +367,9 @@ public class OverviewWrapper extends AppCompatActivity {
                 } else {
                     icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
                 }
-                icon.setEnabled(Utils.getMDB().userInChat(Utils.getUserID(), chats[position].cid));
+                if (c.mute) {
+                    v.findViewById(R.id.iconMute).setVisibility(View.VISIBLE);
+                }
                 final View delete = v.findViewById(R.id.imageButtonDelete);
                 final View mute = v.findViewById(R.id.imageButtonMute);
                 mute.setActivated(Utils.getOverviewWrapper().chatArray[position].mute);
