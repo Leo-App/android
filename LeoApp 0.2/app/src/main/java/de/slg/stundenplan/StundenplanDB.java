@@ -402,4 +402,24 @@ public class StundenplanDB extends SQLiteOpenHelper {
         cursor.close();
         return b;
     }
+
+    boolean istGewaehlt(int fid) {
+        String selection = FACH_ID + " = " + fid;
+        Cursor cursor = database.query(TABLE_GEWAHLT, new String[]{FACH_ID}, selection, null, null, null, null);
+        boolean b = cursor.getCount() > 0;
+        cursor.close();
+        return b;
+    }
+
+    Fach[] gibStunden(int fid) {
+        String condition = FACH_ID + " = " + fid;
+        Cursor cursor = database.query(TABLE_STUNDEN, new String[]{STUNDEN_TAG, STUNDEN_STUNDE}, condition, null, null, null, STUNDEN_TAG + ", " + STUNDEN_STUNDE);
+        Fach[] array = new Fach[cursor.getCount()];
+        cursor.moveToFirst();
+        for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
+            array[i] = getFach(cursor.getInt(0), cursor.getInt(1));
+        }
+        cursor.close();
+        return array;
+    }
 }

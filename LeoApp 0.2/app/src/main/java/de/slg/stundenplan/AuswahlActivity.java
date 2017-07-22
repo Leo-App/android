@@ -110,8 +110,8 @@ public class AuswahlActivity extends AppCompatActivity {
         if (mi.getItemId() == R.id.action_speichern) {
             sv.inTextDatei(auswahlAdapter.gibAlleMarkierten());
             Utils.getStundDB().loescheWahlen();
-            for (String kurz : auswahlAdapter.gibMarkierteKurz()) {
-                Utils.getStundDB().waehleFach(Utils.getStundDB().idVonKuerzel(kurz));
+            for (int id : auswahlAdapter.gibMarkierteIds()) {
+                Utils.getStundDB().waehleFach(id);
             }
         } else if (mi.getItemId() == R.id.action_refresh) {
             deleteFile("allefaecher.txt");

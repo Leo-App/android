@@ -14,12 +14,16 @@ import java.util.ArrayList;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 class AuswahlAdapter extends ArrayAdapter<Fach> {
     private final Context context;
     private final Fach[] fachArray;
     private final View[] views;
     private final Stundenplanverwalter sv;
+    private final StundenplanDB db;
+    List<String> ausgewaehlteFaecher;
+    boolean[][] ausgewaehlteStunden;
 
     AuswahlAdapter(Context context, Fach[] pFacher, Stundenplanverwalter psv) {
         super(context, R.layout.list_item_kurs, pFacher);
@@ -27,45 +31,68 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
         fachArray = pFacher;
         views = new View[fachArray.length];
         sv = psv;
+        db = Utils.getStundDB();
+        ausgewaehlteFaecher = new List<>();
+        ausgewaehlteStunden = new boolean[5][10];
     }
 
     @NonNull
     @Override
     public View getView(int position, View view, @NonNull ViewGroup parent) {
-        if (position < fachArray.length && fachArray[0] != null) {
-            if (views[position] == null) {
-                LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                int id = R.layout.list_item_kurs;
-                view = layoutInflater.inflate(id, null);
-            }
-            view.setEnabled(true);
-            TextView twFach = (TextView) view.findViewById(R.id.fach_auswahl);
-            TextView twKuerzel = (TextView) view.findViewById(R.id.kürzel_auswahl);
-            TextView twLehrer = (TextView) view.findViewById(R.id.lehrer_auswahl);
+        if (view == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = layoutInflater.inflate(R.layout.list_item_kurs, null);
+        }
+        Fach current = fachArray[position];
+        view.setEnabled(true);
+        TextView tvFach = (TextView) view.findViewById(R.id.fach_auswahl);
+        TextView tvKuerzel = (TextView) view.findViewById(R.id.kürzel_auswahl);
+        TextView tvLehrer = (TextView) view.findViewById(R.id.lehrer_auswahl);
 
-            twFach.setText(fachArray[position].gibName());
-            twKuerzel.setText(fachArray[position].gibKurz());
-            twLehrer.setText(fachArray[position].gibLehrer());
-            refresh();
+        tvFach.setText(current.gibName());
+        tvKuerzel.setText(current.gibKurz());
+        tvLehrer.setText(current.gibLehrer());
+
+        CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+        checkBox.setChecked(db.istGewaehlt(current.id));
+
+        if (checkBox.isChecked()) {
+            ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
+            Fach[] stunden = db.gibStunden(current.id);
+            for (Fach f : stunden) {
+                ausgewaehlteStunden[f.gibTag() - 1][f.gibStunde() - 1] = true;
+            }
+            tvFach.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            tvKuerzel.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            tvLehrer.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+        } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2))) {
+            view.setEnabled(false);
+            tvFach.setTextColor(ContextCompat.getColor(context, R.color.colorTextGreyed));
+            tvKuerzel.setTextColor(ContextCompat.getColor(context, R.color.colorTextGreyed));
+            tvLehrer.setTextColor(ContextCompat.getColor(context, R.color.colorTextGreyed));
         }
         views[position] = view;
         return view;
     }
 
     void refresh() {
-        List<String> ausgewählteFächer = new List<>();
-        List<String> ausgewählteStunden = new List<>();
+        ausgewaehlteFaecher = new List<>();
         int[] selected = getSelectedIndices();
         for (int i : selected) {
-            ausgewählteFächer.append(fachArray[i].gibName().split(" ")[0]);
-            ArrayList<Fach> faecherInKurs = sv.gibFaecherMitKuerzel(fachArray[i].gibKurz());
-            for (Fach f : faecherInKurs) {
-                ausgewählteStunden.append(f.gibStunde() + "." + f.gibTag());
+            ausgewaehlteFaecher.append(fachArray[i].gibKurz().substring(0, 2));
+        }
+        ausgewaehlteStunden = new boolean[5][10];
+        int[] ausgewaehlteIds = gibMarkierteIds();
+        for (int id : ausgewaehlteIds) {
+            Fach[] stunden = db.gibStunden(id);
+            for (Fach f : stunden) {
+                ausgewaehlteStunden[f.gibTag() - 1][f.gibStunde() - 1] = true;
             }
         }
         for (int i = 0; i < views.length; i++) {
             if (views[i] != null) {
                 CheckBox c = (CheckBox) views[i].findViewById(R.id.checkBox);
+                Fach current = fachArray[i];
                 if (c.isChecked()) {
                     views[i].setEnabled(true);
                     TextView tvFach = (TextView) views[i].findViewById(R.id.fach_auswahl);
@@ -74,7 +101,7 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
                     tvFach.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                     tvKuerzel.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
                     tvLehrer.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-                } else if (ausgewählteFächer.contains(fachArray[i].gibName().split(" ")[0]) || ausgewählteStunden.contains(fachArray[i].gibStunde() + "." + fachArray[i].gibTag())) {
+                } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2))) {
                     views[i].setEnabled(false);
                     TextView tvFach = (TextView) views[i].findViewById(R.id.fach_auswahl);
                     TextView tvKuerzel = (TextView) views[i].findViewById(R.id.kürzel_auswahl);
@@ -151,11 +178,16 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
         return markierte;
     }
 
-    String[] gibMarkierteKurz() {
-        List<String> liste = new List<>();
+    int[] gibMarkierteIds() {
+        List<Integer> liste = new List<>();
         for (int i = 0; i < fachArray.length; i++)
             if (views[i] != null && ((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked())
-                liste.append(fachArray[i].gibKurz());
-        return liste.fill(new String[liste.length()]);
+                liste.append(fachArray[i].id);
+        int[] ids = new int[liste.length()];
+        liste.toFirst();
+        for (int i = 0; i < ids.length; i++, liste.next()) {
+            ids[i] = liste.getContent();
+        }
+        return ids;
     }
 }

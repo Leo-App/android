@@ -52,7 +52,7 @@ public class NotificationService extends Service {
         new LoopThread().start();
 
         Log.i("NotificationService", "Service (re)started!");
-        return START_REDELIVER_INTENT;
+        return START_STICKY;
     }
 
     @Nullable
