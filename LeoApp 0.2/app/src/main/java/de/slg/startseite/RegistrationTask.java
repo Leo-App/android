@@ -101,9 +101,9 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
             SharedPreferences.Editor e = pref.edit();
-            e.putInt("pref_key_general_permission", Integer.parseInt(params[1]));
-            e.putString("pref_key_username_general", data[data.length - 1]);
-            e.putInt("pref_key_general_id", Integer.parseInt(data[data.length - 3]));
+            e.putInt("pref_key_level_general", Integer.parseInt(params[1]));
+            e.putString("pref_key_username_general", data[data.length - 3]);
+            e.putInt("pref_key_general_id", Integer.parseInt(data[data.length - 5]));
             e.apply();
 
             PreferenceActivity.setCurrentUsername(pref.getString("pref_key_username_general", ""));

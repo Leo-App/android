@@ -98,7 +98,7 @@ public class DBConnection {
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
                 CHAT_MUTE + " = 0";
-        Cursor cursor = query(table, columns, selection, null, CHAT_ID + ", " + MESSAGE_DATE);
+        Cursor cursor = query(table, columns, selection, null, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {

@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_startseite);
 
-        if (getIntent().getBooleanExtra("show_dialog", true))
+        if (getIntent().getBooleanExtra("show_dialog", false))
             new AbstimmDialog(this).show();
 
         Log.i("LeoApp", "called onCreate main");
