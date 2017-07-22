@@ -117,7 +117,12 @@ public class DBConnection {
     }
 
     public long getLatestDateInDB() {
-        Cursor cursor = database.query(TABLE_MESSAGES, new String[]{MESSAGE_DATE}, null, null, null, null, MESSAGE_DATE + " DESC", "1");
+        String table = TABLE_MESSAGES + ", " + TABLE_CHATS;
+        String[] columns = {MESSAGE_DATE};
+        String selection = USER_ID + " != " + Utils.getUserID() + " AND " +
+                TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
+                CHAT_MUTE + " = 0";
+        Cursor cursor = query(table, columns, selection, null, MESSAGE_DATE + " DESC");
         cursor.moveToFirst();
         long l = 0;
         if (cursor.getCount() > 0)
@@ -222,9 +227,11 @@ public class DBConnection {
         }
     }
 
-    Chat[] getChats() {
+    Chat[] getChats(boolean withDeleted) {
         String[] columns = {CHAT_ID, CHAT_NAME, CHAT_MUTE, CHAT_TYPE};
-        String selection = CHAT_DELETED + " = 0";
+        String selection = null;
+        if (!withDeleted)
+            selection = CHAT_DELETED + " = 0";
         Cursor cursor = query(TABLE_CHATS, columns, selection, null, CHAT_ID);
         List<Chat> list = new List<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -262,11 +269,13 @@ public class DBConnection {
     }
 
     Chat getChatWith(int uid) {
-        Chat[] chats = getChats();
+        Chat[] chats = getChats(true);
         String uname = getUname(uid);
         for (Chat c : chats)
-            if (c.cname.equals(uname))
+            if (c.cname.equals(uname)) {
+                restoreChat(c.cid);
                 return c;
+            }
         return null;
     }
 
@@ -296,6 +305,12 @@ public class DBConnection {
         for (Message m : messages) {
             deleteMessage(m.mid);
         }
+    }
+
+    private void restoreChat(int cid) {
+        ContentValues values = new ContentValues();
+        values.put(CHAT_DELETED, 0);
+        database.update(TABLE_CHATS, values, CHAT_ID + " = " + cid, null);
     }
 
     void muteChat(int cid, boolean mute) {

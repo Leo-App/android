@@ -12,6 +12,8 @@ import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,11 +31,12 @@ import de.slg.stundenplan.WrapperStundenplanActivity;
 
 public class NotificationService extends Service {
     private NotificationManager notificationManager;
+    private Bitmap icon;
 
     private boolean running;
 
-    private static short hours;
-    private static short minutes;
+    private static short hoursQR;
+    private static short minutesQR;
     private static short hoursTT;
     private static short minutesTT;
 
@@ -48,6 +51,7 @@ public class NotificationService extends Service {
 
         new LoopThread().start();
 
+        Log.i("NotificationService", "Service (re)started!");
         return START_REDELIVER_INTENT;
     }
 
@@ -60,12 +64,14 @@ public class NotificationService extends Service {
     @Override
     public void onDestroy() {
         running = false;
+        Log.i("NotificationService", "Service stopped!");
     }
 
     private class LoopThread extends Thread {
         @Override
         public void run() {
             running = true;
+            icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
             while (running) {
                 klausurplanNotification();
                 messengerNotification();
@@ -80,8 +86,8 @@ public class NotificationService extends Service {
     public static void actualize() {
         String time = Start.pref.getString("pref_key_notification_time", "00:00");
 
-        hours = Short.parseShort(time.split(":")[0]);
-        minutes = Short.parseShort(time.split(":")[1]);
+        hoursQR = Short.parseShort(time.split(":")[0]);
+        minutesQR = Short.parseShort(time.split(":")[1]);
 
         String ti = Start.pref.getString("pref_key_notification_time_schedule", "00:00");
 
@@ -93,13 +99,12 @@ public class NotificationService extends Service {
         Date d = new Date();
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(d);
-//      TODO!!
 
-        if (c.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursTT && c.get(Calendar.MINUTE) == minutesTT) {
-            this.stundenplanNotification();
+        if (c.get(Calendar.HOUR_OF_DAY) == hoursTT && c.get(Calendar.MINUTE) == minutesTT) {
+            stundenplanNotification();
         }
 
-        if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hours && c.get(Calendar.MINUTE) == minutes) {
+        if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursQR && c.get(Calendar.MINUTE) == minutesQR) {
 
             de.slg.essensqr.SQLitePrinter.printDatabase(getApplicationContext());
 
@@ -109,6 +114,7 @@ public class NotificationService extends Service {
             Cursor cursor = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
 
             if (cursor.getCount() == 0) {
+                cursor.close();
                 essensqrNotification();
                 return;
             }
@@ -121,6 +127,7 @@ public class NotificationService extends Service {
             cursor = dbw.rawQuery("SELECT o.DATEU as date FROM USERORDERS o JOIN STATISTICS s ON s.LASTORDER = o.ID WHERE s.ID = " + maxid, null);
 
             if (cursor.getCount() == 0) {
+                cursor.close();
                 essensqrNotification();
                 return;
             }
@@ -144,8 +151,6 @@ public class NotificationService extends Service {
     private void essensqrNotification() {
         if (Start.pref.getBoolean("pref_key_notification_essensqr", true)) {
             Intent resultIntent = new Intent(this, MainActivity.class);
-
-            final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
 
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
@@ -185,7 +190,6 @@ public class NotificationService extends Service {
                         .append(System.getProperty("line.separator"));
             }
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);
-            Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
             Notification notification =
                     new NotificationCompat.Builder(getApplicationContext())
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -212,39 +216,37 @@ public class NotificationService extends Service {
     }
 
     private void stundenplanNotification() {
-        Stundenplanverwalter sv = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
-        StringBuilder builder = new StringBuilder();
-        if (gibWochentag() < 5) {
-            Fach[] f = sv.gibFaecherKurzTag(gibWochentag() + 1);
-            for (Fach aF : f) {
-                builder.append(", ").append(aF.gibName());
-            }
-        }
         if (Start.pref.getBoolean("pref_key_notification_schedule", true)) {
-            Intent resultIntent = new Intent(this, WrapperStundenplanActivity.class);
+            Stundenplanverwalter sv = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
+            StringBuilder builder = new StringBuilder();
+            if (gibNaechstenWochentag() <= 5) {
+                Fach[] faecher = sv.gibFaecherKurzTag(gibNaechstenWochentag());
+                for (Fach f : faecher) {
+                    builder.append(", ").append(f.gibName());
+                }
 
-            final Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
+                Intent resultIntent = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
 
-            PendingIntent resultPendingIntent =
-                    PendingIntent.getActivity(
-                            this,
-                            0,
-                            resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );
+                PendingIntent resultPendingIntent =
+                        PendingIntent.getActivity(
+                                getApplicationContext(),
+                                0,
+                                resultIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
 
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
-                            .setPriority(NotificationCompat.PRIORITY_HIGH)
-                            .setLargeIcon(icon)
-                            .setSmallIcon(R.drawable.qrcode)
-                            .setVibrate(new long[]{200})
-                            .setContentTitle("LeoApp")
-                            .setContentText(builder.toString())
-                            .setContentIntent(resultPendingIntent);
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(this)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .setLargeIcon(icon)
+                                .setSmallIcon(R.drawable.qrcode)
+                                .setVibrate(new long[]{200})
+                                .setContentTitle("Deine Stunden morgen:")
+                                .setContentText(builder.toString())
+                                .setContentIntent(resultPendingIntent);
 
-            notificationManager.notify(101, mBuilder.build());
-            //Ich weiß nicht ob das hier läuft aber es zerstört nichts...
+                notificationManager.notify(101, mBuilder.build());
+            }
         }
     }
 
@@ -254,22 +256,20 @@ public class NotificationService extends Service {
         }
     }
 
-    private int gibWochentag() {
+    private int gibNaechstenWochentag() {
         Calendar c = new GregorianCalendar();
         c.setTime(new Date());
         int i = c.get(Calendar.DAY_OF_WEEK);
-        if (i == Calendar.MONDAY)
+        if (i == Calendar.SUNDAY)
             return 1;
-        if (i == Calendar.TUESDAY)
+        if (i == Calendar.MONDAY)
             return 2;
-        if (i == Calendar.WEDNESDAY)
+        if (i == Calendar.TUESDAY)
             return 3;
-        if (i == Calendar.THURSDAY)
+        if (i == Calendar.WEDNESDAY)
             return 4;
-        if (i == Calendar.FRIDAY)
+        if (i == Calendar.THURSDAY)
             return 5;
-        if (i == Calendar.SATURDAY)
-            return 6;
-        return 0;
+        return 6;
     }
 }

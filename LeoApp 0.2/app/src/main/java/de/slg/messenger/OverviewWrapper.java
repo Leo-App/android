@@ -200,12 +200,12 @@ public class OverviewWrapper extends AppCompatActivity {
 
     private void initArrays() {
         userArray = Utils.getMDB().getUsers();
-        chatArray = Utils.getMDB().getChats();
+        chatArray = Utils.getMDB().getChats(false);
         Utils.receive();
     }
 
     public void notifyUpdate() {
-        chatArray = Utils.getMDB().getChats();
+        chatArray = Utils.getMDB().getChats(false);
         userArray = Utils.getMDB().getUsers();
         uFragment.refreshUI();
         cFragment.refreshUI();

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -29,7 +30,8 @@ public class ReceiveService extends Service {
         running = true;
         receive = false;
         new LoopThread().start();
-        return START_REDELIVER_INTENT;
+        Log.i("ReceiveService", "Service (re)started!");
+        return START_STICKY;
     }
 
     @Override
@@ -42,6 +44,12 @@ public class ReceiveService extends Service {
     public void onDestroy() {
         running = false;
         Utils.registerReceiveService(null);
+        Log.i("ReceiveService", "Service stopped!");
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
     }
 
     private static long getInterval(int selection) {
@@ -241,6 +249,7 @@ public class ReceiveService extends Service {
         protected void onPostExecute(Void aVoid) {
             if (Utils.getOverviewWrapper() != null)
                 Utils.getOverviewWrapper().notifyUpdate();
+            Log.i("ReceiveService", "received");
         }
     }
 
