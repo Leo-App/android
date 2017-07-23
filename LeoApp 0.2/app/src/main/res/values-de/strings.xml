@@ -111,7 +111,7 @@
 
     <!-- Stundenplan -->
 
-    <string name="stunden">Stunden</string>
+    <string name="stunden">Kurse auswählen</string>
     <string name="bearbeiten">Bearbeiten</string>
     <string name="mo">Mo</string>
     <string name="montag">Montag</string>

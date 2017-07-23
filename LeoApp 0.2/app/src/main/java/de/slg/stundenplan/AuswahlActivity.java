@@ -2,6 +2,7 @@ package de.slg.stundenplan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ListView;
 
 import java.io.BufferedReader;
@@ -23,8 +23,8 @@ import de.slg.leoapp.Utils;
 
 public class AuswahlActivity extends AppCompatActivity {
     private Menu menu;
-    private AuswahlAdapter auswahlAdapter;
-    private Stundenplanverwalter sv;
+    private AuswahlAdapter adapter;
+    private StundenplanDB db;
     private FachImporter importer;
 
     @Override
@@ -62,34 +62,59 @@ public class AuswahlActivity extends AppCompatActivity {
 
     private void initListView() {
         ListView listView = (ListView) findViewById(R.id.listA);
-        auswahlAdapter = new AuswahlAdapter(getApplicationContext(), sv.gibFaecherKuerzel(), sv);
-        listView.setAdapter(auswahlAdapter);
+        adapter = new AuswahlAdapter(getApplicationContext(), db.getFaecher());
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (view.isEnabled()) {
-                    CheckBox c = (CheckBox) view.findViewById(R.id.checkBox);
-                    c.setChecked(!c.isChecked());
-                    auswahlAdapter.refresh();
-                    if (auswahlAdapter.isOneSelected()) {
-                        MenuItem item = menu.findItem(R.id.action_speichern);
-                        item.setVisible(true);
-                        item.setEnabled(true);
+                    boolean checked = adapter.toggleCheck(position);
+                    Fach f = adapter.fachArray[position];
+                    double[] stunden = db.gibStunden(f.id);
+                    for (double d : stunden) {
+                        adapter.ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = checked;
                     }
+                    if (checked)
+                        adapter.ausgewaehlteFaecher.append(f.gibKurz().substring(0, 2));
+                    else {
+                        adapter.ausgewaehlteFaecher.contains(f.gibKurz().substring(0, 2));
+                        adapter.ausgewaehlteFaecher.remove();
+                    }
+                    refresh();
                 }
             }
         });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refresh();
+            }
+        }, 100);
+    }
+
+    private void refresh() {
+        adapter.refresh();
+        int anzahl = adapter.gibAnzahlAusgewaehlte();
+        if (anzahl > 0) {
+            MenuItem item = menu.findItem(R.id.action_speichern);
+            item.setVisible(true);
+            item.setEnabled(true);
+        }
+        if (anzahl == 1)
+            getSupportActionBar().setTitle("1 Kurs ausgewählt");
+        else
+            getSupportActionBar().setTitle(anzahl + " Kurse ausgewählt");
     }
 
     private void initSV() {
+        db = Utils.getStundDB();
         try {
             if (importer != null)
                 importer.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        sv = new Stundenplanverwalter(getApplicationContext(), "allefaecher.txt");
-        if (sv.gibFaecherSort().length == 0) {
+        if (db.getFaecher().length == 0) {
             Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes, Snackbar.LENGTH_SHORT);
             snack.show();
         }
@@ -108,11 +133,11 @@ public class AuswahlActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == R.id.action_speichern) {
-            sv.inTextDatei(auswahlAdapter.gibAlleMarkierten());
-            Utils.getStundDB().loescheWahlen();
-            for (int id : auswahlAdapter.gibMarkierteIds()) {
-                Utils.getStundDB().waehleFach(id);
+            db.loescheWahlen();
+            for (int id : adapter.gibMarkierteIds()) {
+                db.waehleFach(id);
             }
+            new Stundenplanverwalter(getApplicationContext(), "allefaecher.txt").inTextDatei(Utils.getStundDB().getGewaehlteFaecher());
         } else if (mi.getItemId() == R.id.action_refresh) {
             deleteFile("allefaecher.txt");
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));

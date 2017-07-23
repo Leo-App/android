@@ -62,10 +62,19 @@ public class StundenplanDB extends SQLiteOpenHelper {
     }
 
     long insertFach(String kurz, String lehrer, String raum) {
+        String selection = FACH_KURZEL + " = '" + kurz + "' AND " + FACH_LEHRER + " = '" + lehrer + "'";
+        Cursor cursor = database.query(TABLE_FACHER, new String[]{FACH_ID}, selection, null, null, null, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            long id = cursor.getInt(0);
+            cursor.close();
+            return id;
+        }
+        cursor.close();
         ContentValues values = new ContentValues();
         values.put(FACH_ART, kurz.substring(2, 3) + "K");
         values.put(FACH_KURZEL, kurz);
-        values.put(FACH_NAME, kurzToFach(kurz.substring(0, 2)));
+        values.put(FACH_NAME, kuerzelToFach(kurz.substring(0, 2)));
         values.put(FACH_LEHRER, lehrer);
         values.put(FACH_RAUM, raum);
         return database.insert(TABLE_FACHER, null, values);
@@ -104,8 +113,10 @@ public class StundenplanDB extends SQLiteOpenHelper {
     }
 
     Fach[] getFaecher() {
+        String table = TABLE_FACHER + ", " + TABLE_STUNDEN;
         String[] columns = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
-        Cursor cursor = database.query(TABLE_FACHER + ", " + TABLE_STUNDEN, columns, TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID, null, null, null, null);
+        String selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_ART + " != 'FREI'";
+        Cursor cursor = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_ART + " DESC, " + TABLE_FACHER + "." + FACH_ID);
         Fach[] faecher = new Fach[cursor.getCount()];
         int i = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
@@ -115,7 +126,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         return faecher;
     }
 
-    Fach[] gewaehlteFaecherAnTag(int tag) {
+    public Fach[] gewaehlteFaecherAnTag(int tag) {
         String table = TABLE_FACHER + ", " + TABLE_GEWAHLT + ", " + TABLE_STUNDEN;
         String[] columns = {TABLE_FACHER + "." + FACH_ID,
                 FACH_KURZEL,
@@ -179,8 +190,8 @@ public class StundenplanDB extends SQLiteOpenHelper {
         return f;
     }
 
-    private String kurzToFach(String pKurzelTeil) {
-        switch (pKurzelTeil.toUpperCase()) {
+    private String kuerzelToFach(String kuerzel) {
+        switch (kuerzel.toUpperCase()) {
             case "M ":
                 return context.getString(R.string.mathe);
             case "D ":
@@ -224,7 +235,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             case "MU":
                 return context.getString(R.string.musik);
             default:
-                return pKurzelTeil;
+                return kuerzel;
         }
     }
 
@@ -411,13 +422,13 @@ public class StundenplanDB extends SQLiteOpenHelper {
         return b;
     }
 
-    Fach[] gibStunden(int fid) {
+    double[] gibStunden(int fid) {
         String condition = FACH_ID + " = " + fid;
         Cursor cursor = database.query(TABLE_STUNDEN, new String[]{STUNDEN_TAG, STUNDEN_STUNDE}, condition, null, null, null, STUNDEN_TAG + ", " + STUNDEN_STUNDE);
-        Fach[] array = new Fach[cursor.getCount()];
+        double[] array = new double[cursor.getCount()];
         cursor.moveToFirst();
-        for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
-            array[i] = getFach(cursor.getInt(0), cursor.getInt(1));
+        for (int i = 0; i < array.length; i++) {
+            array[i] = cursor.getInt(0) + cursor.getDouble(1) / 10;
         }
         cursor.close();
         return array;

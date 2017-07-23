@@ -104,7 +104,7 @@
 
     <!-- Stundenplan -->
 
-    <string name="stunden">Heures</string>
+    <string name="stunden">Choisir tes cours</string>
     <string name="bearbeiten">Éditer</string>
     <string name="mo">Lu</string>
     <string name="montag">Lundi</string>

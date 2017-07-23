@@ -135,7 +135,7 @@ public class KlausurActivity extends AppCompatActivity {
                 int month = Integer.parseInt(parts[1]) - 1;
                 int year = 2000 + Integer.parseInt(parts[2]);
                 Calendar c = new GregorianCalendar();
-                c.set(year, month, day);
+                c.set(year, month, day, 0, 0, 0);
                 return c.getTime();
             }
         }

@@ -217,12 +217,13 @@ public class NotificationService extends Service {
 
     private void stundenplanNotification() {
         if (Start.pref.getBoolean("pref_key_notification_schedule", true)) {
-            Stundenplanverwalter sv = new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt");
             StringBuilder builder = new StringBuilder();
             if (gibNaechstenWochentag() <= 5) {
-                Fach[] faecher = sv.gibFaecherKurzTag(gibNaechstenWochentag());
-                for (Fach f : faecher) {
-                    builder.append(", ").append(f.gibName());
+                Fach[] faecher = Utils.getStundDB().gewaehlteFaecherAnTag(gibNaechstenWochentag());
+                for (int i = 0; i < faecher.length; i++) {
+                    builder.append(faecher[i].gibName());
+                    if (i < faecher.length - 1)
+                        builder.append(", ");
                 }
 
                 Intent resultIntent = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
@@ -239,7 +240,7 @@ public class NotificationService extends Service {
                         new NotificationCompat.Builder(this)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                                 .setLargeIcon(icon)
-                                .setSmallIcon(R.drawable.qrcode)
+                                .setSmallIcon(R.drawable.ic_event_white_24dp)
                                 .setVibrate(new long[]{200})
                                 .setContentTitle("Deine Stunden morgen:")
                                 .setContentText(builder.toString())

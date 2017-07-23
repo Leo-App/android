@@ -206,7 +206,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             if (halbjahr == 1 && month <4)
                 year++;
             Calendar c = new GregorianCalendar();
-            c.set(year, month - 1, day);//Log.e("date", c.getTime().toString());
+            c.set(year, month - 1, day, 0, 0, 0);//Log.e("date", c.getTime().toString());
             return c.getTime();
         }
         return null;

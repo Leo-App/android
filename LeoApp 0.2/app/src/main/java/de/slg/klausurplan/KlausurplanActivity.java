@@ -251,7 +251,7 @@ public class KlausurplanActivity extends AppCompatActivity {
             public void run() {
                 lvKlausuren.smoothScrollToPositionFromTop(findeNächsteWoche(), 0);
             }
-        }, 50);
+        }, 100);
     }
 
     public void add(Klausur k, boolean refresh) {
@@ -269,15 +269,12 @@ public class KlausurplanActivity extends AppCompatActivity {
         }
     } //fügt Klausuren an der richtigen Stelle in die Klausurliste
 
-    private int findeNächsteKlausur() {
+    private long findeNächsteKlausur() {
         Date heute = new Date();
-        int i = 0;
-        klausurList.toFirst();
-        while (klausurList.hasAccess() && heute.after(klausurList.getContent().datum)) {
-            klausurList.next();
-            i++;
-        }
-        return i;
+        for (klausurList.toFirst(); klausurList.hasAccess() && heute.after(klausurList.getContent().datum); klausurList.next()) ;
+        if (klausurList.hasAccess())
+            return klausurList.getContent().datum.getTime();
+        return -1;
     }
 
     private int findeNächsteWoche() {

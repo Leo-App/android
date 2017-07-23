@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class StundenplanView extends View {
 
@@ -92,20 +93,23 @@ public class StundenplanView extends View {
         bitmapCanvas.drawLine(baseLineX + abstandX * 4, baseLineY, baseLineX + abstandX * 4, bitmapCanvas.getHeight() - baseLineY, p1);
         bitmapCanvas.drawText(context.getString(R.string.freitag), baseLineX + abstandX * 4 + paddingX, baseLineY + paddingY * 2, p1);
         bitmapCanvas.drawLine(baseLineX, baseline2Y, bitmapCanvas.getWidth() - baseLineX, baseline2Y, p1);
-        Stundenplanverwalter sV = new Stundenplanverwalter(getContext(), "meinefaecher.txt");
+        Fach[][] gewaehlteFaecher = new Fach[5][];
+        for (int i = 0; i < gewaehlteFaecher.length; i++) {
+            gewaehlteFaecher[i] = Utils.getStundDB().gewaehlteFaecherAnTag(i + 1);
+        }
         for (int i = 1; i < 10; i++) {
             int yValue = baseline2Y + (i - 1) * abstandY;
-            Fach[] f = sV.gibFacherSortStunde(i);
-            String[] namen = new String[5];
-            for (Fach aF : f) {
-                namen[aF.gibTag() - 1] = aF.gibName().split(" ")[0];
-                if (aF.gibName().equals("") && !aF.gibNotiz().equals("notiz")) {
-                    namen[aF.gibTag() - 1] = aF.gibNotiz().split(" ")[0];
-                }
-            }
-            for (int m = 0; m < namen.length; m++) {
-                if (namen[m] != null) {
-                    bitmapCanvas.drawText(namen[m], baseLineX + abstandX * m + paddingX, yValue + paddingY * 2, p1);
+            for (int j = 0; j < 5; j++) {
+                Fach[] tag = gewaehlteFaecher[j];
+                if (i - 1 < tag.length) {
+                    Fach f = tag[i - 1];
+                    String text;
+                    if (f.gibName().equals("") && !f.gibNotiz().equals("")) {
+                        text = f.gibNotiz().split(" ")[0];
+                    } else {
+                        text = f.gibName().split(" ")[0];
+                    }
+                    bitmapCanvas.drawText(text, baseLineX + abstandX * j + paddingX, yValue + paddingY * 2, p1);
                 }
             }
             bitmapCanvas.drawLine(baseLineX, yValue + abstandY, bitmapCanvas.getWidth() - baseLineX, yValue + abstandY, p1);
