@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.essensqr.SQLiteHandler;
+import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.startseite.MainActivity;
@@ -73,14 +74,14 @@ public class NotificationService extends Service {
         public void run() {
             running = true;
             icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
-            stimmungsbarometernotification();
             while (running) {
-                klausurplanNotification();
+                //klausurplanNotification();
                 messengerNotification();
                 nachhilfeNotification();
                 schwarzesBrettNotification();
+                stimmungsbarometernotification();
                 vertretungsplanNotification();
-                someLoopStuff();
+                someLoopStuff(); // Enthält Essensqr und Stundenplan Notification
             }
         }
     }
@@ -178,7 +179,27 @@ public class NotificationService extends Service {
 
     private void klausurplanNotification() {
         if (Start.pref.getBoolean("pref_key_notification_test", true)) {
-//          TODO
+            Intent resultIntent = new Intent(getApplicationContext(), KlausurplanActivity.class);
+
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            this,
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(getApplicationContext())
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setLargeIcon(icon)
+                            .setSmallIcon(R.drawable.ic_content_paste_white_24dp)
+                            .setVibrate(new long[]{200})
+                            .setContentTitle("Klausurplan")
+                            .setContentText("Hallo")
+                            .setContentIntent(resultPendingIntent);
+
+            notificationManager.notify(777, mBuilder.build());
         }
     }
 

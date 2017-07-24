@@ -16,7 +16,7 @@ import de.slg.leoapp.Utils;
 public class StundenplanView extends View {
 
     private final Context context;
-    private Bitmap bitmap;
+    Bitmap bitmap;
     private final Canvas bitmapCanvas;
     private boolean isInitialized;
     private final Paint paint;

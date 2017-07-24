@@ -236,5 +236,7 @@
     <string name="yesterday">Hier</string>
     <string name="today">Aujourd\'hui</string>
     <string name="drawer_placeholder_grade">Q1</string>
-    <string name="drawer_placeholder_name">giaspi270700</string>
+    <string name="drawer_placeholder_name">Nom d\'utilisateur</string>
+    <string name="help">Aide</string>
+    <string name="yourTimeTable">Ton Stündenplanöh</string>
 </resources>

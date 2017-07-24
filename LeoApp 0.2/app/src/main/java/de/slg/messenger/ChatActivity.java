@@ -83,6 +83,7 @@ public class ChatActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), ChatEditActivity.class));
         } else if (item.getItemId() == R.id.action_delete) {
             deleteSelectedMessages();
+            delete.setVisible(false);
         }
         return true;
     }

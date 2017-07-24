@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -31,6 +32,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -100,6 +102,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         verify = (Button) findViewById(R.id.buttonCardView0);
         pb = (ProgressBar) findViewById(R.id.progressBar1);
         v = findViewById(R.id.coordinator);
+        ImageButton help = (ImageButton) findViewById(R.id.help);
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri webpage = Uri.parse("https://www.google.de");
+                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+
+            }
+        });
 
         int id = Utils.getUserID();
         boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
