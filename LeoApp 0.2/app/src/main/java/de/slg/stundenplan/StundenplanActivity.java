@@ -1,17 +1,22 @@
 package de.slg.stundenplan;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -86,7 +91,7 @@ public class StundenplanActivity extends AppCompatActivity {
             try {
                 new File(getDirectory()).mkdirs();
 
-                File image = new File(getDirectory() + getFilename());
+                final File image = new File(getDirectory() + getFilename());
                 image.createNewFile();
 
                 FileOutputStream outputStream = new FileOutputStream(image);
@@ -94,7 +99,19 @@ public class StundenplanActivity extends AppCompatActivity {
 
                 outputStream.close();
 
-                Toast.makeText(getApplicationContext(), "Saved as " + getFilename(), Toast.LENGTH_LONG).show();
+                final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), "Saved as " + getFilename(), Snackbar.LENGTH_LONG);
+                snackbar.setAction("Open", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.fromFile(image), "image/jpeg");
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                    }
+                });
+                snackbar.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
