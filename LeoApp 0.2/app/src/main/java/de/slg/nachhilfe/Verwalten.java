@@ -43,7 +43,7 @@ public class Verwalten extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem mi) {
 
-        if(mi.getItemId() == R.id.Akktion1) {
+        if(mi.getItemId() == R.id.action_clear) {
 
             Intent intent = new Intent(this, NachhilfeboerseActivity.class);
             startActivity(intent);

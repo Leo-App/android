@@ -13,5 +13,4 @@
         android:icon="@drawable/ic_done_white_24dp"
         android:title="@string/set_changes"
         app:showAsAction="ifRoom"/>
-
 </menu>

@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/Action3"
-        android:title="Item"
-        app:showAsAction="always"
         android:icon="@drawable/ic_content_paste_white_24dp"
-        />
+        android:title="Item"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/Action2"
-        android:title="Item"
-        app:showAsAction="always"
         android:icon="@drawable/ic_refresh_white_24dp"
-        />
+        android:title="Item"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/Action1"
-        app:showAsAction="always"
         android:icon="@drawable/ic_add_white_24dp"
         android:title="Item"
-        />
+        app:showAsAction="ifRoom" />
 </menu>

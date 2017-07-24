@@ -47,6 +47,28 @@ public class AuswahlActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.stundenplan_auswahl, this.menu);
+        MenuItem menuItem = this.menu.findItem(R.id.action_speichern);
+        menuItem.setVisible(false);
+        menuItem.setEnabled(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem mi) {
+        if (mi.getItemId() == R.id.action_speichern) {
+            db.loescheWahlen();
+            for (int id : adapter.gibMarkierteIds()) {
+                db.waehleFach(id);
+            }
+        }
+        finish();
+        return true;
+    }
+
     private void initToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
@@ -127,30 +149,5 @@ public class AuswahlActivity extends AppCompatActivity {
             Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes, Snackbar.LENGTH_SHORT);
             snack.show();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu = menu;
-        getMenuInflater().inflate(R.menu.stundenplan_auswahl, this.menu);
-        MenuItem menuItem = this.menu.findItem(R.id.action_speichern);
-        menuItem.setVisible(false);
-        menuItem.setEnabled(false);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == R.id.action_speichern) {
-            db.loescheWahlen();
-            for (int id : adapter.gibMarkierteIds()) {
-                db.waehleFach(id);
-            }
-        } else if (mi.getItemId() == R.id.action_refresh) {
-            deleteFile("allefaecher.txt");
-            startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
-        }
-        finish();
-        return true;
     }
 }

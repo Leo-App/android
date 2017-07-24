@@ -301,6 +301,20 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 return Utils.checkNetwork();
             }
         });
+
+        Preference email = findPreference("pref_key_email");
+        email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"email@maildomain.de"});
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+                return true;
+            }
+        });
     }
 
     private void initToolbar() {

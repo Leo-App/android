@@ -6,11 +6,9 @@
         android:icon="@drawable/ic_info_outline_white_24dp"
         android:title="@string/toolbar_name_info"
         app:showAsAction="never"/>
-
     <item
         android:id="@+id/action_appedit"
         android:icon="@drawable/ic_info_outline_white_24dp"
         android:title="@string/cards_customize"
         app:showAsAction="never"/>
-
 </menu>

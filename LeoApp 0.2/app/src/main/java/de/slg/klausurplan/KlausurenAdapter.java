@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.Date;
-
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 

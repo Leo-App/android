@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_action_refresh"
-        android:title="@string/toolbar_name_info"
         android:icon="@drawable/ic_refresh_white_24dp"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/toolbar_name_info"
+        app:showAsAction="ifRoom" />
 </menu>

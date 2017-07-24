@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/action_refresh"
-        android:icon="@drawable/ic_refresh_white_24dp"
-        android:title="@string/laden_name"
-        app:showAsAction="ifRoom">
-        <!-- Was ist wenn nicht drin? Dann sind die drei Punkte schwarz...-->
-    </item>
-
     <item
         android:id="@+id/action_speichern"
         android:icon="@drawable/ic_done_white_24dp"
         android:title="@string/speichern"
-        app:showAsAction="always">
+        app:showAsAction="ifRoom">
     </item>
-
 </menu>

@@ -292,6 +292,7 @@
         android:title="@string/settings_category_info">
 
         <Preference
+            android:key="pref_key_email"
             android:summary="@string/settings_summary_contact"
             android:title="@string/settings_title_contact" />
 

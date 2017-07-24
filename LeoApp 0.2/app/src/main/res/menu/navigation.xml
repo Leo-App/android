@@ -41,14 +41,13 @@
             android:checked="false"
             android:icon="@drawable/ic_event_white_24dp"
             android:title="@string/title_plan" />
-
         <item
             android:id="@+id/vertretung"
             android:checked="false"
             android:icon="@drawable/ic_account_switch"
             android:title="@string/title_subst" />
-
     </group>
+
     <group android:checkableBehavior="single" android:id="@+id/nav1">
         <item
             android:id="@+id/settings"
