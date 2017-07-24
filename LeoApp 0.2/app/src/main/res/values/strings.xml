@@ -247,5 +247,6 @@
     <string name="tutoring_title_new">New announcement</string>
     <string name="help">Help</string>
     <string name="yourTimeTable">Your Timetable</string>
+    <string name="snackbar_select">Select</string>
 
 </resources>

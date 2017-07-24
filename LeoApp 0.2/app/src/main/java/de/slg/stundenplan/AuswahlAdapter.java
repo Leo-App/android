@@ -38,38 +38,39 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
         if (view == null) {
             LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = layoutInflater.inflate(R.layout.list_item_kurs, null);
-        }
-        Fach current = fachArray[position];
+            view.setEnabled(true);
 
-        view.setEnabled(true);
-        TextView tvFach = (TextView) view.findViewById(R.id.fach_auswahl);
-        TextView tvKuerzel = (TextView) view.findViewById(R.id.kürzel_auswahl);
-        TextView tvLehrer = (TextView) view.findViewById(R.id.lehrer_auswahl);
+            TextView tvFach = (TextView) view.findViewById(R.id.fach_auswahl);
+            TextView tvKuerzel = (TextView) view.findViewById(R.id.kürzel_auswahl);
+            TextView tvLehrer = (TextView) view.findViewById(R.id.lehrer_auswahl);
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
 
-        tvFach.setText(current.gibName());
-        tvKuerzel.setText(current.gibKurz());
-        tvLehrer.setText(current.gibLehrer());
+            Fach current = fachArray[position];
 
-        CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-        checkBox.setChecked(db.istGewaehlt(current.id));
+            tvFach.setText(current.gibName());
+            tvKuerzel.setText(current.gibKurz());
+            tvLehrer.setText(current.gibLehrer());
 
-        if (checkBox.isChecked()) {
-            ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
-            double[] stunden = db.gibStunden(current.id);
-            for (double d : stunden) {
-                ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
+            checkBox.setChecked(db.istGewaehlt(current.id));
+
+            if (checkBox.isChecked()) {
+                ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
+                double[] stunden = db.gibStunden(current.id);
+                for (double d : stunden) {
+                    ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
+                }
+                tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2))) {
+                view.setEnabled(false);
+                tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+                tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+                tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
             }
-            tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-            tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-            tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-        } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2))) {
-            view.setEnabled(false);
-            tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
-            tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
-            tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+            cbs[position] = checkBox;
+            views[position] = view;
         }
-        cbs[position] = checkBox;
-        views[position] = view;
         return view;
     }
 
@@ -124,7 +125,7 @@ class AuswahlAdapter extends ArrayAdapter<Fach> {
         return ids;
     }
 
-    boolean toggleCheck(int position) {
+    boolean toggleCheckBox(int position) {
         if (cbs[position] != null) {
             cbs[position].setChecked(!cbs[position].isChecked());
             return cbs[position].isChecked();

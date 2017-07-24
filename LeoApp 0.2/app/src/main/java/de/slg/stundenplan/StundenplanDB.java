@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import de.slg.leoapp.R;
@@ -85,7 +86,11 @@ public class StundenplanDB extends SQLiteOpenHelper {
         values.put(FACH_ID, fid);
         values.put(STUNDEN_TAG, tag);
         values.put(STUNDEN_STUNDE, stunde);
-        database.insert(TABLE_STUNDEN, null, values);
+        try {
+            database.insert(TABLE_STUNDEN, null, values);
+        } catch (SQLiteException ignored) {
+
+        }
     }
 
     void waehleFach(int fid) {

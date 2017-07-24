@@ -2,6 +2,7 @@ package de.slg.stundenplan;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,6 +27,7 @@ class FachImporter extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         if (Utils.checkNetwork()) {
+            Log.e("FachImporter", "started");
             try {
                 InputStream inputStream =
                         new URL("http://moritz.liegmanns.de/testdaten.txt")
@@ -70,6 +72,7 @@ class FachImporter extends AsyncTask<Void, Void, Void> {
                 }
                 writer.close();
                 reader.close();
+                Log.e("FachImporter", "done!");
             } catch (IOException e) {
                 e.printStackTrace();
             }

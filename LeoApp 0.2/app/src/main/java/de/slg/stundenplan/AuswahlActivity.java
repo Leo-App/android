@@ -13,11 +13,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.concurrent.ExecutionException;
 
+import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
@@ -34,7 +32,7 @@ public class AuswahlActivity extends AppCompatActivity {
 
         String stufe = Utils.getUserStufe();
 
-        if (!fileExistiert() && stufe != null) {
+        if (!stufe.equals("")) {
             importer = new FachImporter(getApplicationContext(), stufe);
             importer.execute();
         }
@@ -42,10 +40,9 @@ public class AuswahlActivity extends AppCompatActivity {
         initToolbar();
 
         if (stufe.equals("")) {
-            Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes2, Snackbar.LENGTH_SHORT).show();
-//            TODO: Button zu den Einstellungen
+            initSnackbarNoGrade();
         } else {
-            initSV();
+            initDB();
             initListView();
         }
     }
@@ -68,7 +65,7 @@ public class AuswahlActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (view.isEnabled()) {
-                    boolean checked = adapter.toggleCheck(position);
+                    boolean checked = adapter.toggleCheckBox(position);
                     Fach f = adapter.fachArray[position];
                     double[] stunden = db.gibStunden(f.id);
                     for (double d : stunden) {
@@ -92,6 +89,18 @@ public class AuswahlActivity extends AppCompatActivity {
         }, 100);
     }
 
+    private void initSnackbarNoGrade() {
+        final Snackbar snackbar = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes2, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(getString(R.string.snackbar_select), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+                startActivity(new Intent(getApplicationContext(), PreferenceActivity.class));
+            }
+        });
+        snackbar.show();
+    }
+
     private void refresh() {
         adapter.refresh();
         int anzahl = adapter.gibAnzahlAusgewaehlte();
@@ -106,7 +115,7 @@ public class AuswahlActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(anzahl + " Kurse ausgewählt");
     }
 
-    private void initSV() {
+    private void initDB() {
         db = Utils.getStundDB();
         try {
             if (importer != null)
@@ -144,19 +153,5 @@ public class AuswahlActivity extends AppCompatActivity {
         }
         finish();
         return true;
-    }
-
-    private boolean fileExistiert() {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("allefaecher.txt")));
-            if (reader.readLine() != null) {
-                reader.close();
-                return true;
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 }
