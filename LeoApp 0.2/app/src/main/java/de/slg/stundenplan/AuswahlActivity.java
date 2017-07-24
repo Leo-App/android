@@ -32,13 +32,7 @@ public class AuswahlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auswahl);
 
-<<<<<<< HEAD
-        SharedPreferences shaPre = getSharedPreferences("", MODE_PRIVATE); //Ach, hier ist der Fehler TODO: 27.05.2017
-        String stufe = shaPre.getString("pref_key_level_general", null);
-        stufe = "Q1"; //Nur solange wie oben noch der Name fehlt....
-=======
         String stufe = Utils.getUserStufe();
->>>>>>> b818f2b420c437c2b4ca1c6a0ce23d9c25dcff4a
 
         if (!fileExistiert() && stufe != null) {
             importer = new FachImporter(getApplicationContext(), stufe);

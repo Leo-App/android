@@ -25,6 +25,7 @@ import de.slg.essensqr.SQLiteHandler;
 import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.startseite.MainActivity;
+import de.slg.stimmungsbarometer.AbstimmActivity;
 import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.Stundenplanverwalter;
 import de.slg.stundenplan.WrapperStundenplanActivity;
@@ -72,6 +73,7 @@ public class NotificationService extends Service {
         public void run() {
             running = true;
             icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
+            stimmungsbarometernotification();
             while (running) {
                 klausurplanNotification();
                 messengerNotification();
@@ -212,6 +214,32 @@ public class NotificationService extends Service {
     private void schwarzesBrettNotification() {
         if (Start.pref.getBoolean("pref_key_notification_news", true)) {
 //          TODO
+        }
+    }
+
+    private void stimmungsbarometernotification() {
+        if (Start.pref.getBoolean("pref_key_notification_survey", false) && Utils.showVoteOnStartup()) {
+            Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class);
+
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            getApplicationContext(),
+                            0,
+                            resultIntent,
+                            0
+                    );
+
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(this)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setLargeIcon(icon)
+                            .setSmallIcon(R.drawable.ic_insert_emoticon_white_24dp)
+                            .setVibrate(new long[]{200})
+                            .setContentTitle("Du hast noch nicht abgestimmt!")
+                            .setContentText("Jetzt abstimmen")
+                            .setContentIntent(resultPendingIntent);
+
+            notificationManager.notify(234, mBuilder.build());
         }
     }
 

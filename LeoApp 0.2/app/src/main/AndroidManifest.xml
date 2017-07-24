@@ -69,6 +69,10 @@
         <activity
             android:name="de.slg.stimmungsbarometer.StimmungsbarometerActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.stimmungsbarometer.AbstimmActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TransparentTheme" />
 
         <activity
             android:name="de.slg.klausurplan.KlausurActivity"
