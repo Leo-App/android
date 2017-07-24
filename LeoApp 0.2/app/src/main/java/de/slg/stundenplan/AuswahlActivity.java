@@ -146,7 +146,6 @@ public class AuswahlActivity extends AppCompatActivity {
             for (int id : adapter.gibMarkierteIds()) {
                 db.waehleFach(id);
             }
-            new Stundenplanverwalter(getApplicationContext(), "allefaecher.txt").inTextDatei(Utils.getStundDB().getGewaehlteFaecher());
         } else if (mi.getItemId() == R.id.action_refresh) {
             deleteFile("allefaecher.txt");
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));

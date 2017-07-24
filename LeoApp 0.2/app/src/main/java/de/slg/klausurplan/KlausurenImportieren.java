@@ -2,7 +2,6 @@ package de.slg.klausurplan;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -18,8 +17,6 @@ import java.util.GregorianCalendar;
 import de.slg.leoapp.List;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
-import de.slg.stundenplan.Fach;
-import de.slg.stundenplan.Stundenplanverwalter;
 
 class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
@@ -27,11 +24,13 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     private final Context context;
     private int year, halbjahr;
     private List<Klausur> listeMitHeruntergeladenenKlausuren;
-    private List<String> kuerzelStundenplan;
+    private boolean filtern;
+    private String[] schriflich;
 
     KlausurenImportieren(Context context) {
         this.context = context;
-        this.kuerzelStundenplan = null;
+        this.schriflich = Utils.getStundDB().gibSchriftlicheFaecherStrings();
+        filtern = Start.pref.getBoolean("pref_key_test_timetable_sync", false);
     }
 
     @Override
@@ -125,10 +124,8 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             List<String> klausurenAusZeile = getKlausurStrings(c, stufe); //sucht in der zeile nach Klausuren
 
             for (klausurenAusZeile.toFirst(); klausurenAusZeile.hasAccess(); klausurenAusZeile.next())
-                //Log.e("klausurenAusZeile", klausurenAusZeile.getContent());
-                if (datum != null && istImStundenplan(klausurenAusZeile.getContent().replace('_', ' '), Start.pref.getBoolean("pref_key_test_timetable_sync", false)))
+                if (datum != null && istImStundenplan(klausurenAusZeile.getContent().replace('_', ' ')))
                     listeMitHeruntergeladenenKlausuren.append(new Klausur(klausurenAusZeile.getContent().replace('_', ' '), datum, null, null)); //neue Klausuren(in der Zeile enthaltenes Datum, gefundene Klausuren (Kürzel)) werden angehängt
-
         }
     }
 
@@ -203,7 +200,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             int day = Integer.parseInt(parts[0]); //Log.e("date", ""+day);
             int month = Integer.parseInt(parts[1]);// Log.e("date", ""+month);
             int year = Integer.parseInt(parts[2]);// Log.e("date", ""+year);
-            if (halbjahr == 1 && month <4)
+            if (halbjahr == 1 && month < 4)
                 year++;
             Calendar c = new GregorianCalendar();
             c.set(year, month - 1, day, 0, 0, 0);//Log.e("date", c.getTime().toString());
@@ -212,36 +209,11 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
         return null;
     }
 
-    private boolean istImStundenplan(String klausur, boolean nachKlausurplanFiltern) {
-        if (nachKlausurplanFiltern) {
-            if (kuerzelStundenplan == null) {
-                Stundenplanverwalter verwalter = new Stundenplanverwalter(context, "meinefaecher.txt");
-                Fach[] arrayFach = verwalter.gibFaecherKuerzel();
-                kuerzelStundenplan = new List<>();
-                for (Fach anArrayFach : arrayFach) {
-                    if (anArrayFach.gibSchriftlich()) {
-                        String kuerzel = anArrayFach.gibKurz();
-                        String lehrer = anArrayFach.gibLehrer();
-
-                        String teil1 = kuerzel.substring(0, 2);
-                        String teil2 = kuerzel.substring(2, 4);
-                        if (teil1.charAt(1) != ' ')
-                            teil1 += ' ';
-                        if (teil2.charAt(0) == 'L')
-                            teil2 = "L";
-                        kuerzel = teil1 + teil2;
-
-                        kuerzel = kuerzel + " " + lehrer + " " + Utils.getUserStufe();
-                        kuerzelStundenplan.append(kuerzel);
-                    }
-                }
-            }
-
-            for (kuerzelStundenplan.toFirst(); kuerzelStundenplan.hasAccess(); kuerzelStundenplan.next()) {
-                Log.e("Tag", "" + klausur + " = " + kuerzelStundenplan.getContent());
-                if (klausur.equals(kuerzelStundenplan.getContent())) {
+    private boolean istImStundenplan(String klausur) {
+        if (filtern) {
+            for (String s : schriflich) {
+                if (klausur.equals(s))
                     return true;
-                }
             }
             return false;
         }

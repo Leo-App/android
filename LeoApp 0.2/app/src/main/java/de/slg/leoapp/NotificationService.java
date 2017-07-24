@@ -13,7 +13,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +27,6 @@ import de.slg.messenger.OverviewWrapper;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.AbstimmActivity;
 import de.slg.stundenplan.Fach;
-import de.slg.stundenplan.Stundenplanverwalter;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 
 public class NotificationService extends Service {

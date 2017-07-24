@@ -85,8 +85,6 @@ public class SPDetailsActivity extends AppCompatActivity {
             }
             fach.setzeNotiz(notiz);
             Utils.getStundDB().setzeNotiz(notiz, fach.id);
-            new Stundenplanverwalter(getApplicationContext(), "meinefaecher.txt")
-                    .inTextDatei(Utils.getStundDB().getGewaehlteFaecher());
         }
         finish();
         return true;

@@ -438,4 +438,34 @@ public class StundenplanDB extends SQLiteOpenHelper {
         cursor.close();
         return array;
     }
+
+    public String[] gibSchriftlicheFaecherStrings() {
+        String table = TABLE_FACHER + ", " + TABLE_GEWAHLT;
+        String[] columns = {FACH_KURZEL, FACH_LEHRER};
+        String selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_GEWAHLT + "." + FACH_ID + " AND " + GEWAHLT_SCHRIFTLICH + " = 1";
+        Cursor cursor = database.query(table, columns, selection, null, null, null, null);
+        String[] faecher = null;
+        if (cursor.getCount() > 0) {
+            faecher = new String[cursor.getCount()];
+            String stufe = Utils.getUserStufe();
+            cursor.moveToFirst();
+            for (int i = 0; !cursor.isAfterLast(); cursor.moveToNext(), i++) {
+                String kuerzel = cursor.getString(0);
+                String lehrer = cursor.getString(1);
+
+                String teil1 = kuerzel.substring(0, 2);
+                String teil2 = kuerzel.substring(2, 4);
+                if (teil1.charAt(1) != ' ')
+                    teil1 += ' ';
+                if (teil2.charAt(0) == 'L')
+                    teil2 = "L";
+                kuerzel = teil1 + teil2;
+
+                kuerzel = kuerzel + " " + lehrer + " " + stufe;
+                faecher[i] = kuerzel;
+            }
+        }
+        cursor.close();
+        return faecher;
+    }
 }
