@@ -93,7 +93,7 @@
             android:name="de.slg.stundenplan.StundenplanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.stundenplan.SPDetailsActivity"
+            android:name="de.slg.stundenplan.DetailsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="de.slg.stundenplan.AuswahlActivity"

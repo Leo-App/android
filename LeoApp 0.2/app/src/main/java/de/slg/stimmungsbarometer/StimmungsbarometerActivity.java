@@ -40,7 +40,6 @@ import de.slg.stundenplan.WrapperStundenplanActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
 public class StimmungsbarometerActivity extends AppCompatActivity {
-
     private DrawerLayout drawerLayout;
     private ZeitraumFragment[] fragments;
 
@@ -52,13 +51,23 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stimmungsbarometer);
 
-        daten = new Ergebnis[4][0];
-        new EmpfangeDaten().execute();
-
-        initToolbar();
-        initTabs();
-        initNavigationView();
-        initLayouts();
+        if (daten == null) {
+            daten = new Ergebnis[4][0];
+            new EmpfangeDaten().execute();
+            initToolbar();
+            initTabs();
+            initNavigationView();
+            initLayouts();
+        } else {
+            initToolbar();
+            initTabs();
+            initNavigationView();
+            initLayouts();
+            for (ZeitraumFragment fragment : fragments) {
+                fragment.fillData();
+                fragment.update();
+            }
+        }
     }
 
     @Override
@@ -142,10 +151,8 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     }
 
     private void updateFragments() {
-        fragments[0].update();
-        fragments[1].update();
-        fragments[2].update();
-        fragments[3].update();
+        for (ZeitraumFragment fragment : fragments)
+            fragment.update();
     }
 
     private void initTabs() {

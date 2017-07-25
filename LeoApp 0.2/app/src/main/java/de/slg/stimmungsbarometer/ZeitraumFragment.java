@@ -27,6 +27,9 @@ public class ZeitraumFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
+        if (data == null) {
+            data = new Ergebnis[4][0];
+        }
         view = new StatistikView(getContext());
         return view;
     }
