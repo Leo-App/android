@@ -14,7 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,10 +25,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -51,11 +46,9 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!this.fileExistiert()) {
-            Log.e("Luzzzia", "Meine Fächer existiert nicht");
+        if (!Utils.getStundDB().hatGewaehlt()) {
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
-        } else
-            Log.e("Luzzzia", "Meine Fächer existiert");
+        }
 
         setContentView(R.layout.activity_wrapper_stundenplan);
 
@@ -200,20 +193,6 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
-    }
-
-    private boolean fileExistiert() {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("meinefaecher.txt")));
-            if (br.readLine() != null) {
-                br.close();
-                return true;
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     public static class WochentagFragment extends Fragment {

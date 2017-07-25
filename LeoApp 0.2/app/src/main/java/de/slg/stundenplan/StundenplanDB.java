@@ -468,4 +468,11 @@ public class StundenplanDB extends SQLiteOpenHelper {
         cursor.close();
         return faecher;
     }
+
+    boolean hatGewaehlt() {
+        Cursor cursor = database.query(TABLE_GEWAHLT, new String[]{FACH_ID}, null, null, null, null, null);
+        boolean b = cursor.getCount() > 0;
+        cursor.close();
+        return b;
+    }
 }
