@@ -26,8 +26,8 @@ public class StundenplanDB extends SQLiteOpenHelper {
     private static final String GEWAHLT_SCHRIFTLICH = "gschriftlich";
     private static final String GEWAHLT_NOTIZ = "gnotiz";
 
-    private SQLiteDatabase database;
-    private Context context;
+    private final SQLiteDatabase database;
+    private final Context context;
 
     public StundenplanDB(Context context, int version) {
         super(context, DATABASE_NAME, null, version);
@@ -125,7 +125,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         Fach[] faecher = new Fach[cursor.getCount()];
         int i = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
-            faecher[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getInt(6), cursor.getInt(7), context);
+            faecher[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getInt(6), cursor.getInt(7));
         }
         cursor.close();
         return faecher;
@@ -149,13 +149,13 @@ public class StundenplanDB extends SQLiteOpenHelper {
             cursor.moveToLast();
             faecher = new Fach[cursor.getInt(6)];
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                faecher[cursor.getInt(6) - 1] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), tag, cursor.getInt(6), context);
+                faecher[cursor.getInt(6) - 1] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), tag, cursor.getInt(6));
                 faecher[cursor.getInt(6) - 1].setzeNotiz(cursor.getString(8));
                 faecher[cursor.getInt(6) - 1].setzeSchriftlich(cursor.getInt(7) == 1);
             }
             for (int i = 0; i < faecher.length; i++) {
                 if (faecher[i] == null)
-                    faecher[i] = new Fach(0, "", "", "", "", tag, i + 1, context);
+                    faecher[i] = new Fach(0, "", "", "", "", tag, i + 1);
             }
         }
         cursor.close();
@@ -187,7 +187,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
                     cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""),
                     cursor.getString(4),
                     cursor.getString(5),
-                    tag, stunde, context);
+                    tag, stunde);
             f.setzeNotiz(cursor.getString(9));
             f.setzeSchriftlich(cursor.getInt(8) == 1);
         }
@@ -242,17 +242,6 @@ public class StundenplanDB extends SQLiteOpenHelper {
             default:
                 return kuerzel;
         }
-    }
-
-    int idVonKuerzel(String kuerzel) {
-        Cursor cursor = database.query(TABLE_FACHER, new String[]{FACH_ID}, FACH_KURZEL + " = '" + kuerzel + "'", null, null, null, null);
-        int fid = 0;
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            fid = cursor.getInt(0);
-        }
-        cursor.close();
-        return fid;
     }
 
     String gibZeiten(Fach f) {
@@ -346,28 +335,27 @@ public class StundenplanDB extends SQLiteOpenHelper {
         }
     }
 
-    int freistunde(int tag, int stunde) {
+    void freistunde(int tag, int stunde) {
         Fach prev = getFach(tag, stunde);
-        if (prev != null)
-            return prev.id;
-        ContentValues values = new ContentValues();
-        values.put(FACH_NAME, "");
-        values.put(FACH_ART, "FREI");
-        values.put(FACH_RAUM, "");
-        values.put(FACH_LEHRER, "");
-        values.put(FACH_KURZEL, "FREI");
-        int fid = (int) database.insert(TABLE_FACHER, null, values);
-        values.clear();
-        values.put(FACH_ID, fid);
-        values.put(STUNDEN_TAG, tag);
-        values.put(STUNDEN_STUNDE, stunde);
-        database.insert(TABLE_STUNDEN, null, values);
-        values.clear();
-        values.put(FACH_ID, fid);
-        values.put(GEWAHLT_NOTIZ, "");
-        values.put(GEWAHLT_SCHRIFTLICH, 0);
-        database.insert(TABLE_GEWAHLT, null, values);
-        return fid;
+        if (prev == null) {
+            ContentValues values = new ContentValues();
+            values.put(FACH_NAME, "");
+            values.put(FACH_ART, "FREI");
+            values.put(FACH_RAUM, "");
+            values.put(FACH_LEHRER, "");
+            values.put(FACH_KURZEL, "FREI");
+            int fid = (int) database.insert(TABLE_FACHER, null, values);
+            values.clear();
+            values.put(FACH_ID, fid);
+            values.put(STUNDEN_TAG, tag);
+            values.put(STUNDEN_STUNDE, stunde);
+            database.insert(TABLE_STUNDEN, null, values);
+            values.clear();
+            values.put(FACH_ID, fid);
+            values.put(GEWAHLT_NOTIZ, "");
+            values.put(GEWAHLT_SCHRIFTLICH, 0);
+            database.insert(TABLE_GEWAHLT, null, values);
+        }
     }
 
     void deleteFreistunde(int tag, int stunde) {
@@ -383,32 +371,6 @@ public class StundenplanDB extends SQLiteOpenHelper {
         } else {
             cursor.close();
         }
-    }
-
-    Fach[] getGewaehlteFaecher() {
-        Fach[] mon = Utils.getStundDB().gewaehlteFaecherAnTag(1),
-                die = Utils.getStundDB().gewaehlteFaecherAnTag(2),
-                mit = Utils.getStundDB().gewaehlteFaecherAnTag(3),
-                don = Utils.getStundDB().gewaehlteFaecherAnTag(4),
-                fre = Utils.getStundDB().gewaehlteFaecherAnTag(5);
-        Fach[] alle = new Fach[mon.length + die.length + mit.length + don.length + fre.length];
-        int i = 0;
-        for (int iMo = 0; iMo < mon.length; iMo++, i++) {
-            alle[i] = mon[iMo];
-        }
-        for (int iDi = 0; iDi < die.length; iDi++, i++) {
-            alle[i] = die[iDi];
-        }
-        for (int iMi = 0; iMi < mit.length; iMi++, i++) {
-            alle[i] = mit[iMi];
-        }
-        for (int iDo = 0; iDo < don.length; iDo++, i++) {
-            alle[i] = don[iDo];
-        }
-        for (int iFr = 0; iFr < fre.length; iFr++, i++) {
-            alle[i] = fre[iFr];
-        }
-        return alle;
     }
 
     boolean mussSchriftlich(int fid) {

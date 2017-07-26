@@ -20,12 +20,12 @@ import de.slg.leoapp.Utils;
 
 class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
-    private BufferedReader reader;
     private final Context context;
+    private final boolean filtern;
+    private final String[] schriflich;
+    private BufferedReader reader;
     private int year, halbjahr;
     private List<Klausur> listeMitHeruntergeladenenKlausuren;
-    private boolean filtern;
-    private String[] schriflich;
 
     KlausurenImportieren(Context context) {
         this.context = context;

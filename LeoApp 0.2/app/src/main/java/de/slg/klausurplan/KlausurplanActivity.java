@@ -213,7 +213,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                 snackbar.dismiss();
             }
         });
-        snackbar.setCallback(new Snackbar.Callback() {
+        snackbar.addCallback(new Snackbar.Callback() {
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
                 super.onDismissed(snackbar, event);

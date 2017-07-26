@@ -14,12 +14,34 @@ import java.net.URL;
 
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
-import de.slg.messenger.DBConnection;
 import de.slg.messenger.Message;
 
 public class ReceiveService extends Service {
-    private boolean running, receive;
     private static long interval;
+    private boolean running, receive;
+
+    private static long getInterval(int selection) {
+        switch (selection) {
+            case 0:
+                return 5000;
+            case 1:
+                return 10000;
+            case 3:
+                return 30000;
+            case 4:
+                return 60000;
+            case 5:
+                return 120000;
+            case 6:
+                return 300000;
+            default:
+                return 15000;
+        }
+    }
+
+    public static void setInterval(int selection) {
+        interval = getInterval(selection);
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -52,31 +74,12 @@ public class ReceiveService extends Service {
         super.onTaskRemoved(rootIntent);
     }
 
-    private static long getInterval(int selection) {
-        switch (selection) {
-            case 0:
-                return 5000;
-            case 1:
-                return 10000;
-            case 3:
-                return 30000;
-            case 4:
-                return 60000;
-            case 5:
-                return 120000;
-            case 6:
-                return 300000;
-            default:
-                return 15000;
-        }
-    }
-
-    public static void setInterval(int selection) {
-        interval = getInterval(selection);
-    }
-
     public void receive() {
         receive = true;
+    }
+
+    private enum Operator {
+        Nachricht, Chat, Benutzer, Assoziation
     }
 
     private class LoopThread extends Thread {
@@ -216,7 +219,7 @@ public class ReceiveService extends Service {
                     reader.close();
                     String erg = builder.toString();
                     String[] result = erg.split("_nextAssoziation_");
-                    Utils.getMDB().clearTable(DBConnection.DBHelper.TABLE_ASSOZIATION);
+                    Utils.getMDB().clearTable();
                     for (String s : result) {
                         String[] current = s.split("_;_");
                         if (current.length == 2) {
@@ -280,9 +283,5 @@ public class ReceiveService extends Service {
         private String generateURL(String message, int cid) {
             return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
         }
-    }
-
-    private enum Operator {
-        Nachricht, Chat, Benutzer, Assoziation
     }
 }

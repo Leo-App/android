@@ -72,7 +72,7 @@ public class DBConnection {
     Message[] getMessagesFromChat(int cid) {
         String[] columns = {MESSAGE_ID, MESSAGE_TEXT, MESSAGE_DATE, USER_ID, MESSAGE_READ};
         String condition = CHAT_ID + " = " + cid + " AND " + MESSAGE_DELETED + " = 0";
-        Cursor cursor = query(TABLE_MESSAGES, columns, condition, null, MESSAGE_DATE);
+        Cursor cursor = query(TABLE_MESSAGES, columns, condition, MESSAGE_DATE);
         List<Message> list = new List<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Message m = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cid, cursor.getInt(3), cursor.getInt(4) == 1);
@@ -81,7 +81,7 @@ public class DBConnection {
         }
         cursor.close();
         columns = new String[]{MESSAGE_ID, MESSAGE_TEXT};
-        cursor = query(TABLE_MESSAGES_UNSEND, columns, condition.substring(0, condition.indexOf(" AND")), null, MESSAGE_ID);
+        cursor = query(TABLE_MESSAGES_UNSEND, columns, condition.substring(0, condition.indexOf(" AND")), MESSAGE_ID);
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Message m = new Message(cursor.getInt(0), cursor.getString(1), 0, cid, Utils.getUserID(), false);
             m.setUname(Utils.getUserName());
@@ -98,7 +98,7 @@ public class DBConnection {
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
                 CHAT_MUTE + " = 0";
-        Cursor cursor = query(table, columns, selection, null, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE);
+        Cursor cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
@@ -110,7 +110,7 @@ public class DBConnection {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + USER_ID + " != " + Utils.getUserID(), null, null);
+        Cursor cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + USER_ID + " != " + Utils.getUserID(), null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -122,7 +122,7 @@ public class DBConnection {
         String selection = USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
                 CHAT_MUTE + " = 0";
-        Cursor cursor = query(table, columns, selection, null, MESSAGE_DATE + " DESC");
+        Cursor cursor = query(table, columns, selection, MESSAGE_DATE + " DESC");
         cursor.moveToFirst();
         long l = 0;
         if (cursor.getCount() > 0)
@@ -143,7 +143,7 @@ public class DBConnection {
     }
 
     public Message[] getUnsendMessages() {
-        Cursor cursor = query(TABLE_MESSAGES_UNSEND, new String[]{MESSAGE_ID, MESSAGE_TEXT, CHAT_ID}, null, null, null);
+        Cursor cursor = query(TABLE_MESSAGES_UNSEND, new String[]{MESSAGE_ID, MESSAGE_TEXT, CHAT_ID}, null, null);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
@@ -158,7 +158,7 @@ public class DBConnection {
     }
 
     private boolean contains(Message m) {
-        Cursor cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_ID + " = " + m.mid, null, null);
+        Cursor cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_ID + " = " + m.mid, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -184,7 +184,7 @@ public class DBConnection {
 
     User[] getUsers() {
         String[] columns = {USER_ID, USER_NAME, USER_KLASSE, USER_PERMISSION};
-        Cursor cursor = query(TABLE_USERS, columns, null, null, USER_ID);
+        Cursor cursor = query(TABLE_USERS, columns, null, USER_ID);
         User[] array = new User[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
@@ -197,7 +197,7 @@ public class DBConnection {
     private String getUname(int uid) {
         if (uid == Utils.getUserID())
             return Utils.getUserName();
-        Cursor cursor = query(TABLE_USERS, new String[]{USER_NAME}, USER_ID + " = " + uid, null, null);
+        Cursor cursor = query(TABLE_USERS, new String[]{USER_NAME}, USER_ID + " = " + uid, null);
         String erg = null;
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -208,7 +208,7 @@ public class DBConnection {
     }
 
     private boolean contains(User u) {
-        Cursor cursor = query(TABLE_USERS, new String[]{USER_ID}, USER_ID + " = " + u.uid, null, null);
+        Cursor cursor = query(TABLE_USERS, new String[]{USER_ID}, USER_ID + " = " + u.uid, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -232,7 +232,7 @@ public class DBConnection {
         String selection = null;
         if (!withDeleted)
             selection = CHAT_DELETED + " = 0";
-        Cursor cursor = query(TABLE_CHATS, columns, selection, null, CHAT_ID);
+        Cursor cursor = query(TABLE_CHATS, columns, selection, CHAT_ID);
         List<Chat> list = new List<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             Chat current = new Chat(cursor.getInt(0), cursor.getString(1), cursor.getInt(2) == 1, Chat.Chattype.valueOf(cursor.getString(3).toUpperCase()));
@@ -291,7 +291,7 @@ public class DBConnection {
     }
 
     private boolean contains(Chat c) {
-        Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_ID}, CHAT_ID + " = " + c.cid, null, null);
+        Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_ID}, CHAT_ID + " = " + c.cid, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -332,7 +332,7 @@ public class DBConnection {
     boolean userInChat(int uid, int cid) {
         String[] columns = {USER_ID};
         String condition = CHAT_ID + " = " + cid + " AND " + USER_ID + " = " + uid;
-        Cursor cursor = query(TABLE_ASSOZIATION, columns, condition, null, null);
+        Cursor cursor = query(TABLE_ASSOZIATION, columns, condition, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -348,7 +348,7 @@ public class DBConnection {
         List<User> list = new List<>();
         String[] columns = {TABLE_ASSOZIATION + "." + USER_ID};
         String condition = TABLE_ASSOZIATION + "." + CHAT_ID + " = " + c.cid + " AND " + TABLE_USERS + "." + USER_ID + " = " + TABLE_ASSOZIATION + "." + USER_ID;
-        Cursor cursor = query(TABLE_ASSOZIATION + ", " + TABLE_USERS, columns, condition, null, TABLE_USERS + "." + USER_NAME);
+        Cursor cursor = query(TABLE_ASSOZIATION + ", " + TABLE_USERS, columns, condition, TABLE_USERS + "." + USER_NAME);
         cursor.moveToFirst();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             int current = cursor.getInt(0);
@@ -389,16 +389,16 @@ public class DBConnection {
     }
 
 
-    private Cursor query(String table, String[] columns, String selection, String groupBy, String orderBy) {
-        return database.query(table, columns, selection, null, groupBy, null, orderBy);
+    private Cursor query(String table, String[] columns, String selection, String orderBy) {
+        return database.query(table, columns, selection, null, null, null, orderBy);
     }
 
     private void insert(String table, ContentValues values) {
         database.insert(table, null, values);
     }
 
-    public void clearTable(String table) {
-        database.execSQL("DELETE FROM " + table);
+    public void clearTable() {
+        database.execSQL("DELETE FROM " + DBHelper.TABLE_ASSOZIATION);
     }
 
     public class DBHelper extends SQLiteOpenHelper {
@@ -417,7 +417,7 @@ public class DBConnection {
         static final String CHAT_DELETED = "cdeleted";
         static final String CHAT_MUTE = "cmute";
 
-        public static final String TABLE_ASSOZIATION = "assoziation";
+        static final String TABLE_ASSOZIATION = "assoziation";
 
         static final String TABLE_USERS = "users";
         static final String USER_ID = "uid";

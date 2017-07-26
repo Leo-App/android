@@ -19,10 +19,12 @@ import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 
 public class ZeitraumFragment extends Fragment {
-    int zeitraum, height, width;
+    private static Bitmap bitmapBack;
+    int zeitraum;
+    private int height;
+    private int width;
     private Ergebnis[][] data;
     private StatistikView view;
-    private static Bitmap bitmapBack;
     private Bitmap bitmapIch, bitmapSchueler, bitmapLehrer, bitmapAlle;
 
     @Override

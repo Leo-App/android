@@ -30,15 +30,26 @@ import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 
 public class NotificationService extends Service {
-    private NotificationManager notificationManager;
-    private Bitmap icon;
-
-    private boolean running;
-
     private static short hoursQR;
     private static short minutesQR;
     private static short hoursTT;
     private static short minutesTT;
+    private NotificationManager notificationManager;
+    private Bitmap icon;
+    private int userid;
+    private boolean running;
+
+    public static void actualize() {
+        String time = Start.pref.getString("pref_key_notification_time", "00:00");
+
+        hoursQR = Short.parseShort(time.split(":")[0]);
+        minutesQR = Short.parseShort(time.split(":")[1]);
+
+        String ti = Start.pref.getString("pref_key_notification_time_schedule", "00:00");
+
+        hoursTT = Short.parseShort(ti.split(":")[0]);
+        minutesTT = Short.parseShort(ti.split(":")[1]);
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -46,6 +57,7 @@ public class NotificationService extends Service {
         Start.initPref(getApplicationContext());
 
         notificationManager = Utils.getNotificationManager();
+        userid = Utils.getUserID();
 
         actualize();
 
@@ -65,35 +77,6 @@ public class NotificationService extends Service {
     public void onDestroy() {
         running = false;
         Log.i("NotificationService", "Service stopped!");
-    }
-
-    private class LoopThread extends Thread {
-        @Override
-        public void run() {
-            running = true;
-            icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
-            while (running) {
-                //klausurplanNotification();
-                messengerNotification();
-                nachhilfeNotification();
-                schwarzesBrettNotification();
-                stimmungsbarometernotification();
-                vertretungsplanNotification();
-                someLoopStuff(); // Enthält Essensqr und Stundenplan Notification
-            }
-        }
-    }
-
-    public static void actualize() {
-        String time = Start.pref.getString("pref_key_notification_time", "00:00");
-
-        hoursQR = Short.parseShort(time.split(":")[0]);
-        minutesQR = Short.parseShort(time.split(":")[1]);
-
-        String ti = Start.pref.getString("pref_key_notification_time_schedule", "00:00");
-
-        hoursTT = Short.parseShort(ti.split(":")[0]);
-        minutesTT = Short.parseShort(ti.split(":")[1]);
     }
 
     private void someLoopStuff() {
@@ -238,7 +221,8 @@ public class NotificationService extends Service {
 
     private void stimmungsbarometernotification() {
         if (Start.pref.getBoolean("pref_key_notification_survey", false) && Utils.showVoteOnStartup()) {
-            Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class);
+            Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class)
+                    .putExtra("userid", userid);
 
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
@@ -319,5 +303,22 @@ public class NotificationService extends Service {
         if (i == Calendar.THURSDAY)
             return 5;
         return 6;
+    }
+
+    private class LoopThread extends Thread {
+        @Override
+        public void run() {
+            running = true;
+            icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
+            while (running) {
+                //klausurplanNotification();
+                messengerNotification();
+                nachhilfeNotification();
+                schwarzesBrettNotification();
+                stimmungsbarometernotification();
+                vertretungsplanNotification();
+                someLoopStuff(); // Enthält Essensqr und Stundenplan Notification
+            }
+        }
     }
 }

@@ -4,13 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/listViewChats"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewChats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@android:color/background_light" />
+        android:scrollbars="vertical" />
 
 </RelativeLayout>

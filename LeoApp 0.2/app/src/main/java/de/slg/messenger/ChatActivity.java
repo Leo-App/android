@@ -37,7 +37,6 @@ public class ChatActivity extends AppCompatActivity {
     private boolean hasSelected;
 
     private RecyclerView rvMessages;
-    private int standardBottom;
     private EditText etMessage;
     private ImageButton sendButton;
     private Snackbar snackbar;
@@ -146,7 +145,6 @@ public class ChatActivity extends AppCompatActivity {
         rvMessages.setVisibility(View.INVISIBLE);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         refreshUI(true, true);
-        standardBottom = rvMessages.getBottom();
         rvMessages.setVisibility(View.VISIBLE);
     }
 
@@ -220,19 +218,19 @@ public class ChatActivity extends AppCompatActivity {
         if (refreshMessages) {
             messagesArray = Utils.getMDB().getMessagesFromChat(currentChat.cid);
         }
-        if (messagesArray.length > selected.length) {
+        if (messagesArray.length != selected.length) {
             boolean[] sOld = selected;
             selected = new boolean[messagesArray.length];
             System.arraycopy(sOld, 0, selected, 0, sOld.length);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    rvMessages.swapAdapter(new MessageAdapter(), false);
+                    if (scroll)
+                        rvMessages.scrollToPosition(messagesArray.length - 1);
+                }
+            });
         }
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                rvMessages.swapAdapter(new MessageAdapter(), false);
-                if (scroll)
-                    rvMessages.scrollToPosition(messagesArray.length - 1);
-            }
-        });
     }
 
     private void setHasSelected() {
@@ -250,9 +248,9 @@ public class ChatActivity extends AppCompatActivity {
         for (int i = 0; i < selected.length; i++) {
             if (selected[i]) {
                 Utils.getMDB().deleteMessage(messagesArray[i].mid);
+                selected[i] = false;
             }
         }
-        selected = new boolean[messagesArray.length];
         refreshUI(true, true);
     }
 
@@ -278,6 +276,7 @@ public class ChatActivity extends AppCompatActivity {
         public void onBindViewHolder(ViewHolder holder, int position) {
             Message current = messagesArray[position];
             View v = holder.itemView;
+            v.setVisibility(View.GONE);
             datum = (TextView) v.findViewById(R.id.textViewDate);
             nachricht = (TextView) v.findViewById(R.id.nachricht);
             absender = (TextView) v.findViewById(R.id.absender);
@@ -334,6 +333,7 @@ public class ChatActivity extends AppCompatActivity {
             } else {
                 v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
             }
+            v.setVisibility(View.VISIBLE);
         }
 
         @Override

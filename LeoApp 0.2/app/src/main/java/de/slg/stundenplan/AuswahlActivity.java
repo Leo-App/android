@@ -171,11 +171,11 @@ public class AuswahlActivity extends AppCompatActivity {
 
     private class KursAdapter extends ArrayAdapter<Fach> {
         final Fach[] fachArray;
+        final List<String> ausgewaehlteFaecher;
+        final boolean[][] ausgewaehlteStunden;
         private final View[] views;
         private final CheckBox[] cbs;
         private final StundenplanDB db;
-        List<String> ausgewaehlteFaecher;
-        boolean[][] ausgewaehlteStunden;
 
         KursAdapter(Context context, Fach[] array) {
             super(context, R.layout.list_item_kurs, array);

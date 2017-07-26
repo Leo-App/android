@@ -24,22 +24,21 @@ import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 
 public class AbstimmDialog extends AlertDialog {
+    private final String[] gruende = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
+    int userid;
     private int voteid = 0;
     private String ausgewählterGrund = "";
-
     private View confirm;
-
     private ImageButton very_satisfied;
     private ImageButton satisfied;
     private ImageButton neutral;
     private ImageButton dissatisfied;
     private ImageButton bad_mood;
-
     private ListView listView;
-    private final String[] gruende = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
 
     public AbstimmDialog(@NonNull Context context) {
         super(context);
+        userid = Utils.getUserID();
     }
 
     @Override
@@ -123,7 +122,7 @@ public class AbstimmDialog extends AlertDialog {
             @Override
             public void onClick(View view) {
                 if (confirm.isEnabled()) {
-                    new SendeDaten().execute(new Wahl(voteid, Utils.getUserID(), ausgewählterGrund));
+                    new SendeDaten().execute(new Wahl(voteid, userid, ausgewählterGrund));
                     Utils.setLastVote(voteid);
                     dismiss();
                 }
@@ -175,7 +174,6 @@ public class AbstimmDialog extends AlertDialog {
     }
 
     class Wahl {
-
         final int voteid;
         final int userid;
         final String grund;
