@@ -12,11 +12,11 @@ import de.slg.leoapp.Utils;
 public class Message {
     public final int mid;
     public final String mtext;
-    public Date mdate;
     public final int cid;
     final int uid;
     final boolean mread;
     public String uname = null;
+    Date mdate;
     boolean sending;
 
     public Message(int mid, String mtext, long mdate, int cid, int uid, boolean mread) {

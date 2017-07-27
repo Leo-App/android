@@ -98,6 +98,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onResume();
         getSupportActionBar().setTitle(currentChat.cname);
         refreshUI(false, true);
+        rvMessages.setVisibility(View.VISIBLE);
     }
 
     private void initRecyclerView() {
@@ -144,8 +145,6 @@ public class ChatActivity extends AppCompatActivity {
         rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
         rvMessages.setVisibility(View.INVISIBLE);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        refreshUI(true, true);
-        rvMessages.setVisibility(View.VISIBLE);
     }
 
     private void initToolbar() {
@@ -214,23 +213,23 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    public void refreshUI(boolean refreshMessages, final boolean scroll) {
-        if (refreshMessages) {
+    public void refreshUI(boolean refreshArray, final boolean scroll) {
+        if (refreshArray) {
             messagesArray = Utils.getMDB().getMessagesFromChat(currentChat.cid);
         }
         if (messagesArray.length != selected.length) {
             boolean[] sOld = selected;
             selected = new boolean[messagesArray.length];
             System.arraycopy(sOld, 0, selected, 0, sOld.length);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    rvMessages.swapAdapter(new MessageAdapter(), false);
-                    if (scroll)
-                        rvMessages.scrollToPosition(messagesArray.length - 1);
-                }
-            });
         }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                rvMessages.swapAdapter(new MessageAdapter(), false);
+                if (scroll)
+                    rvMessages.scrollToPosition(messagesArray.length - 1);
+            }
+        });
     }
 
     private void setHasSelected() {
