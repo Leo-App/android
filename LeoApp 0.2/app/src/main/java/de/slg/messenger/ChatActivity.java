@@ -216,11 +216,11 @@ public class ChatActivity extends AppCompatActivity {
     public void refreshUI(boolean refreshArray, final boolean scroll) {
         if (refreshArray) {
             messagesArray = Utils.getMDB().getMessagesFromChat(currentChat.cid);
-        }
-        if (messagesArray.length != selected.length) {
-            boolean[] sOld = selected;
-            selected = new boolean[messagesArray.length];
-            System.arraycopy(sOld, 0, selected, 0, sOld.length);
+            if (messagesArray.length != selected.length) {
+                boolean[] sOld = selected;
+                selected = new boolean[messagesArray.length];
+                System.arraycopy(sOld, 0, selected, 0, sOld.length);
+            }
         }
         runOnUiThread(new Runnable() {
             @Override
