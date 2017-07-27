@@ -59,7 +59,7 @@ public class StundenplanView extends View {
         paddingX = width / 100;
         abstandX = (width - baseLineX * 2) / 5;
 
-        baseLineY = height / 10;
+        baseLineY = height / 20;
         paddingY = height / 100;
         baseline2Y = baseLineY + 3 * paddingY;
         abstandY = (height - baseline2Y - baseLineY) / 10;
