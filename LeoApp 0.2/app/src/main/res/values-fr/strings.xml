@@ -239,4 +239,8 @@
     <string name="drawer_placeholder_name">Nom d\'utilisateur</string>
     <string name="help">Aide</string>
     <string name="yourTimeTable">Ton Stündenplanöh</string>
+    <string name="SnackBarMes2">Aucun année choisit</string>
+    <string name="add_user">Inviter utilisateur dans ce chat</string>
+    <string name="button_card_dismiss">Écarter</string>
+    <string name="cards_customize">ajuster</string>
 </resources>
