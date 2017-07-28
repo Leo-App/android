@@ -137,7 +137,7 @@ public class ZeitraumFragment extends Fragment {
 
     void update() {
         if (view != null) {
-            view.createCharts();
+            view.recreateCharts = true;
             view.invalidate();
         }
     }
@@ -148,6 +148,7 @@ public class ZeitraumFragment extends Fragment {
         private final Paint paint;
         private boolean isInitialized;
         private int baseLineY, baseLineX, abstandX, abstandY, radius;
+        private boolean recreateCharts;
 
         StatistikView(Context context) {
             super(context);
@@ -164,6 +165,9 @@ public class ZeitraumFragment extends Fragment {
         public void onDraw(Canvas canvas) {
             if (!isInitialized)
                 init();
+
+            if (recreateCharts)
+                createCharts();
 
             canvas.drawBitmap(bitmapBack, 0, 0, paint);
 
