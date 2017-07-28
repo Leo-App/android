@@ -136,8 +136,10 @@ public class ZeitraumFragment extends Fragment {
     }
 
     void update() {
-        if (view != null)
+        if (view != null) {
+            view.createCharts();
             view.invalidate();
+        }
     }
 
     private class StatistikView extends View {
@@ -165,16 +167,16 @@ public class ZeitraumFragment extends Fragment {
 
             canvas.drawBitmap(bitmapBack, 0, 0, paint);
 
-            if (StimmungsbarometerActivity.drawIch) {
+            if (StimmungsbarometerActivity.drawI) {
                 canvas.drawBitmap(bitmapIch, 0, 0, paint);
             }
-            if (StimmungsbarometerActivity.drawSchueler) {
+            if (StimmungsbarometerActivity.drawS) {
                 canvas.drawBitmap(bitmapSchueler, 0, 0, paint);
             }
-            if (StimmungsbarometerActivity.drawLehrer) {
+            if (StimmungsbarometerActivity.drawL) {
                 canvas.drawBitmap(bitmapLehrer, 0, 0, paint);
             }
-            if (StimmungsbarometerActivity.drawAlle) {
+            if (StimmungsbarometerActivity.drawA) {
                 canvas.drawBitmap(bitmapAlle, 0, 0, paint);
             }
         }
@@ -194,17 +196,7 @@ public class ZeitraumFragment extends Fragment {
             radius = 4;
 
             if (bitmapIch == null || bitmapSchueler == null || bitmapLehrer == null || bitmapAlle == null) {
-                bitmapIch = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                canvasIch.setBitmap(bitmapIch);
-                bitmapSchueler = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                canvasSchueler.setBitmap(bitmapSchueler);
-                bitmapLehrer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                canvasLehrer.setBitmap(bitmapLehrer);
-                bitmapAlle = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                canvasAlle.setBitmap(bitmapAlle);
-
-                drawPoints();
-                drawGraphs();
+                createCharts();
             }
 
             if (bitmapBack == null) {
@@ -213,8 +205,21 @@ public class ZeitraumFragment extends Fragment {
                 drawBackground();
             }
 
-
             isInitialized = true;
+        }
+
+        private void createCharts() {
+            bitmapIch = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasIch.setBitmap(bitmapIch);
+            bitmapSchueler = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasSchueler.setBitmap(bitmapSchueler);
+            bitmapLehrer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasLehrer.setBitmap(bitmapLehrer);
+            bitmapAlle = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasAlle.setBitmap(bitmapAlle);
+
+            drawPoints();
+            drawGraphs();
         }
 
         private void drawBackground() {

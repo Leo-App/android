@@ -17,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,16 +39,27 @@ import de.slg.stundenplan.WrapperStundenplanActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
 public class StimmungsbarometerActivity extends AppCompatActivity {
+    static boolean drawI;
+    static boolean drawS;
+    static boolean drawL;
+    static boolean drawA;
+    private static Ergebnis[][] daten;
     private DrawerLayout drawerLayout;
     private ZeitraumFragment[] fragments;
 
-    private static Ergebnis[][] daten;
-    static boolean drawIch = true, drawSchueler = true, drawLehrer = true, drawAlle = true;
+    public static Ergebnis[][] getData() {
+        return daten;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stimmungsbarometer);
+
+        drawI = true;
+        drawS = true;
+        drawL = true;
+        drawA = true;
 
         if (daten == null) {
             daten = new Ergebnis[4][0];
@@ -79,72 +89,44 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     }
 
     private void initLayouts() {
-        LinearLayout lI = (LinearLayout) findViewById(R.id.linearLayoutIch);
-        LinearLayout lS = (LinearLayout) findViewById(R.id.linearLayoutSchueler);
-        LinearLayout lL = (LinearLayout) findViewById(R.id.linearLayoutLehrer);
-        LinearLayout lA = (LinearLayout) findViewById(R.id.linearLayoutAlle);
+        final View lI = findViewById(R.id.layoutIch);
+        final View lS = findViewById(R.id.layoutSchueler);
+        final View lL = findViewById(R.id.layoutLehrer);
+        final View lA = findViewById(R.id.layoutAlle);
 
         lI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView t = (TextView) v.findViewById(R.id.textViewIch);
-                ImageView i = (ImageView) v.findViewById(R.id.imageViewIch);
-                drawIch = !drawIch;
-                if (drawIch) {
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorIch));
-                    i.setImageResource(R.color.colorIch);
-                } else {
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
-                    i.setImageResource(R.color.colorInactive);
-                }
+                drawI = !drawI;
+                v.findViewById(R.id.textViewIch).setEnabled(drawI);
+                v.findViewById(R.id.imageViewIch).setEnabled(drawI);
                 updateFragments();
             }
         });
         lS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView t = (TextView) v.findViewById(R.id.textViewSchueler);
-                ImageView i = (ImageView) v.findViewById(R.id.imageViewSchueler);
-                drawSchueler = !drawSchueler;
-                if (drawSchueler) {
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSchueler));
-                    i.setImageResource(R.color.colorSchueler);
-                } else {
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
-                    i.setImageResource(R.color.colorInactive);
-                }
+                drawS = !drawS;
+                v.findViewById(R.id.textViewSchueler).setEnabled(drawS);
+                v.findViewById(R.id.imageViewSchueler).setEnabled(drawS);
                 updateFragments();
             }
         });
         lL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView t = (TextView) v.findViewById(R.id.textViewLehrer);
-                ImageView i = (ImageView) v.findViewById(R.id.imageViewLehrer);
-                drawLehrer = !drawLehrer;
-                if (drawLehrer) {
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorLehrer));
-                    i.setImageResource(R.color.colorLehrer);
-                } else {
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
-                    i.setImageResource(R.color.colorInactive);
-                }
+                drawL = !drawL;
+                v.findViewById(R.id.textViewLehrer).setEnabled(drawL);
+                v.findViewById(R.id.imageViewLehrer).setEnabled(drawL);
                 updateFragments();
             }
         });
         lA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView t = (TextView) v.findViewById(R.id.textViewAlle);
-                ImageView i = (ImageView) v.findViewById(R.id.imageViewAlle);
-                drawAlle = !drawAlle;
-                if (drawAlle) {
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAlle));
-                    i.setImageResource(R.color.colorAlle);
-                } else {
-                    t.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorInactive));
-                    i.setImageResource(R.color.colorInactive);
-                }
+                drawA = !drawA;
+                v.findViewById(R.id.textViewAlle).setEnabled(drawA);
+                v.findViewById(R.id.imageViewAlle).setEnabled(drawA);
                 updateFragments();
             }
         });
@@ -256,10 +238,6 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
 
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
-    }
-
-    public static Ergebnis[][] getData() {
-        return daten;
     }
 
     private class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
