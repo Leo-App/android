@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/background_dark">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/actionBarAddChat"
@@ -15,14 +13,14 @@
         android:theme="?attr/actionBarTheme" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="@android:color/background_light"
-        android:id="@+id/relativeLayout3"
-        android:layout_below="@+id/actionBarAddChat"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/actionBarAddChat"
+        android:background="@android:color/background_light"
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/editTextChatName"
@@ -34,13 +32,20 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="0.75dp"
+        android:layout_below="@id/relativeLayout3"
+        android:background="@android:color/background_dark"
+        android:orientation="horizontal" />
+
     <ListView
         android:id="@+id/listViewAllUsers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="0.75dp"
-        android:background="@android:color/background_light"
-        android:layout_below="@+id/relativeLayout3" />
+        android:layout_below="@+id/linearLayout2"
+        android:background="@android:color/background_light" />
 
     <ProgressBar
         android:id="@+id/progressBar"

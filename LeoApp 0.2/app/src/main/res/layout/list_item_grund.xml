@@ -4,40 +4,17 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:alpha="0.6"
-        android:background="@android:color/background_light"
-        android:backgroundTint="@color/list_item_background" />
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/textViewGrund"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0.4"
-        android:background="@android:color/background_light"
-        android:backgroundTint="@color/list_item_background"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textViewGrund"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:alpha="0.6"
-        android:background="@android:color/background_light"
-        android:backgroundTint="@color/list_item_background" />
+        android:background="@drawable/background_selectable_listitem"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp"
+        android:text="TextView"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
 </LinearLayout>

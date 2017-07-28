@@ -186,7 +186,6 @@ public class AbstimmDialog extends AlertDialog {
     }
 
     private class ListAdapterGrund extends ArrayAdapter<String> {
-
         private final Context context;
         private final String[] gruende;
 
@@ -201,7 +200,7 @@ public class AbstimmDialog extends AlertDialog {
         public View getView(int position, View v, @NonNull ViewGroup group) {
             if (v == null)
                 v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_item_grund, null);
-            TextView grund = (TextView) v.findViewById(R.id.textViewGrund);
+            final TextView grund = (TextView) v.findViewById(R.id.textViewGrund);
             grund.setText(gruende[position]);
             return v;
         }

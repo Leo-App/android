@@ -48,14 +48,6 @@
                 android:background="@android:color/white"
                 android:padding="5dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:text="@string/heute" />
-
                 <LinearLayout
                     android:id="@+id/linearLayoutIch"
                     android:layout_width="match_parent"

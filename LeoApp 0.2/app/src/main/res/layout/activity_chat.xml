@@ -69,7 +69,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@id/inputMessage"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/back_send_button"
+                android:background="@drawable/background_send_button"
                 android:tint="@color/colorAccent"
                 app:srcCompat="@drawable/ic_send_black_24dp" />
 

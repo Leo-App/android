@@ -3,7 +3,7 @@
     <color name="colorPrimary">#0091ea</color>
     <color name="colorPrimaryDark">#01579b</color> //FF1565C0
     <color name="colorAccent">#0091ea</color>
-    <color name="colorAccentTransparent">#9e0091ea</color>
+    <color name="colorAccentTransparent">#640091ea</color>
     <color name="colorInactive">#bdbdbd</color>
     <color name="colorChatBackground">#8ea7b4</color>
     <color name="colorTabIndicator">#fff</color>

@@ -11,6 +11,7 @@
         android:alpha="0.8"
         android:background="@color/colorWocheBackground"
         android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:text="@string/week"
         android:textColor="@color/colorText"
         android:textSize="18sp" />
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:paddingLeft="13dp"
+        android:paddingRight="13dp"
         android:paddingTop="5dp"
         android:textSize="18sp" />
 

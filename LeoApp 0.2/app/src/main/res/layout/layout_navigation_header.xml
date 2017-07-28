@@ -10,17 +10,17 @@
         android:id="@+id/profile_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp"
-        android:background="@drawable/back_profile_picture"
+        android:layout_marginTop="43dp"
+        android:background="@drawable/background_profile_picture"
         android:elevation="4dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_account_circle_black_24dp"
-        android:tint="@color/colorAccent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="43dp" />
+        android:tint="@color/colorAccent" />
 
     <TextView
         android:id="@+id/username"

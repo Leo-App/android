@@ -30,105 +30,71 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <RelativeLayout
+        <ImageButton
+            android:id="@+id/imageButtonVS"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:layout_weight="1"
-            android:padding="8dp">
+            android:adjustViewBounds="true"
+            android:background="@drawable/smiley_background_very_satisfied"
+            android:contentDescription="@string/textview_placeholder"
+            android:scaleType="fitCenter"
+            android:tint="@color/image_very_satisfied"
+            app:srcCompat="@drawable/ic_sentiment_very_satisfied_white_24px" />
 
-            <ImageButton
-                android:id="@+id/imageButtonVS"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:adjustViewBounds="true"
-                android:background="@drawable/smiley_background"
-                android:backgroundTint="@color/very_satisfied_background"
-                android:scaleType="fitCenter"
-                android:tint="@color/very_satisfied_image"
-                app:srcCompat="@drawable/ic_sentiment_very_satisfied_white_24px" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <ImageButton
+            android:id="@+id/imageButtonS"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:layout_weight="1"
-            android:padding="8dp">
+            android:adjustViewBounds="true"
+            android:background="@drawable/smiley_background_satisfied"
+            android:contentDescription="@string/textview_placeholder"
+            android:scaleType="fitCenter"
+            android:tint="@color/image_satisfied"
+            app:srcCompat="@drawable/ic_sentiment_satisfied_white_24px" />
 
-            <ImageButton
-                android:id="@+id/imageButtonS"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:adjustViewBounds="true"
-                android:background="@drawable/smiley_background"
-                android:backgroundTint="@color/satisfied_background"
-                android:scaleType="fitCenter"
-                android:tint="@color/satisfied_image"
-                app:srcCompat="@drawable/ic_sentiment_satisfied_white_24px" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <ImageButton
+            android:id="@+id/imageButtonN"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:layout_weight="1"
-            android:padding="8dp">
+            android:adjustViewBounds="true"
+            android:background="@drawable/smiley_background_neutral"
+            android:contentDescription="@string/textview_placeholder"
+            android:scaleType="fitCenter"
+            android:tint="@color/image_neutral"
+            app:srcCompat="@drawable/ic_sentiment_neutral_white_24px" />
 
-            <ImageButton
-                android:id="@+id/imageButtonN"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:adjustViewBounds="true"
-                android:background="@drawable/smiley_background"
-                android:backgroundTint="@color/neutral_background"
-                android:scaleType="fitCenter"
-                android:tint="@color/neutral_image"
-                app:srcCompat="@drawable/ic_sentiment_neutral_white_24px" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <ImageButton
+            android:id="@+id/imageButtonD"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:layout_weight="1"
-            android:padding="8dp">
+            android:adjustViewBounds="true"
+            android:background="@drawable/smiley_background_dissatisfied"
+            android:contentDescription="@string/textview_placeholder"
+            android:scaleType="fitCenter"
+            android:tint="@color/image_dissatisfied"
+            app:srcCompat="@drawable/ic_sentiment_dissatisfied_white_24px" />
 
-            <ImageButton
-                android:id="@+id/imageButtonD"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:adjustViewBounds="true"
-                android:background="@drawable/smiley_background"
-                android:backgroundTint="@color/dissatisfied_background"
-                android:scaleType="fitCenter"
-                android:tint="@color/dissatisfied_image"
-                app:srcCompat="@drawable/ic_sentiment_dissatisfied_white_24px" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
+        <ImageButton
+            android:id="@+id/imageButtonB"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:layout_weight="1"
-            android:padding="8dp">
-
-            <ImageButton
-                android:id="@+id/imageButtonB"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:adjustViewBounds="true"
-                android:background="@drawable/smiley_background"
-                android:backgroundTint="@color/bad_mood_background"
-                android:scaleType="fitCenter"
-                android:tint="@color/bad_mood_image"
-                app:srcCompat="@drawable/ic_sentiment_very_dissatisfied_white_24px" />
-
-        </RelativeLayout>
+            android:adjustViewBounds="true"
+            android:background="@drawable/smiley_background_bad_mood"
+            android:contentDescription="@string/textview_placeholder"
+            android:scaleType="fitCenter"
+            android:tint="@color/image_bad_mood"
+            app:srcCompat="@drawable/ic_sentiment_very_dissatisfied_white_24px" />
 
     </LinearLayout>
 

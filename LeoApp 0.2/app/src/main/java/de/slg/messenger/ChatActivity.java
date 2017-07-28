@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import de.slg.leoapp.GraphicUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
@@ -98,7 +98,6 @@ public class ChatActivity extends AppCompatActivity {
         super.onResume();
         getSupportActionBar().setTitle(currentChat.cname);
         refreshUI(false, true);
-        rvMessages.setVisibility(View.VISIBLE);
     }
 
     private void initRecyclerView() {
@@ -145,6 +144,8 @@ public class ChatActivity extends AppCompatActivity {
         rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
         rvMessages.setVisibility(View.INVISIBLE);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        refreshUI(true, true);
+        rvMessages.setVisibility(View.VISIBLE);
     }
 
     private void initToolbar() {
@@ -216,11 +217,11 @@ public class ChatActivity extends AppCompatActivity {
     public void refreshUI(boolean refreshArray, final boolean scroll) {
         if (refreshArray) {
             messagesArray = Utils.getMDB().getMessagesFromChat(currentChat.cid);
-            if (messagesArray.length != selected.length) {
-                boolean[] sOld = selected;
-                selected = new boolean[messagesArray.length];
-                System.arraycopy(sOld, 0, selected, 0, sOld.length);
-            }
+        }
+        if (messagesArray.length != selected.length) {
+            boolean[] sOld = selected;
+            selected = new boolean[messagesArray.length];
+            System.arraycopy(sOld, 0, selected, 0, sOld.length);
         }
         runOnUiThread(new Runnable() {
             @Override
@@ -253,52 +254,46 @@ public class ChatActivity extends AppCompatActivity {
         refreshUI(true, true);
     }
 
-    private class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
+    private class MessageAdapter extends RecyclerView.Adapter {
         private final Chat.Chattype chattype;
-        private final LayoutInflater inflater;
-        private TextView nachricht, absender, uhrzeit, datum;
-        private LinearLayout l;
-        private View chatbubble, space, progressbar;
 
         MessageAdapter() {
             super();
-            this.inflater = getLayoutInflater();
             this.chattype = currentChat.ctype;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(inflater.inflate(R.layout.list_item_message, null));
+            return new ViewHolder();
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             Message current = messagesArray[position];
-            View v = holder.itemView;
-            v.setVisibility(View.GONE);
-            datum = (TextView) v.findViewById(R.id.textViewDate);
-            nachricht = (TextView) v.findViewById(R.id.nachricht);
-            absender = (TextView) v.findViewById(R.id.absender);
-            uhrzeit = (TextView) v.findViewById(R.id.datum);
-            l = (LinearLayout) v.findViewById(R.id.chatbubblewrapper);
-            chatbubble = v.findViewById(R.id.chatbubble);
-            space = v.findViewById(R.id.space);
-            progressbar = v.findViewById(R.id.progressBar);
+
+            final View v = holder.itemView;
+            final TextView datum = (TextView) v.findViewById(R.id.textViewDate);
+            final TextView nachricht = (TextView) v.findViewById(R.id.nachricht);
+            final TextView absender = (TextView) v.findViewById(R.id.absender);
+            final TextView uhrzeit = (TextView) v.findViewById(R.id.datum);
+            final LinearLayout layout = (LinearLayout) v.findViewById(R.id.chatbubblewrapper);
+            final View chatbubble = v.findViewById(R.id.chatbubble);
+            final View space = v.findViewById(R.id.space);
+            final View progressbar = v.findViewById(R.id.progressBar);
 
             nachricht.setText(current.mtext);
             absender.setText(current.uname);
             uhrzeit.setText(current.getTime());
             datum.setText(current.getDate());
 
-            boolean mine = current.uid == Utils.getUserID();
-            chatbubble.setEnabled(mine);
+            final boolean mine = current.uid == Utils.getUserID();
             if (mine) {
-                l.setGravity(Gravity.RIGHT);
+                layout.setGravity(Gravity.RIGHT);
                 absender.setVisibility(View.GONE);
                 nachricht.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
                 uhrzeit.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
             } else {
-                l.setGravity(Gravity.LEFT);
+                layout.setGravity(Gravity.LEFT);
                 nachricht.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
                 uhrzeit.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
                 if (chattype == Chat.Chattype.PRIVATE) {
@@ -307,8 +302,9 @@ public class ChatActivity extends AppCompatActivity {
                     absender.setVisibility(View.VISIBLE);
                 }
             }
+            chatbubble.setEnabled(mine);
 
-            boolean send = uhrzeit.getText().toString().equals("");
+            final boolean send = uhrzeit.getText().toString().equals("");
             if (send) {
                 uhrzeit.setVisibility(View.GONE);
                 progressbar.setVisibility(View.VISIBLE);
@@ -317,7 +313,7 @@ public class ChatActivity extends AppCompatActivity {
                 progressbar.setVisibility(View.GONE);
             }
 
-            boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
+            final boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
             if (first) {
                 datum.setVisibility(View.VISIBLE);
             } else {
@@ -327,12 +323,12 @@ public class ChatActivity extends AppCompatActivity {
                     space.setVisibility(View.GONE);
                 }
             }
+
             if (selected[position]) {
                 v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
             } else {
                 v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
             }
-            v.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -348,8 +344,10 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            ViewHolder(View itemView) {
-                super(itemView);
+            ViewHolder() {
+                super(getLayoutInflater().inflate(R.layout.list_item_message, null));
+                TextView nachricht = (TextView) itemView.findViewById(R.id.nachricht);
+                nachricht.setMaxWidth(GraphicUtils.getDisplayWidth() * 2 / 3);
                 itemView.setOnLongClickListener(longClickListener);
                 itemView.setOnClickListener(clickListener);
             }
@@ -359,7 +357,7 @@ public class ChatActivity extends AppCompatActivity {
     private class SendMessage extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
-            if (currentChat.cid == -1) {
+            if (currentChat.cid <= 0) {
                 snackbar.show();
             } else {
                 Message[] mOld = messagesArray;
