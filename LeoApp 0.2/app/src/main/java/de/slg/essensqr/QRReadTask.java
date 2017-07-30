@@ -149,11 +149,11 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         View v;
         long[] interval;
         if (result) {
-            v = inflater.inflate(R.layout.dialog_layout_conf, null);
+            v = inflater.inflate(R.layout.dialog_layout_valid, null);
             ((TextView) v.findViewById(R.id.textView4)).setText(act.getString(R.string.dialog_desc_valid) + "\t" + orderedMenu);
             interval = new long[]{0, 200, 100, 200};
         } else {
-            v = inflater.inflate(R.layout.dialog_layout_essen, null);
+            v = inflater.inflate(R.layout.dialog_layout_invalid, null);
             interval = new long[]{0, 1000, 500, 1000};
         }
 
