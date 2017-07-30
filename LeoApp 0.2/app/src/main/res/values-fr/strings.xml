@@ -86,7 +86,7 @@
     <string name="invalidId">Fausse ID d\'utilisateur</string>
     <string name="snackbar_no_connection_info_check">Dates de connection n\'ont pas pu être vérifies. S.T.P. verifies que tu as une connection internet active</string>
     <string name="snackbar_not_correct_info">Dates de connection incorrects</string>
-    <string name="popup_code_not_valid">Le QR-Code a déjà été utilisé</string>
+    <string name="popup_code_not_valid">Le QR-Code a déjà été utilisé par ce portable</string>
     <string name="notification_summary_notif">Tu n\'a pas encore syncronisé tes commandes</string>
     <string name="login_success">Login avec succès</string>
 

@@ -23,8 +23,10 @@
         android:layout_below="@+id/dialog_image"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:text="@string/popup_code_not_valid" />
-
-    <!--TODO: Code auf diesem Gerät gescannt-->
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/popup_code_not_valid"
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
 </RelativeLayout>

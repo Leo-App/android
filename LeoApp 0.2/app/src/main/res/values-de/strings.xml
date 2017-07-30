@@ -90,7 +90,7 @@
     <string name="invalidId">Benutzer-ID falsch</string>
     <string name="snackbar_no_connection_info_check">Login-Daten können nicht überprüft werden. Bitte überprüfe deine Netzwerkverbindung</string>
     <string name="snackbar_not_correct_info">Login-Daten inkorrekt</string>
-    <string name="popup_code_not_valid">Der QR-Code ist ungültig oder bereits eingelöst</string>
+    <string name="popup_code_not_valid">Der QR-Code ist ungültig oder wurde von diesem Gerät bereits gescannt</string>
     <string name="notification_summary_notif">Du hast deine Bestellung noch nicht synchronisiert</string>
     <string name="login_success">Login erfolgreich</string>
     <string name="qr_display_menu">Menü</string>
