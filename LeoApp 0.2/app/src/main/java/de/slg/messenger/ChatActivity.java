@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,17 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import de.slg.leoapp.GraphicUtils;
 import de.slg.leoapp.R;
@@ -383,72 +378,29 @@ public class ChatActivity extends AppCompatActivity {
                     messagesArray[messagesArray.length - 1].mdate = new Date();
                     messagesArray[messagesArray.length - 1].sending = true;
                     refreshUI(false, true);
-                    send(params[0]);
+                    try {
+                        BufferedReader reader =
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                new URL(generateURL(params[0]))
+                                                        .openConnection()
+                                                        .getInputStream(), "UTF-8"));
+                        String line;
+                        while ((line = reader.readLine()) != null) Log.e("TAG", line);
+                        reader.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             return null;
         }
 
-        private void send(String message) {
-            try {
-                byte[] postDataBytes = getDataBytes(message);
-                assert postDataBytes != null;
-
-                HttpURLConnection connection = getConnection(postDataBytes);
-                connection
-                        .getOutputStream()
-                        .write(postDataBytes);
-
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        connection
-                                                .getInputStream(), "UTF-8"));
-                while (reader.readLine() != null) ;
-                reader.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        private byte[] getDataBytes(String message) {
+        private String generateURL(String message) {
             String key = Verschluesseln.createKey(message);
             String vMessage = Verschluesseln.encrypt(message, key);
             String vKey = Verschluesseln.encryptKey(key);
-
-            Map<String, String> postData = new LinkedHashMap<>();
-            postData.put("key", "5453");
-            postData.put("chatid", String.valueOf(currentChat.cid));
-            postData.put("userid", String.valueOf(Utils.getUserID()));
-            postData.put("message", message);
-            postData.put("vKey", vKey);
-
-            try {
-                StringBuilder builder = new StringBuilder();
-                for (Map.Entry<String, String> param : postData.entrySet()) {
-                    if (builder.length() != 0)
-                        builder.append('&');
-                    builder.append(URLEncoder.encode(param.getKey(), "UTF-16"))
-                            .append('=')
-                            .append(URLEncoder.encode(param.getValue(), "UTF-16"));
-                }
-
-                return builder.toString().getBytes("UTF-16");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        private HttpURLConnection getConnection(byte[] data) throws IOException {
-            HttpURLConnection connection = (HttpURLConnection)
-                    new URL("http://moritz.liegmanns.de/messenger/addMessage.php")
-                            .openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-Length", String.valueOf(data.length));
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            connection.setDoOutput(true);
-            return connection;
+            return "http://moritz.liegmanns.de/messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage.replace("%", "%25").replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + currentChat.cid + "&vKey=" + vKey;
         }
     }
 
