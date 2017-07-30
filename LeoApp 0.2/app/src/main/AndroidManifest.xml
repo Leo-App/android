@@ -37,6 +37,9 @@
         <activity
             android:name=".PreferenceActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".NotificationPreferenceActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="de.slg.startseite.MainActivity"

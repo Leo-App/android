@@ -34,6 +34,7 @@
     <string name="title_plan">Timetable</string>
 
     <string name="title_settings">Settings</string>
+    <string name="title_settings_notifications">Notifications</string>
 
     <string name="confirm" translatable="false">OK</string>
     <string name="cancel">Cancel</string>

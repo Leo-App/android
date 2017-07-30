@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="pref_key_general_settings"
+        android:title="@string/settings_category_general">
+
+        <EditTextPreference
+            android:enabled="true"
+            android:key="pref_key_username_general"
+            android:summary="@string/settings_summary_username"
+            android:title="@string/settings_title_username" />
+
+        <de.slg.startseite.ClassPickerPref
+            android:enabled="true"
+            android:key="pref_key_level_general"
+            android:summary="@string/settings_summary_level"
+            android:title="@string/settings_title_level" />
+
+        <Preference
+            android:key="pref_key_notifications"
+            android:summary="@string/settings_title_notification"
+            android:title="@string/title_settings_notifications" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_storage_settings"
+        android:title="@string/title_foodmarks">
+
+        <EditTextPreference
+            android:key="pref_key_qr_id"
+            android:summary="@string/settings_summary_customid"
+            android:title="@string/settings_title_customid" />
+        <EditTextPreference
+            android:inputType="textPassword"
+            android:key="pref_key_qr_pw"
+            android:summary="@string/settings_summary_pw"
+            android:title="@string/settings_title_pw" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_mensa_mode"
+            android:summary="@string/settings_summary_mode"
+            android:title="@string/settings_title_mode" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_qr_camera"
+            android:summary="@string/settings_summary_camera"
+            android:title="@string/settings_title_camera" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_key_qr_sync"
+            android:summary="@string/settings_summary_sync"
+            android:title="@string/settings_title_sync" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_qr_autofade"
+            android:summary="@string/settings_summary_fade"
+            android:title="@string/settings_title_fade" />
+
+        <de.slg.essensqr.NumberPickerPref
+            android:enabled="false"
+            android:key="pref_key_qr_autofade_time"
+            android:summary="@string/settings_summary_fade_time"
+            android:title="@string/settings_title_fade_time" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_storage_settings"
+        android:title="@string/title_testplan">
+
+        <de.slg.klausurplan.NumberPickerPref
+            android:key="pref_key_delete"
+            android:persistent="true"
+            android:summary="@string/settings_summary_testplan_time"
+            android:title="@string/settings_title_testplan_time" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_test_timetable_sync"
+            android:summary="@string/settings_summary_test_timetable"
+            android:title="@string/settings_title_test_timetable" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_storage_settings"
+        android:title="@string/title_messenger">
+
+        <de.slg.messenger.NumberPickerPref
+            android:defaultValue="2"
+            android:key="pref_key_refresh"
+            android:persistent="true"
+            android:summary="@string/settings_summary_refresh_interval"
+            android:title="@string/settings_title_refresh_interval" />
+
+        <Preference
+            android:key="pref_key_sync_messenger"
+            android:summary="@string/settings_summary_messenger_sync"
+            android:title="@string/settings_title_messenger_sync" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_storage_settings"
+        android:title="@string/title_survey">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_show_reasons_survey"
+            android:summary="@string/settings_summary_reasons_survey"
+            android:title="@string/settings_title_reasons_survey" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_general_settings"
+        android:title="@string/settings_category_subst">
+
+        <PreferenceScreen
+            android:key="button_category_key"
+            android:persistent="false"
+            android:title="@string/settings_screen_slg_data"
+            >
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_username_school"
+                android:summary="@string/settings_summary_username_school"
+                android:title="@string/settings_title_username_school" />
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_password_school"
+                android:summary="@string/settings_summary_password_school"
+                android:title="@string/settings_title_password_school" />
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="button_category_key"
+            android:persistent="false"
+            android:title="@string/settings_screen_cg_data"
+            >
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_username_school"
+                android:summary="@string/settings_summary_username_school"
+                android:title="@string/settings_title_username_school" />
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_password_school"
+                android:summary="@string/settings_summary_password_school"
+                android:title="@string/settings_title_password_school" />
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="button_category_key"
+            android:persistent="false"
+            android:title="@string/settings_screen_kkg_data"
+            >
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_username_school"
+                android:summary="@string/settings_summary_username_school"
+                android:title="@string/settings_title_username_school" />
+
+            <EditTextPreference
+                android:enabled="true"
+                android:key="pref_key_password_school"
+                android:summary="@string/settings_summary_password_school"
+                android:title="@string/settings_title_password_school" />
+
+        </PreferenceScreen>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_network_wlanonly"
+            android:summary="@string/settings_summary_network"
+            android:title="@string/settings_title_network" />
+
+        <de.slg.vertretung.NumberPickerPreference
+            android:key="pref_key_interval_subst"
+            android:persistent="true"
+            android:summary="@string/settings_summary_interval_subst"
+            android:title="@string/settings_title_interval_subst"
+            />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_filter_subst"
+            android:summary="@string/settings_summary_filter_subst"
+            android:title="@string/settings_title_filter_subst" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="false"
+            android:key="pref_key_filterby_level"
+            android:summary="@string/settings_summary_filterby_level"
+            android:title="@string/settings_title_filterby_level" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="false"
+            android:key="pref_key_filterby_schedule"
+            android:summary="@string/settings_summary_filterby_schedule"
+            android:title="@string/settings_title_filterby_schedule" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_info_settings"
+        android:title="@string/settings_category_info">
+
+        <Preference
+            android:key="pref_key_email"
+            android:summary="@string/settings_summary_contact"
+            android:title="@string/settings_title_contact" />
+
+        <Preference
+            android:key="pref_key_version_app"
+            android:summary="@string/settings_summary_version"
+            android:title="@string/settings_title_version" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -272,5 +272,6 @@
     <string name="tutoring_title_new">Neue Anzeige</string>
     <string name="help">Hilfe</string>
     <string name="yourTimeTable">Dein Stundenplan</string>
+    <string name="title_settings_notifications">Benachrichtigungen</string>
 
 </resources>

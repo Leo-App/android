@@ -51,13 +51,27 @@ import de.slg.stundenplan.WrapperStundenplanActivity;
 @SuppressWarnings("deprecation")
 public class PreferenceActivity extends android.preference.PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private ProgressBar progressBar;
     private final static char[] hexArray = "0123456789abcdef".toCharArray();
     private static String currentUsername;
+    private ProgressBar progressBar;
     private SharedPreferences pref;
     private DrawerLayout drawerLayout;
 
     private AppCompatDelegate mDelegate; //Downwards compatibility
+
+    private static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+
+    public static void setCurrentUsername(String newName) {
+        currentUsername = newName;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +82,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_preference);
-        addPreferencesFromResource(R.xml.preferences);
+        addPreferencesFromResource(R.xml.preferences_overview);
 
         initToolbar();
         initNavigationView();
@@ -284,9 +298,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         Preference connectionPref = findPreference("pref_key_qr_autofade_time");
         connectionPref.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_qr_autofade", false));
 
-        Preference notifPref = findPreference("pref_key_notification_time");
-        notifPref.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_notification", false));
-
         SharedPreferences.Editor editor = getPreferenceScreen().getSharedPreferences().edit();
         editor.putBoolean("pref_key_status_loggedin", getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_status_loggedin", false));
         editor.apply();
@@ -312,6 +323,15 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
+                return true;
+            }
+        });
+
+        Preference notifications = findPreference("pref_key_notifications");
+        notifications.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(getApplicationContext(), NotificationPreferenceActivity.class));
                 return true;
             }
         });
@@ -453,6 +473,33 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         cS.show();
     }
 
+    private void setLogin(boolean b) {
+
+        SharedPreferences.Editor editor = getPreferenceScreen().getSharedPreferences().edit();
+        editor.putBoolean("pref_key_status_loggedin", b);
+        editor.apply();
+
+    }
+
+    public void hideProgressBar() {
+        findViewById(R.id.progressBar2).setVisibility(View.GONE);
+    }
+
+    private void showProgressBar() {
+        findViewById(R.id.progressBar2).setVisibility(View.VISIBLE);
+    }
+
+    public View getCoordinatorLayout() {
+        return findViewById(R.id.coords);
+    }
+
+    private AppCompatDelegate getDelegate() {
+        if (mDelegate == null) {
+            mDelegate = AppCompatDelegate.create(this, null);
+        }
+        return mDelegate;
+    }
+
     private class PreferenceTask extends AsyncTask<Void, Void, Auth> {
         @Override
         protected Auth doInBackground(Void... params) {
@@ -531,46 +578,5 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
             }
         }
-    }
-
-    private void setLogin(boolean b) {
-
-        SharedPreferences.Editor editor = getPreferenceScreen().getSharedPreferences().edit();
-        editor.putBoolean("pref_key_status_loggedin", b);
-        editor.apply();
-
-    }
-
-    private static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for (int j = 0; j < bytes.length; j++) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
-    }
-
-    public void hideProgressBar() {
-        findViewById(R.id.progressBar2).setVisibility(View.GONE);
-    }
-
-    private void showProgressBar() {
-        findViewById(R.id.progressBar2).setVisibility(View.VISIBLE);
-    }
-
-    public static void setCurrentUsername(String newName) {
-        currentUsername = newName;
-    }
-
-    public View getCoordinatorLayout() {
-        return findViewById(R.id.coords);
-    }
-
-    private AppCompatDelegate getDelegate() {
-        if (mDelegate == null) {
-            mDelegate = AppCompatDelegate.create(this, null);
-        }
-        return mDelegate;
     }
 }
