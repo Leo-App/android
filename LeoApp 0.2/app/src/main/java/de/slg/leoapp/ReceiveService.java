@@ -15,6 +15,7 @@ import java.net.URL;
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
+import de.slg.messenger.Verschluesseln;
 
 public class ReceiveService extends Service {
     private static long interval;
@@ -129,12 +130,12 @@ public class ReceiveService extends Service {
                     String[] result = builder.toString().split("_nextMessage_");
                     for (String s : result) {
                         String[] message = s.split("_;_");
-                        if (message.length == 5) {
+                        if (message.length == 6) {
                             int mid = Integer.parseInt(message[0]);
-                            String mtext = message[1];
-                            long mdate = Long.parseLong(message[2] + "000");
-                            int cid = Integer.parseInt(message[3]);
-                            int uid = Integer.parseInt(message[4]);
+                            String mtext = Verschluesseln.decrypt(message[1], Verschluesseln.decryptKey(message[2]));
+                            long mdate = Long.parseLong(message[3] + "000");
+                            int cid = Integer.parseInt(message[4]);
+                            int uid = Integer.parseInt(message[5]);
                             Message m = new Message(mid, mtext, mdate, cid, uid, false);
                             Utils.getMDB().insertMessage(m);
                         }
@@ -236,7 +237,7 @@ public class ReceiveService extends Service {
         private String generateURL(Operator o) {
             switch (o) {
                 case Nachricht:
-                    return "http://moritz.liegmanns.de/messenger/getMessages.php?key=5453&userid=" + Utils.getUserID();
+                    return "http://moritz.liegmanns.de/messenger/getMessagesEncrypted.php?key=5453&userid=" + Utils.getUserID();
                 case Benutzer:
                     return "http://moritz.liegmanns.de/messenger/getUsers.php?key=5453&userid=" + Utils.getUserID();
                 case Chat:

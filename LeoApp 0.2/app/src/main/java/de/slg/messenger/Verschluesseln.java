@@ -1,6 +1,8 @@
 package de.slg.messenger;
 
-abstract class Verschluesseln {
+public abstract class Verschluesseln {
+    private static String key2 = "ABCD";
+
     static String encrypt(String text, String key) {
         StringBuilder builder = new StringBuilder();
         assert key.matches("[A-Z]*");
@@ -23,22 +25,7 @@ abstract class Verschluesseln {
         return builder.toString();
     }
 
-    static String encryptKey(String key) {
-        String key2 = "ABCD";
-        StringBuilder builder = new StringBuilder();
-        assert key2.matches("[A-Z]*");
-        for (int i = 0; i < key.length(); i++) {
-            char textChar = key.charAt(i),
-                    keyChar = key2.charAt(i % key2.length()),
-                    encrypted = (char) (textChar + (keyChar - 65));
-            if (encrypted > 90)
-                encrypted -= 26;
-            builder.append(encrypted);
-        }
-        return builder.toString();
-    }
-
-    static String decrypt(String text, String key) {
+    public static String decrypt(String text, String key) {
         StringBuilder builder = new StringBuilder();
         assert key.matches("[A-Z]*");
         for (int textIndex = 0; textIndex < text.length(); textIndex++) {
@@ -56,6 +43,34 @@ abstract class Verschluesseln {
             } else {
                 builder.append(textChar);
             }
+        }
+        return builder.toString();
+    }
+
+    public static String decryptKey(String key) {
+        StringBuilder builder = new StringBuilder();
+        assert key2.matches("[A-Z]*");
+        for (int i = 0; i < key.length(); i++) {
+            char keyChar = key.charAt(i),
+                    key2Char = key2.charAt(i % key2.length()),
+                    decrypted = (char) (keyChar - (key2Char - 65));
+            if (decrypted < 65)
+                decrypted += 26;
+            builder.append(decrypted);
+        }
+        return builder.toString();
+    }
+
+    static String encryptKey(String key) {
+        StringBuilder builder = new StringBuilder();
+        assert key2.matches("[A-Z]*");
+        for (int i = 0; i < key.length(); i++) {
+            char keyChar = key.charAt(i),
+                    key2Char = key2.charAt(i % key2.length()),
+                    encrypted = (char) (keyChar + (key2Char - 65));
+            if (encrypted > 90)
+                encrypted -= 26;
+            builder.append(encrypted);
         }
         return builder.toString();
     }
