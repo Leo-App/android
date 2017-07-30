@@ -136,10 +136,8 @@ public class ZeitraumFragment extends Fragment {
     }
 
     void update() {
-        if (view != null) {
-            view.recreateCharts = true;
+        if (view != null)
             view.invalidate();
-        }
     }
 
     private class StatistikView extends View {
@@ -193,10 +191,6 @@ public class ZeitraumFragment extends Fragment {
             baseLineY = height * 99 / 100;
             abstandY = baseLineY * 9 / 40;
             baseLineX = width / 20;
-            if (data[3].length != 0)
-                abstandX = width * 9 / (data[3].length * 10);
-            else
-                abstandX = width * 9 / 10;
             radius = 4;
 
             if (bitmapIch == null || bitmapSchueler == null || bitmapLehrer == null || bitmapAlle == null) {
@@ -213,6 +207,11 @@ public class ZeitraumFragment extends Fragment {
         }
 
         private void createCharts() {
+            if (data[3].length != 0)
+                abstandX = width * 9 / (data[3].length * 10);
+            else
+                abstandX = width * 9 / 10;
+
             bitmapIch = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvasIch.setBitmap(bitmapIch);
             bitmapSchueler = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -314,6 +313,12 @@ public class ZeitraumFragment extends Fragment {
                     previousAlle = i;
                 }
             }
+        }
+
+        @Override
+        public void invalidate() {
+            recreateCharts = true;
+            super.invalidate();
         }
     }
 }
