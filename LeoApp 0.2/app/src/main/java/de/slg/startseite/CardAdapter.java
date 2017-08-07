@@ -156,14 +156,14 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     break;
                 case SUBSTITUTION:
                     cards.append(c = new InfoCard(false, type));
-                    c.title = Utils.getString(R.string.title_subst);
+                    c.title = Utils.getString(R.string.coming_soon);
                     c.descr = Utils.getString(R.string.summary_info_subst);
-                    c.buttonDescr = Utils.getString(R.string.button_info_try);
-                    c.icon = R.drawable.ic_account_switch;
+                    c.buttonDescr = Utils.getString(R.string.coming_soon);
+                    c.icon = R.drawable.ic_priority_high_black_24dp;
                     c.buttonListener = new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperSubstitutionActivity.class));
+                          //  MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperSubstitutionActivity.class));
                         }
                     };
                     break;
@@ -275,6 +275,10 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             holder.button.setText(ref.buttonDescr);
             holder.button.setOnClickListener(ref.buttonListener);
             holder.title.setText(ref.title);
+            if(ref.title.equals(MainActivity.ref.getString(R.string.coming_soon))) {
+              //  holder.icon.setColorFilter(Color.rgb(0x00,0x91, 0xea));
+                holder.icon.setColorFilter(Color.rgb(0xf4,0x43, 0x36));
+            }
             holder.description.setText(ref.descr);
             holder.content.setVisibility(View.GONE);
             holder.icon.setImageResource(ref.icon);

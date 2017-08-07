@@ -249,6 +249,8 @@
     <string name="help">Help</string>
     <string name="yourTimeTable">Your Timetable</string>
     <string name="snackbar_select">Select</string>
+    <string name="coming_soon" translatable="false">Coming soon!</string>
     <string name="button_card_dismiss">Dismiss</string>
+
 
 </resources>

@@ -101,7 +101,7 @@
     <string name="action_leave_chat">Chat verlassen</string>
     <string name="name_of_chat">Chatname</string>
     <string name="title_new_groupchat">Neue Gruppe</string>
-    <string name="serviceDescription">Emfpängt Nachrichten, während die App nicht geöffnet ist.</string>
+    <string name="serviceDescription">Empfängt Nachrichten, während die App nicht geöffnet ist.</string>
     <string name="seconds">Sekunden</string>
     <string name="minute">Minute</string>
     <string name="minutes">Minuten</string>
@@ -163,6 +163,10 @@
     <string name="settings_snackbar_username_taken">Dieser Benutzername ist bereits vergeben</string>
     <string name="settings_toast_username_success">Benutzername geändert!</string>
     <string name="settings_name_changed">Namensänderung übernommen</string>
+    <string name="settings_title_notification">Benachrichtigungen erhalten</string>
+    <string name="settings_title_notification_all">Alle Benachrichtigungen erhalten</string>
+    <string name="settings_title_notification_custom">Einige Benachrichtigungen erhalten</string>
+    <string name="settings_title_notification_none">Keine Benachrichtigungen erhalten</string>
 
     <!--Essensbons-->
     <string name="settings_summary_customid">Gib deine lunch.leo-ac.de Benutzer-ID ein</string>
@@ -176,7 +180,6 @@
     <string name="settings_title_camera">Frontkamera verwenden</string>
     <string name="settings_summary_camera">Benutzt die Frontkamera zum Scannen</string>
     <string name="settings_summary_mode">MensaMode&#8482; für das Mensa Personal</string>
-    <string name="settings_title_notification">Benachrichtigungen erhalten</string>
     <string name="settings_summary_notification">Benachrichtigung, wenn noch nicht synchronisiert wurde</string>
     <string name="settings_title_notification_time">Uhrzeit</string>
     <string name="settings_summary_notification_time">Wann willst du benachrichtigt werden?</string>

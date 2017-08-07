@@ -76,7 +76,7 @@
             android:title="@string/settings_title_notification_time" />
 
     </PreferenceCategory>
-
+<!--
     <PreferenceCategory android:title="@string/title_subst">
 
         <SwitchPreference
@@ -85,6 +85,6 @@
             android:summary="@string/settings_summary_notification_subst"
             android:title="@string/settings_title_notification" />
 
-    </PreferenceCategory>
+    </PreferenceCategory> -->
 
 </PreferenceScreen>
