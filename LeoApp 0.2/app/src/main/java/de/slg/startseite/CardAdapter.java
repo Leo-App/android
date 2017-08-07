@@ -2,6 +2,7 @@ package de.slg.startseite;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -260,6 +261,14 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
         cards.toIndex(position);
         Card c = cards.getContent();
 
+
+            if (MainActivity.editing)
+                holder.wrapper.setCardElevation(25);
+            else
+                holder.wrapper.setCardElevation(5);
+
+
+        holder.button.setEnabled(!MainActivity.editing);
 
         if (c instanceof InfoCard) {
             InfoCard ref = (InfoCard) c;

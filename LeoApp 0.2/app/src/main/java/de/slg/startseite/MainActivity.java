@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ZXingScannerView scV;
 
     private static boolean verified;
-    private static boolean editing;
+    public static boolean editing;
 
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
 
@@ -266,8 +266,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 };
 
-        final RecyclerView.LayoutManager mLayoutManagerAlternative = quickLayout ?
-                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) : new LinearLayoutManager(getApplicationContext()); //TODO: Use alternative LayoutManager in edit mode to enable vertical scrolling
+        RecyclerView.LayoutManager mLayoutManagerAlternative = quickLayout ?
+                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) : new LinearLayoutManager(getApplicationContext());
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(quickLayout ?
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN,
@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
 
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(editing ? mLayoutManager : mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
@@ -327,7 +327,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (item.getItemId() == R.id.action_appedit) {
             editing = true;
-
+            initCardViews();
+            findViewById(R.id.card_viewMain).setVisibility(View.GONE);
+            findViewById(R.id.card_view0).setVisibility(View.GONE);
             final Handler handler = new Handler(); //Short delay for aesthetics
             handler.postDelayed(new Runnable() {
                 @Override
@@ -335,14 +337,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     invalidateOptionsMenu();
                 }
             }, 100);
+            getSupportActionBar().setTitle(getString(R.string.cards_customize));
 
         }
         if (item.getItemId() == R.id.action_appedit_done) {
             editing = false;
             writeToPreferences();
+            initCardViews();
+            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
+            if(!Start.pref.getBoolean("pref_key_dont_remind_me", false))
+                findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
+            getSupportActionBar().setTitle(getString(R.string.title_home));
             invalidateOptionsMenu();
         }
         if (item.getItemId() == R.id.action_appinfo_quick) {
+            writeToPreferences();
             item.setChecked(!item.isChecked());
             SharedPreferences.Editor edit = Start.pref.edit();
             edit.putBoolean("pref_key_card_config_quick", item.isChecked());
