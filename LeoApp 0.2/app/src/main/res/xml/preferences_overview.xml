@@ -114,7 +114,7 @@
             android:title="@string/settings_title_reasons_survey" />
 
     </PreferenceCategory>
-
+<!--
     <PreferenceCategory
         android:key="pref_key_general_settings"
         android:title="@string/settings_category_subst">
@@ -212,7 +212,7 @@
             android:summary="@string/settings_summary_filterby_schedule"
             android:title="@string/settings_title_filterby_schedule" />
 
-    </PreferenceCategory>
+    </PreferenceCategory> -->
 
     <PreferenceCategory
         android:key="pref_key_info_settings"

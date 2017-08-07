@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initNavigationView();
 
         synchronizeUsername();
+        synchronizeGrade();
 
         if (synchronize)
             new UpdateTaskGrade(this).execute();
@@ -145,6 +146,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void synchronizeUsername() {
         new SyncTaskName().execute();
+    }
+
+    private void synchronizeGrade() {
+        new SyncTaskGrade().execute();
     }
 
     private void initToolbar() {
@@ -295,8 +300,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-
-                mAdapter.cards.toIndex(viewHolder.getOldPosition());
+                mAdapter.cards.toIndex(viewHolder.getLayoutPosition());
                 mAdapter.cards.remove();
                 mAdapter.notifyDataSetChanged();
 

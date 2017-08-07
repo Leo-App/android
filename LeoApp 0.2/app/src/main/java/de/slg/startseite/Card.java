@@ -14,4 +14,11 @@ abstract class Card {
 
     }
 
+    @Override
+    public String toString() {
+
+        return super.toString()+title;
+
+    }
+
 }
