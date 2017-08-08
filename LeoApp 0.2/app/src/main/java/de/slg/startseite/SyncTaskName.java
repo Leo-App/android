@@ -21,7 +21,7 @@ class SyncTaskName extends AsyncTask<Void, Void, Void> {
         String result = "";
 
         try {
-            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/getName.php?key=5453&userid=" + Start.pref.getInt("pref_key_general_id", -1));
+            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/getName.php?key=5453&userid=" + Utils.getUserID());
 
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
             String inputLine;
@@ -47,7 +47,7 @@ class SyncTaskName extends AsyncTask<Void, Void, Void> {
             return null;
 
         Start.pref.edit()
-                .putInt("pref_key_level_general", Integer.parseInt(result.replace("EF", "10").replace("Q1", "11").replace("Q2", "12")))
+                .putString("pref_key_username_general", result)
                 .apply();
 
         return null;

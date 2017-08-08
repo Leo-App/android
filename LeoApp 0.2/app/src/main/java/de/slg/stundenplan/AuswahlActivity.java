@@ -50,7 +50,7 @@ public class AuswahlActivity extends AppCompatActivity {
 
         String stufe = Utils.getUserStufe();
 
-        if (!stufe.equals("")) {
+        if (!stufe.equals("N/A")) {
             importer = new FachImporter(getApplicationContext(), stufe);
             importer.execute();
         }

@@ -21,7 +21,7 @@ class SyncTaskGrade extends AsyncTask<Void, Void, Void> {
         String result = "";
 
         try {
-            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/getKlasse.php?key=5453&userid=" + Start.pref.getInt("pref_key_general_id", -1));
+            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/getKlasse.php?key=5453&userid=" + Utils.getUserID());
 
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
             String inputLine;

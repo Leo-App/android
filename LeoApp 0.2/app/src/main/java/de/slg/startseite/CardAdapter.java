@@ -2,7 +2,6 @@ package de.slg.startseite;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +24,6 @@ import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
-import de.slg.vertretung.WrapperSubstitutionActivity;
 
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
@@ -188,28 +186,6 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     }
 
-    class CardViewHolder extends RecyclerView.ViewHolder {
-
-        final TextView title;
-        final TextView description;
-        final Button button;
-        final ImageView icon;
-        final RelativeLayout content;
-        final CardView wrapper;
-
-        CardViewHolder(View itemView) {
-            super(itemView);
-
-            title = (TextView) itemView.findViewById(R.id.info_title0);
-            description = (TextView) itemView.findViewById(R.id.info_text0);
-            button = (Button) itemView.findViewById(R.id.buttonCardView0);
-            content = (RelativeLayout) itemView.findViewById(R.id.info_content0);
-            icon = (ImageView) itemView.findViewById(R.id.info_card_icon);
-            wrapper = (CardView) itemView.findViewById(R.id.card_preset);
-        }
-
-    }
-
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -267,10 +243,10 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
         Card c = cards.getContent();
 
 
-            if (MainActivity.editing)
-                holder.wrapper.setCardElevation(25);
-            else
-                holder.wrapper.setCardElevation(5);
+        if (MainActivity.editing)
+            holder.wrapper.setCardElevation(25);
+        else
+            holder.wrapper.setCardElevation(5);
 
 
         holder.button.setEnabled(!MainActivity.editing);
@@ -280,9 +256,9 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             holder.button.setText(ref.buttonDescr);
             holder.button.setOnClickListener(ref.buttonListener);
             holder.title.setText(ref.title);
-            if(ref.title.equals(MainActivity.ref.getString(R.string.coming_soon))) {
-              //  holder.icon.setColorFilter(Color.rgb(0x00,0x91, 0xea));
-                holder.icon.setColorFilter(Color.rgb(0xf4,0x43, 0x36));
+            if (ref.title.equals(MainActivity.ref.getString(R.string.coming_soon))) {
+                //  holder.icon.setColorFilter(Color.rgb(0x00,0x91, 0xea));
+                holder.icon.setColorFilter(Color.rgb(0xf4, 0x43, 0x36));
             }
             holder.description.setText(ref.descr);
             holder.content.setVisibility(View.GONE);
@@ -302,6 +278,28 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     @Override
     public int getItemCount() {
         return cards.length();
+    }
+
+    class CardViewHolder extends RecyclerView.ViewHolder {
+
+        final TextView title;
+        final TextView description;
+        final Button button;
+        final ImageView icon;
+        final RelativeLayout content;
+        final CardView wrapper;
+
+        CardViewHolder(View itemView) {
+            super(itemView);
+
+            title = (TextView) itemView.findViewById(R.id.info_title0);
+            description = (TextView) itemView.findViewById(R.id.info_text0);
+            button = (Button) itemView.findViewById(R.id.buttonCardView0);
+            content = (RelativeLayout) itemView.findViewById(R.id.info_content0);
+            icon = (ImageView) itemView.findViewById(R.id.info_card_icon);
+            wrapper = (CardView) itemView.findViewById(R.id.card_preset);
+        }
+
     }
 
 }

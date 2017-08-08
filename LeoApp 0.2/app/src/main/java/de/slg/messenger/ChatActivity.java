@@ -22,7 +22,9 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -396,11 +398,13 @@ public class ChatActivity extends AppCompatActivity {
             return null;
         }
 
-        private String generateURL(String message) {
+        private String generateURL(String message) throws UnsupportedEncodingException {
+            message = URLEncoder.encode(message, "UTF-8");
+
             String key = Verschluesseln.createKey(message);
             String vMessage = Verschluesseln.encrypt(message, key);
             String vKey = Verschluesseln.encryptKey(key);
-            return "http://moritz.liegmanns.de/messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage.replace("%", "%25").replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + currentChat.cid + "&vKey=" + vKey;
+            return "http://moritz.liegmanns.de/messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + currentChat.cid + "&vKey=" + vKey;
         }
     }
 

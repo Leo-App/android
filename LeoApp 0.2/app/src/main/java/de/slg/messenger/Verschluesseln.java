@@ -1,50 +1,71 @@
 package de.slg.messenger;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 public abstract class Verschluesseln {
     private static String key2 = "ABCD";
 
     static String encrypt(String text, String key) {
         StringBuilder builder = new StringBuilder();
         assert key.matches("[A-Z]*");
-        for (int i = 0; i < text.length(); i++) {
+        for (int i = 0, skipped = 0; i < text.length(); i++) {
             char textChar = text.charAt(i),
-                    keyChar = key.charAt(i % key.length()),
+                    keyChar = key.charAt(i - skipped),
                     encrypted = (char) (textChar + (keyChar - 65));
-            if (isCapitalLetter(textChar)) {
-                if (encrypted > 90)
-                    encrypted -= 26;
-                builder.append(encrypted);
-            } else if (isLowerCaseLetter(textChar)) {
-                if (encrypted > 122)
-                    encrypted -= 26;
-                builder.append(encrypted);
+            if (textChar == '%') {
+                for (int j = 0; j <= 2; j++) {
+                    builder.append(text.charAt(i + j));
+                }
+                i += 2;
+                skipped += 2;
             } else {
-                builder.append(textChar);
+                if (isCapitalLetter(textChar)) {
+                    if (encrypted > 90)
+                        encrypted -= 26;
+                    builder.append(encrypted);
+                } else if (isLowerCaseLetter(textChar)) {
+                    if (encrypted > 122)
+                        encrypted -= 26;
+                    builder.append(encrypted);
+                } else {
+                    builder.append(textChar);
+                }
             }
         }
         return builder.toString();
     }
 
-    public static String decrypt(String text, String key) {
+    public static String decrypt(String text, String key) throws UnsupportedEncodingException {
         StringBuilder builder = new StringBuilder();
         assert key.matches("[A-Z]*");
-        for (int textIndex = 0; textIndex < text.length(); textIndex++) {
-            char textChar = text.charAt(textIndex),
-                    keyChar = key.charAt(textIndex % key.length()),
-                    encrypted = (char) (textChar - (keyChar - 65));
-            if (isCapitalLetter(textChar)) {
-                if (encrypted < 65)
-                    encrypted += 26;
-                builder.append(encrypted);
-            } else if (isLowerCaseLetter(textChar)) {
-                if (encrypted < 97)
-                    encrypted += 26;
-                builder.append(encrypted);
+        text = URLEncoder.encode(text, "UTF-8");
+        for (int i = 0, skipped = 0; i < text.length(); i++) {
+            char textChar = text.charAt(i),
+                    keyChar = key.charAt(i - skipped),
+                    decrypted = (char) (textChar - (keyChar - 65));
+            if (textChar == '%') {
+                for (int j = 0; j <= 2; j++) {
+                    builder.append(text.charAt(i + j));
+                }
+                i += 2;
+                skipped += 2;
             } else {
-                builder.append(textChar);
+                if (isCapitalLetter(textChar)) {
+                    if (decrypted < 65)
+                        decrypted += 26;
+                    builder.append(decrypted);
+                } else if (isLowerCaseLetter(textChar)) {
+                    if (decrypted < 97)
+                        decrypted += 26;
+                    builder.append(decrypted);
+                } else {
+                    builder.append(textChar);
+                }
             }
         }
-        return builder.toString();
+        return URLDecoder.decode(builder.toString(), "UTF-8");
     }
 
     public static String decryptKey(String key) {
@@ -77,6 +98,9 @@ public abstract class Verschluesseln {
 
     static String createKey(String text) {
         int length = text.length();
+        for (int i = 0; i < text.length(); i++)
+            if (text.charAt(i) == '%')
+                length -= 2;
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < length; i++) {
             builder.append((char) (65 + Math.random() * 26));

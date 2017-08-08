@@ -286,15 +286,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         int permission = pref.getInt("pref_key_general_permission", 0);
         currentUsername = pref.getString("pref_key_username_general", "");
 
-        String res = String.valueOf(pref.getInt("pref_key_level_general", 0));
-        res = res.replace("10", "EF");
-        res = res.replace("11", "Q1");
-        res = res.replace("12", "Q2");
-
-        if (res.equals("0"))
-            res = "N/A";
-
-        findPreference("pref_key_level_general").setSummary(res);
+        findPreference("pref_key_level_general").setSummary(Utils.getUserStufe());
         findPreference("pref_key_username_general").setSummary(currentUsername);
 
         if (permission == 2 || !Utils.isVerified()) {

@@ -158,7 +158,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         SQLiteDatabase dbh = db.getWritableDatabase();
         Cursor myCursor;
         String stufe = Utils.getUserStufe();
-        if(!stufe.equals("")) {
+        if (!stufe.equals("N/A")) {
             myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, "adressat = '" + stufe + "'", null, null, null, null);
         }
         else {
