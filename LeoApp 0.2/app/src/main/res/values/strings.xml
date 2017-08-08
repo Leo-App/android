@@ -251,6 +251,8 @@
     <string name="snackbar_select">Select</string>
     <string name="coming_soon" translatable="false">Coming soon!</string>
     <string name="button_card_dismiss">Dismiss</string>
-
+    <string name="add_card">Add card</string>
+    <string name="button_add">add</string>
+    <string name="selector_card">Add a card</string>
 
 </resources>

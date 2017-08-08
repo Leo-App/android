@@ -358,6 +358,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             edit.apply();
             initCardViews();
         }
+        if (item.getItemId() == R.id.action_appedit_add) {
+            new CardAddDialog(this).show();
+        }
         return true;
     }
 
