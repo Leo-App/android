@@ -3,7 +3,6 @@ package de.slg.messenger;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -263,6 +262,91 @@ public class OverviewWrapper extends AppCompatActivity {
                 }
             });
         }
+
+        private class UserAdapter extends RecyclerView.Adapter {
+            private final LayoutInflater inflater;
+            private final User[] array;
+            private final View.OnClickListener listener;
+
+            UserAdapter(LayoutInflater inflater, User[] array, View.OnClickListener listener) {
+                this.inflater = inflater;
+                this.array = array;
+                this.listener = listener;
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return new ViewHolder(inflater.inflate(R.layout.list_item_user, null));
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                View v = holder.itemView;
+                TextView username = (TextView) v.findViewById(R.id.username);
+                username.setText(array[position].uname);
+                v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public int getItemCount() {
+                return array.length;
+            }
+
+            private class ViewHolder extends RecyclerView.ViewHolder {
+                ViewHolder(View itemView) {
+                    super(itemView);
+                    itemView.setOnClickListener(listener);
+                }
+            }
+        }
+
+        private class CreateChat extends AsyncTask<Void, Void, Void> {
+            private final Chat c;
+            private final String url;
+
+            CreateChat(Chat c) {
+                this.c = c;
+                url = generateURL(c);
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (Utils.checkNetwork()) {
+                    try {
+                        BufferedReader reader =
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                new URL(url)
+                                                        .openConnection()
+                                                        .getInputStream(), "UTF-8"));
+                        String erg = "";
+                        String l;
+                        while ((l = reader.readLine()) != null)
+                            erg += l;
+                        reader.close();
+                        if (!erg.startsWith("error"))
+                            c.cid = Integer.parseInt(erg);
+                        else
+                            Log.e("Error", erg);
+                        Utils.getMDB().insertAssoziation(new Assoziation(c.cid, Utils.getUserID()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }
+
+            private String generateURL(Chat chat) {
+                String chatname = chat.cname.replace(' ', '+');
+                Utils.getMDB().setChatname(chat);
+                return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase();
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                Utils.receive();
+            }
+        }
     }
 
     public static class ChatsFragment extends Fragment {
@@ -270,6 +354,7 @@ public class OverviewWrapper extends AppCompatActivity {
         private View view;
         private View.OnClickListener clickListener;
         private View.OnLongClickListener longClickListener;
+        private int selected;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -281,6 +366,7 @@ public class OverviewWrapper extends AppCompatActivity {
         }
 
         private void initRecyclerView() {
+            selected = -1;
             rvChats = (RecyclerView) view.findViewById(R.id.recyclerViewChats);
             clickListener = new View.OnClickListener() {
                 @Override
@@ -328,195 +414,111 @@ public class OverviewWrapper extends AppCompatActivity {
                 }
             });
         }
-    }
 
-    private static class ChatAdapter extends RecyclerView.Adapter {
-        private final LayoutInflater inflater;
-        private final Chat[] chats;
-        private final View.OnClickListener clickListener;
-        private final View.OnLongClickListener longClickListener;
+        private class ChatAdapter extends RecyclerView.Adapter {
+            private final LayoutInflater inflater;
+            private final Chat[] chats;
+            private final View.OnClickListener clickListener;
+            private final View.OnLongClickListener longClickListener;
 
-        ChatAdapter(LayoutInflater inflater, Chat[] chats, View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
-            this.inflater = inflater;
-            this.chats = chats;
-            this.clickListener = clickListener;
-            this.longClickListener = longClickListener;
-        }
+            ChatAdapter(LayoutInflater inflater, Chat[] chats, View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
+                this.inflater = inflater;
+                this.chats = chats;
+                this.clickListener = clickListener;
+                this.longClickListener = longClickListener;
+            }
 
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(inflater.inflate(R.layout.list_item_chat, null));
-        }
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return new ViewHolder(inflater.inflate(R.layout.list_item_chat, null));
+            }
 
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            final View v = holder.itemView;
-            final TextView chatname = (TextView) v.findViewById(R.id.chatname);
-            final TextView lastSender = (TextView) v.findViewById(R.id.letzteNachrichtAbsender);
-            final TextView lastMessage = (TextView) v.findViewById(R.id.letzteNachrichtText);
-            final ImageView icon = (ImageView) v.findViewById(R.id.iconChat);
-            final View iconMute = v.findViewById(R.id.iconMute);
-            final View buttonDelete = v.findViewById(R.id.imageButtonDelete);
-            final View buttonMute = v.findViewById(R.id.imageButtonMute);
-            final View notify = v.findViewById(R.id.notify);
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                final View v = holder.itemView;
+                final TextView chatname = (TextView) v.findViewById(R.id.chatname);
+                final TextView lastSender = (TextView) v.findViewById(R.id.letzteNachrichtAbsender);
+                final TextView lastMessage = (TextView) v.findViewById(R.id.letzteNachrichtText);
+                final ImageView icon = (ImageView) v.findViewById(R.id.iconChat);
+                final View iconMute = v.findViewById(R.id.iconMute);
+                final View buttonDelete = v.findViewById(R.id.imageButtonDelete);
+                final View buttonMute = v.findViewById(R.id.imageButtonMute);
+                final View notify = v.findViewById(R.id.notify);
 
-            if (chats[position] != null) {
                 final Chat c = chats[position];
 
-                chatname.setText(c.cname);
+                if (c != null) {
+                    chatname.setText(c.cname);
 
-                if (c.m != null) {
-                    lastMessage.setVisibility(View.VISIBLE);
-                    lastSender.setVisibility(View.VISIBLE);
-                    v.findViewById(R.id.textView3).setVisibility(View.VISIBLE);
-                    lastMessage.setText(c.m.mtext);
-                    lastSender.setText(c.m.uname);
-                    if (!c.m.mread)
-                        notify.setVisibility(View.VISIBLE);
-                    else
+                    if (c.m != null) {
+                        lastMessage.setVisibility(View.VISIBLE);
+                        lastSender.setVisibility(View.VISIBLE);
+                        v.findViewById(R.id.textView3).setVisibility(View.VISIBLE);
+                        lastMessage.setText(c.m.mtext);
+                        lastSender.setText(c.m.uname);
+                        if (!c.m.mread)
+                            notify.setVisibility(View.VISIBLE);
+                        else
+                            notify.setVisibility(View.GONE);
+                    } else {
+                        lastMessage.setVisibility(View.GONE);
+                        lastSender.setVisibility(View.GONE);
+                        v.findViewById(R.id.textView3).setVisibility(View.GONE);
                         notify.setVisibility(View.GONE);
-                } else {
-                    lastMessage.setVisibility(View.GONE);
-                    lastSender.setVisibility(View.GONE);
-                    v.findViewById(R.id.textView3).setVisibility(View.GONE);
-                    notify.setVisibility(View.GONE);
-                }
-
-                if (c.ctype == Chat.Chattype.PRIVATE) {
-                    icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
-                } else {
-                    icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
-                }
-
-                if (c.mute) {
-                    iconMute.setVisibility(View.VISIBLE);
-                } else {
-                    iconMute.setVisibility(View.GONE);
-                }
-                buttonMute.setActivated(c.mute);
-
-                buttonDelete.setVisibility(View.GONE);
-                buttonMute.setVisibility(View.GONE);
-
-                buttonDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Utils.getMDB().deleteChat(c.cid);
-                        Utils.getOverviewWrapper().notifyUpdate();
                     }
-                });
-                buttonMute.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Utils.getMDB().muteChat(c.cid, !c.mute);
-                        buttonMute.setActivated(!c.mute);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Utils.getOverviewWrapper().notifyUpdate();
-                            }
-                        }, 90);
+
+                    if (c.ctype == Chat.Chattype.PRIVATE) {
+                        icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
+                    } else {
+                        icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
                     }
-                });
-            }
-        }
 
-        @Override
-        public int getItemCount() {
-            return chats.length;
-        }
+                    if (c.mute) {
+                        iconMute.setVisibility(View.VISIBLE);
+                    } else {
+                        iconMute.setVisibility(View.GONE);
+                    }
+                    buttonMute.setActivated(c.mute);
 
-        private class ViewHolder extends RecyclerView.ViewHolder {
-            ViewHolder(View itemView) {
-                super(itemView);
-                itemView.setOnClickListener(clickListener);
-                itemView.setOnLongClickListener(longClickListener);
-            }
-        }
-    }
+                    if (position != selected) {
+                        buttonDelete.setVisibility(View.GONE);
+                        buttonMute.setVisibility(View.GONE);
+                    } else {
+                        buttonDelete.setVisibility(View.VISIBLE);
+                        buttonMute.setVisibility(View.VISIBLE);
+                    }
 
-    private static class UserAdapter extends RecyclerView.Adapter {
-        private final LayoutInflater inflater;
-        private final User[] array;
-        private final View.OnClickListener listener;
-
-        UserAdapter(LayoutInflater inflater, User[] array, View.OnClickListener listener) {
-            this.inflater = inflater;
-            this.array = array;
-            this.listener = listener;
-        }
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(inflater.inflate(R.layout.list_item_user, null));
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            View v = holder.itemView;
-            TextView username = (TextView) v.findViewById(R.id.username);
-            username.setText(array[position].uname);
-            v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        public int getItemCount() {
-            return array.length;
-        }
-
-        private class ViewHolder extends RecyclerView.ViewHolder {
-            ViewHolder(View itemView) {
-                super(itemView);
-                itemView.setOnClickListener(listener);
-            }
-        }
-    }
-
-    private static class CreateChat extends AsyncTask<Void, Void, Void> {
-        private final Chat c;
-        private final String url;
-
-        CreateChat(Chat c) {
-            this.c = c;
-            url = generateURL(c);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (Utils.checkNetwork()) {
-                try {
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            new URL(url)
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
-                    String erg = "";
-                    String l;
-                    while ((l = reader.readLine()) != null)
-                        erg += l;
-                    reader.close();
-                    if (!erg.startsWith("error"))
-                        c.cid = Integer.parseInt(erg);
-                    else
-                        Log.e("Error", erg);
-                    Utils.getMDB().insertAssoziation(new Assoziation(c.cid, Utils.getUserID()));
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    buttonDelete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Utils.getMDB().deleteChat(c.cid);
+                            selected = -1;
+                            Utils.getOverviewWrapper().notifyUpdate();
+                        }
+                    });
+                    buttonMute.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Utils.getMDB().muteChat(c.cid, !c.mute);
+                            selected = -1;
+                            Utils.getOverviewWrapper().notifyUpdate();
+                        }
+                    });
                 }
             }
-            return null;
-        }
 
-        private String generateURL(Chat chat) {
-            String chatname = chat.cname.replace(' ', '+');
-            Utils.getMDB().setChatname(chat);
-            return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase();
-        }
+            @Override
+            public int getItemCount() {
+                return chats.length;
+            }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Utils.receive();
+            private class ViewHolder extends RecyclerView.ViewHolder {
+                ViewHolder(View itemView) {
+                    super(itemView);
+                    itemView.setOnClickListener(clickListener);
+                    itemView.setOnLongClickListener(longClickListener);
+                }
+            }
         }
     }
 }

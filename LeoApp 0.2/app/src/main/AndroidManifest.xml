@@ -36,18 +36,21 @@
         </activity>
         <activity
             android:name=".PreferenceActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
         <activity
             android:name=".NotificationPreferenceActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name="de.slg.startseite.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
 
         <activity
             android:name="de.slg.vertretung.WrapperSubstitutionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
 
         <activity
             android:name="de.slg.startseite.InfoActivity"
@@ -55,7 +58,8 @@
 
         <activity
             android:name="de.slg.messenger.OverviewWrapper"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
         <activity
             android:name="de.slg.messenger.ChatActivity"
             android:screenOrientation="portrait" />
@@ -68,11 +72,13 @@
 
         <activity
             android:name="de.slg.essensqr.WrapperQRActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
 
         <activity
             android:name="de.slg.stimmungsbarometer.StimmungsbarometerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
         <activity
             android:name="de.slg.stimmungsbarometer.AbstimmActivity"
             android:screenOrientation="portrait"
@@ -83,15 +89,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="de.slg.klausurplan.KlausurplanActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
 
         <activity
             android:name="de.slg.schwarzes_brett.SchwarzesBrettActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
 
         <activity
             android:name="de.slg.stundenplan.WrapperStundenplanActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
         <activity
             android:name="de.slg.stundenplan.StundenplanActivity"
             android:screenOrientation="portrait" />
@@ -104,7 +113,8 @@
 
         <activity
             android:name="de.slg.nachhilfe.NachhilfeboerseActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
         <activity
             android:name="de.slg.nachhilfe.Hinzufuegen"
             android:screenOrientation="portrait" />

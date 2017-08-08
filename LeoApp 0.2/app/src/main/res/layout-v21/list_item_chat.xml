@@ -15,10 +15,11 @@
 
     <ImageView
         android:id="@+id/iconMute"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@id/iconChat"
         android:layout_alignRight="@id/iconChat"
+        android:adjustViewBounds="true"
         android:background="@drawable/background_mute"
         android:padding="1dp"
         android:tint="@color/colorInactive"

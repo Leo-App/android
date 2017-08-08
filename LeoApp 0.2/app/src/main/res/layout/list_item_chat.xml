@@ -15,19 +15,20 @@
 
     <ImageView
         android:id="@+id/iconMute"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_alignRight="@id/iconChat"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@id/iconChat"
-        android:tint="@color/colorInactive"
+        android:layout_alignRight="@id/iconChat"
+        android:adjustViewBounds="true"
         android:background="@drawable/background_mute"
         android:padding="1dp"
+        android:tint="@color/colorInactive"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_volume_off_white_24dp" />
 
     <TextView
         android:id="@+id/chatname"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
@@ -110,9 +111,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:background="@android:color/background_light"
         android:padding="5dp"
         android:tint="@color/colorBadMood"
-        android:background="@android:color/background_light"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_delete_white_24dp" />
 
