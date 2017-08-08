@@ -41,143 +41,148 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
         for (String card : card_config.split(";")) {
 
             CardType type = CardType.valueOf(card);
+            addToList(type);
 
-            InfoCard c;
-            MiscCard m;
+        }
 
-            switch (type) {
+    }
 
-                case FOODMARKS:
-                    cards.append(c = new InfoCard(true, type));
-                    c.title = Utils.getString(R.string.title_foodmarks);
-                    c.descr = Utils.getString(R.string.summary_info_foodmark);
-                    c.buttonDescr = Utils.getString(R.string.button_info_try);
-                    c.icon = R.drawable.qrcode;
-                    c.buttonListener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperQRActivity.class));
-                        }
-                    };
-                    break;
-                case TESTPLAN:
-                    cards.append(c = new InfoCard(false, type));
-                    c.title = Utils.getString(R.string.title_testplan);
-                    c.descr = Utils.getString(R.string.summary_info_testplan);
-                    c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
-                    c.enabled = Utils.isVerified();
-                    c.icon = R.drawable.content_paste;
-                    c.buttonListener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (Utils.isVerified())
-                                MainActivity.ref.startActivity(new Intent(MainActivity.ref, KlausurplanActivity.class));
-                            else
-                                MainActivity.ref.showDialog();
-                        }
-                    };
-                    break;
-                case MESSENGER:
-                    cards.append(c = new InfoCard(true, type));
-                    c.title = Utils.getString(R.string.title_messenger);
-                    c.descr = Utils.getString(R.string.summary_info_messenger);
-                    c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
-                    c.enabled = Utils.isVerified();
-                    c.icon = R.drawable.messenger;
-                    c.buttonListener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (Utils.isVerified())
-                                MainActivity.ref.startActivity(new Intent(MainActivity.ref, OverviewWrapper.class));
-                            else
-                                MainActivity.ref.showDialog();
-                        }
-                    };
-                    break;
-                case TUTORING:
-                    cards.append(c = new InfoCard(false, type));
-                    c.title = Utils.getString(R.string.title_tutoring);
-                    c.descr = Utils.getString(R.string.summary_info_tutoring);
-                    c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
-                    c.enabled = Utils.isVerified();
-                    c.icon = R.drawable.account_multiple;
-                    c.buttonListener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (Utils.isVerified())
-                                MainActivity.ref.startActivity(new Intent(MainActivity.ref, NachhilfeboerseActivity.class));
-                            else
-                                MainActivity.ref.showDialog();
-                        }
-                    };
-                    break;
-                case NEWS:
-                    cards.append(c = new InfoCard(false, type));
-                    c.title = Utils.getString(R.string.title_news);
-                    c.descr = Utils.getString(R.string.summary_info_news);
-                    c.buttonDescr = Utils.getString(R.string.button_info_try);
-                    c.icon = R.drawable.ic_event_note_white_24px;
-                    c.buttonListener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, SchwarzesBrettActivity.class));
-                        }
-                    };
-                    break;
-                case SURVEY:
-                    cards.append(c = new InfoCard(false, type));
-                    c.title = Utils.getString(R.string.title_survey);
-                    c.descr = Utils.getString(R.string.summary_info_survey);
-                    c.buttonDescr = Utils.getString(R.string.button_info_try);
-                    c.icon = R.drawable.emoticon;
-                    c.buttonListener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, StimmungsbarometerActivity.class));
-                        }
-                    };
-                    break;
-                case SCHEDULE:
-                    cards.append(c = new InfoCard(false, type));
-                    c.title = Utils.getString(R.string.title_plan);
-                    c.descr = Utils.getString(R.string.summary_info_schedule);
-                    c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
-                    c.enabled = Utils.isVerified();
-                    c.icon = R.drawable.schedule;
-                    c.buttonListener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (Utils.isVerified())
-                                MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperStundenplanActivity.class));
-                            else
-                                MainActivity.ref.showDialog();
-                        }
-                    };
-                    break;
-                case SUBSTITUTION:
-                    cards.append(c = new InfoCard(false, type));
-                    c.title = Utils.getString(R.string.coming_soon);
-                    c.descr = Utils.getString(R.string.summary_info_subst);
-                    c.buttonDescr = Utils.getString(R.string.coming_soon);
-                    c.icon = R.drawable.ic_priority_high_black_24dp;
-                    c.buttonListener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                          //  MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperSubstitutionActivity.class));
-                        }
-                    };
-                    break;
-                case WEATHER:
-                    cards.append(m = new MiscCard(false, type, true));
-                    m.title = Utils.getString(R.string.title_subst);
+    void addToList(CardType type) {
 
-                    break;
-                case NEXT_TEST:
-                    cards.append(m = new MiscCard(false, type, true));
-                    m.title = Utils.getString(R.string.title_subst);
-                    break;
+        InfoCard c;
+        MiscCard m;
 
-            }
+        switch (type) {
+
+            case FOODMARKS:
+                cards.append(c = new InfoCard(true, type));
+                c.title = Utils.getString(R.string.title_foodmarks);
+                c.descr = Utils.getString(R.string.summary_info_foodmark);
+                c.buttonDescr = Utils.getString(R.string.button_info_try);
+                c.icon = R.drawable.qrcode;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperQRActivity.class));
+                    }
+                };
+                break;
+            case TESTPLAN:
+                cards.append(c = new InfoCard(false, type));
+                c.title = Utils.getString(R.string.title_testplan);
+                c.descr = Utils.getString(R.string.summary_info_testplan);
+                c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                c.enabled = Utils.isVerified();
+                c.icon = R.drawable.content_paste;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Utils.isVerified())
+                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, KlausurplanActivity.class));
+                        else
+                            MainActivity.ref.showDialog();
+                    }
+                };
+                break;
+            case MESSENGER:
+                cards.append(c = new InfoCard(true, type));
+                c.title = Utils.getString(R.string.title_messenger);
+                c.descr = Utils.getString(R.string.summary_info_messenger);
+                c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                c.enabled = Utils.isVerified();
+                c.icon = R.drawable.messenger;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Utils.isVerified())
+                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, OverviewWrapper.class));
+                        else
+                            MainActivity.ref.showDialog();
+                    }
+                };
+                break;
+            case TUTORING:
+                cards.append(c = new InfoCard(false, type));
+                c.title = Utils.getString(R.string.title_tutoring);
+                c.descr = Utils.getString(R.string.summary_info_tutoring);
+                c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                c.enabled = Utils.isVerified();
+                c.icon = R.drawable.account_multiple;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Utils.isVerified())
+                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, NachhilfeboerseActivity.class));
+                        else
+                            MainActivity.ref.showDialog();
+                    }
+                };
+                break;
+            case NEWS:
+                cards.append(c = new InfoCard(false, type));
+                c.title = Utils.getString(R.string.title_news);
+                c.descr = Utils.getString(R.string.summary_info_news);
+                c.buttonDescr = Utils.getString(R.string.button_info_try);
+                c.icon = R.drawable.ic_event_note_white_24px;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MainActivity.ref.startActivity(new Intent(MainActivity.ref, SchwarzesBrettActivity.class));
+                    }
+                };
+                break;
+            case SURVEY:
+                cards.append(c = new InfoCard(false, type));
+                c.title = Utils.getString(R.string.title_survey);
+                c.descr = Utils.getString(R.string.summary_info_survey);
+                c.buttonDescr = Utils.getString(R.string.button_info_try);
+                c.icon = R.drawable.emoticon;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MainActivity.ref.startActivity(new Intent(MainActivity.ref, StimmungsbarometerActivity.class));
+                    }
+                };
+                break;
+            case SCHEDULE:
+                cards.append(c = new InfoCard(false, type));
+                c.title = Utils.getString(R.string.title_plan);
+                c.descr = Utils.getString(R.string.summary_info_schedule);
+                c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                c.enabled = Utils.isVerified();
+                c.icon = R.drawable.schedule;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Utils.isVerified())
+                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperStundenplanActivity.class));
+                        else
+                            MainActivity.ref.showDialog();
+                    }
+                };
+                break;
+            case SUBSTITUTION:
+                cards.append(c = new InfoCard(false, type));
+                c.title = Utils.getString(R.string.coming_soon);
+                c.descr = Utils.getString(R.string.summary_info_subst);
+                c.buttonDescr = Utils.getString(R.string.coming_soon);
+                c.icon = R.drawable.ic_priority_high_black_24dp;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //  MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperSubstitutionActivity.class));
+                    }
+                };
+                break;
+            case WEATHER:
+                cards.append(m = new MiscCard(false, type, true));
+                m.title = Utils.getString(R.string.title_subst);
+
+                break;
+            case NEXT_TEST:
+                cards.append(m = new MiscCard(false, type, true));
+                m.title = Utils.getString(R.string.title_subst);
+                break;
 
         }
 

@@ -364,6 +364,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+    public void addCard(CardType t) {
+
+        mAdapter.addToList(t);
+        mAdapter.notifyDataSetChanged();
+
+        //TODO: Sroll to new Position
+
+
+
+    }
+
     private void writeToPreferences() {
 
         StringBuilder b = new StringBuilder();

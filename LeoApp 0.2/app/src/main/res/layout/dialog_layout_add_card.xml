@@ -41,6 +41,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:tag="FOODMARKS"
                 android:adjustViewBounds="true"
                 android:background="@drawable/smiley_background_very_satisfied"
                 android:contentDescription="@string/textview_placeholder"
@@ -53,6 +54,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:tag="TESTPLAN"
                 android:adjustViewBounds="true"
                 android:background="@drawable/smiley_background_satisfied"
                 android:contentDescription="@string/textview_placeholder"
@@ -65,6 +67,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:tag="MESSENGER"
                 android:adjustViewBounds="true"
                 android:background="@drawable/smiley_background_neutral"
                 android:contentDescription="@string/textview_placeholder"
@@ -74,6 +77,7 @@
 
             <ImageButton
                 android:id="@+id/imageButton4"
+                android:tag="TUTORING"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -87,6 +91,7 @@
 
             <ImageButton
                 android:id="@+id/imageButton5"
+                android:tag="NEWS"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -99,6 +104,7 @@
 
             <ImageButton
                 android:layout_width="50dp"
+                android:tag="SURVEY"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:id="@+id/imageButton6"
@@ -111,6 +117,7 @@
 
             <ImageButton
                 android:layout_width="50dp"
+                android:tag="SCHEDULE"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:adjustViewBounds="true"
@@ -123,6 +130,7 @@
 
             <ImageButton
                 android:layout_width="50dp"
+                android:tag="WEATHER"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:adjustViewBounds="true"
@@ -155,6 +163,7 @@
         android:layout_below="@id/scrollViewHorizontal"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:enabled="false"
         android:text="@string/button_add"
         android:textAllCaps="true" />
 
