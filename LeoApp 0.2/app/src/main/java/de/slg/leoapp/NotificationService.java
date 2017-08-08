@@ -30,25 +30,31 @@ import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 
 public class NotificationService extends Service {
-    private static short hoursQR;
-    private static short minutesQR;
-    private static short hoursTT;
-    private static short minutesTT;
+    private static short hoursQR, minutesQR;
+    private static short hoursTT, minutesTT;
+    private static short hoursTP, minutesTP;
+    private static short hoursSB, minutesSB;
     private NotificationManager notificationManager;
     private Bitmap icon;
     private int userid;
     private boolean running;
 
     public static void actualize() {
-        String time = Start.pref.getString("pref_key_notification_time", "00:00");
+        String qr = Start.pref.getString("pref_key_notification_time", "00:00");
+        hoursQR = Short.parseShort(qr.split(":")[0]);
+        minutesQR = Short.parseShort(qr.split(":")[1]);
 
-        hoursQR = Short.parseShort(time.split(":")[0]);
-        minutesQR = Short.parseShort(time.split(":")[1]);
+        String tt = Start.pref.getString("pref_key_notification_time_schedule", "00:00");
+        hoursTT = Short.parseShort(tt.split(":")[0]);
+        minutesTT = Short.parseShort(tt.split(":")[1]);
 
-        String ti = Start.pref.getString("pref_key_notification_time_schedule", "00:00");
+        String tp = Start.pref.getString("pref_key_notification_time_test", "00:00");
+        hoursTP = Short.parseShort(tt.split(":")[0]);
+        minutesTP = Short.parseShort(tt.split(":")[1]);
 
-        hoursTT = Short.parseShort(ti.split(":")[0]);
-        minutesTT = Short.parseShort(ti.split(":")[1]);
+        String sb = Start.pref.getString("pref_key_notification_time_survey", "00:00");
+        hoursSB = Short.parseShort(tt.split(":")[0]);
+        minutesSB = Short.parseShort(tt.split(":")[1]);
     }
 
     @Override
@@ -79,7 +85,7 @@ public class NotificationService extends Service {
         Log.i("NotificationService", "Service stopped!");
     }
 
-    private void someLoopStuff() {
+    private void timeCheck() {
         Date d = new Date();
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(d);
@@ -89,46 +95,57 @@ public class NotificationService extends Service {
         }
 
         if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursQR && c.get(Calendar.MINUTE) == minutesQR) {
+            checkEssensqr();
+        }
 
-            de.slg.essensqr.SQLitePrinter.printDatabase(getApplicationContext());
+        if (c.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursTP && c.get(Calendar.MINUTE) == minutesTP) {
+            klausurplanNotification();
+        }
 
-            SQLiteHandler db = new SQLiteHandler(this);
-            SQLiteDatabase dbw = db.getReadableDatabase();
+        if (c.get(Calendar.HOUR_OF_DAY) == hoursSB && c.get(Calendar.MINUTE) == minutesSB) {
+            stimmungsbarometernotification();
+        }
+    }
 
-            Cursor cursor = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
+    private void checkEssensqr() {
+        de.slg.essensqr.SQLitePrinter.printDatabase(getApplicationContext());
 
-            if (cursor.getCount() == 0) {
-                cursor.close();
-                essensqrNotification();
-                return;
-            }
+        SQLiteHandler db = new SQLiteHandler(this);
+        SQLiteDatabase dbw = db.getReadableDatabase();
 
-            cursor.moveToFirst();
-            int maxid = cursor.getInt(cursor.getColumnIndex("id"));
+        Cursor cursor = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
 
+        if (cursor.getCount() == 0) {
             cursor.close();
+            essensqrNotification();
+            return;
+        }
 
-            cursor = dbw.rawQuery("SELECT o.DATEU as date FROM USERORDERS o JOIN STATISTICS s ON s.LASTORDER = o.ID WHERE s.ID = " + maxid, null);
+        cursor.moveToFirst();
+        int maxid = cursor.getInt(cursor.getColumnIndex("id"));
 
-            if (cursor.getCount() == 0) {
-                cursor.close();
-                essensqrNotification();
-                return;
-            }
+        cursor.close();
 
-            cursor.moveToFirst();
-            String date = cursor.getString(cursor.getColumnIndex("date"));
+        cursor = dbw.rawQuery("SELECT o.DATEU as date FROM USERORDERS o JOIN STATISTICS s ON s.LASTORDER = o.ID WHERE s.ID = " + maxid, null);
+
+        if (cursor.getCount() == 0) {
             cursor.close();
+            essensqrNotification();
+            return;
+        }
 
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        cursor.moveToFirst();
+        String date = cursor.getString(cursor.getColumnIndex("date"));
+        cursor.close();
 
-            try {
-                Date dateD = df.parse(date);
-                if (dateD.before(new Date()))
-                    essensqrNotification();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            Date dateD = df.parse(date);
+            if (dateD.before(new Date()))
+                essensqrNotification();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
@@ -311,13 +328,9 @@ public class NotificationService extends Service {
             running = true;
             icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
             while (running) {
-                //klausurplanNotification();
                 messengerNotification();
-                nachhilfeNotification();
                 schwarzesBrettNotification();
-                stimmungsbarometernotification();
-                vertretungsplanNotification();
-                someLoopStuff(); // Enthält Essensqr und Stundenplan Notification
+                timeCheck();
             }
         }
     }

@@ -3,6 +3,7 @@ package de.slg.schwarzes_brett;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -42,7 +43,6 @@ import de.slg.stundenplan.WrapperStundenplanActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
 public class SchwarzesBrettActivity extends AppCompatActivity {
-
     private List<String> groupList;
     private List<String> childList;
     private Map<String, List<String>> schwarzesBrett;
@@ -58,6 +58,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
         initToolbar();
         initNavigationView();
+        initButton();
         try {
             empfangeDaten.get();
         } catch (InterruptedException | ExecutionException e) {
@@ -150,6 +151,19 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         if (groupList.size() == 0) {
             findViewById(R.id.textView6).setVisibility(View.VISIBLE);
         }
+    }
+
+    private void initButton() {
+        View button = findViewById(R.id.floatingActionButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://moritz.liegmanns.de/schwarzes_brett/NeueMeldung.php"));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void createGroupList() {

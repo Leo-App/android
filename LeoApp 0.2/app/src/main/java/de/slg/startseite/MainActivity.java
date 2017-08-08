@@ -67,19 +67,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static TextView title, info;
     public static Button verify;
     public static MainActivity ref;
-
-    private ZXingScannerView scV;
-
-    private static boolean verified;
     public static boolean editing;
-
+    private static boolean verified;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
-
+    private ZXingScannerView scV;
     private boolean runningScan;
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private CardAdapter mAdapter;
+
+    private static boolean isVerified() {
+        return verified;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
-
             }
         });
 
@@ -452,10 +451,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         builder.setView(v);
         builder.show();
-    }
-
-    private static boolean isVerified() {
-        return verified;
     }
 
     public void setVerified() {
