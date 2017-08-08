@@ -15,9 +15,8 @@ public class ClassPickerPref extends DialogPreference {
     private static final int MAX_VALUE = 12;
     private static final int MIN_VALUE = 5;
     private static final boolean WRAP_SELECTOR_WHEEL = false;
-
+    private final String[] values = {"5", "6", "7", "8", "9", "EF", "Q1", "Q2"};
     private NumberPicker picker;
-    private int value;
 
     public ClassPickerPref(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -47,9 +46,9 @@ public class ClassPickerPref extends DialogPreference {
         super.onBindDialogView(view);
         picker.setMinValue(MIN_VALUE);
         picker.setMaxValue(MAX_VALUE);
-        picker.setDisplayedValues(new String[]{"5", "6", "7", "8", "9", "EF", "Q1", "Q2"});
+        picker.setDisplayedValues(values);
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
-        picker.setValue(getValue());
+        picker.setValue(MIN_VALUE + getIndex());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     }
 
@@ -59,7 +58,7 @@ public class ClassPickerPref extends DialogPreference {
             picker.clearFocus();
             int newValue = picker.getValue();
             if (callChangeListener(newValue)) {
-                setValue(newValue);
+                setValue(newValue - MIN_VALUE);
             }
         }
     }
@@ -69,13 +68,16 @@ public class ClassPickerPref extends DialogPreference {
         return a.getInt(index, MIN_VALUE);
     }
 
-    private void setValue(int value) {
-        this.value = value;
-        persistInt(this.value);
+    private void setValue(int index) {
+        persistString(values[index]);
     }
 
-    private int getValue() {
-        this.value = getPersistedInt(2);
-        return this.value;
+    private int getIndex() {
+        String grade = getPersistedString("N/A");
+        for (int i = 0; i < values.length; i++) {
+            if (values[i].equals(grade))
+                return i;
+        }
+        return 0;
     }
 }
