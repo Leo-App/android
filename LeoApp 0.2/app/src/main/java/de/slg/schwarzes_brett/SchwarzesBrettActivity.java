@@ -147,16 +147,20 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     }
 
     private void initButton() {
-        View button = findViewById(R.id.floatingActionButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://moritz.liegmanns.de/schwarzes_brett/NeueMeldung.php"));
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
+        if (Utils.getUserPermission() == 2) {
+            View button = findViewById(R.id.floatingActionButton);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://moritz.liegmanns.de/schwarzes_brett/NeueMeldung.php"));
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            findViewById(R.id.floatingActionButton).setVisibility(View.GONE);
+        }
     }
 
     private void createGroupList() {

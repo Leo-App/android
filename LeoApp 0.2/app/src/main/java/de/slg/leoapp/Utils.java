@@ -79,9 +79,9 @@ public abstract class Utils {
         return Start.pref.getLong("pref_key_general_last_notification_schwarzes_brett", 0);
     }
 
-    static void notifiedSchwarzesBrett() {
+    static void notifiedSchwarzesBrett(long date) {
         Start.pref.edit()
-                .putLong("pref_key_general_last_notification_schwarzes_brett", 0)
+                .putLong("pref_key_general_last_notification_schwarzes_brett", date)
                 .apply();
     }
 
@@ -213,7 +213,7 @@ public abstract class Utils {
         return Start.pref.getString("pref_key_level_general", context.getString(R.string.settings_summary_username));
     }
 
-    private static int getUserPermission() {
+    public static int getUserPermission() {
         return Start.pref.getInt("pref_key_general_permission", 0);
     }
 

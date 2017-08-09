@@ -46,7 +46,6 @@ import de.slg.stundenplan.WrapperStundenplanActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
 public class KlausurplanActivity extends AppCompatActivity {
-
     private ListView lvKlausuren;
     private List<Klausur> klausurList;
     private DrawerLayout drawerLayout;
@@ -330,7 +329,10 @@ public class KlausurplanActivity extends AppCompatActivity {
 
     private void readFromFile() {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput(getString(R.string.klausuren_filemane))));
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    openFileInput(getString(R.string.klausuren_filemane))));
             String input = "";
             String line;
             while ((line = reader.readLine()) != null) {
@@ -351,7 +353,10 @@ public class KlausurplanActivity extends AppCompatActivity {
 
     private void writeToFile() {
         try {
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput(getString(R.string.klausuren_filemane), MODE_PRIVATE)));
+            BufferedWriter writer =
+                    new BufferedWriter(
+                            new OutputStreamWriter(
+                                    openFileOutput(getString(R.string.klausuren_filemane), MODE_PRIVATE)));
             for (klausurList.toFirst(); klausurList.hasAccess(); klausurList.next()) {
                 writer.write(klausurList.getContent().getWriterString());
                 writer.newLine();

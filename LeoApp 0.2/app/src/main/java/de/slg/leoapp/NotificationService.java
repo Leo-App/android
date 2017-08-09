@@ -24,6 +24,8 @@ import de.slg.essensqr.SQLiteHandler;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.Message;
 import de.slg.messenger.OverviewWrapper;
+import de.slg.schwarzes_brett.SQLiteConnector;
+import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.AbstimmActivity;
 import de.slg.stundenplan.Fach;
@@ -66,6 +68,7 @@ public class NotificationService extends Service {
         userid = Utils.getUserID();
 
         getTimes();
+        icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
 
         new LoopThread().start();
 
@@ -161,7 +164,7 @@ public class NotificationService extends Service {
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
 
-            NotificationCompat.Builder mBuilder =
+            NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(this)
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setLargeIcon(icon)
@@ -171,7 +174,7 @@ public class NotificationService extends Service {
                             .setContentText(getString(R.string.notification_summary_notif))
                             .setContentIntent(resultPendingIntent);
 
-            notificationManager.notify(101, mBuilder.build());
+            notificationManager.notify(101, notificationBuilder.build());
         }
     }
 
@@ -187,7 +190,7 @@ public class NotificationService extends Service {
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
 
-            NotificationCompat.Builder mBuilder =
+            NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(getApplicationContext())
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setLargeIcon(icon)
@@ -197,7 +200,7 @@ public class NotificationService extends Service {
                             .setContentText("Hallo")
                             .setContentIntent(resultPendingIntent);
 
-            notificationManager.notify(777, mBuilder.build());
+            notificationManager.notify(777, notificationBuilder.build());
         }
     }
 
@@ -210,7 +213,9 @@ public class NotificationService extends Service {
                         .append(m.mtext)
                         .append(System.getProperty("line.separator"));
             }
+
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);
+
             Notification notification =
                     new NotificationCompat.Builder(getApplicationContext())
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -232,7 +237,33 @@ public class NotificationService extends Service {
 
     private void schwarzesBrettNotification() {
         if (Start.pref.getBoolean("pref_key_notification_news", true)) {
-//          TODO
+            SQLiteConnector db = new SQLiteConnector(getApplicationContext());
+            SQLiteDatabase dbh = db.getReadableDatabase();
+            long latest = db.getLatestDate(dbh);
+            if (latest > Utils.getLatestSchwarzesBrettDate()) {
+                Utils.notifiedSchwarzesBrett(latest);
+                Intent resultIntent = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
+
+                PendingIntent resultPendingIntent =
+                        PendingIntent.getActivity(
+                                getApplicationContext(),
+                                0,
+                                resultIntent,
+                                0
+                        );
+
+                NotificationCompat.Builder notificationBuilder =
+                        new NotificationCompat.Builder(this)
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .setLargeIcon(icon)
+                                .setSmallIcon(R.drawable.ic_event_note_white_24dp)
+                                .setVibrate(new long[]{200})
+                                .setContentTitle("Neue Einträge")
+                                .setContentText("Es gibt Neuigkeiten am Schwarzen Brett")
+                                .setContentIntent(resultPendingIntent);
+
+                notificationManager.notify(287, notificationBuilder.build());
+            }
         }
     }
 
@@ -249,7 +280,7 @@ public class NotificationService extends Service {
                             0
                     );
 
-            NotificationCompat.Builder mBuilder =
+            NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(this)
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setLargeIcon(icon)
@@ -259,7 +290,7 @@ public class NotificationService extends Service {
                             .setContentText("Jetzt abstimmen")
                             .setContentIntent(resultPendingIntent);
 
-            notificationManager.notify(234, mBuilder.build());
+            notificationManager.notify(234, notificationBuilder.build());
         }
     }
 
@@ -284,7 +315,7 @@ public class NotificationService extends Service {
                                 PendingIntent.FLAG_UPDATE_CURRENT
                         );
 
-                NotificationCompat.Builder mBuilder =
+                NotificationCompat.Builder notificationBuilder =
                         new NotificationCompat.Builder(this)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                                 .setLargeIcon(icon)
@@ -294,7 +325,7 @@ public class NotificationService extends Service {
                                 .setContentText(builder.toString())
                                 .setContentIntent(resultPendingIntent);
 
-                notificationManager.notify(101, mBuilder.build());
+                notificationManager.notify(101, notificationBuilder.build());
             }
         }
     }
@@ -326,7 +357,6 @@ public class NotificationService extends Service {
         @Override
         public void run() {
             running = true;
-            icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
             while (running) {
                 messengerNotification();
                 schwarzesBrettNotification();
