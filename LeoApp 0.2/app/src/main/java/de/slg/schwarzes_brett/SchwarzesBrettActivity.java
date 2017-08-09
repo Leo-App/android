@@ -177,16 +177,20 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         }
         schwarzesBrett = new LinkedHashMap<>();
         for (myCursor.moveToFirst(); !myCursor.isAfterLast(); myCursor.moveToNext()) {
-            groupList.add(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.EINTRAEGE_TITEL)));
-            Date erstelldatum = new Date(myCursor.getLong(3));
-            Date ablaufdatum = new Date(myCursor.getLong(4));
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
-            String[] children = {myCursor.getString(0),
-                    myCursor.getString(2),
-                    "Gültig vom " + simpleDateFormat.format(erstelldatum) +
-                            " bis zum " + simpleDateFormat.format(ablaufdatum)};
-            loadChild(children);
-            schwarzesBrett.put(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.EINTRAEGE_TITEL)), childList);
+            try {
+                groupList.add(myCursor.getString(myCursor.getColumnIndexOrThrow(SQLiteConnector.EINTRAEGE_TITEL)));
+                Date erstelldatum = new Date(myCursor.getLong(3));
+                Date ablaufdatum = new Date(myCursor.getLong(4));
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+                String[] children = {myCursor.getString(0),
+                        myCursor.getString(2),
+                        "Gültig vom " + simpleDateFormat.format(erstelldatum) +
+                                " bis zum " + simpleDateFormat.format(ablaufdatum)};
+                loadChild(children);
+                schwarzesBrett.put(myCursor.getString(myCursor.getColumnIndexOrThrow(SQLiteConnector.EINTRAEGE_TITEL)), childList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         myCursor.close();
         dbh.close();
