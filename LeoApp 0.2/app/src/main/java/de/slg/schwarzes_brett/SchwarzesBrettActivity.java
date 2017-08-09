@@ -52,6 +52,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         setContentView(R.layout.activity_schwarzesbrett);
 
         Utils.receiveNews();
+        Utils.getNotificationManager().cancel(287);
 
         initToolbar();
         initNavigationView();

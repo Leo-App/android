@@ -240,6 +240,9 @@ public class NotificationService extends Service {
             SQLiteConnector db = new SQLiteConnector(getApplicationContext());
             SQLiteDatabase dbh = db.getReadableDatabase();
             long latest = db.getLatestDate(dbh);
+            dbh.close();
+            db.close();
+
             if (latest > Utils.getLatestSchwarzesBrettDate()) {
                 Utils.notifiedSchwarzesBrett(latest);
                 Intent resultIntent = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);

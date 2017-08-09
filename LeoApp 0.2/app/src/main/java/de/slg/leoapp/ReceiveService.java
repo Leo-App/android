@@ -62,7 +62,7 @@ public class ReceiveService extends Service {
         interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
 
         new MessengerThread().start();
-        new SchwarzesBrettThread().start();
+        new NewsThread().start();
 
         Log.i("ReceiveService", "Service (re)started!");
 
@@ -107,12 +107,13 @@ public class ReceiveService extends Service {
                     receiveMessages = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    break;
                 }
             }
         }
     }
 
-    private class SchwarzesBrettThread extends Thread {
+    private class NewsThread extends Thread {
         @Override
         public void run() {
             while (running) {
@@ -125,6 +126,7 @@ public class ReceiveService extends Service {
                     receiveNews = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    break;
                 }
             }
         }
@@ -280,7 +282,7 @@ public class ReceiveService extends Service {
         protected void onPostExecute(Void aVoid) {
             if (Utils.getOverviewWrapper() != null)
                 Utils.getOverviewWrapper().notifyUpdate();
-            Log.i("ReceiveService", "received");
+            Log.i("ReceiveService", "received Messages");
         }
     }
 
@@ -350,6 +352,11 @@ public class ReceiveService extends Service {
                 }
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Log.i("ReceiveService", "received News");
         }
     }
 }
