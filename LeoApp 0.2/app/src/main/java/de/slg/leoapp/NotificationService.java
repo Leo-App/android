@@ -39,7 +39,7 @@ public class NotificationService extends Service {
     private int userid;
     private boolean running;
 
-    public static void actualize() {
+    public static void getTimes() {
         String qr = Start.pref.getString("pref_key_notification_time", "00:00");
         hoursQR = Short.parseShort(qr.split(":")[0]);
         minutesQR = Short.parseShort(qr.split(":")[1]);
@@ -49,12 +49,12 @@ public class NotificationService extends Service {
         minutesTT = Short.parseShort(tt.split(":")[1]);
 
         String tp = Start.pref.getString("pref_key_notification_time_test", "00:00");
-        hoursTP = Short.parseShort(tt.split(":")[0]);
-        minutesTP = Short.parseShort(tt.split(":")[1]);
+        hoursTP = Short.parseShort(tp.split(":")[0]);
+        minutesTP = Short.parseShort(tp.split(":")[1]);
 
         String sb = Start.pref.getString("pref_key_notification_time_survey", "00:00");
-        hoursSB = Short.parseShort(tt.split(":")[0]);
-        minutesSB = Short.parseShort(tt.split(":")[1]);
+        hoursSB = Short.parseShort(sb.split(":")[0]);
+        minutesSB = Short.parseShort(sb.split(":")[1]);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class NotificationService extends Service {
         notificationManager = Utils.getNotificationManager();
         userid = Utils.getUserID();
 
-        actualize();
+        getTimes();
 
         new LoopThread().start();
 

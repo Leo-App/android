@@ -1,33 +1,38 @@
 package de.slg.schwarzes_brett;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-class SQLiteConnector extends SQLiteOpenHelper {
-
+public class SQLiteConnector extends SQLiteOpenHelper {
+    public static final String TABLE_EINTRAEGE = "Eintraege";
+    static final String EINTRAEGE_TITEL = "titel";
+    static final String EINTRAEGE_ADRESSAT = "adressat";
+    static final String EINTRAEGE_INHALT = "inhalt";
+    static final String EINTRAEGE_ERSTELLDATUM = "erstelldatum";
+    static final String EINTRAEGE_ABLAUFDATUM = "ablaufdatum";
     private static final String DATABASE_NAME = "entries.db";
-    private final String createTable = "CREATE TABLE " + tableResult.tableName + " (" +
-            tableResult.id + " INTEGER AUTO_INCREMENT PRIMARY KEY, " +
-            tableResult.titel + " TEXT NOT NULL, " +
-            tableResult.adressat + " TEXT NOT NULL, " +
-            tableResult.inhalt + " TEXT NOT NULL, " +
-            tableResult.erstelldatum + " TEXT NOT NULL, " +
-            tableResult.ablaufdatum + " TEXT NOT NULL)";
-    private final String delete = "DROP TABLE IF EXISTS " + tableResult.tableName;
+    private static final String EINTRAEGE_ID = "id";
 
-    SQLiteConnector(Context c) {
+    public SQLiteConnector(Context c) {
         super(c, DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(createTable);
+        db.execSQL("CREATE TABLE " + TABLE_EINTRAEGE + " (" +
+                EINTRAEGE_ID + " INTEGER AUTO_INCREMENT PRIMARY KEY, " +
+                EINTRAEGE_TITEL + " TEXT NOT NULL, " +
+                EINTRAEGE_ADRESSAT + " TEXT NOT NULL, " +
+                EINTRAEGE_INHALT + " TEXT NOT NULL, " +
+                EINTRAEGE_ERSTELLDATUM + " TEXT NOT NULL, " +
+                EINTRAEGE_ABLAUFDATUM + " TEXT NOT NULL)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(delete);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EINTRAEGE);
         onCreate(db);
     }
 
@@ -36,24 +41,14 @@ class SQLiteConnector extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    static class tableResult {
-        static final String tableName;
-        static final String titel;
-        static final String adressat;
-        static final String inhalt;
-        static final String erstelldatum;
-        static final String ablaufdatum;
-        public static final String id;
-
-        static {
-            tableName = "Eintraege";
-            titel = "Titel";
-            adressat = "Adressat";
-            erstelldatum = "Erstelldatum";
-            ablaufdatum = "Ablaufdatum";
-            inhalt = "inhalt";
-            id = "id";
-        }
+    public ContentValues getContentValues(String titel, String adressat, String inhalt, long erstelldatum, long ablaufdatum) {
+        ContentValues values = new ContentValues();
+        values.put(EINTRAEGE_TITEL, titel);
+        values.put(EINTRAEGE_ADRESSAT, adressat);
+        values.put(EINTRAEGE_INHALT, inhalt);
+        values.put(EINTRAEGE_ERSTELLDATUM, erstelldatum);
+        values.put(EINTRAEGE_ABLAUFDATUM, ablaufdatum);
+        return values;
     }
 
 }

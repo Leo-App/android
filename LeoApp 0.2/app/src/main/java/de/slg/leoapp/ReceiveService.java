@@ -2,6 +2,7 @@ package de.slg.leoapp;
 
 import android.app.Service;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.Looper;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
@@ -16,10 +18,12 @@ import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
 import de.slg.messenger.Verschluesseln;
+import de.slg.schwarzes_brett.SQLiteConnector;
 
 public class ReceiveService extends Service {
     private static long interval;
-    private boolean running, receive;
+    boolean receiveMessages, receiveNews;
+    private boolean running;
 
     private static long getInterval(int selection) {
         switch (selection) {
@@ -51,8 +55,10 @@ public class ReceiveService extends Service {
         interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
         Utils.registerReceiveService(this);
         running = true;
-        receive = false;
-        new LoopThread().start();
+        receiveMessages = false;
+        receiveNews = false;
+        new MessengerThread().start();
+        new SchwarzesBrettThread().start();
         Log.i("ReceiveService", "Service (re)started!");
         return START_STICKY;
     }
@@ -75,15 +81,11 @@ public class ReceiveService extends Service {
         super.onTaskRemoved(rootIntent);
     }
 
-    public void receive() {
-        receive = true;
-    }
-
     private enum Operator {
         Nachricht, Chat, Benutzer, Assoziation
     }
 
-    private class LoopThread extends Thread {
+    private class MessengerThread extends Thread {
         @Override
         public void run() {
             Looper.prepare();
@@ -92,10 +94,28 @@ public class ReceiveService extends Service {
                     new SendTask().execute();
                     new ReceiveTask().execute();
 
-                    for (int i = 0; i < interval && running && !receive; i++)
+                    for (int i = 0; i < interval && running && !receiveMessages; i++)
                         sleep(1);
 
-                    receive = false;
+                    receiveMessages = false;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private class SchwarzesBrettThread extends Thread {
+        @Override
+        public void run() {
+            while (running) {
+                try {
+                    new EmpfangeDaten().execute();
+
+                    for (int i = 0; i < 60000 && running && !receiveNews; i++)
+                        sleep(1);
+
+                    receiveNews = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -283,6 +303,46 @@ public class ReceiveService extends Service {
 
         private String generateURL(String message, int cid) {
             return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
+        }
+    }
+
+    private class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (Utils.checkNetwork()) {
+                try {
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL("http://moritz.liegmanns.de/schwarzesBrett/meldungen.php")
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
+                    StringBuilder builder = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null)
+                        builder.append(line)
+                                .append(System.getProperty("line.seperator"));
+                    reader.close();
+
+                    SQLiteConnector db = new SQLiteConnector(getApplicationContext());
+                    SQLiteDatabase dbh = db.getWritableDatabase();
+                    dbh.delete(SQLiteConnector.TABLE_EINTRAEGE, null, null);
+
+                    String[] result = builder.toString().split("_next_");
+                    for (String s : result) {
+                        String[] res = s.split(";");
+                        if (res.length == 5) {
+                            dbh.insert(SQLiteConnector.TABLE_EINTRAEGE, null, db.getContentValues(res[0], res[1], res[2], Long.parseLong(res[3] + "000"), Long.parseLong(res[4] + "000")));
+                        }
+                    }
+
+                    dbh.close();
+                    db.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
         }
     }
 }

@@ -136,7 +136,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
             if (newChat.cid != -1) {
                 User[] members = userAdapter.getSelected();
                 sendAssoziation(new Assoziation(newChat.cid, Utils.getUserID()));
-                Utils.receive();
+                Utils.receiveMessenger();
                 for (User member : members) {
                     sendAssoziation(new Assoziation(newChat.cid, member.uid));
                 }
@@ -197,7 +197,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Utils.receive();
+            Utils.receiveMessenger();
             findViewById(R.id.progressBar).setVisibility(View.GONE);
             ChatActivity.currentChat = newChat;
             startActivity(new Intent(getApplicationContext(), ChatActivity.class).putExtra("loading", true));

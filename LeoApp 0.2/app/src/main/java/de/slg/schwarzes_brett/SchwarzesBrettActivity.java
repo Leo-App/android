@@ -12,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -28,7 +27,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -53,18 +51,11 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schwarzesbrett);
 
-        EmpfangeDaten empfangeDaten = new EmpfangeDaten(getApplicationContext());
-        empfangeDaten.execute();
+        Utils.receiveNews();
 
         initToolbar();
         initNavigationView();
         initButton();
-        try {
-            empfangeDaten.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        createGroupList();
         initExpandableListView();
     }
 
@@ -144,6 +135,8 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     }
 
     private void initExpandableListView() {
+        createGroupList();
+
         ExpandableListView expListView = (ExpandableListView) findViewById(R.id.eintraege);
         ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett);
         expListView.setAdapter(expandableListAdapter);
@@ -173,21 +166,23 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         Cursor myCursor;
         String stufe = Utils.getUserStufe();
         if (!stufe.equals("N/A")) {
-            myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, "adressat = '" + stufe + "'", null, null, null, null);
+            myCursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null, null, null, null);
         }
         else {
-            myCursor = dbh.query("Eintraege", new String[]{"adressat", "titel", "inhalt", "erstelldatum", "ablaufdatum"}, null , null, null, null, null);
+            myCursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM}, null, null, null, null, null);
         }
         schwarzesBrett = new LinkedHashMap<>();
         for (myCursor.moveToFirst(); !myCursor.isAfterLast(); myCursor.moveToNext()) {
-            Log.e("Tag", "title: " + myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.tableResult.titel)));
-            groupList.add(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.tableResult.titel)));
+            groupList.add(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.EINTRAEGE_TITEL)));
             Date erstelldatum = new Date(myCursor.getLong(3));
             Date ablaufdatum = new Date(myCursor.getLong(4));
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
-            String[] s = {myCursor.getString(0), myCursor.getString(2), "Gültig vom " + simpleDateFormat.format(erstelldatum) + " bis zum " + simpleDateFormat.format(ablaufdatum)};
-            loadChild(s);
-            schwarzesBrett.put(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.tableResult.titel)), childList);
+            String[] children = {myCursor.getString(0),
+                    myCursor.getString(2),
+                    "Gültig vom " + simpleDateFormat.format(erstelldatum) +
+                            " bis zum " + simpleDateFormat.format(ablaufdatum)};
+            loadChild(children);
+            schwarzesBrett.put(myCursor.getString(myCursor.getColumnIndex(SQLiteConnector.EINTRAEGE_TITEL)), childList);
         }
         myCursor.close();
         dbh.close();

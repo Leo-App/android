@@ -60,69 +60,32 @@ public abstract class Utils {
         return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    public static User getCurrentUser() {
-        return new User(getUserID(), "Du", getUserStufe(), getUserPermission());
-    }
-
-    public static int getUserID() {
-        if (Start.pref == null)
-            Start.initPref(context);
-        return Start.pref.getInt("pref_key_general_id", -1);
-    }
-
-    public static String getUserName() {
-        return Start.pref.getString("pref_key_username_general", context.getString(R.string.drawer_placeholder_name));
-    }
-
-    public static String getUserStufe() {
-        return Start.pref.getString("pref_key_level_general", context.getString(R.string.settings_summary_username));
-    }
-
-    private static int getUserPermission() {
-        return Start.pref.getInt("pref_key_general_permission", 0);
-    }
-
-    public static int getCurrentMoodRessource() {
-        int i = Start.pref.getInt("pref_key_general_vote_id", -1);
-        switch (i) {
-            case 1:
-                return R.drawable.ic_sentiment_very_satisfied_white_24px;
-            case 2:
-                return R.drawable.ic_sentiment_satisfied_white_24px;
-            case 3:
-                return R.drawable.ic_sentiment_neutral_white_24px;
-            case 4:
-                return R.drawable.ic_sentiment_dissatisfied_white_24px;
-            case 5:
-                return R.drawable.ic_sentiment_very_dissatisfied_white_24px;
-            default:
-                return R.drawable.ic_account_circle_black_24dp;
-        }
-    }
-
-    private static String getLastVote() {
-        return Start.pref.getString("pref_key_general_last_vote", "00.00");
-    }
-
-    public static void setLastVote(int vote) {
-        Start.pref.edit()
-                .putString("pref_key_general_last_vote", getCurrentDate())
-                .putInt("pref_key_general_vote_id", vote)
-                .apply();
-    }
-
     public static String getString(int id) {
         return context.getString(id);
     }
 
-    private static String getCurrentDate() {
-        return new SimpleDateFormat("dd.MM").format(new Date());
+    //Für Benachrichtigungen
+    public static long getLatestMessageDate() {
+        return Start.pref.getLong("pref_key_general_last_notification_messenger", 0);
     }
 
-    public static boolean isVerified() {
-        return getUserID() > -1;
+    static void notifiedMessenger() {
+        Start.pref.edit()
+                .putLong("pref_key_general_last_notification_messenger", getMDB().getLatestDateInDB())
+                .apply();
     }
 
+    public static long getLatestSchwarzesBrettDate() {
+        return Start.pref.getLong("pref_key_general_last_notification_schwarzes_brett", 0);
+    }
+
+    static void notifiedSchwarzesBrett() {
+        Start.pref.edit()
+                .putLong("pref_key_general_last_notification_schwarzes_brett", 0)
+                .apply();
+    }
+
+    //Datenbanken
     public static DBConnection getMDB() {
         if (dbConnection == null)
             dbConnection = new DBConnection(context);
@@ -139,41 +102,7 @@ public abstract class Utils {
         return stundenplanDB;
     }
 
-    public static void registerOverviewWrapper(OverviewWrapper overviewWrapper) {
-        Utils.overviewWrapper = overviewWrapper;
-    }
-
-    public static void registerChatActivity(ChatActivity chatActivity) {
-        Utils.chatActivity = chatActivity;
-    }
-
-    static void registerReceiveService(ReceiveService receiveService) {
-        Utils.receiveService = receiveService;
-    }
-
-    public static void receive() {
-        if (receiveService != null)
-            receiveService.receive();
-    }
-
-    public static OverviewWrapper getOverviewWrapper() {
-        return overviewWrapper;
-    }
-
-    public static ChatActivity getChatActivity() {
-        return chatActivity;
-    }
-
-    public static long getLatestMessageDate() {
-        return Start.pref.getLong("pref_key_general_last_notification_messenger", 0);
-    }
-
-    static void notifiedMessenger() {
-        Start.pref.edit()
-                .putLong("pref_key_general_last_notification_messenger", getMDB().getLatestDateInDB())
-                .apply();
-    }
-
+    //Stimmungsbarometer
     static boolean showVoteOnStartup() {
         if (getLastVote().equals(getCurrentDate()))
             return false;
@@ -207,14 +136,54 @@ public abstract class Utils {
         return false;
     }
 
-    public static long getLatestSchwarzesBrettDate() {
-        return Start.pref.getLong("pref_key_general_last_notification_schwarzes_brett", 0);
+    private static String getCurrentDate() {
+        return new SimpleDateFormat("dd.MM").format(new Date());
     }
 
-    static void notifiedSchwarzesBrett() {
+    public static int getCurrentMoodRessource() {
+        int i = Start.pref.getInt("pref_key_general_vote_id", -1);
+        switch (i) {
+            case 1:
+                return R.drawable.ic_sentiment_very_satisfied_white_24px;
+            case 2:
+                return R.drawable.ic_sentiment_satisfied_white_24px;
+            case 3:
+                return R.drawable.ic_sentiment_neutral_white_24px;
+            case 4:
+                return R.drawable.ic_sentiment_dissatisfied_white_24px;
+            case 5:
+                return R.drawable.ic_sentiment_very_dissatisfied_white_24px;
+            default:
+                return R.drawable.ic_account_circle_black_24dp;
+        }
+    }
+
+    private static String getLastVote() {
+        return Start.pref.getString("pref_key_general_last_vote", "00.00");
+    }
+
+    public static void setLastVote(int vote) {
         Start.pref.edit()
-                .putLong("pref_key_general_last_notification_schwarzes_brett", 0)
+                .putString("pref_key_general_last_vote", getCurrentDate())
+                .putInt("pref_key_general_vote_id", vote)
                 .apply();
+    }
+
+    //Registrierte Activities
+    public static void registerOverviewWrapper(OverviewWrapper overviewWrapper) {
+        Utils.overviewWrapper = overviewWrapper;
+    }
+
+    public static void registerChatActivity(ChatActivity chatActivity) {
+        Utils.chatActivity = chatActivity;
+    }
+
+    public static OverviewWrapper getOverviewWrapper() {
+        return overviewWrapper;
+    }
+
+    public static ChatActivity getChatActivity() {
+        return chatActivity;
     }
 
     public static void registerKlausurplanActivity(KlausurplanActivity activity) {
@@ -223,5 +192,47 @@ public abstract class Utils {
 
     public static KlausurplanActivity getKlausurplanActivity() {
         return klausurplanActivity;
+    }
+
+    //User-Stuff
+    public static User getCurrentUser() {
+        return new User(getUserID(), "Du", getUserStufe(), getUserPermission());
+    }
+
+    public static int getUserID() {
+        if (Start.pref == null)
+            Start.initPref(context);
+        return Start.pref.getInt("pref_key_general_id", -1);
+    }
+
+    public static String getUserName() {
+        return Start.pref.getString("pref_key_username_general", context.getString(R.string.drawer_placeholder_name));
+    }
+
+    public static String getUserStufe() {
+        return Start.pref.getString("pref_key_level_general", context.getString(R.string.settings_summary_username));
+    }
+
+    private static int getUserPermission() {
+        return Start.pref.getInt("pref_key_general_permission", 0);
+    }
+
+    public static boolean isVerified() {
+        return getUserID() > -1;
+    }
+
+    //Receive-Service
+    static void registerReceiveService(ReceiveService receiveService) {
+        Utils.receiveService = receiveService;
+    }
+
+    public static void receiveMessenger() {
+        if (receiveService != null)
+            receiveService.receiveMessages = true;
+    }
+
+    public static void receiveNews() {
+        if (receiveService != null)
+            receiveService.receiveNews = true;
     }
 }

@@ -58,7 +58,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         messagesArray = new Message[0];
-        Utils.receive();
+        Utils.receiveMessenger();
 
         initToolbar();
         initSendMessage();
@@ -213,7 +213,7 @@ public class ChatActivity extends AppCompatActivity {
         if (message.length() > 0 && currentChat != null) {
             new SendMessage().execute(message);
             etMessage.setText("");
-            Utils.receive();
+            Utils.receiveMessenger();
         }
     }
 
@@ -413,7 +413,7 @@ public class ChatActivity extends AppCompatActivity {
         protected void onPreExecute() {
             findViewById(R.id.progressBar3).setVisibility(View.VISIBLE);
             sendButton.setEnabled(false);
-            Utils.receive();
+            Utils.receiveMessenger();
         }
 
         @Override

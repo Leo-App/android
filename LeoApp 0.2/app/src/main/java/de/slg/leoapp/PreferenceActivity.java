@@ -227,7 +227,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 notifPref.setEnabled(sharedPreferences.getBoolean(key, false));
                 break;
             case "pref_key_notification_time":
-                NotificationService.actualize();
+                NotificationService.getTimes();
                 break;
 
             case "pref_key_level_general":
@@ -254,7 +254,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 break;
 
             case "pref_key_notification_time_schedule":
-                NotificationService.actualize();
+                NotificationService.getTimes();
                 break;
         }
 
@@ -327,7 +327,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             public boolean onPreferenceClick(Preference preference) {
                 Utils.invalidateMDB();
                 deleteDatabase(DBConnection.DBHelper.DATABASE_NAME);
-                Utils.receive();
+                Utils.receiveMessenger();
                 return Utils.checkNetwork();
             }
         });

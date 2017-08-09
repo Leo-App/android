@@ -198,7 +198,7 @@ public class OverviewWrapper extends AppCompatActivity {
     private void initArrays() {
         userArray = Utils.getMDB().getUsers();
         chatArray = Utils.getMDB().getChats(false);
-        Utils.receive();
+        Utils.receiveMessenger();
     }
 
     public void notifyUpdate() {
@@ -344,7 +344,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                Utils.receive();
+                Utils.receiveMessenger();
             }
         }
     }

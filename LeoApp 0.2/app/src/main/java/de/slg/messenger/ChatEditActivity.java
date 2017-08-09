@@ -97,7 +97,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void addUsers(User... users) {
         new AddUser().execute(users);
-        Utils.receive();
+        Utils.receiveMessenger();
         usersOfChat1 = Utils.getMDB().getUsersInChat(currentChat, false);
         usersOfChat2 = Utils.getMDB().getUsersInChat(currentChat, true);
         usersNotInChat = Utils.getMDB().getUsersNotInChat(currentChat);
@@ -274,7 +274,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Utils.receive();
+            Utils.receiveMessenger();
             getSupportActionBar().setTitle(currentChat.cname);
         }
     }

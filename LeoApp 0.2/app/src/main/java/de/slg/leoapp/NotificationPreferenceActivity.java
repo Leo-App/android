@@ -58,7 +58,7 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
                 break;
         }
 
-        NotificationService.actualize();
+        NotificationService.getTimes();
     }
 
     @Override
