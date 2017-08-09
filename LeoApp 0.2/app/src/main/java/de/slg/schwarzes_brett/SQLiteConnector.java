@@ -2,6 +2,7 @@ package de.slg.schwarzes_brett;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -51,5 +52,17 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         return values;
     }
 
+    public long getLatestDate(SQLiteDatabase db) {
+        Cursor cursor = db.query(TABLE_EINTRAEGE, new String[]{EINTRAEGE_ERSTELLDATUM}, null, null, null, null, EINTRAEGE_ERSTELLDATUM + " DESC");
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            long l = cursor.getLong(0);
+            cursor.close();
+            return l;
+        } else {
+            cursor.close();
+            return 0;
+        }
+    }
 }
 
