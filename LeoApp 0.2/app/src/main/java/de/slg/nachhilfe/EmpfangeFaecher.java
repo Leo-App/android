@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class EmpfangeFaecher extends AsyncTask< Void, Void ,String[] > {
+class EmpfangeFaecher extends AsyncTask<Void, Void, String[]> {
     protected String[] doInBackground(Void... params) {
         String[] result = new String[0];
         try {

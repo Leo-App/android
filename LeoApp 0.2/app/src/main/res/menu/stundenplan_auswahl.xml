@@ -5,6 +5,5 @@
         android:id="@+id/action_speichern"
         android:icon="@drawable/ic_done_white_24dp"
         android:title="@string/speichern"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom"></item>
 </menu>

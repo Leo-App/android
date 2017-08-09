@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-class EmpfangeFaecherUser extends AsyncTask< Void, Void ,String[] > {
+class EmpfangeFaecherUser extends AsyncTask<Void, Void, String[]> {
     protected String[] doInBackground(Void... params) {
         String[] result = new String[0];
         try {

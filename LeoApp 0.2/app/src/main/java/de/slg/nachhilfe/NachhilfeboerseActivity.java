@@ -109,7 +109,7 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
                 }
                 if (i != null)
                     startActivity(i);
-                if(!settings)
+                if (!settings)
                     finish();
                 return true;
             }

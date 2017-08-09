@@ -103,13 +103,13 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     private void initNotificationPreference() {
 
 
-        if(pref.getBoolean("pref_key_notification_essensqr", false) && pref.getBoolean("pref_key_notification_test", false)
+        if (pref.getBoolean("pref_key_notification_essensqr", false) && pref.getBoolean("pref_key_notification_test", false)
                 && pref.getBoolean("pref_key_notification_messenger", false)
                 && pref.getBoolean("pref_key_notification_news", false)
                 && pref.getBoolean("pref_key_notification_survey", false)
                 && pref.getBoolean("pref_key_notification_schedule", false))
             findPreference("pref_key_notifications").setSummary(getString(R.string.settings_title_notification_all));
-        else if(!pref.getBoolean("pref_key_notification_essensqr", false) && !pref.getBoolean("pref_key_notification_test", false)
+        else if (!pref.getBoolean("pref_key_notification_essensqr", false) && !pref.getBoolean("pref_key_notification_test", false)
                 && !pref.getBoolean("pref_key_notification_messenger", false)
                 && !pref.getBoolean("pref_key_notification_news", false)
                 && !pref.getBoolean("pref_key_notification_survey", false)

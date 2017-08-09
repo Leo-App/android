@@ -44,10 +44,11 @@ class CardAddDialog extends AlertDialog {
         initSendButton();
 
     }
+
     private void initOptions() {
 
 
-        for(ImageButton b : buttons) {
+        for (ImageButton b : buttons) {
 
             final ImageButton copy = b;
 
@@ -67,7 +68,7 @@ class CardAddDialog extends AlertDialog {
 
     private void greyOut() {
 
-        for(ImageButton b : buttons) {
+        for (ImageButton b : buttons) {
 
             b.setColorFilter(Color.GRAY);
 
@@ -94,7 +95,6 @@ class CardAddDialog extends AlertDialog {
         });
 
     }
-
 
 
 }

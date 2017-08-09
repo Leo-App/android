@@ -270,7 +270,8 @@ public class KlausurplanActivity extends AppCompatActivity {
 
     private long findeNächsteKlausur() {
         Date heute = new Date();
-        for (klausurList.toFirst(); klausurList.hasAccess() && heute.after(klausurList.getContent().datum); klausurList.next()) ;
+        for (klausurList.toFirst(); klausurList.hasAccess() && heute.after(klausurList.getContent().datum); klausurList.next())
+            ;
         if (klausurList.hasAccess())
             return klausurList.getContent().datum.getTime();
         return -1;

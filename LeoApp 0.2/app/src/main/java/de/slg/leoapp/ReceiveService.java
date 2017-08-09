@@ -85,6 +85,7 @@ public class ReceiveService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.e("ReceiveService", "TASK REMOVED!");
+        Utils.getMDB().close();
         super.onTaskRemoved(rootIntent);
     }
 

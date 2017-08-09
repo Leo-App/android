@@ -76,15 +76,15 @@
             android:title="@string/settings_title_notification_time" />
 
     </PreferenceCategory>
-<!--
-    <PreferenceCategory android:title="@string/title_subst">
+    <!--
+        <PreferenceCategory android:title="@string/title_subst">
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="pref_key_notification_subst"
-            android:summary="@string/settings_summary_notification_subst"
-            android:title="@string/settings_title_notification" />
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="pref_key_notification_subst"
+                android:summary="@string/settings_summary_notification_subst"
+                android:title="@string/settings_title_notification" />
 
-    </PreferenceCategory> -->
+        </PreferenceCategory> -->
 
 </PreferenceScreen>

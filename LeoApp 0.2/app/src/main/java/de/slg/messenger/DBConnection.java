@@ -40,6 +40,10 @@ public class DBConnection {
         database = helper.getWritableDatabase();
     }
 
+    public void close() {
+        database.close();
+    }
+
     //Message
     public void insertMessage(Message m) {
         if (m != null && !contains(m)) {

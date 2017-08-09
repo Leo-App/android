@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single" android:id="@+id/nav0">
+    <group
+        android:id="@+id/nav0"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/startseite"
             android:checked="false"
@@ -48,7 +50,9 @@
             android:title="@string/title_subst" />
     </group>
 
-    <group android:checkableBehavior="single" android:id="@+id/nav1">
+    <group
+        android:id="@+id/nav1"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_settings_white_24dp"

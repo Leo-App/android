@@ -43,7 +43,7 @@ public class Verwalten extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem mi) {
 
-        if(mi.getItemId() == R.id.action_clear) {
+        if (mi.getItemId() == R.id.action_clear) {
 
             Intent intent = new Intent(this, NachhilfeboerseActivity.class);
             startActivity(intent);
@@ -52,8 +52,9 @@ public class Verwalten extends AppCompatActivity {
         return true;
 
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_verwalten,menu);
+        getMenuInflater().inflate(R.menu.menu_verwalten, menu);
         return true;
     }
 

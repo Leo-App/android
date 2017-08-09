@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_appinfo_quick"
-        android:title="@string/cards_quick"
         android:checkable="true"
-        app:showAsAction="never"/>
+        android:title="@string/cards_quick"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_appedit_done"
         android:icon="@drawable/ic_done_white_24dp"
         android:title="@string/set_changes"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_appedit_add"
         android:icon="@drawable/ic_add_white_24dp"
         android:title="@string/add_card"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
 </menu>

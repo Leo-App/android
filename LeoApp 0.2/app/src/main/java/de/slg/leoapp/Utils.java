@@ -110,6 +110,7 @@ public abstract class Utils {
         if (b) {
             AsyncTask<Void, Void, Boolean> t = new AsyncTask<Void, Void, Boolean>() {
                 private boolean b;
+
                 @Override
                 protected Boolean doInBackground(Void... params) {
                     try {

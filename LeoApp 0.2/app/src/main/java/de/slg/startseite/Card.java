@@ -3,9 +3,9 @@ package de.slg.startseite;
 abstract class Card {
 
     final boolean large;
+    final CardType type;
     String title;
     int icon;
-    final CardType type;
 
     Card(boolean large, CardType type) {
 
@@ -17,7 +17,7 @@ abstract class Card {
     @Override
     public String toString() {
 
-        return super.toString()+title;
+        return super.toString() + title;
 
     }
 
