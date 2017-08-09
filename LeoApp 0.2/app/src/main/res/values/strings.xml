@@ -204,7 +204,7 @@
     <string name="messenger_notification_title">New Messages!</string>
     <string name="toolbar_title_screen">About</string>
     <string name="settings_name_changed">Name changed!</string>
-    <string name="info_screen_third" translatable="false">St.Leonhard Gymnasium</string>
+    <string name="info_screen_third" translatable="false">St. Leonhard Gymnasium</string>
     <string name="info_screen_title">LeoApp for Android</string>
     <string name="title_subst">Substitutions</string>
     <string name="settings_category_subst">Substitutions</string>
@@ -225,7 +225,7 @@
     <string name="settings_title_filterby_schedule">Schedule</string>
     <string name="settings_summary_test_timetable">Filter by schedule</string>
     <string name="settings_title_test_timetable">filter</string>
-    <string name="info_screen_fourth">No responsibility is accepted for the accuracy of this information</string>
+    <string name="info_screen_fourth">No responsibility is accepted for the accuracy of any information</string>
     <string name="info_screen_second">Developed in an informatics project by students of the SLG</string>
     <string name="settings_screen_slg_data">SLG Accessdata</string>
     <string name="settings_screen_cg_data">Couven Accessdata</string>
@@ -254,5 +254,6 @@
     <string name="add_card">Add card</string>
     <string name="button_add">add</string>
     <string name="selector_card">Add a card</string>
+    <string name="summary_about">Information about the App</string>
 
 </resources>

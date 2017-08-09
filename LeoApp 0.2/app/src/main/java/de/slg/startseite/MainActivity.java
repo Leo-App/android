@@ -320,11 +320,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
-        }
-        if (item.getItemId() == R.id.action_appinfo) {
-            startActivity(new Intent(getApplicationContext(), InfoActivity.class));
-        }
-        if (item.getItemId() == R.id.action_appedit) {
+        } else if (item.getItemId() == R.id.action_appedit) {
             editing = true;
             initCardViews();
             findViewById(R.id.card_viewMain).setVisibility(View.GONE);
@@ -338,26 +334,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }, 100);
             getSupportActionBar().setTitle(getString(R.string.cards_customize));
 
-        }
-        if (item.getItemId() == R.id.action_appedit_done) {
+        } else if (item.getItemId() == R.id.action_appedit_done) {
             editing = false;
             writeToPreferences();
             initCardViews();
             findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
-            if(!Start.pref.getBoolean("pref_key_dont_remind_me", false))
+            if (!Start.pref.getBoolean("pref_key_dont_remind_me", false))
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
             getSupportActionBar().setTitle(getString(R.string.title_home));
             invalidateOptionsMenu();
-        }
-        if (item.getItemId() == R.id.action_appinfo_quick) {
+        } else if (item.getItemId() == R.id.action_appinfo_quick) {
             writeToPreferences();
             item.setChecked(!item.isChecked());
             SharedPreferences.Editor edit = Start.pref.edit();
             edit.putBoolean("pref_key_card_config_quick", item.isChecked());
             edit.apply();
             initCardViews();
-        }
-        if (item.getItemId() == R.id.action_appedit_add) {
+        } else if (item.getItemId() == R.id.action_appedit_add) {
             new CardAddDialog(this).show();
         }
         return true;
@@ -369,7 +362,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAdapter.notifyDataSetChanged();
 
         //TODO: Sroll to new Position
-
 
 
     }

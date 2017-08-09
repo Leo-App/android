@@ -243,4 +243,5 @@
     <string name="add_user">Inviter utilisateur dans ce chat</string>
     <string name="button_card_dismiss">Écarter</string>
     <string name="cards_customize">ajuster</string>
+    <string name="summary_about">Information sur l\'app</string>
 </resources>

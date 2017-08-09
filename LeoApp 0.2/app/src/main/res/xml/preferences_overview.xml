@@ -228,6 +228,11 @@
             android:summary="@string/settings_summary_version"
             android:title="@string/settings_title_version" />
 
+        <Preference
+            android:key="pref_key_about"
+            android:summary="@string/summary_about"
+            android:title="@string/toolbar_name_info" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

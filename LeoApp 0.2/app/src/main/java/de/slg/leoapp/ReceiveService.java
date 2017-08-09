@@ -52,14 +52,20 @@ public class ReceiveService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Utils.context = getApplicationContext();
         Start.initPref(getApplicationContext());
-        interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
+
         Utils.registerReceiveService(this);
+
         running = true;
         receiveMessages = false;
         receiveNews = false;
+
+        interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
+
         new MessengerThread().start();
         new SchwarzesBrettThread().start();
+
         Log.i("ReceiveService", "Service (re)started!");
+
         return START_STICKY;
     }
 
@@ -78,6 +84,7 @@ public class ReceiveService extends Service {
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
+        Log.e("ReceiveService", "TASK REMOVED!");
         super.onTaskRemoved(rootIntent);
     }
 

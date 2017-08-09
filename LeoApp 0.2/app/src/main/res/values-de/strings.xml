@@ -276,5 +276,6 @@
     <string name="help">Hilfe</string>
     <string name="yourTimeTable">Dein Stundenplan</string>
     <string name="title_settings_notifications">Benachrichtigungen</string>
+    <string name="summary_about">Informationen über die App</string>
 
 </resources>

@@ -42,6 +42,7 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.DBConnection;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
+import de.slg.startseite.InfoActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.startseite.UpdateTaskGrade;
 import de.slg.startseite.UpdateTaskName;
@@ -269,7 +270,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     }
 
     private void initPreferenceChanges() {
-
         pref = getPreferenceScreen().getSharedPreferences();
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
@@ -301,17 +301,13 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         if (!getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_id", "").equals("")) {
-
             Preference connectionPref = findPreference("pref_key_qr_id");
             connectionPref.setSummary(getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_id", ""));
-
         }
 
         if (!getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_pw", "").equals("")) {
-
             Preference connectionPref = findPreference("pref_key_qr_pw");
             connectionPref.setSummary(getRepl(getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_pw", "passwort")));
-
         }
 
         Preference connectionPref = findPreference("pref_key_qr_autofade_time");
@@ -351,6 +347,15 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 startActivity(new Intent(getApplicationContext(), NotificationPreferenceActivity.class));
+                return true;
+            }
+        });
+
+        Preference about = findPreference("pref_key_about");
+        about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(getApplicationContext(), InfoActivity.class));
                 return true;
             }
         });

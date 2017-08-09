@@ -12,10 +12,8 @@ import android.widget.TextView;
 import de.slg.leoapp.R;
 
 public class InfoActivity extends AppCompatActivity {
-
     @Override
     public void onCreate(Bundle b) {
-
         super.onCreate(b);
         setContentView(R.layout.activity_info);
 
@@ -37,16 +35,12 @@ public class InfoActivity extends AppCompatActivity {
         String version = pInfo.versionName;
         int verCode = pInfo.versionCode;
 
-        ((TextView) findViewById(R.id.textView6Info)).setText("Version " + version + " (" + verCode + ")");
-
+        ((TextView) findViewById(R.id.textView6Info)).setText("Version: " + version + " (" + verCode + ")");
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
+        finish();
         return true;
     }
-
 }
