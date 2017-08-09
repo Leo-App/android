@@ -166,39 +166,39 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     private void createGroupList() {
         groupList = new ArrayList<>();
         SQLiteConnector db = new SQLiteConnector(getBaseContext());
-        SQLiteDatabase dbh = db.getWritableDatabase();
-        Cursor myCursor;
+        SQLiteDatabase dbh = db.getReadableDatabase();
+
         String stufe = Utils.getUserStufe();
+        Cursor cursor;
         if (!stufe.equals("N/A")) {
-            myCursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null, null, null, null);
+            cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null, null, null, null);
+        } else {
+            cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM}, null, null, null, null, null);
         }
-        else {
-            myCursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM}, null, null, null, null, null);
-        }
+
         schwarzesBrett = new LinkedHashMap<>();
-        for (myCursor.moveToFirst(); !myCursor.isAfterLast(); myCursor.moveToNext()) {
-            try {
-                groupList.add(myCursor.getString(myCursor.getColumnIndexOrThrow(SQLiteConnector.EINTRAEGE_TITEL)));
-                Date erstelldatum = new Date(myCursor.getLong(3));
-                Date ablaufdatum = new Date(myCursor.getLong(4));
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
-                String[] children = {myCursor.getString(0),
-                        myCursor.getString(2),
-                        "Gültig vom " + simpleDateFormat.format(erstelldatum) +
-                                " bis zum " + simpleDateFormat.format(ablaufdatum)};
-                loadChild(children);
-                schwarzesBrett.put(myCursor.getString(myCursor.getColumnIndexOrThrow(SQLiteConnector.EINTRAEGE_TITEL)), childList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            groupList.add(cursor.getString(1));
+            Date erstelldatum = new Date(cursor.getLong(3));
+            Date ablaufdatum = new Date(cursor.getLong(4));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+            String[] children = {cursor.getString(0),
+                    cursor.getString(2),
+                    "Gültig vom " + simpleDateFormat.format(erstelldatum) +
+                            " bis zum " + simpleDateFormat.format(ablaufdatum)};
+            loadChildren(children);
+            schwarzesBrett.put(cursor.getString(1), childList);
         }
-        myCursor.close();
+
+        cursor.close();
         dbh.close();
+        db.close();
     }
 
-    private void loadChild(String[] laptopModels) {
+    private void loadChildren(String[] children) {
         childList = new ArrayList<>();
-        Collections.addAll(childList, laptopModels);
+        Collections.addAll(childList, children);
     }
 
     @Override
