@@ -31,17 +31,18 @@ class UserAdapter extends ArrayAdapter<User> {
     @NonNull
     @Override
     public View getView(int position, View v, @NonNull ViewGroup parent) {
-        if (position < users.length && users[position] != null) {
+        if (users[position] != null) {
             if (v == null) {
                 v = inflater.inflate(resId, null);
+
+                TextView username = (TextView) v.findViewById(R.id.username);
+                username.setText(users[position].uname);
+                if (selectable)
+                    v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
+                else
+                    v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
+                views[position] = v;
             }
-            TextView username = (TextView) v.findViewById(R.id.username);
-            username.setText(users[position].uname);
-            if (selectable)
-                v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
-            else
-                v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
-            views[position] = v;
         }
         return v;
     }
@@ -50,7 +51,7 @@ class UserAdapter extends ArrayAdapter<User> {
         if (selectable) {
             int count = 0;
             for (int i = 0; i < users.length; i++) {
-                if (((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked())
+                if (views[i] != null && ((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked())
                     count++;
             }
             return count;
@@ -63,7 +64,7 @@ class UserAdapter extends ArrayAdapter<User> {
             User[] result = new User[selectCount()];
             int i1 = 0;
             for (int i = 0; i < result.length; i++, i1++) {
-                while (i1 < views.length && !((CheckBox) views[i1].findViewById(R.id.checkBox)).isChecked())
+                while (i1 < views.length && (views[i1] == null || !((CheckBox) views[i1].findViewById(R.id.checkBox)).isChecked()))
                     i1++;
                 if (i1 < views.length)
                     result[i] = users[i1];

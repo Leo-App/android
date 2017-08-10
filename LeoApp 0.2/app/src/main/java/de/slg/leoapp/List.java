@@ -137,7 +137,7 @@ public class List<ContentType> implements Iterable<ContentType> {
         }
     }
 
-    public void append(ContentType pContent) {
+    public List<ContentType> append(ContentType pContent) {
         if (pContent != null) {
             if (this.isEmpty()) {
                 this.insertBefore(pContent);
@@ -148,6 +148,7 @@ public class List<ContentType> implements Iterable<ContentType> {
                 length++;
             }
         }
+        return this;
     }
 
     public void concat(List<ContentType> pList) {

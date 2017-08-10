@@ -148,7 +148,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     }
 
     private void initButton() {
-        if (Utils.getUserPermission() == 2) {
+        if (Utils.getUserPermission() >= 2) {
             View button = findViewById(R.id.floatingActionButton);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

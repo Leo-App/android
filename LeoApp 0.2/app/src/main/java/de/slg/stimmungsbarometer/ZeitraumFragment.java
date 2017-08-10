@@ -135,18 +135,20 @@ public class ZeitraumFragment extends Fragment {
                 (c2.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && c2.get(Calendar.MONTH) == c1.get(Calendar.MONTH) && c2.get(Calendar.DAY_OF_MONTH) >= c1.get(Calendar.DAY_OF_MONTH));
     }
 
-    void update() {
-        if (view != null)
+    void update(boolean recreateCharts) {
+        if (view != null) {
             view.invalidate();
+            view.recreateCharts = recreateCharts;
+        }
     }
 
     private class StatistikView extends View {
         private final Canvas canvasBack;
         private final Canvas canvasIch, canvasSchueler, canvasLehrer, canvasAlle;
         private final Paint paint;
+        boolean recreateCharts;
         private boolean isInitialized;
         private int baseLineY, baseLineX, abstandX, abstandY, radius;
-        private boolean recreateCharts;
 
         StatistikView(Context context) {
             super(context);
@@ -223,6 +225,7 @@ public class ZeitraumFragment extends Fragment {
 
             drawPoints();
             drawGraphs();
+            recreateCharts = false;
         }
 
         private void drawBackground() {
@@ -283,7 +286,7 @@ public class ZeitraumFragment extends Fragment {
             int previousAlle = 0;
             for (int i = 1; i < data[0].length; i++) {
                 Paint p = new Paint();
-                p.setStrokeWidth(3);
+                p.setStrokeWidth(4);
                 if (i < data[0].length && data[0][i].value > 0) {
                     if (data[0][previousIch].value > 0) {
                         p.setColor(ContextCompat.getColor(getContext(), R.color.colorIch));
