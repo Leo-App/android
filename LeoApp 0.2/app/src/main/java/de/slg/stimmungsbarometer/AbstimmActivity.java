@@ -16,6 +16,8 @@ public class AbstimmActivity extends AppCompatActivity {
         Start.initPref(getApplicationContext());
         Utils.context = getApplicationContext();
 
+        Utils.getNotificationManager().cancel(234);
+
         AbstimmDialog dialog = new AbstimmDialog(this);
         dialog.userid = Utils.getUserID();
 //        dialog.findViewById(R.id.buttonDialog1).setVisibility(View.GONE);
