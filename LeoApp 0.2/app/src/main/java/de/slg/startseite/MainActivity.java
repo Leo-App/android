@@ -40,12 +40,16 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.mail.MessagingException;
+
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoapp.List;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
@@ -94,7 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (getIntent().getBooleanExtra("show_dialog", false))
             new AbstimmDialog(this).show();
 
-        Log.i("LeoApp", "called onCreate main");
+        if(!Start.pref.getString("pref_key_request_cached", "-").equals("-"))
+            new MailSendTask().execute(Start.pref.getString("pref_key_request_cached", ""));
 
         title = (TextView) findViewById(R.id.info_title0);
         info = (TextView) findViewById(R.id.info_text0);
@@ -110,6 +115,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
+            }
+        });
+
+        ImageButton feature = (ImageButton) findViewById(R.id.feature_request);
+        feature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            new FeatureDialog(getApplicationContext()).show();
             }
         });
 
@@ -264,9 +277,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         return false;
                     }
                 };
-
-        RecyclerView.LayoutManager mLayoutManagerAlternative = quickLayout ?
-                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) : new LinearLayoutManager(getApplicationContext());
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(quickLayout ?
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN,
