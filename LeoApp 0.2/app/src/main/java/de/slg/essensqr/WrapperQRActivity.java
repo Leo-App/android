@@ -37,28 +37,23 @@ import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
-import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
-import de.slg.vertretung.WrapperSubstitutionActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class WrapperQRActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     public static SharedPreferences sharedPref;
     public static SQLiteHandler sqlh;
-
+    public static Button scan;
+    public static boolean runningSync, mensaModeRunning = false;
+    private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
+    public ZXingScannerView scV;
     private ViewPager mViewPager;
     private FragmentPagerAdapter adapt;
-    public ZXingScannerView scV;
-
-    public static Button scan;
-    private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
-
     private boolean runningScan;
-    public static boolean runningSync, mensaModeRunning = false;
     private DrawerLayout drawerLayout;
 
     @Override
@@ -83,7 +78,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.foodmarks).setChecked(true);
 
-        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
@@ -104,9 +99,9 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-                    case R.id.nachhilfe:
-                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
-                        break;
+//                    case R.id.nachhilfe:
+//                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
+//                        break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;
@@ -119,9 +114,9 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
                     case R.id.startseite:
                         i = null;
                         break;
-                    case R.id.vertretung:
-                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
-                        break;
+//                    case R.id.vertretung:
+//                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
+//                        break;
                     case R.id.settings:
                         settings = true;
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
