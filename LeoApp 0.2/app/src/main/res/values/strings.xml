@@ -256,5 +256,6 @@
     <string name="selector_card">Add a card</string>
     <string name="summary_about">Information about the App</string>
     <string name="cards_customize">Adjust</string>
+    <string name="thank_you_feature">Thank you for your feedback</string>
 
 </resources>

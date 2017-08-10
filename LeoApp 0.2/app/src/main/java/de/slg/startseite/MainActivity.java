@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!Start.pref.getString("pref_key_request_cached", "-").equals("-"))
             new MailSendTask().execute(Start.pref.getString("pref_key_request_cached", ""));
 
+
         title = (TextView) findViewById(R.id.info_title0);
         info = (TextView) findViewById(R.id.info_text0);
         verify = (Button) findViewById(R.id.buttonCardView0);
@@ -130,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        int id = Utils.getUserID();
         boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
         boolean synchronize = Start.pref.getBoolean("pref_key_level_has_to_be_synchronized", false);
 

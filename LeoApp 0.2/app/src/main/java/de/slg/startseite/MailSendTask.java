@@ -23,6 +23,8 @@ class MailSendTask extends AsyncTask<String, Void, Void> {
 
         }
 
+        Start.pref.edit().putString("pref_key_request_cached", "-").apply();
+
         try {
             String emailBody = "<center>----------<h3>Feature Request</h3>----------</center><br/>" +
                     "<b>Name: </b> "+ Utils.getUserName()+ "<br/>" +
