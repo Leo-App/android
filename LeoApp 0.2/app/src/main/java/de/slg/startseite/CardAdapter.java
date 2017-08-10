@@ -103,16 +103,16 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 cards.append(c = new InfoCard(false, type));
                 c.title = Utils.getString(R.string.title_tutoring);
                 c.descr = Utils.getString(R.string.summary_info_tutoring);
-                c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
-                c.enabled = Utils.isVerified();
-                c.icon = R.drawable.account_multiple;
+                c.buttonDescr = Utils.getString(R.string.coming_soon); // Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+              //  c.enabled = Utils.isVerified();
+                c.icon = R.drawable.ic_priority_high_black_24dp;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Utils.isVerified())
+                  /*      if (Utils.isVerified())
                             MainActivity.ref.startActivity(new Intent(MainActivity.ref, NachhilfeboerseActivity.class));
                         else
-                            MainActivity.ref.showDialog();
+                            MainActivity.ref.showDialog(); */
                     }
                 };
                 break;
@@ -161,7 +161,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 break;
             case SUBSTITUTION:
                 cards.append(c = new InfoCard(false, type));
-                c.title = Utils.getString(R.string.coming_soon);
+                c.title = Utils.getString(R.string.title_subst);
                 c.descr = Utils.getString(R.string.summary_info_subst);
                 c.buttonDescr = Utils.getString(R.string.coming_soon);
                 c.icon = R.drawable.ic_priority_high_black_24dp;
@@ -256,9 +256,11 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             holder.button.setText(ref.buttonDescr);
             holder.button.setOnClickListener(ref.buttonListener);
             holder.title.setText(ref.title);
-            if (ref.title.equals(MainActivity.ref.getString(R.string.coming_soon))) {
+            if (ref.buttonDescr.equals(MainActivity.ref.getString(R.string.coming_soon))) {
                 //  holder.icon.setColorFilter(Color.rgb(0x00,0x91, 0xea));
                 holder.icon.setColorFilter(Color.rgb(0xf4, 0x43, 0x36));
+                if(Start.pref.getBoolean("pref_key_card_config_quick", false))
+                    holder.title.setText(ref.buttonDescr);
             } else
                 holder.icon.setColorFilter(null);
             holder.description.setText(ref.descr);

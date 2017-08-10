@@ -123,6 +123,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             MainActivity.title.setVisibility(View.VISIBLE);
             MainActivity.info.setVisibility(View.VISIBLE);
             MainActivity.verify.setVisibility(View.VISIBLE);
+            MainActivity.dismiss.setVisibility(View.GONE);
 
             c.setVerified();
 

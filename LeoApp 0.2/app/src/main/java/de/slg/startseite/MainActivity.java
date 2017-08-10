@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static ProgressBar pb;
     public static TextView title, info;
     public static Button verify;
+    public static Button dismiss;
     public static MainActivity ref;
     public static boolean editing;
     private static boolean verified;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         verify = (Button) findViewById(R.id.buttonCardView0);
         pb = (ProgressBar) findViewById(R.id.progressBar1);
         v = findViewById(R.id.coordinator);
+        dismiss = (Button)findViewById(R.id.buttonDismissCardView0);
         ImageButton help = (ImageButton) findViewById(R.id.help);
         help.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +146,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (synchronize)
             new UpdateTaskGrade(this).execute();
 
-        if (verified = id > -1) {
+        if (verified = isVerified()) {
+            MainActivity.dismiss.setVisibility(View.GONE);
             title.setTextColor(Color.GREEN);
             title.setText(getString(R.string.title_info_auth));
             info.setText(getString(R.string.summary_info_auth_success));
@@ -386,7 +389,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAdapter.addToList(t);
         mAdapter.notifyDataSetChanged();
 
-        //TODO: Sroll to new Position
+        //TODO: Scroll to new Position
 
 
     }
@@ -431,9 +434,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }, 310);
             }
         } else {
-            SharedPreferences.Editor e = Start.pref.edit();
-            e.putBoolean("pref_key_dont_remind_me", true);
-            e.apply();
             Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
             findViewById(R.id.card_view0).startAnimation(anim);
             final Handler handler = new Handler(); //Remove card after animation
