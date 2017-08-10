@@ -19,7 +19,7 @@
     <string name="note">Note</string>
     <string name="grade">Grade</string>
     <string name="week">Week</string>
-    <string name="action_load">load exams</string>
+    <string name="action_load">Load exams</string>
     <string name="action_delete_all">Suprimer tous</string>
 
     <!-- Menu titles -->
@@ -27,9 +27,9 @@
     <string name="title_home">Home</string>
     <string name="title_foodmarks">Foodmarks</string>
     <string name="title_testplan">Testplan</string>
-    <string name="title_messenger" translatable="false">Messenger</string>
+    <string name="title_messenger">Messenger</string>
     <string name="title_tutoring">Tutoring</string>
-    <string name="title_news">News</string>
+    <string name="title_news">Pin Board</string>
     <string name="title_survey">Moodsurvey</string>
     <string name="title_plan">Timetable</string>
 
@@ -49,13 +49,13 @@
     <string name="title_info_auth">You are verified</string>
     <string name="summary_info_auth_success">You are verified and able to use all features, yay!</string>
     <string name="summary_info_auth">In order to use some of the features, you need to be verified. You can do so by clicking the button below.</string>
-    <string name="summary_info_auth_failed">It seems like something went wrong during your verification. Make sure your code is valid and try again.</string>
+    <string name="summary_info_auth_failed">Something went wrong during your verification. Make sure your code is valid and try again.</string>
     <string name="summary_info_foodmark">This feature is used to confirm your lunch order digitally. Just show the QR-Code to the mensa staff.</string>
     <string name="summary_info_testplan">This is an automatically generated plan for your tests. You can filter them by configuring your settings or add your own assignments</string>
     <string name="summary_info_messenger">Use this feature to communicate with your classmates or teachers without them knowing your mobile number. You can add group chats or chat normally. Your username can be changed in the settings</string>
     <string name="summary_info_tutoring">In need of a tutor or a student? Just add a message to the tutoring board</string>
     <string name="summary_info_news">You can find all relevant news concerning your scholar life on the LeoApp-Newsboard</string>
-    <string name="summary_info_survey">You can daily choose your current mood and see some statistics</string>
+    <string name="summary_info_survey">You can choose your current mood daily and see some statistics</string>
     <string name="summary_info_subst">See your substitutions for today and tomorrow</string>
     <string name="summary_info_schedule">After choosing your lessons, a schedule will be generated which you can further customize</string>
 
@@ -95,13 +95,13 @@
     <string name="button_sidemenu">Navigation</string>
     <string name="textview_placeholder" translatable="false">placeholder</string>
     <string name="qr_display_title">Your Order for today\, the</string>
-    <string name="qr_display_menu" translatable="false">Menu</string>
+    <string name="qr_display_menu">Menu</string>
     <string name="dialog_desc_valid">Ordered menu:</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
     <string name="qr_display_not_ordered">You have no order for today</string>
     <string name="qr_display_not_loggedin">You\'re not logged in, please check your user data</string>
     <string name="explain_title_1" translatable="false">Info</string>
-    <string name="explain_desc_1">This Feature is used to scan the QR-Foodmarks and is mainly used by the mensa staff.</string>
+    <string name="explain_desc_1">This Feature is used to scan the QR-Foodmarks.</string>
     <string name="explain_title_2">Step 1</string>
     <string name="explain_desc_2">Use the Scan Button below to start the camera and move the green box above the QR-Code you intend on scanning and wait for the app to process the results.</string>
     <string name="explain_title_3">Step 2</string>
@@ -157,7 +157,7 @@
     <string name="franze">French</string>
     <string name="englisch">English</string>
     <string name="spanisch">Spanish</string>
-    <string name="bili">History bilingual</string>
+    <string name="bili">"Bilingual history "</string>
     <string name="geschichte">History</string>
     <string name="geo">Geography</string>
     <string name="sowi">Social sciences</string>
@@ -233,7 +233,7 @@
     <string name="settings_no_access_data">No access data needed</string>
     <string name="SnackBarMes2">No Grade selected</string>
     <string name="edit_chat">Change Chatname</string>
-    <string name="add_user">Add User to Chat</string>
+    <string name="add_user">Add user</string>
     <string name="remove_users">Remove User from Chat</string>
     <string name="chat_info">Info</string>
     <string name="drawer_placeholder_name">Username</string>
@@ -255,14 +255,6 @@
     <string name="button_add">add</string>
     <string name="selector_card">Add a card</string>
     <string name="summary_about">Information about the App</string>
-    <string name="cards_customize">Customize</string>
-    <string name="cards_quick">Quick access</string>
-    <string name="feature_request">Please explain your idea in your own words</string>
-    <string name="feature_request_title">Idee</string>
-    <string name="set_changes">Set changes</string>
-    <string name="settings_summary_reasons_survey">Show reasons when voting</string>
-    <string name="settings_title_notification_all">Get all notifications</string>
-    <string name="settings_title_notification_custom">Get some notifications</string>
-    <string name="settings_title_notification_none">Don\'t get any notifications</string>
+    <string name="cards_customize">Adjust</string>
 
 </resources>
