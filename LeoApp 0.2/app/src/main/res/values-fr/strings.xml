@@ -3,7 +3,7 @@
     <string name="drawer_placeholder">\@ Nom d\'utilisateur</string>
     <string name="drawer_profile_title">Ton profil</string>
 
-    <string name="action_save">Sauver</string>
+    <string name="action_save">Sauvegarder</string>
     <string name="action_delete">Suprimer</string>
     <string name="cancel">Annuler</string>
     <string name="error">Désolé, quelque chose ne marche pas</string>
@@ -11,11 +11,11 @@
 
     <!-- Titel -->
 
-    <string name="title_home">page d\'accueil</string>
+    <string name="title_home">Page d\'accueil</string>
     <string name="title_foodmarks">Bons d\'âchat de répas</string>
     <string name="title_testplan">Plan des épreuves</string>
-    <string name="title_tutoring">Cherche des touteurs</string>
-    <string name="title_news">Nouveautés</string>
+    <string name="title_tutoring">Tuteurs</string>
+    <string name="title_news">Tableau d\'affichage</string>
     <string name="title_survey">Monitorage d\'humeur</string>
     <string name="title_plan">Emploi de temps</string>
     <string name="title_settings">Réglages</string>
@@ -29,14 +29,14 @@
 
     <string name="title_info_auth_failed">Tu n\'est pas encore vérifié</string>
     <string name="title_info_auth">Tu est vérifié</string>
-    <string name="summary_info_auth_success">Tu es maintenant verifié</string>
+    <string name="summary_info_auth_success">Tu es maintenant verifié!</string>
     <string name="summary_info_auth">Quelques fonctions ne peuvent pas être utilisés sans vérification. Tu peux te vérifier en cliquant sur le boutton en bas</string>
-    <string name="summary_info_auth_failed">Il semble que quelque chose n\'a pas marché. Vérifies que le QR-Code est valide et l\'essaye encore un fois</string>
+    <string name="summary_info_auth_failed">Il semble que quelque chose n\'a pas marché. Vérifies que le code QR est valide et l\'essaye encore une fois</string>
 
     <string name="summary_info_foodmark">Avec cette fonction tu peux confirmer ta commande de dîner digitale. Il faut juste montrer le QR-Code au personnel de la cantine</string>
     <string name="summary_info_testplan">Ici tu trouves une liste de tes épreuves. Tu peux les filtrer dans les régalges ou ajouter d\'autres épreuves</string>
     <string name="summary_info_messenger">Tu peux utiliser cette fonction pour communiquer avec les élèves de ta classe ou tes profs sans les donner ton numméro de protable. Tu peux créer des groupes ou juste chatter avec une persone. Ton nom d\'utilisateur peut être changé dans les réglages</string>
-    <string name="summary_info_tutoring">As tu besoin dun tuteur/une tutrice ou veux tutoyer quelq\'un? Tu peux ajouter une message sur le bord des touteur</string>
+    <string name="summary_info_tutoring">As tu besoin d\'un tuteur/ d\'une tutrice ou veux tutoyer quelq\'un? Tu peux ajouter une message sur le bord des touteur</string>
     <string name="summary_info_news">Ici tu trouves tous les nouveaux concernat ta vie scolaire</string>
     <string name="summary_info_survey">Avec cette fonction tu peux juger ton état d\'âme et voir les reponses des autres</string>
     <string name="summary_info_schedule">Choisis tes matières/classes pour qu\'on peut automatiquement génerer ton emploi de temps</string>
@@ -50,7 +50,7 @@
 
     <!-- Klausurplan -->
 
-    <string name="title_activity">Epreuve</string>
+    <string name="title_activity">Devoir sur table</string>
     <string name="snackbar_ungültig">Matière ou date incorrects</string>
     <string name="snackbar_gelöscht">Tous les épreuves supprimés</string>
     <string name="snackbar_undo">Annuler</string>
@@ -78,7 +78,7 @@
     <string name="dialog_desc_valid_id">User-ID: </string>
     <string name="qr_display_not_ordered">Tu n\'as pas fait une commande pour aujourd\'hui</string>
     <string name="qr_display_not_loggedin">Tu n\'est pas connecté, STP vérifie tes dates</string>
-    <string name="explain_desc_1">Cette function remplace les bons d\'achat pour le repas avec des QR-Codes, éventuellement tu ne veux pas l\'utiliser.</string>
+    <string name="explain_desc_1">Cette function remplace les bons d\'achat pour le repas avec des codes QR.</string>
     <string name="explain_title_2">Étape 1</string>
     <string name="explain_desc_2">Clique le bouton \"scanner\" en bas pour lancer la function de camera et bouge le cadre vert sur le QR-Code tu veux scanner.</string>
     <string name="explain_title_3">Étape 2</string>
@@ -93,9 +93,9 @@
 
     <!-- Messenger -->
 
-    <string name="action_leave_chat">Quiter chat</string>
+    <string name="action_leave_chat">Quiter ce chat</string>
     <string name="name_of_chat">Nom du chat</string>
-    <string name="title_new_groupchat">Nouvelle groupe</string>
+    <string name="title_new_groupchat">Nouveau groupe</string>
     <string name="serviceDescription">Recoit des messages pendant l\'app n\'est pas utilisé</string>
     <string name="seconds">Secondes</string>
     <string name="minute">Minute</string>
@@ -136,7 +136,7 @@
     <string name="literatur">Literatur</string>
     <string name="kunst">Arts plastiques</string>
     <string name="musik">Musique</string>
-    <string name="SnackBarMes">Le plan n\'a pas pu être chargé</string>
+    <string name="SnackBarMes">Le plan n\'a pas pu été chargé</string>
     <string name="später">Plus tard</string>
     <string name="lk">Cours Intensifs</string>
     <string name="zeit">Temps</string>
@@ -204,9 +204,9 @@
     <string name="info_screen_second">Développé dans un projet d\'informatique du SLG</string>
     <string name="info_screen_fourth">Toutes les informations sont sans garantie</string>
     <string name="info_screen_fifth">Développeurs</string>
-    <string name="toolbar_title_screen">Sur l\'app</string>
+    <string name="toolbar_title_screen">Sur l\'application</string>
     <string name="button_next">Suivant</string>
-    <string name="toolbar_name_info">Sur l\'app</string>
+    <string name="toolbar_name_info">Sur l\'application</string>
     <string name="hour">Heure</string>
     <string name="hours">Heures</string>
     <string name="settings_summary_filter_subst">Veux tu filtrer tes dates?</string>
@@ -224,7 +224,7 @@
     <string name="settings_title_network">Seulement avec WiFi</string>
     <string name="settings_title_password_school">Mot de passe</string>
     <string name="settings_title_username_school">Nom d\'utilisateur</string>
-    <string name="title_subst">Plan des Remplacants</string>
+    <string name="title_subst">Remplacements</string>
     <string name="settings_category_subst">Remplacant</string>
     <string name="mache_bild">Créer un image</string>
     <string name="qr_display_menu" translatable="false">Menu</string>
@@ -232,16 +232,18 @@
     <string name="settings_screen_cg_data">Dates d\'enrégistrement Couven</string>
     <string name="settings_screen_kkg_data">Dates d\'enrégistrement KKG</string>
     <string name="settings_screen_slg_data">Dates d\'enrégistrement SLG</string>
-    <string name="edit_chat">Change Chatname</string>
+    <string name="edit_chat">Changer ton no</string>
     <string name="yesterday">Hier</string>
     <string name="today">Aujourd\'hui</string>
-    <string name="drawer_placeholder_grade">Q1</string>
+    <string name="drawer_placeholder_grade">Classe</string>
     <string name="drawer_placeholder_name">Nom d\'utilisateur</string>
     <string name="help">Aide</string>
-    <string name="yourTimeTable">Ton Stündenplanöh</string>
-    <string name="SnackBarMes2">Aucun année choisit</string>
-    <string name="add_user">Inviter utilisateur dans ce chat</string>
+    <string name="yourTimeTable">Ton emploi du temps</string>
+    <string name="SnackBarMes2">Aucune classe choisit</string>
+    <string name="add_user">Ajouter un utilisateur</string>
     <string name="button_card_dismiss">Écarter</string>
-    <string name="cards_customize">ajuster</string>
+    <string name="cards_customize">Ajuster</string>
     <string name="summary_about">Information sur l\'app</string>
+    <string name="chat_info"></string>
+    <string name="title_messenger">Messages</string>
 </resources>
