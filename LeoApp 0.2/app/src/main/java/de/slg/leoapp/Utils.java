@@ -211,7 +211,11 @@ public abstract class Utils {
     }
 
     public static String getUserStufe() {
-        return Start.pref.getString("pref_key_level_general", context.getString(R.string.settings_summary_username));
+        try {
+            return Start.pref.getString("pref_key_level_general", context.getString(R.string.settings_summary_username));
+        } catch (ClassCastException e) {
+            return "N/A";
+        }
     }
 
     public static int getUserPermission() {

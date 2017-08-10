@@ -38,7 +38,6 @@ public class NotificationService extends Service {
     private static short hoursSB, minutesSB;
     private NotificationManager notificationManager;
     private Bitmap icon;
-    private int userid;
     private boolean running;
 
     public static void getTimes() {
@@ -65,7 +64,6 @@ public class NotificationService extends Service {
         Start.initPref(getApplicationContext());
 
         notificationManager = Utils.getNotificationManager();
-        userid = Utils.getUserID();
 
         getTimes();
         icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
@@ -271,9 +269,8 @@ public class NotificationService extends Service {
     }
 
     private void stimmungsbarometernotification() {
-        if (Start.pref.getBoolean("pref_key_notification_survey", false) && Utils.showVoteOnStartup()) {
-            Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class)
-                    .putExtra("userid", userid);
+        if (Start.pref.getBoolean("pref_key_notification_survey", false) && Utils.showVoteOnStartup() || true) {
+            Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class);
 
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
@@ -360,6 +357,7 @@ public class NotificationService extends Service {
         @Override
         public void run() {
             running = true;
+            stimmungsbarometernotification();
             while (running) {
                 messengerNotification();
                 schwarzesBrettNotification();
