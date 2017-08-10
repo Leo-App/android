@@ -73,7 +73,12 @@ public class ClassPickerPref extends DialogPreference {
     }
 
     private int getIndex() {
-        String grade = getPersistedString("N/A");
+        String grade;
+        try {
+            grade = getPersistedString("N/A");
+        } catch (Exception e) {
+            grade = "N/A";
+        }
         for (int i = 0; i < values.length; i++) {
             if (values[i].equals(grade))
                 return i;

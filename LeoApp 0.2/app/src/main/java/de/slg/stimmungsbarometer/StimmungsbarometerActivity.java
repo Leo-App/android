@@ -84,7 +84,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                 drawI = !drawI;
                 v.findViewById(R.id.textViewIch).setEnabled(drawI);
                 v.findViewById(R.id.imageViewIch).setEnabled(drawI);
-                updateFragments();
+                updateFragments(false);
             }
         });
         lS.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +93,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                 drawS = !drawS;
                 v.findViewById(R.id.textViewSchueler).setEnabled(drawS);
                 v.findViewById(R.id.imageViewSchueler).setEnabled(drawS);
-                updateFragments();
+                updateFragments(false);
             }
         });
         lL.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +102,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                 drawL = !drawL;
                 v.findViewById(R.id.textViewLehrer).setEnabled(drawL);
                 v.findViewById(R.id.imageViewLehrer).setEnabled(drawL);
-                updateFragments();
+                updateFragments(false);
             }
         });
         lA.setOnClickListener(new View.OnClickListener() {
@@ -111,14 +111,14 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                 drawA = !drawA;
                 v.findViewById(R.id.textViewAlle).setEnabled(drawA);
                 v.findViewById(R.id.imageViewAlle).setEnabled(drawA);
-                updateFragments();
+                updateFragments(false);
             }
         });
     }
 
-    private void updateFragments() {
+    private void updateFragments(boolean recreateCharts) {
         for (ZeitraumFragment fragment : fragments)
-            fragment.update();
+            fragment.update(recreateCharts);
     }
 
     private void initTabs() {
@@ -312,7 +312,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void v) {
-            updateFragments();
+            updateFragments(true);
             findViewById(R.id.progressBar).setVisibility(View.GONE);
         }
     }
