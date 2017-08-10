@@ -167,7 +167,7 @@
     <string name="settings_title_notification_all">Alle Benachrichtigungen erhalten</string>
     <string name="settings_title_notification_custom">Einige Benachrichtigungen erhalten</string>
     <string name="settings_title_notification_none">Keine Benachrichtigungen erhalten</string>
-    <string name="feature_request">Beschreibe hier deinen Vorschlag in einigen Worten</string>
+    <string name="feature_request">Beschreibe hier kurz deinen Vorschlag</string>
     <string name="feature_request_title">Feature-Idee</string>
 
     <!--Essensbons-->

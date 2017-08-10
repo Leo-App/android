@@ -303,6 +303,9 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         Cursor c = db.rawQuery("SELECT ID FROM USERORDERS WHERE DATEU = ?", new String[]{dateString});
         c.moveToFirst();
 
+        if(c.getCount() == 0)
+            return;
+
         db.execSQL("INSERT INTO " + SQLiteHandler.StatisticsEntry.TABLE_NAME
                 + " (SYNCDATE, AMOUNT, LASTORDER) VALUES ('" + df.format(new Date()) + "', " + amount + ", " + c.getInt(c.getColumnIndex("ID")) + ")");
 

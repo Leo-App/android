@@ -1,6 +1,7 @@
 package de.slg.startseite;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 
@@ -27,8 +28,8 @@ class MailSendTask extends AsyncTask<String, Void, Void> {
             String emailBody = "<center>----------<h3>Feature Request</h3>----------</center><br/>" +
                     "<b>Name: </b> "+ Utils.getUserName()+ "<br/>" +
                     "<b>Version: </b>"+Utils.getAppVersionName()+"<br/><br/>" +
-                    "<b>Request:</b><br/><br/>" +
-                    requestText;
+                    "<b>Request:</b><br/><br/><pre>" +
+                    requestText+"</pre>";
 
             MailClient mailClient = new MailClient("leoapp.noreply@gmail.com", "pOQ2ydhjqzJHxbQioM0Z", new List<String>().append("spitzer-webdesign@outlook.de"), "FeatureRequest - "+Utils.getUserName()+" - "+Utils.getUserStufe()+ " - "+ Utils.getAppVersionName(), emailBody);
 
@@ -40,4 +41,12 @@ class MailSendTask extends AsyncTask<String, Void, Void> {
 
         return null;
     }
+
+    @Override
+    public void onPostExecute(Void v) {
+
+
+
+    }
+
 }

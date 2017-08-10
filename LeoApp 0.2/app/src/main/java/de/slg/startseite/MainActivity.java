@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -122,7 +123,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         feature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            new FeatureDialog(getApplicationContext()).show();
+                FeatureDialog dialog = new FeatureDialog(MainActivity.this);
+                dialog.show();
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
         });
 

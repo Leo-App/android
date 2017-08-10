@@ -30,7 +30,7 @@
         android:layout_marginTop="20dp"
         android:hint="@string/feature_request"
         android:textSize="15sp"
-        android:inputType="textMultiLine|textCapSentences|textAutoComplete" />
+        android:inputType="textMultiLine|textCapSentences" />
 
     <Button
         android:id="@+id/buttonDialog1"
