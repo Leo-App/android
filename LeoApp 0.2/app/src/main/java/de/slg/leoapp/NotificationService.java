@@ -29,7 +29,6 @@ import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.AbstimmActivity;
 import de.slg.stundenplan.Fach;
-import de.slg.stundenplan.WrapperStundenplanActivity;
 
 public class NotificationService extends Service {
     private static short hoursQR, minutesQR;
@@ -305,27 +304,19 @@ public class NotificationService extends Service {
                         builder.append(", ");
                 }
 
-                Intent resultIntent = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
+                if (builder.length() > 0) {
+                    NotificationCompat.Builder notificationBuilder =
+                            new NotificationCompat.Builder(this)
+                                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                    .setLargeIcon(icon)
+                                    .setSmallIcon(R.drawable.ic_event_white_24dp)
+                                    .setVibrate(new long[]{200})
+                                    .setContentTitle("Deine Stunden morgen:")
+                                    .setContentText(builder.toString())
+                                    .setAutoCancel(true);
 
-                PendingIntent resultPendingIntent =
-                        PendingIntent.getActivity(
-                                getApplicationContext(),
-                                0,
-                                resultIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT
-                        );
-
-                NotificationCompat.Builder notificationBuilder =
-                        new NotificationCompat.Builder(this)
-                                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                                .setLargeIcon(icon)
-                                .setSmallIcon(R.drawable.ic_event_white_24dp)
-                                .setVibrate(new long[]{200})
-                                .setContentTitle("Deine Stunden morgen:")
-                                .setContentText(builder.toString())
-                                .setContentIntent(resultPendingIntent);
-
-                notificationManager.notify(101, notificationBuilder.build());
+                    notificationManager.notify(101, notificationBuilder.build());
+                }
             }
         }
     }
