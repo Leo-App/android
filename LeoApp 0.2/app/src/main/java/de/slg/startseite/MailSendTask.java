@@ -1,7 +1,6 @@
 package de.slg.startseite;
 
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 

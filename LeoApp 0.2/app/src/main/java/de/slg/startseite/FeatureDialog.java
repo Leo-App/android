@@ -8,8 +8,8 @@ import android.widget.EditText;
 
 import de.slg.leoapp.R;
 
-public class FeatureDialog extends AlertDialog{
-    protected FeatureDialog(Context context) {
+class FeatureDialog extends AlertDialog{
+    FeatureDialog(Context context) {
         super(context);
     }
 
