@@ -62,6 +62,7 @@ $dbname = "d02566f2";
 
 $id = "2SnDS7";
 
+$auth = $_GET['auth'];
 $id2 = substr($auth, 0,6);
 
 if(strcmp($id2, $id) !== 0) {
@@ -76,7 +77,6 @@ if ($conn->connect_error) {
 }
 
 $idD = $conn->real_escape_string($_GET['id']);
-$auth = $conn->real_escape_string($_GET['auth']);
 
 $sql = "SELECT b.user_id as id, b.datum as dateU, s.beschreibung as descr, b.nummer as menu FROM bestellungen b JOIN speisekarte s ON b.ger_id = s.ger_id WHERE b.user_id = '".$idD."'";
 $result = $conn->query($sql); 
