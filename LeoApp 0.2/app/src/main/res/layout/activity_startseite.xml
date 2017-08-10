@@ -85,6 +85,21 @@
                                 android:tint="@color/colorAccent"
                                 card_view:srcCompat="@drawable/ic_help_outline_white_24dp" />
 
+                            <ImageButton
+                                android:id="@+id/feature_request"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_below="@id/help"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@android:color/transparent"
+                                android:scaleType="fitCenter"
+                                android:textAllCaps="true"
+                                android:tint="@color/colorAccent"
+                                card_view:srcCompat="@drawable/feature_request" />
+
                             <TextView
                                 android:id="@+id/versioncode_maincard"
                                 android:layout_width="wrap_content"
