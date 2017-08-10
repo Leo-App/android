@@ -176,17 +176,6 @@
                                 android:textAllCaps="true" />
 
                             <Button
-                                android:id="@+id/button"
-                                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentRight="true"
-                                android:text="@string/button_info_auth"
-                                android:textAllCaps="true" />
-
-                            <Button
                                 android:id="@+id/buttonDismissCardView0"
                                 style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                                 android:layout_width="wrap_content"
