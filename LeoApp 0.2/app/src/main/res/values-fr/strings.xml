@@ -3,7 +3,7 @@
     <string name="drawer_placeholder">\@ Nom d\'utilisateur</string>
     <string name="drawer_profile_title">Ton profil</string>
 
-    <string name="action_save">Sauver</string>
+    <string name="action_save">Sauvegarder</string>
     <string name="action_delete">Suprimer</string>
     <string name="cancel">Annuler</string>
     <string name="error">Désolé, quelque chose ne marche pas</string>
@@ -227,7 +227,6 @@
     <string name="title_subst">Plan des Remplacants</string>
     <string name="settings_category_subst">Remplacant</string>
     <string name="mache_bild">Créer un image</string>
-    <string name="qr_display_menu" translatable="false">Menu</string>
     <string name="settings_no_access_data">Aucunes dates d\'enrégistrement nécessaires</string>
     <string name="settings_screen_cg_data">Dates d\'enrégistrement Couven</string>
     <string name="settings_screen_kkg_data">Dates d\'enrégistrement KKG</string>
@@ -242,6 +241,28 @@
     <string name="SnackBarMes2">Aucun année choisit</string>
     <string name="add_user">Inviter utilisateur dans ce chat</string>
     <string name="button_card_dismiss">Écarter</string>
-    <string name="cards_customize">ajuster</string>
+    <string name="cards_customize">Ajuster</string>
     <string name="summary_about">Information sur l\'app</string>
+    <string name="add_card">Ajouter carte</string>
+    <string name="button_add">ajouter</string>
+    <string name="cards_quick">accéss rapide</string>
+    <string name="chat_info">informations</string>
+    <string name="feature_request">S.T.P. explique ta idée dans tes propres mots</string>
+    <string name="feature_request_title">Idée</string>
+    <string name="need_internet">Pour utiliser cette fonction, tu as besoin d\'une connection d\'internet active</string>
+    <string name="queue">Fil d\'attente</string>
+    <string name="remove_users">Supprimer utilisateur de ce chat</string>
+    <string name="selector_card">Ajouter une carte</string>
+    <string name="set_changes">Changer</string>
+    <string name="settings_summary_messenger_sync">Tous tes chats sont supprimés de ton portable et vont être recoit de nouveau du server</string>
+    <string name="settings_summary_reasons_survey">Montrer des raisons en votand</string>
+    <string name="settings_title_messenger_sync">Syncroniser ton portable</string>
+    <string name="settings_title_notification_all">Recoir tous les notifications</string>
+    <string name="settings_title_notification_custom">Recvoir quelques notifications</string>
+    <string name="settings_title_notification_none">Ne recevoir pas des notifications</string>
+    <string name="settings_title_reasons_survey">Raisons</string>
+    <string name="snackbar_select">Choisir</string>
+    <string name="summary_info_subst">Voir tes remplacants pour aujourd\'hui et demain</string>
+    <string name="title_settings_notifications">Notifications</string>
+    <string name="tutoring_title_new">Nouvelle recherche</string>
 </resources>

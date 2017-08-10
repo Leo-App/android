@@ -40,16 +40,12 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.mail.MessagingException;
-
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.List;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
@@ -81,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout drawerLayout;
     private CardAdapter mAdapter;
 
+    private AbstimmDialog abstimmDialog;
+
     private static boolean isVerified() {
         return verified;
     }
@@ -95,10 +93,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_startseite);
 
-        if (getIntent().getBooleanExtra("show_dialog", false))
-            new AbstimmDialog(this).show();
+        if (getIntent().getBooleanExtra("show_dialog", false)) {
+            abstimmDialog = new AbstimmDialog(this);
+            abstimmDialog.show();
+        }
 
-        if(!Start.pref.getString("pref_key_request_cached", "-").equals("-"))
+        if (!Start.pref.getString("pref_key_request_cached", "-").equals("-"))
             new MailSendTask().execute(Start.pref.getString("pref_key_request_cached", ""));
 
         title = (TextView) findViewById(R.id.info_title0);
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         feature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            new FeatureDialog(getApplicationContext()).show();
+                new FeatureDialog(getApplicationContext()).show();
             }
         });
 
@@ -355,15 +355,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             invalidateOptionsMenu();
         } else if (item.getItemId() == R.id.action_appinfo_quick) {
             writeToPreferences();
-            item.setChecked(!item.isChecked());
+            boolean b = Start.pref.getBoolean("pref_key_card_config_quick", false);
             SharedPreferences.Editor edit = Start.pref.edit();
-            edit.putBoolean("pref_key_card_config_quick", item.isChecked());
+            edit.putBoolean("pref_key_card_config_quick", !b);
             edit.apply();
             initCardViews();
+            if (!b)
+                item.setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
+            else
+                item.setIcon(R.drawable.ic_widgets_white_24dp);
         } else if (item.getItemId() == R.id.action_appedit_add) {
             new CardAddDialog(this).show();
         }
         return true;
+    }
+
+    @Override
+    public void finish() {
+        if (abstimmDialog != null)
+            abstimmDialog.dismiss();
+        super.finish();
     }
 
     public void addCard(CardType t) {
@@ -465,7 +476,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         if (editing) {
             getMenuInflater().inflate(R.menu.startseite_edit, menu);
-            menu.findItem(R.id.action_appinfo_quick).setChecked(Start.pref.getBoolean("pref_key_card_config_quick", false));
+            if (Start.pref.getBoolean("pref_key_card_config_quick", false))
+                menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
+            else
+                menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
         } else
             getMenuInflater().inflate(R.menu.startseite, menu);
 

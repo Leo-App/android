@@ -93,7 +93,6 @@
     <string name="popup_code_not_valid">Der QR-Code ist ungültig oder wurde von diesem Gerät bereits gescannt</string>
     <string name="notification_summary_notif">Du hast deine Bestellung noch nicht synchronisiert</string>
     <string name="login_success">Login erfolgreich</string>
-    <string name="qr_display_menu">Menü</string>
 
 
     <!-- Messenger -->
@@ -279,5 +278,10 @@
     <string name="yourTimeTable">Dein Stundenplan</string>
     <string name="title_settings_notifications">Benachrichtigungen</string>
     <string name="summary_about">Informationen über die App</string>
+    <string name="add_card">Karte hinzufügen</string>
+    <string name="button_add">hinzufügen</string>
+    <string name="selector_card">Karte hinzufügen</string>
+    <string name="snackbar_select">Auswählen</string>
+    <string name="summary_info_subst">Deine Vertretungen für heute und morgen</string>
 
 </resources>

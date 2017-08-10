@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_appinfo_quick"
-        android:checkable="true"
+        android:icon="@drawable/ic_widgets_white_24dp"
         android:title="@string/cards_quick"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_appedit_done"

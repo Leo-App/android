@@ -95,7 +95,7 @@
     <string name="button_sidemenu">Navigation</string>
     <string name="textview_placeholder" translatable="false">placeholder</string>
     <string name="qr_display_title">Your Order for today\, the</string>
-    <string name="qr_display_menu">Menu</string>
+    <string name="qr_display_menu" translatable="false">Menu</string>
     <string name="dialog_desc_valid">Ordered menu:</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
     <string name="qr_display_not_ordered">You have no order for today</string>
@@ -255,5 +255,14 @@
     <string name="button_add">add</string>
     <string name="selector_card">Add a card</string>
     <string name="summary_about">Information about the App</string>
+    <string name="cards_customize">Customize</string>
+    <string name="cards_quick">Quick access</string>
+    <string name="feature_request">Please explain your idea in your own words</string>
+    <string name="feature_request_title">Idee</string>
+    <string name="set_changes">Set changes</string>
+    <string name="settings_summary_reasons_survey">Show reasons when voting</string>
+    <string name="settings_title_notification_all">Get all notifications</string>
+    <string name="settings_title_notification_custom">Get some notifications</string>
+    <string name="settings_title_notification_none">Don\'t get any notifications</string>
 
 </resources>
