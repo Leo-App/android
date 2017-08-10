@@ -197,7 +197,7 @@ public abstract class Utils {
 
     //User-Stuff
     public static User getCurrentUser() {
-        return new User(getUserID(), "Du", getUserStufe(), getUserPermission());
+        return new User(getUserID(), "Du", getUserStufe(), getUserPermission(), "");
     }
 
     public static int getUserID() {
