@@ -32,11 +32,9 @@ import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
-import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.vertretung.WrapperSubstitutionActivity;
 
 public class WrapperStundenplanActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -80,7 +78,7 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.stundenplan).setChecked(true);
 
-        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
@@ -101,9 +99,9 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-                    case R.id.nachhilfe:
-                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
-                        break;
+//                    case R.id.nachhilfe:
+//                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
+//                        break;
                     case R.id.stundenplan:
                         return true;
                     case R.id.barometer:
@@ -115,9 +113,9 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
                     case R.id.startseite:
                         i = null;
                         break;
-                    case R.id.vertretung:
-                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
-                        break;
+//                    case R.id.vertretung:
+//                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
+//                        break;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;

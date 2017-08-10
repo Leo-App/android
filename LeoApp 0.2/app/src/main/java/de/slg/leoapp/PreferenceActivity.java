@@ -233,13 +233,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
             case "pref_key_level_general":
                 new UpdateTaskGrade(this).execute();
-                String res = String.valueOf(pref.getInt(key, 0));
-                res = res.replace("10", "EF");
-                res = res.replace("11", "Q1");
-                res = res.replace("12", "Q2");
-                if (res.equals("0"))
-                    res = "N/A";
+                String res = pref.getString(key, "N/A");
                 findPreference("pref_key_level_general").setSummary(res);
+                initNavigationView();
                 break;
             case "pref_key_username_general":
 
@@ -376,7 +372,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.settings).setChecked(true);
 
-        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        //navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
@@ -397,9 +393,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-                    case R.id.nachhilfe:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        break;
+//                    case R.id.nachhilfe:
+//                        i = new Intent(getApplicationContext(), MainActivity.class);
+//                        break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;

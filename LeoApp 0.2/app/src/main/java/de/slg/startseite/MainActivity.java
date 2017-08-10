@@ -52,12 +52,10 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
-import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.AbstimmDialog;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
-import de.slg.vertretung.WrapperSubstitutionActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
@@ -192,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
 
-        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
@@ -212,9 +210,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-                    case R.id.nachhilfe: //Nur bei Verifizierung
-                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
-                        break;
+//                    case R.id.nachhilfe: //Nur bei Verifizierung
+//                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
+//                        break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;
@@ -230,9 +228,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;
-                    case R.id.vertretung:
-                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
-                        break;
+//                    case R.id.vertretung:
+//                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
+//                        break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();

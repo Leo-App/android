@@ -35,10 +35,7 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
         try {
 
             int id = pref.getInt("pref_key_general_id", -1);
-            String klasse = String.valueOf(pref.getInt("pref_key_level_general", 0));
-            klasse = klasse.replace("10", "EF");
-            klasse = klasse.replace("11", "Q1");
-            klasse = klasse.replace("12", "Q2");
+            String klasse = pref.getString("pref_key_level_general", "N/A");
 
             URL interfaceDB = new URL("http://moritz.liegmanns.de/updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse);
 

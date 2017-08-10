@@ -2,6 +2,7 @@ package de.slg.messenger;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,25 +27,29 @@ class UserAdapter extends ArrayAdapter<User> {
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.selectable = selectable;
         this.views = new View[users.length];
+        for (User u : users)
+            Log.e("TAG", u.uname);
     }
 
     @NonNull
     @Override
     public View getView(int position, View v, @NonNull ViewGroup parent) {
         if (users[position] != null) {
-            if (v == null) {
+            if (views[position] == null) {
                 v = inflater.inflate(resId, null);
-
-                final TextView username = (TextView) v.findViewById(R.id.username);
-                final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
-                username.setText(users[position].uname);
-                userdefault.setText(users[position].udefaultname + ", " + users[position].ustufe);
-                if (selectable)
-                    v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
-                else
-                    v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
-                views[position] = v;
             }
+
+            final TextView username = (TextView) v.findViewById(R.id.username);
+            final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+            username.setText(users[position].uname);
+            userdefault.setText(users[position].udefaultname + ", " + users[position].ustufe);
+
+            if (selectable)
+                v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
+            else
+                v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
+
+            views[position] = v;
         }
         return v;
     }
