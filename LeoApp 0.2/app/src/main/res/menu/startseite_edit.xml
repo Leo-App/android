@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/action_appinfo_quick"
-        android:icon="@drawable/ic_widgets_white_24dp"
-        android:title="@string/cards_quick"
-        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_appedit_done"
         android:icon="@drawable/ic_done_white_24dp"
         android:title="@string/set_changes"
         app:showAsAction="ifRoom" />
-
     <item
         android:id="@+id/action_appedit_add"
         android:icon="@drawable/ic_add_white_24dp"

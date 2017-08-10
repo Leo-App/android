@@ -5,5 +5,10 @@
         android:id="@+id/action_appedit"
         android:icon="@drawable/ic_edit_white_24dp"
         android:title="@string/cards_customize"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_appinfo_quick"
+        android:icon="@drawable/ic_widgets_white_24dp"
+        android:title="@string/cards_quick"
         app:showAsAction="ifRoom" />
 </menu>

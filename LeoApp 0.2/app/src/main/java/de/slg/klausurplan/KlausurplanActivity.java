@@ -1,6 +1,7 @@
 package de.slg.klausurplan;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -72,6 +73,7 @@ public class KlausurplanActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
+        snackbar.dismiss();
         if (mi.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         } else if (mi.getItemId() == R.id.action_load) {
@@ -91,22 +93,7 @@ public class KlausurplanActivity extends AppCompatActivity {
     }
 
     private void ladeKlausuren() {
-        if (Utils.checkNetwork()) {
-            try {
-                KlausurenImportieren k = new KlausurenImportieren(getApplicationContext());
-                k.execute();//Klausuren werden aus dem Internet geladen und
-                List<Klausur> result = k.get();
-                for (result.toFirst(); result.hasAccess(); result.next())
-                    add(result.getContent(), false);//Klausuren werden aus der Ergebnisliste in die Klausurliste gefügt
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.snackbar_no_connection_info, Toast.LENGTH_SHORT).show();
-        }
-        filternNachStufe(Utils.getUserStufe());
-        löscheAlteKlausuren(Start.pref.getInt("pref_key_delete", -1));
-        refresh();
+        new Load().execute();
     }
 
     private void löscheAlleKlausuren() {
@@ -228,6 +215,7 @@ public class KlausurplanActivity extends AppCompatActivity {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                snackbar.dismiss();
                 KlausurActivity.currentKlausur = new Klausur("", null, "", "");
                 startActivity(new Intent(getApplicationContext(), KlausurActivity.class));
             }
@@ -365,4 +353,40 @@ public class KlausurplanActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     } //schreibt die Klausuren in die Textdatei
+
+    private class Load extends AsyncTask<Void, Void, Void> {
+        KlausurenImportieren k;
+
+        @Override
+        protected void onPreExecute() {
+            snackbar.dismiss();
+            findViewById(R.id.progressBar4).setVisibility(View.VISIBLE);
+            k = new KlausurenImportieren(getApplicationContext());
+            k.execute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (Utils.checkNetwork()) {
+                try {
+                    List<Klausur> result = k.get();
+                    for (result.toFirst(); result.hasAccess(); result.next())
+                        add(result.getContent(), false);//Klausuren werden aus der Ergebnisliste in die Klausurliste gefügt
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.snackbar_no_connection_info, Toast.LENGTH_SHORT).show();
+            }
+            filternNachStufe(Utils.getUserStufe());
+            löscheAlteKlausuren(Start.pref.getInt("pref_key_delete", -1));
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            findViewById(R.id.progressBar4).setVisibility(View.GONE);
+            refresh();
+        }
+    }
 }

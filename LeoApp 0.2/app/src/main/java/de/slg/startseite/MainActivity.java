@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         verify = (Button) findViewById(R.id.buttonCardView0);
         pb = (ProgressBar) findViewById(R.id.progressBar1);
         v = findViewById(R.id.coordinator);
-        dismiss = (Button)findViewById(R.id.buttonDismissCardView0);
+        dismiss = (Button) findViewById(R.id.buttonDismissCardView0);
         ImageButton help = (ImageButton) findViewById(R.id.help);
         help.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 FeatureDialog dialog = new FeatureDialog(MainActivity.this);
                 dialog.show();
-                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
         });
@@ -348,7 +348,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }, 100);
             getSupportActionBar().setTitle(getString(R.string.cards_customize));
-
         } else if (item.getItemId() == R.id.action_appedit_done) {
             editing = false;
             writeToPreferences();
@@ -478,12 +477,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         if (editing) {
             getMenuInflater().inflate(R.menu.startseite_edit, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.startseite, menu);
             if (Start.pref.getBoolean("pref_key_card_config_quick", false))
                 menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
             else
                 menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
-        } else
-            getMenuInflater().inflate(R.menu.startseite, menu);
+        }
 
         return true;
     }
