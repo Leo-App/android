@@ -282,8 +282,10 @@ public class OverviewWrapper extends AppCompatActivity {
             @Override
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                 View v = holder.itemView;
-                TextView username = (TextView) v.findViewById(R.id.username);
+                final TextView username = (TextView) v.findViewById(R.id.username);
+                final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
                 username.setText(array[position].uname);
+                userdefault.setText(array[position].udefaultname + ", " + array[position].ustufe);
                 v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
             }
 

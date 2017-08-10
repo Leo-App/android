@@ -35,8 +35,10 @@ class UserAdapter extends ArrayAdapter<User> {
             if (v == null) {
                 v = inflater.inflate(resId, null);
 
-                TextView username = (TextView) v.findViewById(R.id.username);
+                final TextView username = (TextView) v.findViewById(R.id.username);
+                final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
                 username.setText(users[position].uname);
+                userdefault.setText(users[position].udefaultname + ", " + users[position].ustufe);
                 if (selectable)
                     v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
                 else

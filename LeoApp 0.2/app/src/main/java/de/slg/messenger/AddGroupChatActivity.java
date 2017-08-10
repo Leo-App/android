@@ -86,9 +86,9 @@ public class AddGroupChatActivity extends AppCompatActivity {
         lvAllUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+                final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
                 checkBox.setChecked(!checkBox.isChecked());
-                TextView username = (TextView) view.findViewById(R.id.username);
+                final TextView username = (TextView) view.findViewById(R.id.username);
                 int color = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
                 if (!checkBox.isChecked())
                     color = ContextCompat.getColor(getApplicationContext(), R.color.colorText);

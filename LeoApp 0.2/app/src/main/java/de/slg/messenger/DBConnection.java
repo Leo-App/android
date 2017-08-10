@@ -27,6 +27,7 @@ import static de.slg.messenger.DBConnection.DBHelper.TABLE_CHATS;
 import static de.slg.messenger.DBConnection.DBHelper.TABLE_MESSAGES;
 import static de.slg.messenger.DBConnection.DBHelper.TABLE_MESSAGES_UNSEND;
 import static de.slg.messenger.DBConnection.DBHelper.TABLE_USERS;
+import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_ID;
 import static de.slg.messenger.DBConnection.DBHelper.USER_KLASSE;
 import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
@@ -36,7 +37,7 @@ public class DBConnection {
     private final SQLiteDatabase database;
 
     public DBConnection(Context context) {
-        DBHelper helper = new DBHelper(context, 2);
+        DBHelper helper = new DBHelper(context, 3);
         database = helper.getWritableDatabase();
     }
 
@@ -180,6 +181,7 @@ public class DBConnection {
             ContentValues values = new ContentValues();
             values.put(USER_ID, u.uid);
             values.put(USER_NAME, u.uname);
+            values.put(USER_DEFAULTNAME, u.udefaultname);
             values.put(USER_KLASSE, u.ustufe);
             values.put(USER_PERMISSION, u.upermission);
             insert(TABLE_USERS, values);
@@ -187,12 +189,12 @@ public class DBConnection {
     }
 
     User[] getUsers() {
-        String[] columns = {USER_ID, USER_NAME, USER_KLASSE, USER_PERMISSION};
+        String[] columns = {USER_ID, USER_NAME, USER_KLASSE, USER_PERMISSION, USER_DEFAULTNAME};
         Cursor cursor = query(TABLE_USERS, columns, null, USER_ID);
         User[] array = new User[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
-            array[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3));
+            array[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4));
         }
         cursor.close();
         return array;
@@ -428,6 +430,8 @@ public class DBConnection {
         static final String USER_NAME = "uname";
         static final String USER_KLASSE = "uklasse";
         static final String USER_PERMISSION = "upermission";
+        static final String USER_DEFAULTNAME = "udefaultname";
+
         static final String TABLE_MESSAGES_UNSEND = "messages_unsend";
 
         DBHelper(Context context, int version) {
@@ -470,6 +474,7 @@ public class DBConnection {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_USERS + " (" +
                         USER_ID + " INTEGER PRIMARY KEY, " +
                         USER_NAME + " TEXT NOT NULL, " +
+                        USER_DEFAULTNAME + " TEXT NOT NULL, " +
                         USER_KLASSE + " TEXT, " +
                         USER_PERMISSION + " INTEGER NOT NULL)");
             } catch (SQLException e) {

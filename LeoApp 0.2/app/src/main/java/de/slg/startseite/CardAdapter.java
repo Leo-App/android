@@ -259,7 +259,8 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             if (ref.title.equals(MainActivity.ref.getString(R.string.coming_soon))) {
                 //  holder.icon.setColorFilter(Color.rgb(0x00,0x91, 0xea));
                 holder.icon.setColorFilter(Color.rgb(0xf4, 0x43, 0x36));
-            }
+            } else
+                holder.icon.setColorFilter(null);
             holder.description.setText(ref.descr);
             holder.content.setVisibility(View.GONE);
             holder.icon.setImageResource(ref.icon);
