@@ -436,7 +436,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         username.setText(Utils.getUserName());
 
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        grade.setText(Utils.getUserStufe());
+        if (Utils.getUserPermission() == 2)
+            grade.setText(Utils.getLehrerKuerzel());
+        else
+            grade.setText(Utils.getUserStufe());
 
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
