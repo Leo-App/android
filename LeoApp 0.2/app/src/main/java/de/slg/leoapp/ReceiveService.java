@@ -250,7 +250,7 @@ public class ReceiveService extends Service {
                     reader.close();
                     String erg = builder.toString();
                     String[] result = erg.split("_nextAssoziation_");
-                    Utils.getMDB().clearTable();
+                    Utils.getMDB().clearAssoziationen();
                     for (String s : result) {
                         String[] current = s.split("_;_");
                         if (current.length == 2) {

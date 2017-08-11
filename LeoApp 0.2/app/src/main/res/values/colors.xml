@@ -8,7 +8,7 @@
     <color name="colorInactive">#bdbdbd</color>
     <color name="colorChatBackground">#8ea7b4</color>
     <color name="colorTabIndicator">#fff</color>
-    <color name="colorText">#000</color>
+    <color name="colorText">#000000</color>
     <color name="colorTextGreyed">#FFD8D8D8</color>
     <color name="colorWocheBackground">#dfdfdf</color>
 

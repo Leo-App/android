@@ -29,15 +29,15 @@ import static de.slg.messenger.DBConnection.DBHelper.TABLE_MESSAGES_UNSEND;
 import static de.slg.messenger.DBConnection.DBHelper.TABLE_USERS;
 import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_ID;
-import static de.slg.messenger.DBConnection.DBHelper.USER_KLASSE;
 import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_PERMISSION;
+import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
 
 public class DBConnection {
     private final SQLiteDatabase database;
 
     public DBConnection(Context context) {
-        DBHelper helper = new DBHelper(context, 3);
+        DBHelper helper = new DBHelper(context, 4);
         database = helper.getWritableDatabase();
     }
 
@@ -177,19 +177,27 @@ public class DBConnection {
 
     //User
     public void insertUser(User u) {
-        if (u != null && !contains(u)) {
-            ContentValues values = new ContentValues();
-            values.put(USER_ID, u.uid);
-            values.put(USER_NAME, u.uname);
-            values.put(USER_DEFAULTNAME, u.udefaultname);
-            values.put(USER_KLASSE, u.ustufe);
-            values.put(USER_PERMISSION, u.upermission);
-            insert(TABLE_USERS, values);
+        if (u != null) {
+            if (!contains(u)) {
+                ContentValues values = new ContentValues();
+                values.put(USER_ID, u.uid);
+                values.put(USER_NAME, u.uname);
+                values.put(USER_DEFAULTNAME, u.udefaultname);
+                values.put(USER_STUFE, u.ustufe);
+                values.put(USER_PERMISSION, u.upermission);
+                insert(TABLE_USERS, values);
+            } else {
+                ContentValues values = new ContentValues();
+                values.put(USER_NAME, u.uname);
+                values.put(USER_STUFE, u.ustufe);
+                values.put(USER_PERMISSION, u.upermission);
+                database.update(TABLE_USERS, values, USER_ID + " = " + u.uid, null);
+            }
         }
     }
 
     User[] getUsers() {
-        String[] columns = {USER_ID, USER_NAME, USER_KLASSE, USER_PERMISSION, USER_DEFAULTNAME};
+        String[] columns = {USER_ID, USER_NAME, USER_STUFE, USER_PERMISSION, USER_DEFAULTNAME};
         Cursor cursor = query(TABLE_USERS, columns, null, USER_ID);
         User[] array = new User[cursor.getCount()];
         cursor.moveToFirst();
@@ -222,14 +230,20 @@ public class DBConnection {
 
     //Chat
     public void insertChat(Chat c) {
-        if (c != null && !contains(c)) {
-            ContentValues values = new ContentValues();
-            values.put(CHAT_ID, c.cid);
-            values.put(CHAT_NAME, c.cname);
-            values.put(CHAT_TYPE, c.ctype.toString());
-            values.put(CHAT_DELETED, 0);
-            values.put(CHAT_MUTE, 0);
-            insert(TABLE_CHATS, values);
+        if (c != null) {
+            if (!contains(c)) {
+                ContentValues values = new ContentValues();
+                values.put(CHAT_ID, c.cid);
+                values.put(CHAT_NAME, c.cname);
+                values.put(CHAT_TYPE, c.ctype.toString());
+                values.put(CHAT_DELETED, 0);
+                values.put(CHAT_MUTE, 0);
+                insert(TABLE_CHATS, values);
+            } else {
+                ContentValues values = new ContentValues();
+                values.put(CHAT_NAME, c.cname);
+                database.update(TABLE_CHATS, values, CHAT_ID + " = " + c.cid, null);
+            }
         }
     }
 
@@ -325,6 +339,33 @@ public class DBConnection {
         database.update(TABLE_CHATS, values, CHAT_ID + " = " + cid, null);
     }
 
+    //Suchen
+    Object[] getSuchergebnisse(String suchbegriff, boolean chatsFirst, String orderChats, String orderUsers) {
+        Cursor cursorChats = query(TABLE_CHATS, new String[]{CHAT_ID, CHAT_NAME, CHAT_MUTE}, CHAT_TYPE + " != '" + Chat.Chattype.PRIVATE.toString() + "' AND " + CHAT_NAME + " LIKE '%" + suchbegriff + "%'", orderChats);
+        Cursor cursorUsers = query(TABLE_USERS, new String[]{USER_ID, USER_NAME, USER_DEFAULTNAME, USER_STUFE}, USER_NAME + " LIKE '%" + suchbegriff + "%' OR " + USER_DEFAULTNAME + " LIKE '%" + suchbegriff + "%'", orderUsers);
+        Chat[] chats = new Chat[cursorChats.getCount()];
+        User[] users = new User[cursorUsers.getCount()];
+        Object[] ergebnisse = new Object[chats.length + users.length];
+        cursorChats.moveToFirst();
+        cursorUsers.moveToFirst();
+        for (int i = 0; !cursorChats.isAfterLast(); cursorChats.moveToNext(), i++) {
+            chats[i] = new Chat(cursorChats.getInt(0), cursorChats.getString(1), cursorChats.getInt(2) == 1, Chat.Chattype.GROUP);
+        }
+        for (int i = 0; !cursorUsers.isAfterLast(); cursorUsers.moveToNext(), i++) {
+            users[i] = new User(cursorUsers.getInt(0), cursorUsers.getString(1), cursorUsers.getString(3), 0, cursorUsers.getString(2));
+        }
+        cursorChats.close();
+        cursorUsers.close();
+        if (chatsFirst) {
+            System.arraycopy(chats, 0, ergebnisse, 0, chats.length);
+            System.arraycopy(users, 0, ergebnisse, chats.length, users.length);
+        } else {
+            System.arraycopy(users, 0, ergebnisse, 0, users.length);
+            System.arraycopy(chats, 0, ergebnisse, users.length, chats.length);
+        }
+        return ergebnisse;
+    }
+
     //Assoziation
     public void insertAssoziation(Assoziation a) {
         if (a != null) {
@@ -403,7 +444,7 @@ public class DBConnection {
         database.insert(table, null, values);
     }
 
-    public void clearTable() {
+    public void clearAssoziationen() {
         database.execSQL("DELETE FROM " + DBHelper.TABLE_ASSOZIATION);
     }
 
@@ -428,7 +469,7 @@ public class DBConnection {
         static final String TABLE_USERS = "users";
         static final String USER_ID = "uid";
         static final String USER_NAME = "uname";
-        static final String USER_KLASSE = "uklasse";
+        static final String USER_STUFE = "ustufe";
         static final String USER_PERMISSION = "upermission";
         static final String USER_DEFAULTNAME = "udefaultname";
 
@@ -475,7 +516,7 @@ public class DBConnection {
                         USER_ID + " INTEGER PRIMARY KEY, " +
                         USER_NAME + " TEXT NOT NULL, " +
                         USER_DEFAULTNAME + " TEXT NOT NULL, " +
-                        USER_KLASSE + " TEXT, " +
+                        USER_STUFE + " TEXT, " +
                         USER_PERMISSION + " INTEGER NOT NULL)");
             } catch (SQLException e) {
                 e.printStackTrace();
