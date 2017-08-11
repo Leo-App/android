@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -237,6 +238,10 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
                     MY_PERMISSIONS_REQUEST_USE_CAMERA);
 
         } else {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
+            }
 
             runningScan = true;
             scV = new ZXingScannerView(getApplicationContext());

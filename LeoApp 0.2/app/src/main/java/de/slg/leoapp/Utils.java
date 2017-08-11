@@ -20,11 +20,13 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.DBConnection;
 import de.slg.messenger.OverviewWrapper;
+import de.slg.startseite.MainActivity;
 import de.slg.stundenplan.StundenplanDB;
 
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
     public static Context context;
+    private static MainActivity mainActivity;
     private static DBConnection dbConnection;
     private static OverviewWrapper overviewWrapper;
     private static ChatActivity chatActivity;
@@ -195,6 +197,14 @@ public abstract class Utils {
         return klausurplanActivity;
     }
 
+    public static void registerMainActivity(MainActivity activity) {
+        mainActivity = activity;
+    }
+
+    public static MainActivity getMainActivity() {
+        return mainActivity;
+    }
+
     //User-Stuff
     public static User getCurrentUser() {
         return new User(getUserID(), "Du", getUserStufe(), getUserPermission(), "");
@@ -212,7 +222,7 @@ public abstract class Utils {
 
     public static String getUserStufe() {
         try {
-            return Start.pref.getString("pref_key_level_general", "");
+            return Start.pref.getString("pref_key_level_general", "").replace("N/A", "");
         } catch (ClassCastException e) {
             return "";
         }
@@ -220,6 +230,10 @@ public abstract class Utils {
 
     public static int getUserPermission() {
         return Start.pref.getInt("pref_key_general_permission", 0);
+    }
+
+    public static String getLehrerKuerzel() {
+        return Start.pref.getString("pref_key_kuerzel_general", "");
     }
 
     public static boolean isVerified() {

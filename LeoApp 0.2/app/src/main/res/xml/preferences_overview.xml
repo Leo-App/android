@@ -17,6 +17,12 @@
             android:summary="@string/settings_summary_level"
             android:title="@string/settings_title_level" />
 
+        <EditTextPreference
+            android:enabled="true"
+            android:key="pref_key_kuerzel_general"
+            android:summary="@string/settings_summary_username"
+            android:title="@string/settings_title_kuerzel" />
+
         <Preference
             android:key="pref_key_notifications"
             android:summary="@string/settings_title_notification"

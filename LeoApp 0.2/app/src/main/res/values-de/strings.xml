@@ -283,5 +283,6 @@
     <string name="selector_card">Karte hinzufügen</string>
     <string name="snackbar_select">Auswählen</string>
     <string name="summary_info_subst">Deine Vertretungen für heute und morgen</string>
+    <string name="settings_title_kuerzel">Lehrer-Kürzel</string>
 
 </resources>

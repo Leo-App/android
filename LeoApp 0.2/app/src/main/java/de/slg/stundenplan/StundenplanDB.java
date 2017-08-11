@@ -93,7 +93,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         }
     }
 
-    void waehleFach(int fid) {
+    void waehleFach(long fid) {
         ContentValues values = new ContentValues();
         values.put(FACH_ID, fid);
         values.put(GEWAHLT_NOTIZ, "");
@@ -107,7 +107,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         database.update(TABLE_GEWAHLT, values, FACH_ID + " = " + fid, null);
     }
 
-    void setzeSchriftlich(boolean schriftlich, int fid) {
+    void setzeSchriftlich(boolean schriftlich, long fid) {
         ContentValues values = new ContentValues();
         values.put(GEWAHLT_SCHRIFTLICH, schriftlich ? 1 : 0);
         database.update(TABLE_GEWAHLT, values, FACH_ID + " = " + fid, null);
@@ -373,7 +373,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         }
     }
 
-    boolean mussSchriftlich(int fid) {
+    boolean mussSchriftlich(long fid) {
         Cursor cursor = database.query(TABLE_FACHER, new String[]{FACH_ART, FACH_NAME}, FACH_ID + " = " + fid, null, null, null, null);
         cursor.moveToFirst();
         boolean b = cursor.getCount() > 0 && (cursor.getString(0).equals("LK") || cursor.getString(1).equals(Utils.getString(R.string.deutsch)) || cursor.getString(1).equals(Utils.getString(R.string.mathe)));

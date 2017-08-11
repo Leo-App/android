@@ -552,11 +552,11 @@ public class OverviewWrapper extends AppCompatActivity {
         private String suchbegriff = "";
         private boolean chatsFirst = false;
         private String name = USER_DEFAULTNAME;
-        private boolean nameDesc = false, gradeDesc = false;
+        private boolean nameDesc = false, groupGrade = false;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            view = inflater.inflate(R.layout.fragment_search_overview, container, false);
+            view = inflater.inflate(R.layout.fragment_search, container, false);
 
             data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, CHAT_NAME, USER_STUFE + ", " + name);
 
@@ -687,20 +687,24 @@ public class OverviewWrapper extends AppCompatActivity {
             });
 
             final Button grade = (Button) view.findViewById(R.id.buttonGrade);
-            final ImageView gradeUpDown = (ImageView) view.findViewById(R.id.buttonGradeUpDown);
             grade.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (gradeDesc) {
-                        gradeDesc = false;
-                        gradeUpDown.setImageResource(R.drawable.ic_expand_less_white_24dp);
-                    } else {
-                        gradeDesc = true;
-                        gradeUpDown.setImageResource(R.drawable.ic_expand_more_white_24dp);
-                    }
+                    grade.setActivated(groupGrade);
+                    if (groupGrade)
+                        grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
+                    else
+                        grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                    groupGrade = !groupGrade;
                     refreshUI();
                 }
             });
+            grade.setActivated(groupGrade);
+            if (groupGrade)
+                grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
+            else
+                grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+
         }
 
         public void refreshUI() {
@@ -709,10 +713,10 @@ public class OverviewWrapper extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (rvSearch != null) {
-                            String orderUser = USER_STUFE;
-                            if (gradeDesc)
-                                orderUser += " DESC";
-                            orderUser += ", " + name;
+                            String orderUser = "";
+                            if (groupGrade)
+                                orderUser = USER_STUFE + ", ";
+                            orderUser += name;
                             if (nameDesc)
                                 orderUser += " DESC";
                             data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, CHAT_NAME, orderUser);

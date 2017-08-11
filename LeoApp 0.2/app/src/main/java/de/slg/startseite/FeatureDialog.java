@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 class FeatureDialog extends AlertDialog{
     FeatureDialog(Context context) {
@@ -33,7 +34,7 @@ class FeatureDialog extends AlertDialog{
                 String emailText = ((EditText)findViewById(R.id.feature_request_desc)).getText().toString();
                 new MailSendTask().execute(emailText);
                 dismiss();
-                Toast.makeText(MainActivity.ref, MainActivity.ref.getString(R.string.thank_you_feature), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Utils.context, Utils.getString(R.string.thank_you_feature), Toast.LENGTH_SHORT).show();
             }
         });
 

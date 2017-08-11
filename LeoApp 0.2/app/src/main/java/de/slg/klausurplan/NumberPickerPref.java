@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
 import de.slg.leoapp.R;
-import de.slg.startseite.MainActivity;
+import de.slg.leoapp.Utils;
 
 
 public class NumberPickerPref extends DialogPreference {
@@ -51,7 +51,7 @@ public class NumberPickerPref extends DialogPreference {
         super.onBindDialogView(view);
         picker.setMinValue(MIN_VALUE);
         picker.setMaxValue(MAX_VALUE);
-        picker.setDisplayedValues(new String[]{"1 " + MainActivity.ref.getString(R.string.month), "2 " + MainActivity.ref.getString(R.string.months), "3 " + MainActivity.ref.getString(R.string.months), "4 " + MainActivity.ref.getString(R.string.months), "5 " + MainActivity.ref.getString(R.string.months), "6 " + MainActivity.ref.getString(R.string.months), "7 " + MainActivity.ref.getString(R.string.months), "8 " + MainActivity.ref.getString(R.string.months), "9 " + MainActivity.ref.getString(R.string.months), "10 " + MainActivity.ref.getString(R.string.months), "11 " + MainActivity.ref.getString(R.string.months), "1 " + MainActivity.ref.getString(R.string.year)});
+        picker.setDisplayedValues(new String[]{"1 " + Utils.getString(R.string.month), "2 " + Utils.getString(R.string.months), "3 " + Utils.getString(R.string.months), "4 " + Utils.getString(R.string.months), "5 " + Utils.getString(R.string.months), "6 " + Utils.getString(R.string.months), "7 " + Utils.getString(R.string.months), "8 " + Utils.getString(R.string.months), "9 " + Utils.getString(R.string.months), "10 " + Utils.getString(R.string.months), "11 " + Utils.getString(R.string.months), "1 " + Utils.getString(R.string.year)});
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -73,13 +73,13 @@ public class NumberPickerPref extends DialogPreference {
         return a.getInt(index, MIN_VALUE);
     }
 
-    private void setValue(int value) {
-        this.value = value;
-        persistInt(this.value);
-    }
-
     private int getValue() {
         this.value = getPersistedInt(1);
         return this.value;
+    }
+
+    private void setValue(int value) {
+        this.value = value;
+        persistInt(this.value);
     }
 }

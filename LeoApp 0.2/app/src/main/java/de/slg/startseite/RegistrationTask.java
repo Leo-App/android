@@ -17,6 +17,7 @@ import java.net.URL;
 
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
@@ -45,7 +46,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         try {
 
             URL interfaceDB = new URL("http://www.moritz.liegmanns.de/addUser.php?key=5453&name=" + params[0] + "&permission=" + params[1] + "&klasse=N/A");
-
+            Log.e("TAG", interfaceDB.toString());
             Log.d("LeoApp", "URL SET");
 
             in = null;
@@ -75,6 +76,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         if (result.startsWith("-"))
             return false;
 
+
         if (result.startsWith("_new_")) {
 
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
@@ -98,6 +100,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             SharedPreferences.Editor e = pref.edit();
             e.putInt("pref_key_level_general", Integer.parseInt(params[1]));
             e.putString("pref_key_username_general", data[data.length - 3]);
+            e.putInt("pref_key_general_permission", Integer.parseInt(params[1]));
             e.putInt("pref_key_general_id", Integer.parseInt(data[data.length - 5]));
             e.apply();
 
@@ -126,6 +129,8 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             MainActivity.dismiss.setVisibility(View.GONE);
 
             c.setVerified();
+
+            Utils.getMainActivity().finish();
 
         } else {
 

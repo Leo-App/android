@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -273,14 +274,14 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         hideProgressBar();
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         //Bis auf weiteres aus den Einstellungen entfernt
 /*        findPreference("pref_key_filterby_level").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
         findPreference("pref_key_filterby_schedule").setEnabled(pref.getBoolean("pref_key_filter_subst", false));  '*/
 
-        int permission = pref.getInt("pref_key_general_permission", 0);
-        currentUsername = pref.getString("pref_key_username_general", "");
+        int permission = Utils.getUserPermission();
+        currentUsername = Utils.getUserName();
+        Log.e("TAG", String.valueOf(permission));
 
         if (!Utils.getUserStufe().equals(""))
             findPreference("pref_key_level_general").setSummary(Utils.getUserStufe());
@@ -288,9 +289,17 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             findPreference("pref_key_level_general").setSummary("N/A");
         findPreference("pref_key_username_general").setSummary(currentUsername);
 
-        if (permission == 2 || !Utils.isVerified()) {
+        if (!Utils.isVerified()) {
             findPreference("pref_key_level_general").setEnabled(false);
             findPreference("pref_key_username_general").setSummary("N/A");
+        }
+
+        PreferenceCategory general = (PreferenceCategory) findPreference("pref_key_general_settings");
+        if (permission == 2) {
+            general.removePreference(findPreference("pref_key_level_general"));
+            findPreference("pref_key_kuerzel_general").setSummary(pref.getString("pref_key_kuerzel_general", "N/A"));
+        } else {
+            general.removePreference(findPreference("pref_key_kuerzel_general"));
         }
 
         if (!Utils.isVerified())

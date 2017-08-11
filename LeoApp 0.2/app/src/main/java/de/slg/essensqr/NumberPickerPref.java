@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
 import de.slg.leoapp.R;
-import de.slg.startseite.MainActivity;
+import de.slg.leoapp.Utils;
 
 
 public class NumberPickerPref extends DialogPreference {
@@ -56,11 +56,11 @@ public class NumberPickerPref extends DialogPreference {
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
         picker.setValue(getValue());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        picker.setDisplayedValues(new String[]{"2 " + MainActivity.ref.getString(R.string.seconds), "3 "
-                + MainActivity.ref.getString(R.string.seconds), "4 " + MainActivity.ref.getString(R.string.seconds), "5 "
-                + MainActivity.ref.getString(R.string.seconds), "6 " + MainActivity.ref.getString(R.string.seconds), "7 "
-                + MainActivity.ref.getString(R.string.seconds), "8 " + MainActivity.ref.getString(R.string.seconds), "9 "
-                + MainActivity.ref.getString(R.string.seconds), "10 " + MainActivity.ref.getString(R.string.seconds)});
+        picker.setDisplayedValues(new String[]{"2 " + Utils.getString(R.string.seconds), "3 "
+                + Utils.getString(R.string.seconds), "4 " + Utils.getString(R.string.seconds), "5 "
+                + Utils.getString(R.string.seconds), "6 " + Utils.getString(R.string.seconds), "7 "
+                + Utils.getString(R.string.seconds), "8 " + Utils.getString(R.string.seconds), "9 "
+                + Utils.getString(R.string.seconds), "10 " + Utils.getString(R.string.seconds)});
     }
 
     @Override
@@ -79,11 +79,6 @@ public class NumberPickerPref extends DialogPreference {
         return a.getInt(index, MIN_VALUE);
     }
 
-    private void setValue(int value) {
-        this.value = value;
-        persistInt(this.value);
-    }
-
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
         if (state == null || !state.getClass().equals(SavedState.class))
@@ -99,26 +94,12 @@ public class NumberPickerPref extends DialogPreference {
         return this.value;
     }
 
+    private void setValue(int value) {
+        this.value = value;
+        persistInt(this.value);
+    }
+
     private static class SavedState extends View.BaseSavedState {
-
-        int number;
-
-        SavedState(Parcel source) {
-            super(source);
-            number = source.readInt();
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-
-            super.writeToParcel(dest, flags);
-            dest.writeInt(number);
-
-        }
-
-        public SavedState(Parcelable state) {
-            super(state);
-        }
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
 
@@ -131,6 +112,24 @@ public class NumberPickerPref extends DialogPreference {
             }
 
         };
+        int number;
+
+        SavedState(Parcel source) {
+            super(source);
+            number = source.readInt();
+        }
+
+        public SavedState(Parcelable state) {
+            super(state);
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+
+            super.writeToParcel(dest, flags);
+            dest.writeInt(number);
+
+        }
 
     }
 }

@@ -2,6 +2,7 @@ package de.slg.stundenplan;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -26,6 +27,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.concurrent.ExecutionException;
+
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
@@ -43,12 +46,15 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_wrapper_stundenplan);
 
         if (!Utils.getStundDB().hatGewaehlt()) {
-            startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
+            if (Utils.getUserPermission() != 2) {
+                startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
+            } else {
+                new CreateLehrerStundenplan().execute();
+            }
         }
-
-        setContentView(R.layout.activity_wrapper_stundenplan);
 
         initToolbar();
         initNavigationView();
@@ -193,6 +199,11 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    private void refreshUI() {
+        for (WochentagFragment f : fragments)
+            f.refreshUI();
+    }
+
     public static class WochentagFragment extends Fragment {
         private Fach[] fachArray;
         private int tag;
@@ -223,8 +234,14 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
         @Override
         public void onResume() {
             super.onResume();
-            fachArray = Utils.getStundDB().gewaehlteFaecherAnTag(tag);
-            listView.setAdapter(new StundenAdapter(getContext(), fachArray));
+            refreshUI();
+        }
+
+        private void refreshUI() {
+            if (listView != null) {
+                fachArray = Utils.getStundDB().gewaehlteFaecherAnTag(tag);
+                listView.setAdapter(new StundenAdapter(getContext(), fachArray));
+            }
         }
 
         void setTag(int tag) {
@@ -276,6 +293,33 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
             }
             viAd[position] = v;
             return v;
+        }
+    }
+
+    private class CreateLehrerStundenplan extends AsyncTask<Void, Void, Void> {
+        private AuswahlActivity.FachImporter importer;
+
+        @Override
+        protected void onPreExecute() {
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+            importer = new AuswahlActivity.FachImporter(getApplicationContext(), "");
+            importer.execute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                importer.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            findViewById(R.id.progressBar).setVisibility(View.GONE);
+            refreshUI();
         }
     }
 }

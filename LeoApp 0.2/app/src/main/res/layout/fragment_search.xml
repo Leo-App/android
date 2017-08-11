@@ -133,28 +133,16 @@
                 android:tint="@color/colorAccent"
                 app:srcCompat="@drawable/ic_expand_more_white_24dp" />
 
-            <ImageView
-                android:id="@+id/buttonGradeUpDown"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:layout_alignRight="@+id/buttonGrade"
-                android:layout_alignTop="@+id/buttonGrade"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                android:tint="@color/colorAccent"
-                app:srcCompat="@drawable/ic_expand_more_white_24dp" />
-
             <Button
                 android:id="@+id/buttonGrade"
-                android:layout_width="70dp"
+                android:layout_width="60dp"
                 android:layout_height="28dp"
                 android:layout_alignTop="@id/buttonName"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/buttonNameUpDown"
                 android:background="@drawable/background_sort_buttons"
-                android:paddingLeft="-16dp"
                 android:text="Stufe"
+                android:textAlignment="center"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:textStyle="bold" />

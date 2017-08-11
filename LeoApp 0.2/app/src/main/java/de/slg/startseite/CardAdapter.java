@@ -20,7 +20,6 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
-import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
@@ -61,7 +60,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperQRActivity.class));
+                        Utils.getMainActivity().startActivity(new Intent(Utils.context, WrapperQRActivity.class));
                     }
                 };
                 break;
@@ -76,9 +75,9 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     @Override
                     public void onClick(View v) {
                         if (Utils.isVerified())
-                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, KlausurplanActivity.class));
+                            Utils.getMainActivity().startActivity(new Intent(Utils.context, KlausurplanActivity.class));
                         else
-                            MainActivity.ref.showDialog();
+                            Utils.getMainActivity().showDialog();
                     }
                 };
                 break;
@@ -93,9 +92,9 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     @Override
                     public void onClick(View v) {
                         if (Utils.isVerified())
-                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, OverviewWrapper.class));
+                            Utils.getMainActivity().startActivity(new Intent(Utils.context, OverviewWrapper.class));
                         else
-                            MainActivity.ref.showDialog();
+                            Utils.getMainActivity().showDialog();
                     }
                 };
                 break;
@@ -110,9 +109,9 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     @Override
                     public void onClick(View v) {
                   /*      if (Utils.isVerified())
-                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, NachhilfeboerseActivity.class));
+                            Utils.getMainActivity().startActivity(new Intent(Utils.context, NachhilfeboerseActivity.class));
                         else
-                            MainActivity.ref.showDialog(); */
+                            Utils.getMainActivity().showDialog(); */
                     }
                 };
                 break;
@@ -125,7 +124,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MainActivity.ref.startActivity(new Intent(MainActivity.ref, SchwarzesBrettActivity.class));
+                        Utils.getMainActivity().startActivity(new Intent(Utils.context, SchwarzesBrettActivity.class));
                     }
                 };
                 break;
@@ -138,7 +137,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MainActivity.ref.startActivity(new Intent(MainActivity.ref, StimmungsbarometerActivity.class));
+                        Utils.getMainActivity().startActivity(new Intent(Utils.context, StimmungsbarometerActivity.class));
                     }
                 };
                 break;
@@ -153,9 +152,9 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     @Override
                     public void onClick(View v) {
                         if (Utils.isVerified())
-                            MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperStundenplanActivity.class));
+                            Utils.getMainActivity().startActivity(new Intent(Utils.context, WrapperStundenplanActivity.class));
                         else
-                            MainActivity.ref.showDialog();
+                            Utils.getMainActivity().showDialog();
                     }
                 };
                 break;
@@ -168,7 +167,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //  MainActivity.ref.startActivity(new Intent(MainActivity.ref, WrapperSubstitutionActivity.class));
+                        //  Utils.getMainActivity().startActivity(new Intent(Utils.context, WrapperSubstitutionActivity.class));
                     }
                 };
                 break;
@@ -183,7 +182,6 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 break;
 
         }
-
     }
 
     @Override
@@ -256,7 +254,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             holder.button.setText(ref.buttonDescr);
             holder.button.setOnClickListener(ref.buttonListener);
             holder.title.setText(ref.title);
-            if (ref.buttonDescr.equals(MainActivity.ref.getString(R.string.coming_soon))) {
+            if (ref.buttonDescr.equals(Utils.getString(R.string.coming_soon))) {
                 //  holder.icon.setColorFilter(Color.rgb(0x00,0x91, 0xea));
                 holder.icon.setColorFilter(Color.rgb(0xf4, 0x43, 0x36));
                 if(Start.pref.getBoolean("pref_key_card_config_quick", false))

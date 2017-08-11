@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -36,6 +37,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static TextView title, info;
     public static Button verify;
     public static Button dismiss;
-    public static MainActivity ref;
     public static boolean editing;
     private static boolean verified;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         runningScan = false;
-        ref = this;
+        Utils.registerMainActivity(this);
         Utils.context = getApplicationContext();
 
         setContentView(R.layout.activity_startseite);
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pb = (ProgressBar) findViewById(R.id.progressBar1);
         v = findViewById(R.id.coordinator);
         dismiss = (Button) findViewById(R.id.buttonDismissCardView0);
+
         ImageButton help = (ImageButton) findViewById(R.id.help);
         help.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,6 +160,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, WrapperQRActivity.class));
         } else
             WrapperQRActivity.mensaModeRunning = false;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+                scrollView.smoothScrollTo(0, 0);
+            }
+        }, 100);
 
     }
 
@@ -492,12 +502,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b.dismiss();
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            Log.d("LeoApp", "No upermission. Checking");
+            Log.d("LeoApp", "No permission. Checking");
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     MY_PERMISSIONS_REQUEST_USE_CAMERA);
-            Log.d("LeoApp", "No upermission. Checked");
+            Log.d("LeoApp", "No permission. Checked");
         } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
+            }
             scV = new ZXingScannerView(getApplicationContext());
             setContentView(scV);
             scV.setResultHandler(this);
