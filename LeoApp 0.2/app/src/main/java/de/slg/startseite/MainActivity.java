@@ -403,16 +403,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void writeToPreferences() {
 
-        StringBuilder b = new StringBuilder();
-        mAdapter.cards.toFirst();
-
-        b.append(mAdapter.cards.getContent().type);
-        mAdapter.cards.next();
-
-        for (; mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
-
-            b.append(";").append(mAdapter.cards.getContent().type.toString());
-
+        StringBuilder b = new StringBuilder("");
+        if (mAdapter.cards.length() > 0) {
+            for (mAdapter.cards.toFirst(); mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
+                if (b.length() > 0)
+                    b.append(";");
+                b.append(mAdapter.cards.getContent().type.toString());
+            }
+        } else {
+            b.append("");
         }
 
         SharedPreferences.Editor e = Start.pref.edit();

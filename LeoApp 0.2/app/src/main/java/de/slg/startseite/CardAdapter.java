@@ -36,10 +36,10 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 "FOODMARKS;TESTPLAN;MESSENGER;TUTORING;NEWS;SURVEY;SCHEDULE;SUBSTITUTION");
 
         for (String card : card_config.split(";")) {
-
-            CardType type = CardType.valueOf(card);
-            addToList(type);
-
+            if (card.length() > 0) {
+                CardType type = CardType.valueOf(card);
+                addToList(type);
+            }
         }
 
     }
