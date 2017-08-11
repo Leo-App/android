@@ -6,7 +6,7 @@ $password = "leoApp_2017";
 $dbname = "d02566f2";
 
 $id = "RW6SlQ";
-
+$auth = $_GET['auth'];
 
 if(strcmp($id, $auth) !== 0) {
 	echo "false";
@@ -16,7 +16,6 @@ if(strcmp($id, $auth) !== 0) {
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 $idD = $conn->real_escape_string($_GET['id']);
-$auth = $conn->real_escape_string($_GET['auth']);
 $pw = $conn->real_escape_string($_GET['pw']);
 
 if ($conn->connect_error) {
