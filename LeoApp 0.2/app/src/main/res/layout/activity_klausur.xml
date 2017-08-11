@@ -38,7 +38,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            android:maxLines="1" />
 
         <TextView
             android:id="@+id/textView2"
@@ -61,7 +62,8 @@
             android:ems="10"
             android:hint="@string/date_format"
             android:inputType="date"
-            android:maxLength="8" />
+            android:maxLength="8"
+            android:maxLines="1" />
 
         <TextView
             android:id="@+id/textViewMenu"
@@ -103,7 +105,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLines="1" />
 
     </LinearLayout>
 

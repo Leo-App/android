@@ -232,7 +232,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            view = inflater.inflate(R.layout.fragment_user_overview, container, false);
+            view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
 
             initRecyclerView();
 
@@ -240,7 +240,7 @@ public class OverviewWrapper extends AppCompatActivity {
         }
 
         private void initRecyclerView() {
-            rvUsers = (RecyclerView) view.findViewById(R.id.recyclerViewUser);
+            rvUsers = (RecyclerView) view.findViewById(R.id.recyclerView);
             userClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -375,7 +375,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            view = inflater.inflate(R.layout.fragment_chat_overview, container, false);
+            view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
 
             initRecyclerView();
 
@@ -384,7 +384,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
         private void initRecyclerView() {
             selected = -1;
-            rvChats = (RecyclerView) view.findViewById(R.id.recyclerViewChats);
+            rvChats = (RecyclerView) view.findViewById(R.id.recyclerView);
             chatClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

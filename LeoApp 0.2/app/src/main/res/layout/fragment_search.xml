@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/floatingActionButton"
             android:layout_toStartOf="@+id/floatingActionButton"
-            android:ems="10"
             android:hint="Suchbegriff"
             android:inputType="textPersonName"
             android:maxLines="1" />
