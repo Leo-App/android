@@ -207,14 +207,14 @@ public abstract class Utils {
     }
 
     public static String getUserName() {
-        return Start.pref.getString("pref_key_username_general", context.getString(R.string.drawer_placeholder_name));
+        return Start.pref.getString("pref_key_username_general", "");
     }
 
     public static String getUserStufe() {
         try {
-            return Start.pref.getString("pref_key_level_general", context.getString(R.string.settings_summary_username));
+            return Start.pref.getString("pref_key_level_general", "");
         } catch (ClassCastException e) {
-            return "N/A";
+            return "";
         }
     }
 
