@@ -7,7 +7,7 @@
 	if ($db->connect_error)
     	die("Connection failed: ".$db->connect_error);
 
-    $heute = date("o-m-d");
+	$heute = date("Y-m-d H:i:s");
     $titel = $_GET['titel'];
     $adressat = $_GET['adressat'];
 	$inhalt = $_GET['inhalt'];

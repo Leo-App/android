@@ -60,9 +60,10 @@ $password = "leoApp_2017";
 $dbname = "d02566f2";
 
 
+$auth = $_GET['auth'];
+
 $id = "2SnDS7";
 
-$auth = $_GET['auth'];
 $id2 = substr($auth, 0,6);
 
 if(strcmp($id2, $id) !== 0) {

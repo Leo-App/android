@@ -14,11 +14,11 @@
 
 	$userid = $db->real_escape_string($_GET['userid']);
 
-	$query = "SELECT uid, uname, uklasse, upermission FROM Users WHERE uid != ".$userid;
+	$query = "SELECT uid, uname, uklasse, upermission, udefaultname FROM Users WHERE uid != ".$userid;
 	$result = $db->query($query);
 	if ($result !== false)
 		while ($row = $result->fetch_assoc())
-			echo $row['uid']."_;_".$row['uname']."_;_".$row['uklasse']."_;_".$row['upermission']."_nextUser_";
+			echo $row['uid']."_;_".$row['uname']."_;_".$row['uklasse']."_;_".$row['upermission']."_;_".$row['udefaultname']."_nextUser_";
 		
 	$db->close();
 

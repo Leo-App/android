@@ -8,6 +8,7 @@ $dbname = "d02566f2";
 $id = "RW6SlQ";
 $auth = $_GET['auth'];
 
+
 if(strcmp($id, $auth) !== 0) {
 	echo "false";
 	return;
