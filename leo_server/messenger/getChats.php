@@ -18,7 +18,9 @@
 	$result = $db->query($query);
 	if ($result !== false)
 		while ($row = $result->fetch_assoc())
-			echo $row['cid']."_;_".$row['cname']."_;_".$row['ctype']."_nextChat_";
+			echo $row['cid']."_ ;_"
+		.str_replace("_ next_", "_  next_", str_replace("_ ;_", "_  ;_", $row['cname']))."_ ;_"
+		.$row['ctype']."_ next_";
 		
 	$db->close();
 

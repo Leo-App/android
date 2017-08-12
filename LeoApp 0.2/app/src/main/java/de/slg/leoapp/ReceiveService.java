@@ -157,12 +157,12 @@ public class ReceiveService extends Service {
                     while ((l = reader.readLine()) != null)
                         builder.append(l).append(System.getProperty("line.separator"));
                     reader.close();
-                    String[] result = builder.toString().split("_nextMessage_");
+                    String[] result = builder.toString().split("_ next_");
                     for (String s : result) {
-                        String[] message = s.split("_;_");
+                        String[] message = s.split("_ ;_");
                         if (message.length == 6) {
                             int mid = Integer.parseInt(message[0]);
-                            String mtext = Verschluesseln.decrypt(message[1], Verschluesseln.decryptKey(message[2]));
+                            String mtext = Verschluesseln.decrypt(message[1], Verschluesseln.decryptKey(message[2])).replace("_  ;_", "_ ;_");
                             long mdate = Long.parseLong(message[3] + "000");
                             int cid = Integer.parseInt(message[4]);
                             int uid = Integer.parseInt(message[5]);
@@ -191,9 +191,9 @@ public class ReceiveService extends Service {
                         builder.append(l);
                     reader.close();
                     String erg = builder.toString();
-                    String[] result = erg.split("_nextChat_");
+                    String[] result = erg.split("_ next_");
                     for (String s : result) {
-                        String[] current = s.split("_;_");
+                        String[] current = s.split("_ ;_");
                         if (current.length == 3) {
                             Chat c = new Chat(Integer.parseInt(current[0]), current[1], false, Chat.Chattype.valueOf(current[2].toUpperCase()));
                             Utils.getMDB().insertChat(c);
@@ -220,9 +220,9 @@ public class ReceiveService extends Service {
                         builder.append(l);
                     reader.close();
                     String erg = builder.toString();
-                    String[] result = erg.split("_nextUser_");
+                    String[] result = erg.split("_ next_");
                     for (String s : result) {
-                        String[] current = s.split("_;_");
+                        String[] current = s.split("_ ;_");
                         if (current.length == 5) {
                             User u = new User(Integer.parseInt(current[0]), current[1], current[2], Integer.parseInt(current[3]), current[4]);
                             Utils.getMDB().insertUser(u);

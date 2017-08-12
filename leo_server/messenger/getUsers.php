@@ -18,7 +18,11 @@
 	$result = $db->query($query);
 	if ($result !== false)
 		while ($row = $result->fetch_assoc())
-			echo $row['uid']."_;_".$row['uname']."_;_".$row['uklasse']."_;_".$row['upermission']."_;_".$row['udefaultname']."_nextUser_";
+			echo $row['uid']."_ ;_"
+		.str_replace("_ next_", "_  next_", str_replace("_ ;_", "_  ;_", $row['uname']))."_ ;_"
+		.$row['uklasse']."_ ;_"
+		.$row['upermission']."_ ;_"
+		.$row['udefaultname']."_ next_";
 		
 	$db->close();
 

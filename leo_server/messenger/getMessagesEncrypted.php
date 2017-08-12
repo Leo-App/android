@@ -43,7 +43,7 @@
 	$key2 = "ABCD"; //Oh wow
 	foreach ($array as $chat) {
 		foreach ($chat as $message) {
-			$text = $message['nachricht'];
+			$text = str_replace("_ ;_", "_  ;_", $message['nachricht']);
 			$vKey = "";
 			for($i = 0; $i < strlen($text); $i++) {
 				$keyChar = rand(65, 90);
@@ -66,7 +66,7 @@
 					$keyChar -= 26;
 				$vKey = $vKey.chr($keyChar);
 			}
-			echo $message['id']."_;_".$text."_;_".$vKey."_;_".$message['datum']."_;_".$message['chat']."_;_".$message['absender']."_nextMessage_";
+			echo $message['id']."_ ;_".$text."_ ;_".$vKey."_ ;_".$message['datum']."_ ;_".$message['chat']."_ ;_".$message['absender']."_ next_";
 		}
 	}
 		
