@@ -7,7 +7,9 @@
 
         <EditTextPreference
             android:enabled="true"
+            android:hint="@string/settings_title_username"
             android:key="pref_key_username_general"
+            android:maxLines="1"
             android:summary="@string/settings_summary_username"
             android:title="@string/settings_title_username" />
 
@@ -19,7 +21,10 @@
 
         <EditTextPreference
             android:enabled="true"
+            android:inputType="textCapCharacters"
             android:key="pref_key_kuerzel_general"
+            android:maxLength="3"
+            android:maxLines="1"
             android:summary="@string/settings_summary_username"
             android:title="@string/settings_title_kuerzel" />
 

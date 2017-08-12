@@ -220,7 +220,7 @@ public class AuswahlActivity extends AppCompatActivity {
                             if (!fach[3].equals(lastKurzel)) {
                                 lastID = Utils.getStundDB().insertFach(fach[3], fach[2], fach[4]);
                                 lastKurzel = fach[3];
-                                if (Utils.getUserPermission() == 2 && fach[2].equals(Utils.getLehrerKuerzel())) {
+                                if (Utils.getUserPermission() == 2 && fach[2].equals(Utils.getLehrerKuerzel().toUpperCase())) {
                                     Utils.getStundDB().waehleFach(lastID);
                                     Utils.getStundDB().setzeSchriftlich(true, lastID);
                                 }

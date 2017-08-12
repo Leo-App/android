@@ -186,15 +186,14 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         switch (key) {
 
             case "pref_key_qr_id":
-                if (sharedPreferences.getString("pref_key_qr_id", "").length() != 5 || !contains(sharedPreferences.getString("pref_key_qr_id", ""), "0123456789")) {
+                if (!sharedPreferences.getString("pref_key_qr_id", "").matches("[0-9]{5}")) {
 
-                    Toast t = Toast.makeText(getApplicationContext(), getString(R.string.invalidId), Toast.LENGTH_LONG);
-                    t.show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.invalidId), Toast.LENGTH_LONG).show();
 
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("pref_key_qr_id", "");
-                    editor.apply();
+                    preferences.edit()
+                            .putString("pref_key_qr_id", "")
+                            .apply();
                     connectionPref = findPreference(key);
                     connectionPref.setSummary(getString(R.string.settings_summary_customid));
 
@@ -210,6 +209,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
                 }
                 break;
+
             case "pref_key_qr_pw":
                 PreferenceTask t = new PreferenceTask();
 
@@ -220,16 +220,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
                 t.execute();
                 break;
+
             case "pref_key_qr_autofade":
                 connectionPref = findPreference("pref_key_qr_autofade_time");
                 connectionPref.setEnabled(sharedPreferences.getBoolean(key, false));
-                break;
-            case "pref_key_notification":
-                Preference notifPref = findPreference("pref_key_notification_time");
-                notifPref.setEnabled(sharedPreferences.getBoolean(key, false));
-                break;
-            case "pref_key_notification_time":
-                NotificationService.getTimes();
                 break;
 
             case "pref_key_level_general":
@@ -238,24 +232,27 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 findPreference("pref_key_level_general").setSummary(res);
                 initNavigationView();
                 break;
-            case "pref_key_username_general":
 
+            case "pref_key_username_general":
                 showProgressBar();
 
                 UpdateTaskName task = new de.slg.startseite.UpdateTaskName(this, currentUsername);
                 task.execute();
-
                 break;
+
+            case "pref_key_kuerzel_general":
+                pref.edit()
+                        .putString(key, pref.getString(key, "").toUpperCase())
+                        .apply();
+                findPreference(key).setSummary(pref.getString(key, ""));
+                initNavigationView();
+                break;
+
             case "pref_key_filter_subst":
                 findPreference("pref_key_filterby_level").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
                 findPreference("pref_key_filterby_schedule").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
                 break;
-
-            case "pref_key_notification_time_schedule":
-                NotificationService.getTimes();
-                break;
         }
-
     }
 
     @Override
@@ -458,30 +455,11 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     }
 
     private String getRepl(String s) {
-
         StringBuilder b = new StringBuilder();
-
         for (int i = 0; i < s.length(); i++) {
-
             b.append("*");
-
         }
-
         return b.toString();
-
-    }
-
-    private boolean contains(String s, String reg) {
-        for (char c : s.toCharArray()) {
-            boolean ok = false;
-            for (char d : reg.toCharArray()) {
-                if (c == d)
-                    ok = true;
-            }
-            if (!ok)
-                return false;
-        }
-        return true;
     }
 
     private void showSnackbar() {
