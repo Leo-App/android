@@ -3,7 +3,6 @@ package de.slg.klausurplan;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +47,6 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
         } else {
             tv.setTextColor(ContextCompat.getColor(context, android.R.color.black));
         }
-        Log.e("Datum", String.valueOf(current.datum.getTime()));
-        Log.e("Datum", String.valueOf(markieren));
         return v;
     }
 }

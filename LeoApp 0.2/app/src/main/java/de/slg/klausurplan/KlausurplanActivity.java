@@ -324,15 +324,15 @@ public class KlausurplanActivity extends AppCompatActivity {
                     new BufferedReader(
                             new InputStreamReader(
                                     openFileInput(getString(R.string.klausuren_filemane))));
-            String input = "";
+            StringBuilder builder = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
-                input += line + "_";
+                builder.append(line).append('_');
             }
             reader.close();
-            String[] split = input.split("_");
-            for (String aSplit : split) {
-                String[] current = aSplit.split(";");
+            String[] split = builder.toString().split("_");
+            for (String s : split) {
+                String[] current = s.split(";");
                 if (current.length == 4) {
                     add(new Klausur(current[0], new Date(Long.parseLong(current[1])), current[2], current[3]), false);
                 }

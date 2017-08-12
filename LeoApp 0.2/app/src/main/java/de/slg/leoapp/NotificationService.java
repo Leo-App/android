@@ -14,6 +14,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -177,27 +180,50 @@ public class NotificationService extends Service {
 
     private void klausurplanNotification() {
         if (Start.pref.getBoolean("pref_key_notification_test", true)) {
-            Intent resultIntent = new Intent(getApplicationContext(), KlausurplanActivity.class);
+            try {
+                Calendar tomorrow = new GregorianCalendar();
+                tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        openFileInput(getString(R.string.klausuren_filemane))));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] current = line.split(";");
+                    if (current.length == 4) {
+                        Calendar c = new GregorianCalendar();
+                        c.setTime(new Date(Long.parseLong(current[1])));
+                        if (c.get(Calendar.DAY_OF_MONTH) == tomorrow.get(Calendar.DAY_OF_MONTH) && c.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR) && c.get(Calendar.MONTH) == tomorrow.get(Calendar.MONTH)) {
+                            Intent resultIntent = new Intent(getApplicationContext(), KlausurplanActivity.class);
 
-            PendingIntent resultPendingIntent =
-                    PendingIntent.getActivity(
-                            this,
-                            0,
-                            resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );
+                            PendingIntent resultPendingIntent =
+                                    PendingIntent.getActivity(
+                                            this,
+                                            0,
+                                            resultIntent,
+                                            PendingIntent.FLAG_UPDATE_CURRENT
+                                    );
 
-            NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(getApplicationContext())
-                            .setPriority(NotificationCompat.PRIORITY_HIGH)
-                            .setLargeIcon(icon)
-                            .setSmallIcon(R.drawable.ic_content_paste_white_24dp)
-                            .setVibrate(new long[]{200})
-                            .setContentTitle("Klausurplan")
-                            .setContentText("Hallo")
-                            .setContentIntent(resultPendingIntent);
+                            NotificationCompat.Builder notificationBuilder =
+                                    new NotificationCompat.Builder(getApplicationContext())
+                                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                            .setLargeIcon(icon)
+                                            .setSmallIcon(R.drawable.ic_content_paste_white_24dp)
+                                            .setVibrate(new long[]{200})
+                                            .setContentTitle(getString(R.string.title_testplan))
+                                            .setContentText("Du schreibst morgen eine Klausur!")
+                                            .setContentIntent(resultPendingIntent);
 
-            notificationManager.notify(777, notificationBuilder.build());
+                            notificationManager.notify(777, notificationBuilder.build());
+                        }
+                        if (c.getTime().after(tomorrow.getTime()))
+                            break;
+                    }
+                }
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
