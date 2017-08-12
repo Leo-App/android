@@ -415,16 +415,16 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                         i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                         break;
                     case R.id.startseite:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        i = null;
                         break;
                     case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
+                        return true;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                 }
-                startActivity(i);
+                if (i != null)
+                    startActivity(i);
                 finish();
                 return true;
             }

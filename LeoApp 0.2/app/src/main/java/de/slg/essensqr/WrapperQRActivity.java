@@ -128,8 +128,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
                 }
                 if (i != null)
                     startActivity(i);
-                if (!settings)
-                    finish();
+                finish();
                 return true;
             }
         });
