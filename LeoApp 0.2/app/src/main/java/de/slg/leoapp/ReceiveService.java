@@ -249,19 +249,15 @@ public class ReceiveService extends Service {
                         builder.append(l);
                     reader.close();
                     String erg = builder.toString();
-                    String[] result = erg.split("_nextAssoziation_");
-                    Assoziation[] assoziations = new Assoziation[result.length];
-                    for (int i = 0; i < result.length; i++) {
-                        String[] current = result[i].split("_;_");
+                    String[] result = erg.split(";");
+                    List<Assoziation> list = new List<>();
+                    for (String s : result) {
+                        String[] current = s.split(",");
                         if (current.length == 2) {
-                            Assoziation a = new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1]));
-                            assoziations[i] = a;
+                            list.append(new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1])));
                         }
                     }
-                    Utils.getMDB().clearAssoziationen();
-                    for (Assoziation a : assoziations) {
-                        Utils.getMDB().insertAssoziation(a);
-                    }
+                    Utils.getMDB().insertAssoziationen(list);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
