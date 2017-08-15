@@ -3,7 +3,6 @@ package de.slg.messenger;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,14 +34,14 @@ import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
     static Chat currentChat;
+    private int cid;
+    private Chat.Chattype ctype;
     private Message[] messagesArray;
     private boolean[] selected;
     private boolean hasSelected;
 
     private RecyclerView rvMessages;
     private EditText etMessage;
-    private ImageButton sendButton;
-    private Snackbar snackbar;
     private String message;
 
     private View.OnLongClickListener longClickListener;
@@ -57,21 +56,25 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        cid = getIntent().getIntExtra("cid", -1);
+        ctype = Chat.Chattype.valueOf(getIntent().getStringExtra("ctype"));
+
         messagesArray = new Message[0];
-        Utils.receiveMessenger();
+        if (cid != -1)
+            Utils.receiveMessenger();
 
         initToolbar();
         initSendMessage();
         initRecyclerView();
-        initSnackbar();
 
-        Utils.getMDB().setMessagesRead(currentChat.cid);
+        if (cid != -1)
+            Utils.getMDB().setMessagesRead(cid);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.messenger_chat, menu);
-        menu.findItem(R.id.action_chat_info).setVisible(currentChat.ctype != Chat.Chattype.PRIVATE && Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid));
+        menu.findItem(R.id.action_chat_info).setVisible(ctype != Chat.Chattype.PRIVATE && Utils.getMDB().userInChat(Utils.getUserID(), cid));
         delete = menu.findItem(R.id.action_delete);
         delete.setVisible(hasSelected);
         return true;
@@ -99,7 +102,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportActionBar().setTitle(currentChat.cname);
+        getSupportActionBar().setTitle(getIntent().getStringExtra("cname"));
         refreshUI(false, true);
     }
 
@@ -163,7 +166,7 @@ public class ChatActivity extends AppCompatActivity {
     private void initSendMessage() {
         etMessage = (EditText) findViewById(R.id.inputMessage);
 
-        sendButton = (ImageButton) findViewById(R.id.sendButton);
+        ImageButton sendButton = (ImageButton) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,27 +174,11 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        if (getIntent().getBooleanExtra("loading", false)) {
-            new WaitForLoad().execute();
-        } else if (currentChat.ctype == Chat.Chattype.GROUP && !Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid)) {
+        if (ctype == Chat.Chattype.GROUP && !Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
             etMessage.setEnabled(false);
             etMessage.setHint("Du bist nicht in diesem Chat!");
             sendButton.setEnabled(false);
         }
-    }
-
-    private void initSnackbar() {
-        snackbar = Snackbar
-                .make(findViewById(R.id.coordinatorLayout),
-                        "Something went wrong! Please restart the app",
-                        Snackbar.LENGTH_LONG)
-                .setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
-                .setAction(getString(R.string.snackbar_undo), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
-                });
     }
 
     private String getMessage() {
@@ -210,16 +197,14 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage() {
         String message = getMessage();
-        if (message.length() > 0 && currentChat != null) {
+        if (message.length() > 0) {
             new SendMessage().execute(message);
-            etMessage.setText("");
-            Utils.receiveMessenger();
         }
     }
 
     public void refreshUI(boolean refreshArray, final boolean scroll) {
         if (refreshArray) {
-            messagesArray = Utils.getMDB().getMessagesFromChat(currentChat.cid);
+            messagesArray = Utils.getMDB().getMessagesFromChat(cid);
         }
         if (messagesArray.length != selected.length) {
             boolean[] sOld = selected;
@@ -258,11 +243,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private class MessageAdapter extends RecyclerView.Adapter {
-        private final Chat.Chattype chattype;
-
         MessageAdapter() {
             super();
-            this.chattype = currentChat.ctype;
         }
 
         @Override
@@ -299,7 +281,7 @@ public class ChatActivity extends AppCompatActivity {
                 layout.setGravity(Gravity.LEFT);
                 nachricht.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
                 uhrzeit.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
-                if (chattype == Chat.Chattype.PRIVATE) {
+                if (ctype == Chat.Chattype.PRIVATE) {
                     absender.setVisibility(View.GONE);
                 } else {
                     absender.setVisibility(View.VISIBLE);
@@ -359,43 +341,72 @@ public class ChatActivity extends AppCompatActivity {
 
     private class SendMessage extends AsyncTask<String, Void, Void> {
         @Override
+        protected void onPreExecute() {
+            etMessage.setText("");
+        }
+
+        @Override
         protected Void doInBackground(String... params) {
-            if (currentChat.cid <= 0) {
-                snackbar.show();
-            } else {
-                Message[] mOld = messagesArray;
-                messagesArray = new Message[mOld.length + 1];
-                System.arraycopy(mOld, 0, messagesArray, 0, mOld.length);
-                messagesArray[mOld.length] =
-                        new Message(0,
-                                params[0],
-                                0,
-                                currentChat.cid,
-                                Utils.getUserID(),
-                                true);
-                if (!Utils.checkNetwork()) {
-                    Utils.getMDB().insertUnsendMessage(params[0], currentChat.cid);
-                    refreshUI(true, true);
-                } else {
-                    messagesArray[messagesArray.length - 1].mdate = new Date();
-                    messagesArray[messagesArray.length - 1].sending = true;
-                    refreshUI(false, true);
+            if (cid == -1) {
+                int oUid = getIntent().getIntExtra("uid", -1);
+                if (oUid == -1)
+                    return null;
+                if (Utils.checkNetwork()) {
                     try {
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                new URL(generateURL(params[0]))
+                                                new URL("http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&ctype=" + Chat.Chattype.PRIVATE.toString().toLowerCase())
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
-                        String line;
-                        while ((line = reader.readLine()) != null) Log.e("TAG", line);
+                        String erg = "";
+                        String l;
+                        while ((l = reader.readLine()) != null)
+                            erg += l;
                         reader.close();
+                        cid = Integer.parseInt(erg);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
+            Message[] mOld = messagesArray;
+            messagesArray = new Message[mOld.length + 1];
+            System.arraycopy(mOld, 0, messagesArray, 0, mOld.length);
+            messagesArray[mOld.length] =
+                    new Message(0,
+                            params[0],
+                            0,
+                            cid,
+                            Utils.getUserID(),
+                            true);
+            if (!Utils.checkNetwork()) {
+                Utils.getMDB().insertUnsendMessage(params[0], cid);
+                refreshUI(true, true);
+            } else {
+                messagesArray[messagesArray.length - 1].mdate = new Date();
+                messagesArray[messagesArray.length - 1].sending = true;
+                refreshUI(false, true);
+                try {
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(generateURL(params[0]))
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
+                    String line;
+                    while ((line = reader.readLine()) != null) Log.e("TAG", line);
+                    reader.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Utils.receiveMessenger();
         }
 
         private String generateURL(String message) throws UnsupportedEncodingException {
@@ -404,29 +415,7 @@ public class ChatActivity extends AppCompatActivity {
             String key = Verschluesseln.createKey(message);
             String vMessage = Verschluesseln.encrypt(message, key);
             String vKey = Verschluesseln.encryptKey(key);
-            return "http://moritz.liegmanns.de/messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + currentChat.cid + "&vKey=" + vKey;
-        }
-    }
-
-    private class WaitForLoad extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            findViewById(R.id.progressBar3).setVisibility(View.VISIBLE);
-            sendButton.setEnabled(false);
-            Utils.receiveMessenger();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            while (currentChat.cid == -1) ;
-            while (!Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid)) ;
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            findViewById(R.id.progressBar3).setVisibility(View.GONE);
-            sendButton.setEnabled(true);
+            return "http://moritz.liegmanns.de/messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + cid + "&vKey=" + vKey;
         }
     }
 }

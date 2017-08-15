@@ -288,15 +288,15 @@ public class DBConnection {
         return list.fill(new Chat[list.size()]);
     }
 
-    Chat getChatWith(int uid) {
+    int getChatWith(int uid) {
         Chat[] chats = getChats(true);
         String uname = getUname(uid);
         for (Chat c : chats)
             if (c.cname.equals(uname)) {
                 restoreChat(c.cid);
-                return c;
+                return c.cid;
             }
-        return null;
+        return -1;
     }
 
     void setChatname(Chat chat) {

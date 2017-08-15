@@ -136,6 +136,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
             if (newChat.cid != -1) {
                 User[] members = userAdapter.getSelected();
                 sendAssoziation(new Assoziation(newChat.cid, Utils.getUserID()));
+                Utils.getMDB().insertAssoziation(new Assoziation(newChat.cid, Utils.getUserID()));
                 Utils.receiveMessenger();
                 for (User member : members) {
                     sendAssoziation(new Assoziation(newChat.cid, member.uid));
@@ -157,10 +158,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 while ((l = reader.readLine()) != null)
                     erg += l;
                 reader.close();
-                if (!erg.startsWith("error"))
-                    chat.cid = Integer.parseInt(erg);
-                else
-                    Log.e("Error", erg);
+                chat.cid = Integer.parseInt(erg);
                 Utils.getMDB().insertAssoziation(new Assoziation(chat.cid, Utils.getUserID()));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -200,7 +198,10 @@ public class AddGroupChatActivity extends AppCompatActivity {
             Utils.receiveMessenger();
             findViewById(R.id.progressBar).setVisibility(View.GONE);
             ChatActivity.currentChat = newChat;
-            startActivity(new Intent(getApplicationContext(), ChatActivity.class).putExtra("loading", true));
+            startActivity(new Intent(getApplicationContext(), ChatActivity.class)
+                    .putExtra("cid", newChat.cid)
+                    .putExtra("cname", newChat.cname)
+                    .putExtra("ctype", Chat.Chattype.GROUP.toString()));
             finish();
         }
     }

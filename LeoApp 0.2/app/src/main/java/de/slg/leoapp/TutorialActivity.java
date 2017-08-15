@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ public class TutorialActivity extends AppCompatActivity {
     private TextView title;
     private ViewPager viewPager;
     private TutorialFragment[][] fragments;
-    private String[][] descriptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,42 +34,34 @@ public class TutorialActivity extends AppCompatActivity {
                 getString(R.string.title_survey),
                 getString(R.string.title_plan)};
 
-        descriptions = new String[categories.length][];
+        String[][] descriptions = new String[categories.length][];
         for (int i = 0; i < categories.length; i++) {
             if (categories[i].equals(getString(R.string.title_home))) {
-                Log.e("TAG", "Startseite");
                 descriptions[i] = new String[]{"Home 1", "Home 2", "Home 3", "Home 4"};
                 continue;
             }
             if (categories[i].equals(getString(R.string.title_foodmarks))) {
-                Log.e("TAG", "Klausurplan");
                 descriptions[i] = new String[]{"QR 1", "QR 2", "QR 3"};
                 continue;
             }
             if (categories[i].equals(getString(R.string.title_testplan))) {
-                Log.e("TAG", "Klausurplan");
                 descriptions[i] = new String[]{"Test 1", "Test 2", "Test 3"};
                 continue;
             }
             if (categories[i].equals(getString(R.string.title_messenger))) {
-                Log.e("TAG", "Messenger");
                 descriptions[i] = new String[]{"Message 1", "Message 2"};
                 continue;
             }
             if (categories[i].equals(getString(R.string.title_news))) {
-                Log.e("TAG", "Schwarzes Brett");
                 descriptions[i] = new String[]{"News 1", "News 2", "News 3", "News 4", "News 5"};
                 continue;
             }
             if (categories[i].equals(getString(R.string.title_survey))) {
-                Log.e("TAG", "Stimmungsbarometer");
                 descriptions[i] = new String[]{"Survey 1"};
                 continue;
             }
             if (categories[i].equals(getString(R.string.title_plan))) {
-                Log.e("TAG", "Stundenplan");
                 descriptions[i] = new String[]{"Schedule 1", "Schedule 2", "Schedule 3"};
-                continue;
             }
         }
 
@@ -141,10 +131,6 @@ public class TutorialActivity extends AppCompatActivity {
         title.setText(categories[category]);
         viewPager.getAdapter().notifyDataSetChanged();
     }
-
-//    private void addView(String topic, @DrawableRes int imageRessource, String text) {
-//
-//    }
 
     public static class TutorialFragment extends Fragment {
         private View v;

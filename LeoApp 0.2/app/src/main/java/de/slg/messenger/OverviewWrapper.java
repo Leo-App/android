@@ -1,7 +1,6 @@
 package de.slg.messenger;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -19,7 +18,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,10 +28,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -236,9 +230,11 @@ public class OverviewWrapper extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
+            if (view == null) {
+                view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
 
-            initRecyclerView();
+                initRecyclerView();
+            }
 
             return view;
         }
@@ -249,22 +245,13 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     int position = rvUsers.getChildAdapterPosition(view);
-                    if (position < Utils.getOverviewWrapper().userArray.length) {
-                        User clickedUser = Utils.getOverviewWrapper().userArray[position];
-                        Chat c = Utils.getMDB().getChatWith(clickedUser.uid);
-                        Intent i = new Intent(getContext(), ChatActivity.class)
-                                .putExtra("loading", c == null);
-                        if (c == null) {
-                            if (Utils.checkNetwork()) {
-                                c = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, false, Chat.Chattype.PRIVATE);
-                                new CreateChat(c).execute();
-                            } else {
-                                Toast.makeText(getContext(), R.string.need_internet, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        ChatActivity.currentChat = c;
-                        startActivity(i);
-                    }
+                    User clickedUser = Utils.getOverviewWrapper().userArray[position];
+                    ChatActivity.currentChat = new Chat(-1, clickedUser.uname, false, Chat.Chattype.PRIVATE);
+                    startActivity(new Intent(getContext(), ChatActivity.class)
+                            .putExtra("uid", clickedUser.uid)
+                            .putExtra("cid", Utils.getMDB().getChatWith(clickedUser.uid))
+                            .putExtra("cname", clickedUser.uname)
+                            .putExtra("ctype", Chat.Chattype.PRIVATE.toString()));
                 }
             };
 
@@ -280,54 +267,6 @@ public class OverviewWrapper extends AppCompatActivity {
                         rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getOverviewWrapper().userArray, userClickListener), false);
                 }
             });
-        }
-
-        private static class CreateChat extends AsyncTask<Void, Void, Void> {
-            private final Chat c;
-            private final String url;
-
-            CreateChat(Chat c) {
-                this.c = c;
-                url = generateURL(c);
-            }
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                if (Utils.checkNetwork()) {
-                    try {
-                        BufferedReader reader =
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                new URL(url)
-                                                        .openConnection()
-                                                        .getInputStream(), "UTF-8"));
-                        String erg = "";
-                        String l;
-                        while ((l = reader.readLine()) != null)
-                            erg += l;
-                        reader.close();
-                        if (!erg.startsWith("error"))
-                            c.cid = Integer.parseInt(erg);
-                        else
-                            Log.e("Error", erg);
-                        Utils.getMDB().insertAssoziation(new Assoziation(c.cid, Utils.getUserID()));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                return null;
-            }
-
-            private String generateURL(Chat chat) {
-                String chatname = chat.cname.replace(' ', '+');
-                Utils.getMDB().setChatname(chat);
-                return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase();
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                Utils.receiveMessenger();
-            }
         }
 
         private class UserAdapter extends RecyclerView.Adapter {
@@ -379,9 +318,11 @@ public class OverviewWrapper extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
+            if (view == null) {
+                view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
 
-            initRecyclerView();
+                initRecyclerView();
+            }
 
             return view;
         }
@@ -393,8 +334,12 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     int position = rvChats.getChildAdapterPosition(view);
-                    ChatActivity.currentChat = Utils.getOverviewWrapper().chatArray[position];
-                    startActivity(new Intent(getContext(), ChatActivity.class).putExtra("loading", false));
+                    Chat clickedChat = Utils.getOverviewWrapper().chatArray[position];
+                    ChatActivity.currentChat = clickedChat;
+                    startActivity(new Intent(getContext(), ChatActivity.class)
+                            .putExtra("cid", clickedChat.cid)
+                            .putExtra("cname", clickedChat.cname)
+                            .putExtra("ctype", clickedChat.ctype.toString()));
                     view.findViewById(R.id.notify).setVisibility(View.GONE);
                     view.findViewById(R.id.imageButtonDelete).setVisibility(View.GONE);
                     view.findViewById(R.id.imageButtonMute).setVisibility(View.GONE);
@@ -560,13 +505,15 @@ public class OverviewWrapper extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            view = inflater.inflate(R.layout.fragment_search, container, false);
+            if (view == null) {
+                view = inflater.inflate(R.layout.fragment_search, container, false);
 
-            data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, CHAT_NAME, USER_STUFE + ", " + name);
+                data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, CHAT_NAME, USER_STUFE + ", " + name);
 
-            initRecyclerView();
-            initSearch();
-            initSort();
+                initRecyclerView();
+                initSearch();
+                initSort();
+            }
 
             initialized = true;
             return view;
@@ -581,22 +528,19 @@ public class OverviewWrapper extends AppCompatActivity {
                     int position = rvSearch.getChildAdapterPosition(v);
                     if (data[position] instanceof User) {
                         User clickedUser = (User) data[position];
-                        Chat c = Utils.getMDB().getChatWith(clickedUser.uid);
-                        Intent i = new Intent(getContext(), ChatActivity.class)
-                                .putExtra("loading", c == null);
-                        if (c == null) {
-                            if (Utils.checkNetwork()) {
-                                c = new Chat(-1, "" + clickedUser.uid + " - " + Utils.getCurrentUser().uid, false, Chat.Chattype.PRIVATE);
-                                new UserFragment.CreateChat(c).execute();
-                            } else {
-                                Toast.makeText(getContext(), R.string.need_internet, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        ChatActivity.currentChat = c;
-                        startActivity(i);
+                        ChatActivity.currentChat = new Chat(-1, clickedUser.uname, false, Chat.Chattype.PRIVATE);
+                        startActivity(new Intent(getContext(), ChatActivity.class)
+                                .putExtra("uid", clickedUser.uid)
+                                .putExtra("cid", Utils.getMDB().getChatWith(clickedUser.uid))
+                                .putExtra("cname", clickedUser.uname)
+                                .putExtra("ctype", Chat.Chattype.PRIVATE.toString()));
                     } else {
-                        ChatActivity.currentChat = (Chat) data[position];
-                        startActivity(new Intent(getContext(), ChatActivity.class).putExtra("loading", false));
+                        Chat clickedChat = (Chat) data[position];
+                        ChatActivity.currentChat = clickedChat;
+                        startActivity(new Intent(getContext(), ChatActivity.class)
+                                .putExtra("cid", clickedChat.cid)
+                                .putExtra("cname", clickedChat.cname)
+                                .putExtra("ctype", Chat.Chattype.GROUP.toString()));
                     }
                 }
             };
