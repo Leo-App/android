@@ -25,7 +25,8 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ChatEditActivity extends AppCompatActivity {
-    private Chat currentChat;
+    private int cid;
+    private String cname;
     private Menu menu;
     private ListView lvUsers;
     private UserAdapter uOfChat1, uOfChat2, uRest;
@@ -37,7 +38,9 @@ public class ChatEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_chat_edit);
-        currentChat = ChatActivity.currentChat;
+
+        cid = getIntent().getIntExtra("cid", -1);
+        cname = getIntent().getStringExtra("cname");
 
         initToolbar();
         initListView();
@@ -46,9 +49,9 @@ public class ChatEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid))
+        if (Utils.getMDB().userInChat(Utils.getUserID(), cid))
             getMenuInflater().inflate(R.menu.messenger_chat_edit, menu);
-        if (!Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid))
+        if (!Utils.getMDB().userInChat(Utils.getUserID(), cid))
             menu.clear();
         this.menu = menu;
         return true;
@@ -88,25 +91,31 @@ public class ChatEditActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void finish() {
+        setResult(1, getIntent().putExtra("cname", cname));
+        super.finish();
+    }
+
     private void removeUsers(User... users) {
         new RemoveUser().execute(users);
-        usersOfChat1 = Utils.getMDB().getUsersInChat(currentChat, false);
-        usersOfChat2 = Utils.getMDB().getUsersInChat(currentChat, true);
-        usersNotInChat = Utils.getMDB().getUsersNotInChat(currentChat);
+        usersOfChat1 = Utils.getMDB().getUsersInChat(cid, false);
+        usersOfChat2 = Utils.getMDB().getUsersInChat(cid, true);
+        usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
     }
 
     private void addUsers(User... users) {
         new AddUser().execute(users);
         Utils.receiveMessenger();
-        usersOfChat1 = Utils.getMDB().getUsersInChat(currentChat, false);
-        usersOfChat2 = Utils.getMDB().getUsersInChat(currentChat, true);
-        usersNotInChat = Utils.getMDB().getUsersNotInChat(currentChat);
+        usersOfChat1 = Utils.getMDB().getUsersInChat(cid, false);
+        usersOfChat2 = Utils.getMDB().getUsersInChat(cid, true);
+        usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
     }
 
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarEditChat);
         actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        actionBar.setTitle(currentChat.cname);
+        actionBar.setTitle(cname);
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -116,9 +125,9 @@ public class ChatEditActivity extends AppCompatActivity {
     private void initListView() {
         mode = "";
         lvUsers = (ListView) findViewById(R.id.listViewUsersEdit);
-        usersOfChat1 = Utils.getMDB().getUsersInChat(currentChat, false);
-        usersOfChat2 = Utils.getMDB().getUsersInChat(currentChat, true);
-        usersNotInChat = Utils.getMDB().getUsersNotInChat(currentChat);
+        usersOfChat1 = Utils.getMDB().getUsersInChat(cid, false);
+        usersOfChat2 = Utils.getMDB().getUsersInChat(cid, true);
+        usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
         uOfChat1 = new UserAdapter(getApplicationContext(), usersOfChat1, true);
         uOfChat2 = new UserAdapter(getApplicationContext(), usersOfChat2, false);
         uRest = new UserAdapter(getApplicationContext(), usersNotInChat, true);
@@ -136,7 +145,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void initLeaveButton() {
         Button buttonLeave = (Button) findViewById(R.id.buttonLeaveChat);
-        if (Utils.getMDB().userInChat(Utils.getUserID(), currentChat.cid)) {
+        if (Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
             buttonLeave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -155,7 +164,7 @@ public class ChatEditActivity extends AppCompatActivity {
         View v = getLayoutInflater().inflate(R.layout.dialog_change_chatname, null);
 
         final TextView textView = (TextView) v.findViewById(R.id.etChatname);
-        textView.setText(currentChat.cname);
+        textView.setText(cname);
         v.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,7 +187,7 @@ public class ChatEditActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(User... params) {
             for (User u : params) {
-                sendAssoziation(new Assoziation(currentChat.cid, u.uid));
+                sendAssoziation(new Assoziation(cid, u.uid));
             }
             return null;
         }
@@ -206,7 +215,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getMDB().getUsersInChat(currentChat, true), false));
+            lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getMDB().getUsersInChat(cid, true), false));
             super.onPostExecute(aVoid);
         }
     }
@@ -215,7 +224,7 @@ public class ChatEditActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(User... params) {
             for (User u : params)
-                removeAssoziation(new Assoziation(currentChat.cid, u.uid));
+                removeAssoziation(new Assoziation(cid, u.uid));
             return null;
         }
 
@@ -243,7 +252,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getMDB().getUsersInChat(currentChat, true), false));
+            lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getMDB().getUsersInChat(cid, true), false));
             super.onPostExecute(aVoid);
         }
     }
@@ -251,7 +260,7 @@ public class ChatEditActivity extends AppCompatActivity {
     private class SendChatname extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
-            if (currentChat != null && Utils.checkNetwork())
+            if (Utils.checkNetwork())
                 try {
                     BufferedReader reader =
                             new BufferedReader(
@@ -261,7 +270,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null) ;
                     reader.close();
-                    currentChat.cname = params[0];
+                    cname = params[0];
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -269,13 +278,13 @@ public class ChatEditActivity extends AppCompatActivity {
         }
 
         private String generateURL(String name) {
-            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + currentChat.cid + "&chatname=" + name.replace(" ", "%20");
+            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + cid + "&chatname=" + name.replace(" ", "%20");
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             Utils.receiveMessenger();
-            getSupportActionBar().setTitle(currentChat.cname);
+            getSupportActionBar().setTitle(cname);
         }
     }
 }

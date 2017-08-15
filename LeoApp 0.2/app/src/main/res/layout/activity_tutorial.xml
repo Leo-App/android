@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:title="Tutorial"
+        app:titleTextColor="@android:color/white" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout6"

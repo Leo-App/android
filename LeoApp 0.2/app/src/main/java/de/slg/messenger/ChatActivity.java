@@ -35,6 +35,7 @@ import de.slg.leoapp.Utils;
 public class ChatActivity extends AppCompatActivity {
     static Chat currentChat;
     private int cid;
+    private String cname;
     private Chat.Chattype ctype;
     private Message[] messagesArray;
     private boolean[] selected;
@@ -57,6 +58,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         cid = getIntent().getIntExtra("cid", -1);
+        cname = getIntent().getStringExtra("cname");
         ctype = Chat.Chattype.valueOf(getIntent().getStringExtra("ctype"));
 
         messagesArray = new Message[0];
@@ -85,7 +87,9 @@ public class ChatActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
         } else if (item.getItemId() == R.id.action_chat_info) {
-            startActivity(new Intent(getApplicationContext(), ChatEditActivity.class));
+            startActivityForResult(new Intent(getApplicationContext(), ChatEditActivity.class)
+                    .putExtra("cid", cid)
+                    .putExtra("cname", cname), 1);
         } else if (item.getItemId() == R.id.action_delete) {
             deleteSelectedMessages();
             delete.setVisible(false);
@@ -102,8 +106,14 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportActionBar().setTitle(getIntent().getStringExtra("cname"));
         refreshUI(false, true);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == 1) {
+            getSupportActionBar().setTitle(data.getStringExtra("cname"));
+        }
     }
 
     private void initRecyclerView() {
@@ -156,6 +166,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarChat);
+        actionBar.setTitle(cname);
         actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);

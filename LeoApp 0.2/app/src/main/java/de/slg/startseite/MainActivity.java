@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -114,11 +113,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri webpage = Uri.parse("http://www.leoapp-slg.de");
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
+//                Uri webpage = Uri.parse("http://www.leoapp-slg.de");
+//                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+//                if (intent.resolveActivity(getPackageManager()) != null) {
+//                    startActivity(intent);
+//                }
+
+                startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
             }
         });
 
@@ -168,8 +169,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 scrollView.smoothScrollTo(0, 0);
             }
         }, 100);
-
-        startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
     }
 
     private void synchronizeUsername() {

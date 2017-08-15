@@ -73,13 +73,14 @@
 
                             <ImageButton
                                 android:id="@+id/help"
-                                android:layout_width="wrap_content"
+                                android:layout_width="30dp"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true"
                                 android:layout_alignParentTop="true"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="10dp"
+                                android:adjustViewBounds="true"
                                 android:background="@android:color/transparent"
                                 android:scaleType="fitCenter"
                                 android:textAllCaps="true"
@@ -88,13 +89,14 @@
 
                             <ImageButton
                                 android:id="@+id/feature_request"
-                                android:layout_width="wrap_content"
+                                android:layout_width="30dp"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentRight="true"
                                 android:layout_below="@id/help"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="10dp"
+                                android:adjustViewBounds="true"
                                 android:background="@android:color/transparent"
                                 android:scaleType="fitCenter"
                                 android:textAllCaps="true"

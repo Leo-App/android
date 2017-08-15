@@ -389,12 +389,12 @@ public class DBConnection {
         database.delete(TABLE_ASSOZIATION, USER_ID + " = " + uid + " AND " + CHAT_ID + " = " + cid, null);
     }
 
-    User[] getUsersInChat(Chat c, boolean meInclusive) {
+    User[] getUsersInChat(int cid, boolean meInclusive) {
         boolean meIs = false;
         User[] users = getUsers();
         List<User> list = new List<>();
         String[] columns = {TABLE_ASSOZIATION + "." + USER_ID};
-        String condition = TABLE_ASSOZIATION + "." + CHAT_ID + " = " + c.cid + " AND " + TABLE_USERS + "." + USER_ID + " = " + TABLE_ASSOZIATION + "." + USER_ID;
+        String condition = TABLE_ASSOZIATION + "." + CHAT_ID + " = " + cid + " AND " + TABLE_USERS + "." + USER_ID + " = " + TABLE_ASSOZIATION + "." + USER_ID;
         Cursor cursor = query(TABLE_ASSOZIATION + ", " + TABLE_USERS, columns, condition, TABLE_USERS + "." + USER_NAME);
         cursor.moveToFirst();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -417,11 +417,11 @@ public class DBConnection {
         return array;
     }
 
-    User[] getUsersNotInChat(Chat c) {
+    User[] getUsersNotInChat(int cid) {
         User[] u = getUsers();
         List<User> list = new List<>();
         list.adapt(u);
-        User[] uoc = getUsersInChat(c, false);
+        User[] uoc = getUsersInChat(cid, false);
         for (User anUoc : uoc) {
             int current = anUoc.uid;
             for (list.toFirst(); list.hasAccess(); list.next())
