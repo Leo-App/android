@@ -51,6 +51,7 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
+import de.slg.leoapp.TutorialActivity;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }, 100);
 
-//        new TutorialDialog(this).show();
+        startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
     }
 
     private void synchronizeUsername() {
