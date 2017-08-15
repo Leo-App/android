@@ -21,7 +21,7 @@
 		die("error in query");
 
 	while($row = $result->fetch_assoc())
-		echo $row['cid']."_;_".$row['uid']."_nextAssoziation_";
+		echo $row['cid'].",".$row['uid'].";";
 
 	$db->close();
 
