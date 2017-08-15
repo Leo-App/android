@@ -56,7 +56,7 @@ public class ZeitraumFragment extends Fragment {
                     if (vorherigeWoche(e.date))
                         list.append(e);
             }
-            if (list.length() > 0) {
+            if (list.size() > 0) {
                 list.toFirst();
                 Calendar c1 = new GregorianCalendar(), c2 = new GregorianCalendar();
                 c1.setTime(list.getContent().date);
@@ -93,7 +93,7 @@ public class ZeitraumFragment extends Fragment {
                     }
                 }
             }
-            data[i] = list.fill(new Ergebnis[list.length()]);
+            data[i] = list.fill(new Ergebnis[list.size()]);
         }
     }
 

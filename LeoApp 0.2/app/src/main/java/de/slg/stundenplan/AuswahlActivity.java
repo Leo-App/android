@@ -342,7 +342,7 @@ public class AuswahlActivity extends AppCompatActivity {
             for (int i = 0; i < fachArray.length; i++)
                 if (views[i] != null && ((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked())
                     liste.append(fachArray[i].id);
-            int[] ids = new int[liste.length()];
+            int[] ids = new int[liste.size()];
             liste.toFirst();
             for (int i = 0; i < ids.length; i++, liste.next()) {
                 ids[i] = liste.getContent();

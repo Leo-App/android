@@ -195,7 +195,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     }
 
     private Date getDate(String s) { //Log.e("date", s);
-        String[] parts = s.replace('.', '_').split("_"); //for(int i = 0; i< parts.length; i++) Log.e("date", parts[i]);
+        String[] parts = s.replace('.', '_').split("_"); //for(int i = 0; i< parts.size; i++) Log.e("date", parts[i]);
         if (parts.length == 3) {
             int day = Integer.parseInt(parts[0]); //Log.e("date", ""+day);
             int month = Integer.parseInt(parts[1]);// Log.e("date", ""+month);

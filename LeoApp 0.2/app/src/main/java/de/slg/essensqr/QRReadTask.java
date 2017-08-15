@@ -99,7 +99,7 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         if (parts[2].length() != 7)
             return false;
 
-        Log.d("LeoApp", "passed date length test");
+        Log.d("LeoApp", "passed date size test");
 
         try {
             int day = Integer.parseInt(parts[2].substring(0, 2));
@@ -149,11 +149,11 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         View v;
         long[] interval;
         if (result) {
-            v = inflater.inflate(R.layout.dialog_layout_valid, null);
+            v = inflater.inflate(R.layout.dialog_valid, null);
             ((TextView) v.findViewById(R.id.textView4)).setText(act.getString(R.string.dialog_desc_valid) + "\t" + orderedMenu);
             interval = new long[]{0, 200, 100, 200};
         } else {
-            v = inflater.inflate(R.layout.dialog_layout_invalid, null);
+            v = inflater.inflate(R.layout.dialog_invalid, null);
             interval = new long[]{0, 1000, 500, 1000};
         }
 

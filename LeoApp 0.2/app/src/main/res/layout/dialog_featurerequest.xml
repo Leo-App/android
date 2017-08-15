@@ -29,8 +29,8 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:hint="@string/feature_request"
-        android:textSize="15sp"
-        android:inputType="textMultiLine|textCapSentences" />
+        android:inputType="textMultiLine|textCapSentences"
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/buttonDialog1"

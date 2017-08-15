@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -169,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }, 100);
 
+//        new TutorialDialog(this).show();
     }
 
     private void synchronizeUsername() {
@@ -407,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void writeToPreferences() {
 
         StringBuilder b = new StringBuilder("");
-        if (mAdapter.cards.length() > 0) {
+        if (mAdapter.cards.size() > 0) {
             for (mAdapter.cards.toFirst(); mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
                 if (b.length() > 0)
                     b.append(";");
@@ -458,7 +458,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void showDialog() {
         final AlertDialog builder = new AlertDialog.Builder(this).create();
         LayoutInflater inflater = getLayoutInflater();
-        View v = inflater.inflate(R.layout.dialog_layout, null);
+        View v = inflater.inflate(R.layout.dialog_verification, null);
         Button b1, b2;
         b1 = (Button) v.findViewById(R.id.buttonDialog1);
         b2 = (Button) v.findViewById(R.id.buttonDialog2);
@@ -510,9 +510,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     MY_PERMISSIONS_REQUEST_USE_CAMERA);
             Log.d("LeoApp", "No permission. Checked");
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
-            }
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
             scV = new ZXingScannerView(getApplicationContext());
             setContentView(scV);
             scV.setResultHandler(this);
@@ -593,6 +592,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case MY_PERMISSIONS_REQUEST_USE_CAMERA: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
                     runningScan = true;
                     scV = new ZXingScannerView(getApplicationContext());
                     setContentView(scV);

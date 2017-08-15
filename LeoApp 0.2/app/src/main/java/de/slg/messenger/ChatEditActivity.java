@@ -152,7 +152,7 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void showDialogChatname() {
         final AlertDialog builder = new AlertDialog.Builder(this).create();
-        View v = getLayoutInflater().inflate(R.layout.dialog_layout_chatname, null);
+        View v = getLayoutInflater().inflate(R.layout.dialog_change_chatname, null);
 
         final TextView textView = (TextView) v.findViewById(R.id.etChatname);
         textView.setText(currentChat.cname);

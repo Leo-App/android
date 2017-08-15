@@ -20,12 +20,12 @@
         android:textSize="20sp" />
 
     <HorizontalScrollView
+        android:id="@+id/scrollViewHorizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:id="@+id/scrollViewHorizontal"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -41,11 +41,11 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:tag="FOODMARKS"
                 android:adjustViewBounds="true"
                 android:background="@drawable/smiley_background_very_satisfied"
                 android:contentDescription="@string/textview_placeholder"
                 android:scaleType="fitCenter"
+                android:tag="FOODMARKS"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/qrcode" />
 
@@ -54,11 +54,11 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:tag="TESTPLAN"
                 android:adjustViewBounds="true"
                 android:background="@drawable/smiley_background_satisfied"
                 android:contentDescription="@string/textview_placeholder"
                 android:scaleType="fitCenter"
+                android:tag="TESTPLAN"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/content_paste" />
 
@@ -67,17 +67,16 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:tag="MESSENGER"
                 android:adjustViewBounds="true"
                 android:background="@drawable/smiley_background_neutral"
                 android:contentDescription="@string/textview_placeholder"
                 android:scaleType="fitCenter"
+                android:tag="MESSENGER"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/messenger" />
 
             <ImageButton
                 android:id="@+id/imageButton4"
-                android:tag="TUTORING"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -85,13 +84,13 @@
                 android:background="@drawable/smiley_background_dissatisfied"
                 android:contentDescription="@string/textview_placeholder"
                 android:scaleType="fitCenter"
+                android:tag="TUTORING"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/account_multiple" />
 
 
             <ImageButton
                 android:id="@+id/imageButton5"
-                android:tag="NEWS"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -99,45 +98,46 @@
                 android:background="@drawable/smiley_background_bad_mood"
                 android:contentDescription="@string/textview_placeholder"
                 android:scaleType="fitCenter"
+                android:tag="NEWS"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/ic_event_note_white_24px" />
 
             <ImageButton
+                android:id="@+id/imageButton6"
                 android:layout_width="50dp"
-                android:tag="SURVEY"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:id="@+id/imageButton6"
                 android:adjustViewBounds="true"
                 android:background="@drawable/smiley_background_bad_mood"
                 android:contentDescription="@string/textview_placeholder"
                 android:scaleType="fitCenter"
+                android:tag="SURVEY"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/emoticon" />
 
             <ImageButton
+                android:id="@+id/imageButton7"
                 android:layout_width="50dp"
-                android:tag="SCHEDULE"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:adjustViewBounds="true"
-                android:id="@+id/imageButton7"
                 android:background="@drawable/smiley_background_bad_mood"
                 android:contentDescription="@string/textview_placeholder"
                 android:scaleType="fitCenter"
+                android:tag="SCHEDULE"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/schedule" />
 
             <ImageButton
+                android:id="@+id/imageButton8"
                 android:layout_width="50dp"
-                android:tag="WEATHER"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:adjustViewBounds="true"
-                android:id="@+id/imageButton8"
                 android:background="@drawable/smiley_background_bad_mood"
                 android:contentDescription="@string/textview_placeholder"
                 android:scaleType="fitCenter"
+                android:tag="WEATHER"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/weather_partlycloudy" />
 
@@ -160,9 +160,9 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/scrollViewHorizontal"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/scrollViewHorizontal"
         android:enabled="false"
         android:text="@string/button_add"
         android:textAllCaps="true" />

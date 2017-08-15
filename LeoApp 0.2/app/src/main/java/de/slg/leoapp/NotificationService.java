@@ -375,6 +375,10 @@ public class NotificationService extends Service {
         public void run() {
             running = true;
             while (running) {
+                if (Start.pref == null)
+                    Start.initPref(getApplicationContext());
+                if (Utils.context == null)
+                    Utils.context = getApplicationContext();
                 messengerNotification();
                 schwarzesBrettNotification();
                 timeCheck();

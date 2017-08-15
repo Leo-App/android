@@ -80,6 +80,11 @@ public class List<ContentType> implements Iterable<ContentType> {
         return null;
     }
 
+    public void setContent(ContentType pContent) {
+        if (pContent != null && this.hasAccess())
+            current.content = pContent;
+    }
+
     public ContentType getNext() {
         if (hasAccess() && current.next != null)
             return current.next.content;
@@ -90,11 +95,6 @@ public class List<ContentType> implements Iterable<ContentType> {
         if (hasAccess() && current.previous != null)
             return current.previous.content;
         return null;
-    }
-
-    public void setContent(ContentType pContent) {
-        if (pContent != null && this.hasAccess())
-            current.content = pContent;
     }
 
     public void insertBefore(ContentType pContent) {
@@ -164,7 +164,7 @@ public class List<ContentType> implements Iterable<ContentType> {
             pList.first = null;
             pList.last = null;
             pList.current = null;
-            length += pList.length();
+            length += pList.size();
         }
     }
 
@@ -199,7 +199,7 @@ public class List<ContentType> implements Iterable<ContentType> {
         return array;
     }
 
-    public int length() {
+    public int size() {
         return length;
     }
 

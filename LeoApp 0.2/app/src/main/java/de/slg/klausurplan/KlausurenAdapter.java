@@ -21,7 +21,7 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
     private final long markieren;
 
     KlausurenAdapter(Context context, List<Klausur> objects, long markieren) {
-        super(context, R.layout.list_item_klausur, objects.fill(new Klausur[objects.length()]));
+        super(context, R.layout.list_item_klausur, objects.fill(new Klausur[objects.size()]));
         this.context = context;
         resId = R.layout.list_item_klausur;
         this.markieren = markieren / 1000;

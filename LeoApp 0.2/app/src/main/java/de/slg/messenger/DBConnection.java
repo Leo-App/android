@@ -93,7 +93,7 @@ public class DBConnection {
             list.append(m);
         }
         cursor.close();
-        return list.fill(new Message[list.length()]);
+        return list.fill(new Message[list.size()]);
     }
 
     public Message[] getUnreadMessages() {
@@ -268,7 +268,7 @@ public class DBConnection {
             }
         }
         cursor.close();
-        for (int limit = list.length(); limit > 0; limit--) {
+        for (int limit = list.size(); limit > 0; limit--) {
             int iMax = 0;
             for (list.toFirst();
                  iMax < limit - 1 && (list.getContent().m == null || list.getContent().mute);
@@ -285,7 +285,7 @@ public class DBConnection {
             list.remove();
             list.append(max);
         }
-        return list.fill(new Chat[list.length()]);
+        return list.fill(new Chat[list.size()]);
     }
 
     Chat getChatWith(int uid) {
@@ -411,7 +411,7 @@ public class DBConnection {
         if (meInclusive && meIs) {
             list.append(Utils.getCurrentUser());
         }
-        User[] array = new User[list.length()];
+        User[] array = new User[list.size()];
         list.fill(array);
         cursor.close();
         return array;
@@ -430,7 +430,7 @@ public class DBConnection {
                     break;
                 }
         }
-        User[] array = new User[list.length()];
+        User[] array = new User[list.size()];
         list.fill(array);
         return array;
     }

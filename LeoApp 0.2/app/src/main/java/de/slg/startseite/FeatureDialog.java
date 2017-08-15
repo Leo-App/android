@@ -19,7 +19,7 @@ class FeatureDialog extends AlertDialog{
     public void onCreate(Bundle b) {
 
         super.onCreate(b);
-        setContentView(R.layout.dialog_layout_featurerequest);
+        setContentView(R.layout.dialog_featurerequest);
 
         findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
             @Override

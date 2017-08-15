@@ -27,7 +27,7 @@ class CardAddDialog extends AlertDialog {
     public void onCreate(Bundle b) {
 
         super.onCreate(b);
-        setContentView(R.layout.dialog_layout_add_card);
+        setContentView(R.layout.dialog_add_card);
 
         buttons = new ImageButton[]{
                 (ImageButton) findViewById(R.id.imageButton1),
