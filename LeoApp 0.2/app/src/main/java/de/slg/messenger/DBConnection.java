@@ -36,14 +36,16 @@ import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
 
 public class DBConnection {
     private final SQLiteDatabase database;
+    private final DBHelper helper;
 
     public DBConnection(Context context) {
-        DBHelper helper = new DBHelper(context, 4);
+        helper = new DBHelper(context, 4);
         database = helper.getWritableDatabase();
     }
 
     public void close() {
         database.close();
+        helper.close();
     }
 
     //Message
