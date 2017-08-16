@@ -1,6 +1,5 @@
 package de.slg.messenger;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -11,9 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -27,12 +27,18 @@ import de.slg.leoapp.Utils;
 public class ChatEditActivity extends AppCompatActivity {
     private int cid;
     private String cname;
-    private Menu menu;
-    private ListView lvUsers;
-    private UserAdapter uOfChat1, uOfChat2, uRest;
+
+    private LinearLayout userContainer;
+    private View scrollView;
+    private ListView listView;
+
+    private User[] usersInChat, usersRemove, usersAdd;
+    private UserAdapter uRemove, uAdd;
+    private MenuItem confirm;
     private String mode;
-    private User[] usersOfChat1, usersOfChat2;
-    private User[] usersNotInChat;
+
+    private View add, remove;
+    private Switch notifications;
 
     @Override
     protected void onCreate(Bundle savedInstancesState) {
@@ -43,17 +49,16 @@ public class ChatEditActivity extends AppCompatActivity {
         cname = getIntent().getStringExtra("cname");
 
         initToolbar();
-        initListView();
-        initLeaveButton();
+        initUsers();
+        initSettings();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (Utils.getMDB().userInChat(Utils.getUserID(), cid))
-            getMenuInflater().inflate(R.menu.messenger_chat_edit, menu);
-        if (!Utils.getMDB().userInChat(Utils.getUserID(), cid))
-            menu.clear();
-        this.menu = menu;
+        getMenuInflater().inflate(R.menu.messenger_confirm_action, menu);
+        confirm = menu.findItem(R.id.action_confirm);
+        menu.findItem(R.id.action_cancel).setVisible(false);
+        confirm.setVisible(false);
         return true;
     }
 
@@ -61,55 +66,40 @@ public class ChatEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == android.R.id.home) {
             onBackPressed();
-        } else if (mi.getItemId() == R.id.action_editChat) {
-            showDialogChatname();
-        } else if (mi.getItemId() == R.id.action_addUserToChat) {
-            lvUsers.setAdapter(uRest);
-            menu.clear();
-            mode = "add";
-            getMenuInflater().inflate(R.menu.messenger_confirm_action, menu);
-        } else if (mi.getItemId() == R.id.action_removeUsersFromChat) {
-            lvUsers.setAdapter(uOfChat1);
-            menu.clear();
-            mode = "remove";
-            getMenuInflater().inflate(R.menu.messenger_confirm_action, menu);
-        } else if (mi.getItemId() == R.id.action_cancel) {
-            menu.clear();
-            getMenuInflater().inflate(R.menu.messenger_chat_edit, menu);
-            lvUsers.setAdapter(uOfChat2);
-            mode = "";
         } else if (mi.getItemId() == R.id.action_confirm) {
             if (mode.equals("add"))
-                addUsers(uRest.getSelected());
+                addUsers(uAdd.getSelected());
             if (mode.equals("remove"))
-                removeUsers(uOfChat1.getSelected());
-            mode = "";
-            menu.clear();
-            getMenuInflater().inflate(R.menu.messenger_chat_edit, menu);
-            lvUsers.setAdapter(uOfChat2);
+                removeUsers(uRemove.getSelected());
         }
         return true;
     }
 
     @Override
     public void finish() {
+        Utils.receiveMessenger();
         setResult(1, getIntent().putExtra("cname", cname));
+        Utils.getMDB().muteChat(cid, !notifications.isChecked());
         super.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mode.equals("")) {
+            super.onBackPressed();
+        } else {
+            confirm.setVisible(false);
+            scrollView.setVisibility(View.VISIBLE);
+            mode = "";
+        }
     }
 
     private void removeUsers(User... users) {
         new RemoveUser().execute(users);
-        usersOfChat1 = Utils.getMDB().getUsersInChat(cid, false);
-        usersOfChat2 = Utils.getMDB().getUsersInChat(cid, true);
-        usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
     }
 
     private void addUsers(User... users) {
         new AddUser().execute(users);
-        Utils.receiveMessenger();
-        usersOfChat1 = Utils.getMDB().getUsersInChat(cid, false);
-        usersOfChat2 = Utils.getMDB().getUsersInChat(cid, true);
-        usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
     }
 
     private void initToolbar() {
@@ -122,41 +112,110 @@ public class ChatEditActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    private void initListView() {
-        mode = "";
-        lvUsers = (ListView) findViewById(R.id.listViewUsersEdit);
-        usersOfChat1 = Utils.getMDB().getUsersInChat(cid, false);
-        usersOfChat2 = Utils.getMDB().getUsersInChat(cid, true);
-        usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
-        uOfChat1 = new UserAdapter(getApplicationContext(), usersOfChat1, true);
-        uOfChat2 = new UserAdapter(getApplicationContext(), usersOfChat2, false);
-        uRest = new UserAdapter(getApplicationContext(), usersNotInChat, true);
-        lvUsers.setAdapter(uOfChat2);
-        lvUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void initUsers() {
+        userContainer = (LinearLayout) findViewById(R.id.linearLayoutUsers);
+        scrollView = findViewById(R.id.scrollView);
+        listView = (ListView) findViewById(R.id.listView);
+
+        usersInChat = Utils.getMDB().getUsersInChat(cid, true);
+        usersRemove = Utils.getMDB().getUsersInChat(cid, false);
+        usersAdd = Utils.getMDB().getUsersNotInChat(cid);
+
+        uRemove = new UserAdapter(getApplicationContext(), usersRemove, true);
+        uAdd = new UserAdapter(getApplicationContext(), usersAdd, true);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!mode.equals("")) {
-                    CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-                    checkBox.setChecked(!checkBox.isChecked());
+                final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+                final TextView username = (TextView) view.findViewById(R.id.username);
+
+                checkBox.setChecked(!checkBox.isChecked());
+
+                int color = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
+                if (!checkBox.isChecked())
+                    color = ContextCompat.getColor(getApplicationContext(), R.color.colorText);
+                username.setTextColor(color);
+
+                switch (mode) {
+                    case "add":
+                        confirm.setVisible(uAdd.selectCount() > 0);
+                        break;
+                    case "remove":
+                        confirm.setVisible(uRemove.selectCount() > 0);
+                        break;
                 }
             }
         });
+
+        fillContainer(usersInChat);
     }
 
-    private void initLeaveButton() {
-        Button buttonLeave = (Button) findViewById(R.id.buttonLeaveChat);
-        if (Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
-            buttonLeave.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    removeUsers(Utils.getCurrentUser());
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), OverviewWrapper.class));
-                }
-            });
-        } else {
-            findViewById(R.id.layoutding2).setVisibility(View.GONE);
+    private void fillContainer(User[] data) {
+        userContainer.removeAllViews();
+        for (User u : data) {
+            View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
+
+            final TextView username = (TextView) v.findViewById(R.id.username);
+            final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+            username.setText(u.uname);
+            userdefault.setText(u.udefaultname + ", " + u.ustufe);
+
+            v.findViewById(R.id.checkBox).setVisibility(View.GONE);
+
+            userContainer.addView(v);
         }
+    }
+
+    private void initSettings() {
+        mode = "";
+
+        notifications = (Switch) findViewById(R.id.switch1);
+        notifications.setChecked(!Utils.getMDB().isMute(cid));
+
+        final View name = findViewById(R.id.changeName);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogChatname();
+            }
+        });
+
+        add = findViewById(R.id.addUser);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mode = "add";
+                scrollView.setVisibility(View.GONE);
+                listView.setAdapter(uAdd);
+            }
+        });
+        if (usersAdd.length == 0) {
+            add.setVisibility(View.GONE);
+        }
+
+        remove = findViewById(R.id.removeUser);
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mode = "remove";
+                scrollView.setVisibility(View.GONE);
+                listView.setAdapter(uRemove);
+            }
+        });
+        if (usersRemove.length == 0) {
+            remove.setVisibility(View.GONE);
+        }
+
+        final View leave = findViewById(R.id.leaveChat);
+        leave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeUsers(Utils.getCurrentUser());
+                finish();
+                Utils.getChatActivity().finish();
+            }
+        });
     }
 
     private void showDialogChatname() {
@@ -185,6 +244,12 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private class AddUser extends AsyncTask<User, Void, Void> {
         @Override
+        protected void onPreExecute() {
+            confirm.setVisible(false);
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected Void doInBackground(User... params) {
             for (User u : params) {
                 sendAssoziation(new Assoziation(cid, u.uid));
@@ -203,6 +268,7 @@ public class ChatEditActivity extends AppCompatActivity {
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null) ;
                     reader.close();
+                    Utils.getMDB().insertAssoziation(assoziation);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -215,12 +281,37 @@ public class ChatEditActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getMDB().getUsersInChat(cid, true), false));
-            super.onPostExecute(aVoid);
+            usersInChat = Utils.getMDB().getUsersInChat(cid, true);
+            usersRemove = Utils.getMDB().getUsersInChat(cid, false);
+            usersAdd = Utils.getMDB().getUsersNotInChat(cid);
+
+            uAdd = new UserAdapter(getApplicationContext(), usersAdd, true);
+            uRemove = new UserAdapter(getApplicationContext(), usersRemove, true);
+            fillContainer(usersInChat);
+
+            if (usersAdd.length == 0) {
+                add.setVisibility(View.GONE);
+            } else {
+                add.setVisibility(View.VISIBLE);
+            }
+            if (usersRemove.length == 0) {
+                remove.setVisibility(View.GONE);
+            } else {
+                remove.setVisibility(View.VISIBLE);
+            }
+
+            scrollView.setVisibility(View.VISIBLE);
+            findViewById(R.id.progressBar).setVisibility(View.GONE);
         }
     }
 
     private class RemoveUser extends AsyncTask<User, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            confirm.setVisible(false);
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        }
+
         @Override
         protected Void doInBackground(User... params) {
             for (User u : params)
@@ -252,8 +343,27 @@ public class ChatEditActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            lvUsers.setAdapter(new UserAdapter(getApplicationContext(), Utils.getMDB().getUsersInChat(cid, true), false));
-            super.onPostExecute(aVoid);
+            usersInChat = Utils.getMDB().getUsersInChat(cid, true);
+            usersRemove = Utils.getMDB().getUsersInChat(cid, false);
+            usersAdd = Utils.getMDB().getUsersNotInChat(cid);
+
+            uAdd = new UserAdapter(getApplicationContext(), usersAdd, true);
+            uRemove = new UserAdapter(getApplicationContext(), usersRemove, true);
+            fillContainer(usersInChat);
+
+            if (usersAdd.length == 0) {
+                add.setVisibility(View.GONE);
+            } else {
+                add.setVisibility(View.VISIBLE);
+            }
+            if (usersRemove.length == 0) {
+                remove.setVisibility(View.GONE);
+            } else {
+                remove.setVisibility(View.VISIBLE);
+            }
+
+            scrollView.setVisibility(View.VISIBLE);
+            findViewById(R.id.progressBar).setVisibility(View.GONE);
         }
     }
 
@@ -283,7 +393,6 @@ public class ChatEditActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Utils.receiveMessenger();
             getSupportActionBar().setTitle(cname);
         }
     }

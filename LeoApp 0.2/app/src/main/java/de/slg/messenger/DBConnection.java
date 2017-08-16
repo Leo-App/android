@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import de.slg.leoapp.List;
+import de.slg.leoapp.R;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
@@ -200,11 +201,11 @@ public class DBConnection {
 
     User[] getUsers() {
         String[] columns = {USER_ID, USER_NAME, USER_STUFE, USER_PERMISSION, USER_DEFAULTNAME};
-        Cursor cursor = query(TABLE_USERS, columns, null, USER_ID, null);
+        Cursor cursor = query(TABLE_USERS, columns, null, USER_STUFE + ", " + USER_DEFAULTNAME, null);
         User[] array = new User[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
-            array[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4));
+            array[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("Teacher", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4));
         }
         cursor.close();
         return array;
@@ -330,6 +331,14 @@ public class DBConnection {
         update(TABLE_CHATS, values, CHAT_ID + " = " + cid);
     }
 
+    boolean isMute(int cid) {
+        Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_MUTE}, CHAT_ID + " = " + cid, null, null);
+        cursor.moveToFirst();
+        boolean b = cursor.getCount() > 0 && cursor.getInt(0) == 1;
+        cursor.close();
+        return b;
+    }
+
     //Suchen
     Object[] getSuchergebnisse(String suchbegriff, boolean chatsFirst, String orderChats, String orderUsers) {
         Cursor cursorChats = query(TABLE_CHATS, new String[]{CHAT_ID, CHAT_NAME, CHAT_MUTE}, CHAT_TYPE + " != '" + Chat.Chattype.PRIVATE.toString() + "' AND " + CHAT_NAME + " LIKE '%" + suchbegriff + "%'", orderChats, null);
@@ -343,7 +352,7 @@ public class DBConnection {
             chats[i] = new Chat(cursorChats.getInt(0), cursorChats.getString(1), cursorChats.getInt(2) == 1, Chat.Chattype.GROUP);
         }
         for (int i = 0; !cursorUsers.isAfterLast(); cursorUsers.moveToNext(), i++) {
-            users[i] = new User(cursorUsers.getInt(0), cursorUsers.getString(1), cursorUsers.getString(3), 0, cursorUsers.getString(2));
+            users[i] = new User(cursorUsers.getInt(0), cursorUsers.getString(1), cursorUsers.getString(3).replace("Teacher", Utils.getString(R.string.lehrer)), 0, cursorUsers.getString(2));
         }
         cursorChats.close();
         cursorUsers.close();

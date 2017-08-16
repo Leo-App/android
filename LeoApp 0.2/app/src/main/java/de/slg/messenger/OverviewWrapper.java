@@ -501,7 +501,7 @@ public class OverviewWrapper extends AppCompatActivity {
         private String suchbegriff = "";
         private boolean chatsFirst = false;
         private String name = USER_DEFAULTNAME;
-        private boolean nameDesc = false, groupGrade = false;
+        private boolean nameDesc = false, groupGrade = true;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -603,6 +603,11 @@ public class OverviewWrapper extends AppCompatActivity {
                     refreshUI();
                 }
             });
+            if (!chatsFirst) {
+                first.setText("Benutzer");
+            } else {
+                first.setText("Chats");
+            }
 
             final Button sortName = (Button) view.findViewById(R.id.buttonName);
             sortName.setOnClickListener(new View.OnClickListener() {
@@ -618,6 +623,11 @@ public class OverviewWrapper extends AppCompatActivity {
                     refreshUI();
                 }
             });
+            if (!name.equals(USER_DEFAULTNAME)) {
+                sortName.setText("Nickname");
+            } else {
+                sortName.setText("Standardname");
+            }
 
             final ImageButton nameUpDown = (ImageButton) view.findViewById(R.id.buttonNameUpDown);
             nameUpDown.setOnClickListener(new View.OnClickListener() {
@@ -633,6 +643,12 @@ public class OverviewWrapper extends AppCompatActivity {
                     refreshUI();
                 }
             });
+            if (!nameDesc) {
+                nameUpDown.setImageResource(R.drawable.ic_expand_less_white_24dp);
+            } else {
+                nameUpDown.setImageResource(R.drawable.ic_expand_more_white_24dp);
+            }
+
 
             final Button grade = (Button) view.findViewById(R.id.buttonGrade);
             grade.setOnClickListener(new View.OnClickListener() {
@@ -647,8 +663,8 @@ public class OverviewWrapper extends AppCompatActivity {
                     refreshUI();
                 }
             });
-            grade.setActivated(groupGrade);
-            if (groupGrade)
+            grade.setActivated(!groupGrade);
+            if (!groupGrade)
                 grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
             else
                 grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));

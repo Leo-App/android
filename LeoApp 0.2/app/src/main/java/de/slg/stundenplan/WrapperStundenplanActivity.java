@@ -208,30 +208,33 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
     }
 
     public static class WochentagFragment extends Fragment {
+        private View root;
         private Fach[] fachArray;
         private int tag;
         private ListView listView;
 
         @Override
         public View onCreateView(LayoutInflater layIn, ViewGroup container, Bundle savedInstanceState) {
-            View v = layIn.inflate(R.layout.fragment_wochentag, container, false);
+            if (root == null) {
+                root = layIn.inflate(R.layout.fragment_wochentag, container, false);
 
-            listView = (ListView) v.findViewById(R.id.listW);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (fachArray[position].id <= 0) {
-                        Utils.getStundDB().freistunde(tag, position + 1);
-                        fachArray[position] = Utils.getStundDB().getFach(tag, position + 1);
-                        view.invalidate();
+                listView = (ListView) root.findViewById(R.id.listW);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        if (fachArray[position].id <= 0) {
+                            Utils.getStundDB().freistunde(tag, position + 1);
+                            fachArray[position] = Utils.getStundDB().getFach(tag, position + 1);
+                            view.invalidate();
+                        }
+                        startActivity(new Intent(getContext(), DetailsActivity.class)
+                                .putExtra("tag", tag)
+                                .putExtra("stunde", position + 1));
                     }
-                    startActivity(new Intent(getContext(), DetailsActivity.class)
-                            .putExtra("tag", tag)
-                            .putExtra("stunde", position + 1));
-                }
-            });
+                });
+            }
 
-            return v;
+            return root;
         }
 
         @Override

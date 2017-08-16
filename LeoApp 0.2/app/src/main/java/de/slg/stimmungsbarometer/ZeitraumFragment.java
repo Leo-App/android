@@ -32,7 +32,10 @@ public class ZeitraumFragment extends Fragment {
         if (data == null) {
             data = new Ergebnis[4][0];
         }
-        view = new StatistikView(getContext());
+        if (view == null) {
+            view = new StatistikView(getContext());
+        }
+
         return view;
     }
 

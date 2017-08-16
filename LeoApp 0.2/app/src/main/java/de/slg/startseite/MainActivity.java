@@ -161,14 +161,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, WrapperQRActivity.class));
         } else
             WrapperQRActivity.mensaModeRunning = false;
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-                scrollView.smoothScrollTo(0, 0);
-            }
-        }, 100);
     }
 
     private void synchronizeUsername() {
@@ -193,6 +185,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
+
+        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+        scrollView.smoothScrollTo(0, 0);
     }
 
     private void initNavigationView() {
