@@ -31,7 +31,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
     private EditText etChatname;
     private UserAdapter userAdapter;
     private boolean chatnameSet, usersSelected;
-    private Menu menu;
+    private MenuItem confirm;
     private Chat newChat;
 
     @Override
@@ -49,13 +49,15 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu = menu;
+        getMenuInflater().inflate(R.menu.messenger_confirm_action, menu);
+        confirm = menu.findItem(R.id.action_confirm);
+        confirm.setVisible(chatnameSet && usersSelected);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_saveChat) {
+        if (item.getItemId() == R.id.action_confirm) {
             createNewChat();
         } else if (item.getItemId() == android.R.id.home) {
             finish();
@@ -94,9 +96,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
                     color = ContextCompat.getColor(getApplicationContext(), R.color.colorText);
                 username.setTextColor(color);
                 usersSelected = userAdapter.selectCount() > 0;
-                menu.clear();
-                if (chatnameSet && usersSelected)
-                    getMenuInflater().inflate(R.menu.messenger_add_chat, menu);
+                confirm.setVisible(chatnameSet && usersSelected);
             }
         });
     }
@@ -117,9 +117,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 chatnameSet = s.length() > 0;
-                menu.clear();
-                if (chatnameSet && usersSelected)
-                    getMenuInflater().inflate(R.menu.messenger_add_chat, menu);
+                confirm.setVisible(chatnameSet && usersSelected);
             }
         });
     }

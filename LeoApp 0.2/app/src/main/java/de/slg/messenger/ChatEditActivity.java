@@ -57,8 +57,7 @@ public class ChatEditActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.messenger_confirm_action, menu);
         confirm = menu.findItem(R.id.action_confirm);
-        menu.findItem(R.id.action_cancel).setVisible(false);
-        confirm.setVisible(false);
+        confirm.setVisible(!mode.equals(""));
         return true;
     }
 
@@ -92,14 +91,6 @@ public class ChatEditActivity extends AppCompatActivity {
             scrollView.setVisibility(View.VISIBLE);
             mode = "";
         }
-    }
-
-    private void removeUsers(User... users) {
-        new RemoveUser().execute(users);
-    }
-
-    private void addUsers(User... users) {
-        new AddUser().execute(users);
     }
 
     private void initToolbar() {
@@ -150,32 +141,6 @@ public class ChatEditActivity extends AppCompatActivity {
         fillContainer(usersInChat);
     }
 
-    private void fillContainer(User[] data) {
-        userContainer.removeAllViews();
-        for (User u : data) {
-            View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
-
-            final TextView username = (TextView) v.findViewById(R.id.username);
-            final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
-            username.setText(u.uname);
-            userdefault.setText(u.udefaultname + ", " + u.ustufe);
-
-            v.findViewById(R.id.checkBox).setVisibility(View.GONE);
-
-            userContainer.addView(v);
-        }
-        View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
-
-        final TextView username = (TextView) v.findViewById(R.id.username);
-        final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
-        username.setText(Utils.getUserName());
-        userdefault.setText(Utils.getMDB().getMyDefaultName() + ", " + Utils.getUserStufe());
-
-        v.findViewById(R.id.checkBox).setVisibility(View.GONE);
-
-        userContainer.addView(v);
-    }
-
     private void initSettings() {
         mode = "";
 
@@ -220,11 +185,63 @@ public class ChatEditActivity extends AppCompatActivity {
         leave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeUsers(Utils.getCurrentUser());
-                finish();
-                Utils.getChatActivity().finish();
+                final AlertDialog dialog = new AlertDialog.Builder(ChatEditActivity.this).create();
+                View view = getLayoutInflater().inflate(R.layout.dialog_confirm_leave_chat, null);
+
+                view.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                view.findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        removeUsers(Utils.getCurrentUser());
+                        finish();
+                        Utils.getChatActivity().finish();
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.setView(view);
+                dialog.show();
             }
         });
+    }
+
+    private void fillContainer(User[] data) {
+        userContainer.removeAllViews();
+        for (User u : data) {
+            View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
+
+            final TextView username = (TextView) v.findViewById(R.id.username);
+            final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+            username.setText(u.uname);
+            userdefault.setText(u.udefaultname + ", " + u.ustufe);
+
+            v.findViewById(R.id.checkBox).setVisibility(View.GONE);
+
+            userContainer.addView(v);
+        }
+        View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
+
+        final TextView username = (TextView) v.findViewById(R.id.username);
+        final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+        username.setText(Utils.getUserName());
+        userdefault.setText(Utils.getMDB().getMyDefaultName() + ", " + Utils.getUserStufe());
+
+        v.findViewById(R.id.checkBox).setVisibility(View.GONE);
+
+        userContainer.addView(v);
+    }
+
+    private void removeUsers(User... users) {
+        new RemoveUser().execute(users);
+    }
+
+    private void addUsers(User... users) {
+        new AddUser().execute(users);
     }
 
     private void showDialogChatname() {
