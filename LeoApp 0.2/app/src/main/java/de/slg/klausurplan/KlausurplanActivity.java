@@ -299,9 +299,11 @@ public class KlausurplanActivity extends AppCompatActivity {
         calendar.setTime(new Date());
         calendar.add(Calendar.MONTH, -monate);
 
-        for (klausurList.toFirst(); klausurList.hasAccess(); klausurList.next()) {
+        for (klausurList.toFirst(); klausurList.hasAccess(); ) {
             if (calendar.getTime().after(klausurList.getContent().datum))
                 klausurList.remove();
+            else
+                klausurList.next();
         }
     }
 

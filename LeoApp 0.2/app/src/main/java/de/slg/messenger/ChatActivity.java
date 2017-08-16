@@ -33,7 +33,6 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
-    static Chat currentChat;
     private int cid;
     private String cname;
     private Chat.Chattype ctype;

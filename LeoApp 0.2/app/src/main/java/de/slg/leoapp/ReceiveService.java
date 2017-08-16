@@ -86,6 +86,7 @@ public class ReceiveService extends Service {
     public void onTaskRemoved(Intent rootIntent) {
         Log.e("ReceiveService", "TASK REMOVED!");
         Utils.getMDB().close();
+        Utils.invalidateMDB();
         super.onTaskRemoved(rootIntent);
     }
 

@@ -81,7 +81,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
     private void initListView() {
         ListView lvAllUsers = (ListView) findViewById(R.id.listViewAllUsers);
         User[] allUsers = Utils.getMDB().getUsers();
-        userAdapter = new UserAdapter(getApplicationContext(), allUsers, true);
+        userAdapter = new UserAdapter(getApplicationContext(), allUsers);
         lvAllUsers.setAdapter(userAdapter);
         lvAllUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -197,7 +197,6 @@ public class AddGroupChatActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             Utils.receiveMessenger();
             findViewById(R.id.progressBar).setVisibility(View.GONE);
-            ChatActivity.currentChat = newChat;
             startActivity(new Intent(getApplicationContext(), ChatActivity.class)
                     .putExtra("cid", newChat.cid)
                     .putExtra("cname", newChat.cname)

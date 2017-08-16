@@ -201,7 +201,8 @@ public class DBConnection {
 
     User[] getUsers() {
         String[] columns = {USER_ID, USER_NAME, USER_STUFE, USER_PERMISSION, USER_DEFAULTNAME};
-        Cursor cursor = query(TABLE_USERS, columns, null, USER_STUFE + ", " + USER_DEFAULTNAME, null);
+        String selection = USER_ID + " != " + Utils.getUserID();
+        Cursor cursor = query(TABLE_USERS, columns, selection, USER_STUFE + ", " + USER_DEFAULTNAME, null);
         User[] array = new User[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
@@ -229,6 +230,16 @@ public class DBConnection {
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
+    }
+
+    String getMyDefaultName() {
+        Cursor cursor = query(TABLE_USERS, new String[]{USER_DEFAULTNAME}, USER_ID + " = " + Utils.getUserID(), null, null);
+        cursor.moveToFirst();
+        String udefaultname = "";
+        if (cursor.getCount() > 0)
+            udefaultname = cursor.getString(0);
+        cursor.close();
+        return udefaultname;
     }
 
     //Chat
@@ -340,8 +351,8 @@ public class DBConnection {
     }
 
     //Suchen
-    Object[] getSuchergebnisse(String suchbegriff, boolean chatsFirst, String orderChats, String orderUsers) {
-        Cursor cursorChats = query(TABLE_CHATS, new String[]{CHAT_ID, CHAT_NAME, CHAT_MUTE}, CHAT_TYPE + " != '" + Chat.Chattype.PRIVATE.toString() + "' AND " + CHAT_NAME + " LIKE '%" + suchbegriff + "%'", orderChats, null);
+    Object[] getSuchergebnisse(String suchbegriff, boolean chatsFirst, String orderUsers) {
+        Cursor cursorChats = query(TABLE_CHATS, new String[]{CHAT_ID, CHAT_NAME, CHAT_MUTE}, CHAT_TYPE + " != '" + Chat.Chattype.PRIVATE.toString() + "' AND " + CHAT_NAME + " LIKE '%" + suchbegriff + "%'", DBHelper.CHAT_NAME, null);
         Cursor cursorUsers = query(TABLE_USERS, new String[]{USER_ID, USER_NAME, USER_DEFAULTNAME, USER_STUFE}, USER_NAME + " LIKE '%" + suchbegriff + "%' OR " + USER_DEFAULTNAME + " LIKE '%" + suchbegriff + "%'", orderUsers, null);
         Chat[] chats = new Chat[cursorChats.getCount()];
         User[] users = new User[cursorUsers.getCount()];
@@ -413,8 +424,7 @@ public class DBConnection {
         delete(TABLE_ASSOZIATION, USER_ID + " = " + uid + " AND " + CHAT_ID + " = " + cid);
     }
 
-    User[] getUsersInChat(int cid, boolean meInclusive) {
-        boolean meIs = false;
+    User[] getUsersInChat(int cid) {
         User[] users = getUsers();
         List<User> list = new List<>();
         String[] columns = {TABLE_ASSOZIATION + "." + USER_ID};
@@ -429,11 +439,7 @@ public class DBConnection {
                         list.append(user);
                         break;
                     }
-            } else
-                meIs = true;
-        }
-        if (meInclusive && meIs) {
-            list.append(Utils.getCurrentUser());
+            }
         }
         User[] array = new User[list.size()];
         list.fill(array);
@@ -442,24 +448,18 @@ public class DBConnection {
     }
 
     User[] getUsersNotInChat(int cid) {
-        User[] u = getUsers();
-        List<User> list = new List<>();
-        list.adapt(u);
-        User[] uoc = getUsersInChat(cid, false);
-        for (User anUoc : uoc) {
-            int current = anUoc.uid;
-            for (list.toFirst(); list.hasAccess(); list.next())
-                if (list.getContent().uid == current) {
-                    list.remove();
-                    break;
-                }
+        List<User> list = new List<>(getUsers());
+        for (list.toFirst(); list.hasAccess(); ) {
+            if (userInChat(list.getContent().uid, cid)) {
+                list.remove();
+            } else {
+                list.next();
+            }
         }
-        User[] array = new User[list.size()];
-        list.fill(array);
-        return array;
+        return list.fill(new User[list.size()]);
     }
 
-
+    //Datenbank-Interaktion
     private Cursor query(String table, String[] columns, String selection, String orderBy, String limit) {
         return database.query(table, columns, selection, null, null, null, orderBy, limit);
     }

@@ -16,15 +16,13 @@ class UserAdapter extends ArrayAdapter<User> {
     private final int resId;
     private final User[] users;
     private final LayoutInflater inflater;
-    private final boolean selectable;
     private final View[] views;
 
-    UserAdapter(Context context, User[] users, boolean selectable) {
+    UserAdapter(Context context, User[] users) {
         super(context, R.layout.list_item_user, users);
         this.resId = R.layout.list_item_user;
         this.users = users;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.selectable = selectable;
         this.views = new View[users.length];
     }
 
@@ -39,10 +37,7 @@ class UserAdapter extends ArrayAdapter<User> {
             username.setText(users[position].uname);
             userdefault.setText(users[position].udefaultname + ", " + users[position].ustufe);
 
-            if (selectable)
-                v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
-            else
-                v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
+            v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
 
             views[position] = v;
         }
@@ -50,29 +45,23 @@ class UserAdapter extends ArrayAdapter<User> {
     }
 
     int selectCount() {
-        if (selectable) {
-            int count = 0;
-            for (int i = 0; i < users.length; i++) {
-                if (views[i] != null && ((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked())
-                    count++;
-            }
-            return count;
+        int count = 0;
+        for (int i = 0; i < users.length; i++) {
+            if (views[i] != null && ((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked())
+                count++;
         }
-        return -1;
+        return count;
     }
 
     User[] getSelected() {
-        if (selectable) {
-            User[] result = new User[selectCount()];
-            int i1 = 0;
-            for (int i = 0; i < result.length; i++, i1++) {
-                while (i1 < views.length && (views[i1] == null || !((CheckBox) views[i1].findViewById(R.id.checkBox)).isChecked()))
-                    i1++;
-                if (i1 < views.length)
-                    result[i] = users[i1];
-            }
-            return result;
+        User[] result = new User[selectCount()];
+        int i1 = 0;
+        for (int i = 0; i < result.length; i++, i1++) {
+            while (i1 < views.length && (views[i1] == null || !((CheckBox) views[i1].findViewById(R.id.checkBox)).isChecked()))
+                i1++;
+            if (i1 < views.length)
+                result[i] = users[i1];
         }
-        return null;
+        return result;
     }
 }

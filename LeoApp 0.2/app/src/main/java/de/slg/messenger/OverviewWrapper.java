@@ -40,7 +40,6 @@ import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 
-import static de.slg.messenger.DBConnection.DBHelper.CHAT_NAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
@@ -246,7 +245,6 @@ public class OverviewWrapper extends AppCompatActivity {
                 public void onClick(View view) {
                     int position = rvUsers.getChildAdapterPosition(view);
                     User clickedUser = Utils.getOverviewWrapper().userArray[position];
-                    ChatActivity.currentChat = new Chat(-1, clickedUser.uname, false, Chat.Chattype.PRIVATE);
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("uid", clickedUser.uid)
                             .putExtra("cid", Utils.getMDB().getChatWith(clickedUser.uid))
@@ -335,7 +333,6 @@ public class OverviewWrapper extends AppCompatActivity {
                 public void onClick(View view) {
                     int position = rvChats.getChildAdapterPosition(view);
                     Chat clickedChat = Utils.getOverviewWrapper().chatArray[position];
-                    ChatActivity.currentChat = clickedChat;
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("cid", clickedChat.cid)
                             .putExtra("cname", clickedChat.cname)
@@ -508,7 +505,7 @@ public class OverviewWrapper extends AppCompatActivity {
             if (view == null) {
                 view = inflater.inflate(R.layout.fragment_search, container, false);
 
-                data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, CHAT_NAME, USER_STUFE + ", " + name);
+                data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, USER_STUFE + ", " + name);
 
                 initRecyclerView();
                 initSearch();
@@ -528,7 +525,6 @@ public class OverviewWrapper extends AppCompatActivity {
                     int position = rvSearch.getChildAdapterPosition(v);
                     if (data[position] instanceof User) {
                         User clickedUser = (User) data[position];
-                        ChatActivity.currentChat = new Chat(-1, clickedUser.uname, false, Chat.Chattype.PRIVATE);
                         startActivity(new Intent(getContext(), ChatActivity.class)
                                 .putExtra("uid", clickedUser.uid)
                                 .putExtra("cid", Utils.getMDB().getChatWith(clickedUser.uid))
@@ -536,7 +532,6 @@ public class OverviewWrapper extends AppCompatActivity {
                                 .putExtra("ctype", Chat.Chattype.PRIVATE.toString()));
                     } else {
                         Chat clickedChat = (Chat) data[position];
-                        ChatActivity.currentChat = clickedChat;
                         startActivity(new Intent(getContext(), ChatActivity.class)
                                 .putExtra("cid", clickedChat.cid)
                                 .putExtra("cname", clickedChat.cname)
@@ -683,7 +678,7 @@ public class OverviewWrapper extends AppCompatActivity {
                             orderUser += name;
                             if (nameDesc)
                                 orderUser += " DESC";
-                            data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, CHAT_NAME, orderUser);
+                            data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, orderUser);
                             rvSearch.swapAdapter(new HybridAdapter(getActivity().getLayoutInflater()), false);
                         }
                     }

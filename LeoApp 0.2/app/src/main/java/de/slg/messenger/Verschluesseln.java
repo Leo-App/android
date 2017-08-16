@@ -5,7 +5,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 public abstract class Verschluesseln {
-    private static String key2 = "ABCD";
+    private static final String key2 = "ABCD";
 
     static String encrypt(String text, String key) {
         StringBuilder builder = new StringBuilder();
