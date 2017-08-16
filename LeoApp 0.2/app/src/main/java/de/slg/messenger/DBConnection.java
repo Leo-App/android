@@ -61,20 +61,6 @@ public class DBConnection {
         }
     }
 
-    private Message getLastMessage(int cid) {
-        String[] columns = {MESSAGE_ID, MESSAGE_TEXT, MESSAGE_DATE, USER_ID, MESSAGE_READ};
-        String selection = CHAT_ID + " = " + cid + " AND " + MESSAGE_DELETED + " = 0";
-        Cursor cursor = query(TABLE_MESSAGES, columns, selection, MESSAGE_DATE + " DESC", "1");
-        cursor.moveToFirst();
-        Message m = null;
-        if (cursor.getCount() > 0) {
-            m = new Message(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cid, cursor.getInt(3), cursor.getInt(4) == 1);
-            m.setUname(getUname(m.uid));
-        }
-        cursor.close();
-        return m;
-    }
-
     Message[] getMessagesFromChat(int cid) {
         String[] columns = {MESSAGE_ID, MESSAGE_TEXT, MESSAGE_DATE, USER_ID, MESSAGE_READ};
         String condition = CHAT_ID + " = " + cid + " AND " + MESSAGE_DELETED + " = 0";
@@ -262,44 +248,59 @@ public class DBConnection {
     }
 
     Chat[] getChats(boolean withDeleted) {
-        String[] columns = {CHAT_ID, CHAT_NAME, CHAT_MUTE, CHAT_TYPE};
-        String selection = null;
+        String query = "SELECT c." +    //Index
+                CHAT_ID + ", c." +      // 0
+                CHAT_NAME + ", c." +    // 1
+                CHAT_TYPE + ", c." +    // 2
+                CHAT_MUTE + ", m." +    // 3
+                MESSAGE_ID + ", m." +   // 4
+                MESSAGE_TEXT + ", m." + // 5
+                MESSAGE_DATE + ", m." + // 6
+                USER_ID + ", m." +      // 7
+                MESSAGE_READ + ", u." + // 8
+                USER_NAME +             // 9
+                " FROM " + TABLE_CHATS + " c" +
+                " LEFT JOIN (" + TABLE_MESSAGES + " m" +
+                " INNER JOIN " + TABLE_USERS + " u" +
+                " ON m." + USER_ID + " = u." + USER_ID + ")" +
+                " ON c." + CHAT_ID + " = m." + CHAT_ID +
+                " AND m." + MESSAGE_DATE + " = " +
+                "(SELECT MAX(m2." + MESSAGE_DATE + ")" +
+                " FROM Messages m2" +
+                " WHERE m2." + CHAT_ID + " = c." + CHAT_ID + " AND m2." + MESSAGE_DELETED + " = 0)";
         if (!withDeleted)
-            selection = CHAT_DELETED + " = 0";
-        Cursor cursor = query(TABLE_CHATS, columns, selection, CHAT_ID, null);
-        List<Chat> list = new List<>();
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            Chat current = new Chat(cursor.getInt(0), cursor.getString(1), cursor.getInt(2) == 1, Chat.Chattype.valueOf(cursor.getString(3).toUpperCase()));
-            list.append(current);
-            current.setLetzteNachricht(getLastMessage(current.cid));
-            if (current.ctype.equals(Chat.Chattype.PRIVATE)) {
-                String[] split = current.cname.split(" - ");
+            query += " WHERE c." + CHAT_DELETED + " = 0";
+        query += " ORDER BY " + MESSAGE_DATE + " DESC, " + CHAT_MUTE;
+        Cursor cursor = database.rawQuery(query, null);
+        Chat[] chats = new Chat[cursor.getCount()];
+        int i = 0;
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
+            Chat c = new Chat(cursor.getInt(0), cursor.getString(1), cursor.getInt(3) == 1, Chat.Chattype.valueOf(cursor.getString(2).toUpperCase()));
+
+            if (cursor.getInt(4) != 0) {
+                Message m = new Message(cursor.getInt(4),
+                        cursor.getString(5),
+                        cursor.getLong(6),
+                        cursor.getInt(0),
+                        cursor.getInt(7),
+                        cursor.getInt(8) == 1);
+                m.setUname(cursor.getString(9));
+                c.setLetzteNachricht(m);
+            }
+
+            if (c.ctype.equals(Chat.Chattype.PRIVATE)) {
+                String[] split = c.cname.split(" - ");
                 if (split[0].equals("" + Utils.getUserID())) {
-                    current.cname = getUname(Integer.parseInt(split[1]));
+                    c.cname = getUname(Integer.parseInt(split[1]));
                 } else {
-                    current.cname = getUname(Integer.parseInt(split[0]));
+                    c.cname = getUname(Integer.parseInt(split[0]));
                 }
             }
+
+            chats[i] = c;
         }
         cursor.close();
-        for (int limit = list.size(); limit > 0; limit--) {
-            int iMax = 0;
-            for (list.toFirst();
-                 iMax < limit - 1 && (list.getContent().m == null || list.getContent().mute);
-                 iMax++, list.next())
-                ;
-            Chat max = list.getContent();
-            for (int i = iMax; max.m != null && i < limit; list.next(), i++) {
-                if (!list.getContent().mute && list.getContent().m != null && list.getContent().m.mdate.after(max.m.mdate)) {
-                    max = list.getContent();
-                    iMax = i;
-                }
-            }
-            list.toIndex(iMax);
-            list.remove();
-            list.append(max);
-        }
-        return list.fill(new Chat[list.size()]);
+        return chats;
     }
 
     int getChatWith(int uid) {

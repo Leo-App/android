@@ -21,7 +21,7 @@ public class Message {
 
     public Message(int mid, String mtext, long mdate, int cid, int uid, boolean mread) {
         this.mid = mid;
-        this.mtext = "" + mtext;
+        this.mtext = mtext;
         this.uid = uid;
         this.mdate = new Date(mdate);
         this.cid = cid;
