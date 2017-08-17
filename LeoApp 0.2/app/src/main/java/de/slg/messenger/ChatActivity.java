@@ -245,7 +245,11 @@ public class ChatActivity extends AppCompatActivity {
     private void deleteSelectedMessages() {
         for (int i = 0; i < selected.length; i++) {
             if (selected[i]) {
-                Utils.getMDB().deleteMessage(messagesArray[i].mid);
+                if (messagesArray[i].mdate.getTime() > 0) {
+                    Utils.getMDB().deleteMessage(messagesArray[i].mid);
+                } else {
+                    Utils.getMDB().deleteUnsendMessage(messagesArray[i].mid);
+                }
                 selected[i] = false;
             }
         }
@@ -366,7 +370,7 @@ public class ChatActivity extends AppCompatActivity {
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                new URL("http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&ctype=" + Chat.Chattype.PRIVATE.toString().toLowerCase())
+                                                new URL("http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase())
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
                         String erg = "";

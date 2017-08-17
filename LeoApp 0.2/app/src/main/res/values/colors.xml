@@ -2,13 +2,12 @@
 <resources>
     <color name="colorPrimary">#0091ea</color>
     <color name="colorPrimaryDark">#01579b</color>
-    //FF1565C0
     <color name="colorAccent">#0091ea</color>
     <color name="colorAccentTransparent">#640091ea</color>
-    <color name="colorInactive">#bdbdbd</color>
+    <color name="colorInactive">#cccbcb</color>
     <color name="colorChatBackground">#8ea7b4</color>
-    <color name="colorTabIndicator">#fff</color>
-    <color name="colorText">#000000</color>
+    <color name="colorTabIndicator">@android:color/white</color>
+    <color name="colorText">@android:color/black</color>
     <color name="colorTextGreyed">#FFD8D8D8</color>
     <color name="colorWocheBackground">#dfdfdf</color>
 
@@ -18,8 +17,8 @@
     <color name="colorDissatisfied">#f44336</color>
     <color name="colorBadMood">#cc0000</color>
 
-    <color name="colorIch">#669900</color>
-    <color name="colorSchueler">#ff8800</color>
+    <color name="colorIch">#33691e</color>
+    <color name="colorSchueler">#f57f17</color>
     <color name="colorLehrer">#ffaa66cc</color>
     <color name="colorAlle">@color/colorPrimary</color>
 </resources>

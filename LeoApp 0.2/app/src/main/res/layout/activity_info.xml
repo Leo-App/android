@@ -38,6 +38,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             android:text="@string/info_screen_first"
+            android:textColor="@color/colorText"
             android:textSize="17sp" />
 
         <TextView
@@ -48,6 +49,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="13dp"
             android:text="@string/info_screen_second"
+            android:textColor="@color/colorText"
             android:textSize="17sp" />
 
         <TextView
@@ -58,6 +60,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="13dp"
             android:text="@string/info_screen_third"
+            android:textColor="@color/colorText"
             android:textSize="17sp" />
 
         <TextView
@@ -68,6 +71,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="13dp"
             android:text="@string/info_screen_fourth"
+            android:textColor="@color/colorText"
             android:textSize="17sp" />
 
     </RelativeLayout>

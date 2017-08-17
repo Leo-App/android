@@ -57,7 +57,7 @@
             android:layout_marginTop="10dp"
             android:text="Keine Einträge vorhanden"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorText"
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="gone" />

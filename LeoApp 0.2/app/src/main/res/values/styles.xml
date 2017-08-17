@@ -27,12 +27,19 @@
         <item name="textAllCaps">true</item>
     </style>
 
+    <style name="TabDotsDesign" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">@drawable/tab_indicator</item>
+        <item name="tabGravity">center</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabIndicatorColor">@android:color/transparent</item>
+    </style>
+
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="StartTheme" parent="Theme.AppCompat.Light">

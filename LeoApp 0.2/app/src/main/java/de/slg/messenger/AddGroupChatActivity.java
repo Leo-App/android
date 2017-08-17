@@ -21,7 +21,9 @@ import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
@@ -182,8 +184,8 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 }
         }
 
-        private String generateURL(Chat chat) {
-            String chatname = chat.cname.replace(" ", "%20");
+        private String generateURL(Chat chat) throws UnsupportedEncodingException {
+            String chatname = URLEncoder.encode(chat.cname, "UTF-8");
             return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.GROUP.toString().toLowerCase();
         }
 

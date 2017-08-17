@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
@@ -416,8 +418,8 @@ public class ChatEditActivity extends AppCompatActivity {
             return null;
         }
 
-        private String generateURL(String name) {
-            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + cid + "&chatname=" + name.replace(" ", "%20");
+        private String generateURL(String name) throws UnsupportedEncodingException {
+            return "http://moritz.liegmanns.de/messenger/editChatname.php?key=5453&chatid=" + cid + "&chatname=" + URLEncoder.encode(name, "UTF-8");
         }
 
         @Override
