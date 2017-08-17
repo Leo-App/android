@@ -567,7 +567,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
         private void initSort() {
             expanded = false;
-            view.findViewById(R.id.sortLayout).setVisibility(View.GONE);
+            view.findViewById(R.id.sortCard).setVisibility(View.GONE);
 
             final FloatingActionButton expand = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
             expand.setOnClickListener(new View.OnClickListener() {
@@ -576,10 +576,10 @@ public class OverviewWrapper extends AppCompatActivity {
                     expanded = !expanded;
                     if (expanded) {
                         expand.setImageResource(R.drawable.ic_expand_less_white_24dp);
-                        SearchFragment.this.view.findViewById(R.id.sortLayout).setVisibility(View.VISIBLE);
+                        SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.VISIBLE);
                     } else {
                         expand.setImageResource(R.drawable.ic_expand_more_white_24dp);
-                        SearchFragment.this.view.findViewById(R.id.sortLayout).setVisibility(View.GONE);
+                        SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.GONE);
                     }
                 }
             });
