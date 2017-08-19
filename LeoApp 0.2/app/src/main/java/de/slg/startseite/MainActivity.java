@@ -42,6 +42,7 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -55,6 +56,7 @@ import de.slg.leoapp.TutorialActivity;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
+import de.slg.schwarzes_brett.UpdateViewTrackerTask;
 import de.slg.stimmungsbarometer.AbstimmDialog;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
@@ -104,6 +106,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!Start.pref.getString("pref_key_request_cached", "-").equals("-"))
             new MailSendTask().execute(Start.pref.getString("pref_key_request_cached", ""));
 
+
+        //Schwarzes Brett: ViewTracker-Synchronization
+        ArrayList<Integer> cachedViews = Utils.getCachedIDs();
+        new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
 
         title = (TextView) findViewById(R.id.info_title0);
         info = (TextView) findViewById(R.id.info_text0);

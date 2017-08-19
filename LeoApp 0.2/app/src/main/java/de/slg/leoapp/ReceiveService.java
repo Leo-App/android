@@ -342,7 +342,6 @@ public class ReceiveService extends Service {
 
                     String[] result = builder.toString().split("_next_");
                     for (String s : result) {
-                        Log.wtf("LeoApp", s);
                         String[] res = s.split(";");
                         if (res.length == 7) {
                             dbh.insert(SQLiteConnector.TABLE_EINTRAEGE, null, db.getContentValues(

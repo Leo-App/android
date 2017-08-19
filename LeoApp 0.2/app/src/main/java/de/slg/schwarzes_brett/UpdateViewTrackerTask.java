@@ -1,44 +1,54 @@
 package de.slg.schwarzes_brett;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 
-import de.slg.leoapp.SQLitePrinter;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.Start;
 
-class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
+public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
+
+    private int remote;
 
     @Override
     protected Void doInBackground(Integer... params) {
 
-        int remote, eintragid = params[0];
-        Cursor result = null;
+        for(Integer cur : params) {
 
-        SQLiteConnector db = new SQLiteConnector(Utils.context);
-        SQLiteDatabase dbh = db.getReadableDatabase();
+            remote = cur;
 
-        try {
-            result = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE +" WHERE " + SQLiteConnector.EINTRAEGE_ID + " = " + eintragid+1, null);
-            result.moveToFirst();
-            remote = result.getInt(result.getColumnIndexOrThrow(SQLiteConnector.EINTRAEGE_REMOTE_ID));
-            URL updateURL = new URL("http://www.moritz.liegmanns.de/updateViewTracker.php?key=5453&remote="+remote);
-            updateURL.openConnection().getInputStream();
-            result.close();
-        } catch (SQLiteException | IOException e) {
-            e.printStackTrace();
-        } finally {
-            result.close();
+            try {
+                URL updateURL = new URL("http://www.moritz.liegmanns.de/updateViewTracker.php?key=5453&remote=" + remote);
+                updateURL.openConnection().getInputStream();
+                Start.pref.edit().putString("pref_key_cache_vieweditems", getNewCacheString()).apply();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
 
         return null;
+    }
+
+    private String getNewCacheString() {
+
+        String cache = Start.pref.getString("pref_key_cache_vieweditems", "");
+        String[] items = cache.split("-");
+
+        StringBuilder builder = new StringBuilder();
+
+        for (String s : items) {
+
+            if (s.matches(".+:" + remote))
+                builder.append("-0:").append(remote);
+            else
+                builder.append("-").append(s);
+
+        }
+
+        return builder.toString().replaceFirst("-", "");
+
     }
 
 }

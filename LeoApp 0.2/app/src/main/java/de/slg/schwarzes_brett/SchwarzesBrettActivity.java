@@ -45,6 +45,9 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     private Map<String, List<String>> schwarzesBrett;
     private DrawerLayout drawerLayout;
 
+    private static SQLiteConnector db;
+    private static SQLiteDatabase dbh;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,14 +154,23 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 
-                if(!Utils.isVerified() || Utils.getUserPermission() != 1)
+                int remoteID = getRemoteId(groupPosition);
+
+                if(!Utils.isVerified() || Utils.getUserPermission() != 1 || Utils.messageAlreadySeen(remoteID))
                     return false;
 
+                String cache = Start.pref.getString("pref_key_cache_vieweditems", "");
+
+                if(!cache.equals(""))
+                    cache+="-";
+
+                Start.pref.edit()
+                        .putString("pref_key_cache_vieweditems", cache+"1:"+remoteID)
+                        .apply();
+
                 if(Utils.checkNetwork())
-                    new UpdateViewTrackerTask().execute(groupPosition);
-                else {
-                    //TODO: Cache status if no connection available
-                }
+                    new UpdateViewTrackerTask().execute(remoteID);
+
                 return false;
             }
         });
@@ -166,6 +178,28 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         if (groupList.size() == 0) {
             findViewById(R.id.textView6).setVisibility(View.VISIBLE);
         }
+    }
+
+    public static int getRemoteId(int position) {
+
+        //Maybe cache already transformed ids to avoid excessive RAM usage
+
+        if(db == null)
+            db = new SQLiteConnector(Utils.context);
+        if(dbh == null)
+            dbh = db.getReadableDatabase();
+
+        Cursor cursor = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " + SQLiteConnector.EINTRAEGE_ID + " = " + position, null);
+        cursor.moveToFirst();
+
+        if(cursor.getCount() == 0)
+            return -1;
+
+        int ret = cursor.getInt(0);
+        cursor.close();
+
+        return ret;
+
     }
 
     private void initButton() {
