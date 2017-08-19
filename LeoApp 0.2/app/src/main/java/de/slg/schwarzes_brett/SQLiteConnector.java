@@ -32,7 +32,7 @@ public class SQLiteConnector extends SQLiteOpenHelper {
                 EINTRAEGE_ERSTELLDATUM + " TEXT NOT NULL, " +
                 EINTRAEGE_ABLAUFDATUM + " TEXT NOT NULL, " +
                 EINTRAEGE_REMOTE_ID + " INTEGER NOT NULL, " +
-                EINTRAEGE_VIEWS + " INTEGER NOT NULL, " +
+                EINTRAEGE_VIEWS + " INTEGER NOT NULL" +
                 ")");
     }
 

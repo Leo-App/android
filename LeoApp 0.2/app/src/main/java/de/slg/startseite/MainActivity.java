@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             abstimmDialog.show();
         }
 
+        Start.pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         if (!Start.pref.getString("pref_key_request_cached", "-").equals("-"))
             new MailSendTask().execute(Start.pref.getString("pref_key_request_cached", ""));
 

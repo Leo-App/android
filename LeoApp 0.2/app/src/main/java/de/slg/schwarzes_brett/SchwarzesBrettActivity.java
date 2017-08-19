@@ -142,7 +142,9 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         createGroupList();
 
         ExpandableListView expListView = (ExpandableListView) findViewById(R.id.eintraege);
-        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett);
+        ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() > 1
+                ? new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett, createViewList())
+                : new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett);
         expListView.setAdapter(expandableListAdapter);
 
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -181,6 +183,26 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         } else {
             findViewById(R.id.floatingActionButton).setVisibility(View.GONE);
         }
+    }
+
+    private ArrayList<Integer> createViewList() {
+
+        ArrayList<Integer> viewList = new ArrayList<>();
+        SQLiteConnector db = new SQLiteConnector(getBaseContext());
+        SQLiteDatabase dbh = db.getReadableDatabase();
+
+        Cursor cursor = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_VIEWS + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
+
+        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+
+            viewList.add(cursor.getInt(0));
+
+        }
+
+        cursor.close();
+
+        return viewList;
+
     }
 
     private void createGroupList() {
