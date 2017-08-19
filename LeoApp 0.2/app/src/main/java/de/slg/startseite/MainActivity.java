@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -186,8 +187,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
 
-        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-        scrollView.smoothScrollTo(0, 0);
+        if(!runningScan) {
+            ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+            scrollView.smoothScrollTo(0, 0);
+        }
     }
 
     private void initNavigationView() {

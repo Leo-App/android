@@ -13,8 +13,10 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     static final String EINTRAEGE_INHALT = "inhalt";
     static final String EINTRAEGE_ERSTELLDATUM = "erstelldatum";
     static final String EINTRAEGE_ABLAUFDATUM = "ablaufdatum";
+    static final String EINTRAEGE_REMOTE_ID = "remoteid";
+    static final String EINTRAEGE_VIEWS = "gesehen";
+    static final String EINTRAEGE_ID = "id";
     private static final String DATABASE_NAME = "entries.db";
-    private static final String EINTRAEGE_ID = "id";
 
     public SQLiteConnector(Context c) {
         super(c, DATABASE_NAME, null, 1);
@@ -23,12 +25,15 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_EINTRAEGE + " (" +
-                EINTRAEGE_ID + " INTEGER AUTO_INCREMENT PRIMARY KEY, " +
+                EINTRAEGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 EINTRAEGE_TITEL + " TEXT NOT NULL, " +
                 EINTRAEGE_ADRESSAT + " TEXT NOT NULL, " +
                 EINTRAEGE_INHALT + " TEXT NOT NULL, " +
                 EINTRAEGE_ERSTELLDATUM + " TEXT NOT NULL, " +
-                EINTRAEGE_ABLAUFDATUM + " TEXT NOT NULL)");
+                EINTRAEGE_ABLAUFDATUM + " TEXT NOT NULL, " +
+                EINTRAEGE_REMOTE_ID + " INTEGER NOT NULL, " +
+                EINTRAEGE_VIEWS + " INTEGER NOT NULL, " +
+                ")");
     }
 
     @Override
@@ -42,13 +47,15 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public ContentValues getContentValues(String titel, String adressat, String inhalt, long erstelldatum, long ablaufdatum) {
+    public ContentValues getContentValues(String titel, String adressat, String inhalt, long erstelldatum, long ablaufdatum, int remoteid, int views) {
         ContentValues values = new ContentValues();
         values.put(EINTRAEGE_TITEL, titel);
         values.put(EINTRAEGE_ADRESSAT, adressat);
         values.put(EINTRAEGE_INHALT, inhalt);
         values.put(EINTRAEGE_ERSTELLDATUM, erstelldatum);
         values.put(EINTRAEGE_ABLAUFDATUM, ablaufdatum);
+        values.put(EINTRAEGE_REMOTE_ID, remoteid);
+        values.put(EINTRAEGE_VIEWS, views);
         return values;
     }
 

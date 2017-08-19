@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import de.slg.startseite.MainActivity;
 
@@ -14,11 +15,12 @@ public class Start extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initPref(getApplicationContext());
 
         super.onCreate(savedInstanceState);
 
         Utils.context = getApplicationContext();
+
+        initPref(getApplicationContext());
 
         final Intent main = new Intent(getApplicationContext(), MainActivity.class)
                 .putExtra("show_dialog", Utils.showVoteOnStartup());

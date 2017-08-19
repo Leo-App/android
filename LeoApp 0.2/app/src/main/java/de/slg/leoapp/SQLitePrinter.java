@@ -7,8 +7,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import de.slg.essensqr.SQLiteHandler;
+import de.slg.schwarzes_brett.SQLiteConnector;
 
-class SQLitePrinter {
+public class SQLitePrinter {
 
     public static void printDatabase(Context c) {
 
@@ -26,7 +27,7 @@ class SQLitePrinter {
 
         @Override
         protected Void doInBackground(Void... params) {
-            SQLiteDatabase readable = new SQLiteHandler(c).getReadableDatabase();
+            SQLiteDatabase readable = new SQLiteConnector(c).getReadableDatabase();
 
             Cursor c = readable.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
             Cursor current;

@@ -5,34 +5,18 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:text="@string/dialog_verify_title"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp" />
-
-    <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4"
-        android:layout_below="@+id/textView4"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:text="@string/dialog_verify_info"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp" />
 
     <Button
         android:id="@+id/buttonDialog1"

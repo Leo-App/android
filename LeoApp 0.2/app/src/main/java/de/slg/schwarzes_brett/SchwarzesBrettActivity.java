@@ -32,6 +32,7 @@ import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.startseite.MainActivity;
@@ -143,6 +144,22 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         ExpandableListView expListView = (ExpandableListView) findViewById(R.id.eintraege);
         ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett);
         expListView.setAdapter(expandableListAdapter);
+
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+
+                if(!Utils.isVerified() || Utils.getUserPermission() != 1)
+                    return false;
+
+                if(Utils.checkNetwork())
+                    new UpdateViewTrackerTask().execute(groupPosition);
+                else {
+                    //TODO: Cache status if no connection available
+                }
+                return false;
+            }
+        });
 
         if (groupList.size() == 0) {
             findViewById(R.id.textView6).setVisibility(View.VISIBLE);

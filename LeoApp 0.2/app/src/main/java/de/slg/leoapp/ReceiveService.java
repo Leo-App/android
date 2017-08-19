@@ -337,13 +337,21 @@ public class ReceiveService extends Service {
 
                     SQLiteConnector db = new SQLiteConnector(getApplicationContext());
                     SQLiteDatabase dbh = db.getWritableDatabase();
+                    dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnector.TABLE_EINTRAEGE + "'");
                     dbh.delete(SQLiteConnector.TABLE_EINTRAEGE, null, null);
 
                     String[] result = builder.toString().split("_next_");
                     for (String s : result) {
                         String[] res = s.split(";");
-                        if (res.length == 5) {
-                            dbh.insert(SQLiteConnector.TABLE_EINTRAEGE, null, db.getContentValues(res[0], res[1], res[2], Long.parseLong(res[3] + "000"), Long.parseLong(res[4] + "000")));
+                        if (res.length == 6) {
+                            dbh.insert(SQLiteConnector.TABLE_EINTRAEGE, null, db.getContentValues(
+                                    res[0],
+                                    res[1],
+                                    res[2],
+                                    Long.parseLong(res[3] + "000"),
+                                    Long.parseLong(res[4] + "000"),
+                                    Integer.parseInt(res[5]),
+                                    Integer.parseInt(res[6])));
                         }
                     }
 
