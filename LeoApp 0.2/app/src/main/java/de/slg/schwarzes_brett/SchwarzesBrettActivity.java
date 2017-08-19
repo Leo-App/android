@@ -12,6 +12,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -189,7 +190,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         if(dbh == null)
             dbh = db.getReadableDatabase();
 
-        Cursor cursor = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " + SQLiteConnector.EINTRAEGE_ID + " = " + position, null);
+        Cursor cursor = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " + SQLiteConnector.EINTRAEGE_ID + " = " + position+1, null);
         cursor.moveToFirst();
 
         if(cursor.getCount() == 0)
