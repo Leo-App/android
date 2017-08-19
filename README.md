@@ -22,7 +22,7 @@ SourceCode Repository for the LeoApp 2017
 </ul>
 
 ### FTP
-Server: http://w011e117.kasserver.com<br/>
+Server: w011e117.kasserver.com<br/>
 FTP-Benutzer: f00cb34f<br/>
 <br/>
 Ein guter FTP Client ist zum Beispiel <i>FileZilla</i>
