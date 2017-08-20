@@ -21,7 +21,7 @@ public class InfoActivity extends AppCompatActivity {
         myToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(myToolbar);
 
-        getSupportActionBar().setTitle(getString(R.string.toolbar_title_screen));
+        getSupportActionBar().setTitle(getString(R.string.toolbar_name_info));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
