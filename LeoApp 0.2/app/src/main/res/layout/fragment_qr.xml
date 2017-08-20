@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/myCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -47,11 +48,11 @@
 
             <ImageView
                 android:id="@+id/imageViewError"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="190dp"
+                android:layout_height="190dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/qr_display_no_order"
+                app:srcCompat="@drawable/ic_qrcode_crossedout"
                 android:tint="@android:color/darker_gray"
                 android:visibility="gone" />
 
