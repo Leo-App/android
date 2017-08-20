@@ -37,7 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="0.75dp"
         android:layout_below="@id/relativeLayout3"
-        android:background="@android:color/background_dark"
         android:orientation="horizontal" />
 
     <ListView
