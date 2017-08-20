@@ -23,7 +23,7 @@
         android:maxLines="1"
         android:textColor="@color/colorText"
         android:textSize="18sp"
-        android:textStyle="normal|bold"
+        android:textStyle="normal"
         tools:text="Username" />
 
     <TextView

@@ -46,6 +46,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingBottom="3dp"
                     android:padding="2dp">
 
                     <ImageView
@@ -60,14 +61,14 @@
                     <TextView
                         android:id="@+id/textView"
                         android:layout_width="wrap_content"
+                        android:layout_marginTop="2.5dp"
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@id/iconMitglieder"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@id/iconMitglieder"
                         android:text="Mitglieder"
                         android:textColor="@color/colorText"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        android:textSize="20sp" />
 
                     <LinearLayout
                         android:id="@+id/linearLayoutUsers"
@@ -121,7 +122,7 @@
                         android:text="@string/title_settings"
                         android:textColor="@color/colorText"
                         android:textSize="22sp"
-                        android:textStyle="bold" />
+                        />
 
                     <LinearLayout
                         android:id="@+id/linearLayoutSettings"
@@ -130,6 +131,7 @@
                         android:layout_alignLeft="@id/textView2"
                         android:layout_below="@id/textView2"
                         android:layout_marginTop="3dp"
+                        android:paddingBottom="3dp"
                         android:layout_toRightOf="@id/iconEinstellungen"
                         android:divider="?android:attr/dividerVertical"
                         android:orientation="vertical"
@@ -139,61 +141,61 @@
                             android:id="@+id/switch1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="5dp"
+                            android:paddingBottom="8dp"
                             android:paddingLeft="3dp"
-                            android:paddingTop="5dp"
+                            android:paddingTop="8dp"
                             android:text="@string/settings_title_notification"
                             android:textAllCaps="false"
                             android:textSize="18sp"
-                            android:textStyle="bold" />
+                            />
 
                         <TextView
                             android:id="@+id/changeName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="5dp"
+                            android:paddingBottom="8dp"
                             android:paddingLeft="3dp"
-                            android:paddingTop="5dp"
+                            android:paddingTop="8dp"
                             android:text="@string/edit_chat"
                             android:textColor="@color/colorText"
                             android:textSize="18sp"
-                            android:textStyle="normal|bold" />
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/addUser"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="5dp"
+                            android:paddingBottom="8dp"
                             android:paddingLeft="3dp"
-                            android:paddingTop="5dp"
+                            android:paddingTop="8dp"
                             android:text="@string/add_user"
                             android:textColor="@color/colorText"
                             android:textSize="18sp"
-                            android:textStyle="normal|bold" />
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/removeUser"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="5dp"
+                            android:paddingBottom="8dp"
                             android:paddingLeft="3dp"
-                            android:paddingTop="5dp"
+                            android:paddingTop="8dp"
                             android:text="@string/remove_users"
                             android:textColor="@color/colorText"
                             android:textSize="18sp"
-                            android:textStyle="normal|bold" />
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/leaveChat"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="5dp"
+                            android:paddingBottom="8dp"
                             android:paddingLeft="3dp"
-                            android:paddingTop="5dp"
+                            android:paddingTop="8dp"
                             android:text="@string/action_leave_chat"
-                            android:textColor="@color/colorText"
+                            android:textColor="@android:color/holo_red_dark"
                             android:textSize="18sp"
-                            android:textStyle="normal|bold" />
+                            android:textStyle="normal" />
 
                     </LinearLayout>
 
