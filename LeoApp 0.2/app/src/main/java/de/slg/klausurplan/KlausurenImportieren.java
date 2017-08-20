@@ -90,13 +90,13 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
         for (int i = 0; i < split.length; i++) {
             String stufe = "", c = split[i];
             switch (i) {
-                case 0: //Teil vor dem ersten Simikolon enthält Klausuren der EF
+                case 0: //Teil vor dem ersten Semikolon enthält Klausuren der EF
                     stufe = "EF";
                     break;
-                case 1://Teil vor dem zweiten Simikolon enthält Klausuren der Q1
+                case 1://Teil vor dem zweiten Semikolon enthält Klausuren der Q1
                     stufe = "Q1";
                     break;
-                case 2://Teil vor dem dritten Simikolon enthält Klausuren der Q2
+                case 2://Teil vor dem dritten Semikolon enthält Klausuren der Q2
                     stufe = "Q2";
                     break;
             }

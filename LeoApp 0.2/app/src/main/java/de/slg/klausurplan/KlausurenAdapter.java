@@ -1,8 +1,11 @@
 package de.slg.klausurplan;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +33,7 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
     }
 
     @NonNull
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public View getView(int position, View v, @NonNull ViewGroup parent) {
         Klausur current = klausuren.getObjectAt(position);
@@ -40,8 +44,30 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
         } else {
             v.findViewById(R.id.textViewWoche).setVisibility(View.GONE);
         }
+
+        String[] parts = current.toString().replace("\n", " ").split(" ");
+
         TextView tv = (TextView) v.findViewById(R.id.textView);
-        tv.setText(current.toString());
+        TextView tv2 = (TextView) v.findViewById(R.id.textViewKursInfo);
+        TextView tv3 = (TextView) v.findViewById(R.id.textViewStufe);
+        TextView tv4 = (TextView) v.findViewById(R.id.textViewDate);
+
+        if(matchesStandardLayout(parts)) {
+
+            tv.setText(parts[0]);
+            tv2.setText(getFinalText(parts[1]) + " " + parts[2]);
+            tv3.setText(parts[3]);
+            tv4.setText(parts[4] + " " + parts[5]);
+
+        } else {
+
+            tv2.setVisibility(View.GONE);
+            tv4.setText(parts[parts.length-1]);
+            tv3.setText("-");
+            tv.setText(current.toString().substring(0, current.toString().length()-parts[parts.length-1].length()));
+
+        }
+
         if (current.datum.getTime() / 1000 == markieren) {
             tv.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
         } else {
@@ -49,4 +75,23 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
         }
         return v;
     }
+
+    private String getFinalText(String s) {
+
+        return s.matches("[G]K?") ? "GK" : s.matches("[L]K?") ? "LK" : s;
+
+    }
+
+    private boolean matchesStandardLayout(String[] parts) {
+
+        return  parts.length == 6 &&
+                parts[4].matches("[a-zA-Z]{2},") &&
+                parts[3].matches(".?[0-9]") &&
+                parts[2].matches("[A-Z]{3}") &&
+                parts[1].length() <= 4 &&
+                parts[0].matches("[A-Z]{1,3}") &&
+                parts[5].matches("[0-9]{2}.[0-9]{2}.[0-9]{2}");
+
+    }
+
 }
