@@ -1,6 +1,7 @@
 package de.slg.schwarzes_brett;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
@@ -15,6 +16,8 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
     protected Void doInBackground(Integer... params) {
 
         for(Integer cur : params) {
+
+            Log.wtf("LeoApp", "syncing "+cur);
 
             remote = cur;
 
