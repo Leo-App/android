@@ -188,7 +188,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
         if(db == null)
             db = new SQLiteConnector(Utils.context);
-       if(dbh == null)
+        if(dbh == null)
             dbh = db.getReadableDatabase();
 
         Cursor cursor = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " + SQLiteConnector.EINTRAEGE_ID + " = " + (position+1), null);
