@@ -86,7 +86,7 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
 
         return  parts.length == 6 &&
                 parts[4].matches("[a-zA-Z]{2},") &&
-                parts[3].matches(".?[0-9]") &&
+                parts[3].matches(".?[0-9F]") &&
                 parts[2].matches("[A-Z]{3}") &&
                 parts[1].length() <= 4 &&
                 parts[0].matches("[A-Z]{1,3}") &&
