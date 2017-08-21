@@ -32,14 +32,14 @@
     <string name="title_info_auth">Du bist verifiziert</string>
     <string name="summary_info_auth_success">Du bist jetzt verifiziert und kannst alle Funktionen benutzen!</string>
     <string name="summary_info_auth">Einige Funktionen benötigen eine Verifizierung. Verifiziere dich hier.</string>
-    <string name="summary_info_auth_failed">Anscheinend ist etwas schiefgelaufen. Versichere dich, dass dein QR-Code gültig ist und versuch es erneut</string>
+    <string name="summary_info_auth_failed">Es ist etwas schiefgelaufen. Versichere dich, dass dein QR-Code gültig ist und versuch es erneut</string>
 
     <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Nachdem du in den Einstellungen deine Zugangsdaten angegeben hast, brauchst du nur noch den anschließend generierten QR-Code vorzuzeigen und du erhälst dein bestelltes Menü.</string>
     <string name="summary_info_testplan">Hier findest du eine Sammlung deiner anstehenden Klausuren. Ergänze dein Profil um die Filterfunktion zu verwenden oder füge deine eigenen Einträge hinzu.</string>
     <string name="summary_info_messenger">Mithilfe dieser Funktion kannst du mit deinen Klassenkameraden und Lehrern kommunizieren, ohne dass diese deine Telefonnummer erfahren. Du kannst in Gruppen oder privat chatten. Deinen Benutzernamen kannst du in den Einstellungen ändern.</string>
     <string name="summary_info_tutoring">Brauchst du Nachhilfe in einem Fach? Bitte einfach darum in der Nachhilfebörse!</string>
     <string name="summary_info_news">Hier stehen alle wichtigen Neuigkeiten über dein Schulleben.</string>
-    <string name="summary_info_survey">In deiser Funktion kannst du jeden Tag deine Stimmung angeben und auch die der Anderen sehen.</string>
+    <string name="summary_info_survey">Hier kannst du jeden Tag deine Stimmung angeben und auch die der gesamten Schule sehen.</string>
     <string name="summary_info_schedule">Wähle deine belegten Kurse aus und dir wird ein automatischer Stundenplan generiert. Diesen kannst du natürlich noch anpassen.</string>
 
     <string name="dialog_verify_title">Verifizierung</string>
@@ -81,7 +81,7 @@
     <string name="dialog_desc_valid">Bestelltes Menü:</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
     <string name="qr_display_not_ordered">Du hast für den heutigen Tag kein Essen bestellt</string>
-    <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine angegebenen Daten</string>
+    <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine Daten</string>
     <string name="explain_desc_1">Mit dieser Funktion lassen sich die QR-Codes der Essensbestellung überprüfen.</string>
     <string name="explain_title_2">Schritt 1</string>
     <string name="explain_desc_2">Klicke auf den \"Scannen\"-Button und halte den grün umrandeten Bereich über den zu scannenden QR-Code.</string>
@@ -100,7 +100,7 @@
     <string name="action_leave_chat">Chat verlassen</string>
     <string name="name_of_chat">Chatname</string>
     <string name="title_new_groupchat">Neue Gruppe</string>
-    <string name="serviceDescription">Empfängt Nachrichten, während die App nicht geöffnet ist.</string>
+    <string name="serviceDescription">Empfängt Nachrichten, während die App geschlossen ist.</string>
     <string name="seconds">Sekunden</string>
     <string name="minute">Minute</string>
     <string name="minutes">Minuten</string>
@@ -161,7 +161,7 @@
     <string name="settings_title_level">Stufe/Klasse</string>
     <string name="settings_snackbar_username_taken">Dieser Benutzername ist bereits vergeben</string>
     <string name="settings_toast_username_success">Benutzername geändert!</string>
-    <string name="settings_name_changed">Namensänderung übernommen</string>
+    <string name="settings_name_changed">Name geändert!</string>
     <string name="settings_title_notification">Benachrichtigungen erhalten</string>
     <string name="settings_title_notification_all">Alle Benachrichtigungen erhalten</string>
     <string name="settings_title_notification_custom">Einige Benachrichtigungen erhalten</string>
@@ -173,7 +173,7 @@
     <string name="settings_summary_customid">Gib deine lunch.leo-ac.de Benutzer-ID ein</string>
     <string name="settings_title_pw">Passwort</string>
     <string name="settings_summary_pw">Gib dein lunch.leo-ac.de Passwort ein</string>
-    <string name="settings_summary_sync">Daten beim App-Start synchronisieren</string>
+    <string name="settings_summary_sync">Daten beim Start der App synchronisieren</string>
     <string name="settings_title_fade">Automatisch ausblenden</string>
     <string name="settings_summary_fade">Scan-Informationen werden automatisch ausgeblendet</string>
     <string name="settings_title_fade_time">Zeitraum</string>
@@ -187,25 +187,25 @@
 
     <!--Klausurplan-->
     <string name="settings_summary_notification_test">Informiere mich über anstehende Klausuren</string>
-    <string name="settings_summary_testplan_time">Wie alt dürfen angezeigte Klausuren sein?</string>
+    <string name="settings_summary_testplan_time">Klausuren löschen nach...</string>
     <string name="settings_title_testplan_time">Klausuren löschen</string>
     <string name="settings_summary_test_timetable">Nach Stundenplan filtern</string>
     <string name="settings_title_test_timetable">Filtern</string>
 
     <!--Messenger-->
     <string name="settings_title_refresh_interval">Aktualisierungsintervall</string>
-    <string name="settings_summary_refresh_interval">Zeitraum zwischen den Synchronisationsvorgängen</string>
+    <string name="settings_summary_refresh_interval">Zeitraum zwischen den Synchronisationen</string>
     <string name="settings_summary_notification_messenger">Informiere mich über neue Nachrichten</string>
     <string name="messenger_notification_title">Neue Nachrichten!</string>
     <string name="need_internet">Um diese Aktion aszuführen, brauchst du eine Internetverbindung</string>
-    <string name="settings_summary_messenger_sync">Deine Nachrichten und Chats werden von diesem Gerät gelöscht und neu vom Server heruntergeladen.</string>
+    <string name="settings_summary_messenger_sync">Deine Nachrichten und Chats werden gelöscht und neu heruntergeladen.</string>
     <string name="settings_title_messenger_sync">Synchronisieren</string>
 
     <!--Schwarzes Brett-->
     <string name="settings_summary_notification_news">Infromiere mich über neue Einträge</string>
 
     <!--Stimmungsbarometer-->
-    <string name="settings_summary_notification_survey">Informiere mich, falls ich noch nicht abgestimmt habe</string>
+    <string name="settings_summary_notification_survey">Benachrichtige mich, falls ich noch nicht abgestimmt habe</string>
     <string name="heute">Heute</string>
     <string name="settings_title_reasons_survey">Gründe</string>
     <string name="settings_summary_reasons_survey">Gründe beim Abstimmen anzeigen</string>
@@ -221,7 +221,6 @@
     <string name="info_screen_second">Entstanden im Projektkurs Informatik 2017</string>
     <string name="info_screen_fourth">Alle Angaben ohne Gewähr</string>
     <string name="info_screen_fifth">Entwickler</string>
-    <string name="toolbar_title_screen">Über die App</string>
     <string name="button_next">Weiter</string>
     <string name="toolbar_name_info">Über die App</string>
     <string name="hour">Stunde</string>
@@ -231,7 +230,7 @@
     <string name="settings_summary_filterby_schedule">Filtern nach Stundenplan</string>
     <string name="settings_summary_interval_subst">In welchem Intervall sollen deine Daten aktualisiert werden</string>
     <string name="settings_summary_network">Nur im WLAN syncronisieren</string>
-    <string name="settings_summary_notification_subst">Möchtest du Informationen über Vertretung erhalten?</string>
+    <string name="settings_summary_notification_subst">Möchtest du Benachrichtigungen über Vertretung erhalten?</string>
     <string name="settings_summary_password_school">Gebe das SLG-Passwort ein</string>
     <string name="settings_summary_username_school">Gib den SLG Benutzernamen ein</string>
     <string name="settings_title_filter_subst">Filter</string>
@@ -244,9 +243,9 @@
     <string name="title_subst">Vertretung</string>
     <string name="settings_category_subst">Vertretung</string>
     <string name="settings_no_access_data">Keine Anmeldedaten benötigt</string>
-    <string name="settings_screen_cg_data">Anmeldedaten Couven</string>
-    <string name="settings_screen_kkg_data">Anmeldedaten KKG</string>
-    <string name="settings_screen_slg_data">Anmeldedaten SLG</string>
+    <string name="settings_screen_cg_data">Anmeldedaten des Couvens</string>
+    <string name="settings_screen_kkg_data">Anmeldedaten des KKG</string>
+    <string name="settings_screen_slg_data">Anmeldedaten des SLG</string>
     <string name="edit_chat">Chatnamen ändern</string>
     <string name="SnackBarMes2">Noch keine Stufe eingestellt</string>
     <string name="add_user">Benutzer hinzufügen</string>
@@ -255,7 +254,6 @@
     <string name="cards_customize">Anpassen</string>
     <string name="cards_quick">Schnellzugriff</string>
     <string name="set_changes">Übernehmen</string>
-    <string name="chat_info">Information</string>
 
     <!--Nachhilfebörse-->
 
@@ -277,12 +275,17 @@
     <string name="help">Hilfe</string>
     <string name="yourTimeTable">Dein Stundenplan</string>
     <string name="title_settings_notifications">Benachrichtigungen</string>
-    <string name="summary_about">Informationen über die App</string>
+    <string name="summary_about">Informationen über diese App</string>
     <string name="add_card">Karte hinzufügen</string>
-    <string name="button_add">hinzufügen</string>
+    <string name="button_add">Hinzufügen</string>
     <string name="selector_card">Karte hinzufügen</string>
     <string name="snackbar_select">Auswählen</string>
     <string name="summary_info_subst">Deine Vertretungen für heute und morgen</string>
     <string name="settings_title_kuerzel">Lehrer-Kürzel</string>
+    <string name="title_messenger">Messenger</string>
+    <string name="thank_you_feature">Danke für die Rüclmeldung</string>
+    <string name="reliKat">Religion Kath.</string>
+    <string name="reliEv">Religion Ev.</string>
+    <string name="qr_display_menu" translatable="false">Menü</string>
 
 </resources>
