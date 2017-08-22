@@ -1,9 +1,15 @@
 package de.slg.startseite;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +17,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -23,6 +38,9 @@ import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
+
+import static android.view.View.GONE;
+import static android.view.View.generateViewId;
 
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
@@ -235,6 +253,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
         return quickLayout ? 2 : ref.large ? 1 : 0;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onBindViewHolder(final CardViewHolder holder, final int position) {
         cards.toIndex(position);
@@ -262,16 +281,57 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             } else
                 holder.icon.setColorFilter(null);
             holder.description.setText(ref.descr);
-            holder.content.setVisibility(View.GONE);
+            holder.content.setVisibility(GONE);
             holder.icon.setImageResource(ref.icon);
             if (!ref.enabled)
                 holder.icon.setColorFilter(Color.GRAY);
         } else {
             MiscCard ref = (MiscCard) c;
-            holder.button.setText(ref.type.toString());
-            holder.title.setText("");
-            holder.description.setText("");
+            holder.button.setVisibility(GONE);
+            holder.title.setVisibility(GONE);
+            holder.description.setVisibility(GONE);
             holder.content.setVisibility(View.VISIBLE);
+            holder.icon.setVisibility(GONE);
+
+            ImageView weatherIcon = new ImageView(Utils.context);
+            weatherIcon.setId(generateViewId());
+            weatherIcon.setImageResource(R.drawable.weather_partlycloudy);
+            TextView temperature = new TextView(Utils.context);
+            temperature.setId(generateViewId());
+            TextView humidity = new TextView(Utils.context);
+
+            new WeatherUpdateTask().execute(weatherIcon, temperature, humidity);
+
+            weatherIcon.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
+
+            if(Start.pref.getBoolean("pref_key_card_config_quick", false)) {
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT);
+                layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+                layoutParams.setMargins(0, 25, 0, 0);
+                layoutParams.height = (holder.wrapper.getLayoutParams().height / 100) * 60;
+                layoutParams.width = (holder.wrapper.getLayoutParams().height / 100) * 60;
+                weatherIcon.setLayoutParams(layoutParams);
+
+                RelativeLayout.LayoutParams layoutParamsTextViewTemp = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+                layoutParamsTextViewTemp.addRule(RelativeLayout.BELOW, weatherIcon.getId());
+                layoutParamsTextViewTemp.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+                temperature.setLayoutParams(layoutParamsTextViewTemp);
+                temperature.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
+                temperature.setTextColor(Color.rgb(0x00, 0x91, 0xea));
+
+                RelativeLayout.LayoutParams layoutParamsTextViewHumid = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+                layoutParamsTextViewHumid.addRule(RelativeLayout.BELOW, temperature.getId());
+                layoutParamsTextViewHumid.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+                humidity.setLayoutParams(layoutParamsTextViewHumid);
+                humidity.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                humidity.setTextColor(Color.rgb(0x00, 0x91, 0xea));
+
+            }
+
+            holder.content.addView(weatherIcon);
+            holder.content.addView(temperature);
+            holder.content.addView(humidity);
+
         }
 
     }
@@ -301,6 +361,117 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             wrapper = (CardView) itemView.findViewById(R.id.card_preset);
         }
 
+    }
+
+    private class WeatherUpdateTask extends AsyncTask<View, Void, String[]> {
+
+        private ImageView icon;
+        private TextView temp, humid;
+
+        @Override
+        protected String[] doInBackground(View... params) {
+
+            icon = (ImageView) params[0];
+            temp = (TextView) params[1];
+            humid = (TextView) params[2];
+
+            try {
+
+                if(!Utils.checkNetwork())
+                    return null;
+
+                URL apiURL = new URL("http://moritz.liegmanns.de/getWeatherData.php");
+                BufferedReader b = new BufferedReader(new InputStreamReader(apiURL.openConnection().getInputStream()));
+                String current;
+                StringBuilder json = new StringBuilder();
+                while((current = b.readLine()) != null)
+                    json.append(current);
+
+                StringBuilder weatherCode = new StringBuilder();
+                StringBuilder tempCode = new StringBuilder();
+                StringBuilder humidCode = new StringBuilder();
+
+                int indexStart = json.indexOf("\"description\":");
+                for(int i = indexStart+15; json.charAt(i) != '"'; i++)
+                    weatherCode.append(json.charAt(i));
+
+                indexStart = json.indexOf("\"temp\":");
+                for(int i = indexStart+7; json.charAt(i) != ','; i++)
+                    tempCode.append(json.charAt(i));
+
+                indexStart = json.indexOf("\"humidity\":");
+                for(int i = indexStart+11; json.charAt(i) != ','; i++)
+                    humidCode.append(json.charAt(i));
+
+                return new String[]{weatherCode.toString(), tempCode.toString(), humidCode.toString()};
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        protected void onPostExecute(String... strings) {
+
+            if(strings == null) {
+                icon.setImageResource(R.drawable.weather_no_connection_alt);
+                icon.setColorFilter(Color.GRAY);
+                temp.setText("-");
+                temp.setTextColor(Color.GRAY);
+                humid.setText(Utils.getString(R.string.snackbar_no_connection_info));
+                humid.setTextColor(Color.GRAY);
+                return;
+            }
+
+            Log.wtf("LeoApp", strings[0]);
+            Log.wtf("LeoApp", strings[1]);
+            Log.wtf("LeoApp", strings[2]);
+
+            switch (strings[0]) {
+
+                case "clear sky":
+                    icon.setImageResource(R.drawable.weather_sunny);
+                    break;
+
+                case "few clouds":
+                    icon.setImageResource(R.drawable.weather_partlycloudy);
+                    break;
+
+                case "scattered clouds":
+                    icon.setImageResource(R.drawable.weather_cloudy);
+                    break;
+
+                case "broken clouds":
+                    icon.setImageResource(R.drawable.weather_cloudy);
+                    break;
+
+                case "rain":
+                    icon.setImageResource(R.drawable.weather_pouring);
+                    break;
+
+                case "thunderstorm":
+                    icon.setImageResource(R.drawable.weather_lightning);
+                    break;
+
+                case "snow":
+                    icon.setImageResource(R.drawable.weather_snowy);
+                    break;
+
+                case "mist":
+                    icon.setImageResource(R.drawable.weather_fog);
+                    break;
+
+            }
+
+            double temp = Double.parseDouble(strings[1])-273.15;
+            DecimalFormat df = new DecimalFormat("#.#");
+
+            this.temp.setText(df.format(temp)+"\u2103");
+            this.humid.setText(strings[2]+"%");
+
+        }
     }
 
 }

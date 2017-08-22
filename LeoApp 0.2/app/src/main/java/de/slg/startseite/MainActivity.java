@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CardAdapter mAdapter;
 
     private AbstimmDialog abstimmDialog;
+    private RecyclerView mRecyclerView;
 
     private static boolean isVerified() {
         return verified;
@@ -211,6 +212,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
             scrollView.smoothScrollTo(0, 0);
+
+            mAdapter.notifyDataSetChanged();
+
         }
     }
 
@@ -290,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView version = (TextView) findViewById(R.id.versioncode_maincard);
         version.setText(Utils.getAppVersionName());
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();
 
         boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
