@@ -3,6 +3,10 @@ package de.slg.startseite;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -38,6 +42,25 @@ class FeatureDialog extends AlertDialog{
             }
         });
 
+        ((EditText)findViewById(R.id.feature_request_desc)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().length() > 0)
+                    findViewById(R.id.buttonDialog2).setEnabled(true);
+                else
+                    findViewById(R.id.buttonDialog2).setEnabled(false);
+            }
+        });
 
     }
 

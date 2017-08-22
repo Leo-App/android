@@ -13,6 +13,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -365,7 +366,15 @@ public class OverviewWrapper extends AppCompatActivity {
                 }
             };
 
-            rvChats.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+
+            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
+                    rvChats.getContext(),
+                    linearLayoutManager.getOrientation()
+            );
+            rvChats.addItemDecoration(mDividerItemDecoration);
+            rvChats.setLayoutManager(linearLayoutManager);
             rvChats.setAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getOverviewWrapper().chatArray, chatClickListener, chatLongClickListener));
         }
 

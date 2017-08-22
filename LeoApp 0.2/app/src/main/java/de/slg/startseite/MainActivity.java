@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        ImageButton feature = (ImageButton) findViewById(R.id.feature_request);
+        final ImageButton feature = (ImageButton) findViewById(R.id.feature_request);
         feature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -420,7 +420,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //TODO: Scroll to new Position
 
-
     }
 
     private void writeToPreferences() {
@@ -574,6 +573,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     title.setVisibility(View.GONE);
                     info.setVisibility(View.GONE);
                     verify.setVisibility(View.GONE);
+                    dismiss.setVisibility(View.GONE);
 
                     RegistrationTask t = new RegistrationTask(MainActivity.this);
                     t.execute(data[0], String.valueOf(data[1]));
