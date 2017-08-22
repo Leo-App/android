@@ -269,4 +269,5 @@
     <string name="cards_quick">Accès rapide</string>
     <string name="button_add">Ajouter</string>
     <string name="add_card">Ajouter une carte</string>
+    <string name="card_title_weather">Temps actuel</string>
 </resources>

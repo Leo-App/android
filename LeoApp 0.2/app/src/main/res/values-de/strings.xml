@@ -287,5 +287,6 @@
     <string name="reliKat">Religion Kath.</string>
     <string name="reliEv">Religion Ev.</string>
     <string name="qr_display_menu" translatable="false">Menü</string>
+    <string name="card_title_weather">Aktuelles Wetter</string>
 
 </resources>

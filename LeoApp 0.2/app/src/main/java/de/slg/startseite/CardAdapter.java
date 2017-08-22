@@ -326,11 +326,55 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 humidity.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 humidity.setTextColor(Color.rgb(0x00, 0x91, 0xea));
 
+                holder.content.addView(temperature);
+                holder.content.addView(humidity);
+
+            } else {
+
+                holder.title.setVisibility(View.VISIBLE);
+                holder.title.setText(Utils.getString(R.string.card_title_weather));
+
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT);
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+                layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+                layoutParams.setMargins(20, 0, 0, 0);
+                layoutParams.height = (holder.wrapper.getLayoutParams().height / 100) * 70;
+                layoutParams.width = (holder.wrapper.getLayoutParams().height / 100) * 70;
+                weatherIcon.setLayoutParams(layoutParams);
+
+                RelativeLayout.LayoutParams layoutParamsTextViewTemp = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+                layoutParamsTextViewTemp.addRule(RelativeLayout.RIGHT_OF, weatherIcon.getId());
+                layoutParamsTextViewTemp.addRule(RelativeLayout.ABOVE, humidity.getId());
+             //   layoutParamsTextViewTemp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+                layoutParamsTextViewTemp.setMargins(80, 0, 0, 0);
+                temperature.setLayoutParams(layoutParamsTextViewTemp);
+                temperature.setTextSize(TypedValue.COMPLEX_UNIT_SP, 45);
+                temperature.setTextColor(Color.rgb(0x00, 0x91, 0xea));
+
+                RelativeLayout.LayoutParams layoutParamsTextViewHumid = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+                layoutParamsTextViewHumid.addRule(RelativeLayout.BELOW, temperature.getId());
+                layoutParamsTextViewHumid.addRule(RelativeLayout.RIGHT_OF, weatherIcon.getId());
+              //  layoutParamsTextViewHumid.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+                layoutParamsTextViewHumid.setMargins(80, 0, 0, 0);
+                humidity.setId(generateViewId());
+                humidity.setLayoutParams(layoutParamsTextViewHumid);
+                humidity.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                humidity.setTextColor(Color.rgb(0x00, 0x91, 0xea));
+
+                RelativeLayout wrapper = new RelativeLayout(Utils.context);
+                wrapper.addView(temperature);
+                wrapper.addView(humidity);
+                RelativeLayout.LayoutParams layoutParamsWrapper = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+                layoutParamsWrapper.addRule(RelativeLayout.CENTER_VERTICAL, temperature.getId());
+                layoutParamsWrapper.addRule(RelativeLayout.RIGHT_OF, weatherIcon.getId());
+                wrapper.setLayoutParams(layoutParamsWrapper);
+
+                holder.content.addView(wrapper);
+
             }
 
             holder.content.addView(weatherIcon);
-            holder.content.addView(temperature);
-            holder.content.addView(humidity);
+
 
         }
 
@@ -424,10 +468,6 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 humid.setTextColor(Color.GRAY);
                 return;
             }
-
-            Log.wtf("LeoApp", strings[0]);
-            Log.wtf("LeoApp", strings[1]);
-            Log.wtf("LeoApp", strings[2]);
 
             switch (strings[0]) {
 

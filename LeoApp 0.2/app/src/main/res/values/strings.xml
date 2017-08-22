@@ -88,6 +88,7 @@
     <string name="serviceDescription">Receives messages while the app is closed</string>
 
     <string name="toolbar_scan">Scan!</string>
+    <string name="card_title_weather">current weather</string>
     <string name="toolbar_title">Essensbons</string>
     <string name="button_scan">Scan</string>
     <string name="button_confirm" translatable="false">OK</string>
