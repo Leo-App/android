@@ -10,7 +10,7 @@
         android:id="@+id/iconChat"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_chat_bubble_white_24dp"
+        app:srcCompat="@drawable/ic_chat_bubble_white_24dp"
         android:tint="@color/colorPrimary" />
 
     <ImageView
@@ -87,7 +87,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:padding="2dp"
-        android:src="@drawable/ic_priority_high_white_24dp"
+        app:srcCompat="@drawable/ic_priority_high_white_24dp"
         android:tint="@color/colorAccent"
         android:visibility="gone" />
 

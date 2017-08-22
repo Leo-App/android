@@ -196,6 +196,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
 
         if(!runningScan) {
+
+            TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+            username.setText(Utils.getUserName());
+
+            TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
+            if (Utils.getUserPermission() == 2)
+                grade.setText(Utils.getLehrerKuerzel());
+            else
+                grade.setText(Utils.getUserStufe());
+
+            ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+            mood.setImageResource(Utils.getCurrentMoodRessource());
+
             ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
             scrollView.smoothScrollTo(0, 0);
         }
