@@ -1,6 +1,7 @@
 package de.slg.essensqr;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -44,6 +45,7 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+@SuppressLint("StaticFieldLeak")
 public class WrapperQRActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     public static SharedPreferences sharedPref;
@@ -62,18 +64,74 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_qr);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        myToolbar.setTitleTextColor(Color.WHITE);
-
         runningScan = false;
         runningSync = false;
 
-        setSupportActionBar(myToolbar);
+        initToolbar();
+        initNavigationDrawer();
 
-        getSupportActionBar().setTitle(getString(R.string.toolbar_title));
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
+
+            private final QRFragment fragment1 = new QRFragment();
+            private final ScanFragment fragment2 = new ScanFragment();
+
+            @Override
+            public Fragment getItem(int position) {
+                if (position == 0)
+                    return fragment1;
+                else
+                    return fragment2;
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+
+                if (position == 0)
+                    return getString(R.string.title_foodmarks);
+                else
+                    return getString(R.string.toolbar_scan);
+            }
+
+        };
+        mViewPager.setAdapter(adapt);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        tabLayout.setupWithViewPager(mViewPager);
+
+        sqlh = new SQLiteHandler(getApplicationContext());
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        final Handler handler = new Handler();
+        final Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                scan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        scan();
+                    }
+                });
+            }
+        };
+
+        handler.postDelayed(r, 100);
+
+        if (!mensaModeRunning && sharedPref.getBoolean("pref_key_mensa_mode", false)) {
+            handler.removeCallbacks(r);
+            mensaModeRunning = true;
+            scan();
+        } else
+            mensaModeRunning = false;
+
+    }
+
+    private void initNavigationDrawer() {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -115,7 +173,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
                     case R.id.startseite:
                         i = null;
                         break;
-//                    case R.id.vertretung:
+//                  case R.id.vertretung:
 //                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
 //                        break;
                     case R.id.settings:
@@ -144,65 +202,41 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
+    }
 
-            private final QRFragment fragment1 = new QRFragment();
-            private final ScanFragment fragment2 = new ScanFragment();
+    private void initToolbar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        myToolbar.setTitleTextColor(Color.WHITE);
 
-            @Override
-            public Fragment getItem(int position) {
-                if (position == 0)
-                    return fragment1;
-                else
-                    return fragment2;
-            }
+        setSupportActionBar(myToolbar);
 
-            @Override
-            public int getCount() {
-                return 2;
-            }
+        getSupportActionBar().setTitle(getString(R.string.toolbar_title));
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+    }
 
-            @Override
-            public CharSequence getPageTitle(int position) {
+    private void scan() {
 
-                if (position == 0)
-                    return getString(R.string.title_foodmarks);
-                else
-                    return getString(R.string.toolbar_scan);
-            }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-        };
-        mViewPager.setAdapter(adapt);
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_USE_CAMERA);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
-        tabLayout.setupWithViewPager(mViewPager);
+        } else {
 
-        sqlh = new SQLiteHandler(getApplicationContext());
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+            runningScan = true;
+            scV = new ZXingScannerView(getApplicationContext());
+            setContentView(scV);
+            scV.setResultHandler(this);
+            int cameraNumber = sharedPref.getBoolean("pref_key_qr_camera", false) ? 1 : 0;
+            scV.startCamera(cameraNumber);
 
-        final Handler handler = new Handler();
-        final Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                scan.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        scan();
-                    }
-                });
-            }
-        };
-
-        handler.postDelayed(r, 100);
-
-        if (!mensaModeRunning && sharedPref.getBoolean("pref_key_mensa_mode", false)) {
-            handler.removeCallbacks(r);
-            mensaModeRunning = true;
-            scan();
-        } else
-            mensaModeRunning = false;
+        }
 
     }
 
@@ -230,31 +264,6 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
 
     }
 
-
-    private void scan() {
-
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    MY_PERMISSIONS_REQUEST_USE_CAMERA);
-
-        } else {
-
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-            runningScan = true;
-            scV = new ZXingScannerView(getApplicationContext());
-            setContentView(scV);
-            scV.setResultHandler(this);
-            int cameraNumber = sharedPref.getBoolean("pref_key_qr_camera", false) ? 1 : 0;
-            scV.startCamera(cameraNumber);
-
-        }
-
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.d("LeoApp", "OnKeyDown");
@@ -274,38 +283,25 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
     @Override
     protected void onPause() {
 
-        Log.d("LeoApp", "OnPause");
-
         if (scV != null && scV.isActivated()) {
             scV.stopCamera();
             finish();
             startActivity(new Intent(getApplicationContext(), WrapperQRActivity.class));
         } else {
-
             super.onPause();
-
         }
 
     }
 
     @Override
     public void handleResult(Result result) {
-
-        Log.d("LeoApp", result.getText());
-
         QRReadTask task = new QRReadTask(this);
         scV.stopCamera();
-
-        Log.d("LeoApp", result.getText());
-
         task.execute(result.getText());
-
     }
 
-
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_USE_CAMERA: {
                 if (grantResults.length > 0
