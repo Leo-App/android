@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static Button verify;
     public static Button dismiss;
     public static boolean editing;
-    private static boolean verified;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
     private ZXingScannerView scV;
     private boolean runningScan;
@@ -82,10 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CardAdapter mAdapter;
 
     private AbstimmDialog abstimmDialog;
-
-    private static boolean isVerified() {
-        return verified;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (synchronize)
             new UpdateTaskGrade(this).execute();
 
-        if (verified = isVerified()) {
+        if (Utils.isVerified()) {
             MainActivity.dismiss.setVisibility(View.GONE);
             title.setTextColor(Color.GREEN);
             title.setText(getString(R.string.title_info_auth));
@@ -253,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.buttonCardView0) {
-            if (!isVerified())
+            if (!Utils.isVerified())
                 showDialog();
             else {
                 SharedPreferences.Editor e = Start.pref.edit();
@@ -409,12 +404,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         builder.setView(v);
         builder.show();
-    }
-
-    public void setVerified() {
-        finish();
-        startActivity(getIntent());
-        verified = true;
     }
 
     public void addCard(CardType t) {

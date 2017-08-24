@@ -32,7 +32,7 @@
     <string name="title_info_auth">Du bist verifiziert</string>
     <string name="summary_info_auth_success">Du bist jetzt verifiziert und kannst alle Funktionen benutzen!</string>
     <string name="summary_info_auth">Einige Funktionen benötigen eine Verifizierung. Verifiziere dich hier.</string>
-    <string name="summary_info_auth_failed">Es ist etwas schiefgelaufen. Versichere dich, dass dein QR-Code gültig ist und versuch es erneut</string>
+    <string name="summary_info_auth_failed">Es ist etwas schiefgelaufen. Versichere dich, dass dein QR-Code gültig ist und versuche es erneut</string>
 
     <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Nachdem du in den Einstellungen deine Zugangsdaten angegeben hast, brauchst du nur noch den anschließend generierten QR-Code vorzuzeigen und du erhälst dein bestelltes Menü.</string>
     <string name="summary_info_testplan">Hier findest du eine Sammlung deiner anstehenden Klausuren. Ergänze dein Profil um die Filterfunktion zu verwenden oder füge deine eigenen Einträge hinzu.</string>

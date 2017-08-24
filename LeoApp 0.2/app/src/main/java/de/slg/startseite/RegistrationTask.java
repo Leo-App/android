@@ -128,10 +128,6 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             MainActivity.verify.setVisibility(View.VISIBLE);
             MainActivity.dismiss.setVisibility(View.GONE);
 
-            c.setVerified();
-
-            Utils.getMainActivity().finish();
-
         } else {
 
             if (!connection) {
