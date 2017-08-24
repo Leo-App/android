@@ -210,15 +210,6 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     }
 
-
-    public void notifyDataSetChangedCopy() {
-
-        for(cards.toFirst(); cards.hasAccess(); cards.next())
-            Log.wtf("LeoApp", cards.getContent().toString());
-        notifyDataSetChanged();
-
-    }
-
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

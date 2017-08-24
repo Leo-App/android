@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
+        android:textColor="@color/colorText"
         android:gravity="center"
         android:layout_centerVertical="true"
         android:textAlignment="center"
@@ -27,5 +28,18 @@
         android:visibility="gone"
         android:gravity="center"
         android:background="@drawable/view_amount_background"/>
+
+    <TextView
+        android:id="@+id/textViewStufe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@id/textViewViews"
+        android:gravity="center"
+        />
 
 </RelativeLayout>
