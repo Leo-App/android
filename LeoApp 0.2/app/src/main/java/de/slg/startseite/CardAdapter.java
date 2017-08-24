@@ -191,15 +191,32 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 break;
             case WEATHER:
                 cards.append(m = new MiscCard(false, type, true));
-                m.title = Utils.getString(R.string.title_subst);
+                m.title = Utils.getString(R.string.card_title_weather);
 
-                break;
-            case NEXT_TEST:
-                cards.append(m = new MiscCard(false, type, true));
-                m.title = Utils.getString(R.string.title_subst);
                 break;
 
         }
+    }
+
+    void updateCustomCards() {
+
+        int i = 0;
+        for(cards.toFirst(); cards.hasAccess(); cards.next()) {
+
+            if(cards.getContent() instanceof MiscCard)
+                notifyItemChanged(i);
+            i++;
+        }
+
+    }
+
+
+    public void notifyDataSetChangedCopy() {
+
+        for(cards.toFirst(); cards.hasAccess(); cards.next())
+            Log.wtf("LeoApp", cards.getContent().toString());
+        notifyDataSetChanged();
+
     }
 
     @Override
@@ -285,8 +302,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             holder.icon.setImageResource(ref.icon);
             if (!ref.enabled)
                 holder.icon.setColorFilter(Color.GRAY);
-        } else {
-            MiscCard ref = (MiscCard) c;
+        } else if(c instanceof MiscCard) {
             holder.button.setVisibility(GONE);
             holder.title.setVisibility(GONE);
             holder.description.setVisibility(GONE);
