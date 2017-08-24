@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CardAdapter mAdapter;
 
     private AbstimmDialog abstimmDialog;
-    private RecyclerView mRecyclerView;
 
     private static boolean isVerified() {
         return verified;
@@ -174,24 +173,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             WrapperQRActivity.mensaModeRunning = false;
     }
 
-    private void synchronizeUsername() {
-        new SyncTaskName().execute();
-    }
-
-    private void synchronizeGrade() {
-        new SyncTaskGrade().execute();
-    }
-
-    private void initToolbar() {
-        Toolbar t = (Toolbar) findViewById(R.id.toolbar);
-        t.setTitleTextColor(Color.WHITE);
-        t.setTitle(getString(R.string.title_home));
-        setSupportActionBar(t);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -217,155 +198,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mAdapter.updateCustomCards();
 
         }
-    }
-
-    private void initNavigationView() {
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
-
-//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
-                        break;
-                    case R.id.messenger: //Nur bei Verifizierung
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
-                        break;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-//                    case R.id.nachhilfe: //Nur bei Verifizierung
-//                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
-//                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan: //Nur bei Verifizierung
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                        break;
-                    case R.id.startseite:
-                        i = null;
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-//                    case R.id.vertretung:
-//                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
-//                        break;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                if (i != null)
-                    startActivity(i);
-                return true;
-            }
-        });
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.getUserName());
-
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == 2)
-            grade.setText(Utils.getLehrerKuerzel());
-        else
-            grade.setText(Utils.getUserStufe());
-
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(Utils.getCurrentMoodRessource());
-    }
-
-    private void initCardViews() {
-
-        findViewById(R.id.buttonCardView0).setOnClickListener(this);
-        findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
-
-        TextView version = (TextView) findViewById(R.id.versioncode_maincard);
-        version.setText(Utils.getAppVersionName());
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
-        mAdapter = new CardAdapter();
-
-        boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
-
-        RecyclerView.LayoutManager mLayoutManager = quickLayout
-
-                ?
-
-                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
-                    @Override
-                    public boolean canScrollVertically() {
-                        return false;
-                    }
-                }
-
-                :
-
-                new LinearLayoutManager(getApplicationContext()) {
-                    @Override
-                    public boolean canScrollVertically() {
-                        return false;
-                    }
-                };
-
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(quickLayout ?
-                ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-
-            @Override
-            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                if (!editing) return 0;
-
-                boolean quick = Start.pref.getBoolean("pref_key_card_config_quick", false);
-                return makeMovementFlags(quick ? ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-            }
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                int fromPos = viewHolder.getAdapterPosition();
-                int toPos = target.getAdapterPosition();
-
-                mAdapter.cards.toIndex(fromPos);
-                Card current = mAdapter.cards.getContent();
-
-                mAdapter.cards.remove();
-                mAdapter.cards.toIndex(toPos);
-                mAdapter.cards.insertBefore(current);
-
-                mAdapter.notifyDataSetChanged();
-
-                return true;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                mAdapter.cards.toIndex(viewHolder.getLayoutPosition());
-                mAdapter.cards.remove();
-                mAdapter.notifyDataSetChanged();
-
-            }
-
-        };
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-        mRecyclerView.setLayoutManager(editing ? mLayoutManager : mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(mAdapter);
-
     }
 
     @Override
@@ -418,34 +250,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.finish();
     }
 
-    public void addCard(CardType t) {
-
-        mAdapter.addToList(t);
-        mAdapter.notifyDataSetChanged();
-
-        //TODO: Scroll to new Position
-
-    }
-
-    private void writeToPreferences() {
-
-        StringBuilder b = new StringBuilder("");
-        if (mAdapter.cards.size() > 0) {
-            for (mAdapter.cards.toFirst(); mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
-                if (b.length() > 0)
-                    b.append(";");
-                b.append(mAdapter.cards.getContent().type.toString());
-            }
-        } else {
-            b.append("");
-        }
-
-        SharedPreferences.Editor e = Start.pref.edit();
-        e.putString("pref_key_card_config", b.toString());
-        e.apply();
-
-    }
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.buttonCardView0) {
@@ -478,36 +282,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void showDialog() {
-        final AlertDialog builder = new AlertDialog.Builder(this).create();
-        LayoutInflater inflater = getLayoutInflater();
-        View v = inflater.inflate(R.layout.dialog_verification, null);
-        Button b1, b2;
-        b1 = (Button) v.findViewById(R.id.buttonDialog1);
-        b2 = (Button) v.findViewById(R.id.buttonDialog2);
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                builder.dismiss();
-            }
-        });
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("LeoApp", "on click");
-                startCamera(builder);
-            }
-        });
-        builder.setView(v);
-        builder.show();
-    }
-
-    public void setVerified() {
-        finish();
-        startActivity(getIntent());
-        verified = true;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (editing) {
@@ -521,26 +295,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return true;
-    }
-
-    private void startCamera(AlertDialog b) {
-        b.dismiss();
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            Log.d("LeoApp", "No permission. Checking");
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    MY_PERMISSIONS_REQUEST_USE_CAMERA);
-            Log.d("LeoApp", "No permission. Checked");
-        } else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-            scV = new ZXingScannerView(getApplicationContext());
-            setContentView(scV);
-            scV.setResultHandler(this);
-            scV.startCamera(0);
-            runningScan = true;
-        }
     }
 
     @Override
@@ -628,6 +382,256 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    public void showDialog() {
+        final AlertDialog builder = new AlertDialog.Builder(this).create();
+        LayoutInflater inflater = getLayoutInflater();
+        View v = inflater.inflate(R.layout.dialog_verification, null);
+        Button b1, b2;
+        b1 = (Button) v.findViewById(R.id.buttonDialog1);
+        b2 = (Button) v.findViewById(R.id.buttonDialog2);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("LeoApp", "on click");
+                startCamera(builder);
+            }
+        });
+        builder.setView(v);
+        builder.show();
+    }
+
+    public void setVerified() {
+        finish();
+        startActivity(getIntent());
+        verified = true;
+    }
+
+    public void addCard(CardType t) {
+
+        mAdapter.addToList(t);
+        mAdapter.notifyDataSetChanged();
+
+        //TODO: Scroll to new Position
+
+    }
+
+    private void synchronizeUsername() {
+        new SyncTaskName().execute();
+    }
+
+    private void synchronizeGrade() {
+        new SyncTaskGrade().execute();
+    }
+
+    private void initToolbar() {
+        Toolbar t = (Toolbar) findViewById(R.id.toolbar);
+        t.setTitleTextColor(Color.WHITE);
+        t.setTitle(getString(R.string.title_home));
+        setSupportActionBar(t);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void initNavigationView() {
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
+
+//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                drawerLayout.closeDrawers();
+                Intent i;
+                switch (menuItem.getItemId()) {
+                    case R.id.foodmarks:
+                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        break;
+                    case R.id.messenger: //Nur bei Verifizierung
+                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                        break;
+                    case R.id.newsboard:
+                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
+                        break;
+//                    case R.id.nachhilfe: //Nur bei Verifizierung
+//                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
+//                        break;
+                    case R.id.stundenplan:
+                        i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
+                        break;
+                    case R.id.barometer:
+                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
+                        break;
+                    case R.id.klausurplan: //Nur bei Verifizierung
+                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
+                        break;
+                    case R.id.startseite:
+                        i = null;
+                        break;
+                    case R.id.settings:
+                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
+                        break;
+//                    case R.id.vertretung:
+//                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
+//                        break;
+                    default:
+                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
+                if (i != null)
+                    startActivity(i);
+                return true;
+            }
+        });
+        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+        username.setText(Utils.getUserName());
+
+        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
+        if (Utils.getUserPermission() == 2)
+            grade.setText(Utils.getLehrerKuerzel());
+        else
+            grade.setText(Utils.getUserStufe());
+
+        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+        mood.setImageResource(Utils.getCurrentMoodRessource());
+    }
+
+    private void initCardViews() {
+
+        findViewById(R.id.buttonCardView0).setOnClickListener(this);
+        findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
+
+        TextView version = (TextView) findViewById(R.id.versioncode_maincard);
+        version.setText(Utils.getAppVersionName());
+
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
+        mAdapter = new CardAdapter();
+
+        boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
+
+        RecyclerView.LayoutManager mLayoutManager = quickLayout
+
+                ?
+
+                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                }
+
+                :
+
+                new LinearLayoutManager(getApplicationContext()) {
+                    @Override
+                    public boolean canScrollVertically() {
+                        return false;
+                    }
+                };
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(quickLayout ?
+                ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if (!editing) return 0;
+
+                boolean quick = Start.pref.getBoolean("pref_key_card_config_quick", false);
+                return makeMovementFlags(quick ? ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                int fromPos = viewHolder.getAdapterPosition();
+                int toPos = target.getAdapterPosition();
+
+                mAdapter.cards.toIndex(fromPos);
+                Card current = mAdapter.cards.getContent();
+
+                mAdapter.cards.remove();
+                mAdapter.cards.toIndex(toPos);
+                mAdapter.cards.insertBefore(current);
+
+                mAdapter.notifyDataSetChanged();
+
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                mAdapter.cards.toIndex(viewHolder.getLayoutPosition());
+                mAdapter.cards.remove();
+                mAdapter.notifyDataSetChanged();
+
+            }
+
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        mRecyclerView.setLayoutManager(editing ? mLayoutManager : mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+    private void writeToPreferences() {
+
+        StringBuilder b = new StringBuilder("");
+        if (mAdapter.cards.size() > 0) {
+            for (mAdapter.cards.toFirst(); mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
+                if (b.length() > 0)
+                    b.append(";");
+                b.append(mAdapter.cards.getContent().type.toString());
+            }
+        } else {
+            b.append("");
+        }
+
+        SharedPreferences.Editor e = Start.pref.edit();
+        e.putString("pref_key_card_config", b.toString());
+        e.apply();
+
+    }
+
+    private void startCamera(AlertDialog b) {
+        b.dismiss();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            Log.d("LeoApp", "No permission. Checking");
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_USE_CAMERA);
+            Log.d("LeoApp", "No permission. Checked");
+        } else {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+            scV = new ZXingScannerView(getApplicationContext());
+            setContentView(scV);
+            scV.setResultHandler(this);
+            scV.startCamera(0);
+            runningScan = true;
+        }
+    }
+
     private boolean isValid(String s) {
         String[] parts = s.split("-");
         if (parts.length != 3)
@@ -657,21 +661,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return birthyear >= 0 && getChecksum(parts[0], priority, birthyear).equals(parts[2]);
     }
 
-    private String getChecksum(String username, int priority, int birthyear) {
-        Calendar c = new GregorianCalendar();
-        c.setTime(new Date());
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH) + 1;
-        int day = c.get(Calendar.DAY_OF_MONTH);
-
-        int numericName = toInt(username.substring(0, 3));
-        int numericLastName = toInt(username.substring(3, 6));
-
-        long checksum = (long) (Long.valueOf((int) (Math.pow(year, 2)) + "" + (int) (Math.pow(day, 2)) + "" + (int) (Math.pow(month, 2))) * username.length() * Math.cos(birthyear) + priority * (numericName - numericLastName));
-
-        return Long.toHexString(checksum);
-    }
-
     private int toInt(String s) {
         int result = 0, i, count = 1;
         String regex = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -686,8 +675,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return result;
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
+    private String getChecksum(String username, int priority, int birthyear) {
+        Calendar c = new GregorianCalendar();
+        c.setTime(new Date());
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        int numericName = toInt(username.substring(0, 3));
+        int numericLastName = toInt(username.substring(3, 6));
+
+        long checksum = (long) (Long.valueOf((int) (Math.pow(year, 2)) + "" + (int) (Math.pow(day, 2)) + "" + (int) (Math.pow(month, 2))) * username.length() * Math.cos(birthyear) + priority * (numericName - numericLastName));
+
+        return Long.toHexString(checksum);
     }
 }
