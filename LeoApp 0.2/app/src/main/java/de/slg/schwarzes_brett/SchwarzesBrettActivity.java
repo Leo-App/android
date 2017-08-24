@@ -158,6 +158,8 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
                 int remoteID = getRemoteId(groupPosition);
 
+                Log.wtf("LeoApp", "Remoteid: "+remoteID);
+
                 if(!Utils.isVerified() || Utils.getUserPermission() != 1 || Utils.messageAlreadySeen(remoteID))
                     return false;
 
@@ -191,10 +193,18 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         if(dbh == null)
             dbh = db.getReadableDatabase();
 
-        Cursor cursor = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " + SQLiteConnector.EINTRAEGE_ID + " = " + (position+1), null);
+        String stufe = Utils.getUserStufe();
+
+        Cursor cursor = !stufe.equals("") ?
+                dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'" , null)
+                :
+                dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
+
         cursor.moveToFirst();
 
-        if(cursor.getCount() == 0)
+        cursor.moveToPosition(position);
+
+        if(cursor.getCount() < position)
             return -1;
 
         int ret = cursor.getInt(0);
