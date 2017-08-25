@@ -87,9 +87,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
 
-        <activity
-            android:name="de.slg.klausurplan.KlausurActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name="de.slg.klausurplan.KlausurplanActivity"
             android:screenOrientation="portrait"

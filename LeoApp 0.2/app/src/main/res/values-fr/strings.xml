@@ -270,4 +270,7 @@
     <string name="button_add">Ajouter</string>
     <string name="add_card">Ajouter une carte</string>
     <string name="card_title_weather">Temps actuel</string>
+    <string name="snackbar_date_invalid">Date invalide</string>
+    <string name="snackbar_missing_title">Veulliez ajouter une matière</string>
+    <string name="discard">Annuler</string>
 </resources>

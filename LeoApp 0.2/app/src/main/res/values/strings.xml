@@ -266,5 +266,8 @@
     <string name="feature_request">Explain your proposition</string>
     <string name="feature_request_title">Feature idea</string>
     <string name="cards_quick">Quick access</string>
+    <string name="snackbar_date_invalid">Date is invalid</string>
+    <string name="snackbar_missing_title">Please add a subject</string>
+    <string name="discard">Discard</string>
 
 </resources>

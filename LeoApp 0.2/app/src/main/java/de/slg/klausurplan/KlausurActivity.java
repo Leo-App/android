@@ -1,15 +1,21 @@
 package de.slg.klausurplan;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,48 +24,92 @@ import java.util.GregorianCalendar;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
-public class KlausurActivity extends AppCompatActivity {
 
+class KlausurActivity extends AlertDialog {
+
+    private static final int INPUT_METHOD_SERVICE = 1;
     static Klausur currentKlausur;
     private EditText eingabeFach;
     private EditText eingabeDatum;
     private EditText eingabeNotiz;
-    private EditText eingabeNote;
-    private Snackbar snackbar;
+
+    private Button buttonDel;
+    //  private EditText eingabeNote;
+    private Snackbar snackbarDate;
+    private Snackbar snackbarTitle;
+
+    KlausurActivity(@NonNull Context context) {
+        super(context);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstancesState) {
+    public void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_klausur);
 
-        initToolbar();
         initEditTexts();
-        initSnackbar();
+        initButtons();
+        initSnackbarTitel();
+        initSnackbarDatum();
+
+        findViewById(R.id.buttonExamDel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                klausurLöschen();
+                dismiss();
+            }
+        });
+
+        findViewById(R.id.buttonExamDis).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+        findViewById(R.id.buttonExamSave).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(eingabeFach.getWindowToken(), 0);
+                if (currentKlausur != null) {
+                    if (eingabeFach.getText().length() == 0) {
+                        snackbarTitle.show();
+                    } else if (eingabeDatum.getText().length() < 8 || !istDatumFormat(eingabeDatum.getText().toString())) {
+                        snackbarDate.show();
+                    } else {
+                        klausurSpeichern();
+                        dismiss();
+                    }
+
+                }
+            }
+        });
+
+
     }
 
-    @Override
+  /*  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.klausur, menu);
         return true;
-    }
+    }*/
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(eingabeFach.getWindowToken(), 0);
-        if (item.getItemId() == R.id.action_save && currentKlausur != null) {
-            if (eingabeFach.getText().length() == 0 || eingabeDatum.getText().length() < 8 || !istDatumFormat(eingabeDatum.getText().toString())) {
-                snackbar.show();
-                return false;
-            }
-            klausurSpeichern();
-        } else if (item.getItemId() == R.id.action_delete) {
-            klausurLöschen();
-        }
-        onBackPressed();
-        return true;
-    }
-
-    private void initToolbar() {
+    /*   @Override
+       public boolean onOptionsItemSelected(MenuItem item) {
+           ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(eingabeFach.getWindowToken(), 0);
+           if (item.getItemId() == R.id.action_save && currentKlausur != null) {
+               if (eingabeFach.getText().length() == 0 || eingabeDatum.getText().length() < 8 || !istDatumFormat(eingabeDatum.getText().toString())) {
+                   snackbar.show();
+                   return false;
+               }
+               klausurSpeichern();
+           } else if (item.getItemId() == R.id.action_delete) {
+               klausurLöschen();
+           }
+           onBackPressed();
+           return true;
+       }
+   */
+   /* private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(getString(R.string.title_activity));
@@ -68,35 +118,51 @@ public class KlausurActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }
-
-    private void initSnackbar() {
-        snackbar = Snackbar.make(findViewById(R.id.snack), getString(R.string.snackbar_ungültig), Snackbar.LENGTH_LONG);
-        snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
-        snackbar.setAction(getString(R.string.dismiss), new View.OnClickListener() {
+*/
+    private void initSnackbarTitel() {
+        snackbarTitle = Snackbar.make(findViewById(R.id.snack), getContext().getString(R.string.snackbar_missing_title), Snackbar.LENGTH_LONG);
+        snackbarTitle.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        snackbarTitle.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                snackbar.dismiss();
+                snackbarTitle.dismiss();
             }
         });
+    }
+
+    private void initSnackbarDatum() {
+        snackbarDate = Snackbar.make(findViewById(R.id.snack), getContext().getString(R.string.snackbar_date_invalid), Snackbar.LENGTH_LONG);
+        snackbarDate.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+        snackbarDate.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbarDate.dismiss();
+            }
+        });
+    }
+
+    private void initButtons() {
+        if (!currentKlausur.getFach().equals("")) {
+            buttonDel = (Button) findViewById(R.id.buttonExamDel);
+            buttonDel.setEnabled(true);
+        }
     }
 
     private void initEditTexts() {
         eingabeFach = (EditText) findViewById(R.id.eingabeFach);
         eingabeDatum = (EditText) findViewById(R.id.eingabeDatum);
         eingabeNotiz = (EditText) findViewById(R.id.eingabeNotiz);
-        eingabeNote = (EditText) findViewById(R.id.eingabeNote);
         if (currentKlausur != null) {
             eingabeFach.setText(currentKlausur.getFach());
             eingabeDatum.setText(currentKlausur.getDatum(false));
             eingabeNotiz.setText(currentKlausur.getNotiz());
-            eingabeNote.setText(currentKlausur.getNote());
         }
     }
 
     private void klausurSpeichern() {
         currentKlausur.setDatum(getDate(eingabeDatum.getText().toString()));
         currentKlausur.setNotiz(eingabeNotiz.getText().toString());
-        currentKlausur.setNote(eingabeNote.getText().toString());
+        //   currentKlausur.setNote(eingabeNote.getText().toString());
         if (currentKlausur.getFach().equals("")) {
             currentKlausur.setFach(eingabeFach.getText().toString());
             Utils.getKlausurplanActivity().add(currentKlausur, true);

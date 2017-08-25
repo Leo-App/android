@@ -1,113 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/snack"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/AlertDialog.AppCompat">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/title_activity"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <TextView
+        android:id="@+id/textView9"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1"
-        app:theme="@style/AppTheme">
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/eingabeFach"
+        android:layout_alignStart="@+id/eingabeFach"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/textView"
+        android:text="@string/subject"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorText" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+    <EditText
+        android:id="@+id/eingabeFach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView9"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:inputType="textCapWords" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/subject"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorText" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/date"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorText"
+        android:layout_below="@+id/eingabeFach"
+        android:layout_alignLeft="@+id/eingabeFach"
+        android:layout_alignStart="@+id/eingabeFach"
+        android:layout_marginTop="20dp"
+        android:layout_alignRight="@+id/eingabeFach"
+        android:layout_alignEnd="@+id/eingabeFach" />
 
-        <EditText
-            android:id="@+id/eingabeFach"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:inputType="textCapWords"
-            android:maxLines="1" />
+    <EditText
+        android:id="@+id/eingabeDatum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="@string/date_format"
+        android:inputType="date"
+        android:maxLength="8"
+        android:text=""
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/textView2"
+        android:layout_toLeftOf="@+id/imageButton"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/date"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorText" />
+    <ImageButton
+        android:id="@+id/imageButton"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/eingabeFach"
+        android:layout_alignRight="@+id/eingabeFach"
+        android:layout_alignTop="@+id/eingabeDatum"
+        android:background="@android:color/transparent"
+        android:tint="@android:color/black"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_event_note_white_24dp"
+        android:layout_alignBottom="@+id/eingabeDatum"
+        android:layout_toRightOf="@+id/buttonExamDis"
+        android:layout_toEndOf="@+id/buttonExamDis" />
 
-        <EditText
-            android:id="@+id/eingabeDatum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="@string/date_format"
-            android:inputType="date"
-            android:maxLength="8"
-            android:maxLines="1" />
+    <TextView
+        android:id="@+id/textViewMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/note"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorText"
+        android:layout_below="@+id/eingabeDatum"
+        android:layout_alignLeft="@+id/eingabeDatum"
+        android:layout_alignStart="@+id/eingabeDatum"
+        android:layout_marginTop="20dp"
+        android:layout_alignRight="@+id/imageButton"
+        android:layout_alignEnd="@+id/imageButton" />
 
-        <TextView
-            android:id="@+id/textViewMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/note"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorText" />
 
-        <EditText
-            android:id="@+id/eingabeNotiz"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:inputType="textMultiLine|textCapSentences" />
+    <EditText
+        android:id="@+id/eingabeNotiz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textViewMenu"
+        android:layout_alignLeft="@+id/textViewMenu"
+        android:layout_alignRight="@+id/textViewMenu"
+        android:layout_alignStart="@+id/textViewMenu"
+        android:layout_below="@+id/textViewMenu"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:inputType="textMultiLine|textCapSentences" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/grade"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorText" />
+    <Button
+        android:id="@+id/buttonExamSave"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
 
-        <EditText
-            android:id="@+id/eingabeNote"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:inputType="number"
-            android:maxLines="1" />
+        android:text="@string/speichern"
+        android:textAllCaps="true"
+        android:layout_below="@+id/eingabeNotiz"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2" />
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/buttonExamDis"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonExamSave"
+        android:layout_alignBottom="@+id/buttonExamSave"
+        android:layout_toLeftOf="@+id/buttonExamSave"
+        android:layout_toStartOf="@+id/buttonExamSave"
+        android:text="@string/discard"
+        android:textAllCaps="true" />
 
-</android.support.design.widget.CoordinatorLayout>
+    <Button
+        android:id="@+id/buttonExamDel"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_delete"
+        android:textAllCaps="true"
+        android:enabled="false"
+        android:layout_alignBaseline="@+id/buttonExamDis"
+        android:layout_alignBottom="@+id/buttonExamDis"
+        android:layout_toLeftOf="@+id/buttonExamDis"
+
+        />
+
+
+</RelativeLayout>
