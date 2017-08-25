@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -42,11 +43,18 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView textView = (TextView) convertView.findViewById(R.id.textView);
         textView.setText((String) getGroup(groupPosition));
 
+        TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
+        textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
+
         if(views != null) {
             TextView textViewViews = (TextView) convertView.findViewById(R.id.textViewViews);
             textViewViews.setVisibility(View.VISIBLE);
             String viewString = views.get(groupPosition) > 999 ? "999+" : String.valueOf(views.get(groupPosition));
             textViewViews.setText(viewString);
+        } else {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)textViewStufe.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            textViewStufe.setLayoutParams(params);
         }
 
         return convertView;
@@ -54,11 +62,15 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        if (convertView == null)
+        if (!isLastChild) {
             convertView = inflater.inflate(R.layout.list_item_expandable_child, null);
-
-        TextView textView = (TextView) convertView.findViewById(R.id.textView);
-        textView.setText((String) getChild(groupPosition, childPosition));
+            TextView textView = (TextView) convertView.findViewById(R.id.textView);
+            textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
+        } else {
+            convertView = inflater.inflate(R.layout.list_item_expandable_child_alt, null);
+            TextView textViewDate = (TextView) convertView.findViewById(R.id.textViewDate);
+            textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
+        }
         return convertView;
     }
 
@@ -69,7 +81,7 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return eintraege.get(titel.get(groupPosition)).size();
+        return eintraege.get(titel.get(groupPosition)).size()-1;
     }
 
     @Override

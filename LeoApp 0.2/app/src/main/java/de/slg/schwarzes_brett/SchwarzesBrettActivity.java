@@ -3,6 +3,7 @@ package de.slg.schwarzes_brett;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -191,10 +192,17 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         if(dbh == null)
             dbh = db.getReadableDatabase();
 
-        Cursor cursor = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " + SQLiteConnector.EINTRAEGE_ID + " = " + (position+1), null);
-        cursor.moveToFirst();
+        String stufe = Utils.getUserStufe();
 
-        if(cursor.getCount() == 0)
+        Cursor cursor = !stufe.equals("") ?
+                dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " +
+                        " " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'" , null)
+                :
+                dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
+
+        cursor.moveToPosition(position);
+
+        if(cursor.getCount() < position)
             return -1;
 
         int ret = cursor.getInt(0);
@@ -260,11 +268,11 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             groupList.add(cursor.getString(1));
             Date erstelldatum = new Date(cursor.getLong(3));
             Date ablaufdatum = new Date(cursor.getLong(4));
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
             String[] children = {cursor.getString(0),
                     cursor.getString(2),
-                    "Gültig vom " + simpleDateFormat.format(erstelldatum) +
-                            " bis zum " + simpleDateFormat.format(ablaufdatum)};
+                    simpleDateFormat.format(erstelldatum) +
+                            " - " + simpleDateFormat.format(ablaufdatum)};
             loadChildren(children);
             schwarzesBrett.put(cursor.getString(1), childList);
         }

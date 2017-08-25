@@ -103,7 +103,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     private void initNotificationPreference() {
 
-
         if (pref.getBoolean("pref_key_notification_essensqr", false) && pref.getBoolean("pref_key_notification_test", false)
                 && pref.getBoolean("pref_key_notification_messenger", false)
                 && pref.getBoolean("pref_key_notification_news", false)

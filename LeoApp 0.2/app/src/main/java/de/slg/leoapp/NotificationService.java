@@ -40,10 +40,11 @@ public class NotificationService extends Service {
     private static short hoursSB, minutesSB;
     private NotificationManager notificationManager;
     private Bitmap icon;
+    private boolean sentQR, sentTT, sentTP, sentSB;
     private boolean running;
 
     public static void getTimes() {
-        String qr = Start.pref.getString("pref_key_notification_time", "00:00");
+        String qr = Start.pref.getString("pref_key_notification_time_foodmarks", "00:00");
         hoursQR = Short.parseShort(qr.split(":")[0]);
         minutesQR = Short.parseShort(qr.split(":")[1]);
 
@@ -93,20 +94,32 @@ public class NotificationService extends Service {
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(d);
 
-        if (c.get(Calendar.HOUR_OF_DAY) == hoursTT && c.get(Calendar.MINUTE) == minutesTT) {
+        if (!sentTT && c.get(Calendar.HOUR_OF_DAY) == hoursTT && c.get(Calendar.MINUTE) == minutesTT) {
             stundenplanNotification();
+            sentTT = true;
+        } else {
+            sentTT = false;
         }
 
-        if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursQR && c.get(Calendar.MINUTE) == minutesQR) {
+        if (!sentQR && c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursQR && c.get(Calendar.MINUTE) == minutesQR) {
             checkEssensqr();
+            sentQR = true;
+        } else {
+            sentQR = false;
         }
 
         if (c.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursTP && c.get(Calendar.MINUTE) == minutesTP) {
             klausurplanNotification();
+            sentTP = true;
+        } else {
+            sentTP = false;
         }
 
         if (c.get(Calendar.HOUR_OF_DAY) == hoursSB && c.get(Calendar.MINUTE) == minutesSB) {
             stimmungsbarometernotification();
+            sentSB = true;
+        } else {
+            sentSB = false;
         }
     }
 

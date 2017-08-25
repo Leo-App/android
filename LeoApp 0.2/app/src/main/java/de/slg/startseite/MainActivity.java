@@ -406,34 +406,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.show();
     }
 
-    public void addCard(CardType t) {
-
-        mAdapter.addToList(t);
-        mAdapter.notifyDataSetChanged();
-
-        //TODO: Scroll to new Position
-
-    }
-
-    private void synchronizeUsername() {
-        new SyncTaskName().execute();
-    }
-
-    private void synchronizeGrade() {
-        new SyncTaskGrade().execute();
-    }
-
-    private void initToolbar() {
-        Toolbar t = (Toolbar) findViewById(R.id.toolbar);
-        t.setTitleTextColor(Color.WHITE);
-        t.setTitle(getString(R.string.title_home));
-        setSupportActionBar(t);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void initNavigationView() {
+    void initNavigationView() {
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
@@ -501,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
-    private void initCardViews() {
+    void initCardViews() {
 
         findViewById(R.id.buttonCardView0).setOnClickListener(this);
         findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
@@ -580,6 +553,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+
+    private void initToolbar() {
+        Toolbar t = (Toolbar) findViewById(R.id.toolbar);
+        t.setTitleTextColor(Color.WHITE);
+        t.setTitle(getString(R.string.title_home));
+        setSupportActionBar(t);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void addCard(CardType t) {
+
+        mAdapter.addToList(t);
+        mAdapter.notifyDataSetChanged();
+
+        //TODO: Scroll to new Position
+
+    }
+
+    private void synchronizeUsername() {
+        new SyncTaskName().execute();
+    }
+
+    private void synchronizeGrade() {
+        new SyncTaskGrade().execute();
     }
 
     private void writeToPreferences() {

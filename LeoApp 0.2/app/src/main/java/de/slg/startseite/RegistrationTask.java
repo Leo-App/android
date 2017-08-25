@@ -128,6 +128,9 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             MainActivity.verify.setVisibility(View.VISIBLE);
             MainActivity.dismiss.setVisibility(View.GONE);
 
+            Utils.getMainActivity().initCardViews();
+            Utils.getMainActivity().initNavigationView();
+
         } else {
 
             if (!connection) {
