@@ -142,7 +142,7 @@
     <string name="zeit">Temps</string>
     <string name="raum">Salle</string>
     <string name="lehrer">Professeur</string>
-    <string name="schriftlich">Écrit</string>
+    <string name="schriftlich">Examens écrits</string>
     <string name="notizen">Notes</string>
 
 
@@ -273,4 +273,5 @@
     <string name="snackbar_date_invalid">Date invalide</string>
     <string name="snackbar_missing_title">Veulliez ajouter une matière</string>
     <string name="discard">Annuler</string>
+    <string name="free_hour">Heure creuse</string>
 </resources>

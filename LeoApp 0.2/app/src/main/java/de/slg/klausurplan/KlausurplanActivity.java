@@ -189,7 +189,6 @@ public class KlausurplanActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KlausurActivity.currentKlausur = klausurList.getObjectAt(position);
-                //startActivity(new Intent(getApplicationContext(), KlausurActivity.class));
                 KlausurActivity klausurDialog = new KlausurActivity(KlausurplanActivity.this);
                 klausurDialog.show();
                 klausurDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);

@@ -184,7 +184,7 @@
     <string name="zeit">Time</string>
     <string name="raum">Room</string>
     <string name="lehrer">Teacher</string>
-    <string name="schriftlich">Written</string>
+    <string name="schriftlich">Written exams</string>
     <string name="notizen">Notes</string>
     <string name="mache_bild">Print</string>
     <string name="seconds">Seconds</string>
@@ -269,5 +269,6 @@
     <string name="snackbar_date_invalid">Date is invalid</string>
     <string name="snackbar_missing_title">Please add a subject</string>
     <string name="discard">Discard</string>
+    <string name="free_hour">Free period</string>
 
 </resources>

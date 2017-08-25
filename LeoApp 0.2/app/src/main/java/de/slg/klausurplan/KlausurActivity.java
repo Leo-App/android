@@ -27,14 +27,12 @@ import de.slg.leoapp.Utils;
 
 class KlausurActivity extends AlertDialog {
 
-    private static final int INPUT_METHOD_SERVICE = 1;
-    static Klausur currentKlausur;
+      static Klausur currentKlausur;
     private EditText eingabeFach;
     private EditText eingabeDatum;
     private EditText eingabeNotiz;
 
     private Button buttonDel;
-    //  private EditText eingabeNote;
     private Snackbar snackbarDate;
     private Snackbar snackbarTitle;
 
@@ -87,38 +85,6 @@ class KlausurActivity extends AlertDialog {
 
     }
 
-  /*  @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.klausur, menu);
-        return true;
-    }*/
-
-    /*   @Override
-       public boolean onOptionsItemSelected(MenuItem item) {
-           ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(eingabeFach.getWindowToken(), 0);
-           if (item.getItemId() == R.id.action_save && currentKlausur != null) {
-               if (eingabeFach.getText().length() == 0 || eingabeDatum.getText().length() < 8 || !istDatumFormat(eingabeDatum.getText().toString())) {
-                   snackbar.show();
-                   return false;
-               }
-               klausurSpeichern();
-           } else if (item.getItemId() == R.id.action_delete) {
-               klausurLöschen();
-           }
-           onBackPressed();
-           return true;
-       }
-   */
-   /* private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        toolbar.setTitle(getString(R.string.title_activity));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
-*/
     private void initSnackbarTitel() {
         snackbarTitle = Snackbar.make(findViewById(R.id.snack), getContext().getString(R.string.snackbar_missing_title), Snackbar.LENGTH_LONG);
         snackbarTitle.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
@@ -162,7 +128,6 @@ class KlausurActivity extends AlertDialog {
     private void klausurSpeichern() {
         currentKlausur.setDatum(getDate(eingabeDatum.getText().toString()));
         currentKlausur.setNotiz(eingabeNotiz.getText().toString());
-        //   currentKlausur.setNote(eingabeNote.getText().toString());
         if (currentKlausur.getFach().equals("")) {
             currentKlausur.setFach(eingabeFach.getText().toString());
             Utils.getKlausurplanActivity().add(currentKlausur, true);

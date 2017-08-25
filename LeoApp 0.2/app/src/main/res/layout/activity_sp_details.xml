@@ -4,30 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <TextView
+        android:id="@+id/title_details"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/zeit"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        android:layout_below="@+id/title_details"
+        android:layout_marginTop="15dp"
+        android:layout_alignLeft="@+id/title_details"
+        android:layout_alignStart="@+id/title_details"
+        android:layout_alignRight="@+id/title_details"
+        android:layout_alignEnd="@+id/title_details" />
 
     <TextView
         android:id="@+id/uhrzeit_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
-        android:text="Zeiten"
-        android:textColor="@color/colorText"
-        android:textSize="18sp" />
+        android:layout_alignEnd="@+id/time"
+        android:layout_alignLeft="@+id/time"
+        android:layout_alignRight="@+id/time"
+        android:layout_alignStart="@+id/time"
+        android:layout_below="@+id/time"
+        android:text="Zeiten" />
 
     <TextView
         android:id="@+id/raum_details"
@@ -36,7 +49,7 @@
         android:layout_alignLeft="@+id/uhrzeit_details"
         android:layout_alignStart="@+id/uhrzeit_details"
         android:layout_below="@+id/uhrzeit_details"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:text="@string/raum"
         android:textColor="@color/colorText"
         android:textSize="18sp" />
@@ -45,69 +58,96 @@
         android:id="@+id/raumnr_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/raum_details"
-        android:layout_alignEnd="@+id/uhrzeit_details"
-        android:layout_alignRight="@+id/uhrzeit_details"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp"
-        android:layout_toRightOf="@+id/raum_details"
-        android:text="00000"
-        android:textColor="@color/colorText"
-        android:textSize="18sp" />
+        android:layout_alignLeft="@+id/raum_details"
+        android:layout_alignStart="@+id/raum_details"
+        android:layout_below="@+id/raum_details"
+        android:layout_toLeftOf="@+id/lehrer_details"
+        android:layout_toStartOf="@+id/lehrer_details"
+        android:text="00000" />
 
     <TextView
         android:id="@+id/lehrer_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/raum_details"
-        android:layout_alignStart="@+id/raum_details"
-        android:layout_below="@+id/raum_details"
-        android:layout_marginTop="12dp"
         android:text="@string/lehrer"
         android:textColor="@color/colorText"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_marginRight="73dp"
+        android:layout_marginEnd="73dp"
+        android:layout_above="@+id/raumnr_details"
+        android:layout_alignRight="@+id/uhrzeit_details"
+        android:layout_alignEnd="@+id/uhrzeit_details" />
 
     <TextView
         android:id="@+id/lehrerK_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/lehrer_details"
-        android:layout_alignEnd="@+id/raumnr_details"
-        android:layout_alignLeft="@+id/raumnr_details"
-        android:layout_alignRight="@+id/raumnr_details"
-        android:layout_alignStart="@+id/raumnr_details"
+        android:layout_alignLeft="@+id/lehrer_details"
+        android:layout_alignStart="@+id/lehrer_details"
+        android:layout_below="@+id/lehrer_details"
         android:text="XXX"
-        android:textColor="@color/colorText"
-        android:textSize="18sp" />
+        android:layout_alignRight="@+id/uhrzeit_details"
+        android:layout_alignEnd="@+id/uhrzeit_details" />
 
     <CheckBox
         android:id="@+id/checkBox_schriftlich"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/lehrerK_details"
-        android:layout_alignLeft="@+id/lehrer_details"
-        android:layout_alignRight="@+id/lehrerK_details"
-        android:layout_alignStart="@+id/lehrer_details"
-        android:layout_below="@+id/lehrer_details"
-        android:layout_marginTop="20dp"
         android:buttonTint="@color/colorAccent"
         android:text="@string/schriftlich"
         android:textColor="@color/colorText"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_toRightOf="@+id/notizFeld_details"
+        android:layout_toEndOf="@+id/notizFeld_details"
+        android:layout_above="@+id/buttonSav" />
 
     <EditText
         android:id="@+id/notizFeld_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/checkBox_schriftlich"
-        android:layout_alignLeft="@+id/checkBox_schriftlich"
-        android:layout_alignRight="@+id/checkBox_schriftlich"
-        android:layout_alignStart="@+id/checkBox_schriftlich"
-        android:layout_below="@+id/checkBox_schriftlich"
-        android:layout_marginTop="22dp"
+        android:layout_alignLeft="@+id/notes"
+        android:layout_alignStart="@+id/notes"
+        android:layout_below="@+id/notes"
+        android:layout_toLeftOf="@id/lehrerK_details"
+        android:layout_toStartOf="@+id/lehrerK_details"
         android:ems="10"
-        android:hint="@string/notizen"
         android:inputType="textCapSentences"
         android:textColor="@color/colorText" />
+
+    <Button
+        android:id="@+id/buttonSav"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/speichern"
+        android:textAllCaps="true"
+        android:layout_below="@+id/notizFeld_details"
+        android:layout_alignRight="@+id/lehrerK_details"
+        android:layout_alignEnd="@+id/lehrerK_details" />
+
+    <Button
+        android:id="@+id/buttonDis"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_alignBaseline="@+id/buttonSav"
+        android:layout_alignBottom="@+id/buttonSav"
+        android:layout_toLeftOf="@+id/buttonSav"
+        android:layout_toStartOf="@+id/buttonSav"
+        android:text="@string/discard"
+        android:textAllCaps="true" />
+
+    <TextView
+        android:id="@+id/notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/raumnr_details"
+        android:layout_alignStart="@+id/raumnr_details"
+        android:layout_below="@+id/raumnr_details"
+        android:layout_marginTop="20dp"
+        android:text="@string/notizen"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
 </RelativeLayout>

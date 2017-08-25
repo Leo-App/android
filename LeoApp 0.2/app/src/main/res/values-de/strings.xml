@@ -291,5 +291,6 @@
     <string name="snackbar_date_invalid">Datum ist nicht gültig</string>
     <string name="snackbar_missing_title">Bitte ein Fach hinzufügen</string>
     <string name="discard">Verwerfen</string>
+    <string name="free_hour">Freistunde</string>
 
 </resources>

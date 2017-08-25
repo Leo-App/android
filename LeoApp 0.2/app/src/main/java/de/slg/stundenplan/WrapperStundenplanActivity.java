@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -213,6 +214,9 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
         private int tag;
         private ListView listView;
 
+        public WochentagFragment(){
+
+        }
         @Override
         public View onCreateView(LayoutInflater layIn, ViewGroup container, Bundle savedInstanceState) {
             if (root == null) {
@@ -227,9 +231,14 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
                             fachArray[position] = Utils.getStundDB().getFach(tag, position + 1);
                             view.invalidate();
                         }
-                        startActivity(new Intent(getContext(), DetailsActivity.class)
-                                .putExtra("tag", tag)
-                                .putExtra("stunde", position + 1));
+                        DetailsActivity dialog = new DetailsActivity(getActivity());
+                        dialog.show();
+                        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                        dialog.init(Utils.getStundDB().getFach(tag, position+1));
+                        //startActivity(new Intent(getContext(), DetailsActivity.class)
+                        //        .putExtra("tag", tag)
+                        //        .putExtra("stunde", position + 1));
                     }
                 });
             }
