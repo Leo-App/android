@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -50,6 +51,10 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
             textViewViews.setVisibility(View.VISIBLE);
             String viewString = views.get(groupPosition) > 999 ? "999+" : String.valueOf(views.get(groupPosition));
             textViewViews.setText(viewString);
+        } else {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)textViewStufe.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            textViewStufe.setLayoutParams(params);
         }
 
         return convertView;
