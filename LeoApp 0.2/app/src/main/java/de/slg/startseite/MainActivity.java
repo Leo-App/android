@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
+                    ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+                    mood.setImageResource(Utils.getCurrentMoodRessource());
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {

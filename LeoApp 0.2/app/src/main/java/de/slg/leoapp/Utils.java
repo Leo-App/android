@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -79,7 +78,7 @@ public abstract class Utils {
                 .apply();
     }
 
-    public static long getLatestSchwarzesBrettDate() {
+    static long getLatestSchwarzesBrettDate() {
         return Start.pref.getLong("pref_key_general_last_notification_schwarzes_brett", 0);
     }
 

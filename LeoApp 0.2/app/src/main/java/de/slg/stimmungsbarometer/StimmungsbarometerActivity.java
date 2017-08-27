@@ -54,7 +54,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stimmungsbarometer);
 
-        drawI = true;
+        drawI = Utils.isVerified();
         drawS = true;
         drawL = true;
         drawA = true;
@@ -76,13 +76,17 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         final View lL = findViewById(R.id.layoutLehrer);
         final View lA = findViewById(R.id.layoutAlle);
 
+        lI.findViewById(R.id.textViewIch).setEnabled(drawI);
+        lI.findViewById(R.id.imageViewIch).setEnabled(drawI);
         lI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawI = !drawI;
-                v.findViewById(R.id.textViewIch).setEnabled(drawI);
-                v.findViewById(R.id.imageViewIch).setEnabled(drawI);
-                updateFragments(false);
+                if (Utils.isVerified()) {
+                    drawI = !drawI;
+                    v.findViewById(R.id.textViewIch).setEnabled(drawI);
+                    v.findViewById(R.id.imageViewIch).setEnabled(drawI);
+                    updateFragments(false);
+                }
             }
         });
         lS.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +143,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
             }
         });
         tabLayout.setupWithViewPager(viewPager);
+        // TODO String-Ressource
         tabLayout.getTabAt(0).setText("Letzte Woche");
         tabLayout.getTabAt(1).setText("Letzter Monat");
         tabLayout.getTabAt(2).setText("Letztes Jahr");
@@ -227,13 +232,6 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     private class StartTask extends AsyncTask<Void, Void, Void> {
         private String[] splitI, splitS, splitL, splitA;
 
-        StartTask() {
-            splitI = new String[0];
-            splitS = new String[0];
-            splitL = new String[0];
-            splitA = new String[0];
-        }
-
         @Override
         protected void onPreExecute() {
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
@@ -259,14 +257,10 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                         builder.append(line);
                     String[] e = builder.toString().split("_abschnitt_");
                     reader.close();
-                    if (!e[0].equals("."))
-                        splitI = e[0].split("_next_");
-                    if (!e[1].equals("."))
-                        splitS = e[1].split("_next_");
-                    if (!e[2].equals("."))
-                        splitL = e[2].split("_next_");
-                    if (!e[3].equals("."))
-                        splitA = e[3].split("_next_");
+                    splitI = e[0].split("_next_");
+                    splitS = e[1].split("_next_");
+                    splitL = e[2].split("_next_");
+                    splitA = e[3].split("_next_");
 
                     Ergebnis[][] ergebnisse = new Ergebnis[4][];
                     ergebnisse[0] = new Ergebnis[splitI.length];

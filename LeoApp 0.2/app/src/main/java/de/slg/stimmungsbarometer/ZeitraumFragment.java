@@ -226,9 +226,13 @@ public class ZeitraumFragment extends Fragment {
             bitmapAlle = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvasAlle.setBitmap(bitmapAlle);
 
-            drawPoints();
-            drawGraphs();
-            recreateCharts = false;
+            if (data == null) {
+                recreateCharts = true;
+            } else {
+                drawPoints();
+                drawGraphs();
+                recreateCharts = false;
+            }
         }
 
         private void drawBackground() {
