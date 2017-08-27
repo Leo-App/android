@@ -18,6 +18,11 @@ import java.util.GregorianCalendar;
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 
+import static de.slg.stimmungsbarometer.StimmungsbarometerActivity.drawA;
+import static de.slg.stimmungsbarometer.StimmungsbarometerActivity.drawI;
+import static de.slg.stimmungsbarometer.StimmungsbarometerActivity.drawL;
+import static de.slg.stimmungsbarometer.StimmungsbarometerActivity.drawS;
+
 public class ZeitraumFragment extends Fragment {
     private static Bitmap bitmapBack;
     int zeitraum;
@@ -140,8 +145,8 @@ public class ZeitraumFragment extends Fragment {
 
     void update(boolean recreateCharts) {
         if (view != null) {
-            view.invalidate();
             view.recreateCharts = recreateCharts;
+            view.invalidate();
         }
     }
 
@@ -174,18 +179,10 @@ public class ZeitraumFragment extends Fragment {
 
             canvas.drawBitmap(bitmapBack, 0, 0, paint);
 
-            if (StimmungsbarometerActivity.drawI) {
-                canvas.drawBitmap(bitmapIch, 0, 0, paint);
-            }
-            if (StimmungsbarometerActivity.drawS) {
-                canvas.drawBitmap(bitmapSchueler, 0, 0, paint);
-            }
-            if (StimmungsbarometerActivity.drawL) {
-                canvas.drawBitmap(bitmapLehrer, 0, 0, paint);
-            }
-            if (StimmungsbarometerActivity.drawA) {
-                canvas.drawBitmap(bitmapAlle, 0, 0, paint);
-            }
+            if (drawI) canvas.drawBitmap(bitmapIch, 0, 0, paint);
+            if (drawS) canvas.drawBitmap(bitmapSchueler, 0, 0, paint);
+            if (drawL) canvas.drawBitmap(bitmapLehrer, 0, 0, paint);
+            if (drawA) canvas.drawBitmap(bitmapAlle, 0, 0, paint);
         }
 
         private void init() {
@@ -219,10 +216,13 @@ public class ZeitraumFragment extends Fragment {
 
             bitmapIch = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvasIch.setBitmap(bitmapIch);
+
             bitmapSchueler = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvasSchueler.setBitmap(bitmapSchueler);
+
             bitmapLehrer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvasLehrer.setBitmap(bitmapLehrer);
+
             bitmapAlle = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvasAlle.setBitmap(bitmapAlle);
 
@@ -319,12 +319,6 @@ public class ZeitraumFragment extends Fragment {
                     previousAlle = i;
                 }
             }
-        }
-
-        @Override
-        public void invalidate() {
-            recreateCharts = true;
-            super.invalidate();
         }
     }
 }
