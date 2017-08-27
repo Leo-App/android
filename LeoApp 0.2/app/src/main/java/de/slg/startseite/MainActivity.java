@@ -2,6 +2,7 @@ package de.slg.startseite;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -53,7 +54,6 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
-import de.slg.leoapp.TutorialActivity;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
@@ -94,7 +94,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (getIntent().getBooleanExtra("show_dialog", false)) {
             abstimmDialog = new AbstimmDialog(this);
-            abstimmDialog.show();
+            abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            abstimmDialog = null;
+                        }
+                    }, 100);
+                }
+            });
         }
 
         Start.pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -173,7 +183,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
 
-        if(!runningScan) {
+        if (abstimmDialog != null)
+            abstimmDialog.show();
+
+        if (!runningScan) {
 
             TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
             username.setText(Utils.getUserName());
@@ -240,8 +253,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void finish() {
-        if (abstimmDialog != null)
+        if (abstimmDialog != null) {
             abstimmDialog.dismiss();
+        }
         super.finish();
     }
 
@@ -354,6 +368,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             scV.stopCamera();
             finish();
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        } else if (abstimmDialog != null) {
+            abstimmDialog.hide();
+            super.onPause();
         } else {
             super.onPause();
         }

@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import de.slg.startseite.MainActivity;
 
 public class Start extends Activity {
     public static SharedPreferences pref;
+
+    public static void initPref(Context context) {
+        pref = PreferenceManager.getDefaultSharedPreferences(context);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +28,11 @@ public class Start extends Activity {
         final Intent main = new Intent(getApplicationContext(), MainActivity.class)
                 .putExtra("show_dialog", Utils.showVoteOnStartup());
 
-        startService(new Intent(getApplicationContext(), ReceiveService.class));
+//        startService(new Intent(getApplicationContext(), ReceiveService.class));
         startService(new Intent(getApplicationContext(), NotificationService.class));
 
         startActivity(main);
 
         finish();
-    }
-
-    public static void initPref(Context context) {
-        pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 }

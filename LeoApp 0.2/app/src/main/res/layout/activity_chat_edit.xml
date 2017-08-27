@@ -46,8 +46,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="3dp"
-                    android:padding="2dp">
+                    android:padding="2dp"
+                    android:paddingBottom="3dp">
 
                     <ImageView
                         android:id="@+id/iconMitglieder"
@@ -61,10 +61,10 @@
                     <TextView
                         android:id="@+id/textView"
                         android:layout_width="wrap_content"
-                        android:layout_marginTop="2.5dp"
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@id/iconMitglieder"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginTop="2.5dp"
                         android:layout_toRightOf="@id/iconMitglieder"
                         android:text="Mitglieder"
                         android:textColor="@color/colorText"
@@ -131,10 +131,10 @@
                         android:layout_alignLeft="@id/textView2"
                         android:layout_below="@id/textView2"
                         android:layout_marginTop="3dp"
-                        android:paddingBottom="3dp"
                         android:layout_toRightOf="@id/iconEinstellungen"
                         android:divider="?android:attr/dividerVertical"
                         android:orientation="vertical"
+                        android:paddingBottom="3dp"
                         android:showDividers="middle">
 
                         <Switch
@@ -193,7 +193,7 @@
                             android:paddingLeft="3dp"
                             android:paddingTop="8dp"
                             android:text="@string/action_leave_chat"
-                            android:textColor="@android:color/holo_red_dark"
+                            android:textColor="@color/colorText"
                             android:textSize="18sp"
                             android:textStyle="normal" />
 
