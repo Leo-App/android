@@ -148,10 +148,10 @@
         android:layout_height="wrap_content"
         android:text="@string/action_delete"
         android:textAllCaps="true"
+        android:layout_alignLeft="@id/eingabeNotiz"
         android:enabled="false"
         android:layout_alignBaseline="@+id/buttonExamDis"
         android:layout_alignBottom="@+id/buttonExamDis"
-        android:layout_toLeftOf="@+id/buttonExamDis"
 
         />
 
