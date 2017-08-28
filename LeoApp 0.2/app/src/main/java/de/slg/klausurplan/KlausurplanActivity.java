@@ -1,6 +1,5 @@
 package de.slg.klausurplan;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -188,8 +186,8 @@ public class KlausurplanActivity extends AppCompatActivity {
         lvKlausuren.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                KlausurActivity.currentKlausur = klausurList.getObjectAt(position);
-                KlausurActivity klausurDialog = new KlausurActivity(KlausurplanActivity.this);
+                KlausurDialog.currentKlausur = klausurList.getObjectAt(position);
+                KlausurDialog klausurDialog = new KlausurDialog(KlausurplanActivity.this);
                 klausurDialog.show();
                 klausurDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 klausurDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -226,8 +224,8 @@ public class KlausurplanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 snackbar.dismiss();
-                KlausurActivity.currentKlausur = new Klausur("", null, "", "");
-                KlausurActivity klausurDialog = new KlausurActivity(KlausurplanActivity.this);
+                KlausurDialog.currentKlausur = new Klausur("", null, "", "");
+                KlausurDialog klausurDialog = new KlausurDialog(KlausurplanActivity.this);
                 klausurDialog.show();
                 klausurDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 klausurDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

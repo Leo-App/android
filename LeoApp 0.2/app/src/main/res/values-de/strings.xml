@@ -93,6 +93,8 @@
     <string name="popup_code_not_valid">Der QR-Code ist ungültig oder wurde von diesem Gerät bereits gescannt</string>
     <string name="notification_summary_notif">Du hast deine Bestellung noch nicht synchronisiert</string>
     <string name="login_success">Login erfolgreich</string>
+    <string name="no_order">Keine Bestellung</string>
+    <string name="not_loggedin">Nicht angemeldet</string>
 
 
     <!-- Messenger -->

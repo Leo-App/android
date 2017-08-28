@@ -21,18 +21,17 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 
-class KlausurActivity extends AlertDialog {
+class KlausurDialog extends AlertDialog {
 
-      static Klausur currentKlausur;
+    static Klausur currentKlausur;
     private EditText eingabeFach;
     private EditText eingabeDatum;
     private EditText eingabeNotiz;
 
-    private Button buttonDel;
     private Snackbar snackbarDate;
     private Snackbar snackbarTitle;
 
-    KlausurActivity(@NonNull Context context) {
+    KlausurDialog(@NonNull Context context) {
         super(context);
     }
 
@@ -105,7 +104,7 @@ class KlausurActivity extends AlertDialog {
 
     private void initButtons() {
         if (!currentKlausur.getFach().equals("")) {
-            buttonDel = (Button) findViewById(R.id.buttonExamDel);
+            Button buttonDel = (Button) findViewById(R.id.buttonExamDel);
             buttonDel.setEnabled(true);
         }
     }

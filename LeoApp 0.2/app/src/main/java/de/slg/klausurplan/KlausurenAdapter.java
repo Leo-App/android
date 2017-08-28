@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 class KlausurenAdapter extends ArrayAdapter<Klausur> {
 
@@ -51,6 +52,9 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
         TextView tv2 = (TextView) v.findViewById(R.id.textViewKursInfo);
         TextView tv3 = (TextView) v.findViewById(R.id.textViewStufe);
         TextView tv4 = (TextView) v.findViewById(R.id.textViewDate);
+
+        if(!Utils.getUserStufe().equals(""))
+            tv3.setVisibility(View.GONE);
 
         if(matchesStandardLayout(parts)) {
 
