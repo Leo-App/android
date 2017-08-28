@@ -167,7 +167,7 @@ public class NotificationService extends Service {
 
     private void essensqrNotification() {
         if (Start.pref.getBoolean("pref_key_notification_essensqr", true)) {
-            Intent resultIntent = new Intent(this, MainActivity.class);
+            Intent resultIntent = new Intent(this, MainActivity.class).putExtra("start_intent", "FOODMARKS");
 
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
@@ -207,7 +207,7 @@ public class NotificationService extends Service {
                         Calendar c = new GregorianCalendar();
                         c.setTime(new Date(Long.parseLong(current[1])));
                         if (c.get(Calendar.DAY_OF_MONTH) == tomorrow.get(Calendar.DAY_OF_MONTH) && c.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR) && c.get(Calendar.MONTH) == tomorrow.get(Calendar.MONTH)) {
-                            Intent resultIntent = new Intent(getApplicationContext(), KlausurplanActivity.class);
+                            Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class).putExtra("start_intent", "TESTPLAN");
 
                             PendingIntent resultPendingIntent =
                                     PendingIntent.getActivity(
@@ -250,7 +250,7 @@ public class NotificationService extends Service {
                         .append(System.getProperty("line.separator"));
             }
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), OverviewWrapper.class), 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), MainActivity.class).putExtra("start_intent", "MESSENGER"), 0);
 
             Notification notification =
                     new NotificationCompat.Builder(getApplicationContext())
@@ -281,7 +281,7 @@ public class NotificationService extends Service {
 
             if (latest > Utils.getLatestSchwarzesBrettDate()) {
                 Utils.notifiedSchwarzesBrett(latest);
-                Intent resultIntent = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
+                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class).putExtra("start_intent", "NEWS");
 
                 PendingIntent resultPendingIntent =
                         PendingIntent.getActivity(
@@ -308,7 +308,7 @@ public class NotificationService extends Service {
 
     private void stimmungsbarometernotification() {
         if (Start.pref.getBoolean("pref_key_notification_survey", false) && Utils.showVoteOnStartup()) {
-            Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class);
+            Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class).putExtra("start_intent", "SURVEY");
 
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
