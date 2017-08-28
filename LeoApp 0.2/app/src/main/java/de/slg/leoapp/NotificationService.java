@@ -94,29 +94,33 @@ public class NotificationService extends Service {
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(d);
 
-        if (!sentTT && c.get(Calendar.HOUR_OF_DAY) == hoursTT && c.get(Calendar.MINUTE) == minutesTT) {
-            stundenplanNotification();
+        if (c.get(Calendar.HOUR_OF_DAY) == hoursTT && c.get(Calendar.MINUTE) == minutesTT) {
+            if(!sentTT)
+                stundenplanNotification();
             sentTT = true;
         } else {
             sentTT = false;
         }
 
-        if (!sentQR && c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursQR && c.get(Calendar.MINUTE) == minutesQR) {
-            checkEssensqr();
+        if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursQR && c.get(Calendar.MINUTE) == minutesQR) {
+            if(!sentQR)
+                checkEssensqr();
             sentQR = true;
         } else {
             sentQR = false;
         }
 
         if (c.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursTP && c.get(Calendar.MINUTE) == minutesTP) {
-            klausurplanNotification();
+            if(!sentTP)
+                klausurplanNotification();
             sentTP = true;
         } else {
             sentTP = false;
         }
 
         if (c.get(Calendar.HOUR_OF_DAY) == hoursSB && c.get(Calendar.MINUTE) == minutesSB) {
-            stimmungsbarometernotification();
+            if(!sentSB)
+                stimmungsbarometernotification();
             sentSB = true;
         } else {
             sentSB = false;
@@ -184,6 +188,7 @@ public class NotificationService extends Service {
                             .setSmallIcon(R.drawable.qrcode)
                             .setVibrate(new long[]{200})
                             .setContentTitle("LeoApp")
+                            .setAutoCancel(true)
                             .setContentText(getString(R.string.notification_summary_notif))
                             .setContentIntent(resultPendingIntent);
 
@@ -224,6 +229,7 @@ public class NotificationService extends Service {
                                             .setSmallIcon(R.drawable.ic_content_paste_white_24dp)
                                             .setVibrate(new long[]{200})
                                             .setContentTitle(getString(R.string.title_testplan))
+                                            .setAutoCancel(true)
                                             .setContentText("Du schreibst morgen eine Klausur!")
                                             .setContentIntent(resultPendingIntent);
 
@@ -260,6 +266,7 @@ public class NotificationService extends Service {
                             .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
                             .setContentTitle(getString(R.string.messenger_notification_title))
                             .setContentIntent(pendingIntent)
+                            .setAutoCancel(true)
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(builder.toString()))
                             .build();
             notificationManager.notify(5453, notification);
@@ -297,6 +304,7 @@ public class NotificationService extends Service {
                                 .setLargeIcon(icon)
                                 .setSmallIcon(R.drawable.ic_event_note_white_24dp)
                                 .setVibrate(new long[]{200})
+                                .setAutoCancel(true)
                                 .setContentTitle("Neue Einträge")
                                 .setContentText("Es gibt Neuigkeiten am Schwarzen Brett")
                                 .setContentIntent(resultPendingIntent);
@@ -326,6 +334,7 @@ public class NotificationService extends Service {
                             .setVibrate(new long[]{200})
                             .setContentTitle("Du hast noch nicht abgestimmt!")
                             .setContentText("Jetzt abstimmen")
+                            .setAutoCancel(true)
                             .setContentIntent(resultPendingIntent);
 
             notificationManager.notify(234, notificationBuilder.build());
