@@ -314,6 +314,7 @@ public class OverviewWrapper extends AppCompatActivity {
         private View.OnClickListener chatClickListener;
         private View.OnLongClickListener chatLongClickListener;
         private int selected;
+        private int previousPosition;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -344,7 +345,6 @@ public class OverviewWrapper extends AppCompatActivity {
                 }
             };
             chatLongClickListener = new View.OnLongClickListener() {
-                private int previousPosition = -1;
                 private int visibility;
 
                 @Override
@@ -466,6 +466,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         public void onClick(View v) {
                             Utils.getMDB().deleteChat(c.cid);
                             selected = -1;
+                            previousPosition = -1;
                             Utils.getOverviewWrapper().notifyUpdate();
                         }
                     });

@@ -1,6 +1,7 @@
 package de.slg.stundenplan;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -214,9 +215,6 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
         private int tag;
         private ListView listView;
 
-        public WochentagFragment(){
-
-        }
         @Override
         public View onCreateView(LayoutInflater layIn, ViewGroup container, Bundle savedInstanceState) {
             if (root == null) {
@@ -236,9 +234,12 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
                         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                         dialog.init(Utils.getStundDB().getFach(tag, position+1));
-                        //startActivity(new Intent(getContext(), DetailsDialog.class)
-                        //        .putExtra("tag", tag)
-                        //        .putExtra("stunde", position + 1));
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                refreshUI();
+                            }
+                        });
                     }
                 });
             }
