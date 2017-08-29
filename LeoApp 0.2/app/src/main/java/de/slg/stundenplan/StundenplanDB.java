@@ -59,7 +59,10 @@ public class StundenplanDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FACHER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GEWAHLT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STUNDEN);
+        onCreate(db);
     }
 
     long insertFach(String kurz, String lehrer, String raum) {
@@ -394,8 +397,8 @@ public class StundenplanDB extends SQLiteOpenHelper {
         Cursor cursor = database.query(TABLE_STUNDEN, new String[]{STUNDEN_TAG, STUNDEN_STUNDE}, condition, null, null, null, STUNDEN_TAG + ", " + STUNDEN_STUNDE);
         double[] array = new double[cursor.getCount()];
         cursor.moveToFirst();
-        for (int i = 0; i < array.length; i++) {
-            array[i] = cursor.getInt(0) + cursor.getDouble(1) / 10;
+        for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
+            array[i] = cursor.getInt(0) + (cursor.getDouble(1) / 10);
         }
         cursor.close();
         return array;

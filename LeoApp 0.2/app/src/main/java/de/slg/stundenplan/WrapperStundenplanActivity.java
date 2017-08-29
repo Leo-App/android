@@ -231,12 +231,12 @@ public class WrapperStundenplanActivity extends AppCompatActivity {
                             fachArray[position] = Utils.getStundDB().getFach(tag, position + 1);
                             view.invalidate();
                         }
-                        DetailsActivity dialog = new DetailsActivity(getActivity());
+                        DetailsDialog dialog = new DetailsDialog(getActivity());
                         dialog.show();
                         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                         dialog.init(Utils.getStundDB().getFach(tag, position+1));
-                        //startActivity(new Intent(getContext(), DetailsActivity.class)
+                        //startActivity(new Intent(getContext(), DetailsDialog.class)
                         //        .putExtra("tag", tag)
                         //        .putExtra("stunde", position + 1));
                     }

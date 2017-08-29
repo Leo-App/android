@@ -15,7 +15,7 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 
-class DetailsActivity extends AlertDialog {
+class DetailsDialog extends AlertDialog {
     private Fach fach;
 
     private EditText etNotiz;
@@ -27,7 +27,8 @@ class DetailsActivity extends AlertDialog {
 
     private Button buttonDis;
     private Button buttonSav;
-    DetailsActivity(@NonNull Context context) {
+
+    DetailsDialog(@NonNull Context context) {
         super(context);
     }
 

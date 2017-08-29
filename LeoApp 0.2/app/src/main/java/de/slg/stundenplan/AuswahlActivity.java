@@ -109,7 +109,8 @@ public class AuswahlActivity extends AppCompatActivity {
                     Fach f = adapter.fachArray[position];
                     double[] stunden = db.gibStunden(f.id);
                     for (double d : stunden) {
-                        adapter.ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = checked;
+                        Log.e("TAG", String.valueOf(d));
+                        adapter.ausgewaehlteStunden[(int) (d - 1)][(int) (d * 10 % 10 - 1)] = checked;
                     }
                     if (checked)
                         adapter.ausgewaehlteFaecher.append(f.gibKurz().substring(0, 2));
@@ -263,39 +264,40 @@ public class AuswahlActivity extends AppCompatActivity {
             if (view == null) {
                 LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 view = layoutInflater.inflate(R.layout.list_item_kurs, null);
-                view.setEnabled(true);
-
-                TextView tvFach = (TextView) view.findViewById(R.id.fach_auswahl);
-                TextView tvKuerzel = (TextView) view.findViewById(R.id.kürzel_auswahl);
-                TextView tvLehrer = (TextView) view.findViewById(R.id.lehrer_auswahl);
-                CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-
-                Fach current = fachArray[position];
-
-                tvFach.setText(current.gibName());
-                tvKuerzel.setText(current.gibKurz());
-                tvLehrer.setText(current.gibLehrer());
-
-                checkBox.setChecked(db.istGewaehlt(current.id));
-
-                if (checkBox.isChecked()) {
-                    ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
-                    double[] stunden = db.gibStunden(current.id);
-                    for (double d : stunden) {
-                        ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
-                    }
-                    tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                    tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                    tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2))) {
-                    view.setEnabled(false);
-                    tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
-                    tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
-                    tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
-                }
-                cbs[position] = checkBox;
-                views[position] = view;
             }
+            view.setEnabled(true);
+
+            TextView tvFach = (TextView) view.findViewById(R.id.fach_auswahl);
+            TextView tvKuerzel = (TextView) view.findViewById(R.id.kürzel_auswahl);
+            TextView tvLehrer = (TextView) view.findViewById(R.id.lehrer_auswahl);
+            CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+
+            Fach current = fachArray[position];
+
+            tvFach.setText(current.gibName());
+            tvKuerzel.setText(current.gibKurz());
+            tvLehrer.setText(current.gibLehrer());
+
+            checkBox.setChecked(db.istGewaehlt(current.id));
+
+            if (checkBox.isChecked()) {
+                ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
+                double[] stunden = db.gibStunden(current.id);
+                for (double d : stunden) {
+                    ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
+                }
+                tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2))) {
+                view.setEnabled(false);
+                tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+                tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+                tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+            }
+            cbs[position] = checkBox;
+            views[position] = view;
+
             return view;
         }
 
