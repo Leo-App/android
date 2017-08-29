@@ -441,7 +441,7 @@ public class DBConnection {
         List<User> list = new List<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             if (cursor.getInt(0) != Utils.getUserID())
-                list.append(new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4)));
+                list.append(new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("Teacher", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4)));
         }
         cursor.close();
         return list.fill(new User[list.size()]);
