@@ -31,16 +31,16 @@ class UserAdapter extends ArrayAdapter<User> {
     public View getView(int position, View v, @NonNull ViewGroup parent) {
         if (v == null) {
             v = inflater.inflate(resId, null);
-
-            final TextView username = (TextView) v.findViewById(R.id.username);
-            final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
-            username.setText(users[position].uname);
-            userdefault.setText(users[position].udefaultname + ", " + users[position].ustufe);
-
-            v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
-
-            views[position] = v;
         }
+
+        final TextView username = (TextView) v.findViewById(R.id.username);
+        final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+        username.setText(users[position].uname);
+        userdefault.setText(users[position].udefaultname + ", " + users[position].ustufe);
+
+        v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
+
+        views[position] = v;
         return v;
     }
 

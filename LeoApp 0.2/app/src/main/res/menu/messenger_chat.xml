@@ -6,9 +6,4 @@
         android:icon="@drawable/ic_delete_white_24dp"
         android:title="@string/action_delete"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_chat_info"
-        android:icon="@drawable/ic_info_outline_white_24dp"
-        android:title="@string/chat_info"
-        app:showAsAction="ifRoom" />
 </menu>

@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -76,7 +75,6 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.messenger_chat, menu);
-        menu.findItem(R.id.action_chat_info).setVisible(ctype != Chat.Chattype.PRIVATE && Utils.getMDB().userInChat(Utils.getUserID(), cid));
         delete = menu.findItem(R.id.action_delete);
         delete.setVisible(hasSelected);
         return true;
@@ -86,10 +84,6 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
-        } else if (item.getItemId() == R.id.action_chat_info) {
-            startActivityForResult(new Intent(getApplicationContext(), ChatEditActivity.class)
-                    .putExtra("cid", cid)
-                    .putExtra("cname", cname), 1);
         } else if (item.getItemId() == R.id.action_delete) {
             deleteSelectedMessages();
             delete.setVisible(false);
@@ -172,6 +166,16 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        if (ctype != Chat.Chattype.PRIVATE && Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
+            actionBar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivityForResult(new Intent(getApplicationContext(), ChatEditActivity.class)
+                            .putExtra("cid", cid)
+                            .putExtra("cname", cname), 1);
+                }
+            });
+        }
     }
 
     private void initSendMessage() {
