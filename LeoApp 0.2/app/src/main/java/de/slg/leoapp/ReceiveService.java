@@ -332,7 +332,7 @@ public class ReceiveService extends Service {
                     String line;
                     while ((line = reader.readLine()) != null)
                         builder.append(line)
-                                .append(System.getProperty("line.seperator"));
+                                .append(System.getProperty("line.separator"));
                     reader.close();
 
                     SQLiteConnector db = new SQLiteConnector(getApplicationContext());
