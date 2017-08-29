@@ -1,23 +1,15 @@
 package de.slg.stundenplan;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
@@ -42,7 +34,7 @@ class DetailsActivity extends AlertDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sp_details);
+        setContentView(R.layout.dialog_stundenplan_details);
 
         tvZeit = (TextView) findViewById(R.id.uhrzeit_details);
         tvRaum = (TextView) findViewById(R.id.raumnr_details);

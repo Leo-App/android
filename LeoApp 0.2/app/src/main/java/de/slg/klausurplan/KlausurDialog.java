@@ -6,10 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import android.view.inputmethod.InputMethodManager;
@@ -25,25 +21,24 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 
-class KlausurActivity extends AlertDialog {
+class KlausurDialog extends AlertDialog {
 
-      static Klausur currentKlausur;
+    static Klausur currentKlausur;
     private EditText eingabeFach;
     private EditText eingabeDatum;
     private EditText eingabeNotiz;
 
-    private Button buttonDel;
     private Snackbar snackbarDate;
     private Snackbar snackbarTitle;
 
-    KlausurActivity(@NonNull Context context) {
+    KlausurDialog(@NonNull Context context) {
         super(context);
     }
 
     @Override
     public void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
-        setContentView(R.layout.activity_klausur);
+        setContentView(R.layout.dialog_klausur);
 
         initEditTexts();
         initButtons();
@@ -109,7 +104,7 @@ class KlausurActivity extends AlertDialog {
 
     private void initButtons() {
         if (!currentKlausur.getFach().equals("")) {
-            buttonDel = (Button) findViewById(R.id.buttonExamDel);
+            Button buttonDel = (Button) findViewById(R.id.buttonExamDel);
             buttonDel.setEnabled(true);
         }
     }

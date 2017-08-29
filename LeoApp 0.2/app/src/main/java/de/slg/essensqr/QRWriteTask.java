@@ -32,6 +32,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
+
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 
 class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
@@ -54,30 +59,18 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
     @SuppressLint("SimpleDateFormat")
     protected Bitmap doInBackground(View... params) {
 
-        Log.d("LeoApp", "doInBackgroundCalled");
-
         target = params[0];
-
         connection = hasActiveInternetConnection();
 
-        if (!(WrapperQRActivity.sharedPref.getBoolean("pref_key_status_loggedin", false))) {
-            Log.d("LeoApp", "NotLoggedIN");
+        if (!(WrapperQRActivity.sharedPref.getBoolean("pref_key_status_loggedin", false)))
             return null;
 
-        }
-
         if (connection) {
-
-
             if (onAppStart) {
                 if (WrapperQRActivity.sharedPref.getBoolean("pref_key_qr_sync", false))
                     saveNewestEntries();
-
-            } else {
-                Log.d("LeoApp", "syncCall");
+            } else
                 saveNewestEntries();
-            }
-
         }
 
         Order act = getRecentEntry();
@@ -115,36 +108,36 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
     protected void onPostExecute(Bitmap result) {
 
         ProgressBar spinner = (ProgressBar) target.findViewById(R.id.progressBar1);
-        spinner.setVisibility(View.INVISIBLE);
-
+        spinner.setVisibility(INVISIBLE);
         boolean loggedin = WrapperQRActivity.sharedPref.getBoolean("pref_key_status_loggedin", false);
 
-        if (!connection) {
-
+        if (!connection)
             ((QRFragment) qr).showSnackBarNoConnection();
-
-        }
 
         if (result != null) {
             ((ImageView) target.findViewById(R.id.imageView)).setImageBitmap(result);
             ((TextView) target.findViewById(R.id.textViewMenu)).setText(qr.getString(R.string.qr_display_menu) + "  " + menu);
             ((TextView) target.findViewById(R.id.textViewMenuDetails)).setText(descr);
-            target.findViewById(R.id.textViewMenu).setVisibility(View.VISIBLE);
-            target.findViewById(R.id.imageView).setVisibility(View.VISIBLE);
-            target.findViewById(R.id.textViewMenuDetails).setVisibility(View.VISIBLE);
+            target.findViewById(R.id.textViewMenu).setVisibility(VISIBLE);
+            target.findViewById(R.id.imageView).setVisibility(VISIBLE);
+            target.findViewById(R.id.textViewMenuDetails).setVisibility(VISIBLE);
         } else {
-            ((ImageView) target.findViewById(R.id.imageView)).setImageResource(R.mipmap.qr_display_no_order);
-            if (loggedin)
-                ((TextView) target.findViewById(R.id.textViewMenu)).setText(qr.getString(R.string.qr_display_not_ordered));
-            else
-                ((TextView) target.findViewById(R.id.textViewMenu)).setText(qr.getString(R.string.qr_display_not_loggedin));
-            target.findViewById(R.id.textViewMenu).setVisibility(View.VISIBLE);
-            target.findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
-            target.findViewById(R.id.textViewMenuDetails).setVisibility(View.INVISIBLE);
+            ((ImageView) target.findViewById(R.id.imageView)).setImageResource(R.drawable.ic_qrcode_crossedout);
+            if (loggedin) {
+                ((TextView) target.findViewById(R.id.textViewMenu)).setText(Utils.getString(R.string.qr_display_not_ordered));
+                ((TextView)target.findViewById(R.id.textViewDatum)).setText(Utils.getString(R.string.no_order));
+            } else {
+                ((TextView) target.findViewById(R.id.textViewMenu)).setText(Utils.getString(R.string.qr_display_not_loggedin));
+                ((TextView) target.findViewById(R.id.textViewDatum)).setText(Utils.getString(R.string.not_loggedin));
+            }
+            target.findViewById(R.id.textViewMenu).setVisibility(VISIBLE);
+            target.findViewById(R.id.textView).setVisibility(INVISIBLE);
+            target.findViewById(R.id.imageViewError).setVisibility(VISIBLE);
+            target.findViewById(R.id.textViewMenuDetails).setVisibility(INVISIBLE);
         }
 
         WrapperQRActivity.runningSync = false;
-        target.findViewById(R.id.progressBar1).setVisibility(View.GONE);
+        target.findViewById(R.id.progressBar1).setVisibility(GONE);
     }
 
     private boolean hasActiveInternetConnection() {
@@ -218,7 +211,6 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
                     result += inputLine;
             }
             in.close();
-            Log.d("LeoApp", result);
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -231,17 +223,12 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
                 }
         }
 
-        Log.d("LeoApp", "result following");
-        Log.d("LeoApp", result);
-
         MCrypt mCrypt = new MCrypt();
         try {
             result = new String(mCrypt.decrypt(result));
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Log.d("LeoApp", result);
 
         String[] data = result.split("_next_");
 

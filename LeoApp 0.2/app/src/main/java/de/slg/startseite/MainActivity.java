@@ -109,6 +109,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         }
 
+        String notificationTarget = getIntent().getStringExtra("start_intent");
+        if(notificationTarget != null) {
+            CardType c = CardType.valueOf(notificationTarget);
+
+            switch (c) {
+                case FOODMARKS:
+                    startActivity(new Intent(this, WrapperQRActivity.class));
+                    break;
+                case TESTPLAN:
+                    startActivity(new Intent(this, KlausurplanActivity.class));
+                    break;
+                case MESSENGER:
+                    startActivity(new Intent(this, OverviewWrapper.class));
+                    break;
+                case NEWS:
+                    startActivity(new Intent(this, SchwarzesBrettActivity.class));
+                    break;
+                case SURVEY:
+                    startActivity(new Intent(this, StimmungsbarometerActivity.class));
+                    break;
+            }
+        }
+
         Start.pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         if (!Start.pref.getString("pref_key_request_cached", "-").equals("-"))
