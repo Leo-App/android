@@ -68,7 +68,7 @@
                         android:layout_toRightOf="@id/iconMitglieder"
                         android:text="Mitglieder"
                         android:textColor="@color/colorText"
-                        android:textSize="20sp" />
+                        android:textSize="22sp" />
 
                     <LinearLayout
                         android:id="@+id/linearLayoutUsers"

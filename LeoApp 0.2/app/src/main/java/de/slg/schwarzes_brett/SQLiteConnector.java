@@ -19,7 +19,7 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "entries.db";
 
     public SQLiteConnector(Context c) {
-        super(c, DATABASE_NAME, null, 1);
+        super(c, DATABASE_NAME, null, 2);
     }
 
     @Override
