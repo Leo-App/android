@@ -128,7 +128,9 @@ public class NotificationService extends Service {
     }
 
     private void checkEssensqr() {
-        de.slg.essensqr.SQLitePrinter.printDatabase(getApplicationContext());
+
+        if(!Start.pref.getBoolean("pref_key_status_loggedin", false))
+            return;
 
         SQLiteHandler db = new SQLiteHandler(this);
         SQLiteDatabase dbw = db.getReadableDatabase();
