@@ -68,7 +68,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
         runningSync = false;
 
         initToolbar();
-        initNavigationDrawer();
+        initNavigationView();
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -131,13 +131,12 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
 
     }
 
-    private void initNavigationDrawer() {
-
+    private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.foodmarks).setChecked(true);
 
-//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
@@ -148,7 +147,6 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
                 Intent i;
-                boolean settings = false;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
                         return true;
@@ -158,9 +156,6 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-//                    case R.id.nachhilfe:
-//                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
-//                        break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;
@@ -173,11 +168,7 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
                     case R.id.startseite:
                         i = null;
                         break;
-//                  case R.id.vertretung:
-//                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
-//                        break;
                     case R.id.settings:
-                        settings = true;
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;
                     default:
@@ -201,7 +192,6 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
 
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
-
     }
 
     private void initToolbar() {

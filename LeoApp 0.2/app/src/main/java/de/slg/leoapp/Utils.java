@@ -27,12 +27,17 @@ import de.slg.stundenplan.StundenplanDB;
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
     public static Context context;
+
     private static MainActivity mainActivity;
+
     private static DBConnection dbConnection;
     private static OverviewWrapper overviewWrapper;
     private static ChatActivity chatActivity;
+    private static int currentlyDisplayedChatId = -1;
     private static ReceiveService receiveService;
+
     private static KlausurplanActivity klausurplanActivity;
+
     private static StundenplanDB stundenplanDB;
 
     public static boolean checkNetwork() {
@@ -86,6 +91,14 @@ public abstract class Utils {
         Start.pref.edit()
                 .putLong("pref_key_general_last_notification_schwarzes_brett", date)
                 .apply();
+    }
+
+    public static int currentlyDisplayedChat() {
+        return currentlyDisplayedChatId;
+    }
+
+    public static void setCurrentlyDisplayedChat(int cid) {
+        currentlyDisplayedChatId = cid;
     }
 
     //Datenbanken
@@ -257,7 +270,6 @@ public abstract class Utils {
     }
 
     //Schwarzes Brett
-
     public static boolean messageAlreadySeen(int id) {
 
         String cache = Start.pref.getString("pref_key_cache_vieweditems", "");

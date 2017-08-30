@@ -38,7 +38,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import de.slg.essensqr.Auth;
-import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.DBConnection;
 import de.slg.messenger.OverviewWrapper;
@@ -236,9 +235,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
             case "pref_key_username_general":
                 showProgressBar();
-
                 UpdateTaskName task = new de.slg.startseite.UpdateTaskName(this, currentUsername);
                 task.execute();
+                initNavigationView();
                 break;
 
             case "pref_key_kuerzel_general":
@@ -380,9 +379,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.settings).setChecked(true);
+        navigationView.getMenu().findItem(R.id.klausurplan).setChecked(true);
 
-        //navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
@@ -395,17 +394,13 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
-                        break;
+                        return true;
                     case R.id.messenger:
                         i = new Intent(getApplicationContext(), OverviewWrapper.class);
                         break;
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-//                    case R.id.nachhilfe:
-//                        i = new Intent(getApplicationContext(), MainActivity.class);
-//                        break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;
@@ -419,7 +414,8 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                         i = null;
                         break;
                     case R.id.settings:
-                        return true;
+                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
+                        break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();

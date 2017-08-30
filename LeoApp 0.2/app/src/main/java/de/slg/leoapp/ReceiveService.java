@@ -225,7 +225,7 @@ public class ReceiveService extends Service {
                     for (String s : result) {
                         String[] current = s.split("_ ;_");
                         if (current.length == 5) {
-                            User u = new User(Integer.parseInt(current[0]), current[1], current[2].replace("N/A", "Teacher"), Integer.parseInt(current[3]), current[4]);
+                            User u = new User(Integer.parseInt(current[0]), current[1], current[2], Integer.parseInt(current[3]), current[4]);
                             Utils.getMDB().insertUser(u);
                         }
                     }

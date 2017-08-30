@@ -91,7 +91,7 @@ public class DBConnection {
         String selection = MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " +
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
-                CHAT_MUTE + " = 0";
+                CHAT_MUTE + " = 0 AND " + CHAT_ID + " != " + Utils.currentlyDisplayedChat();
         Cursor cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE, null);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
@@ -104,7 +104,7 @@ public class DBConnection {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + USER_ID + " != " + Utils.getUserID(), null, null);
+        Cursor cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + Utils.currentlyDisplayedChat(), null, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
