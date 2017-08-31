@@ -170,6 +170,7 @@
     <string name="settings_title_notification_none">Keine Benachrichtigungen erhalten</string>
     <string name="feature_request">Beschreibe hier kurz deinen Vorschlag</string>
     <string name="feature_request_title">Feature-Idee</string>
+    <string name="todo_description">\t- Terminplaner\n\t- Digitaler Vertretungsplan\n\t- Nachhilfebörse\n\t- Eure Vorschläge</string>
 
     <!--Essensbons-->
     <string name="settings_summary_customid">Gib deine lunch.leo-ac.de Benutzer-ID ein</string>

@@ -128,6 +128,7 @@
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/schedule" />
 
+
             <ImageButton
                 android:id="@+id/imageButton8"
                 android:layout_width="50dp"
@@ -140,6 +141,19 @@
                 android:tag="WEATHER"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/weather_partlycloudy" />
+
+            <ImageButton
+                android:id="@+id/imageButton9"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/smiley_background_bad_mood"
+                android:contentDescription="@string/textview_placeholder"
+                android:scaleType="fitCenter"
+                android:tag="COMING_SOON"
+                android:tint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_priority_high_white_24dp" />
 
         </LinearLayout>
     </HorizontalScrollView>
