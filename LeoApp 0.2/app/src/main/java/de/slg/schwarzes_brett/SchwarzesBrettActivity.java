@@ -30,6 +30,7 @@ import java.util.Map;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
@@ -83,12 +84,17 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
         Utils.registerSchwarzesBrettActivity(this);
         Utils.receiveNews();
-        Utils.getNotificationManager().cancel(287);
 
         initToolbar();
         initNavigationView();
         initButton();
         initExpandableListView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.getNotificationManager().cancel(NotificationService.ID_NEWS);
     }
 
     private void initToolbar() {
@@ -146,6 +152,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
 

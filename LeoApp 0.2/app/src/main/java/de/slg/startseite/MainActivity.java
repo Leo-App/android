@@ -51,6 +51,7 @@ import java.util.GregorianCalendar;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
@@ -110,7 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         String notificationTarget = getIntent().getStringExtra("start_intent");
+
         if(notificationTarget != null) {
+
             CardType c = CardType.valueOf(notificationTarget);
 
             switch (c) {
@@ -125,9 +128,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case NEWS:
                     startActivity(new Intent(this, SchwarzesBrettActivity.class));
-                    break;
-                case SURVEY:
-                    startActivity(new Intent(this, StimmungsbarometerActivity.class));
                     break;
             }
         }
@@ -231,6 +231,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mAdapter.updateCustomCards();
 
         }
+
+        Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
+        Utils.getNotificationManager().cancel(NotificationService.ID_STUNDENPLAN);
     }
 
     @Override

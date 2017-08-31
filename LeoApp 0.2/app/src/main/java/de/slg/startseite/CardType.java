@@ -1,6 +1,6 @@
 package de.slg.startseite;
 
-enum CardType {
+public enum CardType {
 
     FOODMARKS, TESTPLAN, MESSENGER, TUTORING, NEWS, SURVEY, SCHEDULE, SUBSTITUTION, WEATHER, NEXT_TEST
 

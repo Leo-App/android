@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.google.zxing.Result;
 
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
@@ -228,6 +229,12 @@ public class WrapperQRActivity extends AppCompatActivity implements ZXingScanner
 
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.getNotificationManager().cancel(NotificationService.ID_ESSENSQR);
     }
 
     @Override
