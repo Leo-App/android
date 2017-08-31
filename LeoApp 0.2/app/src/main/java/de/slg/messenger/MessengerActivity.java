@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
@@ -45,7 +46,7 @@ import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
 
-public class OverviewWrapper extends AppCompatActivity {
+public class MessengerActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ChatsFragment cFragment;
     private UserFragment uFragment;
@@ -55,7 +56,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Utils.registerOverviewWrapper(this);
+        Utils.registerMessengerActivity(this);
         Utils.context = getApplicationContext();
         Utils.getMDB();
 
@@ -66,8 +67,6 @@ public class OverviewWrapper extends AppCompatActivity {
         initArrays();
         initNavigationView();
         initTabs();
-
-        Utils.getNotificationManager().cancel(5453);
     }
 
     @Override
@@ -92,8 +91,17 @@ public class OverviewWrapper extends AppCompatActivity {
 
     @Override
     public void finish() {
-        Utils.registerOverviewWrapper(null);
+        Utils.registerMessengerActivity(null);
         super.finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.getNotificationManager().cancel(NotificationService.ID_MESSENGER);
+        uFragment.refreshUI();
+        cFragment.refreshUI();
+        sFragment.refreshUI();
     }
 
     private void initToolbar() {
@@ -142,13 +150,7 @@ public class OverviewWrapper extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.messenger).setChecked(true);
 
-//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
@@ -162,9 +164,6 @@ public class OverviewWrapper extends AppCompatActivity {
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-//                    case R.id.nachhilfe:
-//                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
-//                        break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;
@@ -177,9 +176,6 @@ public class OverviewWrapper extends AppCompatActivity {
                     case R.id.startseite:
                         i = null;
                         break;
-//                    case R.id.vertretung:
-//                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
-//                        break;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;
@@ -193,6 +189,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 return true;
             }
         });
+
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
 
@@ -245,7 +242,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     int position = rvUsers.getChildAdapterPosition(view);
-                    User clickedUser = Utils.getOverviewWrapper().userArray[position];
+                    User clickedUser = Utils.getMessengerActivity().userArray[position];
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("uid", clickedUser.uid)
                             .putExtra("cid", Utils.getMDB().getChatWith(clickedUser.uid))
@@ -255,17 +252,19 @@ public class OverviewWrapper extends AppCompatActivity {
             };
 
             rvUsers.setLayoutManager(new LinearLayoutManager(getContext()));
-            rvUsers.setAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getOverviewWrapper().userArray, userClickListener));
+            rvUsers.setAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().userArray, userClickListener));
         }
 
         public void refreshUI() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (rvUsers != null)
-                        rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getOverviewWrapper().userArray, userClickListener), false);
-                }
-            });
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (rvUsers != null)
+                            rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().userArray, userClickListener), false);
+                    }
+                });
+            }
         }
 
         private class UserAdapter extends RecyclerView.Adapter {
@@ -334,7 +333,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     int position = rvChats.getChildAdapterPosition(view);
-                    Chat clickedChat = Utils.getOverviewWrapper().chatArray[position];
+                    Chat clickedChat = Utils.getMessengerActivity().chatArray[position];
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("cid", clickedChat.cid)
                             .putExtra("cname", clickedChat.cname)
@@ -375,17 +374,19 @@ public class OverviewWrapper extends AppCompatActivity {
             );
             rvChats.addItemDecoration(mDividerItemDecoration);
             rvChats.setLayoutManager(linearLayoutManager);
-            rvChats.setAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getOverviewWrapper().chatArray, chatClickListener, chatLongClickListener));
+            rvChats.setAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().chatArray, chatClickListener, chatLongClickListener));
         }
 
         public void refreshUI() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (rvChats != null)
-                        rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getOverviewWrapper().chatArray, chatClickListener, chatLongClickListener), false);
-                }
-            });
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (rvChats != null)
+                            rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().chatArray, chatClickListener, chatLongClickListener), false);
+                    }
+                });
+            }
         }
 
         private class ChatAdapter extends RecyclerView.Adapter {
@@ -467,7 +468,7 @@ public class OverviewWrapper extends AppCompatActivity {
                             Utils.getMDB().deleteChat(c.cid);
                             selected = -1;
                             previousPosition = -1;
-                            Utils.getOverviewWrapper().notifyUpdate();
+                            Utils.getMessengerActivity().notifyUpdate();
                         }
                     });
                     buttonMute.setOnClickListener(new View.OnClickListener() {
@@ -475,7 +476,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         public void onClick(View v) {
                             Utils.getMDB().muteChat(c.cid, !c.mute);
                             selected = -1;
-                            Utils.getOverviewWrapper().notifyUpdate();
+                            Utils.getMessengerActivity().notifyUpdate();
                         }
                     });
                 }
@@ -677,7 +678,7 @@ public class OverviewWrapper extends AppCompatActivity {
         }
 
         public void refreshUI() {
-            if (initialized) {
+            if (getActivity() != null && initialized) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

@@ -3,7 +3,6 @@ package de.slg.schwarzes_brett;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -30,39 +28,73 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import de.slg.essensqr.SQLitePrinter;
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
-import de.slg.messenger.OverviewWrapper;
+import de.slg.messenger.MessengerActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
 
 public class SchwarzesBrettActivity extends AppCompatActivity {
+    private static SQLiteConnector db;
+    private static SQLiteDatabase dbh;
     private List<String> groupList;
     private List<String> childList;
     private Map<String, List<String>> schwarzesBrett;
     private DrawerLayout drawerLayout;
 
-    private static SQLiteConnector db;
-    private static SQLiteDatabase dbh;
+    public static int getRemoteId(int position) {
+
+        //Maybe cache already transformed ids to avoid excessive RAM usage
+
+        if (db == null)
+            db = new SQLiteConnector(Utils.context);
+        if (dbh == null)
+            dbh = db.getReadableDatabase();
+
+        String stufe = Utils.getUserStufe();
+
+        Cursor cursor = !stufe.equals("") ?
+                dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " +
+                        " " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null)
+                :
+                dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
+
+        cursor.moveToPosition(position);
+
+        if (cursor.getCount() < position)
+            return -1;
+
+        int ret = cursor.getInt(0);
+        cursor.close();
+
+        return ret;
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schwarzesbrett);
 
+        Utils.registerSchwarzesBrettActivity(this);
         Utils.receiveNews();
-        Utils.getNotificationManager().cancel(287);
 
         initToolbar();
         initNavigationView();
         initButton();
         initExpandableListView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.getNotificationManager().cancel(NotificationService.ID_NEWS);
     }
 
     private void initToolbar() {
@@ -76,14 +108,9 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     }
 
     private void initNavigationView() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.newsboard).setChecked(true);
-
-//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
@@ -96,13 +123,10 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
                         break;
                     case R.id.messenger:
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                        i = new Intent(getApplicationContext(), MessengerActivity.class);
                         break;
                     case R.id.newsboard:
                         return true;
-//                    case R.id.nachhilfe:
-//                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
-//                        break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;
@@ -115,9 +139,6 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                     case R.id.startseite:
                         i = null;
                         break;
-//                    case R.id.vertretung:
-//                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
-//                        break;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;
@@ -131,6 +152,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
 
@@ -180,36 +202,9 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
         if (groupList.size() == 0) {
             findViewById(R.id.textView6).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.textView6).setVisibility(View.GONE);
         }
-    }
-
-    public static int getRemoteId(int position) {
-
-        //Maybe cache already transformed ids to avoid excessive RAM usage
-
-        if(db == null)
-            db = new SQLiteConnector(Utils.context);
-        if(dbh == null)
-            dbh = db.getReadableDatabase();
-
-        String stufe = Utils.getUserStufe();
-
-        Cursor cursor = !stufe.equals("") ?
-                dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " +
-                        " " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'" , null)
-                :
-                dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
-
-        cursor.moveToPosition(position);
-
-        if(cursor.getCount() < position)
-            return -1;
-
-        int ret = cursor.getInt(0);
-        cursor.close();
-
-        return ret;
-
     }
 
     private void initButton() {
@@ -287,11 +282,21 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         Collections.addAll(childList, children);
     }
 
+    public void refreshUI() {
+        initExpandableListView();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.registerSchwarzesBrettActivity(null);
     }
 }

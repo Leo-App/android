@@ -33,6 +33,8 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
 
         findViewById(R.id.progressBar2).setVisibility(View.GONE);
 
+        findViewById(R.id.navigationView).setVisibility(View.GONE);
+
         initToolbar();
         initPreferenceChanges();
     }

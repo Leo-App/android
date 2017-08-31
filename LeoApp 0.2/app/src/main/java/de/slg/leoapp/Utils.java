@@ -20,19 +20,28 @@ import java.util.concurrent.ExecutionException;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.DBConnection;
-import de.slg.messenger.OverviewWrapper;
+import de.slg.messenger.MessengerActivity;
+import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stundenplan.StundenplanDB;
 
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
     public static Context context;
+
     private static MainActivity mainActivity;
+
     private static DBConnection dbConnection;
-    private static OverviewWrapper overviewWrapper;
+    private static MessengerActivity messengerActivity;
     private static ChatActivity chatActivity;
+    private static int currentlyDisplayedChatId = -1;
+
+    private static SchwarzesBrettActivity schwarzesBrettActivity;
+
     private static ReceiveService receiveService;
+
     private static KlausurplanActivity klausurplanActivity;
+
     private static StundenplanDB stundenplanDB;
 
     public static boolean checkNetwork() {
@@ -86,6 +95,14 @@ public abstract class Utils {
         Start.pref.edit()
                 .putLong("pref_key_general_last_notification_schwarzes_brett", date)
                 .apply();
+    }
+
+    public static int currentlyDisplayedChat() {
+        return currentlyDisplayedChatId;
+    }
+
+    public static void setCurrentlyDisplayedChat(int cid) {
+        currentlyDisplayedChatId = cid;
     }
 
     //Datenbanken
@@ -174,16 +191,16 @@ public abstract class Utils {
     }
 
     //Registrierte Activities
-    public static void registerOverviewWrapper(OverviewWrapper overviewWrapper) {
-        Utils.overviewWrapper = overviewWrapper;
+    public static void registerMessengerActivity(MessengerActivity messengerActivity) {
+        Utils.messengerActivity = messengerActivity;
     }
 
     public static void registerChatActivity(ChatActivity chatActivity) {
         Utils.chatActivity = chatActivity;
     }
 
-    public static OverviewWrapper getOverviewWrapper() {
-        return overviewWrapper;
+    public static MessengerActivity getMessengerActivity() {
+        return messengerActivity;
     }
 
     public static ChatActivity getChatActivity() {
@@ -204,6 +221,14 @@ public abstract class Utils {
 
     public static MainActivity getMainActivity() {
         return mainActivity;
+    }
+
+    public static void registerSchwarzesBrettActivity(SchwarzesBrettActivity activity) {
+        Utils.schwarzesBrettActivity = activity;
+    }
+
+    static SchwarzesBrettActivity getSchwarzesBrettActivity() {
+        return schwarzesBrettActivity;
     }
 
     //User-Stuff
@@ -257,7 +282,6 @@ public abstract class Utils {
     }
 
     //Schwarzes Brett
-
     public static boolean messageAlreadySeen(int id) {
 
         String cache = Start.pref.getString("pref_key_cache_vieweditems", "");

@@ -41,7 +41,7 @@ import de.slg.essensqr.Auth;
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.DBConnection;
-import de.slg.messenger.OverviewWrapper;
+import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.InfoActivity;
 import de.slg.startseite.MainActivity;
@@ -236,9 +236,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
             case "pref_key_username_general":
                 showProgressBar();
-
                 UpdateTaskName task = new de.slg.startseite.UpdateTaskName(this, currentUsername);
                 task.execute();
+                initNavigationView();
                 break;
 
             case "pref_key_kuerzel_general":
@@ -382,7 +382,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.settings).setChecked(true);
 
-        //navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
@@ -398,14 +398,11 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
                         break;
                     case R.id.messenger:
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                        i = new Intent(getApplicationContext(), MessengerActivity.class);
                         break;
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-//                    case R.id.nachhilfe:
-//                        i = new Intent(getApplicationContext(), MainActivity.class);
-//                        break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;

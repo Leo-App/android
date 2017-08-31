@@ -23,7 +23,7 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
-import de.slg.messenger.OverviewWrapper;
+import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
@@ -76,7 +76,7 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
                         break;
                     case R.id.messenger: //Nur bei Verifizierung
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                        i = new Intent(getApplicationContext(), MessengerActivity.class);
                         break;
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);

@@ -45,7 +45,11 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
         try {
 
-            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/addUser.php?key=5453&name=" + params[0] + "&permission=" + params[1] + "&klasse=N/A");
+            String klasse = "N/A";
+            if (params[1].equals("2"))
+                klasse = "TEA";
+
+            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/addUser.php?key=5453&name=" + params[0] + "&permission=" + params[1] + "&klasse=" + klasse);
             Log.e("TAG", interfaceDB.toString());
             Log.d("LeoApp", "URL SET");
 

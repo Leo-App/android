@@ -51,11 +51,12 @@ import java.util.GregorianCalendar;
 
 import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
-import de.slg.messenger.OverviewWrapper;
+import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.schwarzes_brett.UpdateViewTrackerTask;
 import de.slg.stimmungsbarometer.AbstimmDialog;
@@ -87,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         runningScan = false;
-        Utils.registerMainActivity(this);
         Utils.context = getApplicationContext();
 
         setContentView(R.layout.activity_startseite);
@@ -110,7 +110,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         String notificationTarget = getIntent().getStringExtra("start_intent");
+
         if(notificationTarget != null) {
+
+            if (Utils.getMainActivity() != null)
+                Utils.getMainActivity().finish();
+
             CardType c = CardType.valueOf(notificationTarget);
 
             switch (c) {
@@ -121,16 +126,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(new Intent(this, KlausurplanActivity.class));
                     break;
                 case MESSENGER:
-                    startActivity(new Intent(this, OverviewWrapper.class));
+                    startActivity(new Intent(this, MessengerActivity.class));
                     break;
                 case NEWS:
                     startActivity(new Intent(this, SchwarzesBrettActivity.class));
                     break;
-                case SURVEY:
-                    startActivity(new Intent(this, StimmungsbarometerActivity.class));
-                    break;
             }
         }
+
+        Utils.registerMainActivity(this);
 
         Start.pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -231,6 +235,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mAdapter.updateCustomCards();
 
         }
+
+        Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
+        Utils.getNotificationManager().cancel(NotificationService.ID_STUNDENPLAN);
     }
 
     @Override
@@ -449,16 +456,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void initNavigationView() {
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
 
-//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
@@ -467,33 +474,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.foodmarks:
                         i = new Intent(getApplicationContext(), WrapperQRActivity.class);
                         break;
-                    case R.id.messenger: //Nur bei Verifizierung
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                    case R.id.messenger:
+                        i = new Intent(getApplicationContext(), MessengerActivity.class);
                         break;
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-//                    case R.id.nachhilfe: //Nur bei Verifizierung
-//                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
-//                        break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;
                     case R.id.barometer:
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
                         break;
-                    case R.id.klausurplan: //Nur bei Verifizierung
+                    case R.id.klausurplan:
                         i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                         break;
                     case R.id.startseite:
-                        i = null;
-                        break;
+                        return true;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;
-//                    case R.id.vertretung:
-//                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
-//                        break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -503,6 +503,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
             }
         });
+
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
 

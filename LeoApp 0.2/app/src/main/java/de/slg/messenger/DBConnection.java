@@ -91,7 +91,7 @@ public class DBConnection {
         String selection = MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " +
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
-                CHAT_MUTE + " = 0";
+                CHAT_MUTE + " = 0 AND " + TABLE_MESSAGES + "." + CHAT_ID + " != " + Utils.currentlyDisplayedChat();
         Cursor cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE, null);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
@@ -104,19 +104,14 @@ public class DBConnection {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + USER_ID + " != " + Utils.getUserID(), null, null);
+        Cursor cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + Utils.currentlyDisplayedChat(), null, null);
         boolean b = cursor.getCount() > 0;
         cursor.close();
         return b;
     }
 
     public long getLatestDateInDB() {
-        String table = TABLE_MESSAGES + ", " + TABLE_CHATS;
-        String[] columns = {MESSAGE_DATE};
-        String selection = USER_ID + " != " + Utils.getUserID() + " AND " +
-                TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
-                CHAT_MUTE + " = 0";
-        Cursor cursor = query(table, columns, selection, MESSAGE_DATE + " DESC", "1");
+        Cursor cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_DATE}, null, MESSAGE_DATE + " DESC", "1");
         cursor.moveToFirst();
         long l = 0;
         if (cursor.getCount() > 0)
@@ -198,7 +193,7 @@ public class DBConnection {
         User[] array = new User[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
-            array[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("Teacher", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4));
+            array[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("TEA", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4));
         }
         cursor.close();
         return array;
@@ -441,7 +436,7 @@ public class DBConnection {
         List<User> list = new List<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             if (cursor.getInt(0) != Utils.getUserID())
-                list.append(new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("Teacher", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4)));
+                list.append(new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("TEA", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4)));
         }
         cursor.close();
         return list.fill(new User[list.size()]);
@@ -454,7 +449,7 @@ public class DBConnection {
         User[] users = new User[cursor.getCount()];
         int i = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
-            users[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4));
+            users[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("TEA", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4));
         }
         cursor.close();
         return users;

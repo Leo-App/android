@@ -265,7 +265,7 @@ public class ZeitraumFragment extends Fragment {
         }
 
         private void drawPoints() {
-            for (int i = 0; i < data[0].length; i++) {
+            for (int i = 0; i < data[3].length; i++) {
                 Paint p = new Paint();
                 if (i < data[0].length && data[0][i].value > 0) {
                     p.setColor(ContextCompat.getColor(getContext(), R.color.colorIch));
@@ -291,7 +291,7 @@ public class ZeitraumFragment extends Fragment {
             int previousSchueler = 0;
             int previousLehrer = 0;
             int previousAlle = 0;
-            for (int i = 1; i < data[0].length; i++) {
+            for (int i = 1; i < data[3].length; i++) {
                 Paint p = new Paint();
                 p.setStrokeWidth(4);
                 if (i < data[0].length && data[0][i].value > 0) {
