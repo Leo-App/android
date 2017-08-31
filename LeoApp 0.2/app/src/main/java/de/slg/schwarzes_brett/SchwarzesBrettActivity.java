@@ -80,6 +80,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schwarzesbrett);
 
+        Utils.registerSchwarzesBrettActivity(this);
         Utils.receiveNews();
         Utils.getNotificationManager().cancel(287);
 
@@ -193,6 +194,8 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
         if (groupList.size() == 0) {
             findViewById(R.id.textView6).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.textView6).setVisibility(View.GONE);
         }
     }
 
@@ -269,6 +272,10 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     private void loadChildren(String[] children) {
         childList = new ArrayList<>();
         Collections.addAll(childList, children);
+    }
+
+    public void refreshUI() {
+        initExpandableListView();
     }
 
     @Override

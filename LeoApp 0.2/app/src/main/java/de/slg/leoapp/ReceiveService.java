@@ -366,6 +366,8 @@ public class ReceiveService extends Service {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            if (Utils.getSchwarzesBrettActivity() != null)
+                Utils.getSchwarzesBrettActivity().refreshUI();
             Log.i("ReceiveService", "received News");
         }
     }

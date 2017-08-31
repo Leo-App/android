@@ -21,6 +21,7 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.DBConnection;
 import de.slg.messenger.OverviewWrapper;
+import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stundenplan.StundenplanDB;
 
@@ -34,6 +35,9 @@ public abstract class Utils {
     private static OverviewWrapper overviewWrapper;
     private static ChatActivity chatActivity;
     private static int currentlyDisplayedChatId = -1;
+
+    private static SchwarzesBrettActivity schwarzesBrettActivity;
+
     private static ReceiveService receiveService;
 
     private static KlausurplanActivity klausurplanActivity;
@@ -217,6 +221,14 @@ public abstract class Utils {
 
     public static MainActivity getMainActivity() {
         return mainActivity;
+    }
+
+    public static void registerSchwarzesBrettActivity(SchwarzesBrettActivity activity) {
+        Utils.schwarzesBrettActivity = activity;
+    }
+
+    public static SchwarzesBrettActivity getSchwarzesBrettActivity() {
+        return schwarzesBrettActivity;
     }
 
     //User-Stuff
