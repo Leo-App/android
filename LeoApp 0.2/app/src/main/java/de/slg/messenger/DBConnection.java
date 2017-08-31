@@ -91,7 +91,7 @@ public class DBConnection {
         String selection = MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " +
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
-                CHAT_MUTE + " = 0 AND " + CHAT_ID + " != " + Utils.currentlyDisplayedChat();
+                CHAT_MUTE + " = 0 AND " + TABLE_MESSAGES + "." + CHAT_ID + " != " + Utils.currentlyDisplayedChat();
         Cursor cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE, null);
         Message[] array = new Message[cursor.getCount()];
         cursor.moveToFirst();
