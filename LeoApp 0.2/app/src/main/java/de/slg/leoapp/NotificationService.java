@@ -345,9 +345,11 @@ public class NotificationService extends Service {
             if (gibNaechstenWochentag() <= 5) {
                 Fach[] faecher = Utils.getStundDB().gewaehlteFaecherAnTag(gibNaechstenWochentag());
                 for (int i = 0; i < faecher.length; i++) {
-                    builder.append(faecher[i].gibName());
-                    if (i < faecher.length - 1)
-                        builder.append(", ");
+                    if (faecher[i].gibName().length() > 0) {
+                        builder.append(faecher[i].gibName());
+                        if (i < faecher.length - 1)
+                            builder.append(", ");
+                    }
                 }
 
                 if (builder.length() > 0) {
