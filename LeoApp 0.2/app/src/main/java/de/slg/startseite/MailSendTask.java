@@ -32,7 +32,7 @@ class MailSendTask extends AsyncTask<String, Void, Void> {
                     "<b>Request:</b><br/><br/><pre>" +
                     requestText+"</pre>";
 
-            MailClient mailClient = new MailClient("leoapp.noreply@gmail.com", "pOQ2ydhjqzJHxbQioM0Z", new List<String>().append("spitzer-webdesign@outlook.de"), "FeatureRequest - "+Utils.getUserName()+" - "+Utils.getUserStufe()+ " - "+ Utils.getAppVersionName(), emailBody);
+            MailClient mailClient = new MailClient("leoapp.noreply@gmail.com", "pOQ2ydhjqzJHxbQioM0Z", new List<String>().append("spitzer-webdesign@outlook.de").append("moritz@liegmanns.de"), "FeatureRequest - " + Utils.getUserName() + " - " + Utils.getUserStufe() + " - " + Utils.getAppVersionName(), emailBody);
 
             mailClient.createEmailMessage();
             mailClient.sendEmail();

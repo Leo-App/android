@@ -1,5 +1,6 @@
 package de.slg.klausurplan;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
-import de.slg.essensqr.WrapperQRActivity;
+import de.slg.essensqr.EssensQRActivity;
 import de.slg.leoapp.List;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
@@ -44,13 +45,14 @@ import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.stundenplan.StundenplanActivity;
 
 public class KlausurplanActivity extends AppCompatActivity {
     private ListView lvKlausuren;
     private List<Klausur> klausurList;
     private DrawerLayout drawerLayout;
     private Snackbar snackbar;
+    private KlausurDialog dialog;
     private boolean confirmDelete;
 
     @Override
@@ -100,6 +102,14 @@ public class KlausurplanActivity extends AppCompatActivity {
         Utils.getNotificationManager().cancel(NotificationService.ID_KLAUSURPLAN);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.registerKlausurplanActivity(null);
+        if (dialog != null)
+            dialog.dismiss();
+    }
+
     private void ladeKlausuren() {
         new Load().execute();
     }
@@ -136,7 +146,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
                         break;
                     case R.id.messenger:
                         i = new Intent(getApplicationContext(), MessengerActivity.class);
@@ -145,7 +155,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
                     case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
+                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
                         break;
                     case R.id.barometer:
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
@@ -188,10 +198,16 @@ public class KlausurplanActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KlausurDialog.currentKlausur = klausurList.getObjectAt(position);
-                KlausurDialog klausurDialog = new KlausurDialog(KlausurplanActivity.this);
-                klausurDialog.show();
-                klausurDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                klausurDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                dialog = new KlausurDialog(KlausurplanActivity.this);
+                dialog.show();
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        KlausurplanActivity.this.dialog = null;
+                    }
+                });
             }
         });
     }

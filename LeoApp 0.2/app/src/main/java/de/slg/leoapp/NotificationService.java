@@ -26,7 +26,6 @@ import java.util.GregorianCalendar;
 import de.slg.essensqr.SQLiteHandler;
 import de.slg.messenger.Message;
 import de.slg.schwarzes_brett.SQLiteConnector;
-import de.slg.startseite.CardType;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.AbstimmActivity;
 import de.slg.stundenplan.Fach;
@@ -99,7 +98,7 @@ public class NotificationService extends Service {
         c.setTime(d);
 
         if (c.get(Calendar.HOUR_OF_DAY) == hoursTT && c.get(Calendar.MINUTE) == minutesTT) {
-            if(!sentTT)
+            if (!sentTT)
                 stundenplanNotification();
             sentTT = true;
         } else {
@@ -107,7 +106,7 @@ public class NotificationService extends Service {
         }
 
         if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursQR && c.get(Calendar.MINUTE) == minutesQR) {
-            if(!sentQR)
+            if (!sentQR)
                 checkEssensqr();
             sentQR = true;
         } else {
@@ -115,7 +114,7 @@ public class NotificationService extends Service {
         }
 
         if (c.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursTP && c.get(Calendar.MINUTE) == minutesTP) {
-            if(!sentTP)
+            if (!sentTP)
                 klausurplanNotification();
             sentTP = true;
         } else {
@@ -123,7 +122,7 @@ public class NotificationService extends Service {
         }
 
         if (c.get(Calendar.HOUR_OF_DAY) == hoursSB && c.get(Calendar.MINUTE) == minutesSB) {
-            if(!sentSB)
+            if (!sentSB)
                 stimmungsbarometernotification();
             sentSB = true;
         } else {
@@ -133,7 +132,7 @@ public class NotificationService extends Service {
 
     private void checkEssensqr() {
 
-        if(!Start.pref.getBoolean("pref_key_status_loggedin", false))
+        if (!Start.pref.getBoolean("pref_key_status_loggedin", false))
             return;
 
         SQLiteHandler db = new SQLiteHandler(this);
@@ -177,11 +176,12 @@ public class NotificationService extends Service {
 
     private void essensqrNotification() {
         if (Start.pref.getBoolean("pref_key_notification_essensqr", true)) {
-            Intent resultIntent = new Intent(this, MainActivity.class).putExtra("start_intent", CardType.FOODMARKS.toString());
+            Intent resultIntent = new Intent(this, MainActivity.class)
+                    .putExtra("start_intent", ID_ESSENSQR);
 
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
-                            this,
+                            getApplicationContext(),
                             0,
                             resultIntent,
                             PendingIntent.FLAG_UPDATE_CURRENT
@@ -218,11 +218,12 @@ public class NotificationService extends Service {
                         Calendar c = new GregorianCalendar();
                         c.setTime(new Date(Long.parseLong(current[1])));
                         if (c.get(Calendar.DAY_OF_MONTH) == tomorrow.get(Calendar.DAY_OF_MONTH) && c.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR) && c.get(Calendar.MONTH) == tomorrow.get(Calendar.MONTH)) {
-                            Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class).putExtra("start_intent", CardType.TESTPLAN.toString());
+                            Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
+                                    .putExtra("start_intent", ID_KLAUSURPLAN);
 
                             PendingIntent resultPendingIntent =
                                     PendingIntent.getActivity(
-                                            this,
+                                            getApplicationContext(),
                                             0,
                                             resultIntent,
                                             PendingIntent.FLAG_UPDATE_CURRENT
@@ -254,6 +255,7 @@ public class NotificationService extends Service {
 
     private void messengerNotification() {
         if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMDB().hasUnreadMessages()) {
+
             StringBuilder builder = new StringBuilder();
             for (Message m : Utils.getMDB().getUnreadMessages()) {
                 builder.append(m.uname)
@@ -262,7 +264,16 @@ public class NotificationService extends Service {
                         .append(System.getProperty("line.separator"));
             }
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), MainActivity.class).putExtra("start_intent", CardType.MESSENGER.toString()), 0);
+            Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
+                    .putExtra("start_intent", ID_MESSENGER);
+
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            getApplicationContext(),
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
 
             Notification notification =
                     new NotificationCompat.Builder(getApplicationContext())
@@ -271,8 +282,7 @@ public class NotificationService extends Service {
                             .setVibrate(new long[]{200, 100, 200})
                             .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
                             .setContentTitle(getString(R.string.messenger_notification_title))
-                            .setContentIntent(pendingIntent)
-                            .setAutoCancel(true)
+                            .setContentIntent(resultPendingIntent)
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(builder.toString()))
                             .build();
             notificationManager.notify(ID_MESSENGER, notification);
@@ -292,14 +302,15 @@ public class NotificationService extends Service {
                 Utils.notifiedSchwarzesBrett(latest);
 
                 if (Utils.getSchwarzesBrettActivity() == null) {
-                    Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class).putExtra("start_intent", CardType.NEWS.toString());
+                    Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
+                            .putExtra("start_intent", ID_NEWS);
 
                     PendingIntent resultPendingIntent =
                             PendingIntent.getActivity(
                                     getApplicationContext(),
                                     0,
                                     resultIntent,
-                                    0
+                                    PendingIntent.FLAG_UPDATE_CURRENT
                             );
 
                     NotificationCompat.Builder notificationBuilder =
@@ -328,7 +339,7 @@ public class NotificationService extends Service {
                             getApplicationContext(),
                             0,
                             resultIntent,
-                            0
+                            PendingIntent.FLAG_UPDATE_CURRENT
                     );
 
             NotificationCompat.Builder notificationBuilder =

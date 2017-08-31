@@ -23,7 +23,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DecimalFormat;
 
-import de.slg.essensqr.WrapperQRActivity;
+import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.GraphicUtils;
 import de.slg.leoapp.List;
@@ -33,7 +33,7 @@ import de.slg.leoapp.Utils;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.stundenplan.StundenplanActivity;
 
 import static android.view.View.GONE;
 import static android.view.View.generateViewId;
@@ -74,7 +74,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getMainActivity().startActivity(new Intent(Utils.context, WrapperQRActivity.class));
+                        Utils.getMainActivity().startActivity(new Intent(Utils.context, EssensQRActivity.class));
                     }
                 };
                 break;
@@ -166,7 +166,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                     @Override
                     public void onClick(View v) {
                         if (Utils.isVerified())
-                            Utils.getMainActivity().startActivity(new Intent(Utils.context, WrapperStundenplanActivity.class));
+                            Utils.getMainActivity().startActivity(new Intent(Utils.context, StundenplanActivity.class));
                         else
                             Utils.getMainActivity().showDialog();
                     }

@@ -74,7 +74,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="de.slg.essensqr.WrapperQRActivity"
+            android:name="de.slg.essensqr.EssensQRActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 
@@ -99,11 +99,11 @@
             android:theme="@style/MainActivitiesTheme" />
 
         <activity
-            android:name="de.slg.stundenplan.WrapperStundenplanActivity"
+            android:name="de.slg.stundenplan.StundenplanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.stundenplan.StundenplanActivity"
+            android:name="de.slg.stundenplan.StundenplanBildActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="de.slg.stundenplan.AuswahlActivity"

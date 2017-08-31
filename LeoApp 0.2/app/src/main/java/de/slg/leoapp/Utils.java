@@ -17,32 +17,52 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.messenger.AddGroupChatActivity;
 import de.slg.messenger.ChatActivity;
+import de.slg.messenger.ChatEditActivity;
 import de.slg.messenger.DBConnection;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
+import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
+import de.slg.stundenplan.AuswahlActivity;
+import de.slg.stundenplan.StundenplanActivity;
+import de.slg.stundenplan.StundenplanBildActivity;
 import de.slg.stundenplan.StundenplanDB;
 
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
     public static Context context;
 
+    //Activities
     private static MainActivity mainActivity;
 
-    private static DBConnection dbConnection;
     private static MessengerActivity messengerActivity;
     private static ChatActivity chatActivity;
-    private static int currentlyDisplayedChatId = -1;
+    private static ChatEditActivity chatEditActivity;
+    private static AddGroupChatActivity addGroupChatActivity;
 
     private static SchwarzesBrettActivity schwarzesBrettActivity;
 
-    private static ReceiveService receiveService;
+    private static StimmungsbarometerActivity stimmungsbarometerActivity;
+
+    private static StundenplanActivity stundenplanActivity;
+    private static StundenplanBildActivity stundenplanBildActivity;
+    private static AuswahlActivity auswahlActivity;
 
     private static KlausurplanActivity klausurplanActivity;
 
+    private static EssensQRActivity essensQRActivity;
+
+    //Datenbankverwaltungen
+    private static DBConnection dbConnection;
     private static StundenplanDB stundenplanDB;
+
+    private static ReceiveService receiveService;
+
+    private static int currentlyDisplayedChatId = -1;
 
     public static boolean checkNetwork() {
         ConnectivityManager c = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -190,14 +210,55 @@ public abstract class Utils {
                 .apply();
     }
 
-    //Registrierte Activities
-    public static void registerMessengerActivity(MessengerActivity messengerActivity) {
-        Utils.messengerActivity = messengerActivity;
+    //Activities
+    public static void registerMessengerActivity(MessengerActivity activity) {
+        Utils.messengerActivity = activity;
     }
 
-    public static void registerChatActivity(ChatActivity chatActivity) {
-        Utils.chatActivity = chatActivity;
+    public static void registerChatActivity(ChatActivity activity) {
+        Utils.chatActivity = activity;
     }
+
+    public static void registerChatEditActivity(ChatEditActivity activity) {
+        chatEditActivity = activity;
+    }
+
+    public static void registerAddGroupChatActivity(AddGroupChatActivity activity) {
+        addGroupChatActivity = activity;
+    }
+
+    public static void registerStimmungsbarometerActivity(StimmungsbarometerActivity activity) {
+        stimmungsbarometerActivity = activity;
+    }
+
+    public static void registerStundenplanActivity(StundenplanActivity activity) {
+        stundenplanActivity = activity;
+    }
+
+    public static void registerStundenplanBildActivity(StundenplanBildActivity activity) {
+        stundenplanBildActivity = activity;
+    }
+
+    public static void registerAuswahlActivity(AuswahlActivity activity) {
+        auswahlActivity = activity;
+    }
+
+    public static void registerMainActivity(MainActivity activity) {
+        mainActivity = activity;
+    }
+
+    public static void registerSchwarzesBrettActivity(SchwarzesBrettActivity activity) {
+        Utils.schwarzesBrettActivity = activity;
+    }
+
+    public static void registerKlausurplanActivity(KlausurplanActivity activity) {
+        klausurplanActivity = activity;
+    }
+
+    public static void registerEssensQRActivity(EssensQRActivity essensQRActivity) {
+        Utils.essensQRActivity = essensQRActivity;
+    }
+
 
     public static MessengerActivity getMessengerActivity() {
         return messengerActivity;
@@ -207,28 +268,72 @@ public abstract class Utils {
         return chatActivity;
     }
 
-    public static void registerKlausurplanActivity(KlausurplanActivity activity) {
-        klausurplanActivity = activity;
-    }
-
     public static KlausurplanActivity getKlausurplanActivity() {
         return klausurplanActivity;
-    }
-
-    public static void registerMainActivity(MainActivity activity) {
-        mainActivity = activity;
     }
 
     public static MainActivity getMainActivity() {
         return mainActivity;
     }
 
-    public static void registerSchwarzesBrettActivity(SchwarzesBrettActivity activity) {
-        Utils.schwarzesBrettActivity = activity;
-    }
-
     static SchwarzesBrettActivity getSchwarzesBrettActivity() {
         return schwarzesBrettActivity;
+    }
+
+    public static StundenplanActivity getStundenplanActivity() {
+        return stundenplanActivity;
+    }
+
+    public static StundenplanBildActivity getStundenplanBildActivity() {
+        return stundenplanBildActivity;
+    }
+
+    public static AuswahlActivity getAuswahlActivity() {
+        return auswahlActivity;
+    }
+
+    public static StimmungsbarometerActivity getStimmungsbarometerActivity() {
+        return stimmungsbarometerActivity;
+    }
+
+    public static ChatEditActivity getChatEditActivity() {
+        return chatEditActivity;
+    }
+
+    public static AddGroupChatActivity getAddGroupChatActivity() {
+        return addGroupChatActivity;
+    }
+
+    public static EssensQRActivity getEssensQRActivity() {
+        return essensQRActivity;
+    }
+
+
+    public static void closeAll() {
+        if (getChatEditActivity() != null)
+            getChatEditActivity().finish();
+        if (getChatActivity() != null)
+            getChatActivity().finish();
+        if (getAddGroupChatActivity() != null)
+            getAddGroupChatActivity().finish();
+        if (getMessengerActivity() != null)
+            getMessengerActivity().finish();
+        if (getAuswahlActivity() != null)
+            getAuswahlActivity().finish();
+        if (getStundenplanBildActivity() != null)
+            getStundenplanBildActivity().finish();
+        if (getStundenplanActivity() != null)
+            getStundenplanActivity().finish();
+        if (getSchwarzesBrettActivity() != null)
+            getSchwarzesBrettActivity().finish();
+        if (getStimmungsbarometerActivity() != null)
+            getStimmungsbarometerActivity().finish();
+        if (getEssensQRActivity() != null)
+            getEssensQRActivity().finish();
+        if (getKlausurplanActivity() != null)
+            getKlausurplanActivity().finish();
+        if (getMainActivity() != null)
+            getMainActivity().finish();
     }
 
     //User-Stuff
@@ -315,5 +420,4 @@ public abstract class Utils {
         return cachedValues;
 
     }
-
 }

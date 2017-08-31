@@ -18,11 +18,9 @@ public class Start extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
         Utils.context = getApplicationContext();
-
         initPref(getApplicationContext());
 
         final Intent main = new Intent(getApplicationContext(), MainActivity.class)

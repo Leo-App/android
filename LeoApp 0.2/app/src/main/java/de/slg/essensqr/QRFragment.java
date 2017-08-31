@@ -61,10 +61,10 @@ public class QRFragment extends Fragment {
         Log.d("LeoApp", "syncFIRSTCALLED");
         Log.d("LeoApp", "OnStart: " + String.valueOf(start));
 
-        if (WrapperQRActivity.runningSync)
+        if (EssensQRActivity.runningSync)
             return;
 
-        WrapperQRActivity.runningSync = true;
+        EssensQRActivity.runningSync = true;
 
         iv1.setVisibility(View.INVISIBLE);
         iv2.setVisibility(View.INVISIBLE);

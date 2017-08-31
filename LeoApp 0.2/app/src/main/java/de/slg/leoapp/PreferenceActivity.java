@@ -38,7 +38,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import de.slg.essensqr.Auth;
-import de.slg.essensqr.WrapperQRActivity;
+import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.DBConnection;
 import de.slg.messenger.MessengerActivity;
@@ -48,7 +48,7 @@ import de.slg.startseite.MainActivity;
 import de.slg.startseite.UpdateTaskGrade;
 import de.slg.startseite.UpdateTaskName;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.stundenplan.StundenplanActivity;
 
 @SuppressWarnings("deprecation")
 public class PreferenceActivity extends android.preference.PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -395,7 +395,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
                         break;
                     case R.id.messenger:
                         i = new Intent(getApplicationContext(), MessengerActivity.class);
@@ -404,7 +404,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
                     case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
+                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
                         break;
                     case R.id.barometer:
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);

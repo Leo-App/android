@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.slg.essensqr.WrapperQRActivity;
+import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
@@ -40,7 +40,7 @@ import de.slg.leoapp.Utils;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.stundenplan.StundenplanActivity;
 
 import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
@@ -157,7 +157,7 @@ public class MessengerActivity extends AppCompatActivity {
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
                         break;
                     case R.id.messenger:
                         return true;
@@ -165,7 +165,7 @@ public class MessengerActivity extends AppCompatActivity {
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
                     case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
+                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
                         break;
                     case R.id.barometer:
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);

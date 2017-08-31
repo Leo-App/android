@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
-import de.slg.essensqr.WrapperQRActivity;
+import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
@@ -27,7 +27,7 @@ import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.stundenplan.StundenplanActivity;
 
 public class NachhilfeboerseActivity extends AppCompatActivity {
 
@@ -73,7 +73,7 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
                 boolean settings = false;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
                         break;
                     case R.id.messenger: //Nur bei Verifizierung
                         i = new Intent(getApplicationContext(), MessengerActivity.class);
@@ -84,7 +84,7 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
 //                    case R.id.nachhilfe: //Nur bei Verifizierung
 //                        return true;
                     case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
+                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
                         break;
                     case R.id.barometer:
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);

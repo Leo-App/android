@@ -19,7 +19,7 @@ public class ScanFragment extends Fragment {
         RelativeLayout rootView = (RelativeLayout) inflater.inflate(
                 R.layout.fragment_scan, container, false);
 
-        WrapperQRActivity.scan = (Button) rootView.findViewById(R.id.scan_button);
+        EssensQRActivity.scan = (Button) rootView.findViewById(R.id.scan_button);
 
         return rootView;
 

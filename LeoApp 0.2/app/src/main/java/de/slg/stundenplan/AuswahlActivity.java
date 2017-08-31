@@ -47,6 +47,7 @@ public class AuswahlActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auswahl);
+        Utils.registerAuswahlActivity(this);
 
         String stufe = Utils.getUserStufe();
 
@@ -85,6 +86,12 @@ public class AuswahlActivity extends AppCompatActivity {
         }
         finish();
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.registerAuswahlActivity(null);
     }
 
     private void initToolbar() {

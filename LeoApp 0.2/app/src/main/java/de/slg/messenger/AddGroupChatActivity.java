@@ -40,6 +40,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_add_chat);
+        Utils.registerAddGroupChatActivity(this);
 
         initToolbar();
         initListView();
@@ -65,6 +66,12 @@ public class AddGroupChatActivity extends AppCompatActivity {
             finish();
         }
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.registerAddGroupChatActivity(null);
     }
 
     private void createNewChat() {

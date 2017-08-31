@@ -19,10 +19,10 @@ import de.slg.leoapp.R;
 
 class QRReadTask extends AsyncTask<String, Integer, Boolean> {
 
-    private final WrapperQRActivity act;
+    private final EssensQRActivity act;
     private int orderedMenu;
 
-    QRReadTask(WrapperQRActivity act) {
+    QRReadTask(EssensQRActivity act) {
 
         this.act = act;
 
@@ -40,7 +40,7 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
             String year = parts[2].substring(4, 7);
             orderedMenu = Integer.parseInt(String.valueOf(params[0].charAt(7)));
 
-            SQLiteDatabase db = WrapperQRActivity.sqlh.getReadableDatabase();
+            SQLiteDatabase db = EssensQRActivity.sqlh.getReadableDatabase();
 
             String[] projection = {
                     SQLiteHandler.ScanEntry.COLUMN_NAME_DATE,
@@ -63,7 +63,7 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
 
                 cursor.close();
 
-                db = WrapperQRActivity.sqlh.getWritableDatabase();
+                db = EssensQRActivity.sqlh.getWritableDatabase();
 
                 ContentValues values = new ContentValues();
                 values.put(SQLiteHandler.ScanEntry.COLUMN_NAME_CUSTOMERID, params[0].split("-")[0]);
@@ -163,9 +163,9 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         builder.setView(v);
 
 
-        if (WrapperQRActivity.sharedPref.getBoolean("pref_key_qr_autofade", false)) {
+        if (EssensQRActivity.sharedPref.getBoolean("pref_key_qr_autofade", false)) {
 
-            int duration = WrapperQRActivity.sharedPref.getInt("pref_key_qr_autofade_time", 3);
+            int duration = EssensQRActivity.sharedPref.getInt("pref_key_qr_autofade_time", 3);
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override

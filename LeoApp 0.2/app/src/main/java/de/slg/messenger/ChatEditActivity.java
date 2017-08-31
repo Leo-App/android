@@ -46,6 +46,7 @@ public class ChatEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_chat_edit);
+        Utils.registerChatEditActivity(this);
 
         cid = getIntent().getIntExtra("cid", -1);
         cname = getIntent().getStringExtra("cname");
@@ -78,10 +79,11 @@ public class ChatEditActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
+        super.finish();
         Utils.receiveMessenger();
         setResult(1, getIntent().putExtra("cname", cname));
         Utils.getMDB().muteChat(cid, !notifications.isChecked());
-        super.finish();
+        Utils.registerChatEditActivity(null);
     }
 
     @Override

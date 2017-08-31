@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import de.slg.essensqr.WrapperQRActivity;
+import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
@@ -38,7 +38,7 @@ import de.slg.leoapp.Utils;
 import de.slg.messenger.MessengerActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.stundenplan.StundenplanActivity;
 
 public class SchwarzesBrettActivity extends AppCompatActivity {
     private static SQLiteConnector db;
@@ -120,7 +120,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
                         break;
                     case R.id.messenger:
                         i = new Intent(getApplicationContext(), MessengerActivity.class);
@@ -128,7 +128,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                     case R.id.newsboard:
                         return true;
                     case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
+                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
                         break;
                     case R.id.barometer:
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);

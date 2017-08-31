@@ -41,11 +41,11 @@ import static android.view.View.VISIBLE;
 
 class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
+    private final Fragment qr;
+    private final boolean onAppStart;
     private View target;
     private short menu;
-    private final Fragment qr;
     private boolean connection;
-    private final boolean onAppStart;
     private String descr;
 
     QRWriteTask(Fragment a, boolean startedOnAppStart) {
@@ -63,12 +63,12 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         target = params[0];
         connection = hasActiveInternetConnection();
 
-        if (!(WrapperQRActivity.sharedPref.getBoolean("pref_key_status_loggedin", false)))
+        if (!(EssensQRActivity.sharedPref.getBoolean("pref_key_status_loggedin", false)))
             return null;
 
         if (connection) {
             if (onAppStart) {
-                if (WrapperQRActivity.sharedPref.getBoolean("pref_key_qr_sync", false))
+                if (EssensQRActivity.sharedPref.getBoolean("pref_key_qr_sync", false))
                     saveNewestEntries();
             } else
                 saveNewestEntries();
@@ -82,7 +82,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         menu = act.getMenu();
         descr = act.getDescr();
 
-        String customerString = WrapperQRActivity.sharedPref.getString("pref_key_qr_id", "00000");
+        String customerString = EssensQRActivity.sharedPref.getString("pref_key_qr_id", "00000");
 
         if (customerString.equals(""))
             return null;
@@ -137,7 +137,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             target.findViewById(R.id.textViewMenuDetails).setVisibility(INVISIBLE);
         }
 
-        WrapperQRActivity.runningSync = false;
+        EssensQRActivity.runningSync = false;
         target.findViewById(R.id.progressBar1).setVisibility(GONE);
     }
 
@@ -157,7 +157,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
     private Order getRecentEntry() {
 
-        SQLiteDatabase db = WrapperQRActivity.sqlh.getReadableDatabase();
+        SQLiteDatabase db = EssensQRActivity.sqlh.getReadableDatabase();
 
         String[] projection = {
                 SQLiteHandler.OrderEntry.COLUMN_NAME_DATE,
@@ -199,7 +199,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         String result = "";
 
         try {
-            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/essenqr/qr_database.php?id=" + WrapperQRActivity.sharedPref.getString("pref_key_qr_id", "00000")
+            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/essenqr/qr_database.php?id=" + EssensQRActivity.sharedPref.getString("pref_key_qr_id", "00000")
                     + "&auth=2SnDS7GBdHf5sd");
 
             Log.d("LeoApp", interfaceDB.toString());
@@ -233,7 +233,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
         String[] data = result.split("_next_");
 
-        SQLiteDatabase db = WrapperQRActivity.sqlh.getWritableDatabase();
+        SQLiteDatabase db = EssensQRActivity.sqlh.getWritableDatabase();
 
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -277,7 +277,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
         db.close();
 
-        db = WrapperQRActivity.sqlh.getWritableDatabase();
+        db = EssensQRActivity.sqlh.getWritableDatabase();
 
         String dateString = df.format(highest);
 

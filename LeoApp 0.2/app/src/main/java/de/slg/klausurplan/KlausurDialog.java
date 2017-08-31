@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialog;
 import android.view.View;
-
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-
 
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +19,7 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 
-class KlausurDialog extends AlertDialog {
+class KlausurDialog extends AppCompatDialog {
 
     static Klausur currentKlausur;
     private EditText eingabeFach;
@@ -76,8 +74,6 @@ class KlausurDialog extends AlertDialog {
                 }
             }
         });
-
-
     }
 
     private void initSnackbarTitel() {

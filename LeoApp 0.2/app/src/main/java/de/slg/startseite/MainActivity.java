@@ -49,7 +49,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import de.slg.essensqr.WrapperQRActivity;
+import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
@@ -61,7 +61,7 @@ import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.schwarzes_brett.UpdateViewTrackerTask;
 import de.slg.stimmungsbarometer.AbstimmDialog;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.stundenplan.StundenplanActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
@@ -85,12 +85,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        int notificationTarget = getIntent().getIntExtra("start_intent", -1);
+        if (notificationTarget != -1) {
+            Utils.closeAll();
+
+            Log.e("TAG", "Notification!!!");
+
+            switch (notificationTarget) {
+                case NotificationService.ID_ESSENSQR:
+                    startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
+                    break;
+
+                case NotificationService.ID_KLAUSURPLAN:
+                    startActivity(new Intent(getApplicationContext(), KlausurplanActivity.class));
+                    break;
+
+                case NotificationService.ID_MESSENGER:
+                    startActivity(new Intent(getApplicationContext(), MessengerActivity.class));
+                    break;
+
+                case NotificationService.ID_NEWS:
+                    startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
+                    break;
+            }
+        }
+
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_startseite);
+        Utils.registerMainActivity(this);
 
         runningScan = false;
         Utils.context = getApplicationContext();
-
-        setContentView(R.layout.activity_startseite);
 
         if (getIntent().getBooleanExtra("show_dialog", false)) {
             abstimmDialog = new AbstimmDialog(this);
@@ -108,33 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }
-
-        String notificationTarget = getIntent().getStringExtra("start_intent");
-
-        if(notificationTarget != null) {
-
-            if (Utils.getMainActivity() != null)
-                Utils.getMainActivity().finish();
-
-            CardType c = CardType.valueOf(notificationTarget);
-
-            switch (c) {
-                case FOODMARKS:
-                    startActivity(new Intent(this, WrapperQRActivity.class));
-                    break;
-                case TESTPLAN:
-                    startActivity(new Intent(this, KlausurplanActivity.class));
-                    break;
-                case MESSENGER:
-                    startActivity(new Intent(this, MessengerActivity.class));
-                    break;
-                case NEWS:
-                    startActivity(new Intent(this, SchwarzesBrettActivity.class));
-                    break;
-            }
-        }
-
-        Utils.registerMainActivity(this);
 
         Start.pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -201,10 +200,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (hide)
             findViewById(R.id.card_view0).setVisibility(View.GONE);
 
-        if (!WrapperQRActivity.mensaModeRunning && Start.pref.getBoolean("pref_key_mensa_mode", false)) {
-            startActivity(new Intent(this, WrapperQRActivity.class));
+        if (!EssensQRActivity.mensaModeRunning && Start.pref.getBoolean("pref_key_mensa_mode", false)) {
+            startActivity(new Intent(this, EssensQRActivity.class));
         } else
-            WrapperQRActivity.mensaModeRunning = false;
+            EssensQRActivity.mensaModeRunning = false;
     }
 
     @Override
@@ -472,7 +471,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
                         break;
                     case R.id.messenger:
                         i = new Intent(getApplicationContext(), MessengerActivity.class);
@@ -481,7 +480,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
                     case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
+                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
                         break;
                     case R.id.barometer:
                         i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
