@@ -66,8 +66,6 @@ public class MessengerActivity extends AppCompatActivity {
         initArrays();
         initNavigationView();
         initTabs();
-
-        Utils.getNotificationManager().cancel(5453);
     }
 
     @Override
@@ -94,6 +92,15 @@ public class MessengerActivity extends AppCompatActivity {
     public void finish() {
         Utils.registerMessengerActivity(null);
         super.finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.getNotificationManager().cancel(5453);
+        uFragment.refreshUI();
+        cFragment.refreshUI();
+        sFragment.refreshUI();
     }
 
     private void initToolbar() {
@@ -248,13 +255,15 @@ public class MessengerActivity extends AppCompatActivity {
         }
 
         public void refreshUI() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (rvUsers != null)
-                        rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().userArray, userClickListener), false);
-                }
-            });
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (rvUsers != null)
+                            rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().userArray, userClickListener), false);
+                    }
+                });
+            }
         }
 
         private class UserAdapter extends RecyclerView.Adapter {
@@ -368,13 +377,15 @@ public class MessengerActivity extends AppCompatActivity {
         }
 
         public void refreshUI() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (rvChats != null)
-                        rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().chatArray, chatClickListener, chatLongClickListener), false);
-                }
-            });
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (rvChats != null)
+                            rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().chatArray, chatClickListener, chatLongClickListener), false);
+                    }
+                });
+            }
         }
 
         private class ChatAdapter extends RecyclerView.Adapter {
@@ -666,7 +677,7 @@ public class MessengerActivity extends AppCompatActivity {
         }
 
         public void refreshUI() {
-            if (initialized) {
+            if (getActivity() != null && initialized) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

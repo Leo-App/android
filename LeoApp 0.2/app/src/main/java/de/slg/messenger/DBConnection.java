@@ -111,12 +111,7 @@ public class DBConnection {
     }
 
     public long getLatestDateInDB() {
-        String table = TABLE_MESSAGES + ", " + TABLE_CHATS;
-        String[] columns = {MESSAGE_DATE};
-        String selection = USER_ID + " != " + Utils.getUserID() + " AND " +
-                TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
-                CHAT_MUTE + " = 0";
-        Cursor cursor = query(table, columns, selection, MESSAGE_DATE + " DESC", "1");
+        Cursor cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_DATE}, null, MESSAGE_DATE + " DESC", "1");
         cursor.moveToFirst();
         long l = 0;
         if (cursor.getCount() > 0)

@@ -268,8 +268,8 @@ public class NotificationService extends Service {
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(builder.toString()))
                             .build();
             notificationManager.notify(5453, notification);
-            Utils.notifiedMessenger();
         }
+        Utils.notifiedMessenger();
     }
 
     private void nachhilfeNotification() {

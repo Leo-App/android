@@ -108,6 +108,8 @@ public class ChatActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Utils.setCurrentlyDisplayedChat(-1);
+        if (cid != -1)
+            Utils.getMDB().setMessagesRead(cid);
     }
 
     @Override
