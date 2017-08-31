@@ -55,7 +55,7 @@ import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
-import de.slg.messenger.OverviewWrapper;
+import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.schwarzes_brett.UpdateViewTrackerTask;
 import de.slg.stimmungsbarometer.AbstimmDialog;
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(new Intent(this, KlausurplanActivity.class));
                     break;
                 case MESSENGER:
-                    startActivity(new Intent(this, OverviewWrapper.class));
+                    startActivity(new Intent(this, MessengerActivity.class));
                     break;
                 case NEWS:
                     startActivity(new Intent(this, SchwarzesBrettActivity.class));
@@ -448,10 +448,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.show();
     }
 
-    private void initNavigationView() {
+    void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
 
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
@@ -466,9 +465,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        return true;
+                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        break;
                     case R.id.messenger:
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                        i = new Intent(getApplicationContext(), MessengerActivity.class);
                         break;
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
@@ -483,8 +483,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                         break;
                     case R.id.startseite:
-                        i = null;
-                        break;
+                        return true;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;
@@ -494,10 +493,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 if (i != null)
                     startActivity(i);
-                finish();
                 return true;
             }
         });
+
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
 

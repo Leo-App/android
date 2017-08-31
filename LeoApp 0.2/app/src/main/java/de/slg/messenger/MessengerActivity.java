@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
@@ -44,7 +45,7 @@ import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
 
-public class OverviewWrapper extends AppCompatActivity {
+public class MessengerActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ChatsFragment cFragment;
     private UserFragment uFragment;
@@ -54,7 +55,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Utils.registerOverviewWrapper(this);
+        Utils.registerMessengerActivity(this);
         Utils.context = getApplicationContext();
         Utils.getMDB();
 
@@ -91,7 +92,7 @@ public class OverviewWrapper extends AppCompatActivity {
 
     @Override
     public void finish() {
-        Utils.registerOverviewWrapper(null);
+        Utils.registerMessengerActivity(null);
         super.finish();
     }
 
@@ -148,10 +149,10 @@ public class OverviewWrapper extends AppCompatActivity {
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        return true;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
                         break;
+                    case R.id.messenger:
+                        return true;
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
@@ -180,6 +181,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 return true;
             }
         });
+
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
 
@@ -232,7 +234,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     int position = rvUsers.getChildAdapterPosition(view);
-                    User clickedUser = Utils.getOverviewWrapper().userArray[position];
+                    User clickedUser = Utils.getMessengerActivity().userArray[position];
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("uid", clickedUser.uid)
                             .putExtra("cid", Utils.getMDB().getChatWith(clickedUser.uid))
@@ -242,7 +244,7 @@ public class OverviewWrapper extends AppCompatActivity {
             };
 
             rvUsers.setLayoutManager(new LinearLayoutManager(getContext()));
-            rvUsers.setAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getOverviewWrapper().userArray, userClickListener));
+            rvUsers.setAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().userArray, userClickListener));
         }
 
         public void refreshUI() {
@@ -250,7 +252,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (rvUsers != null)
-                        rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getOverviewWrapper().userArray, userClickListener), false);
+                        rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().userArray, userClickListener), false);
                 }
             });
         }
@@ -321,7 +323,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     int position = rvChats.getChildAdapterPosition(view);
-                    Chat clickedChat = Utils.getOverviewWrapper().chatArray[position];
+                    Chat clickedChat = Utils.getMessengerActivity().chatArray[position];
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("cid", clickedChat.cid)
                             .putExtra("cname", clickedChat.cname)
@@ -362,7 +364,7 @@ public class OverviewWrapper extends AppCompatActivity {
             );
             rvChats.addItemDecoration(mDividerItemDecoration);
             rvChats.setLayoutManager(linearLayoutManager);
-            rvChats.setAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getOverviewWrapper().chatArray, chatClickListener, chatLongClickListener));
+            rvChats.setAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().chatArray, chatClickListener, chatLongClickListener));
         }
 
         public void refreshUI() {
@@ -370,7 +372,7 @@ public class OverviewWrapper extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (rvChats != null)
-                        rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getOverviewWrapper().chatArray, chatClickListener, chatLongClickListener), false);
+                        rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().chatArray, chatClickListener, chatLongClickListener), false);
                 }
             });
         }
@@ -454,7 +456,7 @@ public class OverviewWrapper extends AppCompatActivity {
                             Utils.getMDB().deleteChat(c.cid);
                             selected = -1;
                             previousPosition = -1;
-                            Utils.getOverviewWrapper().notifyUpdate();
+                            Utils.getMessengerActivity().notifyUpdate();
                         }
                     });
                     buttonMute.setOnClickListener(new View.OnClickListener() {
@@ -462,7 +464,7 @@ public class OverviewWrapper extends AppCompatActivity {
                         public void onClick(View v) {
                             Utils.getMDB().muteChat(c.cid, !c.mute);
                             selected = -1;
-                            Utils.getOverviewWrapper().notifyUpdate();
+                            Utils.getMessengerActivity().notifyUpdate();
                         }
                     });
                 }

@@ -282,8 +282,8 @@ public class ReceiveService extends Service {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (Utils.getOverviewWrapper() != null)
-                Utils.getOverviewWrapper().notifyUpdate();
+            if (Utils.getMessengerActivity() != null)
+                Utils.getMessengerActivity().notifyUpdate();
             Log.i("ReceiveService", "received Messages");
         }
     }

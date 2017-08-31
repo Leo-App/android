@@ -24,13 +24,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.essensqr.SQLiteHandler;
-import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.Message;
-import de.slg.messenger.OverviewWrapper;
 import de.slg.schwarzes_brett.SQLiteConnector;
-import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
-import de.slg.stimmungsbarometer.AbstimmActivity;
 import de.slg.stundenplan.Fach;
 
 public class NotificationService extends Service {

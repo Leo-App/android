@@ -38,9 +38,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import de.slg.essensqr.Auth;
+import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.DBConnection;
-import de.slg.messenger.OverviewWrapper;
+import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.InfoActivity;
 import de.slg.startseite.MainActivity;
@@ -379,7 +380,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.klausurplan).setChecked(true);
+        navigationView.getMenu().findItem(R.id.settings).setChecked(true);
 
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
@@ -394,9 +395,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        return true;
+                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        break;
                     case R.id.messenger:
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                        i = new Intent(getApplicationContext(), MessengerActivity.class);
                         break;
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
@@ -414,8 +416,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                         i = null;
                         break;
                     case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
+                        return true;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();

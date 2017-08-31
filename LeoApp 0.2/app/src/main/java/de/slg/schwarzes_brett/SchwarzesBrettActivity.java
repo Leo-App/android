@@ -28,12 +28,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import de.slg.essensqr.WrapperQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
-import de.slg.messenger.OverviewWrapper;
+import de.slg.messenger.MessengerActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
@@ -113,13 +114,13 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        return true;
+                        i = new Intent(getApplicationContext(), WrapperQRActivity.class);
+                        break;
                     case R.id.messenger:
-                        i = new Intent(getApplicationContext(), OverviewWrapper.class);
+                        i = new Intent(getApplicationContext(), MessengerActivity.class);
                         break;
                     case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
+                        return true;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), WrapperStundenplanActivity.class);
                         break;
@@ -284,5 +285,11 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.registerSchwarzesBrettActivity(null);
     }
 }

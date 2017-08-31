@@ -60,7 +60,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="de.slg.messenger.OverviewWrapper"
+            android:name="de.slg.messenger.MessengerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
