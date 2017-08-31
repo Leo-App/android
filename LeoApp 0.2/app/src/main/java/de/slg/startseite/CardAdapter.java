@@ -35,9 +35,11 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.OverviewWrapper;
+import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.WrapperStundenplanActivity;
+import de.slg.vertretung.WrapperSubstitutionActivity;
 
 import static android.view.View.GONE;
 import static android.view.View.generateViewId;
@@ -51,7 +53,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
         cards = new List<>();
 
         String card_config = Start.pref.getString("pref_key_card_config",
-                "FOODMARKS;TESTPLAN;MESSENGER;TUTORING;NEWS;SURVEY;SCHEDULE;SUBSTITUTION");
+                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;COMING_SOON");
 
         for (String card : card_config.split(";")) {
             if (card.length() > 0) {
@@ -120,16 +122,16 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 cards.append(c = new InfoCard(false, type));
                 c.title = Utils.getString(R.string.title_tutoring);
                 c.descr = Utils.getString(R.string.summary_info_tutoring);
-                c.buttonDescr = Utils.getString(R.string.coming_soon); // Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
-              //  c.enabled = Utils.isVerified();
-                c.icon = R.drawable.ic_priority_high_black_24dp;
+                c.buttonDescr =  Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                c.enabled = Utils.isVerified();
+                c.icon = R.drawable.ic_people_white_24dp;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                  /*      if (Utils.isVerified())
+                        if (Utils.isVerified())
                             Utils.getMainActivity().startActivity(new Intent(Utils.context, NachhilfeboerseActivity.class));
                         else
-                            Utils.getMainActivity().showDialog(); */
+                            Utils.getMainActivity().showDialog();
                     }
                 };
                 break;
@@ -180,12 +182,27 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 cards.append(c = new InfoCard(false, type));
                 c.title = Utils.getString(R.string.title_subst);
                 c.descr = Utils.getString(R.string.summary_info_subst);
-                c.buttonDescr = Utils.getString(R.string.coming_soon);
-                c.icon = R.drawable.ic_priority_high_black_24dp;
+                c.buttonDescr = Utils.getString(R.string.button_info_try);
+                c.icon = R.drawable.ic_account_switch;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //  Utils.getMainActivity().startActivity(new Intent(Utils.context, WrapperSubstitutionActivity.class));
+                        Utils.getMainActivity().startActivity(new Intent(Utils.context, WrapperSubstitutionActivity.class));
+                    }
+                };
+                break;
+            case COMING_SOON:
+                cards.append(c = new InfoCard(false, type));
+                c.title = Utils.getString(R.string.coming_soon);
+                c.descr = Utils.getString(R.string.todo_description);
+                c.buttonDescr = null;
+                c.icon = R.drawable.ic_priority_high_white_24dp;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(Start.pref.getBoolean("pref_key_card_config_quick", false))
+                            new ComingSoonDialog(Utils.getMainActivity()).show();
+
                     }
                 };
                 break;
@@ -194,7 +211,6 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 m.title = Utils.getString(R.string.card_title_weather);
 
                 break;
-
         }
     }
 
@@ -266,7 +282,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     public void onBindViewHolder(final CardViewHolder holder, final int position) {
         cards.toIndex(position);
         Card c = cards.getContent();
-
+        boolean quick = Start.pref.getBoolean("pref_key_card_config_quick", false);
 
         if (MainActivity.editing)
             holder.wrapper.setCardElevation(25);
@@ -281,12 +297,13 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             holder.button.setText(ref.buttonDescr);
             holder.button.setOnClickListener(ref.buttonListener);
             holder.title.setText(ref.title);
-            if (ref.buttonDescr.equals(Utils.getString(R.string.coming_soon))) {
-                //  holder.icon.setColorFilter(Color.rgb(0x00,0x91, 0xea));
-                holder.icon.setColorFilter(Color.rgb(0xf4, 0x43, 0x36));
-                if(Start.pref.getBoolean("pref_key_card_config_quick", false))
-                    holder.title.setText(ref.buttonDescr);
-            } else
+
+            if(ref.buttonDescr == null && !quick)
+                holder.button.setVisibility(GONE);
+
+            if (ref.title.equals(Utils.getString(R.string.coming_soon)))
+                holder.icon.setColorFilter(Color.GRAY);
+            else
                 holder.icon.setColorFilter(null);
             holder.description.setText(ref.descr);
             holder.content.setVisibility(GONE);
@@ -311,7 +328,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
             weatherIcon.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
 
-            if(Start.pref.getBoolean("pref_key_card_config_quick", false)) {
+            if(quick) {
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT);
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
                 layoutParams.setMargins(0, 25, 0, 0);
