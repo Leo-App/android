@@ -193,7 +193,7 @@ public class DBConnection {
         User[] array = new User[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
-            array[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("Teacher", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4));
+            array[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("TEA", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4));
         }
         cursor.close();
         return array;
@@ -436,7 +436,7 @@ public class DBConnection {
         List<User> list = new List<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             if (cursor.getInt(0) != Utils.getUserID())
-                list.append(new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("Teacher", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4)));
+                list.append(new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("TEA", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4)));
         }
         cursor.close();
         return list.fill(new User[list.size()]);
@@ -449,7 +449,7 @@ public class DBConnection {
         User[] users = new User[cursor.getCount()];
         int i = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
-            users[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4));
+            users[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("TEA", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4));
         }
         cursor.close();
         return users;
