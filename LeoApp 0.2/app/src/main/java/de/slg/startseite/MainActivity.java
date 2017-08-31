@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         runningScan = false;
-        Utils.registerMainActivity(this);
         Utils.context = getApplicationContext();
 
         setContentView(R.layout.activity_startseite);
@@ -114,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(notificationTarget != null) {
 
+            if (Utils.getMainActivity() != null)
+                Utils.getMainActivity().finish();
+
             CardType c = CardType.valueOf(notificationTarget);
 
             switch (c) {
@@ -131,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
             }
         }
+
+        Utils.registerMainActivity(this);
 
         Start.pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
