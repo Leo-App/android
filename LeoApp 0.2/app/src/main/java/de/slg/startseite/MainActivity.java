@@ -135,6 +135,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         }
 
+        if (getIntent().getIntExtra("days", 15) <= 14) {
+            showDialog();
+            //TODO neu verifizieren dialog!!!
+        }
+
         Start.pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         if (!Start.pref.getString("pref_key_request_cached", "-").equals("-"))

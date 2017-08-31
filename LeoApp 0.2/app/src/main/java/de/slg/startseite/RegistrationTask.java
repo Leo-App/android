@@ -14,9 +14,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 
 class RegistrationTask extends AsyncTask<String, Void, Boolean> {
@@ -134,6 +138,14 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
 
             Utils.getMainActivity().initCardViews();
             Utils.getMainActivity().initNavigationView();
+
+            Calendar c = new GregorianCalendar();
+            c.add(Calendar.YEAR, 1);
+            c.set(Calendar.MONTH, Calendar.OCTOBER);
+            c.set(Calendar.DAY_OF_MONTH, 1);
+            String date = new SimpleDateFormat("dd.MM.yyyy").format(c.getTime());
+
+            Start.pref.edit().putString("valid_until", date).apply();
 
         } else {
 
