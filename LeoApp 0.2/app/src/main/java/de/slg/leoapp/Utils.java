@@ -56,6 +56,9 @@ public abstract class Utils {
 
     private static EssensQRActivity essensQRActivity;
 
+    private static PreferenceActivity preferenceActivity;
+    private static NotificationPreferenceActivity notificationPreferenceActivity;
+
     //Datenbankverwaltungen
     private static DBConnection dbConnection;
     private static StundenplanDB stundenplanDB;
@@ -255,10 +258,17 @@ public abstract class Utils {
         klausurplanActivity = activity;
     }
 
-    public static void registerEssensQRActivity(EssensQRActivity essensQRActivity) {
-        Utils.essensQRActivity = essensQRActivity;
+    public static void registerEssensQRActivity(EssensQRActivity activity) {
+        Utils.essensQRActivity = activity;
     }
 
+    static void registerPreferenceActivity(PreferenceActivity activity) {
+        Utils.preferenceActivity = activity;
+    }
+
+    static void registerNotificationPreferenceActivity(NotificationPreferenceActivity activity) {
+        Utils.notificationPreferenceActivity = activity;
+    }
 
     public static MessengerActivity getMessengerActivity() {
         return messengerActivity;
@@ -280,32 +290,40 @@ public abstract class Utils {
         return schwarzesBrettActivity;
     }
 
-    public static StundenplanActivity getStundenplanActivity() {
+    private static StundenplanActivity getStundenplanActivity() {
         return stundenplanActivity;
     }
 
-    public static StundenplanBildActivity getStundenplanBildActivity() {
+    private static StundenplanBildActivity getStundenplanBildActivity() {
         return stundenplanBildActivity;
     }
 
-    public static AuswahlActivity getAuswahlActivity() {
+    private static AuswahlActivity getAuswahlActivity() {
         return auswahlActivity;
     }
 
-    public static StimmungsbarometerActivity getStimmungsbarometerActivity() {
+    private static StimmungsbarometerActivity getStimmungsbarometerActivity() {
         return stimmungsbarometerActivity;
     }
 
-    public static ChatEditActivity getChatEditActivity() {
+    private static ChatEditActivity getChatEditActivity() {
         return chatEditActivity;
     }
 
-    public static AddGroupChatActivity getAddGroupChatActivity() {
+    private static AddGroupChatActivity getAddGroupChatActivity() {
         return addGroupChatActivity;
     }
 
-    public static EssensQRActivity getEssensQRActivity() {
+    private static EssensQRActivity getEssensQRActivity() {
         return essensQRActivity;
+    }
+
+    private static PreferenceActivity getPreferenceActivity() {
+        return preferenceActivity;
+    }
+
+    private static NotificationPreferenceActivity getNotificationPreferenceActivity() {
+        return notificationPreferenceActivity;
     }
 
 
@@ -332,6 +350,10 @@ public abstract class Utils {
             getEssensQRActivity().finish();
         if (getKlausurplanActivity() != null)
             getKlausurplanActivity().finish();
+        if (getNotificationPreferenceActivity() != null)
+            getNotificationPreferenceActivity().finish();
+        if (getPreferenceActivity() != null)
+            getPreferenceActivity().finish();
         if (getMainActivity() != null)
             getMainActivity().finish();
     }

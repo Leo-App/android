@@ -82,6 +82,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         getDelegate().onCreate(savedInstanceState);
 
         super.onCreate(savedInstanceState);
+        Utils.registerPreferenceActivity(this);
 
         setContentView(R.layout.activity_preference);
         addPreferencesFromResource(R.xml.preferences_overview);
@@ -262,6 +263,12 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.registerPreferenceActivity(null);
     }
 
     private void initPreferenceChanges() {

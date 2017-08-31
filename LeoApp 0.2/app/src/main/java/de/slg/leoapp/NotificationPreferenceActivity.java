@@ -26,8 +26,8 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
         getDelegate().onCreate(savedInstanceState);
 
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_preference);
+        Utils.registerNotificationPreferenceActivity(this);
 
         addPreferencesFromResource(R.xml.preferences_notifications);
 
@@ -157,6 +157,12 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
     protected void onDestroy() {
         super.onDestroy();
         getDelegate().onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.registerNotificationPreferenceActivity(null);
     }
 
     private ActionBar getSupportActionBar() {
