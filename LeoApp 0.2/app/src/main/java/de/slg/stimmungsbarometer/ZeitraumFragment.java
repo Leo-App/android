@@ -117,7 +117,7 @@ public class ZeitraumFragment extends Fragment {
         Calendar c1 = new GregorianCalendar(), c2 = new GregorianCalendar();
         c1.setTime(new Date());
         c2.setTime(pDate);
-        c2.add(Calendar.DAY_OF_MONTH, 7);
+        c2.add(Calendar.DAY_OF_MONTH, 6);
         return c2.get(Calendar.YEAR) > c1.get(Calendar.YEAR) ||
                 (c2.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && c2.get(Calendar.MONTH) > c1.get(Calendar.MONTH)) ||
                 (c2.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && c2.get(Calendar.MONTH) == c1.get(Calendar.MONTH) && c2.get(Calendar.DAY_OF_MONTH) >= c1.get(Calendar.DAY_OF_MONTH));
@@ -127,7 +127,7 @@ public class ZeitraumFragment extends Fragment {
         Calendar c1 = new GregorianCalendar(), c2 = new GregorianCalendar();
         c1.setTime(new Date());
         c2.setTime(pDate);
-        c2.add(Calendar.DAY_OF_MONTH, 30);
+        c2.add(Calendar.DAY_OF_MONTH, 29);
         return c2.get(Calendar.YEAR) > c1.get(Calendar.YEAR) ||
                 (c2.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && c2.get(Calendar.MONTH) > c1.get(Calendar.MONTH)) ||
                 (c2.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && c2.get(Calendar.MONTH) == c1.get(Calendar.MONTH) && c2.get(Calendar.DAY_OF_MONTH) >= c1.get(Calendar.DAY_OF_MONTH));
@@ -137,7 +137,7 @@ public class ZeitraumFragment extends Fragment {
         Calendar c1 = new GregorianCalendar(), c2 = new GregorianCalendar();
         c1.setTime(new Date());
         c2.setTime(pDate);
-        c2.add(Calendar.DAY_OF_MONTH, 365);
+        c2.add(Calendar.DAY_OF_MONTH, 364);
         return c2.get(Calendar.YEAR) > c1.get(Calendar.YEAR) ||
                 (c2.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && c2.get(Calendar.MONTH) > c1.get(Calendar.MONTH)) ||
                 (c2.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && c2.get(Calendar.MONTH) == c1.get(Calendar.MONTH) && c2.get(Calendar.DAY_OF_MONTH) >= c1.get(Calendar.DAY_OF_MONTH));
@@ -156,7 +156,7 @@ public class ZeitraumFragment extends Fragment {
         private final Paint paint;
         boolean recreateCharts;
         private boolean isInitialized;
-        private int baseLineY, baseLineX, abstandX, abstandY, radius;
+        private float baseLineY, baseLineX, abstandX, abstandY, radius;
 
         StatistikView(Context context) {
             super(context);
@@ -210,7 +210,7 @@ public class ZeitraumFragment extends Fragment {
 
         private void createCharts() {
             if (data[3].length != 0)
-                abstandX = width * 9 / (data[3].length * 10);
+                abstandX = width * 9 / ((data[3].length - 1) * 10);
             else
                 abstandX = width * 9 / 10;
 
