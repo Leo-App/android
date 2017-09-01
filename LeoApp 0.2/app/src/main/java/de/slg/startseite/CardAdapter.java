@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -413,6 +414,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
         cards.toIndex(toPosition);
         cards.insertBefore(temp);
         notifyItemMoved(fromPosition, toPosition);
+        notifyItemMoved(toPosition, fromPosition);
     }
 
     @Override
