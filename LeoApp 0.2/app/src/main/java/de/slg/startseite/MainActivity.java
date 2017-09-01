@@ -233,8 +233,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
             mood.setImageResource(Utils.getCurrentMoodRessource());
 
-            ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-            scrollView.smoothScrollTo(0, 0);
+//            ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+ //           scrollView.smoothScrollTo(0, 0);
 
             mAdapter.updateCustomCards();
 
@@ -532,7 +532,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();
 
-        boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
+        final boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
 
         RecyclerView.LayoutManager mLayoutManager = quickLayout
 
@@ -541,7 +541,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
                     @Override
                     public boolean canScrollVertically() {
-                        return false;
+                        return true;
                     }
                 }
 
@@ -550,51 +550,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new LinearLayoutManager(getApplicationContext()) {
                     @Override
                     public boolean canScrollVertically() {
-                        return false;
+                        return true;
                     }
                 };
 
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(quickLayout ?
-                ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.Callback simpleItemTouchCallback = new ItemTouchHelper.Callback() {
 
             @Override
-            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                if (!editing) return 0;
-
-                boolean quick = Start.pref.getBoolean("pref_key_card_config_quick", false);
-                return makeMovementFlags(quick ? ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-            }
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                int fromPos = viewHolder.getAdapterPosition();
-                int toPos = target.getAdapterPosition();
-
-                mAdapter.cards.toIndex(fromPos);
-                Card current = mAdapter.cards.getContent();
-
-                mAdapter.cards.remove();
-                mAdapter.cards.toIndex(toPos);
-                mAdapter.cards.insertBefore(current);
-
-                mAdapter.notifyDataSetChanged();
-
+            public boolean isLongPressDragEnabled() {
                 return true;
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                mAdapter.cards.toIndex(viewHolder.getLayoutPosition());
-                mAdapter.cards.remove();
-                mAdapter.notifyDataSetChanged();
-
+            public boolean isItemViewSwipeEnabled() {
+                return true;
             }
+
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if(!editing)
+                    return 0;
+
+                int dragFlags = quickLayout ? ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN ;
+                int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+
+                return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+            }
+
 
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(editing ? mLayoutManager : mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
