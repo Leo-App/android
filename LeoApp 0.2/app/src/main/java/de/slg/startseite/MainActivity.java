@@ -571,7 +571,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(!editing)
                     return 0;
 
-                int dragFlags = quickLayout ? ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN ;
+                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
                 int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
 
                 return makeMovementFlags(dragFlags, swipeFlags);
