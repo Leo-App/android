@@ -32,7 +32,6 @@ import de.slg.stimmungsbarometer.AbstimmActivity;
 import de.slg.stundenplan.Fach;
 
 public class NotificationService extends Service {
-    private NotificationManager notificationManager;
     public static final int ID_ESSENSQR    = 101;
     public static final int ID_KLAUSURPLAN = 777;
     public static final int ID_MESSENGER   = 5453;
@@ -43,7 +42,8 @@ public class NotificationService extends Service {
     private static short hoursTT, minutesTT;
     private static short hoursTP, minutesTP;
     private static short hoursSB, minutesSB;
-    private boolean sentQR, sentTT, sentTP, sentSB;
+    private NotificationManager notificationManager;
+    private boolean             sentQR, sentTT, sentTP, sentSB;
     private Bitmap  icon;
     private boolean running;
     private int     unreadMessages;
@@ -252,11 +252,12 @@ public class NotificationService extends Service {
     }
 
     private void messengerNotification() {
-        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMDB().hasUnreadMessages() && Utils.getMessengerActivity() == null) {
+        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && unreadMessages < 10 && Utils.getMDB().hasUnreadMessages() && Utils.getMessengerActivity() == null) {
             StringBuilder builder = new StringBuilder();
             Message[] unread = Utils.getMDB().getUnreadMessages();
             if (unread.length != unreadMessages) {
-                for (Message m : unread) {
+                for (int i = 0; i < unread.length && i < 10; i++) {
+                    Message m = unread[i];
                     builder.append(m.uname);
                     if (Utils.getMDB().getType(m.cid) == Chat.Chattype.GROUP)
                         builder.append(" @ ")
@@ -265,6 +266,8 @@ public class NotificationService extends Service {
                             .append(m.mtext)
                             .append(System.getProperty("line.separator"));
                 }
+                if (unread.length > 10)
+                    builder.append("...");
 
                 Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
                         .putExtra("start_intent", ID_MESSENGER);
@@ -281,7 +284,7 @@ public class NotificationService extends Service {
                         new NotificationCompat.Builder(getApplicationContext())
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                                 .setLargeIcon(icon)
-                                .setVibrate(new long[]{200, 100, 200})
+                                .setVibrate(new long[]{500, 250, 500})
                                 .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
                                 .setContentTitle(getString(R.string.messenger_notification_title))
                                 .setContentIntent(resultPendingIntent)

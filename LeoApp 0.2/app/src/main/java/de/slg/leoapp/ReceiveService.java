@@ -127,10 +127,10 @@ public class ReceiveService extends Service {
     private class ReceiveTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            nachricht();
-            assoziationen();
             chat();
             benutzer();
+            nachricht();
+            assoziationen();
             return null;
         }
 
