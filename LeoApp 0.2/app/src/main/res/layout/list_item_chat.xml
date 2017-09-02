@@ -10,8 +10,8 @@
         android:id="@+id/iconChat"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:srcCompat="@drawable/ic_chat_bubble_white_24dp"
-        android:tint="@color/colorPrimary" />
+        android:tint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_chat_bubble_white_24dp" />
 
     <ImageView
         android:id="@+id/iconMute"
@@ -42,42 +42,20 @@
         tools:text="Chatname" />
 
     <TextView
-        android:id="@+id/letzteNachrichtAbsender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/chatname"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/iconChat"
-        android:maxLines="1"
-        android:textColor="@color/colorText"
-        android:textSize="14sp"
-
-        tools:text="Absender" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/letzteNachrichtAbsender"
-        android:layout_toRightOf="@id/letzteNachrichtAbsender"
-        android:maxLines="1"
-        android:text=": "
-        android:textColor="@color/colorText"
-        android:textSize="14sp"
-         />
-
-    <TextView
-        android:id="@+id/letzteNachrichtText"
+        android:id="@+id/letzteNachricht"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/chatname"
-        android:layout_marginRight="15dp"
+        android:layout_alignBottom="@id/iconChat"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/notify"
-        android:layout_toRightOf="@id/textView3"
-        android:maxLines="1"
+        android:layout_toRightOf="@id/iconChat"
+        android:ellipsize="end"
+        android:gravity="bottom"
+        android:lines="1"
+        android:text="Absender: Nachricht"
         android:textColor="@color/colorText"
-        android:textSize="14sp"
-        tools:text="letzte Nachricht" />
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/notify"
@@ -87,9 +65,9 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:padding="2dp"
-        app:srcCompat="@drawable/ic_priority_high_white_24dp"
         android:tint="@color/colorAccent"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_priority_high_white_24dp" />
 
     <ImageView
         android:id="@+id/imageButtonMute"

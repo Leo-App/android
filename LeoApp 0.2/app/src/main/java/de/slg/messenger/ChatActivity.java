@@ -118,6 +118,7 @@ public class ChatActivity extends AppCompatActivity {
     private void initRecyclerView() {
         selected = new boolean[messagesArray.length];
         hasSelected = false;
+
         longClickListener = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -133,6 +134,7 @@ public class ChatActivity extends AppCompatActivity {
                 return false;
             }
         };
+
         clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +146,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         };
+
         disableListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +157,7 @@ public class ChatActivity extends AppCompatActivity {
                 setHasSelected();
             }
         };
+
         rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
         rvMessages.setVisibility(View.INVISIBLE);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

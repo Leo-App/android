@@ -394,8 +394,7 @@ public class MessengerActivity extends AppCompatActivity {
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                 final View      v            = holder.itemView;
                 final TextView  chatname     = (TextView) v.findViewById(R.id.chatname);
-                final TextView  lastSender   = (TextView) v.findViewById(R.id.letzteNachrichtAbsender);
-                final TextView  lastMessage  = (TextView) v.findViewById(R.id.letzteNachrichtText);
+                final TextView  lastMessage  = (TextView) v.findViewById(R.id.letzteNachricht);
                 final ImageView icon         = (ImageView) v.findViewById(R.id.iconChat);
                 final View      iconMute     = v.findViewById(R.id.iconMute);
                 final View      buttonDelete = v.findViewById(R.id.imageButtonDelete);
@@ -406,18 +405,13 @@ public class MessengerActivity extends AppCompatActivity {
                     chatname.setText(c.cname);
                     if (c.m != null) {
                         lastMessage.setVisibility(View.VISIBLE);
-                        lastSender.setVisibility(View.VISIBLE);
-                        v.findViewById(R.id.textView3).setVisibility(View.VISIBLE);
-                        lastMessage.setText(c.m.mtext);
-                        lastSender.setText(c.m.uname);
+                        lastMessage.setText(c.m.uname + ": " + c.m.mtext);
                         if (!c.m.mread)
                             notify.setVisibility(View.VISIBLE);
                         else
                             notify.setVisibility(View.GONE);
                     } else {
                         lastMessage.setVisibility(View.GONE);
-                        lastSender.setVisibility(View.GONE);
-                        v.findViewById(R.id.textView3).setVisibility(View.GONE);
                         notify.setVisibility(View.GONE);
                     }
                     if (c.ctype == Chat.Chattype.PRIVATE) {
