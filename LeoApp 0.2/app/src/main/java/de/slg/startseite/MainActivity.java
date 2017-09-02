@@ -38,7 +38,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,19 +66,19 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 @SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler {
 
-    public static View v;
+    public static View        v;
     public static ProgressBar pb;
-    public static TextView title, info;
-    public static Button verify;
-    public static Button dismiss;
+    public static TextView    title, info;
+    public static Button  verify;
+    public static Button  dismiss;
     public static boolean editing;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
     private ZXingScannerView scV;
-    private boolean runningScan;
+    private boolean          runningScan;
 
     private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
-    private CardAdapter mAdapter;
+    private DrawerLayout   drawerLayout;
+    private CardAdapter    mAdapter;
 
     private AbstimmDialog abstimmDialog;
 
@@ -145,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!Start.pref.getString("pref_key_request_cached", "-").equals("-"))
             new MailSendTask().execute(Start.pref.getString("pref_key_request_cached", ""));
 
-
         //Schwarzes Brett: ViewTracker-Synchronization
         ArrayList<Integer> cachedViews = Utils.getCachedIDs();
         new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
@@ -161,13 +159,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri webpage = Uri.parse("http://www.leoapp-slg.de");
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                Uri    webpage = Uri.parse("http://www.leoapp-slg.de");
+                Intent intent  = new Intent(Intent.ACTION_VIEW, webpage);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
 
-//                startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
+                //                startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
             }
         });
 
@@ -182,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
+        boolean hide        = Start.pref.getBoolean("pref_key_dont_remind_me", false);
         boolean synchronize = Start.pref.getBoolean("pref_key_level_has_to_be_synchronized", false);
 
         initToolbar();
@@ -233,11 +231,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
             mood.setImageResource(Utils.getCurrentMoodRessource());
 
-//            ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
- //           scrollView.smoothScrollTo(0, 0);
+            //            ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+            //           scrollView.smoothScrollTo(0, 0);
 
             mAdapter.updateCustomCards();
-
         }
 
         Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
@@ -272,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             invalidateOptionsMenu();
         } else if (item.getItemId() == R.id.action_appinfo_quick) {
             writeToPreferences();
-            boolean b = Start.pref.getBoolean("pref_key_card_config_quick", false);
+            boolean                  b    = Start.pref.getBoolean("pref_key_card_config_quick", false);
             SharedPreferences.Editor edit = Start.pref.edit();
             edit.putBoolean("pref_key_card_config_quick", !b);
             edit.apply();
@@ -395,7 +392,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             };
             handler.postDelayed(r, 100);
         }
-
     }
 
     @Override
@@ -436,10 +432,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showDialog() {
-        final AlertDialog builder = new AlertDialog.Builder(this).create();
-        LayoutInflater inflater = getLayoutInflater();
-        View v = inflater.inflate(R.layout.dialog_verification, null);
-        Button b1, b2;
+        final AlertDialog builder  = new AlertDialog.Builder(this).create();
+        LayoutInflater    inflater = getLayoutInflater();
+        View              v        = inflater.inflate(R.layout.dialog_verification, null);
+        Button            b1, b2;
         b1 = (Button) v.findViewById(R.id.buttonDialog1);
         b2 = (Button) v.findViewById(R.id.buttonDialog2);
         b1.setOnClickListener(new View.OnClickListener() {
@@ -568,10 +564,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                if(!editing)
+                if (!editing)
                     return 0;
 
-                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+                int dragFlags  = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
                 int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
 
                 return makeMovementFlags(dragFlags, swipeFlags);
@@ -587,8 +583,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
             }
-
-
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
@@ -596,7 +590,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mRecyclerView.setLayoutManager(editing ? mLayoutManager : mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
-
     }
 
     private void initToolbar() {
@@ -642,7 +635,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences.Editor e = Start.pref.edit();
         e.putString("pref_key_card_config", b.toString());
         e.apply();
-
     }
 
     private void startCamera(AlertDialog b) {
@@ -695,8 +687,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int toInt(String s) {
-        int result = 0, i, count = 1;
-        String regex = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        int    result = 0, i, count = 1;
+        String regex  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (char c : s.toCharArray()) {
             for (i = 0; i < regex.length(); i++) {
                 if (c == regex.charAt(i))
@@ -711,11 +703,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String getChecksum(String username, int priority, int birthyear) {
         Calendar c = new GregorianCalendar();
         c.setTime(new Date());
-        int year = c.get(Calendar.YEAR);
+        int year  = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH) + 1;
-        int day = c.get(Calendar.DAY_OF_MONTH);
+        int day   = c.get(Calendar.DAY_OF_MONTH);
 
-        int numericName = toInt(username.substring(0, 3));
+        int numericName     = toInt(username.substring(0, 3));
         int numericLastName = toInt(username.substring(3, 6));
 
         long checksum = (long) (Long.valueOf((int) (Math.pow(year, 2)) + "" + (int) (Math.pow(day, 2)) + "" + (int) (Math.pow(month, 2))) * username.length() * Math.cos(birthyear) + priority * (numericName - numericLastName));

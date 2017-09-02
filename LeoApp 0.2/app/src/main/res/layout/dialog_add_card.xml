@@ -75,18 +75,18 @@
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@drawable/messenger" />
 
- <!--           <ImageButton
-                android:id="@+id/imageButton4"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/smiley_background_dissatisfied"
-                android:contentDescription="@string/textview_placeholder"
-                android:scaleType="fitCenter"
-                android:tag="TUTORING"
-                android:tint="@color/colorPrimary"
-                app:srcCompat="@drawable/account_multiple" /> -->
+            <!--           <ImageButton
+                           android:id="@+id/imageButton4"
+                           android:layout_width="50dp"
+                           android:layout_height="wrap_content"
+                           android:layout_margin="8dp"
+                           android:adjustViewBounds="true"
+                           android:background="@drawable/smiley_background_dissatisfied"
+                           android:contentDescription="@string/textview_placeholder"
+                           android:scaleType="fitCenter"
+                           android:tag="TUTORING"
+                           android:tint="@color/colorPrimary"
+                           app:srcCompat="@drawable/account_multiple" /> -->
 
 
             <ImageButton
