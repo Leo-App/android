@@ -252,22 +252,25 @@ public class NotificationService extends Service {
     }
 
     private void messengerNotification() {
-        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && unreadMessages < 10 && Utils.getMDB().hasUnreadMessages() && Utils.getMessengerActivity() == null) {
-            StringBuilder builder = new StringBuilder();
+        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMDB().hasUnreadMessages() && Utils.getMessengerActivity() == null) {
             Message[] unread = Utils.getMDB().getUnreadMessages();
+
             if (unread.length != unreadMessages) {
-                for (int i = 0; i < unread.length && i < 10; i++) {
-                    Message m = unread[i];
-                    builder.append(m.uname);
-                    if (Utils.getMDB().getType(m.cid) == Chat.Chattype.GROUP)
-                        builder.append(" @ ")
-                                .append(m.cname);
-                    builder.append(": ")
-                            .append(m.mtext)
-                            .append(System.getProperty("line.separator"));
+                NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
+                        .setSummaryText((unread.length) + " ungelesene Nachrichten")
+                        .setBigContentTitle(getString(R.string.messenger_notification_title));
+
+                for (Message m : unread) {
+                    String line = m.uname;
+
+                    if (Utils.getMDB().getType(m.cid) == Chat.Chattype.GROUP) {
+                        line += " @ " + m.cname;
+                    }
+
+                    line += ": " + m.mtext;
+
+                    style.addLine(line);
                 }
-                if (unread.length > 10)
-                    builder.append("...");
 
                 Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
                         .putExtra("start_intent", ID_MESSENGER);
@@ -286,9 +289,9 @@ public class NotificationService extends Service {
                                 .setLargeIcon(icon)
                                 .setVibrate(new long[]{500, 250, 500})
                                 .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
-                                .setContentTitle(getString(R.string.messenger_notification_title))
                                 .setContentIntent(resultPendingIntent)
-                                .setStyle(new NotificationCompat.BigTextStyle().bigText(builder.toString()))
+                                .setContentTitle(getString(R.string.messenger_notification_title))
+                                .setStyle(style)
                                 .build();
 
                 notificationManager.notify(ID_MESSENGER, notification);

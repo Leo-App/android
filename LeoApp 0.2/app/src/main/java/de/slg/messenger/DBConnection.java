@@ -60,6 +60,11 @@ public class DBConnection {
             values.put(MESSAGE_READ, m.uid == Utils.getUserID() || m.cid == Utils.currentlyDisplayedChat() ? 1 : 0);
             values.put(MESSAGE_DELETED, 0);
             insert(TABLE_MESSAGES, values);
+            if (m.uid == Utils.getUserID()) {
+                values.clear();
+                values.put(MESSAGE_READ, 1);
+                update(TABLE_MESSAGES, values, MESSAGE_DATE + " < " + m.mdate.getTime() + " AND " + CHAT_ID + " = " + m.cid);
+            }
         }
     }
 

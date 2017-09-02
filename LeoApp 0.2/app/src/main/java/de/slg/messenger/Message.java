@@ -102,18 +102,11 @@ public class Message {
 
     /**
      * Für die Benachrichtigungen
-     *
-     * @param mtext Wird auf 30 Zeichen + '...' gekürzt, falls notwendig
-     *              Absätze werden entfernt
-     * @param cname Wird auf 15 Zeichen + '...' gekürzt, falls notwendig
-     * @param uname Bleibt unverändert
+     * @param mtext Text
+     * @param cname Chatname
+     * @param uname Benutzername des Absenders
      */
     Message(String mtext, int cid, String cname, String uname) {
-        mtext = mtext.replace(System.getProperty("line.separator"), "");
-        if (mtext.length() > 33)
-            mtext = mtext.substring(0, 30) + "...";
-        if (cname.length() > 18)
-            cname = cname.substring(0, 15) + "...";
         this.mid = 0;
         this.mtext = mtext;
         this.mdate = null;
