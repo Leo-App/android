@@ -57,7 +57,7 @@ public class DBConnection {
             values.put(MESSAGE_DATE, m.mdate.getTime());
             values.put(CHAT_ID, m.cid);
             values.put(USER_ID, m.uid);
-            values.put(MESSAGE_READ, m.uid != Utils.getUserID() ? 0 : 1);
+            values.put(MESSAGE_READ, m.uid == Utils.getUserID() || m.cid == Utils.currentlyDisplayedChat() ? 1 : 0);
             values.put(MESSAGE_DELETED, 0);
             insert(TABLE_MESSAGES, values);
         }
@@ -96,7 +96,7 @@ public class DBConnection {
     public Message[] getUnreadMessages() {
         String   table   = TABLE_MESSAGES + ", " + TABLE_CHATS;
         String[] columns = {MESSAGE_TEXT, TABLE_MESSAGES + "." + CHAT_ID, CHAT_NAME, USER_ID};
-        String selection = MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " +
+        String selection = MESSAGE_READ + " = 0 AND " +
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
                 CHAT_MUTE + " = 0 AND " + TABLE_MESSAGES + "." + CHAT_ID + " != " + Utils.currentlyDisplayedChat();
@@ -111,7 +111,7 @@ public class DBConnection {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_DATE + " > " + Utils.getLatestMessageDate() + " AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + Utils.currentlyDisplayedChat(), null, null);
+        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_READ + " = 0 AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + Utils.currentlyDisplayedChat(), null, null);
         boolean b      = cursor.getCount() > 0;
         cursor.close();
         return b;

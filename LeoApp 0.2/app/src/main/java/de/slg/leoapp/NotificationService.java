@@ -32,6 +32,7 @@ import de.slg.stimmungsbarometer.AbstimmActivity;
 import de.slg.stundenplan.Fach;
 
 public class NotificationService extends Service {
+    private NotificationManager notificationManager;
     public static final int ID_ESSENSQR    = 101;
     public static final int ID_KLAUSURPLAN = 777;
     public static final int ID_MESSENGER   = 5453;
@@ -42,9 +43,8 @@ public class NotificationService extends Service {
     private static short hoursTT, minutesTT;
     private static short hoursTP, minutesTP;
     private static short hoursSB, minutesSB;
-    private NotificationManager notificationManager;
-    private Bitmap              icon;
-    private boolean             sentQR, sentTT, sentTP, sentSB;
+    private boolean sentQR, sentTT, sentTP, sentSB;
+    private Bitmap  icon;
     private boolean running;
     private int     unreadMessages;
 
@@ -67,10 +67,15 @@ public class NotificationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Utils.context = getApplicationContext();
         Start.initPref(getApplicationContext());
+
         notificationManager = Utils.getNotificationManager();
+
         getTimes();
+
         icon = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.notification_leo);
+
         new LoopThread().start();
+
         Log.i("NotificationService", "Service (re)started!");
         return START_STICKY;
     }
@@ -91,6 +96,7 @@ public class NotificationService extends Service {
         Date              d = new Date();
         GregorianCalendar c = new GregorianCalendar();
         c.setTime(d);
+
         if (c.get(Calendar.HOUR_OF_DAY) == hoursTT && c.get(Calendar.MINUTE) == minutesTT) {
             if (!sentTT)
                 stundenplanNotification();
@@ -98,6 +104,7 @@ public class NotificationService extends Service {
         } else {
             sentTT = false;
         }
+
         if (c.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursQR && c.get(Calendar.MINUTE) == minutesQR) {
             if (!sentQR)
                 checkEssensqr();
@@ -105,13 +112,15 @@ public class NotificationService extends Service {
         } else {
             sentQR = false;
         }
+
         if (c.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY && c.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && c.get(Calendar.HOUR_OF_DAY) == hoursTP && c.get(Calendar.MINUTE) == minutesTP) {
             if (!sentTP)
-                klausurplanNotification();
+                checkKlausurplan();
             sentTP = true;
         } else {
             sentTP = false;
         }
+
         if (c.get(Calendar.HOUR_OF_DAY) == hoursSB && c.get(Calendar.MINUTE) == minutesSB) {
             if (!sentSB)
                 stimmungsbarometernotification();
@@ -158,6 +167,7 @@ public class NotificationService extends Service {
         if (Start.pref.getBoolean("pref_key_notification_essensqr", true)) {
             Intent resultIntent = new Intent(this, MainActivity.class)
                     .putExtra("start_intent", ID_ESSENSQR);
+
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
                             getApplicationContext(),
@@ -165,7 +175,8 @@ public class NotificationService extends Service {
                             resultIntent,
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
-            NotificationCompat.Builder notificationBuilder =
+
+            Notification notification =
                     new NotificationCompat.Builder(this)
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setLargeIcon(icon)
@@ -174,73 +185,48 @@ public class NotificationService extends Service {
                             .setContentTitle(getString(R.string.app_name))
                             .setAutoCancel(true)
                             .setContentText(getString(R.string.notification_summary_notif))
-                            .setContentIntent(resultPendingIntent);
-            notificationManager.notify(ID_ESSENSQR, notificationBuilder.build());
+                            .setContentIntent(resultPendingIntent)
+                            .build();
+
+            notificationManager.notify(ID_ESSENSQR, notification);
+        }
+    }
+
+    private void checkKlausurplan() {
+        try {
+            Calendar tomorrow = new GregorianCalendar();
+            tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    openFileInput(getString(R.string.klausuren_filemane))));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] current = line.split(";");
+                if (current.length == 4) {
+                    Calendar c = new GregorianCalendar();
+                    c.setTime(new Date(Long.parseLong(current[1])));
+                    if (c.get(Calendar.DAY_OF_MONTH) == tomorrow.get(Calendar.DAY_OF_MONTH) && c.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR) && c.get(Calendar.MONTH) == tomorrow.get(Calendar.MONTH)) {
+                        klausurplanNotification();
+                    }
+                    if (c.getTime().after(tomorrow.getTime())) {
+                        break;
+                    }
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     private void klausurplanNotification() {
         if (Start.pref.getBoolean("pref_key_notification_test", true)) {
-            try {
-                Calendar tomorrow = new GregorianCalendar();
-                tomorrow.add(Calendar.DAY_OF_MONTH, 1);
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        openFileInput(getString(R.string.klausuren_filemane))));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] current = line.split(";");
-                    if (current.length == 4) {
-                        Calendar c = new GregorianCalendar();
-                        c.setTime(new Date(Long.parseLong(current[1])));
-                        if (c.get(Calendar.DAY_OF_MONTH) == tomorrow.get(Calendar.DAY_OF_MONTH) && c.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR) && c.get(Calendar.MONTH) == tomorrow.get(Calendar.MONTH)) {
-                            Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
-                                    .putExtra("start_intent", ID_KLAUSURPLAN);
-                            PendingIntent resultPendingIntent =
-                                    PendingIntent.getActivity(
-                                            getApplicationContext(),
-                                            0,
-                                            resultIntent,
-                                            PendingIntent.FLAG_UPDATE_CURRENT
-                                    );
-                            NotificationCompat.Builder notificationBuilder =
-                                    new NotificationCompat.Builder(getApplicationContext())
-                                            .setPriority(NotificationCompat.PRIORITY_HIGH)
-                                            .setLargeIcon(icon)
-                                            .setSmallIcon(R.drawable.ic_content_paste_white_24dp)
-                                            .setVibrate(new long[]{200})
-                                            .setContentTitle(getString(R.string.title_testplan))
-                                            .setAutoCancel(true)
-                                            .setContentText("Du schreibst morgen eine Klausur!")
-                                            .setContentIntent(resultPendingIntent);
-                            notificationManager.notify(ID_KLAUSURPLAN, notificationBuilder.build());
-                        }
-                        if (c.getTime().after(tomorrow.getTime()))
-                            break;
-                    }
-                }
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void messengerNotification() {
-        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMDB().hasUnreadMessages()) {
-            StringBuilder builder = new StringBuilder();
-            for (Message m : Utils.getMDB().getUnreadMessages()) {
-                builder.append(m.uname);
-                if (Utils.getMDB().getType(m.cid) == Chat.Chattype.GROUP)
-                    builder.append(" @ ")
-                            .append(m.cname);
-                builder.append(": ")
-                        .append(m.mtext)
-                        .append(System.getProperty("line.separator"));
-            }
             Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
-                    .putExtra("start_intent", ID_MESSENGER);
+                    .putExtra("start_intent", ID_KLAUSURPLAN);
+
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
                             getApplicationContext(),
@@ -248,19 +234,65 @@ public class NotificationService extends Service {
                             resultIntent,
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
+
             Notification notification =
                     new NotificationCompat.Builder(getApplicationContext())
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setLargeIcon(icon)
-                            .setVibrate(new long[]{200, 100, 200})
-                            .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
-                            .setContentTitle(getString(R.string.messenger_notification_title))
+                            .setSmallIcon(R.drawable.ic_content_paste_white_24dp)
+                            .setVibrate(new long[]{200})
+                            .setContentTitle(getString(R.string.title_testplan))
+                            .setAutoCancel(true)
+                            .setContentText("Du schreibst morgen eine Klausur!")
                             .setContentIntent(resultPendingIntent)
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(builder.toString()))
                             .build();
-            notificationManager.notify(ID_MESSENGER, notification);
+
+            notificationManager.notify(ID_KLAUSURPLAN, notification);
         }
-        Utils.notifiedMessenger();
+    }
+
+    private void messengerNotification() {
+        if (Start.pref.getBoolean("pref_key_notification_messenger", true) && Utils.getMDB().hasUnreadMessages() && Utils.getMessengerActivity() == null) {
+            StringBuilder builder = new StringBuilder();
+            Message[] unread = Utils.getMDB().getUnreadMessages();
+            if (unread.length != unreadMessages) {
+                for (Message m : unread) {
+                    builder.append(m.uname);
+                    if (Utils.getMDB().getType(m.cid) == Chat.Chattype.GROUP)
+                        builder.append(" @ ")
+                                .append(m.cname);
+                    builder.append(": ")
+                            .append(m.mtext)
+                            .append(System.getProperty("line.separator"));
+                }
+
+                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
+                        .putExtra("start_intent", ID_MESSENGER);
+
+                PendingIntent resultPendingIntent =
+                        PendingIntent.getActivity(
+                                getApplicationContext(),
+                                0,
+                                resultIntent,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        );
+
+                Notification notification =
+                        new NotificationCompat.Builder(getApplicationContext())
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .setLargeIcon(icon)
+                                .setVibrate(new long[]{200, 100, 200})
+                                .setSmallIcon(R.drawable.ic_question_answer_white_24dp)
+                                .setContentTitle(getString(R.string.messenger_notification_title))
+                                .setContentIntent(resultPendingIntent)
+                                .setStyle(new NotificationCompat.BigTextStyle().bigText(builder.toString()))
+                                .build();
+
+                notificationManager.notify(ID_MESSENGER, notification);
+
+                unreadMessages = unread.length;
+            }
+        }
     }
 
     private void schwarzesBrettNotification() {
@@ -275,6 +307,7 @@ public class NotificationService extends Service {
                 if (Utils.getSchwarzesBrettActivity() == null) {
                     Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
                             .putExtra("start_intent", ID_NEWS);
+
                     PendingIntent resultPendingIntent =
                             PendingIntent.getActivity(
                                     getApplicationContext(),
@@ -282,8 +315,9 @@ public class NotificationService extends Service {
                                     resultIntent,
                                     PendingIntent.FLAG_UPDATE_CURRENT
                             );
-                    NotificationCompat.Builder notificationBuilder =
-                            new NotificationCompat.Builder(this)
+
+                    Notification notification =
+                            new NotificationCompat.Builder(getApplicationContext())
                                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                                     .setLargeIcon(icon)
                                     .setSmallIcon(R.drawable.ic_event_note_white_24dp)
@@ -291,8 +325,10 @@ public class NotificationService extends Service {
                                     .setAutoCancel(true)
                                     .setContentTitle("Neue Einträge")
                                     .setContentText("Es gibt Neuigkeiten am Schwarzen Brett")
-                                    .setContentIntent(resultPendingIntent);
-                    notificationManager.notify(ID_NEWS, notificationBuilder.build());
+                                    .setContentIntent(resultPendingIntent)
+                                    .build();
+
+                    notificationManager.notify(ID_NEWS, notification);
                 }
             }
         }
@@ -301,6 +337,7 @@ public class NotificationService extends Service {
     private void stimmungsbarometernotification() {
         if (Start.pref.getBoolean("pref_key_notification_survey", false) && Utils.getMainActivity() == null && Utils.showVoteOnStartup()) {
             Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class);
+
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
                             getApplicationContext(),
@@ -308,8 +345,9 @@ public class NotificationService extends Service {
                             resultIntent,
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
-            NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(this)
+
+            Notification notification =
+                    new NotificationCompat.Builder(getApplicationContext())
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setLargeIcon(icon)
                             .setSmallIcon(R.drawable.ic_insert_emoticon_white_24dp)
@@ -317,8 +355,10 @@ public class NotificationService extends Service {
                             .setContentTitle("Du hast noch nicht abgestimmt!")
                             .setContentText("Jetzt abstimmen")
                             .setAutoCancel(true)
-                            .setContentIntent(resultPendingIntent);
-            notificationManager.notify(ID_BAROMETER, notificationBuilder.build());
+                            .setContentIntent(resultPendingIntent)
+                            .build();
+
+            notificationManager.notify(ID_BAROMETER, notification);
         }
     }
 
@@ -328,14 +368,16 @@ public class NotificationService extends Service {
             if (gibNaechstenWochentag() <= 5) {
                 Fach[] faecher = Utils.getStundDB().gewaehlteFaecherAnTag(gibNaechstenWochentag());
                 for (int i = 0; i < faecher.length; i++) {
-                    if (faecher[i].gibName().length() > 0) {
+                    if (faecher[i].gibName().length() > 0 && (i == 0 || !faecher[i].gibName().equals(faecher[i - 1].gibName()))) {
                         builder.append(faecher[i].gibName());
-                        if (i < faecher.length - 1)
+                        if (i < faecher.length - 1) {
                             builder.append(", ");
+                        }
                     }
                 }
+
                 if (builder.length() > 0) {
-                    NotificationCompat.Builder notificationBuilder =
+                    Notification notification =
                             new NotificationCompat.Builder(this)
                                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                                     .setLargeIcon(icon)
@@ -343,8 +385,10 @@ public class NotificationService extends Service {
                                     .setVibrate(new long[]{200})
                                     .setContentTitle("Deine Stunden morgen:")
                                     .setContentText(builder.toString())
-                                    .setAutoCancel(true);
-                    notificationManager.notify(ID_STUNDENPLAN, notificationBuilder.build());
+                                    .setAutoCancel(true)
+                                    .build();
+
+                    notificationManager.notify(ID_STUNDENPLAN, notification);
                 }
             }
         }
