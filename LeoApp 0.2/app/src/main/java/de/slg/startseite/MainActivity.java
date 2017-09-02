@@ -67,48 +67,57 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 @SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler {
 
-    public static View        v;
+    public static View v;
     public static ProgressBar pb;
-    public static TextView    title, info;
-    public static Button  verify;
-    public static Button  dismiss;
+    public static TextView title, info;
+    public static Button verify;
+    public static Button dismiss;
     public static boolean editing;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
     private ZXingScannerView scV;
-    private boolean          runningScan;
+    private boolean runningScan;
 
     private NavigationView navigationView;
-    private DrawerLayout   drawerLayout;
-    private CardAdapter    mAdapter;
+    private DrawerLayout drawerLayout;
+    private CardAdapter mAdapter;
 
     private AbstimmDialog abstimmDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);
         if (notificationTarget != -1) {
             Utils.closeAll();
+
             Log.e("TAG", "Notification!!!");
+
             switch (notificationTarget) {
                 case NotificationService.ID_ESSENSQR:
                     startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
                     break;
+
                 case NotificationService.ID_KLAUSURPLAN:
                     startActivity(new Intent(getApplicationContext(), KlausurplanActivity.class));
                     break;
+
                 case NotificationService.ID_MESSENGER:
                     startActivity(new Intent(getApplicationContext(), MessengerActivity.class));
                     break;
+
                 case NotificationService.ID_NEWS:
                     startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
                     break;
             }
         }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startseite);
         Utils.registerMainActivity(this);
+
         runningScan = false;
         Utils.context = getApplicationContext();
+
         if (getIntent().getBooleanExtra("show_dialog", false)) {
             abstimmDialog = new AbstimmDialog(this);
             abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -125,34 +134,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }
+
         if (getIntent().getIntExtra("days", 15) <= 14) {
             showDialog();
             //TODO neu verifizieren dialog!!!
         }
+
         Start.pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         if (!Start.pref.getString("pref_key_request_cached", "-").equals("-"))
             new MailSendTask().execute(Start.pref.getString("pref_key_request_cached", ""));
+
+
         //Schwarzes Brett: ViewTracker-Synchronization
         ArrayList<Integer> cachedViews = Utils.getCachedIDs();
         new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
+
         title = (TextView) findViewById(R.id.info_title0);
         info = (TextView) findViewById(R.id.info_text0);
         verify = (Button) findViewById(R.id.buttonCardView0);
         pb = (ProgressBar) findViewById(R.id.progressBar1);
         v = findViewById(R.id.coordinator);
         dismiss = (Button) findViewById(R.id.buttonDismissCardView0);
+
         ImageButton help = (ImageButton) findViewById(R.id.help);
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri    webpage = Uri.parse("http://www.leoapp-slg.de");
-                Intent intent  = new Intent(Intent.ACTION_VIEW, webpage);
+                Uri webpage = Uri.parse("http://www.leoapp-slg.de");
+                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
-                //                startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
+
+//                startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
             }
         });
+
         final ImageButton feature = (ImageButton) findViewById(R.id.feature_request);
         feature.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,15 +181,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
         });
-        boolean hide        = Start.pref.getBoolean("pref_key_dont_remind_me", false);
+
+        boolean hide = Start.pref.getBoolean("pref_key_dont_remind_me", false);
         boolean synchronize = Start.pref.getBoolean("pref_key_level_has_to_be_synchronized", false);
+
         initToolbar();
         initCardViews();
         initNavigationView();
+
         synchronizeUsername();
         synchronizeGrade();
+
         if (synchronize)
             new UpdateTaskGrade(this).execute();
+
         if (Utils.isVerified()) {
             MainActivity.dismiss.setVisibility(View.GONE);
             title.setTextColor(Color.GREEN);
@@ -181,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (hide)
             findViewById(R.id.card_view0).setVisibility(View.GONE);
+
         if (!EssensQRActivity.mensaModeRunning && Start.pref.getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(this, EssensQRActivity.class));
         } else
@@ -191,22 +215,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
+
         if (abstimmDialog != null)
             abstimmDialog.show();
+
         if (!runningScan) {
+
             TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
             username.setText(Utils.getUserName());
+
             TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
             if (Utils.getUserPermission() == 2)
                 grade.setText(Utils.getLehrerKuerzel());
             else
                 grade.setText(Utils.getUserStufe());
+
             ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
             mood.setImageResource(Utils.getCurrentMoodRessource());
-            ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-            scrollView.smoothScrollTo(0, 0);
+
+//            ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+ //           scrollView.smoothScrollTo(0, 0);
+
             mAdapter.updateCustomCards();
+
         }
+
         Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
         Utils.getNotificationManager().cancel(NotificationService.ID_STUNDENPLAN);
     }
@@ -239,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             invalidateOptionsMenu();
         } else if (item.getItemId() == R.id.action_appinfo_quick) {
             writeToPreferences();
-            boolean                  b    = Start.pref.getBoolean("pref_key_card_config_quick", false);
+            boolean b = Start.pref.getBoolean("pref_key_card_config_quick", false);
             SharedPreferences.Editor edit = Start.pref.edit();
             edit.putBoolean("pref_key_card_config_quick", !b);
             edit.apply();
@@ -305,6 +338,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             else
                 menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
         }
+
         return true;
     }
 
@@ -344,6 +378,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     info.setVisibility(View.GONE);
                     verify.setVisibility(View.GONE);
                     dismiss.setVisibility(View.GONE);
+
                     RegistrationTask t = new RegistrationTask(MainActivity.this);
                     t.execute(data[0], String.valueOf(data[1]));
                 }
@@ -360,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             };
             handler.postDelayed(r, 100);
         }
+
     }
 
     @Override
@@ -383,6 +419,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
                     runningScan = true;
                     scV = new ZXingScannerView(getApplicationContext());
                     setContentView(scV);
@@ -399,10 +436,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showDialog() {
-        final AlertDialog builder  = new AlertDialog.Builder(this).create();
-        LayoutInflater    inflater = getLayoutInflater();
-        View              v        = inflater.inflate(R.layout.dialog_verification, null);
-        Button            b1, b2;
+        final AlertDialog builder = new AlertDialog.Builder(this).create();
+        LayoutInflater inflater = getLayoutInflater();
+        View v = inflater.inflate(R.layout.dialog_verification, null);
+        Button b1, b2;
         b1 = (Button) v.findViewById(R.id.buttonDialog1);
         b2 = (Button) v.findViewById(R.id.buttonDialog2);
         b1.setOnClickListener(new View.OnClickListener() {
@@ -425,10 +462,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
+
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -468,77 +507,96 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
             }
         });
+
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
+
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == 2)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
+
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
     void initCardViews() {
+
         findViewById(R.id.buttonCardView0).setOnClickListener(this);
         findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
+
         TextView version = (TextView) findViewById(R.id.versioncode_maincard);
         version.setText(Utils.getAppVersionName());
+
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();
-        boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
+
+        final boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
+
         RecyclerView.LayoutManager mLayoutManager = quickLayout
+
                 ?
+
                 new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
                     @Override
                     public boolean canScrollVertically() {
-                        return false;
+                        return true;
                     }
                 }
+
                 :
+
                 new LinearLayoutManager(getApplicationContext()) {
                     @Override
                     public boolean canScrollVertically() {
-                        return false;
+                        return true;
                     }
                 };
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(quickLayout ?
-                ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+        ItemTouchHelper.Callback simpleItemTouchCallback = new ItemTouchHelper.Callback() {
 
             @Override
-            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                if (!editing)
-                    return 0;
-                boolean quick = Start.pref.getBoolean("pref_key_card_config_quick", false);
-                return makeMovementFlags(quick ? ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT : ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-            }
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                int fromPos = viewHolder.getAdapterPosition();
-                int toPos   = target.getAdapterPosition();
-                mAdapter.cards.toIndex(fromPos);
-                Card current = mAdapter.cards.getContent();
-                mAdapter.cards.remove();
-                mAdapter.cards.toIndex(toPos);
-                mAdapter.cards.insertBefore(current);
-                mAdapter.notifyDataSetChanged();
+            public boolean isLongPressDragEnabled() {
                 return true;
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                mAdapter.cards.toIndex(viewHolder.getLayoutPosition());
-                mAdapter.cards.remove();
-                mAdapter.notifyDataSetChanged();
+            public boolean isItemViewSwipeEnabled() {
+                return true;
             }
+
+            @Override
+            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if(!editing)
+                    return 0;
+
+                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+                int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+
+                return makeMovementFlags(dragFlags, swipeFlags);
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                mAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                return true;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+            }
+
+
         };
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(editing ? mLayoutManager : mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
+
     }
 
     private void initToolbar() {
@@ -552,9 +610,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void addCard(CardType t) {
+
         mAdapter.addToList(t);
         mAdapter.notifyDataSetChanged();
+
         //TODO: Scroll to new Position
+
     }
 
     private void synchronizeUsername() {
@@ -566,6 +627,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void writeToPreferences() {
+
         StringBuilder b = new StringBuilder("");
         if (mAdapter.cards.size() > 0) {
             for (mAdapter.cards.toFirst(); mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
@@ -576,9 +638,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             b.append("");
         }
+
         SharedPreferences.Editor e = Start.pref.edit();
         e.putString("pref_key_card_config", b.toString());
         e.apply();
+
     }
 
     private void startCamera(AlertDialog b) {
@@ -592,6 +656,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("LeoApp", "No permission. Checked");
         } else {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
             scV = new ZXingScannerView(getApplicationContext());
             setContentView(scV);
             scV.setResultHandler(this);
@@ -630,8 +695,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int toInt(String s) {
-        int    result = 0, i, count = 1;
-        String regex  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        int result = 0, i, count = 1;
+        String regex = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (char c : s.toCharArray()) {
             for (i = 0; i < regex.length(); i++) {
                 if (c == regex.charAt(i))
@@ -646,12 +711,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String getChecksum(String username, int priority, int birthyear) {
         Calendar c = new GregorianCalendar();
         c.setTime(new Date());
-        int  year            = c.get(Calendar.YEAR);
-        int  month           = c.get(Calendar.MONTH) + 1;
-        int  day             = c.get(Calendar.DAY_OF_MONTH);
-        int  numericName     = toInt(username.substring(0, 3));
-        int  numericLastName = toInt(username.substring(3, 6));
-        long checksum        = (long) (Long.valueOf((int) (Math.pow(year, 2)) + "" + (int) (Math.pow(day, 2)) + "" + (int) (Math.pow(month, 2))) * username.length() * Math.cos(birthyear) + priority * (numericName - numericLastName));
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        int numericName = toInt(username.substring(0, 3));
+        int numericLastName = toInt(username.substring(3, 6));
+
+        long checksum = (long) (Long.valueOf((int) (Math.pow(year, 2)) + "" + (int) (Math.pow(day, 2)) + "" + (int) (Math.pow(month, 2))) * username.length() * Math.cos(birthyear) + priority * (numericName - numericLastName));
+
         return Long.toHexString(checksum);
     }
 }

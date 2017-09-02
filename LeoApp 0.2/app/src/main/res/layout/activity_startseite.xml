@@ -26,10 +26,10 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-            <ScrollView
+<!--            <ScrollView
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"> -->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -206,7 +206,7 @@
 
                 </RelativeLayout>
 
-            </ScrollView>
+ <!--           </ScrollView> -->
 
         </LinearLayout>
 

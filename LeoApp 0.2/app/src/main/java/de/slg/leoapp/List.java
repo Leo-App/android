@@ -75,6 +75,18 @@ public class List<ContentType> implements Iterable<ContentType> {
                 ;
     }
 
+    public void swap(int firstIndex, int secondIndex) {
+        toIndex(firstIndex);
+        ContentType t1 = getContent();
+        toIndex(secondIndex);
+        ContentType t2 = getContent();
+        remove();
+        insertBefore(t1);
+        toIndex(firstIndex);
+        remove();
+        insertBefore(t2);
+    }
+
     public ContentType getContent() {
         if (this.hasAccess())
             return current.content;
@@ -152,7 +164,7 @@ public class List<ContentType> implements Iterable<ContentType> {
         return this;
     }
 
-    public void concat(List<ContentType> pList) {
+    public List<ContentType> concat(List<ContentType> pList) {
         if (pList != this && pList != null && !pList.isEmpty()) {
             if (this.isEmpty()) {
                 first = pList.first;
@@ -167,6 +179,7 @@ public class List<ContentType> implements Iterable<ContentType> {
             pList.current = null;
             length += pList.size();
         }
+        return this;
     }
 
     public void remove() {
