@@ -4,19 +4,17 @@ import java.util.Date;
 
 class SubstitutionEvent {
 
-    private String school;
-    private String schoolClass;
-    private String period;
-    private String teacher;
-    private String subject;
-    private String substitute;
-    private String room;
-    private boolean cancellation;
-    private String note;
-    private Date date;
-
-
     private static final String[] DAYS = new String[]{"mon", "tue", "wed", "thu", "fri"};
+    private String  school;
+    private String  schoolClass;
+    private String  period;
+    private String  teacher;
+    private String  subject;
+    private String  substitute;
+    private String  room;
+    private boolean cancellation;
+    private String  note;
+    private Date    date;
 
     /**
      * Constructor. Sets all attributes to null and false respectively.
@@ -97,15 +95,6 @@ class SubstitutionEvent {
         pSchoolClass = pSchoolClass.replaceAll("\\(", "");
         pSchoolClass = pSchoolClass.replaceAll("\\)", "");
         schoolClass = pSchoolClass;
-    }
-
-    /**
-     * Sets the period
-     *
-     * @param pPeriod Period
-     */
-    private void setPeriod(String pPeriod) {
-        period = pPeriod;
     }
 
     /**
@@ -190,21 +179,21 @@ class SubstitutionEvent {
     }
 
     /**
-     * Returns whether the class is Self Learning or not
-     *
-     * @return true in case of Self Learning, false otherwise
-     */
-    public boolean isSelfLearning() {
-        return (getNote().toLowerCase().contains("selbstlernen") || getNote().toLowerCase().contains("evl"));
-    }
-
-    /**
      * Sets whether the class is cancelled or not
      *
      * @param pCancellation Boolean whether the class is cancelled or not
      */
     private void setCancellation(boolean pCancellation) {
         cancellation = pCancellation;
+    }
+
+    /**
+     * Returns whether the class is Self Learning or not
+     *
+     * @return true in case of Self Learning, false otherwise
+     */
+    public boolean isSelfLearning() {
+        return (getNote().toLowerCase().contains("selbstlernen") || getNote().toLowerCase().contains("evl"));
     }
 
     /**
@@ -247,4 +236,12 @@ class SubstitutionEvent {
         return period;
     }
 
+    /**
+     * Sets the period
+     *
+     * @param pPeriod Period
+     */
+    private void setPeriod(String pPeriod) {
+        period = pPeriod;
+    }
 }

@@ -16,15 +16,13 @@ class AnzeigeEinreichen extends AsyncTask<String, Void, Void> {
                             new URL("http://moritz.liegmanns.de/nachhilfeboerse/Hinzufuegen1_1.php?f=" + s + "&u=1&d=2017-06-17")
                                     .openConnection()
                                     .getInputStream(), "UTF-8"));
-
-            while (reader.readLine() != null) ;
+            while (reader.readLine() != null)
+                ;
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
-
 }
 

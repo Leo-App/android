@@ -27,17 +27,17 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class ChatEditActivity extends AppCompatActivity {
-    private int cid;
+    private int    cid;
     private String cname;
 
     private LinearLayout userContainer;
-    private View scrollView;
-    private ListView listView;
+    private View         scrollView;
+    private ListView     listView;
 
     private User[] usersInChat, usersNotInChat;
     private UserAdapter uRemove, uAdd;
     private MenuItem confirm;
-    private String mode;
+    private String   mode;
 
     private View add, remove;
     private Switch notifications;
@@ -47,10 +47,8 @@ public class ChatEditActivity extends AppCompatActivity {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_chat_edit);
         Utils.registerChatEditActivity(this);
-
         cid = getIntent().getIntExtra("cid", -1);
         cname = getIntent().getStringExtra("cname");
-
         initToolbar();
         initUsers();
         initSettings();
@@ -111,26 +109,20 @@ public class ChatEditActivity extends AppCompatActivity {
         userContainer = (LinearLayout) findViewById(R.id.linearLayoutUsers);
         scrollView = findViewById(R.id.scrollView);
         listView = (ListView) findViewById(R.id.listView);
-
         usersInChat = Utils.getMDB().getUsersInChat(cid);
         usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
-
         uRemove = new UserAdapter(getApplicationContext(), usersInChat);
         uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
                 final TextView username = (TextView) view.findViewById(R.id.username);
-
                 checkBox.setChecked(!checkBox.isChecked());
-
                 int color = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
                 if (!checkBox.isChecked())
                     color = ContextCompat.getColor(getApplicationContext(), R.color.colorText);
                 username.setTextColor(color);
-
                 switch (mode) {
                     case "add":
                         confirm.setVisible(uAdd.selectCount() > 0);
@@ -141,16 +133,13 @@ public class ChatEditActivity extends AppCompatActivity {
                 }
             }
         });
-
         fillContainer(usersInChat);
     }
 
     private void initSettings() {
         mode = "";
-
         notifications = (Switch) findViewById(R.id.switch1);
         notifications.setChecked(!Utils.getMDB().isMute(cid));
-
         final View name = findViewById(R.id.changeName);
         name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +147,6 @@ public class ChatEditActivity extends AppCompatActivity {
                 showDialogChatname();
             }
         });
-
         add = findViewById(R.id.addUser);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +159,6 @@ public class ChatEditActivity extends AppCompatActivity {
         if (usersNotInChat.length == 0) {
             add.setVisibility(View.GONE);
         }
-
         remove = findViewById(R.id.removeUser);
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,14 +171,12 @@ public class ChatEditActivity extends AppCompatActivity {
         if (usersInChat.length == 0) {
             remove.setVisibility(View.GONE);
         }
-
         final View leave = findViewById(R.id.leaveChat);
         leave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final AlertDialog dialog = new AlertDialog.Builder(ChatEditActivity.this).create();
-                View view = getLayoutInflater().inflate(R.layout.dialog_confirm_leave_chat, null);
-
+                View              view   = getLayoutInflater().inflate(R.layout.dialog_confirm_leave_chat, null);
                 view.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -207,7 +192,6 @@ public class ChatEditActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-
                 dialog.setView(view);
                 dialog.show();
             }
@@ -217,26 +201,20 @@ public class ChatEditActivity extends AppCompatActivity {
     private void fillContainer(User[] data) {
         userContainer.removeAllViews();
         for (User u : data) {
-            View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
-
-            final TextView username = (TextView) v.findViewById(R.id.username);
+            View           v           = getLayoutInflater().inflate(R.layout.list_item_user, null);
+            final TextView username    = (TextView) v.findViewById(R.id.username);
             final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
             username.setText(u.uname);
             userdefault.setText(u.udefaultname + ", " + u.ustufe);
-
             v.findViewById(R.id.checkBox).setVisibility(View.GONE);
-
             userContainer.addView(v);
         }
-        View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
-
-        final TextView username = (TextView) v.findViewById(R.id.username);
+        View           v           = getLayoutInflater().inflate(R.layout.list_item_user, null);
+        final TextView username    = (TextView) v.findViewById(R.id.username);
         final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
         username.setText(Utils.getUserName());
         userdefault.setText(Utils.getMDB().getMyDefaultName() + ", " + Utils.getUserStufe());
-
         v.findViewById(R.id.checkBox).setVisibility(View.GONE);
-
         userContainer.addView(v);
     }
 
@@ -249,10 +227,9 @@ public class ChatEditActivity extends AppCompatActivity {
     }
 
     private void showDialogChatname() {
-        final AlertDialog dialog = new AlertDialog.Builder(this).create();
-        View v = getLayoutInflater().inflate(R.layout.dialog_change_chatname, null);
-
-        final TextView textView = (TextView) v.findViewById(R.id.etChatname);
+        final AlertDialog dialog   = new AlertDialog.Builder(this).create();
+        View              v        = getLayoutInflater().inflate(R.layout.dialog_change_chatname, null);
+        final TextView    textView = (TextView) v.findViewById(R.id.etChatname);
         textView.setText(cname);
         v.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,7 +244,6 @@ public class ChatEditActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-
         dialog.setView(v);
         dialog.show();
     }
@@ -296,7 +272,8 @@ public class ChatEditActivity extends AppCompatActivity {
                                             new URL(generateURL(assoziation))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null) ;
+                    while (reader.readLine() != null)
+                        ;
                     reader.close();
                     Utils.getMDB().insertAssoziation(assoziation);
                 } catch (Exception e) {
@@ -313,11 +290,9 @@ public class ChatEditActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             usersInChat = Utils.getMDB().getUsersInChat(cid);
             usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
-
             uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
             uRemove = new UserAdapter(getApplicationContext(), usersInChat);
             fillContainer(usersInChat);
-
             if (usersNotInChat.length == 0) {
                 add.setVisibility(View.GONE);
             } else {
@@ -328,7 +303,6 @@ public class ChatEditActivity extends AppCompatActivity {
             } else {
                 remove.setVisibility(View.VISIBLE);
             }
-
             scrollView.setVisibility(View.VISIBLE);
             findViewById(R.id.progressBar).setVisibility(View.GONE);
         }
@@ -357,7 +331,8 @@ public class ChatEditActivity extends AppCompatActivity {
                                             new URL(generateURL(assoziation))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null) ;
+                    while (reader.readLine() != null)
+                        ;
                     reader.close();
                     Utils.getMDB().removeUserFormChat(assoziation.uid, assoziation.cid);
                 } catch (Exception e) {
@@ -374,11 +349,9 @@ public class ChatEditActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             usersInChat = Utils.getMDB().getUsersInChat(cid);
             usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
-
             uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
             uRemove = new UserAdapter(getApplicationContext(), usersInChat);
             fillContainer(usersInChat);
-
             if (usersNotInChat.length == 0) {
                 add.setVisibility(View.GONE);
             } else {
@@ -389,7 +362,6 @@ public class ChatEditActivity extends AppCompatActivity {
             } else {
                 remove.setVisibility(View.VISIBLE);
             }
-
             scrollView.setVisibility(View.VISIBLE);
             findViewById(R.id.progressBar).setVisibility(View.GONE);
         }
@@ -411,7 +383,8 @@ public class ChatEditActivity extends AppCompatActivity {
                                             new URL(generateURL(params[0]))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null) ;
+                    while (reader.readLine() != null)
+                        ;
                     reader.close();
                     cname = params[0];
                 } catch (Exception e) {

@@ -1,7 +1,5 @@
 package de.slg.startseite;
 
 public enum CardType {
-
     FOODMARKS, TESTPLAN, MESSENGER, TUTORING, NEWS, SURVEY, SCHEDULE, SUBSTITUTION, WEATHER, COMING_SOON
-
 }

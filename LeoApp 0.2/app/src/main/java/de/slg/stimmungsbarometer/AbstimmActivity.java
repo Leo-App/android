@@ -12,15 +12,12 @@ public class AbstimmActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Start.initPref(getApplicationContext());
         Utils.context = getApplicationContext();
-
         Utils.getNotificationManager().cancel(234);
-
         AbstimmDialog dialog = new AbstimmDialog(this);
         dialog.userid = Utils.getUserID();
-//        dialog.findViewById(R.id.buttonDialog1).setVisibility(View.GONE);
+        //        dialog.findViewById(R.id.buttonDialog1).setVisibility(View.GONE);
         dialog.show();
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

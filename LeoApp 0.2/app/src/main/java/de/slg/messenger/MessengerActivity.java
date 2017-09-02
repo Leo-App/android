@@ -47,9 +47,9 @@ import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
 
 public class MessengerActivity extends AppCompatActivity {
-    private DrawerLayout drawerLayout;
-    private ChatsFragment cFragment;
-    private UserFragment uFragment;
+    private DrawerLayout   drawerLayout;
+    private ChatsFragment  cFragment;
+    private UserFragment   uFragment;
     private SearchFragment sFragment;
     private Chat[] chatArray = null;
     private User[] userArray = null;
@@ -59,10 +59,8 @@ public class MessengerActivity extends AppCompatActivity {
         Utils.registerMessengerActivity(this);
         Utils.context = getApplicationContext();
         Utils.getMDB();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_messenger);
-
         initToolbar();
         initArrays();
         initNavigationView();
@@ -118,7 +116,6 @@ public class MessengerActivity extends AppCompatActivity {
         cFragment = new ChatsFragment();
         uFragment = new UserFragment();
         sFragment = new SearchFragment();
-
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -134,10 +131,8 @@ public class MessengerActivity extends AppCompatActivity {
                 return 3;
             }
         };
-
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_question_answer_white_24dp);
@@ -149,7 +144,6 @@ public class MessengerActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.messenger).setChecked(true);
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -189,16 +183,13 @@ public class MessengerActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
-
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == 2)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
-
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
@@ -221,7 +212,7 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
     public static class UserFragment extends Fragment {
-        public View view;
+        public View         view;
         public RecyclerView rvUsers;
         View.OnClickListener userClickListener;
 
@@ -229,10 +220,8 @@ public class MessengerActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             if (view == null) {
                 view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
-
                 initRecyclerView();
             }
-
             return view;
         }
 
@@ -241,7 +230,7 @@ public class MessengerActivity extends AppCompatActivity {
             userClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position = rvUsers.getChildAdapterPosition(view);
+                    int  position    = rvUsers.getChildAdapterPosition(view);
                     User clickedUser = Utils.getMessengerActivity().userArray[position];
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("uid", clickedUser.uid)
@@ -250,7 +239,6 @@ public class MessengerActivity extends AppCompatActivity {
                             .putExtra("ctype", Chat.Chattype.PRIVATE.toString()));
                 }
             };
-
             rvUsers.setLayoutManager(new LinearLayoutManager(getContext()));
             rvUsers.setAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().userArray, userClickListener));
         }
@@ -268,8 +256,8 @@ public class MessengerActivity extends AppCompatActivity {
         }
 
         private class UserAdapter extends RecyclerView.Adapter {
-            private final LayoutInflater inflater;
-            private final User[] array;
+            private final LayoutInflater       inflater;
+            private final User[]               array;
             private final View.OnClickListener listener;
 
             UserAdapter(LayoutInflater inflater, User[] array, View.OnClickListener listener) {
@@ -285,8 +273,8 @@ public class MessengerActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                View v = holder.itemView;
-                final TextView username = (TextView) v.findViewById(R.id.username);
+                View           v           = holder.itemView;
+                final TextView username    = (TextView) v.findViewById(R.id.username);
                 final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
                 username.setText(array[position].uname);
                 userdefault.setText(array[position].udefaultname + ", " + array[position].ustufe);
@@ -308,21 +296,19 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
     public static class ChatsFragment extends Fragment {
-        public RecyclerView rvChats;
-        private View view;
-        private View.OnClickListener chatClickListener;
+        public  RecyclerView             rvChats;
+        private View                     view;
+        private View.OnClickListener     chatClickListener;
         private View.OnLongClickListener chatLongClickListener;
-        private int selected;
-        private int previousPosition;
+        private int                      selected;
+        private int                      previousPosition;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             if (view == null) {
                 view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
-
                 initRecyclerView();
             }
-
             return view;
         }
 
@@ -332,7 +318,7 @@ public class MessengerActivity extends AppCompatActivity {
             chatClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position = rvChats.getChildAdapterPosition(view);
+                    int  position    = rvChats.getChildAdapterPosition(view);
                     Chat clickedChat = Utils.getMessengerActivity().chatArray[position];
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("cid", clickedChat.cid)
@@ -355,7 +341,7 @@ public class MessengerActivity extends AppCompatActivity {
                     }
                     previousPosition = rvChats.getChildAdapterPosition(view);
                     final View delete = view.findViewById(R.id.imageButtonDelete);
-                    final View mute = view.findViewById(R.id.imageButtonMute);
+                    final View mute   = view.findViewById(R.id.imageButtonMute);
                     final View notify = view.findViewById(R.id.notify);
                     visibility = notify.getVisibility();
                     notify.setVisibility(View.GONE);
@@ -364,10 +350,7 @@ public class MessengerActivity extends AppCompatActivity {
                     return true;
                 }
             };
-
-
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
                     rvChats.getContext(),
                     linearLayoutManager.getOrientation()
@@ -390,9 +373,9 @@ public class MessengerActivity extends AppCompatActivity {
         }
 
         private class ChatAdapter extends RecyclerView.Adapter {
-            private final LayoutInflater inflater;
-            private final Chat[] chats;
-            private final View.OnClickListener clickListener;
+            private final LayoutInflater           inflater;
+            private final Chat[]                   chats;
+            private final View.OnClickListener     clickListener;
             private final View.OnLongClickListener longClickListener;
 
             ChatAdapter(LayoutInflater inflater, Chat[] chats, View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
@@ -409,21 +392,18 @@ public class MessengerActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                final View v = holder.itemView;
-                final TextView chatname = (TextView) v.findViewById(R.id.chatname);
-                final TextView lastSender = (TextView) v.findViewById(R.id.letzteNachrichtAbsender);
-                final TextView lastMessage = (TextView) v.findViewById(R.id.letzteNachrichtText);
-                final ImageView icon = (ImageView) v.findViewById(R.id.iconChat);
-                final View iconMute = v.findViewById(R.id.iconMute);
-                final View buttonDelete = v.findViewById(R.id.imageButtonDelete);
-                final View buttonMute = v.findViewById(R.id.imageButtonMute);
-                final View notify = v.findViewById(R.id.notify);
-
-                final Chat c = chats[position];
-
+                final View      v            = holder.itemView;
+                final TextView  chatname     = (TextView) v.findViewById(R.id.chatname);
+                final TextView  lastSender   = (TextView) v.findViewById(R.id.letzteNachrichtAbsender);
+                final TextView  lastMessage  = (TextView) v.findViewById(R.id.letzteNachrichtText);
+                final ImageView icon         = (ImageView) v.findViewById(R.id.iconChat);
+                final View      iconMute     = v.findViewById(R.id.iconMute);
+                final View      buttonDelete = v.findViewById(R.id.imageButtonDelete);
+                final View      buttonMute   = v.findViewById(R.id.imageButtonMute);
+                final View      notify       = v.findViewById(R.id.notify);
+                final Chat      c            = chats[position];
                 if (c != null) {
                     chatname.setText(c.cname);
-
                     if (c.m != null) {
                         lastMessage.setVisibility(View.VISIBLE);
                         lastSender.setVisibility(View.VISIBLE);
@@ -440,20 +420,17 @@ public class MessengerActivity extends AppCompatActivity {
                         v.findViewById(R.id.textView3).setVisibility(View.GONE);
                         notify.setVisibility(View.GONE);
                     }
-
                     if (c.ctype == Chat.Chattype.PRIVATE) {
                         icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
                     } else {
                         icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
                     }
-
                     if (c.mute) {
                         iconMute.setVisibility(View.VISIBLE);
                     } else {
                         iconMute.setVisibility(View.GONE);
                     }
                     buttonMute.setActivated(c.mute);
-
                     if (position != selected) {
                         buttonDelete.setVisibility(View.GONE);
                         buttonMute.setVisibility(View.GONE);
@@ -461,7 +438,6 @@ public class MessengerActivity extends AppCompatActivity {
                         buttonDelete.setVisibility(View.VISIBLE);
                         buttonMute.setVisibility(View.VISIBLE);
                     }
-
                     buttonDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -498,38 +474,34 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
     public static class SearchFragment extends Fragment {
-        public View view;
+        public View         view;
         public RecyclerView rvSearch;
         boolean initialized = false;
-        private Object[] data;
+        private Object[]             data;
         private View.OnClickListener clickListener;
 
         private boolean expanded;
 
-        private String suchbegriff = "";
-        private boolean chatsFirst = false;
-        private String name = USER_DEFAULTNAME;
-        private boolean nameDesc = false, groupGrade = true;
+        private String  suchbegriff = "";
+        private boolean chatsFirst  = false;
+        private String  name        = USER_DEFAULTNAME;
+        private boolean nameDesc    = false, groupGrade = true;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             if (view == null) {
                 view = inflater.inflate(R.layout.fragment_search, container, false);
-
                 data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, USER_STUFE + ", " + name);
-
                 initRecyclerView();
                 initSearch();
                 initSort();
             }
-
             initialized = true;
             return view;
         }
 
         private void initRecyclerView() {
             rvSearch = (RecyclerView) view.findViewById(R.id.recyclerViewSearch);
-
             clickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -550,7 +522,6 @@ public class MessengerActivity extends AppCompatActivity {
                     }
                 }
             };
-
             rvSearch.setLayoutManager(new LinearLayoutManager(getContext()));
             rvSearch.setAdapter(new HybridAdapter(getActivity().getLayoutInflater()));
         }
@@ -560,12 +531,10 @@ public class MessengerActivity extends AppCompatActivity {
             input.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 }
 
                 @Override
@@ -579,7 +548,6 @@ public class MessengerActivity extends AppCompatActivity {
         private void initSort() {
             expanded = false;
             view.findViewById(R.id.sortCard).setVisibility(View.GONE);
-
             final FloatingActionButton expand = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
             expand.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -594,7 +562,6 @@ public class MessengerActivity extends AppCompatActivity {
                     }
                 }
             });
-
             final Button first = (Button) view.findViewById(R.id.buttonFirst);
             first.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -614,7 +581,6 @@ public class MessengerActivity extends AppCompatActivity {
             } else {
                 first.setText("Chats");
             }
-
             final Button sortName = (Button) view.findViewById(R.id.buttonName);
             sortName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -634,7 +600,6 @@ public class MessengerActivity extends AppCompatActivity {
             } else {
                 sortName.setText("Standardname");
             }
-
             final ImageButton nameUpDown = (ImageButton) view.findViewById(R.id.buttonNameUpDown);
             nameUpDown.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -654,8 +619,6 @@ public class MessengerActivity extends AppCompatActivity {
             } else {
                 nameUpDown.setImageResource(R.drawable.ic_expand_more_white_24dp);
             }
-
-
             final Button grade = (Button) view.findViewById(R.id.buttonGrade);
             grade.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -674,7 +637,6 @@ public class MessengerActivity extends AppCompatActivity {
                 grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
             else
                 grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-
         }
 
         public void refreshUI() {
@@ -711,13 +673,11 @@ public class MessengerActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                View v = holder.itemView;
-                Object current = data[position];
-
-                final TextView username = (TextView) v.findViewById(R.id.username);
-                final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
-                final ImageView icon = (ImageView) v.findViewById(R.id.iconUser);
-
+                View            v           = holder.itemView;
+                Object          current     = data[position];
+                final TextView  username    = (TextView) v.findViewById(R.id.username);
+                final TextView  userdefault = (TextView) v.findViewById(R.id.userdefault);
+                final ImageView icon        = (ImageView) v.findViewById(R.id.iconUser);
                 if (current instanceof User) {
                     User u = (User) current;
                     username.setText(u.uname);

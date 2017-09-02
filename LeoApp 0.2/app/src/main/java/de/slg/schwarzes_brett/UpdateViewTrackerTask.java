@@ -14,13 +14,9 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
 
     @Override
     protected Void doInBackground(Integer... params) {
-
-        for(Integer cur : params) {
-
-            Log.wtf("LeoApp", "syncing "+cur);
-
+        for (Integer cur : params) {
+            Log.wtf("LeoApp", "syncing " + cur);
             remote = cur;
-
             try {
                 URL updateURL = new URL("http://www.moritz.liegmanns.de/updateViewTracker.php?key=5453&remote=" + remote);
                 updateURL.openConnection().getInputStream();
@@ -28,30 +24,20 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
-
         return null;
     }
 
     private String getNewCacheString() {
-
-        String cache = Start.pref.getString("pref_key_cache_vieweditems", "");
-        String[] items = cache.split("-");
-
+        String        cache   = Start.pref.getString("pref_key_cache_vieweditems", "");
+        String[]      items   = cache.split("-");
         StringBuilder builder = new StringBuilder();
-
         for (String s : items) {
-
             if (s.matches(".+:" + remote))
                 builder.append("-0:").append(remote);
             else
                 builder.append("-").append(s);
-
         }
-
         return builder.toString().replaceFirst("-", "");
-
     }
-
 }

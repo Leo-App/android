@@ -7,16 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLiteConnector extends SQLiteOpenHelper {
-    public static final String TABLE_EINTRAEGE = "Eintraege";
-    static final String EINTRAEGE_TITEL = "titel";
-    static final String EINTRAEGE_ADRESSAT = "adressat";
-    static final String EINTRAEGE_INHALT = "inhalt";
-    static final String EINTRAEGE_ERSTELLDATUM = "erstelldatum";
-    static final String EINTRAEGE_ABLAUFDATUM = "ablaufdatum";
-    static final String EINTRAEGE_REMOTE_ID = "remoteid";
-    static final String EINTRAEGE_VIEWS = "gesehen";
-    static final String EINTRAEGE_ID = "id";
-    private static final String DATABASE_NAME = "entries.db";
+    public static final  String TABLE_EINTRAEGE        = "Eintraege";
+    static final         String EINTRAEGE_TITEL        = "titel";
+    static final         String EINTRAEGE_ADRESSAT     = "adressat";
+    static final         String EINTRAEGE_INHALT       = "inhalt";
+    static final         String EINTRAEGE_ERSTELLDATUM = "erstelldatum";
+    static final         String EINTRAEGE_ABLAUFDATUM  = "ablaufdatum";
+    static final         String EINTRAEGE_REMOTE_ID    = "remoteid";
+    static final         String EINTRAEGE_VIEWS        = "gesehen";
+    static final         String EINTRAEGE_ID           = "id";
+    private static final String DATABASE_NAME          = "entries.db";
 
     public SQLiteConnector(Context c) {
         super(c, DATABASE_NAME, null, 2);

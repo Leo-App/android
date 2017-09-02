@@ -37,7 +37,6 @@ public class StundenplanBildActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stundenplan_image);
         Utils.registerStundenplanBildActivity(this);
-
         view = (StundenplanView) findViewById(R.id.image);
         initToolbar();
     }
@@ -90,21 +89,15 @@ public class StundenplanBildActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
             Bitmap bitmap = view.bitmap;
-
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-
             try {
                 new File(getDirectory()).mkdirs();
-
                 final File image = new File(getDirectory() + getFilename());
                 image.createNewFile();
-
                 FileOutputStream outputStream = new FileOutputStream(image);
                 outputStream.write(bytes.toByteArray());
-
                 outputStream.close();
-
                 final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), "Saved as " + getFilename(), Snackbar.LENGTH_LONG);
                 snackbar.setAction("Open", new View.OnClickListener() {
                     @Override

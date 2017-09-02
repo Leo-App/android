@@ -45,28 +45,21 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     final List<Card> cards;
 
     {
-
         cards = new List<>();
-
         String card_config = Start.pref.getString("pref_key_card_config",
                 "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;COMING_SOON");
-
         for (String card : card_config.split(";")) {
             if (card.length() > 0) {
                 CardType type = CardType.valueOf(card);
                 addToList(type);
             }
         }
-
     }
 
     void addToList(CardType type) {
-
         InfoCard c;
         MiscCard m;
-
         switch (type) {
-
             case FOODMARKS:
                 cards.append(c = new InfoCard(true, type));
                 c.title = Utils.getString(R.string.title_foodmarks);
@@ -118,7 +111,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 cards.append(c = new InfoCard(false, type));
                 c.title = Utils.getString(R.string.title_tutoring);
                 c.descr = Utils.getString(R.string.summary_info_tutoring);
-                c.buttonDescr =  Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
+                c.buttonDescr = Utils.getString(Utils.isVerified() ? R.string.button_info_try : R.string.button_info_auth);
                 c.enabled = Utils.isVerified();
                 c.icon = R.drawable.ic_people_white_24dp;
                 c.buttonListener = new View.OnClickListener() {
@@ -196,80 +189,61 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(Start.pref.getBoolean("pref_key_card_config_quick", false))
+                        if (Start.pref.getBoolean("pref_key_card_config_quick", false))
                             new ComingSoonDialog(Utils.getMainActivity()).show();
-
                     }
                 };
                 break;
             case WEATHER:
                 cards.append(m = new MiscCard(false, type, true));
                 m.title = Utils.getString(R.string.card_title_weather);
-
                 break;
         }
     }
 
     void updateCustomCards() {
-
         int i = 0;
-        for(cards.toFirst(); cards.hasAccess(); cards.next()) {
-
-            if(cards.getContent() instanceof MiscCard)
+        for (cards.toFirst(); cards.hasAccess(); cards.next()) {
+            if (cards.getContent() instanceof MiscCard)
                 notifyItemChanged(i);
             i++;
         }
-
     }
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View itemView;
-
         switch (viewType) {
-
             case 0:
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.layout_cardview_feature_small, parent, false);
-
                 return new CardViewHolder(itemView);
             case 1:
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.layout_cardview_feature_large, parent, false);
-
                 return new CardViewHolder(itemView);
             case 2:
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.layout_cardview_feature_quick, parent, false);
-
                 CardViewHolder ret = new CardViewHolder(itemView);
-
                 ret.wrapper.requestLayout();
                 ret.wrapper.getLayoutParams().height = GraphicUtils.getDisplayWidth() / 2 - (int) GraphicUtils.dpToPx(20);
                 ret.wrapper.getLayoutParams().width = ret.wrapper.getLayoutParams().height;
-
                 ret.icon.getLayoutParams().height = (ret.wrapper.getLayoutParams().height / 100) * 65; //Icon 65% of quick tile
                 ret.icon.getLayoutParams().width = (ret.wrapper.getLayoutParams().height / 100) * 65;
-
                 return ret;
             default:
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.layout_cardview_feature_small, parent, false);
-
                 return new CardViewHolder(itemView);
-
         }
-
     }
 
     @Override
     public int getItemViewType(int position) {
         cards.toIndex(position);
         Card ref = cards.getContent();
-
         boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
-
         return quickLayout ? 2 : ref.large ? 1 : 0;
     }
 
@@ -277,26 +251,20 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
     @Override
     public void onBindViewHolder(final CardViewHolder holder, final int position) {
         cards.toIndex(position);
-        Card c = cards.getContent();
+        Card    c     = cards.getContent();
         boolean quick = Start.pref.getBoolean("pref_key_card_config_quick", false);
-
         if (MainActivity.editing)
             holder.wrapper.setCardElevation(25);
         else
             holder.wrapper.setCardElevation(5);
-
-
         holder.button.setEnabled(!MainActivity.editing);
-
         if (c instanceof InfoCard) {
             InfoCard ref = (InfoCard) c;
             holder.button.setText(ref.buttonDescr);
             holder.button.setOnClickListener(ref.buttonListener);
             holder.title.setText(ref.title);
-
-            if(ref.buttonDescr == null && !quick)
+            if (ref.buttonDescr == null && !quick)
                 holder.button.setVisibility(GONE);
-
             if (ref.title.equals(Utils.getString(R.string.coming_soon)))
                 holder.icon.setColorFilter(Color.GRAY);
             else
@@ -306,54 +274,44 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             holder.icon.setImageResource(ref.icon);
             if (!ref.enabled)
                 holder.icon.setColorFilter(Color.GRAY);
-        } else if(c instanceof MiscCard) {
+        } else if (c instanceof MiscCard) {
             holder.button.setVisibility(GONE);
             holder.title.setVisibility(GONE);
             holder.description.setVisibility(GONE);
             holder.content.setVisibility(View.VISIBLE);
             holder.icon.setVisibility(GONE);
-
             ImageView weatherIcon = new ImageView(Utils.context);
             weatherIcon.setId(generateViewId());
             weatherIcon.setImageResource(R.drawable.weather_partlycloudy);
             TextView temperature = new TextView(Utils.context);
             temperature.setId(generateViewId());
             TextView humidity = new TextView(Utils.context);
-
             new WeatherUpdateTask().execute(weatherIcon, temperature, humidity);
-
             weatherIcon.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
-
-            if(quick) {
+            if (quick) {
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT);
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
                 layoutParams.setMargins(0, 25, 0, 0);
                 layoutParams.height = (holder.wrapper.getLayoutParams().height / 100) * 60;
                 layoutParams.width = (holder.wrapper.getLayoutParams().height / 100) * 60;
                 weatherIcon.setLayoutParams(layoutParams);
-
                 RelativeLayout.LayoutParams layoutParamsTextViewTemp = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
                 layoutParamsTextViewTemp.addRule(RelativeLayout.BELOW, weatherIcon.getId());
                 layoutParamsTextViewTemp.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
                 temperature.setLayoutParams(layoutParamsTextViewTemp);
                 temperature.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
                 temperature.setTextColor(Color.rgb(0x00, 0x91, 0xea));
-
                 RelativeLayout.LayoutParams layoutParamsTextViewHumid = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
                 layoutParamsTextViewHumid.addRule(RelativeLayout.BELOW, temperature.getId());
                 layoutParamsTextViewHumid.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
                 humidity.setLayoutParams(layoutParamsTextViewHumid);
                 humidity.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
                 humidity.setTextColor(Color.rgb(0x00, 0x91, 0xea));
-
                 holder.content.addView(temperature);
                 holder.content.addView(humidity);
-
             } else {
-
                 holder.title.setVisibility(View.VISIBLE);
                 holder.title.setText(Utils.getString(R.string.card_title_weather));
-
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
                 layoutParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
@@ -361,26 +319,23 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 layoutParams.height = (holder.wrapper.getLayoutParams().height / 100) * 70;
                 layoutParams.width = (holder.wrapper.getLayoutParams().height / 100) * 70;
                 weatherIcon.setLayoutParams(layoutParams);
-
                 RelativeLayout.LayoutParams layoutParamsTextViewTemp = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
                 layoutParamsTextViewTemp.addRule(RelativeLayout.RIGHT_OF, weatherIcon.getId());
                 layoutParamsTextViewTemp.addRule(RelativeLayout.ABOVE, humidity.getId());
-             //   layoutParamsTextViewTemp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+                //   layoutParamsTextViewTemp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
                 layoutParamsTextViewTemp.setMargins(80, 0, 0, 0);
                 temperature.setLayoutParams(layoutParamsTextViewTemp);
                 temperature.setTextSize(TypedValue.COMPLEX_UNIT_SP, 45);
                 temperature.setTextColor(Color.rgb(0x00, 0x91, 0xea));
-
                 RelativeLayout.LayoutParams layoutParamsTextViewHumid = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
                 layoutParamsTextViewHumid.addRule(RelativeLayout.BELOW, temperature.getId());
                 layoutParamsTextViewHumid.addRule(RelativeLayout.RIGHT_OF, weatherIcon.getId());
-              //  layoutParamsTextViewHumid.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+                //  layoutParamsTextViewHumid.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
                 layoutParamsTextViewHumid.setMargins(80, 0, 0, 0);
                 humidity.setId(generateViewId());
                 humidity.setLayoutParams(layoutParamsTextViewHumid);
                 humidity.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                 humidity.setTextColor(Color.rgb(0x00, 0x91, 0xea));
-
                 RelativeLayout wrapper = new RelativeLayout(Utils.context);
                 wrapper.addView(temperature);
                 wrapper.addView(humidity);
@@ -388,16 +343,10 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 layoutParamsWrapper.addRule(RelativeLayout.CENTER_VERTICAL, temperature.getId());
                 layoutParamsWrapper.addRule(RelativeLayout.RIGHT_OF, weatherIcon.getId());
                 wrapper.setLayoutParams(layoutParamsWrapper);
-
                 holder.content.addView(wrapper);
-
             }
-
             holder.content.addView(weatherIcon);
-
-
         }
-
     }
 
     @Override
@@ -407,16 +356,15 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     class CardViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView title;
-        final TextView description;
-        final Button button;
-        final ImageView icon;
+        final TextView       title;
+        final TextView       description;
+        final Button         button;
+        final ImageView      icon;
         final RelativeLayout content;
-        final CardView wrapper;
+        final CardView       wrapper;
 
         CardViewHolder(View itemView) {
             super(itemView);
-
             title = (TextView) itemView.findViewById(R.id.info_title0);
             description = (TextView) itemView.findViewById(R.id.info_text0);
             button = (Button) itemView.findViewById(R.id.buttonCardView0);
@@ -424,51 +372,40 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
             icon = (ImageView) itemView.findViewById(R.id.info_card_icon);
             wrapper = (CardView) itemView.findViewById(R.id.card_preset);
         }
-
     }
 
     private class WeatherUpdateTask extends AsyncTask<View, Void, String[]> {
 
         private ImageView icon;
-        private TextView temp, humid;
+        private TextView  temp, humid;
 
         @Override
         protected String[] doInBackground(View... params) {
-
             icon = (ImageView) params[0];
             temp = (TextView) params[1];
             humid = (TextView) params[2];
-
             try {
-
-                if(!Utils.checkNetwork())
+                if (!Utils.checkNetwork())
                     return null;
-
-                URL apiURL = new URL("http://moritz.liegmanns.de/getWeatherData.php");
-                BufferedReader b = new BufferedReader(new InputStreamReader(apiURL.openConnection().getInputStream()));
-                String current;
-                StringBuilder json = new StringBuilder();
-                while((current = b.readLine()) != null)
+                URL            apiURL = new URL("http://moritz.liegmanns.de/getWeatherData.php");
+                BufferedReader b      = new BufferedReader(new InputStreamReader(apiURL.openConnection().getInputStream()));
+                String         current;
+                StringBuilder  json   = new StringBuilder();
+                while ((current = b.readLine()) != null)
                     json.append(current);
-
                 StringBuilder weatherCode = new StringBuilder();
-                StringBuilder tempCode = new StringBuilder();
-                StringBuilder humidCode = new StringBuilder();
-
-                int indexStart = json.indexOf("\"description\":");
-                for(int i = indexStart+15; json.charAt(i) != '"'; i++)
+                StringBuilder tempCode    = new StringBuilder();
+                StringBuilder humidCode   = new StringBuilder();
+                int           indexStart  = json.indexOf("\"description\":");
+                for (int i = indexStart + 15; json.charAt(i) != '"'; i++)
                     weatherCode.append(json.charAt(i));
-
                 indexStart = json.indexOf("\"temp\":");
-                for(int i = indexStart+7; json.charAt(i) != ','; i++)
+                for (int i = indexStart + 7; json.charAt(i) != ','; i++)
                     tempCode.append(json.charAt(i));
-
                 indexStart = json.indexOf("\"humidity\":");
-                for(int i = indexStart+11; json.charAt(i) != ','; i++)
+                for (int i = indexStart + 11; json.charAt(i) != ','; i++)
                     humidCode.append(json.charAt(i));
-
                 return new String[]{weatherCode.toString(), tempCode.toString(), humidCode.toString()};
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -478,8 +415,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
         @SuppressLint("SetTextI18n")
         @Override
         protected void onPostExecute(String... strings) {
-
-            if(strings == null) {
+            if (strings == null) {
                 icon.setImageResource(R.drawable.weather_no_connection_alt);
                 icon.setColorFilter(Color.GRAY);
                 temp.setText("-");
@@ -488,50 +424,36 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
                 humid.setTextColor(Color.GRAY);
                 return;
             }
-
             switch (strings[0]) {
-
                 case "clear sky":
                     icon.setImageResource(R.drawable.weather_sunny);
                     break;
-
                 case "few clouds":
                     icon.setImageResource(R.drawable.weather_partlycloudy);
                     break;
-
                 case "scattered clouds":
                     icon.setImageResource(R.drawable.weather_cloudy);
                     break;
-
                 case "broken clouds":
                     icon.setImageResource(R.drawable.weather_cloudy);
                     break;
-
                 case "rain":
                     icon.setImageResource(R.drawable.weather_pouring);
                     break;
-
                 case "thunderstorm":
                     icon.setImageResource(R.drawable.weather_lightning);
                     break;
-
                 case "snow":
                     icon.setImageResource(R.drawable.weather_snowy);
                     break;
-
                 case "mist":
                     icon.setImageResource(R.drawable.weather_fog);
                     break;
-
             }
-
-            double temp = Double.parseDouble(strings[1])-273.15;
-            DecimalFormat df = new DecimalFormat("#.#");
-
-            this.temp.setText(df.format(temp)+"\u2103");
-            this.humid.setText(strings[2]+"%");
-
+            double        temp = Double.parseDouble(strings[1]) - 273.15;
+            DecimalFormat df   = new DecimalFormat("#.#");
+            this.temp.setText(df.format(temp) + "\u2103");
+            this.humid.setText(strings[2] + "%");
         }
     }
-
 }

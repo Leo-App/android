@@ -52,20 +52,14 @@ public class ReceiveService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Utils.context = getApplicationContext();
         Start.initPref(getApplicationContext());
-
         Utils.registerReceiveService(this);
-
         running = true;
         receiveMessages = false;
         receiveNews = false;
-
         interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
-
         new MessengerThread().start();
         new NewsThread().start();
-
         Log.i("ReceiveService", "Service (re)started!");
-
         return START_STICKY;
     }
 
@@ -102,10 +96,8 @@ public class ReceiveService extends Service {
                 try {
                     new SendTask().execute();
                     new ReceiveTask().execute();
-
                     for (int i = 0; i < interval && running && !receiveMessages; i++)
                         sleep(1);
-
                     receiveMessages = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -121,10 +113,8 @@ public class ReceiveService extends Service {
             while (running) {
                 try {
                     new EmpfangeDaten().execute();
-
                     for (int i = 0; i < 60000 && running && !receiveNews; i++)
                         sleep(1);
-
                     receiveNews = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -154,7 +144,7 @@ public class ReceiveService extends Service {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     StringBuilder builder = new StringBuilder();
-                    String l;
+                    String        l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l).append(System.getProperty("line.separator"));
                     reader.close();
@@ -162,13 +152,12 @@ public class ReceiveService extends Service {
                     for (String s : result) {
                         String[] message = s.split("_ ;_");
                         if (message.length == 6) {
-                            int mid = Integer.parseInt(message[0]);
+                            int    mid   = Integer.parseInt(message[0]);
                             String mtext = Verschluesseln.decrypt(message[1], Verschluesseln.decryptKey(message[2])).replace("_  ;_", "_ ;_");
-                            long mdate = Long.parseLong(message[3] + "000");
-                            int cid = Integer.parseInt(message[4]);
-                            int uid = Integer.parseInt(message[5]);
-                            Message m = new Message(mid, mtext, mdate, cid, uid, false);
-                            Utils.getMDB().insertMessage(m);
+                            long   mdate = Long.parseLong(message[3] + "000");
+                            int    cid   = Integer.parseInt(message[4]);
+                            int    uid   = Integer.parseInt(message[5]);
+                            Utils.getMDB().insertMessage(new Message(mid, mtext, mdate, cid, uid));
                         }
                     }
                 } catch (Exception e) {
@@ -187,11 +176,11 @@ public class ReceiveService extends Service {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     StringBuilder builder = new StringBuilder();
-                    String l;
+                    String        l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l);
                     reader.close();
-                    String erg = builder.toString();
+                    String   erg    = builder.toString();
                     String[] result = erg.split("_ next_");
                     for (String s : result) {
                         String[] current = s.split("_ ;_");
@@ -216,11 +205,11 @@ public class ReceiveService extends Service {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     StringBuilder builder = new StringBuilder();
-                    String l;
+                    String        l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l);
                     reader.close();
-                    String erg = builder.toString();
+                    String   erg    = builder.toString();
                     String[] result = erg.split("_ next_");
                     for (String s : result) {
                         String[] current = s.split("_ ;_");
@@ -245,13 +234,13 @@ public class ReceiveService extends Service {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     StringBuilder builder = new StringBuilder();
-                    String l;
+                    String        l;
                     while ((l = reader.readLine()) != null)
                         builder.append(l);
                     reader.close();
-                    String erg = builder.toString();
-                    String[] result = erg.split(";");
-                    List<Assoziation> list = new List<>();
+                    String            erg    = builder.toString();
+                    String[]          result = erg.split(";");
+                    List<Assoziation> list   = new List<>();
                     for (String s : result) {
                         String[] current = s.split(",");
                         if (current.length == 2) {
@@ -301,7 +290,8 @@ public class ReceiveService extends Service {
                                                 new URL(generateURL(m.mtext, m.cid))
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null) ;
+                        while (reader.readLine() != null)
+                            ;
                         reader.close();
                         Utils.getMDB().removeUnsendMessage(m.mid);
                     } catch (Exception e) {
@@ -329,17 +319,15 @@ public class ReceiveService extends Service {
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     StringBuilder builder = new StringBuilder();
-                    String line;
+                    String        line;
                     while ((line = reader.readLine()) != null)
                         builder.append(line)
                                 .append(System.getProperty("line.separator"));
                     reader.close();
-
-                    SQLiteConnector db = new SQLiteConnector(getApplicationContext());
-                    SQLiteDatabase dbh = db.getWritableDatabase();
+                    SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
+                    SQLiteDatabase  dbh = db.getWritableDatabase();
                     dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnector.TABLE_EINTRAEGE + "'");
                     dbh.delete(SQLiteConnector.TABLE_EINTRAEGE, null, null);
-
                     String[] result = builder.toString().split("_next_");
                     for (String s : result) {
                         String[] res = s.split(";");
@@ -354,7 +342,6 @@ public class ReceiveService extends Service {
                                     Integer.parseInt(res[6])));
                         }
                     }
-
                     dbh.close();
                     db.close();
                 } catch (IOException e) {

@@ -50,28 +50,25 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class EssensQRActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     public static SharedPreferences sharedPref;
-    public static SQLiteHandler sqlh;
-    public static Button scan;
+    public static SQLiteHandler     sqlh;
+    public static Button            scan;
     public static boolean runningSync, mensaModeRunning = false;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
-    public ZXingScannerView scV;
-    private ViewPager mViewPager;
+    public  ZXingScannerView     scV;
+    private ViewPager            mViewPager;
     private FragmentPagerAdapter adapt;
-    private boolean runningScan;
-    private DrawerLayout drawerLayout;
+    private boolean              runningScan;
+    private DrawerLayout         drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_qr);
         Utils.registerEssensQRActivity(this);
-
         runningScan = false;
         runningSync = false;
-
         initToolbar();
         initNavigationView();
-
         mViewPager = (ViewPager) findViewById(R.id.pager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
@@ -93,22 +90,17 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
 
             @Override
             public CharSequence getPageTitle(int position) {
-
                 if (position == 0)
                     return getString(R.string.title_foodmarks);
                 else
                     return getString(R.string.toolbar_scan);
             }
-
         };
         mViewPager.setAdapter(adapt);
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
-
         sqlh = new SQLiteHandler(getApplicationContext());
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
         final Handler handler = new Handler();
         final Runnable r = new Runnable() {
             @Override
@@ -121,28 +113,23 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
                 });
             }
         };
-
         handler.postDelayed(r, 100);
-
         if (!mensaModeRunning && sharedPref.getBoolean("pref_key_mensa_mode", false)) {
             handler.removeCallbacks(r);
             mensaModeRunning = true;
             scan();
         } else
             mensaModeRunning = false;
-
     }
 
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.foodmarks).setChecked(true);
-
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -185,13 +172,11 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
         });
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
-
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == 2)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
-
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
@@ -199,9 +184,7 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
     private void initToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         myToolbar.setTitleTextColor(Color.WHITE);
-
         setSupportActionBar(myToolbar);
-
         getSupportActionBar().setTitle(getString(R.string.toolbar_title));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -209,27 +192,20 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
     }
 
     private void scan() {
-
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     MY_PERMISSIONS_REQUEST_USE_CAMERA);
-
         } else {
-
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
             runningScan = true;
             scV = new ZXingScannerView(getApplicationContext());
             setContentView(scV);
             scV.setResultHandler(this);
             int cameraNumber = sharedPref.getBoolean("pref_key_qr_camera", false) ? 1 : 0;
             scV.startCamera(cameraNumber);
-
         }
-
     }
 
     @Override
@@ -246,20 +222,14 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == R.id.action_refresh) {
-
             ((QRFragment) adapt.getItem(0)).synchronize(false);
             mViewPager.setCurrentItem(0);
-
         } else if (item.getItemId() == android.R.id.home) {
-
             drawerLayout.openDrawer(GravityCompat.START);
             SQLitePrinter.printDatabase(getApplicationContext());
-
         }
         return true;
-
     }
 
     @Override
@@ -280,7 +250,6 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
 
     @Override
     protected void onPause() {
-
         if (scV != null && scV.isActivated()) {
             scV.stopCamera();
             finish();
@@ -288,7 +257,6 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
         } else {
             super.onPause();
         }
-
     }
 
     @Override
@@ -304,17 +272,14 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
             case MY_PERMISSIONS_REQUEST_USE_CAMERA: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     runningScan = true;
                     scV = new ZXingScannerView(getApplicationContext());
                     setContentView(scV);
                     scV.setResultHandler(this);
                     int cameraNumber = sharedPref.getBoolean("pref_key_qr_camera", false) ? 1 : 0;
                     scV.startCamera(cameraNumber);
-
                 }
             }
-
         }
     }
 

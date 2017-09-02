@@ -39,28 +39,28 @@ public abstract class Utils {
     //Activities
     private static MainActivity mainActivity;
 
-    private static MessengerActivity messengerActivity;
-    private static ChatActivity chatActivity;
-    private static ChatEditActivity chatEditActivity;
+    private static MessengerActivity    messengerActivity;
+    private static ChatActivity         chatActivity;
+    private static ChatEditActivity     chatEditActivity;
     private static AddGroupChatActivity addGroupChatActivity;
 
     private static SchwarzesBrettActivity schwarzesBrettActivity;
 
     private static StimmungsbarometerActivity stimmungsbarometerActivity;
 
-    private static StundenplanActivity stundenplanActivity;
+    private static StundenplanActivity     stundenplanActivity;
     private static StundenplanBildActivity stundenplanBildActivity;
-    private static AuswahlActivity auswahlActivity;
+    private static AuswahlActivity         auswahlActivity;
 
     private static KlausurplanActivity klausurplanActivity;
 
     private static EssensQRActivity essensQRActivity;
 
-    private static PreferenceActivity preferenceActivity;
+    private static PreferenceActivity             preferenceActivity;
     private static NotificationPreferenceActivity notificationPreferenceActivity;
 
     //Datenbankverwaltungen
-    private static DBConnection dbConnection;
+    private static DBConnection  dbConnection;
     private static StundenplanDB stundenplanDB;
 
     private static ReceiveService receiveService;
@@ -79,16 +79,13 @@ public abstract class Utils {
     }
 
     public static String getAppVersionName() {
-
         PackageInfo pInfo = null;
         try {
             pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
         return pInfo.versionName;
-
     }
 
     public static NotificationManager getNotificationManager() {
@@ -326,7 +323,6 @@ public abstract class Utils {
         return notificationPreferenceActivity;
     }
 
-
     public static void closeAll() {
         if (getChatEditActivity() != null)
             getChatEditActivity().finish();
@@ -410,36 +406,23 @@ public abstract class Utils {
 
     //Schwarzes Brett
     public static boolean messageAlreadySeen(int id) {
-
-        String cache = Start.pref.getString("pref_key_cache_vieweditems", "");
+        String   cache = Start.pref.getString("pref_key_cache_vieweditems", "");
         String[] items = cache.split("-");
-
-        for(String s : items) {
-
+        for (String s : items) {
             if (s.matches("[01]:" + id))
                 return true;
-
         }
-
         return false;
-
     }
 
     public static ArrayList<Integer> getCachedIDs() {
-
         ArrayList<Integer> cachedValues = new ArrayList<>();
-
-        String cache = Start.pref.getString("pref_key_cache_vieweditems", "");
-        String[] items = cache.split("-");
-
-        for(String s : items) {
-
+        String             cache        = Start.pref.getString("pref_key_cache_vieweditems", "");
+        String[]           items        = cache.split("-");
+        for (String s : items) {
             if (s.matches("1:.+"))
                 cachedValues.add(Integer.parseInt(s.split(":")[1]));
-
         }
-
         return cachedValues;
-
     }
 }

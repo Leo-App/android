@@ -71,7 +71,8 @@ public class List<ContentType> implements Iterable<ContentType> {
         if (index >= length - 1)
             toLast();
         else
-            for (toFirst(); hasAccess() && index > 0; next(), index--) ;
+            for (toFirst(); hasAccess() && index > 0; next(), index--)
+                ;
     }
 
     public ContentType getContent() {
@@ -238,7 +239,7 @@ public class List<ContentType> implements Iterable<ContentType> {
 
     private class Node {
         ContentType content;
-        Node next, previous;
+        Node        next, previous;
 
         Node(ContentType contentObject) {
             this.content = contentObject;

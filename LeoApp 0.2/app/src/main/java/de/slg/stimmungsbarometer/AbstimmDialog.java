@@ -26,15 +26,15 @@ import de.slg.leoapp.Utils;
 public class AbstimmDialog extends AlertDialog {
     private final String[] gruende = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
     int userid;
-    private int voteid = 0;
+    private int    voteid            = 0;
     private String ausgewählterGrund = "";
-    private View confirm;
+    private View        confirm;
     private ImageButton very_satisfied;
     private ImageButton satisfied;
     private ImageButton neutral;
     private ImageButton dissatisfied;
     private ImageButton bad_mood;
-    private ListView listView;
+    private ListView    listView;
 
     public AbstimmDialog(@NonNull Context context) {
         super(context);
@@ -44,9 +44,7 @@ public class AbstimmDialog extends AlertDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.dialog_abstimmen);
-
         initListView();
         initSmileys();
         initSendButton();
@@ -58,7 +56,6 @@ public class AbstimmDialog extends AlertDialog {
         neutral = (ImageButton) findViewById(R.id.imageButtonN);
         dissatisfied = (ImageButton) findViewById(R.id.imageButtonD);
         bad_mood = (ImageButton) findViewById(R.id.imageButtonB);
-
         very_satisfied.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +66,6 @@ public class AbstimmDialog extends AlertDialog {
                 voteid = 1;
             }
         });
-
         satisfied.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +76,6 @@ public class AbstimmDialog extends AlertDialog {
                 voteid = 2;
             }
         });
-
         neutral.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +86,6 @@ public class AbstimmDialog extends AlertDialog {
                 voteid = 3;
             }
         });
-
         dissatisfied.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +96,6 @@ public class AbstimmDialog extends AlertDialog {
                 voteid = 4;
             }
         });
-
         bad_mood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +121,6 @@ public class AbstimmDialog extends AlertDialog {
                 }
             }
         });
-
         View cancel = findViewById(R.id.buttonDialog1);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,8 +166,8 @@ public class AbstimmDialog extends AlertDialog {
     }
 
     class Wahl {
-        final int voteid;
-        final int userid;
+        final int    voteid;
+        final int    userid;
         final String grund;
 
         Wahl(int voteid, int userid, String grund) {
@@ -186,7 +178,7 @@ public class AbstimmDialog extends AlertDialog {
     }
 
     private class ListAdapterGrund extends ArrayAdapter<String> {
-        private final Context context;
+        private final Context  context;
         private final String[] gruende;
 
         ListAdapterGrund(Context context, String[] gruende) {
@@ -218,7 +210,8 @@ public class AbstimmDialog extends AlertDialog {
                                             new URL("http://moritz.liegmanns.de/stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null) ;
+                    while (reader.readLine() != null)
+                        ;
                     reader.close();
                 } catch (IOException e) {
                     e.printStackTrace();

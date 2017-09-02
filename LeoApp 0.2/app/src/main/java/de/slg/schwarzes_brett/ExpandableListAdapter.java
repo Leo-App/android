@@ -17,10 +17,10 @@ import de.slg.leoapp.R;
 class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private final Map<String, List<String>> eintraege;
-    private final List<String> titel;
-    private final LayoutInflater inflater;
+    private final List<String>              titel;
+    private final LayoutInflater            inflater;
     @Nullable
-    private ArrayList<Integer> views;
+    private       ArrayList<Integer>        views;
 
     ExpandableListAdapter(LayoutInflater inflater, List<String> titel, Map<String, List<String>> eintraege) {
         this.inflater = inflater;
@@ -39,24 +39,20 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.list_item_expandable_title, null);
-
         TextView textView = (TextView) convertView.findViewById(R.id.textView);
         textView.setText((String) getGroup(groupPosition));
-
         TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
         textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
-
-        if(views != null) {
+        if (views != null) {
             TextView textViewViews = (TextView) convertView.findViewById(R.id.textViewViews);
             textViewViews.setVisibility(View.VISIBLE);
             String viewString = views.get(groupPosition) > 999 ? "999+" : String.valueOf(views.get(groupPosition));
             textViewViews.setText(viewString);
         } else {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)textViewStufe.getLayoutParams();
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textViewStufe.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             textViewStufe.setLayoutParams(params);
         }
-
         return convertView;
     }
 
@@ -81,7 +77,7 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return eintraege.get(titel.get(groupPosition)).size()-1;
+        return eintraege.get(titel.get(groupPosition)).size() - 1;
     }
 
     @Override

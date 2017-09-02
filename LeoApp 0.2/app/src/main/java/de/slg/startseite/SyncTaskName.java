@@ -1,6 +1,5 @@
 package de.slg.startseite;
 
-
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -16,13 +15,10 @@ class SyncTaskName extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         if (!Utils.checkNetwork())
             return null;
-
-        BufferedReader in = null;
-        String result = "";
-
+        BufferedReader in     = null;
+        String         result = "";
         try {
             URL interfaceDB = new URL("http://www.moritz.liegmanns.de/getName.php?key=5453&userid=" + Utils.getUserID());
-
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
@@ -42,14 +38,11 @@ class SyncTaskName extends AsyncTask<Void, Void, Void> {
                     return null;
                 }
         }
-
         if (result.startsWith("-"))
             return null;
-
         Start.pref.edit()
                 .putString("pref_key_username_general", result)
                 .apply();
-
         return null;
     }
 }

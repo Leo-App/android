@@ -14,7 +14,6 @@ import android.widget.TextView;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
-
 class DetailsDialog extends AlertDialog {
     private Fach fach;
 
@@ -36,17 +35,14 @@ class DetailsDialog extends AlertDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_stundenplan_details);
-
         tvZeit = (TextView) findViewById(R.id.uhrzeit_details);
         tvRaum = (TextView) findViewById(R.id.raumnr_details);
         tvLehrer = (TextView) findViewById(R.id.lehrerK_details);
         etNotiz = (EditText) findViewById(R.id.notizFeld_details);
         cbSchrift = (CheckBox) findViewById(R.id.checkBox_schriftlich);
         title = (TextView) findViewById(R.id.title_details);
-        buttonDis= (Button) findViewById(R.id.buttonDis);
-        buttonSav= (Button) findViewById(R.id.buttonSav);
-
-
+        buttonDis = (Button) findViewById(R.id.buttonDis);
+        buttonSav = (Button) findViewById(R.id.buttonSav);
         findViewById(R.id.buttonDis).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,9 +64,7 @@ class DetailsDialog extends AlertDialog {
                 dismiss();
             }
         });
-
     }
-
 
     void init(Fach inFach) {
         fach = inFach;
@@ -78,10 +72,9 @@ class DetailsDialog extends AlertDialog {
     }
 
     private void initDetails() {
-
-
         if (!fach.gibKurz().equals("FREI")) {
-            title.setText(fach.gibName() + " " + fach.gibKurz().substring(2));            tvZeit.setText(Utils.getStundDB().gibZeiten(fach));
+            title.setText(fach.gibName() + " " + fach.gibKurz().substring(2));
+            tvZeit.setText(Utils.getStundDB().gibZeiten(fach));
             tvRaum.setText(fach.gibRaum());
             tvLehrer.setText(fach.gibLehrer());
             etNotiz.setText(fach.gibNotiz());

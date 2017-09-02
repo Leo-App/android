@@ -41,50 +41,39 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class SchwarzesBrettActivity extends AppCompatActivity {
-    private static SQLiteConnector db;
-    private static SQLiteDatabase dbh;
-    private List<String> groupList;
-    private List<String> childList;
-    private Map<String, List<String>> schwarzesBrett;
-    private DrawerLayout drawerLayout;
+    private static SQLiteConnector           db;
+    private static SQLiteDatabase            dbh;
+    private        List<String>              groupList;
+    private        List<String>              childList;
+    private        Map<String, List<String>> schwarzesBrett;
+    private        DrawerLayout              drawerLayout;
 
     public static int getRemoteId(int position) {
-
         //Maybe cache already transformed ids to avoid excessive RAM usage
-
         if (db == null)
             db = new SQLiteConnector(Utils.context);
         if (dbh == null)
             dbh = db.getReadableDatabase();
-
         String stufe = Utils.getUserStufe();
-
         Cursor cursor = !stufe.equals("") ?
                 dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " +
                         " " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null)
                 :
                 dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
-
         cursor.moveToPosition(position);
-
         if (cursor.getCount() < position)
             return -1;
-
         int ret = cursor.getInt(0);
         cursor.close();
-
         return ret;
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schwarzesbrett);
-
         Utils.registerSchwarzesBrettActivity(this);
         Utils.receiveNews();
-
         initToolbar();
         initNavigationView();
         initButton();
@@ -111,7 +100,6 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.newsboard).setChecked(true);
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -152,54 +140,41 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
-
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == 2)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
-
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
     private void initExpandableListView() {
         createGroupList();
-
         ExpandableListView expListView = (ExpandableListView) findViewById(R.id.eintraege);
         ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() > 1
                 ? new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett, createViewList())
                 : new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett);
         expListView.setAdapter(expandableListAdapter);
-
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-
                 int remoteID = getRemoteId(groupPosition);
-
-                if(!Utils.isVerified() || Utils.getUserPermission() != 1 || Utils.messageAlreadySeen(remoteID))
+                if (!Utils.isVerified() || Utils.getUserPermission() != 1 || Utils.messageAlreadySeen(remoteID))
                     return false;
-
                 String cache = Start.pref.getString("pref_key_cache_vieweditems", "");
-
-                if(!cache.equals(""))
-                    cache+="-";
-
+                if (!cache.equals(""))
+                    cache += "-";
                 Start.pref.edit()
-                        .putString("pref_key_cache_vieweditems", cache+"1:"+remoteID)
+                        .putString("pref_key_cache_vieweditems", cache + "1:" + remoteID)
                         .apply();
-
-                if(Utils.checkNetwork())
+                if (Utils.checkNetwork())
                     new UpdateViewTrackerTask().execute(remoteID);
-
                 return false;
             }
         });
-
         if (groupList.size() == 0) {
             findViewById(R.id.textView6).setVisibility(View.VISIBLE);
         } else {
@@ -225,44 +200,33 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     }
 
     private ArrayList<Integer> createViewList() {
-
         ArrayList<Integer> viewList = new ArrayList<>();
-        SQLiteConnector db = new SQLiteConnector(getBaseContext());
-        SQLiteDatabase dbh = db.getReadableDatabase();
-
-        Cursor cursor = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_VIEWS + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
-
-        for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-
+        SQLiteConnector    db       = new SQLiteConnector(getBaseContext());
+        SQLiteDatabase     dbh      = db.getReadableDatabase();
+        Cursor             cursor   = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_VIEWS + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             viewList.add(cursor.getInt(0));
-
         }
-
         cursor.close();
-
         return viewList;
-
     }
 
     private void createGroupList() {
         groupList = new ArrayList<>();
-        SQLiteConnector db = new SQLiteConnector(getBaseContext());
-        SQLiteDatabase dbh = db.getReadableDatabase();
-
-        String stufe = Utils.getUserStufe();
-        Cursor cursor;
+        SQLiteConnector db    = new SQLiteConnector(getBaseContext());
+        SQLiteDatabase  dbh   = db.getReadableDatabase();
+        String          stufe = Utils.getUserStufe();
+        Cursor          cursor;
         if (!stufe.equals("")) {
             cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null, null, null, null);
         } else {
             cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM}, null, null, null, null, null);
         }
-
         schwarzesBrett = new LinkedHashMap<>();
-
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             groupList.add(cursor.getString(1));
-            Date erstelldatum = new Date(cursor.getLong(3));
-            Date ablaufdatum = new Date(cursor.getLong(4));
+            Date             erstelldatum     = new Date(cursor.getLong(3));
+            Date             ablaufdatum      = new Date(cursor.getLong(4));
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
             String[] children = {cursor.getString(0),
                     cursor.getString(2),
@@ -271,7 +235,6 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             loadChildren(children);
             schwarzesBrett.put(cursor.getString(1), childList);
         }
-
         cursor.close();
         dbh.close();
         db.close();

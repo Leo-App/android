@@ -37,13 +37,13 @@ import de.slg.startseite.MainActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class StimmungsbarometerActivity extends AppCompatActivity {
-    static boolean drawI;
-    static boolean drawS;
-    static boolean drawL;
-    static boolean drawA;
-    private static Ergebnis[][] daten;
-    private DrawerLayout drawerLayout;
-    private ZeitraumFragment[] fragments;
+    static         boolean            drawI;
+    static         boolean            drawS;
+    static         boolean            drawL;
+    static         boolean            drawA;
+    private static Ergebnis[][]       daten;
+    private        DrawerLayout       drawerLayout;
+    private        ZeitraumFragment[] fragments;
 
     public static Ergebnis[][] getData() {
         return daten;
@@ -54,12 +54,10 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stimmungsbarometer);
         Utils.registerStimmungsbarometerActivity(this);
-
         drawI = Utils.isVerified();
         drawS = true;
         drawL = true;
         drawA = true;
-
         new StartTask().execute();
     }
 
@@ -82,7 +80,6 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         final View lS = findViewById(R.id.layoutSchueler);
         final View lL = findViewById(R.id.layoutLehrer);
         final View lA = findViewById(R.id.layoutAlle);
-
         lI.findViewById(R.id.textViewIch).setEnabled(drawI);
         lI.findViewById(R.id.imageViewIch).setEnabled(drawI);
         lI.setOnClickListener(new View.OnClickListener() {
@@ -171,12 +168,10 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.barometer).setChecked(true);
-
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -219,13 +214,11 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         });
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
-
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == 2)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
-
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
@@ -252,7 +245,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                                             new URL("http://moritz.liegmanns.de/stimmungsbarometer/ergebnisse.php?key=5453&userid=" + Utils.getUserID())
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    String line;
+                    String        line;
                     StringBuilder builder = new StringBuilder();
                     while ((line = reader.readLine()) != null)
                         builder.append(line);
@@ -262,13 +255,11 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                     splitS = e[1].split("_next_");
                     splitL = e[2].split("_next_");
                     splitA = e[3].split("_next_");
-
                     Ergebnis[][] ergebnisse = new Ergebnis[4][];
                     ergebnisse[0] = new Ergebnis[splitI.length];
                     ergebnisse[1] = new Ergebnis[splitS.length];
                     ergebnisse[2] = new Ergebnis[splitL.length];
                     ergebnisse[3] = new Ergebnis[splitA.length];
-
                     for (int i = 0; i < ergebnisse[0].length; i++) {
                         String[] current = splitI[i].split(";");
                         if (current.length == 2) {
@@ -276,7 +267,6 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                             ergebnisse[0][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), true, false, false, false);
                         }
                     }
-
                     for (int i = 0; i < ergebnisse[1].length; i++) {
                         String[] current = splitS[i].split(";");
                         if (current.length == 2) {
@@ -284,7 +274,6 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                             ergebnisse[1][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, true, false, false);
                         }
                     }
-
                     for (int i = 0; i < ergebnisse[2].length; i++) {
                         String[] current = splitL[i].split(";");
                         if (current.length == 2) {
@@ -292,7 +281,6 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                             ergebnisse[2][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, true, false);
                         }
                     }
-
                     for (int i = 0; i < ergebnisse[3].length; i++) {
                         String[] current = splitA[i].split(";");
                         if (current.length == 2) {
@@ -300,7 +288,6 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                             ergebnisse[3][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, false, true);
                         }
                     }
-
                     daten = ergebnisse;
                 } catch (IOException e) {
                     e.printStackTrace();

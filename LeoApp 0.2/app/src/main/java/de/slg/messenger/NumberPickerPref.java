@@ -16,12 +16,12 @@ import de.slg.leoapp.Utils;
 
 public class NumberPickerPref extends DialogPreference {
 
-    private static final int MAX_VALUE = 6;
-    private static final int MIN_VALUE = 0;
+    private static final int     MAX_VALUE           = 6;
+    private static final int     MIN_VALUE           = 0;
     private static final boolean WRAP_SELECTOR_WHEEL = true;
 
     private NumberPicker picker;
-    private int value;
+    private int          value;
 
     public NumberPickerPref(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -36,13 +36,10 @@ public class NumberPickerPref extends DialogPreference {
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER;
-
         picker = new NumberPicker(getContext());
         picker.setLayoutParams(layoutParams);
-
         FrameLayout dialogView = new FrameLayout(getContext());
         dialogView.addView(picker);
-
         return dialogView;
     }
 

@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -33,41 +34,36 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 public class ChatActivity extends AppCompatActivity {
-    private int cid;
-    private String cname;
+    private int           cid;
+    private String        cname;
     private Chat.Chattype ctype;
-    private Message[] messagesArray;
-    private boolean[] selected;
-    private boolean hasSelected;
+    private Message[]     messagesArray;
+    private boolean[]     selected;
+    private boolean       hasSelected;
 
     private RecyclerView rvMessages;
-    private EditText etMessage;
-    private String message;
+    private EditText     etMessage;
+    private String       message;
 
     private View.OnLongClickListener longClickListener;
-    private View.OnClickListener clickListener;
-    private View.OnClickListener disableListener;
-    private MenuItem delete;
+    private View.OnClickListener     clickListener;
+    private View.OnClickListener     disableListener;
+    private MenuItem                 delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Utils.registerChatActivity(this);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
         cid = getIntent().getIntExtra("cid", -1);
         cname = getIntent().getStringExtra("cname");
         ctype = Chat.Chattype.valueOf(getIntent().getStringExtra("ctype"));
-
         messagesArray = new Message[0];
         if (cid != -1)
             Utils.receiveMessenger();
-
         initToolbar();
         initSendMessage();
         initRecyclerView();
-
         if (cid != -1)
             Utils.getMDB().setMessagesRead(cid);
     }
@@ -122,7 +118,6 @@ public class ChatActivity extends AppCompatActivity {
     private void initRecyclerView() {
         selected = new boolean[messagesArray.length];
         hasSelected = false;
-
         longClickListener = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -159,7 +154,6 @@ public class ChatActivity extends AppCompatActivity {
                 setHasSelected();
             }
         };
-
         rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
         rvMessages.setVisibility(View.INVISIBLE);
         rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -189,7 +183,6 @@ public class ChatActivity extends AppCompatActivity {
 
     private void initSendMessage() {
         etMessage = (EditText) findViewById(R.id.inputMessage);
-
         ImageButton sendButton = (ImageButton) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,7 +190,6 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
-
         if (ctype == Chat.Chattype.GROUP && !Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
             etMessage.setEnabled(false);
             etMessage.setHint("Du bist nicht in diesem Chat!");
@@ -271,10 +263,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private class MessageAdapter extends RecyclerView.Adapter {
-        MessageAdapter() {
-            super();
-        }
-
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ViewHolder();
@@ -282,23 +270,20 @@ public class ChatActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            Message current = messagesArray[position];
-
-            final View v = holder.itemView;
-            final TextView datum = (TextView) v.findViewById(R.id.textViewDate);
-            final TextView nachricht = (TextView) v.findViewById(R.id.nachricht);
-            final TextView absender = (TextView) v.findViewById(R.id.absender);
-            final TextView uhrzeit = (TextView) v.findViewById(R.id.datum);
-            final LinearLayout layout = (LinearLayout) v.findViewById(R.id.chatbubblewrapper);
-            final View chatbubble = v.findViewById(R.id.chatbubble);
-            final View space = v.findViewById(R.id.space);
-            final View progressbar = v.findViewById(R.id.progressBar);
-
+            Message            current     = messagesArray[position];
+            final View         v           = holder.itemView;
+            final TextView     datum       = (TextView) v.findViewById(R.id.textViewDate);
+            final TextView     nachricht   = (TextView) v.findViewById(R.id.nachricht);
+            final TextView     absender    = (TextView) v.findViewById(R.id.absender);
+            final TextView     uhrzeit     = (TextView) v.findViewById(R.id.datum);
+            final LinearLayout layout      = (LinearLayout) v.findViewById(R.id.chatbubblewrapper);
+            final View         chatbubble  = v.findViewById(R.id.chatbubble);
+            final View         space       = v.findViewById(R.id.space);
+            final View         progressbar = v.findViewById(R.id.progressBar);
             nachricht.setText(current.mtext);
             absender.setText(current.uname);
             uhrzeit.setText(current.getTime());
             datum.setText(current.getDate());
-
             final boolean mine = current.uid == Utils.getUserID();
             if (mine) {
                 layout.setGravity(Gravity.RIGHT);
@@ -316,7 +301,6 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
             chatbubble.setEnabled(mine);
-
             final boolean send = uhrzeit.getText().toString().equals("");
             if (send) {
                 uhrzeit.setVisibility(View.GONE);
@@ -325,7 +309,6 @@ public class ChatActivity extends AppCompatActivity {
                 uhrzeit.setVisibility(View.VISIBLE);
                 progressbar.setVisibility(View.GONE);
             }
-
             final boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
             if (first) {
                 datum.setVisibility(View.VISIBLE);
@@ -336,7 +319,6 @@ public class ChatActivity extends AppCompatActivity {
                     space.setVisibility(View.GONE);
                 }
             }
-
             if (selected[position]) {
                 v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
             } else {
@@ -396,37 +378,35 @@ public class ChatActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                } else {
+                    Toast.makeText(getApplicationContext(), "You need an active Internet-Connection to perform this Action", Toast.LENGTH_LONG).show();
                 }
             }
-            Message[] mOld = messagesArray;
-            messagesArray = new Message[mOld.length + 1];
-            System.arraycopy(mOld, 0, messagesArray, 0, mOld.length);
-            messagesArray[mOld.length] =
-                    new Message(0,
-                            params[0],
-                            0,
-                            cid,
-                            Utils.getUserID(),
-                            true);
-            if (!Utils.checkNetwork()) {
-                Utils.getMDB().insertUnsendMessage(params[0], cid);
-                refreshUI(true, true);
-            } else {
-                messagesArray[messagesArray.length - 1].mdate = new Date();
-                messagesArray[messagesArray.length - 1].sending = true;
-                refreshUI(false, true);
-                try {
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            new URL(generateURL(params[0]))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
-                    String line;
-                    while ((line = reader.readLine()) != null) Log.e("TAG", line);
-                    reader.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if (cid != -1) {
+                if (!Utils.checkNetwork()) {
+                    Utils.getMDB().insertUnsendMessage(params[0], cid);
+                    refreshUI(true, true);
+                } else {
+                    Message[] mOld = messagesArray;
+                    messagesArray = new Message[mOld.length + 1];
+                    System.arraycopy(mOld, 0, messagesArray, 0, mOld.length);
+                    messagesArray[mOld.length] =
+                            new Message(params[0]);
+                    refreshUI(false, true);
+                    try {
+                        BufferedReader reader =
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                new URL(generateURL(params[0]))
+                                                        .openConnection()
+                                                        .getInputStream(), "UTF-8"));
+                        String line;
+                        while ((line = reader.readLine()) != null)
+                            Log.e("TAG", line);
+                        reader.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             return null;
@@ -439,10 +419,9 @@ public class ChatActivity extends AppCompatActivity {
 
         private String generateURL(String message) throws UnsupportedEncodingException {
             message = URLEncoder.encode(message, "UTF-8");
-
-            String key = Verschluesseln.createKey(message);
+            String key      = Verschluesseln.createKey(message);
             String vMessage = Verschluesseln.encrypt(message, key);
-            String vKey = Verschluesseln.encryptKey(key);
+            String vKey     = Verschluesseln.encryptKey(key);
             return "http://moritz.liegmanns.de/messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + cid + "&vKey=" + vKey;
         }
     }

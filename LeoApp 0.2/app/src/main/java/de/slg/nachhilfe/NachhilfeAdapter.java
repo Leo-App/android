@@ -10,12 +10,11 @@ import android.widget.TextView;
 
 import de.slg.leoapp.R;
 
-
 class NachhilfeAdapter extends ArrayAdapter<String> {
 
     private final LayoutInflater inflater;
-    private final String[] data;
-    private final int resId;
+    private final String[]       data;
+    private final int            resId;
 
     NachhilfeAdapter(Context context, String[] data) {
         super(context, R.layout.list_item_nachhilfe, data);

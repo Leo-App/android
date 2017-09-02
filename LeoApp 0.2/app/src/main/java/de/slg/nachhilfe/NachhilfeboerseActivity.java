@@ -32,13 +32,12 @@ import de.slg.stundenplan.StundenplanActivity;
 public class NachhilfeboerseActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private ListView help;
+    private ListView     help;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nachhilfeboerse);
-
         initToolbar();
         initListView();
         initNavigationView();
@@ -52,24 +51,21 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void initNavigationView() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-//        navigationView.getMenu().findItem(R.id.nachhilfe).setChecked(true);
-
-//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        //        navigationView.getMenu().findItem(R.id.nachhilfe).setChecked(true);
+        //        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
-                Intent i;
+                Intent  i;
                 boolean settings = false;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
@@ -81,8 +77,8 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-//                    case R.id.nachhilfe: //Nur bei Verifizierung
-//                        return true;
+                    //                    case R.id.nachhilfe: //Nur bei Verifizierung
+                    //                        return true;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), StundenplanActivity.class);
                         break;
@@ -99,9 +95,9 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
                         settings = true;
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;
-//                    case R.id.vertretung:
-//                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
-//                        break;
+                    //                    case R.id.vertretung:
+                    //                        i = new Intent(getApplicationContext(), WrapperSubstitutionActivity.class);
+                    //                        break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -115,10 +111,8 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
         });
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
-
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
         grade.setText(Utils.getUserStufe());
-
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
@@ -146,11 +140,8 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
-
         if (mi.getItemId() == android.R.id.home) {
-
             drawerLayout.openDrawer(GravityCompat.START);
-
         } else {
             if (mi.getItemId() == R.id.Action1) {
                 Intent intent = new Intent(this, Hinzufuegen.class);
@@ -175,11 +166,7 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
                     }
                 }
             }
-
-
         }
-
         return true;
-
     }
 }

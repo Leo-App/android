@@ -13,6 +13,5 @@ class UpdateTaskKKG extends AsyncTask<Date, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean result) {
-
     }
 }

@@ -32,37 +32,30 @@ import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
-
 public class WrapperSubstitutionActivity extends AppCompatActivity {
 
-    private DrawerLayout drawerLayout;
+    private DrawerLayout           drawerLayout;
     private SubstitutionFragment[] fragments;
 
     @Override
     public void onCreate(Bundle b) {
-
         super.onCreate(b);
         setContentView(R.layout.activity_wrapper_subst);
-
         initToolbar();
         initTabs();
         initNavigationView();
-
     }
 
     private void initTabs() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pagerS);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayoutS);
-
-        Date d = new Date();
-        Calendar c = Calendar.getInstance();
+        Date      d         = new Date();
+        Calendar  c         = Calendar.getInstance();
         c.setTimeZone(TimeZone.getDefault());
         c.setTime(d);
         c.add(Calendar.DATE, 1);
         Date dT = c.getTime();
-
         fragments = new SubstitutionFragment[]{new SubstitutionFragment().setDate(d), new SubstitutionFragment().setDate(dT)};
-
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -76,10 +69,8 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
 
             @Override
             public CharSequence getPageTitle(int position) {
-
                 return getTabString(position == 0);
             }
-
         });
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -98,12 +89,10 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.barometer).setChecked(true);
-
-//        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
+        //        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -120,9 +109,9 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
                     case R.id.newsboard:
                         i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
                         break;
-//                    case R.id.nachhilfe:
-//                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
-//                        break;
+                    //                    case R.id.nachhilfe:
+                    //                        i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
+                    //                        break;
                     case R.id.stundenplan:
                         i = new Intent(getApplicationContext(), StundenplanActivity.class);
                         break;
@@ -135,8 +124,8 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
                     case R.id.startseite:
                         i = null;
                         break;
-//                    case R.id.vertretung:
-//                        return true;
+                    //                    case R.id.vertretung:
+                    //                        return true;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;
@@ -157,19 +146,14 @@ public class WrapperSubstitutionActivity extends AppCompatActivity {
     }
 
     private String getTabString(boolean today) {
-
-        Date d = new Date();
+        Date     d = new Date();
         Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getDefault());
         c.setTime(d);
         if (!today)
             c.add(Calendar.DATE, 1);
-
-
         return new String[]{"SO", "MO", "DI", "MI", "DO", "FR", "SA"}[c.get(Calendar.DAY_OF_WEEK) - 1] + ". " + c.get(Calendar.DAY_OF_MONTH) + "."
                 + c.get(Calendar.MONTH) + "."
                 + c.get(Calendar.YEAR);
-
     }
-
 }

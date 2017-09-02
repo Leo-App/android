@@ -26,11 +26,11 @@ import static de.slg.stimmungsbarometer.StimmungsbarometerActivity.drawS;
 public class ZeitraumFragment extends Fragment {
     private static Bitmap bitmapBack;
     int zeitraum;
-    private int height;
-    private int width;
-    private Ergebnis[][] data;
+    private int           height;
+    private int           width;
+    private Ergebnis[][]  data;
     private StatistikView view;
-    private Bitmap bitmapIch, bitmapSchueler, bitmapLehrer, bitmapAlle;
+    private Bitmap        bitmapIch, bitmapSchueler, bitmapLehrer, bitmapAlle;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
@@ -40,7 +40,6 @@ public class ZeitraumFragment extends Fragment {
         if (view == null) {
             view = new StatistikView(getContext());
         }
-
         return view;
     }
 
@@ -156,7 +155,7 @@ public class ZeitraumFragment extends Fragment {
         private final Paint paint;
         boolean recreateCharts;
         private boolean isInitialized;
-        private float baseLineY, baseLineX, abstandX, abstandY, radius;
+        private float   baseLineY, baseLineX, abstandX, abstandY, radius;
 
         StatistikView(Context context) {
             super(context);
@@ -173,38 +172,35 @@ public class ZeitraumFragment extends Fragment {
         public void onDraw(Canvas canvas) {
             if (!isInitialized)
                 init();
-
             if (recreateCharts)
                 createCharts();
-
             canvas.drawBitmap(bitmapBack, 0, 0, paint);
-
-            if (drawI) canvas.drawBitmap(bitmapIch, 0, 0, paint);
-            if (drawS) canvas.drawBitmap(bitmapSchueler, 0, 0, paint);
-            if (drawL) canvas.drawBitmap(bitmapLehrer, 0, 0, paint);
-            if (drawA) canvas.drawBitmap(bitmapAlle, 0, 0, paint);
+            if (drawI)
+                canvas.drawBitmap(bitmapIch, 0, 0, paint);
+            if (drawS)
+                canvas.drawBitmap(bitmapSchueler, 0, 0, paint);
+            if (drawL)
+                canvas.drawBitmap(bitmapLehrer, 0, 0, paint);
+            if (drawA)
+                canvas.drawBitmap(bitmapAlle, 0, 0, paint);
         }
 
         private void init() {
             height = getHeight();
             width = getWidth();
             paint.setStyle(Paint.Style.FILL_AND_STROKE);
-
             baseLineY = height * 99 / 100;
             abstandY = baseLineY * 9 / 40;
             baseLineX = width / 20;
             radius = 4;
-
             if (bitmapIch == null || bitmapSchueler == null || bitmapLehrer == null || bitmapAlle == null) {
                 createCharts();
             }
-
             if (bitmapBack == null) {
                 bitmapBack = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
                 canvasBack.setBitmap(bitmapBack);
                 drawBackground();
             }
-
             isInitialized = true;
         }
 
@@ -213,19 +209,14 @@ public class ZeitraumFragment extends Fragment {
                 abstandX = width * 9 / ((data[3].length - 1) * 10);
             else
                 abstandX = width * 9 / 10;
-
             bitmapIch = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvasIch.setBitmap(bitmapIch);
-
             bitmapSchueler = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvasSchueler.setBitmap(bitmapSchueler);
-
             bitmapLehrer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvasLehrer.setBitmap(bitmapLehrer);
-
             bitmapAlle = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             canvasAlle.setBitmap(bitmapAlle);
-
             if (data == null) {
                 recreateCharts = true;
             } else {
@@ -237,27 +228,22 @@ public class ZeitraumFragment extends Fragment {
 
         private void drawBackground() {
             canvasBack.drawColor(ContextCompat.getColor(getContext(), android.R.color.background_light));
-
             Paint p1 = new Paint();
             p1.setStrokeWidth(3);
             p1.setColor(ContextCompat.getColor(getContext(), R.color.colorBadMood));
             canvasBack.drawLine(0, baseLineY, width, baseLineY, p1);
-
             Paint p2 = new Paint();
             p2.setStrokeWidth(3);
             p2.setColor(ContextCompat.getColor(getContext(), R.color.colorDissatisfied));
             canvasBack.drawLine(0, baseLineY - abstandY, width, baseLineY - abstandY, p2);
-
             Paint p3 = new Paint();
             p3.setStrokeWidth(3);
             p3.setColor(ContextCompat.getColor(getContext(), R.color.colorNeutral));
             canvasBack.drawLine(0, baseLineY - (2 * abstandY), width, baseLineY - (2 * abstandY), p3);
-
             Paint p4 = new Paint();
             p4.setStrokeWidth(3);
             p4.setColor(ContextCompat.getColor(getContext(), R.color.colorSatisfied));
             canvasBack.drawLine(0, baseLineY - (3 * abstandY), width, baseLineY - (3 * abstandY), p4);
-
             Paint p5 = new Paint();
             p5.setStrokeWidth(3);
             p5.setColor(ContextCompat.getColor(getContext(), R.color.colorVerySatisfied));
@@ -287,10 +273,10 @@ public class ZeitraumFragment extends Fragment {
         }
 
         private void drawGraphs() {
-            int previousIch = 0;
+            int previousIch      = 0;
             int previousSchueler = 0;
-            int previousLehrer = 0;
-            int previousAlle = 0;
+            int previousLehrer   = 0;
+            int previousAlle     = 0;
             for (int i = 1; i < data[3].length; i++) {
                 Paint p = new Paint();
                 p.setStrokeWidth(4);

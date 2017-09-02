@@ -30,22 +30,20 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class AddGroupChatActivity extends AppCompatActivity {
-    private EditText etChatname;
+    private EditText    etChatname;
     private UserAdapter userAdapter;
-    private boolean chatnameSet, usersSelected;
+    private boolean     chatnameSet, usersSelected;
     private MenuItem confirm;
-    private Chat newChat;
+    private Chat     newChat;
 
     @Override
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_add_chat);
         Utils.registerAddGroupChatActivity(this);
-
         initToolbar();
         initListView();
         initEditText();
-
         chatnameSet = false;
         usersSelected = false;
     }
@@ -91,7 +89,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
     private void initListView() {
         ListView lvAllUsers = (ListView) findViewById(R.id.listViewAllUsers);
-        User[] allUsers = Utils.getMDB().getUsers();
+        User[]   allUsers   = Utils.getMDB().getUsers();
         userAdapter = new UserAdapter(getApplicationContext(), allUsers);
         lvAllUsers.setAdapter(userAdapter);
         lvAllUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -100,7 +98,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
                 checkBox.setChecked(!checkBox.isChecked());
                 final TextView username = (TextView) view.findViewById(R.id.username);
-                int color = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
+                int            color    = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
                 if (!checkBox.isChecked())
                     color = ContextCompat.getColor(getApplicationContext(), R.color.colorText);
                 username.setTextColor(color);
@@ -115,12 +113,10 @@ public class AddGroupChatActivity extends AppCompatActivity {
         etChatname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override

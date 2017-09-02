@@ -12,42 +12,36 @@ import de.slg.leoapp.Utils;
 
 @SuppressWarnings("deprecation")
 public class TimePickerPreference extends DialogPreference {
-    private int lastHour;
-    private int lastMinute;
+    private int        lastHour;
+    private int        lastMinute;
     private TimePicker picker;
+
+    public TimePickerPreference(Context ctxt, AttributeSet attrs) {
+        super(ctxt, attrs);
+        setPositiveButtonText(Utils.getString(R.string.button_confirm));
+        setNegativeButtonText(Utils.getString(R.string.cancel));
+    }
 
     private static int getHour(String time) {
         String[] pieces = time.split(":");
-
         return (Integer.parseInt(pieces[0]));
     }
 
     private static int getMinute(String time) {
         String[] pieces = time.split(":");
-
         return (Integer.parseInt(pieces[1]));
-    }
-
-    public TimePickerPreference(Context ctxt, AttributeSet attrs) {
-        super(ctxt, attrs);
-
-        setPositiveButtonText(Utils.getString(R.string.button_confirm));
-        setNegativeButtonText(Utils.getString(R.string.cancel));
     }
 
     @Override
     protected View onCreateDialogView() {
         picker = new TimePicker(getContext());
-
         picker.setIs24HourView(true);
-
         return (picker);
     }
 
     @Override
     protected void onBindDialogView(View v) {
         super.onBindDialogView(v);
-
         picker.setCurrentHour(lastHour);
         picker.setCurrentMinute(lastMinute);
     }
@@ -55,13 +49,10 @@ public class TimePickerPreference extends DialogPreference {
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
-
         if (positiveResult) {
             lastHour = picker.getCurrentHour();
             lastMinute = picker.getCurrentMinute();
-
             String time = String.valueOf(lastHour) + ":" + String.valueOf(lastMinute);
-
             if (callChangeListener(time)) {
                 persistString(time);
             }
@@ -76,7 +67,6 @@ public class TimePickerPreference extends DialogPreference {
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
         String time;
-
         if (restoreValue) {
             if (defaultValue == null) {
                 time = getPersistedString("00:00");
@@ -86,7 +76,6 @@ public class TimePickerPreference extends DialogPreference {
         } else {
             time = defaultValue.toString();
         }
-
         lastHour = getHour(time);
         lastMinute = getMinute(time);
     }

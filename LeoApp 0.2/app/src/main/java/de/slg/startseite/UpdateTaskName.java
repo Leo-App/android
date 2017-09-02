@@ -19,30 +19,23 @@ import de.slg.leoapp.Utils;
 
 public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     private final PreferenceActivity c;
-    private final String old;
+    private final String             old;
 
     public UpdateTaskName(PreferenceActivity c, String oldUsername) {
-
         this.c = c;
         old = oldUsername;
-
     }
 
     @Override
     protected ReturnValues doInBackground(String... params) {
-
-        BufferedReader in = null;
-        String result = "";
-
+        BufferedReader in     = null;
+        String         result = "";
         if (!Utils.checkNetwork())
             return ReturnValues.NO_CONNECTION;
         try {
-
-            int id = Utils.getUserID();
-            String username = Utils.getUserName().replace(' ', '+');
-
-            URL interfaceDB = new URL("http://moritz.liegmanns.de/updateUsername.php?key=5453&userid=" + id + "&username=" + username);
-
+            int    id          = Utils.getUserID();
+            String username    = Utils.getUserName().replace(' ', '+');
+            URL    interfaceDB = new URL("http://moritz.liegmanns.de/updateUsername.php?key=5453&userid=" + id + "&username=" + username);
             in = null;
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
             String inputLine;
@@ -60,27 +53,19 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
                     in.close();
                 } catch (IOException e) {
                     e.printStackTrace();
-
                 }
         }
-
         if (result.startsWith("-")) {
-
             if (result.startsWith("-username"))
                 return ReturnValues.USERNAME_TAKEN;
-
             return ReturnValues.ERROR;
-
         }
-
         return ReturnValues.SUCCESSFUL;
     }
 
     @Override
     protected void onPostExecute(ReturnValues b) {
-
         c.hideProgressBar();
-
         switch (b) {
             case USERNAME_TAKEN:
                 resetName();
@@ -99,23 +84,18 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
                 t.show();
                 break;
         }
-
         c.findPreference("pref_key_username_general").setSummary(PreferenceManager.getDefaultSharedPreferences(c).getString("pref_key_username_general", ""));
         PreferenceActivity.setCurrentUsername(PreferenceManager.getDefaultSharedPreferences(c).getString("pref_key_username_general", ""));
-
     }
 
     private void resetName() {
-
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
-        SharedPreferences.Editor e = pref.edit();
+        SharedPreferences        pref = PreferenceManager.getDefaultSharedPreferences(c);
+        SharedPreferences.Editor e    = pref.edit();
         e.putString("pref_key_username_general", old);
         e.apply();
-
     }
 
     private void showSnackbar() {
-
         final Snackbar cS = Snackbar.make(c.getCoordinatorLayout(), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
         cS.setAction(c.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
@@ -125,11 +105,9 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
             }
         });
         cS.show();
-
     }
 
     private void showSnackbar2() {
-
         final Snackbar cS = Snackbar.make(c.getCoordinatorLayout(), R.string.settings_snackbar_username_taken, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
         cS.setAction(c.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
@@ -139,11 +117,9 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
             }
         });
         cS.show();
-
     }
 
     private void showSnackbar3() {
-
         final Snackbar cS = Snackbar.make(c.getCoordinatorLayout(), R.string.error, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
         cS.setAction(c.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
@@ -153,6 +129,5 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
             }
         });
         cS.show();
-
     }
 }

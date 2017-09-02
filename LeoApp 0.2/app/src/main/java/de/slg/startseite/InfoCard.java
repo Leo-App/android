@@ -4,10 +4,10 @@ import android.view.View;
 
 class InfoCard extends Card {
 
-    String buttonDescr;
-    String descr;
+    String               buttonDescr;
+    String               descr;
     View.OnClickListener buttonListener;
-    boolean enabled;
+    boolean              enabled;
 
     InfoCard(boolean large, CardType type) {
         super(large, type);

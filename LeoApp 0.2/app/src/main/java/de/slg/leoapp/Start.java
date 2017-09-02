@@ -25,12 +25,11 @@ public class Start extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Utils.context = getApplicationContext();
         initPref(getApplicationContext());
         int days = 15;
         try {
-            Date d = new SimpleDateFormat("dd.MM.yyyy").parse(pref.getString("valid_until", "null"));
+            Date     d = new SimpleDateFormat("dd.MM.yyyy").parse(pref.getString("valid_until", "null"));
             Calendar c = new GregorianCalendar();
             for (int i = 1; i <= 14; i++) {
                 c.add(Calendar.DAY_OF_MONTH, 1);
@@ -42,16 +41,12 @@ public class Start extends Activity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         final Intent main = new Intent(getApplicationContext(), MainActivity.class)
                 .putExtra("show_dialog", Utils.showVoteOnStartup())
                 .putExtra("days", days);
-
         startService(new Intent(getApplicationContext(), ReceiveService.class));
         startService(new Intent(getApplicationContext(), NotificationService.class));
-
         startActivity(main);
-
         finish();
     }
 }

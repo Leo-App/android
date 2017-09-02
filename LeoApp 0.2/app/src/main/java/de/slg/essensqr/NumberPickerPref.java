@@ -15,15 +15,14 @@ import android.widget.NumberPicker;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
-
 public class NumberPickerPref extends DialogPreference {
 
-    private static final int MAX_VALUE = 10;
-    private static final int MIN_VALUE = 2;
+    private static final int     MAX_VALUE           = 10;
+    private static final int     MIN_VALUE           = 2;
     private static final boolean WRAP_SELECTOR_WHEEL = true;
 
     private NumberPicker picker;
-    private int value;
+    private int          value;
 
     public NumberPickerPref(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -38,13 +37,10 @@ public class NumberPickerPref extends DialogPreference {
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER;
-
         picker = new NumberPicker(getContext());
         picker.setLayoutParams(layoutParams);
-
         FrameLayout dialogView = new FrameLayout(getContext());
         dialogView.addView(picker);
-
         return dialogView;
     }
 
@@ -110,7 +106,6 @@ public class NumberPickerPref extends DialogPreference {
             public SavedState[] newArray(int size) {
                 return new SavedState[size];
             }
-
         };
         int number;
 
@@ -125,11 +120,8 @@ public class NumberPickerPref extends DialogPreference {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-
             super.writeToParcel(dest, flags);
             dest.writeInt(number);
-
         }
-
     }
 }

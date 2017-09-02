@@ -1,15 +1,15 @@
 package de.slg.stundenplan;
 
 public class Fach {
-    public final int id;
-    private final String name;
-    private final String kuerzel;
-    private final String raum;
-    private final String lehrer;
-    private final int tag;
-    private final int stunde;
-    private boolean schriftlich;
-    private String notiz;
+    public final  int     id;
+    private final String  name;
+    private final String  kuerzel;
+    private final String  raum;
+    private final String  lehrer;
+    private final int     tag;
+    private final int     stunde;
+    private       boolean schriftlich;
+    private       String  notiz;
 
     public Fach(int id, String kurz, String name, String lehrer, String raum, int tag, int stunde) {
         this.id = id;
@@ -49,7 +49,6 @@ public class Fach {
                 return Integer.toString(pStunde);
         }
     }
-
     //Getter und Setter
 
     void setzeNotiz(String notiz) {

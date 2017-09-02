@@ -15,17 +15,13 @@ class ComingSoonDialog extends AlertDialog {
 
     @Override
     public void onCreate(Bundle b) {
-
         super.onCreate(b);
         setContentView(R.layout.dialog_coming_soon);
-
         findViewById(R.id.buttonOK).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-
     }
-
 }

@@ -13,10 +13,10 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.User;
 
 class UserAdapter extends ArrayAdapter<User> {
-    private final int resId;
-    private final User[] users;
+    private final int            resId;
+    private final User[]         users;
     private final LayoutInflater inflater;
-    private final View[] views;
+    private final View[]         views;
 
     UserAdapter(Context context, User[] users) {
         super(context, R.layout.list_item_user, users);
@@ -32,14 +32,11 @@ class UserAdapter extends ArrayAdapter<User> {
         if (v == null) {
             v = inflater.inflate(resId, null);
         }
-
-        final TextView username = (TextView) v.findViewById(R.id.username);
+        final TextView username    = (TextView) v.findViewById(R.id.username);
         final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
         username.setText(users[position].uname);
         userdefault.setText(users[position].udefaultname + ", " + users[position].ustufe);
-
         v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
-
         views[position] = v;
         return v;
     }
@@ -55,7 +52,7 @@ class UserAdapter extends ArrayAdapter<User> {
 
     User[] getSelected() {
         User[] result = new User[selectCount()];
-        int i1 = 0;
+        int    i1     = 0;
         for (int i = 0; i < result.length; i++, i1++) {
             while (i1 < views.length && (views[i1] == null || !((CheckBox) views[i1].findViewById(R.id.checkBox)).isChecked()))
                 i1++;

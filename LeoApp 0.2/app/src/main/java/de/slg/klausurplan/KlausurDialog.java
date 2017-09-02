@@ -18,10 +18,9 @@ import java.util.GregorianCalendar;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
-
 class KlausurDialog extends AppCompatDialog {
 
-    static Klausur currentKlausur;
+    static  Klausur  currentKlausur;
     private EditText eingabeFach;
     private EditText eingabeDatum;
     private EditText eingabeNotiz;
@@ -37,12 +36,10 @@ class KlausurDialog extends AppCompatDialog {
     public void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.dialog_klausur);
-
         initEditTexts();
         initButtons();
         initSnackbarTitel();
         initSnackbarDatum();
-
         findViewById(R.id.buttonExamDel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,7 +47,6 @@ class KlausurDialog extends AppCompatDialog {
                 dismiss();
             }
         });
-
         findViewById(R.id.buttonExamDis).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,7 +66,6 @@ class KlausurDialog extends AppCompatDialog {
                         klausurSpeichern();
                         dismiss();
                     }
-
                 }
             }
         });
@@ -153,10 +148,10 @@ class KlausurDialog extends AppCompatDialog {
         if (istDatumFormat(s)) {
             String[] parts = s.replace('.', '_').split("_");
             if (parts.length == 3) {
-                int day = Integer.parseInt(parts[0]);
-                int month = Integer.parseInt(parts[1]) - 1;
-                int year = 2000 + Integer.parseInt(parts[2]);
-                Calendar c = new GregorianCalendar();
+                int      day   = Integer.parseInt(parts[0]);
+                int      month = Integer.parseInt(parts[1]) - 1;
+                int      year  = 2000 + Integer.parseInt(parts[2]);
+                Calendar c     = new GregorianCalendar();
                 c.set(year, month, day, 0, 0, 0);
                 return c.getTime();
             }

@@ -1,10 +1,10 @@
 package de.slg.messenger;
 
 public class Chat {
-    final boolean mute;
+    final boolean  mute;
     final Chattype ctype;
-    int cid;
-    String cname;
+    int     cid;
+    String  cname;
     Message m;
 
     public Chat(int cid, String cname, boolean mute, Chattype ctype) {

@@ -16,15 +16,14 @@ import android.widget.TextView;
 public class TutorialActivity extends AppCompatActivity {
     private String[] categories;
     private int category = 0;
-    private TextView title;
-    private ViewPager viewPager;
+    private TextView             title;
+    private ViewPager            viewPager;
     private TutorialFragment[][] fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
-
         categories = new String[]{
                 getString(R.string.title_home),
                 getString(R.string.title_foodmarks),
@@ -33,7 +32,6 @@ public class TutorialActivity extends AppCompatActivity {
                 getString(R.string.title_news),
                 getString(R.string.title_survey),
                 getString(R.string.title_plan)};
-
         String[][] descriptions = new String[categories.length][];
         for (int i = 0; i < categories.length; i++) {
             if (categories[i].equals(getString(R.string.title_home))) {
@@ -64,7 +62,6 @@ public class TutorialActivity extends AppCompatActivity {
                 descriptions[i] = new String[]{"Schedule 1", "Schedule 2", "Schedule 3"};
             }
         }
-
         fragments = new TutorialFragment[categories.length][];
         for (int i = 0; i < fragments.length; i++) {
             fragments[i] = new TutorialFragment[descriptions[i].length];
@@ -73,7 +70,6 @@ public class TutorialActivity extends AppCompatActivity {
                 fragments[i][j].setDescription(descriptions[i][j]);
             }
         }
-
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -86,13 +82,10 @@ public class TutorialActivity extends AppCompatActivity {
                 return fragments[category].length;
             }
         });
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
-
         title = (TextView) findViewById(R.id.categoryTitle);
         title.setText(categories[category]);
-
         findViewById(R.id.skip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,24 +126,21 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     public static class TutorialFragment extends Fragment {
-        private View v;
+        private View      v;
         private ImageView image;
-        private TextView text;
-        private String description;
+        private TextView  text;
+        private String    description;
 
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             if (v == null) {
                 v = inflater.inflate(R.layout.fragment_tutorial, container, false);
-
                 image = (ImageView) v.findViewById(R.id.imageView);
                 text = (TextView) v.findViewById(R.id.description);
             }
-
             image.setImageResource(R.drawable.leo_splash);
             text.setText(description);
-
             return v;
         }
 

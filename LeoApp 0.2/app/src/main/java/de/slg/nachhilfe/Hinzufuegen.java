@@ -23,7 +23,6 @@ public class Hinzufuegen extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hinzufuegen);
-
         initToolbar();
         initSpinner();
     }
@@ -39,7 +38,7 @@ public class Hinzufuegen extends AppCompatActivity {
     }
 
     private void initSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        Spinner                    spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Fach_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -72,12 +71,10 @@ public class Hinzufuegen extends AppCompatActivity {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-
         for (String s : faecher) {
             if (s.equals(fach))
                 return true;
         }
-
         return false;
     }
 
@@ -89,17 +86,14 @@ public class Hinzufuegen extends AppCompatActivity {
         } else {
             if (mi.getItemId() == R.id.Aktion2) {
                 if (ueberpruefe()) {
-
                 } else {
                     AnzeigeEinreichen s = new AnzeigeEinreichen();
                     s.execute(fach);
                     Intent intent = new Intent(this, NachhilfeboerseActivity.class);
                     startActivity(intent);
-
                 }
             }
         }
-
         return true;
     }
 }

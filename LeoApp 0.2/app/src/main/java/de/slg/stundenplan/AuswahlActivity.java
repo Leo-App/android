@@ -38,26 +38,22 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 public class AuswahlActivity extends AppCompatActivity {
-    private Menu menu;
-    private KursAdapter adapter;
+    private Menu          menu;
+    private KursAdapter   adapter;
     private StundenplanDB db;
-    private FachImporter importer;
+    private FachImporter  importer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auswahl);
         Utils.registerAuswahlActivity(this);
-
         String stufe = Utils.getUserStufe();
-
         if (!stufe.equals("")) {
             importer = new FachImporter(getApplicationContext(), stufe);
             importer.execute();
         }
-
         initToolbar();
-
         if (stufe.equals("")) {
             initSnackbarNoGrade();
         } else {
@@ -112,8 +108,8 @@ public class AuswahlActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (view.isEnabled()) {
-                    boolean checked = adapter.toggleCheckBox(position);
-                    Fach f = adapter.fachArray[position];
+                    boolean  checked = adapter.toggleCheckBox(position);
+                    Fach     f       = adapter.fachArray[position];
                     double[] stunden = db.gibStunden(f.id);
                     for (double d : stunden) {
                         Log.e("TAG", String.valueOf(d));
@@ -179,7 +175,7 @@ public class AuswahlActivity extends AppCompatActivity {
 
     static class FachImporter extends AsyncTask<Void, Void, Void> {
         private final Context context;
-        private final String stufe;
+        private final String  stufe;
 
         FachImporter(Context c, String pStufe) {
             this.context = c;
@@ -196,22 +192,18 @@ public class AuswahlActivity extends AppCompatActivity {
                                     .openConnection()
                                     .getInputStream();
                     FileOutputStream fileOutput = context.openFileOutput("testdaten.txt", Context.MODE_PRIVATE);
-                    byte[] buffer = new byte[1024];
-                    int bufferLength;
+                    byte[]           buffer     = new byte[1024];
+                    int              bufferLength;
                     while ((bufferLength = inputStream.read(buffer)) > 0) {
                         fileOutput.write(buffer, 0, bufferLength);
                     }
                     fileOutput.close();
                     inputStream.close();
-
                     context.deleteFile("allefaecher.txt");
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(context.openFileInput("testdaten.txt")));
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(context.openFileOutput("allefaecher.txt", Context.MODE_PRIVATE)));
-
-                    String lastKurzel = "";
-                    long lastID = -1;
-
+                    BufferedReader reader     = new BufferedReader(new InputStreamReader(context.openFileInput("testdaten.txt")));
+                    BufferedWriter writer     = new BufferedWriter(new OutputStreamWriter(context.openFileOutput("allefaecher.txt", Context.MODE_PRIVATE)));
+                    String         lastKurzel = "";
+                    long           lastID     = -1;
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                         String[] fach = line.replace("\"", "").split(",");
                         if (fach[1].startsWith(stufe)) {
@@ -248,11 +240,11 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private class KursAdapter extends ArrayAdapter<Fach> {
-        final Fach[] fachArray;
-        final List<String> ausgewaehlteFaecher;
-        final boolean[][] ausgewaehlteStunden;
-        private final View[] views;
-        private final CheckBox[] cbs;
+        final         Fach[]        fachArray;
+        final         List<String>  ausgewaehlteFaecher;
+        final         boolean[][]   ausgewaehlteStunden;
+        private final View[]        views;
+        private final CheckBox[]    cbs;
         private final StundenplanDB db;
 
         KursAdapter(Context context, Fach[] array) {
@@ -273,20 +265,15 @@ public class AuswahlActivity extends AppCompatActivity {
                 view = layoutInflater.inflate(R.layout.list_item_kurs, null);
             }
             view.setEnabled(true);
-
-            TextView tvFach = (TextView) view.findViewById(R.id.fach_auswahl);
+            TextView tvFach    = (TextView) view.findViewById(R.id.fach_auswahl);
             TextView tvKuerzel = (TextView) view.findViewById(R.id.kürzel_auswahl);
-            TextView tvLehrer = (TextView) view.findViewById(R.id.lehrer_auswahl);
-            CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-
-            Fach current = fachArray[position];
-
+            TextView tvLehrer  = (TextView) view.findViewById(R.id.lehrer_auswahl);
+            CheckBox checkBox  = (CheckBox) view.findViewById(R.id.checkBox);
+            Fach     current   = fachArray[position];
             tvFach.setText(current.gibName());
             tvKuerzel.setText(current.gibKurz());
             tvLehrer.setText(current.gibLehrer());
-
             checkBox.setChecked(db.istGewaehlt(current.id));
-
             if (checkBox.isChecked()) {
                 ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
                 double[] stunden = db.gibStunden(current.id);
@@ -304,20 +291,17 @@ public class AuswahlActivity extends AppCompatActivity {
             }
             cbs[position] = checkBox;
             views[position] = view;
-
             return view;
         }
 
         void refresh() {
             for (int i = 0; i < views.length; i++) {
                 if (views[i] != null) {
-                    Fach current = fachArray[i];
-
-                    CheckBox c = cbs[i];
-                    TextView tvFach = (TextView) views[i].findViewById(R.id.fach_auswahl);
+                    Fach     current   = fachArray[i];
+                    CheckBox c         = cbs[i];
+                    TextView tvFach    = (TextView) views[i].findViewById(R.id.fach_auswahl);
                     TextView tvKuerzel = (TextView) views[i].findViewById(R.id.kürzel_auswahl);
-                    TextView tvLehrer = (TextView) views[i].findViewById(R.id.lehrer_auswahl);
-
+                    TextView tvLehrer  = (TextView) views[i].findViewById(R.id.lehrer_auswahl);
                     if (c.isChecked()) {
                         views[i].setEnabled(true);
                         tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));

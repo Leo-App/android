@@ -42,7 +42,7 @@ import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 
 public class StundenplanActivity extends AppCompatActivity {
-    private DrawerLayout drawerLayout;
+    private DrawerLayout        drawerLayout;
     private WochentagFragment[] fragments;
 
     @Override
@@ -50,7 +50,6 @@ public class StundenplanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stundenplan);
         Utils.registerStundenplanActivity(this);
-
         if (!Utils.getStundDB().hatGewaehlt()) {
             if (Utils.getUserPermission() != 2) {
                 startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
@@ -58,7 +57,6 @@ public class StundenplanActivity extends AppCompatActivity {
                 new CreateLehrerStundenplan().execute();
             }
         }
-
         initToolbar();
         initNavigationView();
         initTabs();
@@ -92,7 +90,6 @@ public class StundenplanActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.stundenplan).setChecked(true);
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -133,16 +130,13 @@ public class StundenplanActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
-
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == 2)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
-
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
@@ -163,7 +157,6 @@ public class StundenplanActivity extends AppCompatActivity {
             fragments[i] = new WochentagFragment();
             fragments[i].setTag(i + 1);
         }
-
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public int getCount() {
@@ -193,10 +186,8 @@ public class StundenplanActivity extends AppCompatActivity {
                 }
             }
         };
-
         ViewPager viewPager = (ViewPager) findViewById(R.id.viPager);
         viewPager.setAdapter(adapter);
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -207,16 +198,15 @@ public class StundenplanActivity extends AppCompatActivity {
     }
 
     public static class WochentagFragment extends Fragment {
-        private View root;
-        private Fach[] fachArray;
-        private int tag;
+        private View     root;
+        private Fach[]   fachArray;
+        private int      tag;
         private ListView listView;
 
         @Override
         public View onCreateView(LayoutInflater layIn, ViewGroup container, Bundle savedInstanceState) {
             if (root == null) {
                 root = layIn.inflate(R.layout.fragment_wochentag, container, false);
-
                 listView = (ListView) root.findViewById(R.id.listW);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -230,7 +220,7 @@ public class StundenplanActivity extends AppCompatActivity {
                         dialog.show();
                         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                        dialog.init(Utils.getStundDB().getFach(tag, position+1));
+                        dialog.init(Utils.getStundDB().getFach(tag, position + 1));
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
@@ -240,7 +230,6 @@ public class StundenplanActivity extends AppCompatActivity {
                     }
                 });
             }
-
             return root;
         }
 
@@ -264,8 +253,8 @@ public class StundenplanActivity extends AppCompatActivity {
 
     private static class StundenAdapter extends ArrayAdapter<Fach> {
         private final Context cont;
-        private final Fach[] fachAd;
-        private final View[] viAd;
+        private final Fach[]  fachAd;
+        private final View[]  viAd;
 
         StundenAdapter(Context pCont, Fach[] pFach) {
             super(pCont, R.layout.list_item_schulstunde, pFach);
@@ -280,15 +269,13 @@ public class StundenplanActivity extends AppCompatActivity {
             if (position < fachAd.length && fachAd[0] != null) {
                 if (v == null) {
                     LayoutInflater layIn = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    int id2 = R.layout.list_item_schulstunde;
+                    int            id2   = R.layout.list_item_schulstunde;
                     v = layIn.inflate(id2, null);
                 }
-
-                TextView tvFach = (TextView) v.findViewById(R.id.fach_wt);
+                TextView tvFach   = (TextView) v.findViewById(R.id.fach_wt);
                 TextView tvLehrer = (TextView) v.findViewById(R.id.lehrer_wt);
-                TextView tvRaum = (TextView) v.findViewById(R.id.raum_wt);
+                TextView tvRaum   = (TextView) v.findViewById(R.id.raum_wt);
                 TextView tvStunde = (TextView) v.findViewById(R.id.stunde_wt);
-
                 if (fachAd[position] != null) {
                     if (fachAd[position].gibName().equals("") && !fachAd[position].gibNotiz().equals("")) {
                         String[] sa = fachAd[position].gibNotiz().split(" ");

@@ -18,7 +18,6 @@ public class Verwalten extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         EmpfangeFaecherUser toll = new EmpfangeFaecherUser();
         toll.execute();
         setContentView(R.layout.activity_verwalten);
@@ -29,7 +28,7 @@ public class Verwalten extends AppCompatActivity {
             e.printStackTrace();
         }
         NachhilfeAdapter adapter = new NachhilfeAdapter(getApplicationContext(), result);
-        ListView vl = (ListView) findViewById(R.id.ListView2);
+        ListView         vl      = (ListView) findViewById(R.id.ListView2);
         vl.setAdapter(adapter);
         vl.setClickable(true);
         Toolbar hans = (Toolbar) findViewById(R.id.actionBarNavDrawer2);
@@ -42,21 +41,16 @@ public class Verwalten extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem mi) {
-
         if (mi.getItemId() == R.id.action_clear) {
-
             Intent intent = new Intent(this, NachhilfeboerseActivity.class);
             startActivity(intent);
-
         }
         return true;
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_verwalten, menu);
         return true;
     }
-
 }
 

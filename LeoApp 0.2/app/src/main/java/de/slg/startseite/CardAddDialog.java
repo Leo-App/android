@@ -12,23 +12,19 @@ import de.slg.leoapp.R;
 
 class CardAddDialog extends AlertDialog {
 
-    private MainActivity context;
+    private MainActivity  context;
     private ImageButton[] buttons;
-    private CardType type;
+    private CardType      type;
 
     CardAddDialog(@NonNull MainActivity context) {
         super(context);
-
         this.context = context;
-
     }
 
     @Override
     public void onCreate(Bundle b) {
-
         super.onCreate(b);
         setContentView(R.layout.dialog_add_card);
-
         buttons = new ImageButton[]{
                 (ImageButton) findViewById(R.id.imageButton1),
                 (ImageButton) findViewById(R.id.imageButton2),
@@ -40,19 +36,13 @@ class CardAddDialog extends AlertDialog {
                 (ImageButton) findViewById(R.id.imageButton8),
                 (ImageButton) findViewById(R.id.imageButton9)
         };
-
         initOptions();
         initSendButton();
-
     }
 
     private void initOptions() {
-
-
         for (ImageButton b : buttons) {
-
             final ImageButton copy = b;
-
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -62,31 +52,22 @@ class CardAddDialog extends AlertDialog {
                     type = CardType.valueOf(String.valueOf(copy.getTag()));
                 }
             });
-
         }
-
     }
 
     private void greyOut() {
-
         for (ImageButton b : buttons) {
-
             b.setColorFilter(Color.GRAY);
-
         }
-
     }
 
-
     private void initSendButton() {
-
         findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
-
         findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,8 +75,5 @@ class CardAddDialog extends AlertDialog {
                 dismiss();
             }
         });
-
     }
-
-
 }

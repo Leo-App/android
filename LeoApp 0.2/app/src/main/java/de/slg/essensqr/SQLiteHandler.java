@@ -7,8 +7,8 @@ import android.provider.BaseColumns;
 
 public class SQLiteHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "savebase.db";
+    private static final int    DATABASE_VERSION        = 1;
+    private static final String DATABASE_NAME           = "savebase.db";
     private static final String SQL_CREATE_TABLE_ORDERS = "CREATE TABLE IF NOT EXISTS "
             + OrderEntry.TABLE_NAME + " ("
             + OrderEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
@@ -61,14 +61,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         static final String COLUMN_NAME_CUSTOMERID;
         static final String COLUMN_NAME_DATE;
 
-
         static {
             TABLE_NAME = "SCANS";
             COLUMN_NAME_ID = "ID";
             COLUMN_NAME_CUSTOMERID = "USERID";
             COLUMN_NAME_DATE = "DATEU";
         }
-
     }
 
     static class OrderEntry implements BaseColumns {
@@ -86,7 +84,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             COLUMN_NAME_MENU = "MENU";
             COLUMN_NAME_DESCR = "DESCR";
         }
-
     }
 
     static class StatisticsEntry implements BaseColumns {
@@ -103,9 +100,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             COLUMN_NAME_SYNCDATE = "SYNCDATE";
             COLUMN_NAME_AMOUNT = "AMOUNT";
             COLUMN_NAME_LASTORDER = "LASTORDER";
-
         }
-
     }
-
 }

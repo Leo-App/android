@@ -48,30 +48,26 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class KlausurplanActivity extends AppCompatActivity {
-    private ListView lvKlausuren;
+    private ListView      lvKlausuren;
     private List<Klausur> klausurList;
-    private DrawerLayout drawerLayout;
-    private Snackbar snackbar;
+    private DrawerLayout  drawerLayout;
+    private Snackbar      snackbar;
     private KlausurDialog dialog;
-    private boolean confirmDelete;
+    private boolean       confirmDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_klausurplan);
-
         Utils.registerKlausurplanActivity(this);
-
         initList();
         initToolbar();
         initListView();
         initNavigationView();
         initAddButton();
         initSnackbar();
-
         löscheAlteKlausuren(Start.pref.getInt("pref_key_delete", -1));
         filternNachStufe(Utils.getUserStufe());
-
         refresh();
     }
 
@@ -132,12 +128,10 @@ public class KlausurplanActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.klausurplan).setChecked(true);
-
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -180,13 +174,11 @@ public class KlausurplanActivity extends AppCompatActivity {
         });
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
-
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == 2)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
-
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
@@ -246,7 +238,6 @@ public class KlausurplanActivity extends AppCompatActivity {
                 klausurDialog.show();
                 klausurDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 klausurDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
             }
         });
     }
@@ -259,7 +250,6 @@ public class KlausurplanActivity extends AppCompatActivity {
     private void refresh() {
         writeToFile();
         lvKlausuren.setAdapter(new KlausurenAdapter(getApplicationContext(), klausurList, findeNächsteKlausur()));
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -294,7 +284,7 @@ public class KlausurplanActivity extends AppCompatActivity {
 
     private int findeNächsteWoche() {
         Date heute = new Date();
-        int i = 0;
+        int  i     = 0;
         klausurList.toFirst();
         while (klausurList.hasAccess() && heute.after(klausurList.getContent().datum)) {
             klausurList.next();
@@ -319,11 +309,9 @@ public class KlausurplanActivity extends AppCompatActivity {
     private void löscheAlteKlausuren(int monate) {
         if (monate < 0)
             return;
-
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(new Date());
         calendar.add(Calendar.MONTH, -monate);
-
         for (klausurList.toFirst(); klausurList.hasAccess(); ) {
             if (calendar.getTime().after(klausurList.getContent().datum))
                 klausurList.remove();
@@ -352,7 +340,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                             new InputStreamReader(
                                     openFileInput(getString(R.string.klausuren_filemane))));
             StringBuilder builder = new StringBuilder();
-            String line;
+            String        line;
             while ((line = reader.readLine()) != null) {
                 builder.append(line).append('_');
             }
