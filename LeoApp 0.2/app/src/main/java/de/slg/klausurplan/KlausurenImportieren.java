@@ -30,7 +30,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     KlausurenImportieren(Context context) {
         this.context = context;
         this.schriflich = Utils.getStundDB().gibSchriftlicheFaecherStrings();
-        filtern = Start.pref.getBoolean("pref_key_test_timetable_sync", false);
+        this.filtern = Start.pref.getBoolean("pref_key_test_timetable_sync", false);
     }
 
     @Override

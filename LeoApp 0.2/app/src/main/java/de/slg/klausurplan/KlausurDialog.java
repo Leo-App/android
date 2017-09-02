@@ -36,10 +36,12 @@ class KlausurDialog extends AppCompatDialog {
     public void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.dialog_klausur);
+
         initEditTexts();
         initButtons();
         initSnackbarTitel();
         initSnackbarDatum();
+
         findViewById(R.id.buttonExamDel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,12 +49,14 @@ class KlausurDialog extends AppCompatDialog {
                 dismiss();
             }
         });
+
         findViewById(R.id.buttonExamDis).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
             }
         });
+
         findViewById(R.id.buttonExamSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

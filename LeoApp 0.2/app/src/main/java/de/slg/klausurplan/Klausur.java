@@ -7,8 +7,8 @@ import java.util.GregorianCalendar;
 
 class Klausur {
 
-    private String fach;
     Date datum;
+    private String fach;
     private String notiz;
     private String note;
 
@@ -16,10 +16,13 @@ class Klausur {
         if (fach == null)
             fach = "";
         this.fach = fach;
+
         this.datum = datum;
+
         if (notiz == null || notiz.equals("null"))
             notiz = "";
         this.notiz = notiz;
+
         if (note == null || note.equals("null"))
             note = "";
         this.note = note;
@@ -31,12 +34,18 @@ class Klausur {
         return fach;
     }
 
+    public void setFach(String fach) {
+        if (fach != null)
+            this.fach = fach;
+    }
+
     String getDatum(boolean mitWochentag) {
         if (datum == null)
             return "";
-        if (mitWochentag) {
+
+        if (mitWochentag)
             return new SimpleDateFormat("E").format(datum).substring(0, 2) + ", " + new SimpleDateFormat("dd.MM.yy").format(datum);
-        }
+
         return new SimpleDateFormat("dd.MM.yy").format(datum);
     }
 
@@ -46,32 +55,27 @@ class Klausur {
         return notiz;
     }
 
-    String getNote() {
-        if (note == null)
-            return "";
-        return note;
-    }
-
-    public void setFach(String fach) {
-        if (fach != null)
-            this.fach = fach;
-    }
-
-    void setDatum(Date datum) {
-        if (datum != null)
-            this.datum = datum;
-    }
-
     void setNotiz(String notiz) {
         if (notiz == null)
             notiz = "";
         this.notiz = notiz;
     }
 
+    String getNote() {
+        if (note == null)
+            return "";
+        return note;
+    }
+
     void setNote(String note) {
         if (note == null)
             note = "";
         this.note = note;
+    }
+
+    void setDatum(Date datum) {
+        if (datum != null)
+            this.datum = datum;
     }
 
     @Override
@@ -90,7 +94,7 @@ class Klausur {
 
     boolean after(Klausur klausur) {
         return klausur != null && datum != null && klausur.datum != null && datum.getTime() > klausur.datum.getTime();
-    }//wenn das Datum der Klausur später ist als das der anderen
+    } //wenn das Datum der Klausur später ist als das der anderen
 
     String getWriterString() {
         if (getFach().equals("") || getDatum(false).equals(""))

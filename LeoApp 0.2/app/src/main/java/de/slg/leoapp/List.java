@@ -78,10 +78,13 @@ public class List<ContentType> implements Iterable<ContentType> {
     public void swap(int firstIndex, int secondIndex) {
         toIndex(firstIndex);
         ContentType t1 = getContent();
+
         toIndex(secondIndex);
         ContentType t2 = getContent();
+
         remove();
         insertBefore(t1);
+
         toIndex(firstIndex);
         remove();
         insertBefore(t2);

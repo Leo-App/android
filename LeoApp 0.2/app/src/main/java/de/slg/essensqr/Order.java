@@ -3,7 +3,6 @@ package de.slg.essensqr;
 import java.util.Date;
 
 class Order {
-
     private final Date   date;
     private final short  menu;
     private final String descr;

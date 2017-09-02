@@ -55,7 +55,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
     static class ScanEntry implements BaseColumns {
-
         static final String TABLE_NAME;
         static final String COLUMN_NAME_ID;
         static final String COLUMN_NAME_CUSTOMERID;
@@ -70,7 +69,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
     static class OrderEntry implements BaseColumns {
-
         static final String TABLE_NAME;
         static final String COLUMN_NAME_ID;
         static final String COLUMN_NAME_DATE;
@@ -87,7 +85,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     }
 
     static class StatisticsEntry implements BaseColumns {
-
         static final String TABLE_NAME;
         static final String COLUMN_NAME_ID;
         static final String COLUMN_NAME_SYNCDATE;

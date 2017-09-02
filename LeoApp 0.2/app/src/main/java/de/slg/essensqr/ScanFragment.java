@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import de.slg.leoapp.R;
 
 public class ScanFragment extends Fragment {
-
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

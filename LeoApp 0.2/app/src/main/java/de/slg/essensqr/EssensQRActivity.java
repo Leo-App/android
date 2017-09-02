@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -48,7 +47,6 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
 public class EssensQRActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
-
     public static SharedPreferences sharedPref;
     public static SQLiteHandler     sqlh;
     public static Button            scan;
@@ -65,10 +63,13 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_qr);
         Utils.registerEssensQRActivity(this);
+
         runningScan = false;
         runningSync = false;
+
         initToolbar();
         initNavigationView();
+
         mViewPager = (ViewPager) findViewById(R.id.pager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
@@ -97,10 +98,13 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
             }
         };
         mViewPager.setAdapter(adapt);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
+
         sqlh = new SQLiteHandler(getApplicationContext());
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
         final Handler handler = new Handler();
         final Runnable r = new Runnable() {
             @Override
@@ -114,6 +118,7 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
             }
         };
         handler.postDelayed(r, 100);
+
         if (!mensaModeRunning && sharedPref.getBoolean("pref_key_mensa_mode", false)) {
             handler.removeCallbacks(r);
             mensaModeRunning = true;
@@ -126,10 +131,12 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.foodmarks).setChecked(true);
+
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -170,21 +177,23 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
                 return true;
             }
         });
+
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
+
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == 2)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
+
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
     private void initToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        myToolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(myToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.toolbar_title));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

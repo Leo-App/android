@@ -36,21 +36,27 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public View getView(int position, View v, @NonNull ViewGroup parent) {
+        if (v == null)
+            v = layoutInflater.inflate(resId, null);
+
         Klausur current = klausuren.getObjectAt(position);
-        v = layoutInflater.inflate(resId, null);
+
         if (position == 0 || !current.istGleicheWoche(klausuren.getObjectAt(position - 1))) {
             TextView woche = (TextView) v.findViewById(R.id.textViewWoche);
             woche.setText(current.getWoche());
         } else {
             v.findViewById(R.id.textViewWoche).setVisibility(View.GONE);
         }
-        String[] parts = current.toString().replace("\n", " ").split(" ");
-        TextView tv    = (TextView) v.findViewById(R.id.textView);
-        TextView tv2   = (TextView) v.findViewById(R.id.textViewKursInfo);
-        TextView tv3   = (TextView) v.findViewById(R.id.textViewStufe);
-        TextView tv4   = (TextView) v.findViewById(R.id.textViewDate);
+
+        String[]       parts = current.toString().replace(System.getProperty("line.separator"), " ").split(" ");
+        final TextView tv    = (TextView) v.findViewById(R.id.textView);
+        final TextView tv2   = (TextView) v.findViewById(R.id.textViewKursInfo);
+        final TextView tv3   = (TextView) v.findViewById(R.id.textViewStufe);
+        final TextView tv4   = (TextView) v.findViewById(R.id.textViewDate);
+
         if (!Utils.getUserStufe().equals(""))
             tv3.setVisibility(View.GONE);
+
         if (matchesStandardLayout(parts)) {
             tv.setText(parts[0]);
             tv2.setText(getFinalText(parts[1]) + " " + parts[2]);
@@ -62,11 +68,13 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
             tv3.setText("-");
             tv.setText(current.toString().substring(0, current.toString().length() - parts[parts.length - 1].length()));
         }
+
         if (current.datum.getTime() / 1000 == markieren) {
             tv.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
         } else {
             tv.setTextColor(ContextCompat.getColor(context, android.R.color.black));
         }
+
         return v;
     }
 

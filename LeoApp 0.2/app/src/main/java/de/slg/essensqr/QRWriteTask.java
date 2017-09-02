@@ -59,8 +59,10 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
     protected Bitmap doInBackground(View... params) {
         target = params[0];
         connection = hasActiveInternetConnection();
+
         if (!(EssensQRActivity.sharedPref.getBoolean("pref_key_status_loggedin", false)))
             return null;
+
         if (connection) {
             if (onAppStart) {
                 if (EssensQRActivity.sharedPref.getBoolean("pref_key_qr_sync", false))
@@ -68,24 +70,29 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             } else
                 saveNewestEntries();
         }
+
         Order act = getRecentEntry();
         if (act == null)
             return null;
+
         menu = act.getMenu();
         descr = act.getDescr();
+
         String customerString = EssensQRActivity.sharedPref.getString("pref_key_qr_id", "00000");
         if (customerString.equals(""))
             return null;
+
         int        customerid = Integer.parseInt(customerString);
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyy");
         Date       date       = new Date();
         String     dateS      = dateFormat.format(date);
         dateS = dateS.substring(0, 4) + dateS.substring(5);
         String code = customerString + "-M" + act.getMenu() + "-" + dateS + "-";
-        int c1 = Integer.valueOf(dateS.substring(0, 2) + dateS.substring(4));
+        int    c1   = Integer.valueOf(dateS.substring(0, 2) + dateS.substring(4));
         customerid = (act.getMenu() == 2) ? customerid / 2 : customerid / 3;
         c1 += customerid;
         code += String.valueOf(c1);
+
         return createNewQR(code);
     }
 
@@ -96,6 +103,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         boolean loggedin = Start.pref.getBoolean("pref_key_status_loggedin", false);
         if (!connection)
             ((QRFragment) qr).showSnackBarNoConnection();
+
         if (result != null) {
             ((ImageView) target.findViewById(R.id.imageView)).setImageBitmap(result);
             ((TextView) target.findViewById(R.id.textViewMenu)).setText(qr.getString(R.string.qr_display_menu) + "  " + menu);
@@ -117,6 +125,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             target.findViewById(R.id.imageViewError).setVisibility(VISIBLE);
             target.findViewById(R.id.textViewMenuDetails).setVisibility(INVISIBLE);
         }
+
         EssensQRActivity.runningSync = false;
         target.findViewById(R.id.progressBar1).setVisibility(GONE);
     }
@@ -196,10 +205,10 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String[] data = result.split("_next_");
-        SQLiteDatabase db = EssensQRActivity.sqlh.getWritableDatabase();
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-        Date highest = null;
+        String[]       data    = result.split("_next_");
+        SQLiteDatabase db      = EssensQRActivity.sqlh.getWritableDatabase();
+        DateFormat     df      = new SimpleDateFormat("yyyy-mm-dd");
+        Date           highest = null;
         try {
             highest = df.parse("1900-01-01");
         } catch (ParseException e) {

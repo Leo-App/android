@@ -16,7 +16,6 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 public class NumberPickerPref extends DialogPreference {
-
     private static final int     MAX_VALUE           = 10;
     private static final int     MIN_VALUE           = 2;
     private static final boolean WRAP_SELECTOR_WHEEL = true;
@@ -98,11 +97,12 @@ public class NumberPickerPref extends DialogPreference {
     private static class SavedState extends View.BaseSavedState {
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-
+            @Override
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);
             }
 
+            @Override
             public SavedState[] newArray(int size) {
                 return new SavedState[size];
             }

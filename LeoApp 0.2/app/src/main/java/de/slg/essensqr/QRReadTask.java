@@ -67,16 +67,21 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
 
     private boolean checkValid(String s) {
         String[] parts = s.split("-");
+
         Log.d("LeoApp", "passed no test yet");
+
         if (parts.length != 4)
             return false;
         Log.d("LeoApp", "passed module test");
+
         if (parts[1].length() != 2 || parts[1].charAt(0) != 'M' || (parts[1].charAt(1) != '1' && parts[1].charAt(1) != '2'))
             return false;
         Log.d("LeoApp", "passed menu-format test");
+
         if (parts[2].length() != 7)
             return false;
         Log.d("LeoApp", "passed date size test");
+
         try {
             int day   = Integer.parseInt(parts[2].substring(0, 2));
             int month = Integer.parseInt(parts[2].substring(2, 4));
@@ -88,8 +93,10 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
             return false;
         }
         Log.d("LeoApp", "passed logic date test");
+
         String subsum = "" + parts[2].substring(0, 2) + "" + parts[2].substring(4);
         Log.d("LeoApp", subsum);
+
         try {
             int menu       = Integer.parseInt(String.valueOf(parts[1].charAt(1)));
             int customerid = Integer.parseInt(parts[0]);
@@ -101,16 +108,18 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
             return false;
         }
         Log.d("LeoApp", "passed checksum test");
+
         return true;
     }
 
     @SuppressLint({"SetTextI18n", "InflateParams"})
     @Override
     protected void onPostExecute(Boolean result) {
-        final AlertDialog builder  = new AlertDialog.Builder(act).create();
+        final AlertDialog dialog   = new AlertDialog.Builder(act).create();
         LayoutInflater    inflater = act.getLayoutInflater();
         View              v;
         long[]            interval;
+
         if (result) {
             v = inflater.inflate(R.layout.dialog_valid, null);
             ((TextView) v.findViewById(R.id.textView4)).setText(act.getString(R.string.dialog_desc_valid) + "\t" + orderedMenu);
@@ -119,32 +128,34 @@ class QRReadTask extends AsyncTask<String, Integer, Boolean> {
             v = inflater.inflate(R.layout.dialog_invalid, null);
             interval = new long[]{0, 1000, 500, 1000};
         }
+
         Vibrator vb = (Vibrator) act.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         vb.vibrate(interval, -1);
-        builder.setView(v);
+
+        dialog.setView(v);
         if (EssensQRActivity.sharedPref.getBoolean("pref_key_qr_autofade", false)) {
             int           duration = EssensQRActivity.sharedPref.getInt("pref_key_qr_autofade_time", 3);
             final Handler handler  = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    builder.dismiss();
+                    dialog.dismiss();
                 }
             }, duration * 1000);
         }
-        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 act.scV.startCamera(0);
             }
         });
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
                 act.scV.setResultHandler(act);
                 act.scV.startCamera(0);
             }
         });
-        builder.show();
+        dialog.show();
     }
 }

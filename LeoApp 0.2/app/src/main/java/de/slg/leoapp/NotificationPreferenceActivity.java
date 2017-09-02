@@ -23,12 +23,16 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
     public void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preference);
         Utils.registerNotificationPreferenceActivity(this);
+
         addPreferencesFromResource(R.xml.preferences_notifications);
+
         findViewById(R.id.progressBar2).setVisibility(View.GONE);
         findViewById(R.id.navigationView).setVisibility(View.GONE);
+
         initToolbar();
         initPreferenceChanges();
     }
@@ -64,12 +68,16 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
 
     private void initPreferenceChanges() {
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
         Preference qrtime = findPreference("pref_key_notification_time_foodmarks");
         qrtime.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_notification_essensqr", false));
+
         Preference testtime = findPreference("pref_key_notification_time_test");
         testtime.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_notification_test", false));
+
         Preference surveytime = findPreference("pref_key_notification_time_survey");
         surveytime.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_notification_survey", false));
+
         Preference scheduletime = findPreference("pref_key_notification_time_schedule");
         scheduletime.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_notification_schedule", false));
     }

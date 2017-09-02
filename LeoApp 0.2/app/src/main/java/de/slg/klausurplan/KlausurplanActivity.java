@@ -60,12 +60,14 @@ public class KlausurplanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_klausurplan);
         Utils.registerKlausurplanActivity(this);
+
         initList();
         initToolbar();
         initListView();
         initNavigationView();
         initAddButton();
         initSnackbar();
+
         löscheAlteKlausuren(Start.pref.getInt("pref_key_delete", -1));
         filternNachStufe(Utils.getUserStufe());
         refresh();

@@ -89,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (notificationTarget != -1) {
             Utils.closeAll();
 
-            Log.e("TAG", "Notification!!!");
-
             switch (notificationTarget) {
                 case NotificationService.ID_ESSENSQR:
                     startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
@@ -165,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(intent);
                 }
 
-                //                startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
+                // startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
             }
         });
 
