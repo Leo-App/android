@@ -56,11 +56,13 @@ public class MessengerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Utils.registerMessengerActivity(this);
-        Utils.context = getApplicationContext();
-        Utils.getMDB();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_messenger);
+        Utils.registerMessengerActivity(this);
+
+        Utils.context = getApplicationContext();
+        Utils.getMDB();
+
         initToolbar();
         initArrays();
         initNavigationView();

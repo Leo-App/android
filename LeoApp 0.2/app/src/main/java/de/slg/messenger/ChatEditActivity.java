@@ -47,8 +47,10 @@ public class ChatEditActivity extends AppCompatActivity {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_chat_edit);
         Utils.registerChatEditActivity(this);
+
         cid = getIntent().getIntExtra("cid", -1);
         cname = getIntent().getStringExtra("cname");
+
         initToolbar();
         initUsers();
         initSettings();
@@ -78,9 +80,11 @@ public class ChatEditActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
+
         Utils.receiveMessenger();
         setResult(1, getIntent().putExtra("cname", cname));
         Utils.getMDB().muteChat(cid, !notifications.isChecked());
+
         Utils.registerChatEditActivity(null);
     }
 
@@ -97,7 +101,6 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarEditChat);
-        actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         actionBar.setTitle(cname);
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
@@ -109,10 +112,12 @@ public class ChatEditActivity extends AppCompatActivity {
         userContainer = (LinearLayout) findViewById(R.id.linearLayoutUsers);
         scrollView = findViewById(R.id.scrollView);
         listView = (ListView) findViewById(R.id.listView);
+
         usersInChat = Utils.getMDB().getUsersInChat(cid);
         usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
         uRemove = new UserAdapter(getApplicationContext(), usersInChat);
         uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -133,6 +138,7 @@ public class ChatEditActivity extends AppCompatActivity {
                 }
             }
         });
+
         fillContainer(usersInChat);
     }
 
@@ -140,6 +146,7 @@ public class ChatEditActivity extends AppCompatActivity {
         mode = "";
         notifications = (Switch) findViewById(R.id.switch1);
         notifications.setChecked(!Utils.getMDB().isMute(cid));
+
         final View name = findViewById(R.id.changeName);
         name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +154,7 @@ public class ChatEditActivity extends AppCompatActivity {
                 showDialogChatname();
             }
         });
+
         add = findViewById(R.id.addUser);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +167,7 @@ public class ChatEditActivity extends AppCompatActivity {
         if (usersNotInChat.length == 0) {
             add.setVisibility(View.GONE);
         }
+
         remove = findViewById(R.id.removeUser);
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +180,7 @@ public class ChatEditActivity extends AppCompatActivity {
         if (usersInChat.length == 0) {
             remove.setVisibility(View.GONE);
         }
+
         final View leave = findViewById(R.id.leaveChat);
         leave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,21 +210,31 @@ public class ChatEditActivity extends AppCompatActivity {
 
     private void fillContainer(User[] data) {
         userContainer.removeAllViews();
+
         for (User u : data) {
-            View           v           = getLayoutInflater().inflate(R.layout.list_item_user, null);
+            View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
+
             final TextView username    = (TextView) v.findViewById(R.id.username);
             final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+
             username.setText(u.uname);
             userdefault.setText(u.udefaultname + ", " + u.ustufe);
+
             v.findViewById(R.id.checkBox).setVisibility(View.GONE);
+
             userContainer.addView(v);
         }
-        View           v           = getLayoutInflater().inflate(R.layout.list_item_user, null);
+
+        View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
+
         final TextView username    = (TextView) v.findViewById(R.id.username);
         final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+
         username.setText(Utils.getUserName());
         userdefault.setText(Utils.getMDB().getMyDefaultName() + ", " + Utils.getUserStufe());
+
         v.findViewById(R.id.checkBox).setVisibility(View.GONE);
+
         userContainer.addView(v);
     }
 
@@ -227,10 +247,13 @@ public class ChatEditActivity extends AppCompatActivity {
     }
 
     private void showDialogChatname() {
-        final AlertDialog dialog   = new AlertDialog.Builder(this).create();
-        View              v        = getLayoutInflater().inflate(R.layout.dialog_change_chatname, null);
-        final TextView    textView = (TextView) v.findViewById(R.id.etChatname);
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+
+        View v = getLayoutInflater().inflate(R.layout.dialog_change_chatname, null);
+
+        final TextView textView = (TextView) v.findViewById(R.id.etChatname);
         textView.setText(cname);
+
         v.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,7 +267,9 @@ public class ChatEditActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+
         dialog.setView(v);
+
         dialog.show();
     }
 
@@ -292,18 +317,23 @@ public class ChatEditActivity extends AppCompatActivity {
             usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
             uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
             uRemove = new UserAdapter(getApplicationContext(), usersInChat);
+
             fillContainer(usersInChat);
+
             if (usersNotInChat.length == 0) {
                 add.setVisibility(View.GONE);
             } else {
                 add.setVisibility(View.VISIBLE);
             }
+
             if (usersInChat.length == 0) {
                 remove.setVisibility(View.GONE);
             } else {
                 remove.setVisibility(View.VISIBLE);
             }
+
             scrollView.setVisibility(View.VISIBLE);
+
             findViewById(R.id.progressBar).setVisibility(View.GONE);
         }
     }
@@ -351,18 +381,23 @@ public class ChatEditActivity extends AppCompatActivity {
             usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
             uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
             uRemove = new UserAdapter(getApplicationContext(), usersInChat);
+
             fillContainer(usersInChat);
+
             if (usersNotInChat.length == 0) {
                 add.setVisibility(View.GONE);
             } else {
                 add.setVisibility(View.VISIBLE);
             }
+
             if (usersInChat.length == 0) {
                 remove.setVisibility(View.GONE);
             } else {
                 remove.setVisibility(View.VISIBLE);
             }
+
             scrollView.setVisibility(View.VISIBLE);
+
             findViewById(R.id.progressBar).setVisibility(View.GONE);
         }
     }

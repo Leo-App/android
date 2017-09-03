@@ -55,15 +55,19 @@ public class ChatActivity extends AppCompatActivity {
         Utils.registerChatActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
         cid = getIntent().getIntExtra("cid", -1);
         cname = getIntent().getStringExtra("cname");
         ctype = Chat.ChatType.valueOf(getIntent().getStringExtra("ctype"));
+
         messagesArray = new Message[0];
         if (cid != -1)
             Utils.receiveMessenger();
+
         initToolbar();
         initSendMessage();
         initRecyclerView();
+
         if (cid != -1)
             Utils.getMDB().setMessagesRead(cid);
     }
@@ -168,7 +172,6 @@ public class ChatActivity extends AppCompatActivity {
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarChat);
         actionBar.setTitle(cname);
-        actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -187,6 +190,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void initSendMessage() {
         etMessage = (EditText) findViewById(R.id.inputMessage);
+
         ImageButton sendButton = (ImageButton) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,6 +198,7 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
+
         if (ctype == Chat.ChatType.GROUP && !Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
             etMessage.setEnabled(false);
             etMessage.setHint("Du bist nicht in diesem Chat!");
@@ -208,10 +213,13 @@ public class ChatActivity extends AppCompatActivity {
                 message = etMessage.getText().toString();
             }
         });
+
         while (message.length() > 0 && message.charAt(0) == ' ')
             message = message.substring(1);
+
         while (message.length() > 0 && message.charAt(message.length() - 1) == ' ')
             message = message.substring(0, message.length() - 1);
+
         return message;
     }
 
@@ -226,11 +234,13 @@ public class ChatActivity extends AppCompatActivity {
         if (refreshArray) {
             messagesArray = Utils.getMDB().getMessagesFromChat(cid);
         }
+
         if (messagesArray.length != selected.length) {
             boolean[] sOld = selected;
             selected = new boolean[messagesArray.length];
             System.arraycopy(sOld, 0, selected, 0, sOld.length > selected.length ? selected.length : sOld.length);
         }
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -275,6 +285,7 @@ public class ChatActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             Message            current     = messagesArray[position];
+
             final View         v           = holder.itemView;
             final TextView     datum       = (TextView) v.findViewById(R.id.textViewDate);
             final TextView     nachricht   = (TextView) v.findViewById(R.id.nachricht);
@@ -284,10 +295,12 @@ public class ChatActivity extends AppCompatActivity {
             final View         chatbubble  = v.findViewById(R.id.chatbubble);
             final View         space       = v.findViewById(R.id.space);
             final View         progressbar = v.findViewById(R.id.progressBar);
+
             nachricht.setText(current.mtext);
             absender.setText(current.uname);
             uhrzeit.setText(current.getTime());
             datum.setText(current.getDate());
+
             final boolean mine = current.uid == Utils.getUserID();
             if (mine) {
                 layout.setGravity(Gravity.RIGHT);
@@ -305,6 +318,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
             chatbubble.setEnabled(mine);
+
             final boolean send = uhrzeit.getText().toString().equals("");
             if (send) {
                 uhrzeit.setVisibility(View.GONE);
@@ -313,6 +327,7 @@ public class ChatActivity extends AppCompatActivity {
                 uhrzeit.setVisibility(View.VISIBLE);
                 progressbar.setVisibility(View.GONE);
             }
+
             final boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
             if (first) {
                 datum.setVisibility(View.VISIBLE);
@@ -323,6 +338,7 @@ public class ChatActivity extends AppCompatActivity {
                     space.setVisibility(View.GONE);
                 }
             }
+
             if (selected[position]) {
                 v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
             } else {
@@ -345,8 +361,10 @@ public class ChatActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             ViewHolder() {
                 super(getLayoutInflater().inflate(R.layout.list_item_message, null));
+
                 TextView nachricht = (TextView) itemView.findViewById(R.id.nachricht);
                 nachricht.setMaxWidth(GraphicUtils.getDisplayWidth() * 2 / 3);
+
                 itemView.setOnLongClickListener(longClickListener);
                 itemView.setOnClickListener(clickListener);
             }
@@ -386,6 +404,7 @@ public class ChatActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "You need an active Internet-Connection to perform this Action", Toast.LENGTH_LONG).show();
                 }
             }
+
             if (cid != -1) {
                 if (!Utils.checkNetwork()) {
                     Utils.getMDB().insertUnsendMessage(params[0], cid);
@@ -394,9 +413,9 @@ public class ChatActivity extends AppCompatActivity {
                     Message[] mOld = messagesArray;
                     messagesArray = new Message[mOld.length + 1];
                     System.arraycopy(mOld, 0, messagesArray, 0, mOld.length);
-                    messagesArray[mOld.length] =
-                            new Message(params[0]);
+                    messagesArray[mOld.length] = new Message(params[0]);
                     refreshUI(false, true);
+
                     try {
                         BufferedReader reader =
                                 new BufferedReader(
