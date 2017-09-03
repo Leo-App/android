@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);
         if (notificationTarget != -1) {
             Utils.closeAll();
