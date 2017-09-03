@@ -25,7 +25,6 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +42,6 @@ import com.google.zxing.Result;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.essensqr.EssensQRActivity;
@@ -62,12 +60,10 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler {
-
-    public static View        v;
-    public static ProgressBar pb;
+    public static View        cooredinatorLayout;
+    public static ProgressBar progressBar;
     public static TextView    title, info;
-    public static Button  verify;
-    public static Button  dismiss;
+    public static Button verify, dismiss;
     public static boolean editing;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
     private ZXingScannerView scV;
@@ -81,6 +77,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_startseite);
+        Utils.registerMainActivity(this);
+
+        Utils.context = getApplicationContext();
+
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);
         if (notificationTarget != -1) {
             Utils.closeAll();
@@ -104,13 +106,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_startseite);
-        Utils.registerMainActivity(this);
-
-        runningScan = false;
-        Utils.context = getApplicationContext();
-
         if (getIntent().getBooleanExtra("show_dialog", false)) {
             abstimmDialog = new AbstimmDialog(this);
             abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -129,12 +124,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (getIntent().getIntExtra("days", 15) <= 14) {
-            showDialog();
+            showVerificationDialog();
             //TODO neu verifizieren dialog!!!
         }
-
-        if (!Utils.getPreferences().getString("pref_key_request_cached", "-").equals("-"))
-            new MailSendTask().execute(Utils.getPreferences().getString("pref_key_request_cached", ""));
 
         //Schwarzes Brett: ViewTracker-Synchronization
         ArrayList<Integer> cachedViews = Utils.getCachedIDs();
@@ -143,47 +135,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         title = (TextView) findViewById(R.id.info_title0);
         info = (TextView) findViewById(R.id.info_text0);
         verify = (Button) findViewById(R.id.buttonCardView0);
-        pb = (ProgressBar) findViewById(R.id.progressBar1);
-        v = findViewById(R.id.coordinator);
         dismiss = (Button) findViewById(R.id.buttonDismissCardView0);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        cooredinatorLayout = findViewById(R.id.coordinator);
 
-        ImageButton help = (ImageButton) findViewById(R.id.help);
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri    webpage = Uri.parse("http://www.leoapp-slg.de");
-                Intent intent  = new Intent(Intent.ACTION_VIEW, webpage);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
-
-                // startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
-            }
-        });
-
-        final ImageButton feature = (ImageButton) findViewById(R.id.feature_request);
-        feature.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FeatureDialog dialog = new FeatureDialog(MainActivity.this);
-                dialog.show();
-                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-            }
-        });
-
-        boolean hide        = Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false);
-        boolean synchronize = Utils.getPreferences().getBoolean("pref_key_level_has_to_be_synchronized", false);
+        runningScan = false;
 
         initToolbar();
-        initCardViews();
+        initFeatureCards();
         initNavigationView();
+        initButtons();
 
-        synchronizeUsername();
-        synchronizeGrade();
+        new SyncTaskName().execute();
+        new SyncTaskGrade().execute();
 
-        if (synchronize)
-            new UpdateTaskGrade(this).execute();
+        if (!Utils.getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
+            new MailSendTask().execute(Utils.getPreferences().getString("pref_key_request_cached", ""));
+        }
+
+        if (Utils.getPreferences().getBoolean("pref_key_level_has_to_be_synchronized", false)) {
+            new UpdateTaskGrade(getApplicationContext()).execute();
+        }
 
         if (Utils.isVerified()) {
             MainActivity.dismiss.setVisibility(View.GONE);
@@ -192,13 +164,104 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             info.setText(getString(R.string.summary_info_auth_success));
             verify.setText(getString(R.string.button_info_noreminder));
         }
-        if (hide)
+
+        if (Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false)) {
             findViewById(R.id.card_view0).setVisibility(View.GONE);
+        }
 
         if (!EssensQRActivity.mensaModeRunning && Utils.getPreferences().getBoolean("pref_key_mensa_mode", false)) {
-            startActivity(new Intent(this, EssensQRActivity.class));
-        } else
+            startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
+        } else {
             EssensQRActivity.mensaModeRunning = false;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (editing) {
+            getMenuInflater().inflate(R.menu.startseite_edit, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.startseite, menu);
+            if (Utils.getPreferences().getBoolean("pref_key_card_config_quick", false))
+                menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
+            else
+                menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+        } else if (item.getItemId() == R.id.action_appedit) {
+            editing = true;
+            initFeatureCards();
+            findViewById(R.id.card_viewMain).setVisibility(View.GONE);
+            findViewById(R.id.card_view0).setVisibility(View.GONE);
+            final Handler handler = new Handler(); //Short delay for aesthetics
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    invalidateOptionsMenu();
+                }
+            }, 100);
+            getSupportActionBar().setTitle(getString(R.string.cards_customize));
+        } else if (item.getItemId() == R.id.action_appedit_done) {
+            editing = false;
+            writeCardsToPreferences();
+            initFeatureCards();
+            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
+            if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
+                findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
+            getSupportActionBar().setTitle(getString(R.string.title_home));
+            invalidateOptionsMenu();
+        } else if (item.getItemId() == R.id.action_appinfo_quick) {
+            writeCardsToPreferences();
+            boolean b = Utils.getPreferences().getBoolean("pref_key_card_config_quick", false);
+            Utils.getPreferences().edit()
+                    .putBoolean("pref_key_card_config_quick", !b)
+                    .apply();
+            initFeatureCards();
+            if (!b)
+                item.setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
+            else
+                item.setIcon(R.drawable.ic_widgets_white_24dp);
+        } else if (item.getItemId() == R.id.action_appedit_add) {
+            new CardAddDialog(this).show();
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (editing) {
+            editing = false;
+            initFeatureCards();
+            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
+            if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
+                findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
+            getSupportActionBar().setTitle(getString(R.string.title_home));
+            invalidateOptionsMenu();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            if (runningScan) {
+                runningScan = false;
+                scV.stopCamera();
+                finish();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                return false;
+            }
+            return super.onKeyDown(keyCode, event);
+        } else
+            return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -234,46 +297,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        } else if (item.getItemId() == R.id.action_appedit) {
-            editing = true;
-            initCardViews();
-            findViewById(R.id.card_viewMain).setVisibility(View.GONE);
-            findViewById(R.id.card_view0).setVisibility(View.GONE);
-            final Handler handler = new Handler(); //Short delay for aesthetics
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    invalidateOptionsMenu();
-                }
-            }, 100);
-            getSupportActionBar().setTitle(getString(R.string.cards_customize));
-        } else if (item.getItemId() == R.id.action_appedit_done) {
-            editing = false;
-            writeToPreferences();
-            initCardViews();
-            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
-            if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
-                findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
-            getSupportActionBar().setTitle(getString(R.string.title_home));
-            invalidateOptionsMenu();
-        } else if (item.getItemId() == R.id.action_appinfo_quick) {
-            writeToPreferences();
-            boolean b = Utils.getPreferences().getBoolean("pref_key_card_config_quick", false);
-            Utils.getPreferences().edit()
-                    .putBoolean("pref_key_card_config_quick", !b)
-                    .apply();
-            initCardViews();
-            if (!b)
-                item.setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
-            else
-                item.setIcon(R.drawable.ic_widgets_white_24dp);
-        } else if (item.getItemId() == R.id.action_appedit_add) {
-            new CardAddDialog(this).show();
+    protected void onPause() {
+        if (scV != null && scV.isActivated()) {
+            scV.stopCamera();
+            finish();
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        } else if (abstimmDialog != null) {
+            abstimmDialog.hide();
+            super.onPause();
+        } else {
+            super.onPause();
         }
-        return true;
     }
 
     @Override
@@ -288,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.buttonCardView0) {
             if (!Utils.isVerified())
-                showDialog();
+                showVerificationDialog();
             else {
                 Utils.getPreferences().edit()
                         .putBoolean("pref_key_dont_remind_me", true)
@@ -317,36 +351,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (editing) {
-            getMenuInflater().inflate(R.menu.startseite_edit, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.startseite, menu);
-            if (Utils.getPreferences().getBoolean("pref_key_card_config_quick", false))
-                menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
-            else
-                menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            if (runningScan) {
-                runningScan = false;
-                scV.stopCamera();
-                finish();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                return false;
-            }
-            return super.onKeyDown(keyCode, event);
-        } else
-            return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
     public void handleResult(Result result) {
         runningScan = false;
         scV.stopCamera();
@@ -362,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final Runnable r = new Runnable() {
                 @Override
                 public void run() {
-                    pb.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
                     title.setVisibility(View.GONE);
                     info.setVisibility(View.GONE);
                     verify.setVisibility(View.GONE);
@@ -387,64 +391,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onPause() {
-        if (scV != null && scV.isActivated()) {
-            scV.stopCamera();
-            finish();
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        } else if (abstimmDialog != null) {
-            abstimmDialog.hide();
-            super.onPause();
-        } else {
-            super.onPause();
-        }
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_USE_CAMERA: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-                    runningScan = true;
-                    scV = new ZXingScannerView(getApplicationContext());
-                    setContentView(scV);
-                    scV.setResultHandler(this);
-                    scV.startCamera(0);
-                }
-            }
+        if (requestCode == MY_PERMISSIONS_REQUEST_USE_CAMERA &&
+                grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startCamera();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-    public void showDialog() {
-        final AlertDialog builder  = new AlertDialog.Builder(this).create();
-        LayoutInflater    inflater = getLayoutInflater();
-        View              v        = inflater.inflate(R.layout.dialog_verification, null);
-        Button            b1, b2;
-        b1 = (Button) v.findViewById(R.id.buttonDialog1);
-        b2 = (Button) v.findViewById(R.id.buttonDialog2);
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                builder.dismiss();
-            }
-        });
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("LeoApp", "on click");
-                startCamera(builder);
-            }
-        });
-        builder.setView(v);
-        builder.show();
     }
 
     void initNavigationView() {
@@ -509,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mood.setImageResource(Utils.getCurrentMoodRessource());
     }
 
-    void initCardViews() {
+    void initFeatureCards() {
 
         findViewById(R.id.buttonCardView0).setOnClickListener(this);
         findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
@@ -594,6 +546,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private void initButtons() {
+        final ImageButton help = (ImageButton) findViewById(R.id.help);
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri    webpage = Uri.parse("http://www.leoapp-slg.de");
+                Intent intent  = new Intent(Intent.ACTION_VIEW, webpage);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+
+                // startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
+            }
+        });
+
+        final ImageButton feature = (ImageButton) findViewById(R.id.feature_request);
+        feature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FeatureDialog dialog = new FeatureDialog(MainActivity.this);
+                dialog.show();
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            }
+        });
+    }
+
+    public void showVerificationDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+
+        View v = getLayoutInflater().inflate(R.layout.dialog_verification, null);
+        v.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        v.findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                startCamera();
+            }
+        });
+        dialog.setView(v);
+
+        dialog.show();
+    }
+
     public void addCard(CardType t) {
 
         mAdapter.addToList(t);
@@ -603,16 +604,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void synchronizeUsername() {
-        new SyncTaskName().execute();
-    }
-
-    private void synchronizeGrade() {
-        new SyncTaskGrade().execute();
-    }
-
-    private void writeToPreferences() {
-
+    private void writeCardsToPreferences() {
         StringBuilder b = new StringBuilder("");
         if (mAdapter.cards.size() > 0) {
             for (mAdapter.cards.toFirst(); mAdapter.cards.hasAccess(); mAdapter.cards.next()) {
@@ -629,15 +621,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .apply();
     }
 
-    private void startCamera(AlertDialog b) {
-        b.dismiss();
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+    private void startCamera() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             Log.d("LeoApp", "No permission. Checking");
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    MY_PERMISSIONS_REQUEST_USE_CAMERA);
-            Log.d("LeoApp", "No permission. Checked");
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_USE_CAMERA);
         } else {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -645,26 +633,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setContentView(scV);
             scV.setResultHandler(this);
             scV.startCamera(0);
+
             runningScan = true;
         }
     }
 
     private boolean isValid(String s) {
         String[] parts = s.split("-");
+
         if (parts.length != 3)
             return false;
         Log.d("LeoApp", "passedLengthTest");
+
         int priority;
         int birthyear;
         if (parts[0].length() < 6)
             return false;
         Log.d("LeoApp", "passedUsernameLengthTest");
+
         try {
             priority = Integer.parseInt(parts[1]);
             Log.d("LeoApp", "passedPriorityNumberTest");
+
             if (priority < 1 || priority > 2)
                 return false;
             Log.d("LeoApp", "passedPriorityNumberSizeTest");
+
             if (priority == 2)
                 birthyear = 0x58;
             else if (parts[0].length() != 12)
@@ -675,6 +669,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (NumberFormatException e) {
             return false;
         }
+
         return birthyear >= 0 && getChecksum(parts[0], priority, birthyear).equals(parts[2]);
     }
 
@@ -694,7 +689,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String getChecksum(String username, int priority, int birthyear) {
         Calendar c = new GregorianCalendar();
-        c.setTime(new Date());
+
         int year  = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH) + 1;
         int day   = c.get(Calendar.DAY_OF_MONTH);

@@ -85,7 +85,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                         if (Utils.isVerified())
                             Utils.getMainActivity().startActivity(new Intent(Utils.context, KlausurplanActivity.class));
                         else
-                            Utils.getMainActivity().showDialog();
+                            Utils.getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -102,7 +102,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                         if (Utils.isVerified())
                             Utils.getMainActivity().startActivity(new Intent(Utils.context, MessengerActivity.class));
                         else
-                            Utils.getMainActivity().showDialog();
+                            Utils.getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -119,7 +119,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                         if (Utils.isVerified())
                             Utils.getMainActivity().startActivity(new Intent(Utils.context, NachhilfeboerseActivity.class));
                         else
-                            Utils.getMainActivity().showDialog();
+                            Utils.getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -162,7 +162,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                         if (Utils.isVerified())
                             Utils.getMainActivity().startActivity(new Intent(Utils.context, StundenplanActivity.class));
                         else
-                            Utils.getMainActivity().showDialog();
+                            Utils.getMainActivity().showVerificationDialog();
                     }
                 };
                 break;

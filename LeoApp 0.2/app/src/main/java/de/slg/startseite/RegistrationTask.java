@@ -102,12 +102,12 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             MainActivity.title.setText(c.getString(R.string.title_info_auth));
             MainActivity.info.setText(c.getString(R.string.summary_info_auth_success));
             MainActivity.verify.setText(c.getString(R.string.button_info_noreminder));
-            MainActivity.pb.setVisibility(View.GONE);
+            MainActivity.progressBar.setVisibility(View.GONE);
             MainActivity.title.setVisibility(View.VISIBLE);
             MainActivity.info.setVisibility(View.VISIBLE);
             MainActivity.verify.setVisibility(View.VISIBLE);
             MainActivity.dismiss.setVisibility(View.GONE);
-            Utils.getMainActivity().initCardViews();
+            Utils.getMainActivity().initFeatureCards();
             Utils.getMainActivity().initNavigationView();
             Calendar c = new GregorianCalendar();
             c.add(Calendar.YEAR, 1);
@@ -121,14 +121,14 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         } else {
             if (!connection) {
                 showSnackbar();
-                MainActivity.pb.setVisibility(View.GONE);
+                MainActivity.progressBar.setVisibility(View.GONE);
                 MainActivity.title.setVisibility(View.VISIBLE);
                 MainActivity.info.setVisibility(View.VISIBLE);
                 MainActivity.verify.setVisibility(View.VISIBLE);
             } else {
                 MainActivity.info.setText(c.getString(R.string.summary_info_auth_failed));
                 MainActivity.title.setText(c.getString(R.string.error));
-                MainActivity.pb.setVisibility(View.GONE);
+                MainActivity.progressBar.setVisibility(View.GONE);
                 MainActivity.title.setVisibility(View.VISIBLE);
                 MainActivity.info.setVisibility(View.VISIBLE);
                 MainActivity.verify.setVisibility(View.VISIBLE);
@@ -141,7 +141,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         final Runnable r = new Runnable() {
             @Override
             public void run() {
-                final Snackbar cS = Snackbar.make(MainActivity.v, R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
+                final Snackbar cS = Snackbar.make(MainActivity.cooredinatorLayout, R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
                 cS.setActionTextColor(Color.WHITE);
                 cS.setAction(c.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
                     @Override
