@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import de.slg.leoapp.Utils;
+
 public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
 
     private final Context c;
@@ -30,7 +32,7 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
         try {
             int    id          = pref.getInt("pref_key_general_id", -1);
             String klasse      = pref.getString("pref_key_level_general", "N/A");
-            URL    interfaceDB = new URL("http://moritz.liegmanns.de/updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse);
+            URL    interfaceDB = new URL(Utils.BaseURL + "updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse);
             in = null;
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
             String inputLine;

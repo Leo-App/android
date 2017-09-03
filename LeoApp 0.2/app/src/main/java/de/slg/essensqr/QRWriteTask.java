@@ -176,7 +176,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         BufferedReader in     = null;
         String         result = "";
         try {
-            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/essenqr/qr_database.php?id=" + EssensQRActivity.sharedPref.getString("pref_key_qr_id", "00000")
+            URL interfaceDB = new URL(Utils.BaseURL + "essenqr/qr_database.php?id=" + EssensQRActivity.sharedPref.getString("pref_key_qr_id", "00000")
                     + "&auth=2SnDS7GBdHf5sd");
             Log.d("LeoApp", interfaceDB.toString());
             in = null;

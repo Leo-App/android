@@ -242,7 +242,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL("http://moritz.liegmanns.de/stimmungsbarometer/ergebnisse.php?key=5453&userid=" + Utils.getUserID())
+                                            new URL(Utils.BaseURL + "stimmungsbarometer/ergebnisse.php?key=5453&userid=" + Utils.getUserID())
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     String        line;

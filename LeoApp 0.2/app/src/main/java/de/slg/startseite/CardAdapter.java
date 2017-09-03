@@ -403,7 +403,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
             try {
                 if (!Utils.checkNetwork())
                     return null;
-                URL            apiURL = new URL("http://moritz.liegmanns.de/getWeatherData.php");
+                URL            apiURL = new URL(Utils.BaseURL + "getWeatherData.php");
                 BufferedReader b      = new BufferedReader(new InputStreamReader(apiURL.openConnection().getInputStream()));
                 String         current;
                 StringBuilder  json   = new StringBuilder();

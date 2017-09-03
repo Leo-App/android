@@ -8,11 +8,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import de.slg.leoapp.Utils;
+
 class EmpfangeFaecherUser extends AsyncTask<Void, Void, String[]> {
     protected String[] doInBackground(Void... params) {
         String[] result = new String[0];
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL("http://moritz.liegmanns.de/nachhilfeboerse/getFachUser1_0.php").openConnection();
+            HttpURLConnection connection = (HttpURLConnection) new URL(Utils.BaseURL + "nachhilfeboerse/getFachUser1_0.php").openConnection();
             BufferedReader    reader     = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
             String            erg        = "";
             String            l;

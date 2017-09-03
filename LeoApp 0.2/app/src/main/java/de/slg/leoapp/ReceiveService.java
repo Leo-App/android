@@ -259,13 +259,13 @@ public class ReceiveService extends Service {
         private String generateURL(Operator o) {
             switch (o) {
                 case Nachricht:
-                    return "http://moritz.liegmanns.de/messenger/getMessagesEncrypted.php?key=5453&userid=" + Utils.getUserID();
+                    return Utils.BaseURL + "messenger/getMessagesEncrypted.php?key=5453&userid=" + Utils.getUserID();
                 case Benutzer:
-                    return "http://moritz.liegmanns.de/messenger/getUsers.php?key=5453&userid=" + Utils.getUserID();
+                    return Utils.BaseURL + "messenger/getUsers.php?key=5453&userid=" + Utils.getUserID();
                 case Chat:
-                    return "http://moritz.liegmanns.de/messenger/getChats.php?key=5453&userid=" + Utils.getUserID();
+                    return Utils.BaseURL + "messenger/getChats.php?key=5453&userid=" + Utils.getUserID();
                 case Assoziation:
-                    return "http://moritz.liegmanns.de/messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID();
+                    return Utils.BaseURL + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID();
                 default:
                     return "";
             }
@@ -305,7 +305,7 @@ public class ReceiveService extends Service {
         }
 
         private String generateURL(String message, int cid) {
-            return "http://moritz.liegmanns.de/messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
+            return Utils.BaseURL + "messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
         }
     }
 
@@ -317,7 +317,7 @@ public class ReceiveService extends Service {
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL("http://moritz.liegmanns.de/schwarzesBrett/meldungen.php")
+                                            new URL(Utils.BaseURL + "schwarzesBrett/meldungen.php")
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     StringBuilder builder = new StringBuilder();

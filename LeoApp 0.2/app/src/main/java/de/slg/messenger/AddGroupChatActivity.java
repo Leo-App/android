@@ -190,11 +190,11 @@ public class AddGroupChatActivity extends AppCompatActivity {
         }
 
         private String generateURL(String cname) throws UnsupportedEncodingException {
-            return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + URLEncoder.encode(cname, "UTF-8") + "&chattype=" + Chat.ChatType.GROUP.toString().toLowerCase();
+            return Utils.BaseURL + "messenger/addChat.php?key=5453&chatname=" + URLEncoder.encode(cname, "UTF-8") + "&chattype=" + Chat.ChatType.GROUP.toString().toLowerCase();
         }
 
         private String generateURL(Assoziation assoziation) {
-            return "http://moritz.liegmanns.de/messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+            return Utils.BaseURL + "messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
 
         @Override

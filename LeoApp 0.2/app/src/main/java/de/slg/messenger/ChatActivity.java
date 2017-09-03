@@ -389,7 +389,7 @@ public class ChatActivity extends AppCompatActivity {
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                new URL("http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
+                                                new URL(Utils.BaseURL + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
                         String erg = "";
@@ -446,7 +446,7 @@ public class ChatActivity extends AppCompatActivity {
             String key      = Verschluesseln.createKey(message);
             String vMessage = Verschluesseln.encrypt(message, key);
             String vKey     = Verschluesseln.encryptKey(key);
-            return "http://moritz.liegmanns.de/messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + cid + "&vKey=" + vKey;
+            return Utils.BaseURL + "messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + cid + "&vKey=" + vKey;
         }
     }
 }

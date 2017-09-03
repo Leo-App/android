@@ -36,7 +36,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     protected List<Klausur> doInBackground(Void... params) {
         try {
             listeMitHeruntergeladenenKlausuren = new List<>();
-            URL               url           = new URL("http://moritz.liegmanns.de/klausurplan2017.xml");
+            URL               url           = new URL(Utils.BaseURL + "klausurplan2017.xml");
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setDoOutput(true);
