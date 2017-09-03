@@ -340,7 +340,7 @@ public class NotificationService extends Service {
     }
 
     private void stimmungsbarometernotification() {
-        if (Utils.getPreferences().getBoolean("pref_key_notification_survey", false) && Utils.getMainActivity() == null && Utils.showVoteOnStartup()) {
+        if (Utils.getPreferences().getBoolean("pref_key_notification_survey", false) && Utils.showVoteOnStartup()) {
             Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class);
 
             PendingIntent resultPendingIntent =
