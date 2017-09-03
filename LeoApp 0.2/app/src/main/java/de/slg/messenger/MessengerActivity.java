@@ -317,6 +317,7 @@ public class MessengerActivity extends AppCompatActivity {
         private void initRecyclerView() {
             selected = -1;
             rvChats = (RecyclerView) view.findViewById(R.id.recyclerView);
+
             chatClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -331,6 +332,7 @@ public class MessengerActivity extends AppCompatActivity {
                     view.findViewById(R.id.imageButtonMute).setVisibility(View.GONE);
                 }
             };
+
             chatLongClickListener = new View.OnLongClickListener() {
                 private int visibility;
 
@@ -352,6 +354,7 @@ public class MessengerActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
                     rvChats.getContext(),
@@ -359,6 +362,7 @@ public class MessengerActivity extends AppCompatActivity {
             );
             rvChats.addItemDecoration(mDividerItemDecoration);
             rvChats.setLayoutManager(linearLayoutManager);
+
             rvChats.setAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().chatArray, chatClickListener, chatLongClickListener));
         }
 
