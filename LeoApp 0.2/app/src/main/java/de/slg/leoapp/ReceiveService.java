@@ -187,7 +187,7 @@ public class ReceiveService extends Service {
                     for (String s : result) {
                         String[] current = s.split("_ ;_");
                         if (current.length == 3) {
-                            Chat c = new Chat(Integer.parseInt(current[0]), current[1], false, Chat.Chattype.valueOf(current[2].toUpperCase()));
+                            Chat c = new Chat(Integer.parseInt(current[0]), current[1], Chat.ChatType.valueOf(current[2].toUpperCase()));
                             Utils.getMDB().insertChat(c);
                         }
                     }

@@ -36,7 +36,7 @@ import de.slg.leoapp.Utils;
 public class ChatActivity extends AppCompatActivity {
     private int           cid;
     private String        cname;
-    private Chat.Chattype ctype;
+    private Chat.ChatType ctype;
     private Message[]     messagesArray;
     private boolean[]     selected;
     private boolean       hasSelected;
@@ -57,7 +57,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         cid = getIntent().getIntExtra("cid", -1);
         cname = getIntent().getStringExtra("cname");
-        ctype = Chat.Chattype.valueOf(getIntent().getStringExtra("ctype"));
+        ctype = Chat.ChatType.valueOf(getIntent().getStringExtra("ctype"));
         messagesArray = new Message[0];
         if (cid != -1)
             Utils.receiveMessenger();
@@ -173,7 +173,7 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        if (ctype != Chat.Chattype.PRIVATE && Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
+        if (ctype != Chat.ChatType.PRIVATE && Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
             actionBar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -194,7 +194,7 @@ public class ChatActivity extends AppCompatActivity {
                 sendMessage();
             }
         });
-        if (ctype == Chat.Chattype.GROUP && !Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
+        if (ctype == Chat.ChatType.GROUP && !Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
             etMessage.setEnabled(false);
             etMessage.setHint("Du bist nicht in diesem Chat!");
             sendButton.setEnabled(false);
@@ -298,7 +298,7 @@ public class ChatActivity extends AppCompatActivity {
                 layout.setGravity(Gravity.LEFT);
                 nachricht.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
                 uhrzeit.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
-                if (ctype == Chat.Chattype.PRIVATE) {
+                if (ctype == Chat.ChatType.PRIVATE) {
                     absender.setVisibility(View.GONE);
                 } else {
                     absender.setVisibility(View.VISIBLE);
@@ -370,7 +370,7 @@ public class ChatActivity extends AppCompatActivity {
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                new URL("http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.Chattype.PRIVATE.toString().toLowerCase())
+                                                new URL("http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
                         String erg = "";

@@ -262,7 +262,7 @@ public class NotificationService extends Service {
                 for (Message m : unread) {
                     String line = m.uname;
 
-                    if (Utils.getMDB().getType(m.cid) == Chat.Chattype.GROUP) {
+                    if (Utils.getMDB().getType(m.cid) == Chat.ChatType.GROUP) {
                         line += " @ " + m.cname;
                     }
 

@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,16 +33,17 @@ public class AddGroupChatActivity extends AppCompatActivity {
     private UserAdapter userAdapter;
     private boolean     chatnameSet, usersSelected;
     private MenuItem confirm;
-    private Chat     newChat;
 
     @Override
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_add_chat);
         Utils.registerAddGroupChatActivity(this);
+
         initToolbar();
         initListView();
         initEditText();
+
         chatnameSet = false;
         usersSelected = false;
     }
@@ -59,7 +59,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_confirm) {
-            createNewChat();
+            new CreateChat().execute();
         } else if (item.getItemId() == android.R.id.home) {
             finish();
         }
@@ -72,14 +72,8 @@ public class AddGroupChatActivity extends AppCompatActivity {
         Utils.registerAddGroupChatActivity(null);
     }
 
-    private void createNewChat() {
-        newChat = new Chat(-1, etChatname.getText().toString(), false, Chat.Chattype.GROUP);
-        new CreateChat().execute();
-    }
-
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarAddChat);
-        actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         actionBar.setTitle(R.string.title_new_groupchat);
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
@@ -88,11 +82,11 @@ public class AddGroupChatActivity extends AppCompatActivity {
     }
 
     private void initListView() {
-        ListView lvAllUsers = (ListView) findViewById(R.id.listViewAllUsers);
-        User[]   allUsers   = Utils.getMDB().getUsers();
+        ListView listView = (ListView) findViewById(R.id.listViewAllUsers);
+        User[]   allUsers = Utils.getMDB().getUsers();
         userAdapter = new UserAdapter(getApplicationContext(), allUsers);
-        lvAllUsers.setAdapter(userAdapter);
-        lvAllUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setAdapter(userAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
@@ -128,41 +122,49 @@ public class AddGroupChatActivity extends AppCompatActivity {
     }
 
     private class CreateChat extends AsyncTask<Void, Void, Void> {
+        private int    cid;
+        private String cname;
+
         @Override
         protected void onPreExecute() {
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+
+            cid = -1;
+            cname = etChatname.getText().toString();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            sendChat(newChat);
-            if (newChat.cid != -1) {
+            sendChat();
+
+            if (cid != -1) {
                 User[] members = userAdapter.getSelected();
-                sendAssoziation(new Assoziation(newChat.cid, Utils.getUserID()));
-                Utils.getMDB().insertAssoziation(new Assoziation(newChat.cid, Utils.getUserID()));
-                Utils.receiveMessenger();
+                sendAssoziation(new Assoziation(cid, Utils.getUserID()));
                 for (User member : members) {
-                    sendAssoziation(new Assoziation(newChat.cid, member.uid));
+                    sendAssoziation(new Assoziation(cid, member.uid));
                 }
             }
+
             return null;
         }
 
-        private void sendChat(Chat chat) {
+        private void sendChat() {
             try {
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
-                                        new URL(generateURL(chat))
+                                        new URL(generateURL(cname))
                                                 .openConnection()
                                                 .getInputStream(), "UTF-8"));
-                String erg = "";
-                String l;
+                StringBuilder builder = new StringBuilder();
+                String        l;
                 while ((l = reader.readLine()) != null)
-                    erg += l;
+                    builder.append(l);
                 reader.close();
-                chat.cid = Integer.parseInt(erg);
-                Utils.getMDB().insertAssoziation(new Assoziation(chat.cid, Utils.getUserID()));
+
+                cid = Integer.parseInt(builder.toString());
+
+                Utils.getMDB().insertChat(new Chat(cid, cname, Chat.ChatType.GROUP));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -177,19 +179,17 @@ public class AddGroupChatActivity extends AppCompatActivity {
                                             new URL(generateURL(assoziation))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
-                    String erg = "";
-                    String l;
-                    while ((l = reader.readLine()) != null)
-                        erg += l;
-                    Log.d("SendTask", "result of send Assoziation: " + erg);
+                    while (reader.readLine() != null)
+                        ;
+                    reader.close();
+                    Utils.getMDB().insertAssoziation(assoziation);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
         }
 
-        private String generateURL(Chat chat) throws UnsupportedEncodingException {
-            String chatname = URLEncoder.encode(chat.cname, "UTF-8");
-            return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + chatname + "&chattype=" + Chat.Chattype.GROUP.toString().toLowerCase();
+        private String generateURL(String cname) throws UnsupportedEncodingException {
+            return "http://moritz.liegmanns.de/messenger/addChat.php?key=5453&chatname=" + URLEncoder.encode(cname, "UTF-8") + "&chattype=" + Chat.ChatType.GROUP.toString().toLowerCase();
         }
 
         private String generateURL(Assoziation assoziation) {
@@ -198,12 +198,14 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Utils.receiveMessenger();
             findViewById(R.id.progressBar).setVisibility(View.GONE);
+
+            Utils.receiveMessenger();
+
             startActivity(new Intent(getApplicationContext(), ChatActivity.class)
-                    .putExtra("cid", newChat.cid)
-                    .putExtra("cname", newChat.cname)
-                    .putExtra("ctype", Chat.Chattype.GROUP.toString()));
+                    .putExtra("cid", cid)
+                    .putExtra("cname", cname)
+                    .putExtra("ctype", Chat.ChatType.GROUP.toString()));
             finish();
         }
     }

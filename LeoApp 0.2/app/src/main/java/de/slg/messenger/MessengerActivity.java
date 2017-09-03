@@ -236,7 +236,7 @@ public class MessengerActivity extends AppCompatActivity {
                             .putExtra("uid", clickedUser.uid)
                             .putExtra("cid", Utils.getMDB().getChatWith(clickedUser.uid))
                             .putExtra("cname", clickedUser.uname)
-                            .putExtra("ctype", Chat.Chattype.PRIVATE.toString()));
+                            .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
                 }
             };
             rvUsers.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -414,17 +414,17 @@ public class MessengerActivity extends AppCompatActivity {
                         lastMessage.setVisibility(View.GONE);
                         notify.setVisibility(View.GONE);
                     }
-                    if (c.ctype == Chat.Chattype.PRIVATE) {
+                    if (c.ctype == Chat.ChatType.PRIVATE) {
                         icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
                     } else {
                         icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
                     }
-                    if (c.mute) {
+                    if (c.cmute) {
                         iconMute.setVisibility(View.VISIBLE);
                     } else {
                         iconMute.setVisibility(View.GONE);
                     }
-                    buttonMute.setActivated(c.mute);
+                    buttonMute.setActivated(c.cmute);
                     if (position != selected) {
                         buttonDelete.setVisibility(View.GONE);
                         buttonMute.setVisibility(View.GONE);
@@ -444,7 +444,7 @@ public class MessengerActivity extends AppCompatActivity {
                     buttonMute.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Utils.getMDB().muteChat(c.cid, !c.mute);
+                            Utils.getMDB().muteChat(c.cid, !c.cmute);
                             selected = -1;
                             Utils.getMessengerActivity().notifyUpdate();
                         }
@@ -506,13 +506,13 @@ public class MessengerActivity extends AppCompatActivity {
                                 .putExtra("uid", clickedUser.uid)
                                 .putExtra("cid", Utils.getMDB().getChatWith(clickedUser.uid))
                                 .putExtra("cname", clickedUser.uname)
-                                .putExtra("ctype", Chat.Chattype.PRIVATE.toString()));
+                                .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
                     } else {
                         Chat clickedChat = (Chat) data[position];
                         startActivity(new Intent(getContext(), ChatActivity.class)
                                 .putExtra("cid", clickedChat.cid)
                                 .putExtra("cname", clickedChat.cname)
-                                .putExtra("ctype", Chat.Chattype.GROUP.toString()));
+                                .putExtra("ctype", Chat.ChatType.GROUP.toString()));
                     }
                 }
             };
