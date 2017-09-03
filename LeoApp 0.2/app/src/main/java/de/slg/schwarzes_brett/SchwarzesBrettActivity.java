@@ -33,7 +33,6 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.MessengerActivity;
 import de.slg.startseite.MainActivity;
@@ -164,10 +163,10 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 int remoteID = getRemoteId(groupPosition);
                 if (!Utils.isVerified() || Utils.getUserPermission() != 1 || Utils.messageAlreadySeen(remoteID))
                     return false;
-                String cache = Start.pref.getString("pref_key_cache_vieweditems", "");
+                String cache = Utils.getPreferences().getString("pref_key_cache_vieweditems", "");
                 if (!cache.equals(""))
                     cache += "-";
-                Start.pref.edit()
+                Utils.getPreferences().edit()
                         .putString("pref_key_cache_vieweditems", cache + "1:" + remoteID)
                         .apply();
                 if (Utils.checkNetwork())

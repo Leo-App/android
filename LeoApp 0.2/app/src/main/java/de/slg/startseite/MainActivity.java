@@ -4,13 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -53,7 +51,6 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
@@ -137,10 +134,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //TODO neu verifizieren dialog!!!
         }
 
-        Start.pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        if (!Start.pref.getString("pref_key_request_cached", "-").equals("-"))
-            new MailSendTask().execute(Start.pref.getString("pref_key_request_cached", ""));
+        if (!Utils.getPreferences().getString("pref_key_request_cached", "-").equals("-"))
+            new MailSendTask().execute(Utils.getPreferences().getString("pref_key_request_cached", ""));
 
         //Schwarzes Brett: ViewTracker-Synchronization
         ArrayList<Integer> cachedViews = Utils.getCachedIDs();
@@ -178,8 +173,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        boolean hide        = Start.pref.getBoolean("pref_key_dont_remind_me", false);
-        boolean synchronize = Start.pref.getBoolean("pref_key_level_has_to_be_synchronized", false);
+        boolean hide        = Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false);
+        boolean synchronize = Utils.getPreferences().getBoolean("pref_key_level_has_to_be_synchronized", false);
 
         initToolbar();
         initCardViews();
@@ -201,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (hide)
             findViewById(R.id.card_view0).setVisibility(View.GONE);
 
-        if (!EssensQRActivity.mensaModeRunning && Start.pref.getBoolean("pref_key_mensa_mode", false)) {
+        if (!EssensQRActivity.mensaModeRunning && Utils.getPreferences().getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(this, EssensQRActivity.class));
         } else
             EssensQRActivity.mensaModeRunning = false;
@@ -261,16 +256,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             writeToPreferences();
             initCardViews();
             findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
-            if (!Start.pref.getBoolean("pref_key_dont_remind_me", false))
+            if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
             getSupportActionBar().setTitle(getString(R.string.title_home));
             invalidateOptionsMenu();
         } else if (item.getItemId() == R.id.action_appinfo_quick) {
             writeToPreferences();
-            boolean                  b    = Start.pref.getBoolean("pref_key_card_config_quick", false);
-            SharedPreferences.Editor edit = Start.pref.edit();
-            edit.putBoolean("pref_key_card_config_quick", !b);
-            edit.apply();
+            boolean b = Utils.getPreferences().getBoolean("pref_key_card_config_quick", false);
+            Utils.getPreferences().edit()
+                    .putBoolean("pref_key_card_config_quick", !b)
+                    .apply();
             initCardViews();
             if (!b)
                 item.setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
@@ -296,9 +291,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!Utils.isVerified())
                 showDialog();
             else {
-                SharedPreferences.Editor e = Start.pref.edit();
-                e.putBoolean("pref_key_dont_remind_me", true);
-                e.apply();
+                Utils.getPreferences().edit()
+                        .putBoolean("pref_key_dont_remind_me", true)
+                        .apply();
                 Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
                 findViewById(R.id.card_view0).startAnimation(anim);
                 final Handler handler = new Handler(); //Remove card after animation
@@ -328,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getMenuInflater().inflate(R.menu.startseite_edit, menu);
         } else {
             getMenuInflater().inflate(R.menu.startseite, menu);
-            if (Start.pref.getBoolean("pref_key_card_config_quick", false))
+            if (Utils.getPreferences().getBoolean("pref_key_card_config_quick", false))
                 menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
             else
                 menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
@@ -526,7 +521,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();
 
-        final boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
+        final boolean quickLayout = Utils.getPreferences().getBoolean("pref_key_card_config_quick", false);
 
         RecyclerView.LayoutManager mLayoutManager = quickLayout
 
@@ -630,9 +625,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             b.append("");
         }
 
-        SharedPreferences.Editor e = Start.pref.edit();
-        e.putString("pref_key_card_config", b.toString());
-        e.apply();
+        Utils.getPreferences().edit()
+                .putString("pref_key_card_config", b.toString())
+                .apply();
     }
 
     private void startCamera(AlertDialog b) {

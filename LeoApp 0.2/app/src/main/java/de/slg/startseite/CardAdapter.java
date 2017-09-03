@@ -28,7 +28,6 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.GraphicUtils;
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.MessengerActivity;
 import de.slg.nachhilfe.NachhilfeboerseActivity;
@@ -46,7 +45,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
 
     {
         cards = new List<>();
-        String card_config = Start.pref.getString("pref_key_card_config",
+        String card_config = Utils.getPreferences().getString("pref_key_card_config",
                 "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;COMING_SOON");
         for (String card : card_config.split(";")) {
             if (card.length() > 0) {
@@ -189,7 +188,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Start.pref.getBoolean("pref_key_card_config_quick", false))
+                        if (Utils.getPreferences().getBoolean("pref_key_card_config_quick", false))
                             new ComingSoonDialog(Utils.getMainActivity()).show();
                     }
                 };
@@ -242,8 +241,8 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
     @Override
     public int getItemViewType(int position) {
         cards.toIndex(position);
-        Card ref = cards.getContent();
-        boolean quickLayout = Start.pref.getBoolean("pref_key_card_config_quick", false);
+        Card    ref         = cards.getContent();
+        boolean quickLayout = Utils.getPreferences().getBoolean("pref_key_card_config_quick", false);
         return quickLayout ? 2 : ref.large ? 1 : 0;
     }
 
@@ -252,7 +251,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
     public void onBindViewHolder(final CardViewHolder holder, final int position) {
         cards.toIndex(position);
         Card    c     = cards.getContent();
-        boolean quick = Start.pref.getBoolean("pref_key_card_config_quick", false);
+        boolean quick = Utils.getPreferences().getBoolean("pref_key_card_config_quick", false);
         if (MainActivity.editing)
             holder.wrapper.setCardElevation(25);
         else

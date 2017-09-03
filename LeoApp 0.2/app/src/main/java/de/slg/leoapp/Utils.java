@@ -3,11 +3,13 @@ package de.slg.leoapp;
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -34,7 +36,8 @@ import de.slg.stundenplan.StundenplanDB;
 
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
-    public static Context context;
+    public static  Context           context;
+    private static SharedPreferences preferences;
 
     //Activities
     private static MainActivity mainActivity;
@@ -96,23 +99,19 @@ public abstract class Utils {
         return context.getString(id);
     }
 
+    public static SharedPreferences getPreferences() {
+        if (preferences == null)
+            preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences;
+    }
+
     //Für Benachrichtigungen
-    public static long getLatestMessageDate() {
-        return Start.pref.getLong("pref_key_general_last_notification_messenger", 0);
-    }
-
-    static void notifiedMessenger() {
-        Start.pref.edit()
-                .putLong("pref_key_general_last_notification_messenger", getMDB().getLatestDateInDB())
-                .apply();
-    }
-
     static long getLatestSchwarzesBrettDate() {
-        return Start.pref.getLong("pref_key_general_last_notification_schwarzes_brett", 0);
+        return getPreferences().getLong("pref_key_general_last_notification_schwarzes_brett", 0);
     }
 
     static void notifiedSchwarzesBrett(long date) {
-        Start.pref.edit()
+        getPreferences().edit()
                 .putLong("pref_key_general_last_notification_schwarzes_brett", date)
                 .apply();
     }
@@ -182,7 +181,7 @@ public abstract class Utils {
     }
 
     public static int getCurrentMoodRessource() {
-        int i = Start.pref.getInt("pref_key_general_vote_id", -1);
+        int i = getPreferences().getInt("pref_key_general_vote_id", -1);
         switch (i) {
             case 1:
                 return R.drawable.ic_sentiment_very_satisfied_white_24px;
@@ -200,11 +199,11 @@ public abstract class Utils {
     }
 
     private static String getLastVote() {
-        return Start.pref.getString("pref_key_general_last_vote", "00.00");
+        return getPreferences().getString("pref_key_general_last_vote", "00.00");
     }
 
     public static void setLastVote(int vote) {
-        Start.pref.edit()
+        getPreferences().edit()
                 .putString("pref_key_general_last_vote", getCurrentDate())
                 .putInt("pref_key_general_vote_id", vote)
                 .apply();
@@ -360,29 +359,27 @@ public abstract class Utils {
     }
 
     public static int getUserID() {
-        if (Start.pref == null)
-            Start.initPref(context);
-        return Start.pref.getInt("pref_key_general_id", -1);
+        return getPreferences().getInt("pref_key_general_id", -1);
     }
 
     public static String getUserName() {
-        return Start.pref.getString("pref_key_username_general", "");
+        return getPreferences().getString("pref_key_username_general", "");
     }
 
     public static String getUserStufe() {
         try {
-            return Start.pref.getString("pref_key_level_general", "").replace("N/A", "");
+            return getPreferences().getString("pref_key_level_general", "").replace("N/A", "");
         } catch (ClassCastException e) {
             return "";
         }
     }
 
     public static int getUserPermission() {
-        return Start.pref.getInt("pref_key_general_permission", 0);
+        return getPreferences().getInt("pref_key_general_permission", 0);
     }
 
     public static String getLehrerKuerzel() {
-        return Start.pref.getString("pref_key_kuerzel_general", "");
+        return getPreferences().getString("pref_key_kuerzel_general", "");
     }
 
     public static boolean isVerified() {
@@ -406,7 +403,7 @@ public abstract class Utils {
 
     //Schwarzes Brett
     public static boolean messageAlreadySeen(int id) {
-        String   cache = Start.pref.getString("pref_key_cache_vieweditems", "");
+        String   cache = getPreferences().getString("pref_key_cache_vieweditems", "");
         String[] items = cache.split("-");
         for (String s : items) {
             if (s.matches("[01]:" + id))
@@ -417,7 +414,7 @@ public abstract class Utils {
 
     public static ArrayList<Integer> getCachedIDs() {
         ArrayList<Integer> cachedValues = new ArrayList<>();
-        String             cache        = Start.pref.getString("pref_key_cache_vieweditems", "");
+        String             cache        = getPreferences().getString("pref_key_cache_vieweditems", "");
         String[]           items        = cache.split("-");
         for (String s : items) {
             if (s.matches("1:.+"))

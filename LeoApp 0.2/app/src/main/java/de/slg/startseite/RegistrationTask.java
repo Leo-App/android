@@ -20,7 +20,6 @@ import java.util.GregorianCalendar;
 
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 
 class RegistrationTask extends AsyncTask<String, Void, Boolean> {
@@ -115,7 +114,10 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             c.set(Calendar.MONTH, Calendar.OCTOBER);
             c.set(Calendar.DAY_OF_MONTH, 1);
             String date = new SimpleDateFormat("dd.MM.yyyy").format(c.getTime());
-            Start.pref.edit().putString("valid_until", date).apply();
+            Utils.getPreferences()
+                    .edit()
+                    .putString("valid_until", date)
+                    .apply();
         } else {
             if (!connection) {
                 showSnackbar();

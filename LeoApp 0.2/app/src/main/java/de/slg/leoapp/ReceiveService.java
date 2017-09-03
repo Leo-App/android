@@ -51,14 +51,16 @@ public class ReceiveService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Utils.context = getApplicationContext();
-        Start.initPref(getApplicationContext());
         Utils.registerReceiveService(this);
+
         running = true;
         receiveMessages = false;
         receiveNews = false;
-        interval = getInterval(Start.pref.getInt("pref_key_refresh", 2));
+        interval = getInterval(Utils.getPreferences().getInt("pref_key_refresh", 2));
+
         new MessengerThread().start();
         new NewsThread().start();
+
         Log.i("ReceiveService", "Service (re)started!");
         return START_STICKY;
     }

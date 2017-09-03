@@ -20,14 +20,13 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 
 public class AbstimmDialog extends AlertDialog {
-    private final String[] gruende = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
-    int userid;
-    private int    voteid            = 0;
-    private String ausgewählterGrund = "";
+    private final String[] gruende           = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
+    private       int      userid            = Utils.getUserID();
+    private       int      voteid            = 0;
+    private       String   ausgewählterGrund = "";
     private View        confirm;
     private ImageButton very_satisfied;
     private ImageButton satisfied;
@@ -38,7 +37,6 @@ public class AbstimmDialog extends AlertDialog {
 
     public AbstimmDialog(@NonNull Context context) {
         super(context);
-        userid = Utils.getUserID();
     }
 
     @Override
@@ -56,6 +54,7 @@ public class AbstimmDialog extends AlertDialog {
         neutral = (ImageButton) findViewById(R.id.imageButtonN);
         dissatisfied = (ImageButton) findViewById(R.id.imageButtonD);
         bad_mood = (ImageButton) findViewById(R.id.imageButtonB);
+
         very_satisfied.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +120,7 @@ public class AbstimmDialog extends AlertDialog {
                 }
             }
         });
+
         View cancel = findViewById(R.id.buttonDialog1);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +132,7 @@ public class AbstimmDialog extends AlertDialog {
 
     private void initListView() {
         listView = (ListView) findViewById(R.id.listView);
-        if (Start.pref.getBoolean("pref_key_show_reasons_survey", false)) {
+        if (Utils.getPreferences().getBoolean("pref_key_show_reasons_survey", false)) {
             listView.setClickable(false);
             listView.setVisibility(View.VISIBLE);
             listView.setAdapter(new ListAdapterGrund(getContext(), gruende));
@@ -190,10 +190,13 @@ public class AbstimmDialog extends AlertDialog {
         @NonNull
         @Override
         public View getView(int position, View v, @NonNull ViewGroup group) {
-            if (v == null)
+            if (v == null) {
                 v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_item_grund, null);
+            }
+
             final TextView grund = (TextView) v.findViewById(R.id.textViewGrund);
             grund.setText(gruende[position]);
+
             return v;
         }
     }

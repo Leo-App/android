@@ -39,7 +39,6 @@ import de.slg.leoapp.List;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
@@ -68,7 +67,7 @@ public class KlausurplanActivity extends AppCompatActivity {
         initAddButton();
         initSnackbar();
 
-        löscheAlteKlausuren(Start.pref.getInt("pref_key_delete", -1));
+        löscheAlteKlausuren(Utils.getPreferences().getInt("pref_key_delete", -1));
         filternNachStufe(Utils.getUserStufe());
         refresh();
     }
@@ -400,7 +399,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.snackbar_no_connection_info, Toast.LENGTH_SHORT).show();
             }
             filternNachStufe(Utils.getUserStufe());
-            löscheAlteKlausuren(Start.pref.getInt("pref_key_delete", -1));
+            löscheAlteKlausuren(Utils.getPreferences().getInt("pref_key_delete", -1));
             return null;
         }
 

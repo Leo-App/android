@@ -1,11 +1,8 @@
 package de.slg.leoapp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,22 +13,15 @@ import java.util.GregorianCalendar;
 import de.slg.startseite.MainActivity;
 
 public class Start extends Activity {
-    public static SharedPreferences pref;
-
-    public static void initPref(Context context) {
-        pref = PreferenceManager.getDefaultSharedPreferences(context);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Utils.context = getApplicationContext();
-        initPref(getApplicationContext());
 
         int days = 15;
         try {
-            Date     d = new SimpleDateFormat("dd.MM.yyyy").parse(pref.getString("valid_until", "null"));
+            Date     d = new SimpleDateFormat("dd.MM.yyyy").parse(Utils.getPreferences().getString("valid_until", "null"));
             Calendar c = new GregorianCalendar();
             for (int i = 1; i <= 14; i++) {
                 c.add(Calendar.DAY_OF_MONTH, 1);

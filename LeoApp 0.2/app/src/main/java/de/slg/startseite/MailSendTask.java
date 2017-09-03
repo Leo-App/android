@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.MessagingException;
 
 import de.slg.leoapp.List;
-import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 
 class MailSendTask extends AsyncTask<String, Void, Void> {
@@ -15,10 +14,16 @@ class MailSendTask extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... strings) {
         String requestText = strings[0];
         if (!Utils.checkNetwork()) {
-            Start.pref.edit().putString("pref_key_request_cached", requestText).apply();
+            Utils.getPreferences()
+                    .edit()
+                    .putString("pref_key_request_cached", requestText)
+                    .apply();
             return null;
         }
-        Start.pref.edit().putString("pref_key_request_cached", "-").apply();
+        Utils.getPreferences()
+                .edit()
+                .putString("pref_key_request_cached", "-")
+                .apply();
         try {
             String emailBody = "<center>----------<h3>Feature Request</h3>----------</center><br/>" +
                     "<b>Name: </b> " + Utils.getUserName() + "<br/>" +

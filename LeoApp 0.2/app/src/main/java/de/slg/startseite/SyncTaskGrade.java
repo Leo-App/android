@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 
 class SyncTaskGrade extends AsyncTask<Void, Void, Void> {
@@ -40,7 +39,8 @@ class SyncTaskGrade extends AsyncTask<Void, Void, Void> {
         }
         if (result.startsWith("-"))
             return null;
-        Start.pref.edit()
+        Utils.getPreferences()
+                .edit()
                 .putString("pref_key_level_general", result)
                 .apply();
         return null;

@@ -32,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 
 import static android.view.View.GONE;
@@ -100,7 +99,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
     protected void onPostExecute(Bitmap result) {
         ProgressBar spinner = (ProgressBar) target.findViewById(R.id.progressBar1);
         spinner.setVisibility(INVISIBLE);
-        boolean loggedin = Start.pref.getBoolean("pref_key_status_loggedin", false);
+        boolean loggedin = Utils.getPreferences().getBoolean("pref_key_status_loggedin", false);
         if (!connection)
             ((QRFragment) qr).showSnackBarNoConnection();
 

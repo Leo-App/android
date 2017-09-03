@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.List;
-import de.slg.leoapp.Start;
 import de.slg.leoapp.Utils;
 
 class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
@@ -30,7 +29,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     KlausurenImportieren(Context context) {
         this.context = context;
         this.schriflich = Utils.getStundDB().gibSchriftlicheFaecherStrings();
-        this.filtern = Start.pref.getBoolean("pref_key_test_timetable_sync", false);
+        this.filtern = Utils.getPreferences().getBoolean("pref_key_test_timetable_sync", false);
     }
 
     @Override
