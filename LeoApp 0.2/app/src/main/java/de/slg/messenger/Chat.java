@@ -1,10 +1,10 @@
 package de.slg.messenger;
 
 public class Chat {
-    final boolean  cmute;
-    final ChatType ctype;
     final int      cid;
     final String   cname;
+    final ChatType ctype;
+    final boolean  cmute;
     final Message  m;
 
     public Chat(int cid, String cname, ChatType ctype) {
