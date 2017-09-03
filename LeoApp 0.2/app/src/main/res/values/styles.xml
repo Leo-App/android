@@ -38,10 +38,6 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
     <style name="StartTheme" parent="Theme.AppCompat.Light">
         <item name="android:background">@drawable/leo_splash</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

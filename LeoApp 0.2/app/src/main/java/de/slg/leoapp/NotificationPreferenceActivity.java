@@ -85,7 +85,7 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.toolbarSettings);
         actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        actionBar.setTitle(getString(R.string.title_settings_notifications));
+        actionBar.setTitle(R.string.title_settings_notifications);
         setSupportActionBar(actionBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

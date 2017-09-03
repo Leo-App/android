@@ -170,14 +170,15 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarChat);
-        actionBar.setTitle(cname);
-        setSupportActionBar(actionBar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.actionBarChat);
+        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+        toolbar.setTitle(cname);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         if (ctype != Chat.ChatType.PRIVATE && Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
-            actionBar.setOnClickListener(new View.OnClickListener() {
+            toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivityForResult(new Intent(getApplicationContext(), ChatEditActivity.class)

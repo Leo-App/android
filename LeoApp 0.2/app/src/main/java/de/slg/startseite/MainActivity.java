@@ -537,10 +537,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initToolbar() {
-        Toolbar t = (Toolbar) findViewById(R.id.toolbar);
-        t.setTitleTextColor(Color.WHITE);
-        t.setTitle(getString(R.string.title_home));
-        setSupportActionBar(t);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+        toolbar.setTitle(getString(R.string.title_home));
+        setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

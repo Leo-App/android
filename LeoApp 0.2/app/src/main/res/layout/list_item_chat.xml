@@ -64,6 +64,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:background="@drawable/background_send_button"
         android:padding="2dp"
         android:tint="@color/colorAccent"
         android:visibility="gone"

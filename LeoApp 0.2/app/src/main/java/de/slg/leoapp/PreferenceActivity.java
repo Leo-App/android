@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -355,9 +356,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     }
 
     private void initToolbar() {
-        Toolbar actionBar = (Toolbar) findViewById(R.id.toolbarSettings);
-        actionBar.setTitle(getString(R.string.title_settings));
-        setSupportActionBar(actionBar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarSettings);
+        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+        toolbar.setTitle(R.string.title_settings);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

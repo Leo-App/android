@@ -73,9 +73,10 @@ public class AddGroupChatActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarAddChat);
-        actionBar.setTitle(R.string.title_new_groupchat);
-        setSupportActionBar(actionBar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.actionBarAddChat);
+        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+        toolbar.setTitle(R.string.title_new_groupchat);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

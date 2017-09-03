@@ -105,10 +105,10 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        Toolbar actionBar = (Toolbar) findViewById(R.id.actionBarOverview);
-        actionBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        actionBar.setTitle("Messenger");
-        setSupportActionBar(actionBar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.actionBarOverview);
+        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+        toolbar.setTitle(R.string.title_messenger);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
