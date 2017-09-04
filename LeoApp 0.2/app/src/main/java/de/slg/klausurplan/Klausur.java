@@ -61,18 +61,6 @@ class Klausur {
         this.notiz = notiz;
     }
 
-    String getNote() {
-        if (note == null)
-            return "";
-        return note;
-    }
-
-    void setNote(String note) {
-        if (note == null)
-            note = "";
-        this.note = note;
-    }
-
     void setDatum(Date datum) {
         if (datum != null)
             this.datum = datum;
