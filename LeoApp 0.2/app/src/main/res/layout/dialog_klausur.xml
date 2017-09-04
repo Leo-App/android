@@ -129,25 +129,13 @@
         android:textAllCaps="true"/>
 
     <Button
-        android:id="@+id/buttonExamDis"
-        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/buttonExamSave"
-        android:layout_alignBottom="@+id/buttonExamSave"
-        android:layout_toLeftOf="@+id/buttonExamSave"
-        android:layout_toStartOf="@+id/buttonExamSave"
-        android:text="@string/discard"
-        android:textAllCaps="true" />
-
-    <Button
         android:id="@+id/buttonExamDel"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/buttonExamDis"
-        android:layout_alignBottom="@id/buttonExamDis"
-        android:layout_toLeftOf="@id/buttonExamDis"
+        android:layout_alignBaseline="@id/buttonExamSave"
+        android:layout_alignBottom="@id/buttonExamSave"
+        android:layout_toLeftOf="@id/buttonExamSave"
         android:enabled="false"
         android:text="@string/action_delete"
         android:textAllCaps="true"/>

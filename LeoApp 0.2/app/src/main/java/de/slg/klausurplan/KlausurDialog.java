@@ -50,13 +50,6 @@ class KlausurDialog extends AppCompatDialog {
             }
         });
 
-        findViewById(R.id.buttonExamDis).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
-
         findViewById(R.id.buttonExamSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
