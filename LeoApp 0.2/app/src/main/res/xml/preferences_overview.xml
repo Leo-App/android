@@ -9,9 +9,11 @@
             android:enabled="true"
             android:hint="@string/settings_title_username"
             android:key="pref_key_username_general"
+            android:maxEms="20"
             android:maxLines="1"
+            android:singleLine="true"
             android:summary="@string/settings_summary_username"
-            android:title="@string/settings_title_username" />
+            android:title="@string/settings_title_username"/>
 
         <de.slg.startseite.ClassPickerPref
             android:enabled="true"
