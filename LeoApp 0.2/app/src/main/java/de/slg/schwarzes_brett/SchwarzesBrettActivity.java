@@ -216,10 +216,10 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         SQLiteDatabase  dbh   = db.getReadableDatabase();
         String          stufe = Utils.getUserStufe();
         Cursor          cursor;
-        if (!stufe.equals("")) {
-            cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null, null, null, null);
+        if (!stufe.equals("") || !stufe.equals("TEA")) {
+            cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null, null, null, null);
         } else {
-            cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM}, null, null, null, null, null);
+            cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, null, null, null, null, null);
         }
         schwarzesBrett = new LinkedHashMap<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -230,7 +230,8 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             String[] children = {cursor.getString(0),
                     cursor.getString(2),
                     simpleDateFormat.format(erstelldatum) +
-                            " - " + simpleDateFormat.format(ablaufdatum)};
+                            " - " + simpleDateFormat.format(ablaufdatum),
+            cursor.getString(5)};
             loadChildren(children);
             schwarzesBrett.put(cursor.getString(1), childList);
         }

@@ -11,11 +11,12 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     static final         String EINTRAEGE_TITEL        = "titel";
     static final         String EINTRAEGE_ADRESSAT     = "adressat";
     static final         String EINTRAEGE_INHALT       = "inhalt";
+    static final         String EINTRAEGE_ANHANG       = "anhang";
     static final         String EINTRAEGE_ERSTELLDATUM = "erstelldatum";
     static final         String EINTRAEGE_ABLAUFDATUM  = "ablaufdatum";
     static final         String EINTRAEGE_REMOTE_ID    = "remoteid";
     static final         String EINTRAEGE_VIEWS        = "gesehen";
-    static final         String EINTRAEGE_ID           = "id";
+    private static final String EINTRAEGE_ID           = "id";
     private static final String DATABASE_NAME          = "entries.db";
 
     public SQLiteConnector(Context c) {
@@ -32,7 +33,8 @@ public class SQLiteConnector extends SQLiteOpenHelper {
                 EINTRAEGE_ERSTELLDATUM + " TEXT NOT NULL, " +
                 EINTRAEGE_ABLAUFDATUM + " TEXT NOT NULL, " +
                 EINTRAEGE_REMOTE_ID + " INTEGER NOT NULL, " +
-                EINTRAEGE_VIEWS + " INTEGER NOT NULL" +
+                EINTRAEGE_VIEWS + " INTEGER NOT NULL, " +
+                EINTRAEGE_ANHANG + " VARCHAR" +
                 ")");
     }
 
@@ -47,7 +49,7 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public ContentValues getContentValues(String titel, String adressat, String inhalt, long erstelldatum, long ablaufdatum, int remoteid, int views) {
+    public ContentValues getContentValues(String titel, String adressat, String inhalt, long erstelldatum, long ablaufdatum, int remoteid, int views, String path) {
         ContentValues values = new ContentValues();
         values.put(EINTRAEGE_TITEL, titel);
         values.put(EINTRAEGE_ADRESSAT, adressat);
@@ -56,6 +58,7 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         values.put(EINTRAEGE_ABLAUFDATUM, ablaufdatum);
         values.put(EINTRAEGE_REMOTE_ID, remoteid);
         values.put(EINTRAEGE_VIEWS, views);
+        values.put(EINTRAEGE_ANHANG, path);
         return values;
     }
 

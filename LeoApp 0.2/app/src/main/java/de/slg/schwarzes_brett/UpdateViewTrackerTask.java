@@ -15,7 +15,6 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
     @Override
     protected Void doInBackground(Integer... params) {
         for (Integer cur : params) {
-            Log.wtf("LeoApp", "syncing " + cur);
             remote = cur;
             try {
                 URL updateURL = new URL("http://www.moritz.liegmanns.de/updateViewTracker.php?key=5453&remote=" + remote);

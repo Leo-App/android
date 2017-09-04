@@ -1,10 +1,13 @@
 package de.slg.schwarzes_brett;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -58,14 +61,40 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        if (!isLastChild) {
+        if (isLastChild) {
+            convertView = inflater.inflate(R.layout.list_item_expandable_child_alt, null);
+            TextView textViewDate = (TextView) convertView.findViewById(R.id.textViewDate);
+            textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
+        } else if(childPosition == 0) {
             convertView = inflater.inflate(R.layout.list_item_expandable_child, null);
             TextView textView = (TextView) convertView.findViewById(R.id.textView);
             textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
         } else {
             convertView = inflater.inflate(R.layout.list_item_expandable_child_alt, null);
-            TextView textViewDate = (TextView) convertView.findViewById(R.id.textViewDate);
-            textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
+
+            final String rawLocation = eintraege.get(titel.get(groupPosition)).get(3);
+            String[] components = rawLocation.split("/");
+
+            ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewDateIcon);
+            iv.setImageResource(R.drawable.ic_file_download_black_24dp);
+            iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new FileDownloadTask().execute(rawLocation);
+                }
+            });
+
+
+            TextView textView = (TextView) convertView.findViewById(R.id.textView);
+            textView.setText(components[components.length-1]);
+            textView.setPaintFlags(textView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new FileDownloadTask().execute(rawLocation);
+                }
+            });
         }
         return convertView;
     }
