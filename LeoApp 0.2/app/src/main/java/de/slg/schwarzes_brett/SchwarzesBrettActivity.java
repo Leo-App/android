@@ -252,11 +252,24 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             Date             erstelldatum     = new Date(cursor.getLong(3));
             Date             ablaufdatum      = new Date(cursor.getLong(4));
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
-            String[] children = {cursor.getString(0),
-                    cursor.getString(2),
-                    simpleDateFormat.format(erstelldatum) +
-                            " - " + simpleDateFormat.format(ablaufdatum),
-                    cursor.getString(5)};
+
+            String[] children;
+
+            if(cursor.getString(5).equals("null")) {
+
+                children = new String[]{cursor.getString(0),
+                        cursor.getString(2),
+                        simpleDateFormat.format(erstelldatum) +
+                                " - " + simpleDateFormat.format(ablaufdatum)
+                };
+
+            } else {
+                children = new String[]{cursor.getString(0),
+                        cursor.getString(2),
+                        simpleDateFormat.format(erstelldatum) +
+                                " - " + simpleDateFormat.format(ablaufdatum),
+                        cursor.getString(5)};
+            }
             loadChildren(children);
             schwarzesBrett.put(cursor.getString(1), childList);
         }
@@ -307,8 +320,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            if (convertView == null)
-                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
+            convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
             TextView textView = (TextView) convertView.findViewById(R.id.textView);
             textView.setText((String) getGroup(groupPosition));
             TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
