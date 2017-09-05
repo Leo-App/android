@@ -14,11 +14,11 @@ class FileDownloadTask extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
 
-        Uri location = Uri.parse(Utils.BASE_URL + params[0].substring(1));
-        String filename = params[0].substring(params[0].lastIndexOf('/')+1);
+        Uri    location = Uri.parse(Utils.BASE_URL + params[0].substring(1));
+        String filename = params[0].substring(params[0].lastIndexOf('/') + 1);
 
-        DownloadManager downloadManager = (DownloadManager) Utils.context.getSystemService(Context.DOWNLOAD_SERVICE);
-        DownloadManager.Request request = new DownloadManager.Request(location);
+        DownloadManager         downloadManager = (DownloadManager) Utils.context.getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request         = new DownloadManager.Request(location);
 
         request.setTitle(filename);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);

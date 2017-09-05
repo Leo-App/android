@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -32,7 +31,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -198,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (item.getItemId() == R.id.action_appedit) {
             editing = true;
             initFeatureCards();
- //           findViewById(R.id.card_viewMain).setVisibility(View.GONE);
+            //           findViewById(R.id.card_viewMain).setVisibility(View.GONE);
             findViewById(R.id.card_view0).setVisibility(View.GONE);
             final Handler handler = new Handler(); //Short delay for aesthetics
             handler.postDelayed(new Runnable() {
@@ -212,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editing = false;
             writeCardsToPreferences();
             initFeatureCards();
-//            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
+            //            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
             if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
             getSupportActionBar().setTitle(getString(R.string.title_home));
@@ -239,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (editing) {
             editing = false;
             initFeatureCards();
- //           findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
+            //           findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
             if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
             getSupportActionBar().setTitle(getString(R.string.title_home));
@@ -466,8 +464,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.buttonCardView0).setOnClickListener(this);
         findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
 
-//        TextView version = (TextView) findViewById(R.id.versioncode_maincard);
- //       version.setText(Utils.getAppVersionName());
+        //        TextView version = (TextView) findViewById(R.id.versioncode_maincard);
+        //       version.setText(Utils.getAppVersionName());
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();

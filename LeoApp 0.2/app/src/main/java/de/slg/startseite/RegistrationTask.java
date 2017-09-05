@@ -119,7 +119,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
                     .putString("valid_until", date)
                     .apply();
 
-            if(Utils.getPreferences().getInt("pref_key_level_general", -1) == 2) {
+            if (Utils.getPreferences().getInt("pref_key_level_general", -1) == 2) {
                 Utils.getPreferences().edit().putBoolean("pref_key_notification_test", false)
                         .putBoolean("pref_key_notification_essensqr", false)
                         .putBoolean("pref_key_notification_news", false)
