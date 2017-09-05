@@ -2,7 +2,6 @@ package de.slg.schwarzes_brett;
 
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -16,31 +15,25 @@ class FileDownloadTask extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
         try {
-            DataInputStream inputStream =
-                    new DataInputStream(
-                            new URL(Utils.BASE_URL + params[0].substring(1))
-                                    .openStream());
-
             String filename = params[0].substring(params[0].lastIndexOf('/')+1);
             String directory =
                     Environment.getExternalStorageDirectory() + File.separator
                             + "LeoApp" + File.separator
                             + "data" + File.separator;
 
-            Log.wtf("TAG", directory);
-            Log.wtf("TAG", filename);
-            Log.wtf("TAG", "canWrite = " + Environment.getExternalStorageDirectory().canWrite());
-
-            File dir = new File(directory);
-            dir.mkdirs();
-            Log.wtf("TAG", String.valueOf(dir.isDirectory()));
+            new File(directory).mkdirs();
             File file = new File(directory + filename);
             file.createNewFile();
 
             byte[] buffer = new byte[1024];
             int    length;
 
+            DataInputStream inputStream =
+                    new DataInputStream(
+                            new URL(Utils.BASE_URL + params[0].substring(1))
+                                    .openStream());
             FileOutputStream outputStream = new FileOutputStream(file);
+
             while ((length = inputStream.read(buffer)) > 0) {
                 outputStream.write(buffer, 0, length);
             }

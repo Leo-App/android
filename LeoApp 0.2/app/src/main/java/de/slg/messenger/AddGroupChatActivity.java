@@ -11,10 +11,8 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -29,10 +27,14 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class AddGroupChatActivity extends AppCompatActivity {
-    private EditText    etChatname;
-    private UserAdapter userAdapter;
-    private boolean     chatnameSet, usersSelected;
+    private EditText etChatname;
     private MenuItem confirm;
+
+    private User[] users = Utils.getMDB().getUsers();
+    private boolean[] selection;
+    private int       selected;
+
+    private boolean chatnameSet, usersSelected;
 
     @Override
     protected void onCreate(Bundle savedInstancesState) {
@@ -41,8 +43,9 @@ public class AddGroupChatActivity extends AppCompatActivity {
         Utils.registerAddGroupChatActivity(this);
 
         initToolbar();
-        initListView();
+        initContainer();
         initEditText();
+        initSearchButton();
 
         chatnameSet = false;
         usersSelected = false;
@@ -73,34 +76,13 @@ public class AddGroupChatActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.actionBarAddChat);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(R.string.title_new_groupchat);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
-    private void initListView() {
-        ListView listView = (ListView) findViewById(R.id.listViewAllUsers);
-        User[]   allUsers = Utils.getMDB().getUsers();
-        userAdapter = new UserAdapter(getApplicationContext(), allUsers);
-        listView.setAdapter(userAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-                checkBox.setChecked(!checkBox.isChecked());
-                final TextView username = (TextView) view.findViewById(R.id.username);
-                int            color    = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
-                if (!checkBox.isChecked())
-                    color = ContextCompat.getColor(getApplicationContext(), R.color.colorText);
-                username.setTextColor(color);
-                usersSelected = userAdapter.selectCount() > 0;
-                confirm.setVisible(chatnameSet && usersSelected);
-            }
-        });
     }
 
     private void initEditText() {
@@ -112,12 +94,61 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                chatnameSet = s.length() > 0;
+                confirm.setVisible(chatnameSet && usersSelected);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                chatnameSet = s.length() > 0;
-                confirm.setVisible(chatnameSet && usersSelected);
+            }
+        });
+    }
+
+    private void initContainer() {
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayoutUsers);
+        linearLayout.removeAllViews();
+
+        for (int i = 0; i < users.length; i++) {
+            User u = users[i];
+            View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
+
+            final TextView username    = (TextView) v.findViewById(R.id.username);
+            final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+
+            username.setText(u.uname);
+            userdefault.setText(u.udefaultname + ", " + u.ustufe);
+
+            v.findViewById(R.id.checkBox).setVisibility(View.GONE);
+
+            final int finalI = i;
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selection[finalI] = !selection[finalI];
+                    v.setSelected(selection[finalI]);
+
+                    if (selection[finalI])
+                        selected++;
+                    else
+                        selected--;
+
+                    usersSelected = (selected > 0);
+                }
+            });
+
+            linearLayout.addView(v);
+        }
+
+        selected = 0;
+        selection = new boolean[users.length];
+    }
+
+    private void initSearchButton() {
+        View v = findViewById(R.id.floatingActionButton);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //                findViewById(R.id.editTextSearch).startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.text_view_slide_in));
             }
         });
     }
@@ -139,10 +170,10 @@ public class AddGroupChatActivity extends AppCompatActivity {
             sendChat();
 
             if (cid != -1) {
-                User[] members = userAdapter.getSelected();
                 sendAssoziation(new Assoziation(cid, Utils.getUserID()));
-                for (User member : members) {
-                    sendAssoziation(new Assoziation(cid, member.uid));
+                for (int i = 0; i < users.length; i++) {
+                    if (selection[i])
+                        sendAssoziation(new Assoziation(cid, users[i].uid));
                 }
             }
 
