@@ -32,7 +32,7 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
         try {
             int    id          = pref.getInt("pref_key_general_id", -1);
             String klasse      = pref.getString("pref_key_level_general", "N/A");
-            URL    interfaceDB = new URL(Utils.BaseURL + "updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse);
+            URL    interfaceDB = new URL(Utils.BASE_URL + "updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse);
             in = null;
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
             String inputLine;

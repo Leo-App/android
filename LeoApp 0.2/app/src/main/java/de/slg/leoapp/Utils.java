@@ -36,7 +36,7 @@ import de.slg.stundenplan.StundenplanDB;
 
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
-    public static final String BaseURL = "http://moritz.liegmanns.de/";
+    public static final String BASE_URL = "http://moritz.liegmanns.de/";
     public static  Context           context;
     private static SharedPreferences preferences;
     //Activities
@@ -156,7 +156,7 @@ public abstract class Utils {
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                new URL(Utils.BaseURL + "stimmungsbarometer/voted.php?key=5453&userid=" + getUserID())
+                                                new URL(Utils.BASE_URL + "stimmungsbarometer/voted.php?key=5453&userid=" + getUserID())
                                                         .openConnection()
                                                         .getInputStream(), "UTF-8"));
                         b = !Boolean.parseBoolean(reader.readLine());

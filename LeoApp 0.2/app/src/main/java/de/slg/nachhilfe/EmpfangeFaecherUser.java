@@ -14,7 +14,7 @@ class EmpfangeFaecherUser extends AsyncTask<Void, Void, String[]> {
     protected String[] doInBackground(Void... params) {
         String[] result = new String[0];
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(Utils.BaseURL + "nachhilfeboerse/getFachUser1_0.php").openConnection();
+            HttpURLConnection connection = (HttpURLConnection) new URL(Utils.BASE_URL + "nachhilfeboerse/getFachUser1_0.php").openConnection();
             BufferedReader    reader     = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
             String            erg        = "";
             String            l;
