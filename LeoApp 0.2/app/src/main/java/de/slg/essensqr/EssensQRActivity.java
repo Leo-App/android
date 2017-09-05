@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -193,6 +194,7 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
 
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.toolbar_title));
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
