@@ -68,7 +68,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getMainActivity().startActivity(new Intent(Utils.context, EssensQRActivity.class));
+                        Utils.getMainActivity().startActivity(new Intent(Utils.getContext(), EssensQRActivity.class));
                     }
                 };
                 break;
@@ -83,7 +83,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                     @Override
                     public void onClick(View v) {
                         if (Utils.isVerified())
-                            Utils.getMainActivity().startActivity(new Intent(Utils.context, KlausurplanActivity.class));
+                            Utils.getMainActivity().startActivity(new Intent(Utils.getContext(), KlausurplanActivity.class));
                         else
                             Utils.getMainActivity().showVerificationDialog();
                     }
@@ -100,7 +100,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                     @Override
                     public void onClick(View v) {
                         if (Utils.isVerified())
-                            Utils.getMainActivity().startActivity(new Intent(Utils.context, MessengerActivity.class));
+                            Utils.getMainActivity().startActivity(new Intent(Utils.getContext(), MessengerActivity.class));
                         else
                             Utils.getMainActivity().showVerificationDialog();
                     }
@@ -117,7 +117,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                     @Override
                     public void onClick(View v) {
                         if (Utils.isVerified())
-                            Utils.getMainActivity().startActivity(new Intent(Utils.context, NachhilfeboerseActivity.class));
+                            Utils.getMainActivity().startActivity(new Intent(Utils.getContext(), NachhilfeboerseActivity.class));
                         else
                             Utils.getMainActivity().showVerificationDialog();
                     }
@@ -132,7 +132,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getMainActivity().startActivity(new Intent(Utils.context, SchwarzesBrettActivity.class));
+                        Utils.getMainActivity().startActivity(new Intent(Utils.getContext(), SchwarzesBrettActivity.class));
                     }
                 };
                 break;
@@ -145,7 +145,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getMainActivity().startActivity(new Intent(Utils.context, StimmungsbarometerActivity.class));
+                        Utils.getMainActivity().startActivity(new Intent(Utils.getContext(), StimmungsbarometerActivity.class));
                     }
                 };
                 break;
@@ -160,7 +160,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                     @Override
                     public void onClick(View v) {
                         if (Utils.isVerified())
-                            Utils.getMainActivity().startActivity(new Intent(Utils.context, StundenplanActivity.class));
+                            Utils.getMainActivity().startActivity(new Intent(Utils.getContext(), StundenplanActivity.class));
                         else
                             Utils.getMainActivity().showVerificationDialog();
                     }
@@ -175,7 +175,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getMainActivity().startActivity(new Intent(Utils.context, WrapperSubstitutionActivity.class));
+                        Utils.getMainActivity().startActivity(new Intent(Utils.getContext(), WrapperSubstitutionActivity.class));
                     }
                 };
                 break;
@@ -279,12 +279,12 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
             holder.description.setVisibility(GONE);
             holder.content.setVisibility(View.VISIBLE);
             holder.icon.setVisibility(GONE);
-            ImageView weatherIcon = new ImageView(Utils.context);
+            ImageView weatherIcon = new ImageView(Utils.getContext());
             weatherIcon.setId(generateViewId());
             weatherIcon.setImageResource(R.drawable.weather_partlycloudy);
-            TextView temperature = new TextView(Utils.context);
+            TextView temperature = new TextView(Utils.getContext());
             temperature.setId(generateViewId());
-            TextView humidity = new TextView(Utils.context);
+            TextView humidity = new TextView(Utils.getContext());
             new WeatherUpdateTask().execute(weatherIcon, temperature, humidity);
             weatherIcon.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
             if (quick) {
@@ -335,7 +335,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 humidity.setLayoutParams(layoutParamsTextViewHumid);
                 humidity.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                 humidity.setTextColor(Color.rgb(0x00, 0x91, 0xea));
-                RelativeLayout wrapper = new RelativeLayout(Utils.context);
+                RelativeLayout wrapper = new RelativeLayout(Utils.getContext());
                 wrapper.addView(temperature);
                 wrapper.addView(humidity);
                 RelativeLayout.LayoutParams layoutParamsWrapper = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);

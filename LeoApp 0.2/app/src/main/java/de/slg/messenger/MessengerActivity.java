@@ -60,7 +60,6 @@ public class MessengerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wrapper_messenger);
         Utils.registerMessengerActivity(this);
 
-        Utils.context = getApplicationContext();
         Utils.getMDB();
 
         initToolbar();

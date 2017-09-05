@@ -75,34 +75,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        notificationIntent();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startseite);
         Utils.registerMainActivity(this);
 
         Utils.context = getApplicationContext();
-
-        int notificationTarget = getIntent().getIntExtra("start_intent", -1);
-        if (notificationTarget != -1) {
-            Utils.closeAll();
-
-            switch (notificationTarget) {
-                case NotificationService.ID_ESSENSQR:
-                    startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
-                    break;
-
-                case NotificationService.ID_KLAUSURPLAN:
-                    startActivity(new Intent(getApplicationContext(), KlausurplanActivity.class));
-                    break;
-
-                case NotificationService.ID_MESSENGER:
-                    startActivity(new Intent(getApplicationContext(), MessengerActivity.class));
-                    break;
-
-                case NotificationService.ID_NEWS:
-                    startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
-                    break;
-            }
-        }
 
         if (getIntent().getBooleanExtra("show_dialog", false)) {
             abstimmDialog = new AbstimmDialog(this);
@@ -569,6 +548,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
         }); */
+    }
+
+    private void notificationIntent() {
+        int notificationTarget = getIntent().getIntExtra("start_intent", -1);
+        if (notificationTarget != -1) {
+            Utils.closeAll();
+
+            switch (notificationTarget) {
+                case NotificationService.ID_ESSENSQR:
+                    startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
+                    break;
+
+                case NotificationService.ID_KLAUSURPLAN:
+                    startActivity(new Intent(getApplicationContext(), KlausurplanActivity.class));
+                    break;
+
+                case NotificationService.ID_MESSENGER:
+                    startActivity(new Intent(getApplicationContext(), MessengerActivity.class));
+                    break;
+
+                case NotificationService.ID_NEWS:
+                    startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
+                    break;
+            }
+        }
     }
 
     public void showVerificationDialog() {

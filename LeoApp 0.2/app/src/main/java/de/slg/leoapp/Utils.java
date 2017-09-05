@@ -39,6 +39,7 @@ public abstract class Utils {
     public static final String BASE_URL = "http://moritz.liegmanns.de/";
     public static  Context           context;
     private static SharedPreferences preferences;
+
     //Activities
     private static MainActivity mainActivity;
 
@@ -71,7 +72,7 @@ public abstract class Utils {
     private static int currentlyDisplayedChatId = -1;
 
     public static boolean checkNetwork() {
-        ConnectivityManager c = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager c = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (c != null) {
             NetworkInfo n = c.getActiveNetworkInfo();
             if (n != null) {
@@ -84,7 +85,7 @@ public abstract class Utils {
     public static String getAppVersionName() {
         PackageInfo pInfo = null;
         try {
-            pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            pInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -92,16 +93,52 @@ public abstract class Utils {
     }
 
     public static NotificationManager getNotificationManager() {
-        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        return (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public static String getString(int id) {
-        return context.getString(id);
+        return getContext().getString(id);
+    }
+
+    public static Context getContext() {
+        if (context != null) {
+            return context;
+        } else if (mainActivity != null) {
+            return mainActivity;
+        } else if (messengerActivity != null) {
+            return messengerActivity;
+        } else if (chatActivity != null) {
+            return chatActivity;
+        } else if (chatEditActivity != null) {
+            return chatEditActivity;
+        } else if (addGroupChatActivity != null) {
+            return addGroupChatActivity;
+        } else if (schwarzesBrettActivity != null) {
+            return schwarzesBrettActivity;
+        } else if (stimmungsbarometerActivity != null) {
+            return stimmungsbarometerActivity;
+        } else if (stundenplanActivity != null) {
+            return stundenplanActivity;
+        } else if (stundenplanBildActivity != null) {
+            return stundenplanBildActivity;
+        } else if (auswahlActivity != null) {
+            return auswahlActivity;
+        } else if (klausurplanActivity != null) {
+            return klausurplanActivity;
+        } else if (essensQRActivity != null) {
+            return essensQRActivity;
+        } else if (preferenceActivity != null) {
+            return preferenceActivity;
+        } else if (notificationPreferenceActivity != null) {
+            return notificationPreferenceActivity;
+        }
+        return null;
     }
 
     public static SharedPreferences getPreferences() {
-        if (preferences == null)
-            preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (preferences == null && getContext() != null) {
+            preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        }
         return preferences;
     }
 
@@ -127,7 +164,7 @@ public abstract class Utils {
     //Datenbanken
     public static DBConnection getMDB() {
         if (dbConnection == null)
-            dbConnection = new DBConnection(context);
+            dbConnection = new DBConnection(getContext());
         return dbConnection;
     }
 
@@ -137,7 +174,7 @@ public abstract class Utils {
 
     public static StundenplanDB getStundDB() {
         if (stundenplanDB == null)
-            stundenplanDB = new StundenplanDB(context, 1);
+            stundenplanDB = new StundenplanDB(getContext(), 1);
         return stundenplanDB;
     }
 
