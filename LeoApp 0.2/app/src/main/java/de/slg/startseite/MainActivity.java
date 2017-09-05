@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (item.getItemId() == R.id.action_appedit) {
             editing = true;
             initFeatureCards();
-            findViewById(R.id.card_viewMain).setVisibility(View.GONE);
+ //           findViewById(R.id.card_viewMain).setVisibility(View.GONE);
             findViewById(R.id.card_view0).setVisibility(View.GONE);
             final Handler handler = new Handler(); //Short delay for aesthetics
             handler.postDelayed(new Runnable() {
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editing = false;
             writeCardsToPreferences();
             initFeatureCards();
-            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
+//            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
             if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
             getSupportActionBar().setTitle(getString(R.string.title_home));
@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (editing) {
             editing = false;
             initFeatureCards();
-            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
+ //           findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
             if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
             getSupportActionBar().setTitle(getString(R.string.title_home));
@@ -466,8 +466,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.buttonCardView0).setOnClickListener(this);
         findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
 
-        TextView version = (TextView) findViewById(R.id.versioncode_maincard);
-        version.setText(Utils.getAppVersionName());
+//        TextView version = (TextView) findViewById(R.id.versioncode_maincard);
+ //       version.setText(Utils.getAppVersionName());
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();
@@ -547,7 +547,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initButtons() {
-        final ImageButton help = (ImageButton) findViewById(R.id.help);
+ /*       final ImageButton help = (ImageButton) findViewById(R.id.help);
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -570,7 +570,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
-        });
+        }); */
     }
 
     public void showVerificationDialog() {
