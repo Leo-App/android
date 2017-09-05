@@ -86,7 +86,7 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
             });
 
 
-            TextView textView = (TextView) convertView.findViewById(R.id.textView);
+            TextView textView = (TextView) convertView.findViewById(R.id.textViewDate);
             textView.setText(components[components.length-1]);
             textView.setPaintFlags(textView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
             textView.setOnClickListener(new View.OnClickListener() {
