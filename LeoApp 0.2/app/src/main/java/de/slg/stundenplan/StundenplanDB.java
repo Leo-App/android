@@ -29,8 +29,8 @@ public class StundenplanDB extends SQLiteOpenHelper {
     private final SQLiteDatabase database;
     private final Context        context;
 
-    public StundenplanDB(Context context, int version) {
-        super(context, DATABASE_NAME, null, version);
+    public StundenplanDB(Context context) {
+        super(context, DATABASE_NAME, null, 1);
         database = getWritableDatabase();
         this.context = context;
     }

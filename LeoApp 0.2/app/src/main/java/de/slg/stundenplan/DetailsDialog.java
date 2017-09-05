@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,9 +23,6 @@ class DetailsDialog extends AlertDialog {
     private TextView tvLehrer;
     private TextView title;
 
-    private Button buttonDis;
-    private Button buttonSav;
-
     DetailsDialog(@NonNull Context context) {
         super(context);
     }
@@ -41,8 +37,6 @@ class DetailsDialog extends AlertDialog {
         etNotiz = (EditText) findViewById(R.id.notizFeld_details);
         cbSchrift = (CheckBox) findViewById(R.id.checkBox_schriftlich);
         title = (TextView) findViewById(R.id.title_details);
-        buttonDis = (Button) findViewById(R.id.buttonDis);
-        buttonSav = (Button) findViewById(R.id.buttonSav);
         findViewById(R.id.buttonDis).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

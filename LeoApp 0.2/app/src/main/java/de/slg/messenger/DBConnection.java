@@ -39,7 +39,7 @@ public class DBConnection {
     private final DBHelper       helper;
 
     public DBConnection(Context context) {
-        helper = new DBHelper(context, 4);
+        helper = new DBHelper(context);
         database = helper.getWritableDatabase();
     }
 
@@ -71,7 +71,7 @@ public class DBConnection {
     Message[] getMessagesFromChat(int cid) {
         String[]      columns   = {MESSAGE_ID, MESSAGE_TEXT, MESSAGE_DATE, USER_ID, MESSAGE_READ};
         String        selection = CHAT_ID + " = " + cid + " AND " + MESSAGE_DELETED + " = 0";
-        Cursor        cursor    = query(TABLE_MESSAGES, columns, selection, MESSAGE_DATE, null);
+        Cursor        cursor    = query(TABLE_MESSAGES, columns, selection, MESSAGE_DATE);
         List<Message> list      = new List<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             list.append(new Message(
@@ -85,7 +85,7 @@ public class DBConnection {
         }
         cursor.close();
         columns = new String[]{MESSAGE_ID, MESSAGE_TEXT};
-        cursor = query(TABLE_MESSAGES_UNSEND, columns, selection.substring(0, selection.indexOf(" AND")), MESSAGE_ID, null);
+        cursor = query(TABLE_MESSAGES_UNSEND, columns, selection.substring(0, selection.indexOf(" AND")), MESSAGE_ID);
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             list.append(new Message(
                     cursor.getInt(0),
@@ -105,7 +105,7 @@ public class DBConnection {
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
                 CHAT_MUTE + " = 0 AND " + TABLE_MESSAGES + "." + CHAT_ID + " != " + Utils.currentlyDisplayedChat();
-        Cursor    cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE, null);
+        Cursor    cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE);
         Message[] array  = new Message[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
@@ -116,7 +116,7 @@ public class DBConnection {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_READ + " = 0 AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + Utils.currentlyDisplayedChat(), null, null);
+        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_READ + " = 0 AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + Utils.currentlyDisplayedChat(), null);
         boolean b      = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -136,7 +136,7 @@ public class DBConnection {
     }
 
     public Message[] getUnsendMessages() {
-        Cursor    cursor = query(TABLE_MESSAGES_UNSEND, new String[]{MESSAGE_ID, MESSAGE_TEXT, CHAT_ID}, null, null, null);
+        Cursor    cursor = query(TABLE_MESSAGES_UNSEND, new String[]{MESSAGE_ID, MESSAGE_TEXT, CHAT_ID}, null, null);
         Message[] array  = new Message[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
@@ -151,7 +151,7 @@ public class DBConnection {
     }
 
     private boolean contains(Message m) {
-        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_ID + " = " + m.mid, null, null);
+        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_ID + " = " + m.mid, null);
         boolean b      = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -191,7 +191,7 @@ public class DBConnection {
     User[] getUsers() {
         String[] columns   = {USER_ID, USER_NAME, USER_STUFE, USER_PERMISSION, USER_DEFAULTNAME};
         String   selection = USER_ID + " != " + Utils.getUserID();
-        Cursor   cursor    = query(TABLE_USERS, columns, selection, USER_STUFE + ", " + USER_DEFAULTNAME, null);
+        Cursor   cursor    = query(TABLE_USERS, columns, selection, USER_STUFE + ", " + USER_DEFAULTNAME);
         User[]   array     = new User[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
@@ -204,7 +204,7 @@ public class DBConnection {
     private String getUname(int uid) {
         if (uid == Utils.getUserID())
             return Utils.getUserName();
-        Cursor cursor = query(TABLE_USERS, new String[]{USER_NAME}, USER_ID + " = " + uid, null, null);
+        Cursor cursor = query(TABLE_USERS, new String[]{USER_NAME}, USER_ID + " = " + uid, null);
         String erg    = null;
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
@@ -215,14 +215,14 @@ public class DBConnection {
     }
 
     private boolean contains(User u) {
-        Cursor  cursor = query(TABLE_USERS, new String[]{USER_ID}, USER_ID + " = " + u.uid, null, null);
+        Cursor  cursor = query(TABLE_USERS, new String[]{USER_ID}, USER_ID + " = " + u.uid, null);
         boolean b      = cursor.getCount() > 0;
         cursor.close();
         return b;
     }
 
     String getMyDefaultName() {
-        Cursor cursor = query(TABLE_USERS, new String[]{USER_DEFAULTNAME}, USER_ID + " = " + Utils.getUserID(), null, null);
+        Cursor cursor = query(TABLE_USERS, new String[]{USER_DEFAULTNAME}, USER_ID + " = " + Utils.getUserID(), null);
         cursor.moveToFirst();
         String udefaultname = "";
         if (cursor.getCount() > 0)
@@ -250,7 +250,7 @@ public class DBConnection {
         }
     }
 
-    Chat[] getChats(boolean withDeleted) {
+    Chat[] getChats() {
         String query = "SELECT c." +    //Index
                 CHAT_ID + ", c." +      // 0
                 CHAT_NAME + ", c." +    // 1
@@ -270,10 +270,10 @@ public class DBConnection {
                 " AND m." + MESSAGE_DATE + " = " +
                 "(SELECT MAX(m2." + MESSAGE_DATE + ")" +
                 " FROM Messages m2" +
-                " WHERE m2." + CHAT_ID + " = c." + CHAT_ID + " AND m2." + MESSAGE_DELETED + " = 0)";
-        if (!withDeleted)
-            query += " WHERE c." + CHAT_DELETED + " = 0";
-        query += " ORDER BY " + CHAT_MUTE + ", " + MESSAGE_DATE + " DESC";
+                " WHERE m2." + CHAT_ID + " = c." + CHAT_ID +
+                " AND m2." + MESSAGE_DELETED + " = 0)" +
+                " WHERE c." + CHAT_DELETED + " = 0" +
+                " ORDER BY " + CHAT_MUTE + ", " + MESSAGE_DATE + " DESC";
         Cursor cursor = rawQuery(query);
         Chat[] chats  = new Chat[cursor.getCount()];
         int    i      = 0;
@@ -311,7 +311,7 @@ public class DBConnection {
 
     int getChatWith(int uid) {
         String cname1 = uid + " - " + Utils.getUserID(), cname2 = Utils.getUserID() + " - " + uid;
-        Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_ID}, '(' + CHAT_NAME + " = '" + cname1 + "' OR " + CHAT_NAME + " = '" + cname2 + "') AND " + CHAT_TYPE + " = '" + Chat.ChatType.PRIVATE.toString() + "'", null, null);
+        Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_ID}, '(' + CHAT_NAME + " = '" + cname1 + "' OR " + CHAT_NAME + " = '" + cname2 + "') AND " + CHAT_TYPE + " = '" + Chat.ChatType.PRIVATE.toString() + "'", null);
         cursor.moveToFirst();
         int cid = -1;
         if (cursor.getCount() > 0) {
@@ -323,7 +323,7 @@ public class DBConnection {
     }
 
     private boolean contains(Chat c) {
-        Cursor  cursor = query(TABLE_CHATS, new String[]{CHAT_ID}, CHAT_ID + " = " + c.cid, null, null);
+        Cursor  cursor = query(TABLE_CHATS, new String[]{CHAT_ID}, CHAT_ID + " = " + c.cid, null);
         boolean b      = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -352,7 +352,7 @@ public class DBConnection {
     }
 
     boolean isMute(int cid) {
-        Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_MUTE}, CHAT_ID + " = " + cid, null, null);
+        Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_MUTE}, CHAT_ID + " = " + cid, null);
         cursor.moveToFirst();
         boolean b = cursor.getCount() > 0 && cursor.getInt(0) == 1;
         cursor.close();
@@ -360,7 +360,7 @@ public class DBConnection {
     }
 
     public Chat.ChatType getType(int cid) {
-        Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_TYPE}, CHAT_ID + " = " + cid, null, null);
+        Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_TYPE}, CHAT_ID + " = " + cid, null);
         cursor.moveToFirst();
         Chat.ChatType type = Chat.ChatType.GROUP;
         if (cursor.getCount() > 0)
@@ -371,8 +371,8 @@ public class DBConnection {
 
     //Suchen
     Object[] getSuchergebnisse(String suchbegriff, boolean chatsFirst, String orderUsers) {
-        Cursor   cursorChats = query(TABLE_CHATS, new String[]{CHAT_ID, CHAT_NAME, CHAT_MUTE}, CHAT_TYPE + " = '" + Chat.ChatType.GROUP.toString() + "' AND " + CHAT_NAME + " LIKE '%" + suchbegriff + "%'", DBHelper.CHAT_NAME, null);
-        Cursor   cursorUsers = query(TABLE_USERS, new String[]{USER_ID, USER_NAME, USER_DEFAULTNAME, USER_STUFE}, USER_ID + " != " + Utils.getUserID() + " AND " + USER_NAME + " LIKE '%" + suchbegriff + "%' OR " + USER_DEFAULTNAME + " LIKE '%" + suchbegriff + "%'", orderUsers, null);
+        Cursor   cursorChats = query(TABLE_CHATS, new String[]{CHAT_ID, CHAT_NAME, CHAT_MUTE}, CHAT_TYPE + " = '" + Chat.ChatType.GROUP.toString() + "' AND " + CHAT_NAME + " LIKE '%" + suchbegriff + "%'", DBHelper.CHAT_NAME);
+        Cursor   cursorUsers = query(TABLE_USERS, new String[]{USER_ID, USER_NAME, USER_DEFAULTNAME, USER_STUFE}, USER_ID + " != " + Utils.getUserID() + " AND " + USER_NAME + " LIKE '%" + suchbegriff + "%' OR " + USER_DEFAULTNAME + " LIKE '%" + suchbegriff + "%'", orderUsers);
         Chat[]   chats       = new Chat[cursorChats.getCount()];
         User[]   users       = new User[cursorUsers.getCount()];
         Object[] ergebnisse  = new Object[chats.length + users.length];
@@ -407,7 +407,7 @@ public class DBConnection {
     }
 
     public void insertAssoziationen(List<Assoziation> assoziations) {
-        Cursor cursor = query(TABLE_ASSOZIATION, new String[]{USER_ID, CHAT_ID}, null, null, null);
+        Cursor cursor = query(TABLE_ASSOZIATION, new String[]{USER_ID, CHAT_ID}, null, null);
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             boolean b   = false;
             int     uid = cursor.getInt(0), cid = cursor.getInt(1);
@@ -432,7 +432,7 @@ public class DBConnection {
     boolean userInChat(int uid, int cid) {
         String[] columns   = {USER_ID};
         String   selection = CHAT_ID + " = " + cid + " AND " + USER_ID + " = " + uid;
-        Cursor   cursor    = query(TABLE_ASSOZIATION, columns, selection, null, null);
+        Cursor   cursor    = query(TABLE_ASSOZIATION, columns, selection, null);
         boolean  b         = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -446,7 +446,7 @@ public class DBConnection {
         String     table     = TABLE_ASSOZIATION + ", " + TABLE_USERS;
         String[]   columns   = {TABLE_USERS + "." + USER_ID, USER_NAME, USER_STUFE, USER_PERMISSION, USER_DEFAULTNAME};
         String     selection = CHAT_ID + " = " + cid + " AND " + TABLE_USERS + "." + USER_ID + " = " + TABLE_ASSOZIATION + "." + USER_ID;
-        Cursor     cursor    = query(table, columns, selection, USER_NAME, null);
+        Cursor     cursor    = query(table, columns, selection, USER_NAME);
         List<User> list      = new List<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             if (cursor.getInt(0) != Utils.getUserID())
@@ -470,8 +470,8 @@ public class DBConnection {
     }
 
     //Datenbank-Interaktion
-    private Cursor query(String table, String[] columns, String selection, String orderBy, String limit) {
-        return database.query(table, columns, selection, null, null, null, orderBy, limit);
+    private Cursor query(String table, String[] columns, String selection, String orderBy) {
+        return database.query(table, columns, selection, null, null, null, orderBy, null);
     }
 
     private Cursor rawQuery(String query) {
@@ -517,8 +517,8 @@ public class DBConnection {
 
         static final String TABLE_MESSAGES_UNSEND = "messages_unsend";
 
-        DBHelper(Context context, int version) {
-            super(context, DATABASE_NAME, null, version);
+        DBHelper(Context context) {
+            super(context, DATABASE_NAME, null, 4);
         }
 
         @Override

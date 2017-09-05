@@ -12,9 +12,9 @@ import de.slg.leoapp.R;
 
 class CardAddDialog extends AlertDialog {
 
-    private MainActivity  context;
-    private ImageButton[] buttons;
-    private CardType      type;
+    private final MainActivity  context;
+    private       ImageButton[] buttons;
+    private       CardType      type;
 
     CardAddDialog(@NonNull MainActivity context) {
         super(context);

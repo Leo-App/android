@@ -1,6 +1,6 @@
 package de.slg.startseite;
 
-public interface RecyclerViewItemListener {
+interface RecyclerViewItemListener {
 
     void onItemMove(int fromPosition, int toPosition);
 

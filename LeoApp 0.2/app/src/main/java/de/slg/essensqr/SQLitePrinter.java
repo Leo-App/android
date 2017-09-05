@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class SQLitePrinter {
+class SQLitePrinter {
 
     public static void printDatabase(Context c) {
         new SQLitePrinter().new checkTask(c).execute();

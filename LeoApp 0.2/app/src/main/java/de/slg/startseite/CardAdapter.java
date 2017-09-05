@@ -194,7 +194,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 };
                 break;
             case WEATHER:
-                cards.append(m = new MiscCard(false, type, true));
+                cards.append(m = new MiscCard(type));
                 m.title = Utils.getString(R.string.card_title_weather);
                 break;
         }

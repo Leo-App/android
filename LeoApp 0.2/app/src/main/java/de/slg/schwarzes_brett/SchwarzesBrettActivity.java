@@ -60,7 +60,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private String rawLocation;
 
-    public static int getRemoteId(int position) {
+    private static int getRemoteId(int position) {
         //Maybe cache already transformed ids to avoid excessive RAM usage
         if (db == null)
             db = new SQLiteConnector(Utils.getContext());

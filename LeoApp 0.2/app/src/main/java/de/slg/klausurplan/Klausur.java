@@ -7,10 +7,10 @@ import java.util.GregorianCalendar;
 
 class Klausur {
 
+    private final String note;
     Date datum;
     private String fach;
     private String notiz;
-    private String note;
 
     Klausur(String fach, Date datum, String notiz, String note) {
         if (fach == null)

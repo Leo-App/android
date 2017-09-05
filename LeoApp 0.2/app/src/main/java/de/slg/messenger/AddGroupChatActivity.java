@@ -27,10 +27,9 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class AddGroupChatActivity extends AppCompatActivity {
+    private final User[] users = Utils.getMDB().getUsers();
     private EditText etChatname;
     private MenuItem confirm;
-
-    private User[] users = Utils.getMDB().getUsers();
     private boolean[] selection;
     private int       selected;
 

@@ -24,7 +24,7 @@ import de.slg.leoapp.Utils;
 
 public class AbstimmDialog extends AlertDialog {
     private final String[] gruende           = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
-    private       int      userid            = Utils.getUserID();
+    private final int      userid            = Utils.getUserID();
     private       int      voteid            = 0;
     private       String   ausgewählterGrund = "";
     private View        confirm;

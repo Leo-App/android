@@ -13,20 +13,15 @@ import javax.mail.internet.MimeMessage;
 import de.slg.leoapp.List;
 
 class MailClient {
-    private final String emailPort = "587";
-    private final String smtpAuth  = "true";
-    private final String starttls  = "true";
-    private final String emailHost = "smtp.gmail.com";
+    private final String       fromEmail;
+    private final String       fromPassword;
+    private final List<String> toEmailList;
+    private final String       emailSubject;
+    private final String       emailBody;
 
-    private String       fromEmail;
-    private String       fromPassword;
-    private List<String> toEmailList;
-    private String       emailSubject;
-    private String       emailBody;
-
-    private Properties  emailProperties;
-    private Session     mailSession;
-    private MimeMessage emailMessage;
+    private final Properties  emailProperties;
+    private       Session     mailSession;
+    private       MimeMessage emailMessage;
 
     MailClient(String fromEmail, String fromPassword,
                List<String> toEmailList, String emailSubject, String emailBody) {
@@ -36,12 +31,15 @@ class MailClient {
         this.emailSubject = emailSubject;
         this.emailBody = emailBody;
         emailProperties = System.getProperties();
+        String emailPort = "587";
         emailProperties.put("mail.smtp.port", emailPort);
+        String smtpAuth = "true";
         emailProperties.put("mail.smtp.auth", smtpAuth);
+        String starttls = "true";
         emailProperties.put("mail.smtp.starttls.enable", starttls);
     }
 
-    MimeMessage createEmailMessage() throws
+    void createEmailMessage() throws
             MessagingException, UnsupportedEncodingException {
         mailSession = Session.getDefaultInstance(emailProperties, null);
         emailMessage = new MimeMessage(mailSession);
@@ -52,11 +50,11 @@ class MailClient {
         }
         emailMessage.setSubject(emailSubject);
         emailMessage.setContent(emailBody, "text/html");
-        return emailMessage;
     }
 
     void sendEmail() throws MessagingException {
         Transport transport = mailSession.getTransport("smtp");
+        String    emailHost = "smtp.gmail.com";
         transport.connect(emailHost, fromEmail, fromPassword);
         transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
         transport.close();

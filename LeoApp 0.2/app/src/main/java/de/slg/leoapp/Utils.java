@@ -174,7 +174,7 @@ public abstract class Utils {
 
     public static StundenplanDB getStundDB() {
         if (stundenplanDB == null)
-            stundenplanDB = new StundenplanDB(getContext(), 1);
+            stundenplanDB = new StundenplanDB(getContext());
         return stundenplanDB;
     }
 

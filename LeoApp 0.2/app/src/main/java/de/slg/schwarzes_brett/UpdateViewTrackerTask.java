@@ -1,7 +1,6 @@
 package de.slg.schwarzes_brett;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
