@@ -85,7 +85,8 @@
         android:layout_toStartOf="@+id/floatingActionButton"
         android:inputType="textPersonName"
         android:lines="1"
-        android:text="Name" />
+        android:text="Name"
+        android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -96,6 +97,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
         android:clickable="true"
+        android:visibility="gone"
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_search_white_24dp" />
 
