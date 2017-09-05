@@ -21,19 +21,19 @@ class FileDownloadTask extends AsyncTask<String, Void, Void> {
                             new URL(Utils.BASE_URL + params[0].substring(1))
                                     .openStream());
 
-            String filename = params[0].substring(params[0].lastIndexOf('/'));
+            String filename = params[0].substring(params[0].lastIndexOf('/')+1);
             String directory =
                     Environment.getExternalStorageDirectory() + File.separator
                             + "LeoApp" + File.separator
                             + "data" + File.separator;
 
-            Log.i("TAG", directory);
-            Log.i("TAG", filename);
-            Log.i("TAG", "canWrite = " + Environment.getExternalStorageDirectory().canWrite());
+            Log.wtf("TAG", directory);
+            Log.wtf("TAG", filename);
+            Log.wtf("TAG", "canWrite = " + Environment.getExternalStorageDirectory().canWrite());
 
             File dir = new File(directory);
             dir.mkdirs();
-            Log.i("TAG", String.valueOf(dir.isDirectory()));
+            Log.wtf("TAG", String.valueOf(dir.isDirectory()));
             File file = new File(directory + filename);
             file.createNewFile();
 

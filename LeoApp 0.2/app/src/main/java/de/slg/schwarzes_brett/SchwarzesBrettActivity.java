@@ -329,9 +329,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         @Override
         public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             if (isLastChild) {
-                if (convertView == null) {
-                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
-                }
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
 
                 final TextView textViewDate = (TextView) convertView.findViewById(R.id.textView);
                 textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
@@ -364,7 +362,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 iv.setOnClickListener(listener);
 
                 final TextView textView = (TextView) convertView.findViewById(R.id.textView);
-                textView.setText(location.substring(location.lastIndexOf('/')));
+                textView.setText(location.substring(location.lastIndexOf('/')+1));
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 textView.setOnClickListener(listener);
             }
