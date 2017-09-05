@@ -15,7 +15,7 @@ class AnzeigeEinreichen extends AsyncTask<String, Void, Void> {
         try {
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
-                            new URL(Utils.BaseURL + "nachhilfeboerse/Hinzufuegen1_1.php?f=" + s + "&u=1&d=2017-06-17")
+                            new URL(Utils.BASE_URL + "nachhilfeboerse/Hinzufuegen1_1.php?f=" + s + "&u=1&d=2017-06-17")
                                     .openConnection()
                                     .getInputStream(), "UTF-8"));
             while (reader.readLine() != null)

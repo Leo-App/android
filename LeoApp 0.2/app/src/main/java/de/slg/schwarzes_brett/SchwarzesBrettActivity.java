@@ -1,12 +1,18 @@
 package de.slg.schwarzes_brett;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,8 +20,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,12 +49,16 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class SchwarzesBrettActivity extends AppCompatActivity {
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
+
     private static SQLiteConnector           db;
     private static SQLiteDatabase            dbh;
     private        List<String>              groupList;
     private        List<String>              childList;
     private        Map<String, List<String>> schwarzesBrett;
     private        DrawerLayout              drawerLayout;
+
+    private String rawLocation;
 
     public static int getRemoteId(int position) {
         //Maybe cache already transformed ids to avoid excessive RAM usage
@@ -83,6 +96,15 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Utils.getNotificationManager().cancel(NotificationService.ID_NEWS);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE &&
+                grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            new FileDownloadTask().execute(rawLocation);
+        }
     }
 
     private void initToolbar() {
@@ -152,11 +174,13 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private void initExpandableListView() {
         createGroupList();
+
         ExpandableListView expListView = (ExpandableListView) findViewById(R.id.eintraege);
         ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() > 1
-                ? new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett, createViewList())
-                : new ExpandableListAdapter(getLayoutInflater(), groupList, schwarzesBrett);
+                ? new ExpandableListAdapter(groupList, schwarzesBrett, createViewList())
+                : new ExpandableListAdapter(groupList, schwarzesBrett);
         expListView.setAdapter(expandableListAdapter);
+
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -174,6 +198,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 return false;
             }
         });
+
         if (groupList.size() == 0) {
             findViewById(R.id.textView6).setVisibility(View.VISIBLE);
         } else {
@@ -187,7 +212,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Utils.BaseURL + "schwarzes_brett/NeueMeldung.php"));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Utils.BASE_URL + "schwarzes_brett/NeueMeldung.php"));
                     if (intent.resolveActivity(getPackageManager()) != null) {
                         startActivity(intent);
                     }
@@ -231,7 +256,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                     cursor.getString(2),
                     simpleDateFormat.format(erstelldatum) +
                             " - " + simpleDateFormat.format(ablaufdatum),
-            cursor.getString(5)};
+                    cursor.getString(5)};
             loadChildren(children);
             schwarzesBrett.put(cursor.getString(1), childList);
         }
@@ -261,5 +286,129 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         Utils.registerSchwarzesBrettActivity(null);
+    }
+
+    private class ExpandableListAdapter extends BaseExpandableListAdapter {
+        private final Map<String, List<String>> eintraege;
+        private final List<String>              titel;
+        @Nullable
+        private       ArrayList<Integer>        views;
+
+        ExpandableListAdapter(List<String> titel, Map<String, List<String>> eintraege) {
+            this.eintraege = eintraege;
+            this.titel = titel;
+        }
+
+        ExpandableListAdapter(List<String> titel, Map<String, List<String>> eintraege, @Nullable ArrayList<Integer> views) {
+            this.eintraege = eintraege;
+            this.titel = titel;
+            this.views = views;
+        }
+
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            if (convertView == null)
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
+            TextView textView = (TextView) convertView.findViewById(R.id.textView);
+            textView.setText((String) getGroup(groupPosition));
+            TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
+            textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
+            if (views != null) {
+                TextView textViewViews = (TextView) convertView.findViewById(R.id.textViewViews);
+                textViewViews.setVisibility(View.VISIBLE);
+                String viewString = views.get(groupPosition) > 999 ? "999+" : String.valueOf(views.get(groupPosition));
+                textViewViews.setText(viewString);
+            } else {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textViewStufe.getLayoutParams();
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                textViewStufe.setLayoutParams(params);
+            }
+            return convertView;
+        }
+
+        @Override
+        public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            if (isLastChild) {
+                if (convertView == null) {
+                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
+                }
+
+                final TextView textViewDate = (TextView) convertView.findViewById(R.id.textView);
+                textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
+            } else if (childPosition == 0) {
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
+
+                final TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
+            } else {
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
+
+                final String location = eintraege.get(titel.get(groupPosition)).get(3);
+
+                final View.OnClickListener listener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rawLocation = location;
+
+                        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(SchwarzesBrettActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                        } else {
+                            new FileDownloadTask().execute(rawLocation);
+                        }
+                    }
+                };
+
+                final ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewIcon);
+                iv.setImageResource(R.drawable.ic_file_download_black_24dp);
+                iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
+                iv.setOnClickListener(listener);
+
+                final TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                textView.setText(location.substring(location.lastIndexOf('/')));
+                textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                textView.setOnClickListener(listener);
+            }
+            return convertView;
+        }
+
+        @Override
+        public int getGroupCount() {
+            return titel.size();
+        }
+
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            return eintraege.get(titel.get(groupPosition)).size() - 1;
+        }
+
+        @Override
+        public Object getGroup(int groupPosition) {
+            return titel.get(groupPosition);
+        }
+
+        @Override
+        public Object getChild(int groupPosition, int childPosition) {
+            return eintraege.get(titel.get(groupPosition)).get(childPosition);
+        }
+
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
+
+        @Override
+        public long getChildId(int groupPosition, int childPosition) {
+            return childPosition;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return false;
+        }
     }
 }

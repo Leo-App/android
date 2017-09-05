@@ -36,13 +36,13 @@
                     android:layout_height="wrap_content">
 
                     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/card_viewMain"
-                        android:layout_width="match_parent"
-                        android:layout_height="130dp"
-                        android:visibility="gone"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
-                        card_view:cardCornerRadius="0dp">
+                                                        android:id="@+id/card_viewMain"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="130dp"
+                                                        android:layout_gravity="center"
+                                                        android:layout_marginTop="10dp"
+                                                        android:visibility="visible"
+                                                        card_view:cardCornerRadius="0dp">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -200,7 +200,6 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/card_view0"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="10dp"
                         android:clipToPadding="false"
                         android:paddingBottom="10dp"
                         android:paddingTop="-10dp" />

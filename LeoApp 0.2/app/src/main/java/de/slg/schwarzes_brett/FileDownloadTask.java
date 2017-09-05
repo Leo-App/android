@@ -2,34 +2,52 @@ package de.slg.schwarzes_brett;
 
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
+
+import de.slg.leoapp.Utils;
 
 class FileDownloadTask extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
         try {
-            URL u = new URL("http://www.moritz.liegmanns.de"+params[0]);
-            InputStream is = u.openStream();
+            DataInputStream inputStream =
+                    new DataInputStream(
+                            new URL(Utils.BASE_URL + params[0].substring(1))
+                                    .openStream());
 
-            String[] components = params[0].split("/");
+            String filename = params[0].substring(params[0].lastIndexOf('/'));
+            String directory =
+                    Environment.getExternalStorageDirectory() + File.separator
+                            + "LeoApp" + File.separator
+                            + "data" + File.separator;
 
-            DataInputStream dis = new DataInputStream(is);
+            Log.i("TAG", directory);
+            Log.i("TAG", filename);
+            Log.i("TAG", "canWrite = " + Environment.getExternalStorageDirectory().canWrite());
+
+            File dir = new File(directory);
+            dir.mkdirs();
+            Log.i("TAG", String.valueOf(dir.isDirectory()));
+            File file = new File(directory + filename);
+            file.createNewFile();
 
             byte[] buffer = new byte[1024];
-            int length;
+            int    length;
 
-            FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" + "data/"+components[components.length-1]));
-            while ((length = dis.read(buffer)) > 0) {
-                fos.write(buffer, 0, length);
+            FileOutputStream outputStream = new FileOutputStream(file);
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
             }
 
-        } catch (IOException | SecurityException e) {
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;

@@ -62,20 +62,25 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         if (isLastChild) {
-            convertView = inflater.inflate(R.layout.list_item_expandable_child_alt, null);
-            TextView textViewDate = (TextView) convertView.findViewById(R.id.textViewDate);
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.list_item_expandable_child_alt, null);
+            }
+
+            final TextView textViewDate = (TextView) convertView.findViewById(R.id.textView);
             textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
+
         } else if(childPosition == 0) {
             convertView = inflater.inflate(R.layout.list_item_expandable_child, null);
-            TextView textView = (TextView) convertView.findViewById(R.id.textView);
+
+            final TextView textView = (TextView) convertView.findViewById(R.id.textView);
             textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
+
         } else {
             convertView = inflater.inflate(R.layout.list_item_expandable_child_alt, null);
 
             final String rawLocation = eintraege.get(titel.get(groupPosition)).get(3);
-            String[] components = rawLocation.split("/");
 
-            ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewDateIcon);
+            final ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewIcon);
             iv.setImageResource(R.drawable.ic_file_download_black_24dp);
             iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
             iv.setOnClickListener(new View.OnClickListener() {
@@ -85,9 +90,8 @@ class ExpandableListAdapter extends BaseExpandableListAdapter {
                 }
             });
 
-
-            TextView textView = (TextView) convertView.findViewById(R.id.textView);
-            textView.setText(components[components.length-1]);
+            final TextView textView = (TextView) convertView.findViewById(R.id.textView);
+            textView.setText(rawLocation.substring(rawLocation.lastIndexOf('/')));
             textView.setPaintFlags(textView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override

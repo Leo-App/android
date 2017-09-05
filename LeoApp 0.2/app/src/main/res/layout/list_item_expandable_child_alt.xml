@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:padding="10dp">
 
     <ImageView
-        android:id="@+id/imageViewDateIcon"
+        android:id="@+id/imageViewIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView"
         android:layout_alignParentLeft="true"
-        app:srcCompat="@drawable/icon_calendar"
-        android:tint="@color/colorPrimary"
+        android:layout_centerHorizontal="true"
         android:paddingLeft="25dp"
-        />
+        android:tint="@color/colorPrimary"
+        app:srcCompat="@drawable/icon_calendar"/>
 
     <TextView
-        android:id="@+id/textViewDate"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:textSize="15sp"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/imageViewDateIcon"
-        android:layout_toEndOf="@+id/imageViewDateIcon" />
+        android:layout_toEndOf="@+id/imageViewIcon"
+        android:layout_toRightOf="@+id/imageViewIcon"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:textSize="15sp"/>
 
 </RelativeLayout>

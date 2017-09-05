@@ -259,13 +259,13 @@ public class ReceiveService extends Service {
         private String generateURL(Operator o) {
             switch (o) {
                 case Nachricht:
-                    return Utils.BaseURL + "messenger/getMessagesEncrypted.php?key=5453&userid=" + Utils.getUserID();
+                    return Utils.BASE_URL + "messenger/getMessagesEncrypted.php?key=5453&userid=" + Utils.getUserID();
                 case Benutzer:
-                    return Utils.BaseURL + "messenger/getUsers.php?key=5453&userid=" + Utils.getUserID();
+                    return Utils.BASE_URL + "messenger/getUsers.php?key=5453&userid=" + Utils.getUserID();
                 case Chat:
-                    return Utils.BaseURL + "messenger/getChats.php?key=5453&userid=" + Utils.getUserID();
+                    return Utils.BASE_URL + "messenger/getChats.php?key=5453&userid=" + Utils.getUserID();
                 case Assoziation:
-                    return Utils.BaseURL + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID();
+                    return Utils.BASE_URL + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID();
                 default:
                     return "";
             }
@@ -305,7 +305,7 @@ public class ReceiveService extends Service {
         }
 
         private String generateURL(String message, int cid) {
-            return Utils.BaseURL + "messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
+            return Utils.BASE_URL + "messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
         }
     }
 
@@ -317,7 +317,7 @@ public class ReceiveService extends Service {
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(Utils.BaseURL + "schwarzesBrett/meldungen.php")
+                                            new URL(Utils.BASE_URL + "schwarzesBrett/meldungen.php")
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     StringBuilder builder = new StringBuilder();

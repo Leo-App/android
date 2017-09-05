@@ -210,7 +210,7 @@ public class AbstimmDialog extends AlertDialog {
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(Utils.BaseURL + "stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
+                                            new URL(Utils.BASE_URL + "stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
                                                     .openConnection()
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null)

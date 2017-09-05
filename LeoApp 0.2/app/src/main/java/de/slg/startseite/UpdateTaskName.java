@@ -35,7 +35,7 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
         try {
             int    id          = Utils.getUserID();
             String username    = Utils.getUserName().replace(' ', '+');
-            URL    interfaceDB = new URL(Utils.BaseURL + "updateUsername.php?key=5453&userid=" + id + "&username=" + username);
+            URL    interfaceDB = new URL(Utils.BASE_URL + "updateUsername.php?key=5453&userid=" + id + "&username=" + username);
             in = null;
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
             String inputLine;
