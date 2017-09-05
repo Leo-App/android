@@ -1,48 +1,36 @@
 package de.slg.schwarzes_brett;
 
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
-
+import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 class FileDownloadTask extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
-        try {
-            String filename = params[0].substring(params[0].lastIndexOf('/')+1);
-            String directory =
-                    Environment.getExternalStorageDirectory() + File.separator
-                            + "LeoApp" + File.separator
-                            + "data" + File.separator;
 
-            new File(directory).mkdirs();
-            File file = new File(directory + filename);
-            file.createNewFile();
+        Uri location = Uri.parse(Utils.BASE_URL + params[0].substring(1));
+        String filename = params[0].substring(params[0].lastIndexOf('/')+1);
 
-            byte[] buffer = new byte[1024];
-            int    length;
+        DownloadManager downloadManager = (DownloadManager) Utils.context.getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(location);
 
-            DataInputStream inputStream =
-                    new DataInputStream(
-                            new URL(Utils.BASE_URL + params[0].substring(1))
-                                    .openStream());
-            FileOutputStream outputStream = new FileOutputStream(file);
+        request.setTitle(filename);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDescription(Utils.getString(R.string.download_description_news));
 
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            request.setDestinationInExternalFilesDir(Utils.context, Environment.DIRECTORY_DOCUMENTS, filename);
+        else
+            request.setDestinationInExternalFilesDir(Utils.context, Environment.DIRECTORY_DOWNLOADS, filename);
 
-            inputStream.close();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        downloadManager.enqueue(request);
+
         return null;
     }
 }
