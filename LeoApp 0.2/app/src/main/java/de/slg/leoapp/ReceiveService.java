@@ -60,6 +60,7 @@ public class ReceiveService extends Service {
 
         new MessengerThread().start();
         new NewsThread().start();
+        //        new MessengerSocket().start();
 
         Log.i("ReceiveService", "Service (re)started!");
         return START_STICKY;
@@ -150,12 +151,12 @@ public class ReceiveService extends Service {
                     while ((l = reader.readLine()) != null)
                         builder.append(l).append(System.getProperty("line.separator"));
                     reader.close();
-                    String[] result = builder.toString().split("_ next_");
+                    String[] result = builder.toString().split("_ next _");
                     for (String s : result) {
-                        String[] message = s.split("_ ;_");
+                        String[] message = s.split("_ ; _");
                         if (message.length == 6) {
                             int    mid   = Integer.parseInt(message[0]);
-                            String mtext = Verschluesseln.decrypt(message[1], Verschluesseln.decryptKey(message[2])).replace("_  ;_", "_ ;_");
+                            String mtext = Verschluesseln.decrypt(message[1], Verschluesseln.decryptKey(message[2])).replace("_  ;  _", "_ ;_").replace("_  next  _", "_ next _");
                             long   mdate = Long.parseLong(message[3] + "000");
                             int    cid   = Integer.parseInt(message[4]);
                             int    uid   = Integer.parseInt(message[5]);
@@ -360,6 +361,48 @@ public class ReceiveService extends Service {
             if (Utils.getSchwarzesBrettActivity() != null)
                 Utils.getSchwarzesBrettActivity().refreshUI();
             Log.i("ReceiveService", "received News");
+        }
+    }
+
+    private class MessengerSocket extends Thread {
+        @Override
+        public void run() {
+            try {
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new URL("http://192.168.0.107:8080/messenger/getMessages?uid=" + Utils.getUserID())
+                                                .openConnection()
+                                                .getInputStream(), "UTF-8"));
+
+                StringBuilder builder = new StringBuilder();
+                for (String line = reader.readLine(); true; line = reader.readLine()) {
+                    Log.e("TAG", line);
+                    builder.append(line)
+                            .append(System.getProperty("line.separator"));
+                    if (line.endsWith("_ next _")) {
+                        String[] result = builder.toString().split("_ next _");
+                        for (String s : result) {
+                            Log.e("TAG", s);
+                            String[] message = s.split("_ ; _");
+                            if (message.length == 6) {
+                                int    mid   = Integer.parseInt(message[0]);
+                                String mtext = Verschluesseln.decrypt(message[1], Verschluesseln.decryptKey(message[2])).replace("_  ;  _", "_ ;_").replace("_  next  _", "_ next _");
+                                long   mdate = Long.parseLong(message[3] + "000");
+                                int    cid   = Integer.parseInt(message[4]);
+                                int    uid   = Integer.parseInt(message[5]);
+                                Log.e("Nachricht", mtext);
+                                Utils.getMDB().insertMessage(new Message(mid, mtext, mdate, cid, uid));
+                            }
+                        }
+                        builder = new StringBuilder();
+                        if (Utils.getMessengerActivity() != null)
+                            Utils.getMessengerActivity().notifyUpdate();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

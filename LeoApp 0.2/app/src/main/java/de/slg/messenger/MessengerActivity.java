@@ -204,8 +204,11 @@ public class MessengerActivity extends AppCompatActivity {
     public void notifyUpdate() {
         chatArray = Utils.getMDB().getChats();
         userArray = Utils.getMDB().getUsers();
-        uFragment.refreshUI();
-        cFragment.refreshUI();
+        if (uFragment != null)
+            uFragment.refreshUI();
+        if (cFragment != null)
+            cFragment.refreshUI();
+        if (sFragment != null)
         sFragment.refreshUI();
         ChatActivity chatActivity = Utils.getChatActivity();
         if (chatActivity != null)

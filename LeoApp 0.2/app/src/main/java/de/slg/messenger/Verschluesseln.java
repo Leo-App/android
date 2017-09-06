@@ -41,16 +41,16 @@ public abstract class Verschluesseln {
         StringBuilder builder = new StringBuilder();
         assert key.matches("[A-Z]*");
         text = URLEncoder.encode(text, "UTF-8");
-        for (int i = 0, skipped = 0; i < text.length(); i++) {
-            char textChar = text.charAt(i),
-                    keyChar = key.charAt(i - skipped),
+        for (int iText = 0, iKey = 0; iText < text.length() && iKey < key.length(); iText++, iKey++) {
+            char textChar = text.charAt(iText),
+                    keyChar = key.charAt(iKey),
                     decrypted = (char) (textChar - (keyChar - 65));
             if (textChar == '%') {
-                for (int j = 0; j <= 2; j++) {
-                    builder.append(text.charAt(i + j));
-                }
-                i += 2;
-                skipped += 2;
+                builder.append(text.charAt(iText));
+                iText++;
+                builder.append(text.charAt(iText));
+                iText++;
+                builder.append(text.charAt(iText));
             } else {
                 if (isCapitalLetter(textChar)) {
                     if (decrypted < 65)
