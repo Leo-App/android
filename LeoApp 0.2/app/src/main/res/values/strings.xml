@@ -270,5 +270,14 @@
     <string name="snackbar_missing_title">Please add a subject</string>
     <string name="discard">Discard</string>
     <string name="free_hour">Free period</string>
+    <string name="Tok">TOK</string>
+    <string name="Weltlit">Weltliteratur</string>
+    <string name="ZK">Zusatzkurs</string>
+    <string name="Projektk">Projektkurs</string>
+    <string name="Vertiefung">Vertiefungskurs</string>
+    <string name="Soz">Soziales Lernen</string>
+    <string name="schwimmen">Schwimmen (Sport)</string>
+    <string name="lüz">LÜZ</string>
+    <string name="ag">AG:</string>
 
 </resources>

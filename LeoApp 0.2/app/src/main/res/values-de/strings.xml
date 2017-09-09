@@ -296,5 +296,11 @@
     <string name="snackbar_missing_title">Bitte ein Fach hinzufügen</string>
     <string name="discard">Verwerfen</string>
     <string name="free_hour">Freistunde</string>
+    <string name="Tok">TOK</string>
+    <string name="SoWiZ">SoWi-Zusatzkurs</string>
+    <string name="GeZK">Geschichte Zusatzkurs</string>
+    <string name="Diff">Differenzierung</string>
+    <string name="PoWi">Politik-Wirtschaft</string>
+    <string name="Förder">Förderkurs</string>
 
 </resources>
