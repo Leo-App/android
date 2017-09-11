@@ -317,7 +317,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             public boolean onPreferenceClick(Preference preference) {
                 Utils.invalidateMDB();
                 deleteDatabase(DBConnection.DBHelper.DATABASE_NAME);
-                Utils.receiveMessenger();
+                //TODO Verbindung zum Server neu herstellen
                 return Utils.checkNetwork();
             }
         });

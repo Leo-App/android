@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +23,7 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
@@ -187,36 +184,34 @@ public class AuswahlActivity extends AppCompatActivity {
             if (Utils.checkNetwork()) {
                 Log.e("FachImporter", "started");
                 try {
-                    InputStream inputStream =
-                            new URL(Utils.BASE_URL + "testdaten.txt")
-                                    .openConnection()
-                                    .getInputStream();
-                    FileOutputStream fileOutput = context.openFileOutput("testdaten.txt", Context.MODE_PRIVATE);
-                    byte[]           buffer     = new byte[1024];
-                    int              bufferLength;
-                    while ((bufferLength = inputStream.read(buffer)) > 0) {
-                        fileOutput.write(buffer, 0, bufferLength);
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            new URL(Utils.BASE_URL + "stundenplan_neu.txt")
+                                                    .openConnection()
+                                                    .getInputStream(), "UTF-8"));
+                    BufferedWriter writer =
+                            new BufferedWriter(
+                                    new OutputStreamWriter(
+                                            context.openFileOutput(
+                                                    "testdaten.txt",
+                                                    Context.MODE_PRIVATE)));
+                    for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                        writer.write(line);
+                        writer.newLine();
                     }
-                    fileOutput.close();
-                    inputStream.close();
-                    context.deleteFile("allefaecher.txt");
-                    BufferedReader reader     = new BufferedReader(new InputStreamReader(context.openFileInput("testdaten.txt")));
-                    BufferedWriter writer     = new BufferedWriter(new OutputStreamWriter(context.openFileOutput("allefaecher.txt", Context.MODE_PRIVATE)));
-                    String         lastKurzel = "";
-                    long           lastID     = -1;
+                    reader.close();
+                    writer.close();
+
+                    reader =
+                            new BufferedReader(
+                                    new InputStreamReader(
+                                            context.openFileInput("testdaten.txt")));
+                    String lastKurzel = "";
+                    long   lastID     = -1;
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                         String[] fach = line.replace("\"", "").split(",");
                         if (fach[1].startsWith(stufe)) {
-                            String s = "Name;"
-                                    + fach[3] + ";" //Kürzel
-                                    + fach[4] + ";" //Raum
-                                    + fach[2] + ";" //Lehrer
-                                    + fach[5] + ";" //Tag
-                                    + fach[6] + ";" //Stunde
-                                    + "nicht" + ";"
-                                    + " ";
-                            writer.write(s);
-                            writer.newLine();
                             if (!fach[3].equals(lastKurzel)) {
                                 lastID = Utils.getStundDB().insertFach(fach[3], fach[2], fach[4]);
                                 lastKurzel = fach[3];
@@ -228,7 +223,6 @@ public class AuswahlActivity extends AppCompatActivity {
                             Utils.getStundDB().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]));
                         }
                     }
-                    writer.close();
                     reader.close();
                     Log.e("FachImporter", "done!");
                 } catch (IOException e) {
@@ -260,38 +254,39 @@ public class AuswahlActivity extends AppCompatActivity {
         @NonNull
         @Override
         public View getView(int position, View view, @NonNull ViewGroup parent) {
-            if (view == null) {
-                LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = layoutInflater.inflate(R.layout.list_item_kurs, null);
-            }
-            view.setEnabled(true);
-            TextView tvFach    = (TextView) view.findViewById(R.id.fach_auswahl);
-            TextView tvKuerzel = (TextView) view.findViewById(R.id.kürzel_auswahl);
-            TextView tvLehrer  = (TextView) view.findViewById(R.id.lehrer_auswahl);
-            CheckBox checkBox  = (CheckBox) view.findViewById(R.id.checkBox);
-            Fach     current   = fachArray[position];
-            tvFach.setText(current.gibName());
-            tvKuerzel.setText(current.gibKurz());
-            tvLehrer.setText(current.gibLehrer());
-            checkBox.setChecked(db.istGewaehlt(current.id));
-            if (checkBox.isChecked()) {
-                ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
-                double[] stunden = db.gibStunden(current.id);
-                for (double d : stunden) {
-                    ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
+            if (views[position] == null) {
+                views[position] = getLayoutInflater().inflate(R.layout.list_item_kurs, null);
+                views[position].setEnabled(true);
+
+                TextView tvFach    = (TextView) views[position].findViewById(R.id.fach_auswahl);
+                TextView tvKuerzel = (TextView) views[position].findViewById(R.id.kürzel_auswahl);
+                TextView tvLehrer  = (TextView) views[position].findViewById(R.id.lehrer_auswahl);
+                CheckBox checkBox  = (CheckBox) views[position].findViewById(R.id.checkBox);
+                Fach     current   = fachArray[position];
+
+                tvFach.setText(current.gibName());
+                tvKuerzel.setText(current.gibKurz());
+                tvLehrer.setText(current.gibLehrer());
+                checkBox.setChecked(db.istGewaehlt(current.id));
+
+                if (checkBox.isChecked()) {
+                    ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
+                    double[] stunden = db.gibStunden(current.id);
+                    for (double d : stunden) {
+                        ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
+                    }
+                    tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                    tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                    tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2))) {
+                    views[position].setEnabled(false);
+                    tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+                    tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+                    tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
                 }
-                tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-            } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2))) {
-                view.setEnabled(false);
-                tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
-                tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
-                tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+                cbs[position] = checkBox;
             }
-            cbs[position] = checkBox;
-            views[position] = view;
-            return view;
+            return views[position];
         }
 
         void refresh() {

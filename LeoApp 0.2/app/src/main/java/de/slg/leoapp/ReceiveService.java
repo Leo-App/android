@@ -21,32 +21,8 @@ import de.slg.messenger.Verschluesseln;
 import de.slg.schwarzes_brett.SQLiteConnector;
 
 public class ReceiveService extends Service {
-    private static long interval;
-    boolean receiveMessages, receiveNews;
-    private boolean running;
-
-    private static long getInterval(int selection) {
-        switch (selection) {
-            case 0:
-                return 5000;
-            case 1:
-                return 10000;
-            case 3:
-                return 30000;
-            case 4:
-                return 60000;
-            case 5:
-                return 120000;
-            case 6:
-                return 300000;
-            default:
-                return 15000;
-        }
-    }
-
-    public static void setInterval(int selection) {
-        interval = getInterval(selection);
-    }
+    boolean receiveNews;
+    private boolean running, socketRunning;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -54,9 +30,8 @@ public class ReceiveService extends Service {
         Utils.registerReceiveService(this);
 
         running = true;
-        receiveMessages = false;
+        socketRunning = false;
         receiveNews = false;
-        interval = getInterval(Utils.getPreferences().getInt("pref_key_refresh", 2));
 
         new MessengerThread().start();
         new NewsThread().start();
@@ -86,21 +61,20 @@ public class ReceiveService extends Service {
         super.onTaskRemoved(rootIntent);
     }
 
-    private enum Operator {
-        Nachricht, Chat, Benutzer, Assoziation
-    }
-
     private class MessengerThread extends Thread {
         @Override
         public void run() {
             Looper.prepare();
             while (running) {
                 try {
-                    new SendTask().execute();
-                    new ReceiveTask().execute();
-                    for (int i = 0; i < interval && running && !receiveMessages; i++)
-                        sleep(1);
-                    receiveMessages = false;
+                    if (Utils.checkNetwork()) {
+                        if (Utils.getMDB().hasQueuedMessages())
+                            new SendQueuedMessages().execute();
+
+                        //if (!socketRunning)
+                        //    new MessengerSocket().run();
+                    }
+                    sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
@@ -114,7 +88,7 @@ public class ReceiveService extends Service {
         public void run() {
             while (running) {
                 try {
-                    new EmpfangeDaten().execute();
+                    new ReceiveNews().execute();
                     for (int i = 0; i < 60000 && running && !receiveNews; i++)
                         sleep(1);
                     receiveNews = false;
@@ -126,164 +100,11 @@ public class ReceiveService extends Service {
         }
     }
 
-    private class ReceiveTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            chat();
-            benutzer();
-            nachricht();
-            assoziationen();
-            return null;
-        }
-
-        private void nachricht() {
-            if (Utils.isVerified() && Utils.checkNetwork()) {
-                try {
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            new URL(generateURL(Operator.Nachricht))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
-                    StringBuilder builder = new StringBuilder();
-                    String        l;
-                    while ((l = reader.readLine()) != null)
-                        builder.append(l).append(System.getProperty("line.separator"));
-                    reader.close();
-                    String[] result = builder.toString().split("_ next_");
-                    for (String s : result) {
-                        String[] message = s.split("_ ;_");
-                        if (message.length == 6) {
-                            int    mid   = Integer.parseInt(message[0]);
-                            String mtext = Verschluesseln.decrypt(message[1], Verschluesseln.decryptKey(message[2])).replace("_  ;_", "_ ;_");
-                            long   mdate = Long.parseLong(message[3] + "000");
-                            int    cid   = Integer.parseInt(message[4]);
-                            int    uid   = Integer.parseInt(message[5]);
-                            Utils.getMDB().insertMessage(new Message(mid, mtext, mdate, cid, uid));
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        private void chat() {
-            if (Utils.isVerified() && Utils.checkNetwork()) {
-                try {
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            new URL(generateURL(Operator.Chat))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
-                    StringBuilder builder = new StringBuilder();
-                    String        l;
-                    while ((l = reader.readLine()) != null)
-                        builder.append(l);
-                    reader.close();
-                    String   erg    = builder.toString();
-                    String[] result = erg.split("_ next_");
-                    for (String s : result) {
-                        String[] current = s.split("_ ;_");
-                        if (current.length == 3) {
-                            Chat c = new Chat(Integer.parseInt(current[0]), current[1], Chat.ChatType.valueOf(current[2].toUpperCase()));
-                            Utils.getMDB().insertChat(c);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        private void benutzer() {
-            if (Utils.isVerified() && Utils.checkNetwork()) {
-                try {
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            new URL(generateURL(Operator.Benutzer))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
-                    StringBuilder builder = new StringBuilder();
-                    String        l;
-                    while ((l = reader.readLine()) != null)
-                        builder.append(l);
-                    reader.close();
-                    String   erg    = builder.toString();
-                    String[] result = erg.split("_ next_");
-                    for (String s : result) {
-                        String[] current = s.split("_ ;_");
-                        if (current.length == 5) {
-                            User u = new User(Integer.parseInt(current[0]), current[1], current[2], Integer.parseInt(current[3]), current[4]);
-                            Utils.getMDB().insertUser(u);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        private void assoziationen() {
-            if (Utils.isVerified() && Utils.checkNetwork()) {
-                try {
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            new URL(generateURL(Operator.Assoziation))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
-                    StringBuilder builder = new StringBuilder();
-                    String        l;
-                    while ((l = reader.readLine()) != null)
-                        builder.append(l);
-                    reader.close();
-                    String            erg    = builder.toString();
-                    String[]          result = erg.split(";");
-                    List<Assoziation> list   = new List<>();
-                    for (String s : result) {
-                        String[] current = s.split(",");
-                        if (current.length == 2) {
-                            list.append(new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1])));
-                        }
-                    }
-                    Utils.getMDB().insertAssoziationen(list);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        private String generateURL(Operator o) {
-            switch (o) {
-                case Nachricht:
-                    return Utils.BASE_URL + "messenger/getMessagesEncrypted.php?key=5453&userid=" + Utils.getUserID();
-                case Benutzer:
-                    return Utils.BASE_URL + "messenger/getUsers.php?key=5453&userid=" + Utils.getUserID();
-                case Chat:
-                    return Utils.BASE_URL + "messenger/getChats.php?key=5453&userid=" + Utils.getUserID();
-                case Assoziation:
-                    return Utils.BASE_URL + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID();
-                default:
-                    return "";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if (Utils.getMessengerActivity() != null)
-                Utils.getMessengerActivity().notifyUpdate();
-            Log.i("ReceiveService", "received Messages");
-        }
-    }
-
-    private class SendTask extends AsyncTask<Void, Void, Void> {
+    private class SendQueuedMessages extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
-                Message[] array = Utils.getMDB().getUnsendMessages();
+                Message[] array = Utils.getMDB().getQueuedMessages();
                 for (Message m : array) {
                     try {
                         BufferedReader reader =
@@ -295,7 +116,7 @@ public class ReceiveService extends Service {
                         while (reader.readLine() != null)
                             ;
                         reader.close();
-                        Utils.getMDB().removeUnsendMessage(m.mid);
+                        Utils.getMDB().dequeueMessage(m.mid);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -309,7 +130,7 @@ public class ReceiveService extends Service {
         }
     }
 
-    private class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
+    private class ReceiveNews extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
@@ -360,6 +181,100 @@ public class ReceiveService extends Service {
             if (Utils.getSchwarzesBrettActivity() != null)
                 Utils.getSchwarzesBrettActivity().refreshUI();
             Log.i("ReceiveService", "received News");
+        }
+    }
+
+    private class MessengerSocket extends Thread {
+        @Override
+        public void run() {
+            socketRunning = true;
+            try {
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new URL("http://192.168.0.107:8080/messenger/getMessages?uid=" + Utils.getUserID())
+                                                .openConnection()
+                                                .getInputStream(), "UTF-8"));
+
+                StringBuilder builder = new StringBuilder();
+                for (String line = reader.readLine(); running; line = reader.readLine()) {
+                    builder.append(line)
+                            .append(System.getProperty("line.separator"));
+                    if (line.endsWith("_ next _")) {
+                        for (String s : builder.toString().split("_ next _")) {
+                            String[] parts = s.substring(1).split("_ ; _");
+
+                            if (s.startsWith("m") && parts.length == 6) {
+                                int    mid   = Integer.parseInt(parts[0]);
+                                String mtext = Verschluesseln.decrypt(parts[1], Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                                long   mdate = Long.parseLong(parts[3] + "000");
+                                int    cid   = Integer.parseInt(parts[4]);
+                                int    uid   = Integer.parseInt(parts[5]);
+
+                                Utils.getMDB().insertMessage(new Message(mid, mtext, mdate, cid, uid));
+                            } else if (s.startsWith("c") && parts.length == 3) {
+                                int           cid   = Integer.parseInt(parts[0]);
+                                String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                                Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
+
+                                Utils.getMDB().insertChat(new Chat(cid, cname, ctype));
+                            } else if (s.startsWith("u") && parts.length == 5) {
+                                int    uid          = Integer.parseInt(parts[0]);
+                                String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                                String ustufe       = parts[2];
+                                int    upermission  = Integer.parseInt(parts[3]);
+                                String udefaultname = parts[4];
+
+                                Utils.getMDB().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
+                            } else if (s.startsWith("a")) {
+                                assoziationen();
+                            }
+                        }
+
+                        builder = new StringBuilder();
+
+                        if (Utils.getMessengerActivity() != null)
+                            Utils.getMessengerActivity().notifyUpdate();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            socketRunning = false;
+        }
+
+        @Override
+        public void interrupt() {
+            super.interrupt();
+            socketRunning = false;
+        }
+
+        private void assoziationen() {
+            try {
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new URL(Utils.BASE_URL + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID())
+                                                .openConnection()
+                                                .getInputStream(), "UTF-8"));
+                StringBuilder builder = new StringBuilder();
+                String        l;
+                while ((l = reader.readLine()) != null)
+                    builder.append(l);
+                reader.close();
+                String            erg    = builder.toString();
+                String[]          result = erg.split(";");
+                List<Assoziation> list   = new List<>();
+                for (String s : result) {
+                    String[] current = s.split(",");
+                    if (current.length == 2) {
+                        list.append(new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1])));
+                    }
+                }
+                Utils.getMDB().insertAssoziationen(list);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -61,8 +61,6 @@ public class ChatActivity extends AppCompatActivity {
         ctype = Chat.ChatType.valueOf(getIntent().getStringExtra("ctype"));
 
         messagesArray = new Message[0];
-        if (cid != -1)
-            Utils.receiveMessenger();
 
         initToolbar();
         initSendMessage();
@@ -269,7 +267,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (messagesArray[i].mdate.getTime() > 0) {
                     Utils.getMDB().deleteMessage(messagesArray[i].mid);
                 } else {
-                    Utils.getMDB().deleteUnsendMessage(messagesArray[i].mid);
+                    Utils.getMDB().deleteQueuedMessage(messagesArray[i].mid);
                 }
                 selected[i] = false;
             }
@@ -408,7 +406,7 @@ public class ChatActivity extends AppCompatActivity {
 
             if (cid != -1) {
                 if (!Utils.checkNetwork()) {
-                    Utils.getMDB().insertUnsendMessage(params[0], cid);
+                    Utils.getMDB().enqueueMessage(params[0], cid);
                     refreshUI(true, true);
                 } else {
                     Message[] mOld = messagesArray;
@@ -434,11 +432,6 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
             return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Utils.receiveMessenger();
         }
 
         private String generateURL(String message) throws UnsupportedEncodingException {

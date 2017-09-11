@@ -26,7 +26,7 @@ import static de.slg.messenger.DBConnection.DBHelper.MESSAGE_TEXT;
 import static de.slg.messenger.DBConnection.DBHelper.TABLE_ASSOZIATION;
 import static de.slg.messenger.DBConnection.DBHelper.TABLE_CHATS;
 import static de.slg.messenger.DBConnection.DBHelper.TABLE_MESSAGES;
-import static de.slg.messenger.DBConnection.DBHelper.TABLE_MESSAGES_UNSEND;
+import static de.slg.messenger.DBConnection.DBHelper.TABLE_MESSAGES_QUEUED;
 import static de.slg.messenger.DBConnection.DBHelper.TABLE_USERS;
 import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_ID;
@@ -85,7 +85,7 @@ public class DBConnection {
         }
         cursor.close();
         columns = new String[]{MESSAGE_ID, MESSAGE_TEXT};
-        cursor = query(TABLE_MESSAGES_UNSEND, columns, selection.substring(0, selection.indexOf(" AND")), MESSAGE_ID);
+        cursor = query(TABLE_MESSAGES_QUEUED, columns, selection.substring(0, selection.indexOf(" AND")), MESSAGE_ID);
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             list.append(new Message(
                     cursor.getInt(0),
@@ -128,15 +128,22 @@ public class DBConnection {
         update(TABLE_MESSAGES, values, CHAT_ID + " = " + cid);
     }
 
-    void insertUnsendMessage(String mtext, int cid) {
+    void enqueueMessage(String mtext, int cid) {
         ContentValues values = new ContentValues();
         values.put(MESSAGE_TEXT, mtext);
         values.put(CHAT_ID, cid);
-        insert(TABLE_MESSAGES_UNSEND, values);
+        insert(TABLE_MESSAGES_QUEUED, values);
     }
 
-    public Message[] getUnsendMessages() {
-        Cursor    cursor = query(TABLE_MESSAGES_UNSEND, new String[]{MESSAGE_ID, MESSAGE_TEXT, CHAT_ID}, null, null);
+    public boolean hasQueuedMessages() {
+        Cursor  cursor = query(TABLE_MESSAGES_QUEUED, new String[]{MESSAGE_ID}, null, null);
+        boolean b      = cursor.getCount() > 0;
+        cursor.close();
+        return b;
+    }
+
+    public Message[] getQueuedMessages() {
+        Cursor    cursor = query(TABLE_MESSAGES_QUEUED, new String[]{MESSAGE_ID, MESSAGE_TEXT, CHAT_ID}, null, null);
         Message[] array  = new Message[cursor.getCount()];
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
@@ -146,8 +153,8 @@ public class DBConnection {
         return array;
     }
 
-    public void removeUnsendMessage(int mid) {
-        delete(TABLE_MESSAGES_UNSEND, MESSAGE_ID + " = " + mid);
+    public void dequeueMessage(int mid) {
+        delete(TABLE_MESSAGES_QUEUED, MESSAGE_ID + " = " + mid);
     }
 
     private boolean contains(Message m) {
@@ -163,8 +170,8 @@ public class DBConnection {
         update(TABLE_MESSAGES, values, MESSAGE_ID + " = " + mid);
     }
 
-    void deleteUnsendMessage(int mid) {
-        delete(TABLE_MESSAGES_UNSEND, MESSAGE_ID + " = " + mid);
+    void deleteQueuedMessage(int mid) {
+        delete(TABLE_MESSAGES_QUEUED, MESSAGE_ID + " = " + mid);
     }
 
     //User
@@ -515,7 +522,7 @@ public class DBConnection {
         static final String USER_PERMISSION  = "upermission";
         static final String USER_DEFAULTNAME = "udefaultname";
 
-        static final String TABLE_MESSAGES_UNSEND = "messages_unsend";
+        static final String TABLE_MESSAGES_QUEUED = "messages_unsend";
 
         DBHelper(Context context) {
             super(context, DATABASE_NAME, null, 4);
@@ -564,7 +571,7 @@ public class DBConnection {
                 e.printStackTrace();
             }
             try {
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES_UNSEND + " (" +
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES_QUEUED + " (" +
                         MESSAGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         MESSAGE_TEXT + " TEXT NOT NULL, " +
                         CHAT_ID + " INTEGER NOT NULL)");
@@ -580,7 +587,7 @@ public class DBConnection {
                 db.execSQL("DROP TABLE " + TABLE_CHATS);
                 db.execSQL("DROP TABLE " + TABLE_ASSOZIATION);
                 db.execSQL("DROP TABLE " + TABLE_USERS);
-                db.execSQL("DROP TABLE " + TABLE_MESSAGES_UNSEND);
+                db.execSQL("DROP TABLE " + TABLE_MESSAGES_QUEUED);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

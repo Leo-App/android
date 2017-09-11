@@ -285,7 +285,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
             TextView temperature = new TextView(Utils.getContext());
             temperature.setId(generateViewId());
             TextView humidity = new TextView(Utils.getContext());
-            new WeatherUpdateTask().execute(weatherIcon, temperature, humidity);
+            //            new WeatherUpdateTask().execute(weatherIcon, temperature, humidity);
             weatherIcon.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
             if (quick) {
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT);
