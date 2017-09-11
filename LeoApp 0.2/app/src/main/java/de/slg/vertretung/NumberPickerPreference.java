@@ -11,7 +11,6 @@ import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.ReceiveService;
 import de.slg.leoapp.Utils;
 
 public class NumberPickerPreference extends DialogPreference {
@@ -78,6 +77,5 @@ public class NumberPickerPreference extends DialogPreference {
     private void setValue(int value) {
         this.value = value;
         persistInt(this.value);
-        ReceiveService.setInterval(value);
     }
 }

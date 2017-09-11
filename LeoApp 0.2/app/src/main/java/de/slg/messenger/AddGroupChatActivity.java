@@ -231,8 +231,6 @@ public class AddGroupChatActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             findViewById(R.id.progressBar).setVisibility(View.GONE);
 
-            Utils.receiveMessenger();
-
             startActivity(new Intent(getApplicationContext(), ChatActivity.class)
                     .putExtra("cid", cid)
                     .putExtra("cname", cname)

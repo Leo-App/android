@@ -21,32 +21,8 @@ import de.slg.messenger.Verschluesseln;
 import de.slg.schwarzes_brett.SQLiteConnector;
 
 public class ReceiveService extends Service {
-    private static long interval;
-    boolean receiveMessages, receiveNews;
-    private boolean running;
-
-    private static long getInterval(int selection) {
-        switch (selection) {
-            case 0:
-                return 5000;
-            case 1:
-                return 10000;
-            case 3:
-                return 30000;
-            case 4:
-                return 60000;
-            case 5:
-                return 120000;
-            case 6:
-                return 300000;
-            default:
-                return 15000;
-        }
-    }
-
-    public static void setInterval(int selection) {
-        interval = getInterval(selection);
-    }
+    boolean receiveNews;
+    private boolean running, socketRunning;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -54,13 +30,11 @@ public class ReceiveService extends Service {
         Utils.registerReceiveService(this);
 
         running = true;
-        receiveMessages = false;
+        socketRunning = false;
         receiveNews = false;
-        interval = getInterval(Utils.getPreferences().getInt("pref_key_refresh", 2));
 
         new MessengerThread().start();
         new NewsThread().start();
-        new MessengerSocket().start();
 
         Log.i("ReceiveService", "Service (re)started!");
         return START_STICKY;
@@ -93,11 +67,14 @@ public class ReceiveService extends Service {
             Looper.prepare();
             while (running) {
                 try {
-                    if (Utils.checkNetwork())
-                        new SendTask().execute();
-                    for (int i = 0; i < interval && running && !receiveMessages; i++)
-                        sleep(1);
-                    receiveMessages = false;
+                    if (Utils.checkNetwork()) {
+                        if (Utils.getMDB().hasQueuedMessages())
+                            new SendQueuedMessages().execute();
+
+                        if (!socketRunning)
+                            new MessengerSocket().run();
+                    }
+                    sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
@@ -111,7 +88,7 @@ public class ReceiveService extends Service {
         public void run() {
             while (running) {
                 try {
-                    new EmpfangeDaten().execute();
+                    new ReceiveNews().execute();
                     for (int i = 0; i < 60000 && running && !receiveNews; i++)
                         sleep(1);
                     receiveNews = false;
@@ -123,11 +100,11 @@ public class ReceiveService extends Service {
         }
     }
 
-    private class SendTask extends AsyncTask<Void, Void, Void> {
+    private class SendQueuedMessages extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
-                Message[] array = Utils.getMDB().getUnsendMessages();
+                Message[] array = Utils.getMDB().getQueuedMessages();
                 for (Message m : array) {
                     try {
                         BufferedReader reader =
@@ -139,7 +116,7 @@ public class ReceiveService extends Service {
                         while (reader.readLine() != null)
                             ;
                         reader.close();
-                        Utils.getMDB().removeUnsendMessage(m.mid);
+                        Utils.getMDB().dequeueMessage(m.mid);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -153,7 +130,7 @@ public class ReceiveService extends Service {
         }
     }
 
-    private class EmpfangeDaten extends AsyncTask<Void, Void, Void> {
+    private class ReceiveNews extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
@@ -210,6 +187,7 @@ public class ReceiveService extends Service {
     private class MessengerSocket extends Thread {
         @Override
         public void run() {
+            socketRunning = true;
             try {
                 BufferedReader reader =
                         new BufferedReader(
@@ -262,6 +240,13 @@ public class ReceiveService extends Service {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            socketRunning = false;
+        }
+
+        @Override
+        public void interrupt() {
+            super.interrupt();
+            socketRunning = false;
         }
 
         private void assoziationen() {

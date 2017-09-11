@@ -81,7 +81,6 @@ public class ChatEditActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
 
-        Utils.receiveMessenger();
         setResult(1, getIntent().putExtra("cname", cname));
         Utils.getMDB().muteChat(cid, !notifications.isChecked());
 

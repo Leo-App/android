@@ -198,7 +198,6 @@ public class MessengerActivity extends AppCompatActivity {
     private void initArrays() {
         userArray = Utils.getMDB().getUsers();
         chatArray = Utils.getMDB().getChats();
-        Utils.receiveMessenger();
     }
 
     public void notifyUpdate() {

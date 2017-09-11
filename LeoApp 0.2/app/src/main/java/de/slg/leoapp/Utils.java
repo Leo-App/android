@@ -428,11 +428,6 @@ public abstract class Utils {
         Utils.receiveService = receiveService;
     }
 
-    public static void receiveMessenger() {
-        if (receiveService != null)
-            receiveService.receiveMessages = true;
-    }
-
     public static void receiveNews() {
         if (receiveService != null)
             receiveService.receiveNews = true;

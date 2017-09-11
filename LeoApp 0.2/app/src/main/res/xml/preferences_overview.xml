@@ -102,13 +102,6 @@
         android:key="pref_key_storage_settings"
         android:title="@string/title_messenger">
 
-        <de.slg.messenger.NumberPickerPref
-            android:defaultValue="2"
-            android:key="pref_key_refresh"
-            android:persistent="true"
-            android:summary="@string/settings_summary_refresh_interval"
-            android:title="@string/settings_title_refresh_interval" />
-
         <Preference
             android:key="pref_key_sync_messenger"
             android:summary="@string/settings_summary_messenger_sync"
