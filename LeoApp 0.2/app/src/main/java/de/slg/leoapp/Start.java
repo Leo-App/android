@@ -30,8 +30,7 @@ public class Start extends Activity {
                     break;
                 }
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (ParseException ignored) {
         }
 
         final Intent main = new Intent(getApplicationContext(), MainActivity.class)

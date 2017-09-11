@@ -71,8 +71,8 @@ public class ReceiveService extends Service {
                         if (Utils.getMDB().hasQueuedMessages())
                             new SendQueuedMessages().execute();
 
-                        if (!socketRunning)
-                            new MessengerSocket().run();
+                        //                        if (!socketRunning)
+                        //                            new MessengerSocket().run();
                     }
                     sleep(5000);
                 } catch (InterruptedException e) {

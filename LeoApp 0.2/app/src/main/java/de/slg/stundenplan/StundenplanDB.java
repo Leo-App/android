@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
@@ -30,7 +30,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
     private final Context        context;
 
     public StundenplanDB(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
         database = getWritableDatabase();
         this.context = context;
     }
@@ -66,6 +66,10 @@ public class StundenplanDB extends SQLiteOpenHelper {
     }
 
     long insertFach(String kurz, String lehrer, String raum) {
+        kurz = kurz.replace('-', ' ').replaceAll("[ ]{2,}", " ");
+        Log.e("INSERT FACH", "Kürzel = " + kurz);
+        Log.e("INSERT FACH", "Lehrer = " + lehrer);
+        Log.e("INSERT FACH", "Raum = " + raum);
         String selection = FACH_KURZEL + " = '" + kurz + "' AND " + FACH_LEHRER + " = '" + lehrer + "'";
         Cursor cursor    = database.query(TABLE_FACHER, new String[]{FACH_ID}, selection, null, null, null, null);
         if (cursor.getCount() > 0) {
@@ -76,7 +80,10 @@ public class StundenplanDB extends SQLiteOpenHelper {
         }
         cursor.close();
         ContentValues values = new ContentValues();
-        values.put(FACH_ART, kurz.substring(2, 3) + "K");
+        if (kurz.length() > 2 && (kurz.charAt(2) == 'G' || kurz.charAt(2) == 'L' || kurz.charAt(2) == 'Z'))
+            values.put(FACH_ART, kurz.charAt(2) + "K");
+        else
+            values.put(FACH_ART, "GK");
         values.put(FACH_KURZEL, kurz);
         values.put(FACH_NAME, kuerzelToFach(kurz)); //Hier brauchen wir jetzt doch das ganze Kürzel!
         values.put(FACH_LEHRER, lehrer);
@@ -85,14 +92,16 @@ public class StundenplanDB extends SQLiteOpenHelper {
     }
 
     void insertStunde(long fid, int tag, int stunde) {
-        ContentValues values = new ContentValues();
-        values.put(FACH_ID, fid);
-        values.put(STUNDEN_TAG, tag);
-        values.put(STUNDEN_STUNDE, stunde);
-        try {
+        String selection = FACH_ID + " = " + fid + " AND " + STUNDEN_TAG + " = " + tag + " AND " + STUNDEN_STUNDE + " = " + stunde;
+        Cursor cursor    = database.query(TABLE_STUNDEN, new String[]{FACH_ID}, selection, null, null, null, null);
+        if (cursor.getCount() == 0) {
+            ContentValues values = new ContentValues();
+            values.put(FACH_ID, fid);
+            values.put(STUNDEN_TAG, tag);
+            values.put(STUNDEN_STUNDE, stunde);
             database.insert(TABLE_STUNDEN, null, values);
-        } catch (SQLiteException ignored) {
         }
+        cursor.close();
     }
 
     void waehleFach(long fid) {
@@ -200,7 +209,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
     private String kuerzelToFach(String kuerzel) {
         String stufe = Utils.getUserStufe().toUpperCase();
         kuerzel = kuerzel.toUpperCase();
-        if (stufe == "EF" || stufe == "Q1" || stufe == "Q1") {
+        if (stufe.equals("EF") || stufe.equals("Q1") || stufe.equals("Q2")) {
             if (kuerzel.length() > 4) {
                 if (kuerzel.charAt(2) == ' ') {
                     String k = kuerzel.substring(0, 2) + kuerzel.substring(3);
@@ -222,39 +231,39 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 }
                 String hilfskuerzel = kuerzel.substring(0, kuerzel.length() - 1); //Muss es -1 oder -2 sein, wenn der letzte Buchstabe wegfallen soll
                 if (hilfskuerzel.endsWith("ZG")) {
-                    return this.teilkuerzelOS(hilfskuerzel.substring(0,2)) + context.getString(R.string.ZK);
+                    return this.teilkuerzelOS(hilfskuerzel.substring(0, 2)) + context.getString(R.string.ZK);
                 }
                 if (hilfskuerzel.endsWith("P")) {
-                    return this.teilkuerzelOS(hilfskuerzel.substring(0,2)) + context.getString(R.string.Projektk);
+                    return this.teilkuerzelOS(hilfskuerzel.substring(0, 2)) + context.getString(R.string.Projektk);
                 }
                 if (hilfskuerzel.endsWith("VTF")) {
-                    return this.teilkuerzelOS(hilfskuerzel.substring(1,2)) + context.getString(R.string.Vertiefung);
+                    return this.teilkuerzelOS(hilfskuerzel.substring(1, 2)) + context.getString(R.string.Vertiefung);
                 }
             }
-            if (kuerzel.substring(0,2).contains("0,1,2,3,4,5,6,7,8,9")) {
-                return  this.teilkuerzelOS(kuerzel.substring(0,2).replace("0,1,2,3,4,5,6,7,8,9"," "));
+            if (kuerzel.substring(0, 2).contains("0,1,2,3,4,5,6,7,8,9")) { // impossible
+                return this.teilkuerzelOS(kuerzel.substring(0, 2).replace("0,1,2,3,4,5,6,7,8,9", " "));
             }
-            return this.teilkuerzelOS(kuerzel.substring(0,2));
-        } else if (stufe != "") {
-            if(kuerzel.length()>2) {
-                if(kuerzel.contains("-")) {
+            return this.teilkuerzelOS(kuerzel.substring(0, 2));
+        } else if (!stufe.equals("")) {
+            if (kuerzel.length() > 2) {
+                if (kuerzel.contains("-")) {
                     int i = kuerzel.indexOf('-');
-                    return this.teilkuerzelUS(kuerzel.substring(0,i));
+                    return this.teilkuerzelUS(kuerzel.substring(0, i));
                 }
-                if(kuerzel.length()==3 && kuerzel.endsWith("F")) {
-                    return this.teilkuerzelUS(kuerzel.substring(0,2));
+                if (kuerzel.length() == 3 && kuerzel.endsWith("F")) {
+                    return this.teilkuerzelUS(kuerzel.substring(0, 2));
                 }
-                if(kuerzel.endsWith("DF")) {
-                    if(kuerzel.startsWith("PK")) {
+                if (kuerzel.endsWith("DF")) {
+                    if (kuerzel.startsWith("PK")) {
                         return context.getString(R.string.PoWi) + context.getString(R.string.Diff);
                     }
-                    return this.teilkuerzelUS(kuerzel.substring(0,2)+context.getString(R.string.Diff));
+                    return this.teilkuerzelUS(kuerzel.substring(0, 2) + context.getString(R.string.Diff));
                 }
-                if(kuerzel.endsWith("FÖ")) {
+                if (kuerzel.endsWith("FÖ")) {
                     int i = kuerzel.indexOf("FÖ");
-                    return this.teilkuerzelUS(kuerzel.substring(0,i))+context.getString(R.string.Förder);
+                    return this.teilkuerzelUS(kuerzel.substring(0, i)) + context.getString(R.string.Förder);
                 }
-                if(kuerzel.startsWith("LÜZ")) {
+                if (kuerzel.startsWith("LÜZ")) {
                     switch (kuerzel.substring(3)) {
                         case "MO":
                             return context.getString(R.string.lüz) + context.getString(R.string.montag);
@@ -264,14 +273,14 @@ public class StundenplanDB extends SQLiteOpenHelper {
                             return context.getString(R.string.lüz) + context.getString(R.string.donnerstag);
                     }
                 }
-                if(kuerzel.startsWith("AG")) {
+                if (kuerzel.startsWith("AG")) {
                     String teil = kuerzel.substring(2);
-                    if (kuerzel.charAt(2)==' ') {
+                    if (kuerzel.charAt(2) == ' ') {
                         teil = kuerzel.substring(3);
                     }
                     return context.getString(R.string.ag) + this.teilkuerzelAG(teil);
                 }
-                if(kuerzel.equals("SOZ")) {
+                if (kuerzel.equals("SOZ")) {
                     return context.getString(R.string.Soz);
                 }
                 if (kuerzel.equals("SPSW")) {
@@ -345,6 +354,8 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 return context.getString(R.string.kunst);
             case "MU":
                 return context.getString(R.string.musik);
+            case "SP":
+                return context.getString(R.string.sport);
             default:
                 return null;
         }
