@@ -188,7 +188,7 @@ public class AuswahlActivity extends AppCompatActivity {
                 Log.e("FachImporter", "started");
                 try {
                     InputStream inputStream =
-                            new URL(Utils.BASE_URL + "testdaten.txt")
+                            new URL(Utils.BASE_URL + "stundenplan_neu.txt")
                                     .openConnection()
                                     .getInputStream();
                     FileOutputStream fileOutput = context.openFileOutput("testdaten.txt", Context.MODE_PRIVATE);

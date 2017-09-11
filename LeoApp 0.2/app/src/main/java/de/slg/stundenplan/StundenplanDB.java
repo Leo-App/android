@@ -280,7 +280,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             }
             return this.teilkuerzelUS(kuerzel);
         }
-        return kuerzel
+        return kuerzel;
     }
 
     private String teilkuerzelUS(String teil) {
