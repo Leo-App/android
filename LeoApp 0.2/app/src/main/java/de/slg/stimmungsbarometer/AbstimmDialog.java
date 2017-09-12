@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
@@ -207,11 +209,14 @@ public class AbstimmDialog extends AlertDialog {
             if (wahls[0] != null) {
                 try {
                     AbstimmDialog.Wahl w = wahls[0];
+                    HttpsURLConnection connection = (HttpsURLConnection)
+                            new URL(Utils.BASE_URL + "stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
+                                    .openConnection();
+                    connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(Utils.BASE_URL + "stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
-                                                    .openConnection()
+                                            connection
                                                     .getInputStream(), "UTF-8"));
                     while (reader.readLine() != null)
                         ;

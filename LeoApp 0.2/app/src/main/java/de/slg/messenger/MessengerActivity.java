@@ -208,7 +208,7 @@ public class MessengerActivity extends AppCompatActivity {
         if (cFragment != null)
             cFragment.refreshUI();
         if (sFragment != null)
-        sFragment.refreshUI();
+            sFragment.refreshUI();
         ChatActivity chatActivity = Utils.getChatActivity();
         if (chatActivity != null)
             chatActivity.refreshUI(true, false);

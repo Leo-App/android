@@ -23,8 +23,8 @@ class SQLitePrinter {
         @Override
         protected Void doInBackground(Void... params) {
             SQLiteDatabase readable = new SQLiteHandler(c).getReadableDatabase();
-            Cursor c = readable.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-            Cursor current;
+            Cursor         c        = readable.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+            Cursor         current;
             if (c.moveToFirst()) {
                 while (!c.isAfterLast()) {
                     String table = c.getString(0);

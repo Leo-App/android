@@ -22,6 +22,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
@@ -291,12 +293,14 @@ public class ChatEditActivity extends AppCompatActivity {
         private void sendAssoziation(Assoziation assoziation) {
             if (assoziation != null) {
                 try {
+                    HttpsURLConnection connection = (HttpsURLConnection)
+                            new URL(generateURL(assoziation))
+                                    .openConnection();
+                    connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(generateURL(assoziation))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
+                                            connection.getInputStream(), "UTF-8"));
                     while (reader.readLine() != null)
                         ;
                     reader.close();
@@ -355,12 +359,14 @@ public class ChatEditActivity extends AppCompatActivity {
         private void removeAssoziation(Assoziation assoziation) {
             if (assoziation != null) {
                 try {
+                    HttpsURLConnection connection = (HttpsURLConnection)
+                            new URL(generateURL(assoziation))
+                                    .openConnection();
+                    connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(generateURL(assoziation))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
+                                            connection.getInputStream(), "UTF-8"));
                     while (reader.readLine() != null)
                         ;
                     reader.close();
@@ -412,12 +418,14 @@ public class ChatEditActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
             if (Utils.checkNetwork())
                 try {
+                    HttpsURLConnection connection = (HttpsURLConnection)
+                            new URL(generateURL(params[0]))
+                                    .openConnection();
+                    connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(generateURL(params[0]))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
+                                            connection.getInputStream(), "UTF-8"));
                     while (reader.readLine() != null)
                         ;
                     reader.close();

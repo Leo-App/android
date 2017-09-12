@@ -88,8 +88,8 @@ public class StundenplanBildActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         } else {
-            Bitmap bitmap = view.bitmap;
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            Bitmap                bitmap = view.bitmap;
+            ByteArrayOutputStream bytes  = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
             try {
                 new File(getDirectory()).mkdirs();

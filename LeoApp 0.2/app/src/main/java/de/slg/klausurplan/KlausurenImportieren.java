@@ -8,11 +8,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.Utils;
@@ -36,19 +37,21 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     protected List<Klausur> doInBackground(Void... params) {
         try {
             listeMitHeruntergeladenenKlausuren = new List<>();
-            URL               url           = new URL(Utils.BASE_URL + "klausurplan2017.xml");
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoOutput(true);
-            urlConnection.connect(); //Datei wird aus dem Internet geladen
+
+            HttpsURLConnection connection = (HttpsURLConnection)
+                    new URL(Utils.BASE_URL + "klausurplan2017.xml")
+                            .openConnection();
+            connection.setRequestProperty("Authorization", Utils.authorization);
+
             FileOutputStream fileOutput  = context.openFileOutput("klausurplan2017.xml", Context.MODE_PRIVATE);
-            InputStream      inputStream = urlConnection.getInputStream();
+            InputStream      inputStream = connection.getInputStream();
             byte[]           buffer      = new byte[1024];
             int              bufferLength;
             while ((bufferLength = inputStream.read(buffer)) > 0) {
                 fileOutput.write(buffer, 0, bufferLength);
             }
             fileOutput.close();
+
             reader = new BufferedReader(new InputStreamReader(context.openFileInput("klausurplan2017.xml")));
             year = getYear();
             String line;
@@ -56,6 +59,8 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
                 if (line.replace(" ", "").equals("<informaltableframe=\"all\">"))
                     tabelle(reader.readLine());
             }
+            reader.close();
+
             return listeMitHeruntergeladenenKlausuren;
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,12 +70,14 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 
     private void tabelle(String s) {
         for (int offset = 0; s.substring(offset).contains("<row>"); offset = s.indexOf("</row>", offset) + 6) {
-            String substring = s.substring(s.indexOf("<row>", offset) + 5, s.indexOf("</row>", offset));// Trennen bei <row>, <\row>  Bsp: <entry><para>MO </para></entry><entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry>
-            substring = substring.substring(substring.indexOf("</entry>") + 8);//Trennen nach erstem <\entry> (Wochentag wird nicht benötigt) Bsp: <entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry>
-            substring = substring.replace("<para>", "").replace("</para>", "").replace("<para/>", " ").replace("<entry>", "").replace("</entry>", ";");//entfernen aller para, Anfangs entry, Ersetzen der </entry> Tags durch ; Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
+            String substring = s.substring(s.indexOf("<row>", offset) + 5, s.indexOf("</row>", offset)); // Trennen bei <row>, <\row>  Bsp: <entry><para>MO </para></entry><entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry>
+            substring = substring.substring(substring.indexOf("</entry>") + 8); //Trennen nach erstem <\entry> (Wochentag wird nicht benötigt) Bsp: <entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry>
+            substring = substring.replace("<para>", "").replace("</para>", "").replace("<para/>", " ").replace("<entry>", "").replace("</entry>", ";"); //entfernen aller para, Anfangs entry, Ersetzen der </entry> Tags durch ; Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
+
             if (!substring.contains("<entry namest=\"c3\" nameend=\"c5\">")) { //? beim neuen Klausurplan nirgendwo der Fall
-                if (!substring.startsWith("EF"))//nicht benötigte Zeilen Bsp:EF;Q1;Q2;
+                if (!substring.startsWith("EF")) { //nicht benötigte Zeilen Bsp:EF;Q1;Q2;
                     zeile(substring);
+                }
             }
         }
     }
@@ -80,7 +87,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
         //Log.e("date", datesubstring);
         if (!datesubstring.endsWith("."))
             datesubstring += '.'; //Log.e("date", datesubstring); //fehlende Punkte am Ende werden ergänzt
-        Date     datum = getDate(datesubstring + year); //if(datum!=null) Log.e("date",datum.toString() );  //Datum wird geparst
+        Date     datum = getDate(datesubstring + year); //if(datum!=null) Log.e("date",datum.toString() );  Datum wird geparst
         String   rest  = s.substring(s.indexOf(";") + 1); //Log.e("zeile", rest); //Bsp (2) D G2 SNE (27), D G3 POR (27), E G2 DRE (26), M G3 ENS (27);  ; ;
         String[] split = rest.split(";");
         for (int i = 0; i < split.length; i++) {

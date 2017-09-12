@@ -255,14 +255,13 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
             String[] children;
 
-            if(cursor.getString(5).equals("null")) {
+            if (cursor.getString(5).equals("null")) {
 
                 children = new String[]{cursor.getString(0),
                         cursor.getString(2),
                         simpleDateFormat.format(erstelldatum) +
                                 " - " + simpleDateFormat.format(ablaufdatum)
                 };
-
             } else {
                 children = new String[]{cursor.getString(0),
                         cursor.getString(2),
@@ -374,7 +373,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 iv.setOnClickListener(listener);
 
                 final TextView textView = (TextView) convertView.findViewById(R.id.textView);
-                textView.setText(location.substring(location.lastIndexOf('/')+1));
+                textView.setText(location.substring(location.lastIndexOf('/') + 1));
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 textView.setOnClickListener(listener);
             }

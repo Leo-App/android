@@ -22,14 +22,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class AddGroupChatActivity extends AppCompatActivity {
     private final User[] users = Utils.getMDB().getUsers();
-    private EditText etChatname;
-    private MenuItem confirm;
+    private EditText  etChatname;
+    private MenuItem  confirm;
     private boolean[] selection;
     private int       selected;
 
@@ -181,12 +183,14 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
         private void sendChat() {
             try {
+                HttpsURLConnection connection = (HttpsURLConnection)
+                        new URL(generateURL(cname))
+                                .openConnection();
+                connection.setRequestProperty("Authorization", Utils.authorization);
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
-                                        new URL(generateURL(cname))
-                                                .openConnection()
-                                                .getInputStream(), "UTF-8"));
+                                        connection.getInputStream(), "UTF-8"));
                 StringBuilder builder = new StringBuilder();
                 String        l;
                 while ((l = reader.readLine()) != null)
@@ -204,12 +208,14 @@ public class AddGroupChatActivity extends AppCompatActivity {
         private void sendAssoziation(Assoziation assoziation) {
             if (assoziation != null)
                 try {
+                    HttpsURLConnection connection = (HttpsURLConnection)
+                            new URL(generateURL(assoziation))
+                                    .openConnection();
+                    connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(generateURL(assoziation))
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
+                                            connection.getInputStream(), "UTF-8"));
                     while (reader.readLine() != null)
                         ;
                     reader.close();
