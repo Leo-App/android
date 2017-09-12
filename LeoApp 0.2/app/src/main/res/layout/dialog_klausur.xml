@@ -81,8 +81,6 @@
         android:layout_alignEnd="@+id/eingabeFach"
         android:layout_alignRight="@+id/eingabeFach"
         android:layout_alignTop="@+id/eingabeDatum"
-        android:layout_toEndOf="@+id/buttonExamDis"
-        android:layout_toRightOf="@+id/buttonExamDis"
         android:background="@android:color/transparent"
         android:tint="@android:color/black"
         android:visibility="visible"

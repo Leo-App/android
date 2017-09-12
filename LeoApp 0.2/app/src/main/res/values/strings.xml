@@ -21,6 +21,12 @@
     <string name="week">Week</string>
     <string name="action_load">Load exams</string>
     <string name="action_delete_all">Suprimer tous</string>
+    <string name="new_entry">New Entry</string>
+    <string name="new_entry_title">Title</string>
+    <string name="new_entry_content">Content</string>
+    <string name="to">To</string>
+    <string name="info_add_entry">Consider using the webinterface for more options</string>
+
 
     <!-- Menu titles -->
 
@@ -263,7 +269,7 @@
     <string name="settings_title_notification_none">Do not receive any notifications</string>
     <string name="settings_summary_reasons_survey">Show reasons when choosing your nood</string>
     <string name="set_changes">Save changes</string>
-    <string name="feature_request">Explain your proposition</string>
+    <string name="feature_request">Explain your suggestion</string>
     <string name="feature_request_title">Feature idea</string>
     <string name="cards_quick">Quick access</string>
     <string name="snackbar_date_invalid">Date is invalid</string>
