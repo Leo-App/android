@@ -29,6 +29,8 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.leoapp.List;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
@@ -184,12 +186,14 @@ public class AuswahlActivity extends AppCompatActivity {
             if (Utils.checkNetwork()) {
                 Log.e("FachImporter", "started");
                 try {
+                    HttpsURLConnection connection = (HttpsURLConnection)
+                            new URL(Utils.BASE_URL + "stundenplan_neu.txt")
+                                    .openConnection();
+                    connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(Utils.BASE_URL + "stundenplan_neu.txt")
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
+                                            connection.getInputStream(), "UTF-8"));
                     BufferedWriter writer =
                             new BufferedWriter(
                                     new OutputStreamWriter(

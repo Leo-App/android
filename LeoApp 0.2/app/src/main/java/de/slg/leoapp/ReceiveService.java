@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
@@ -107,12 +109,14 @@ public class ReceiveService extends Service {
                 Message[] array = Utils.getMDB().getQueuedMessages();
                 for (Message m : array) {
                     try {
+                        HttpsURLConnection connection = (HttpsURLConnection)
+                                new URL(generateURL(m.mtext, m.cid))
+                                        .openConnection();
+                        connection.setRequestProperty("Authorization", Utils.authorization);
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                new URL(generateURL(m.mtext, m.cid))
-                                                        .openConnection()
-                                                        .getInputStream(), "UTF-8"));
+                                                connection.getInputStream(), "UTF-8"));
                         while (reader.readLine() != null)
                             ;
                         reader.close();
@@ -135,12 +139,14 @@ public class ReceiveService extends Service {
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
                 try {
+                    HttpsURLConnection connection = (HttpsURLConnection)
+                            new URL(Utils.BASE_URL + "schwarzesBrett/meldungen.php")
+                                    .openConnection();
+                    connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(Utils.BASE_URL + "schwarzesBrett/meldungen.php")
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
+                                            connection.getInputStream(), "UTF-8"));
                     StringBuilder builder = new StringBuilder();
                     String        line;
                     while ((line = reader.readLine()) != null)
@@ -192,7 +198,7 @@ public class ReceiveService extends Service {
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
-                                        new URL("http://192.168.0.107:8080/messenger/getMessages?uid=" + Utils.getUserID())
+                                        new URL(Utils.BASE_URL.substring(0, Utils.BASE_URL.indexOf("slgweb/")) + "/leoapp?uid=" + Utils.getUserID())
                                                 .openConnection()
                                                 .getInputStream(), "UTF-8"));
 
@@ -201,37 +207,36 @@ public class ReceiveService extends Service {
                     builder.append(line)
                             .append(System.getProperty("line.separator"));
                     if (line.endsWith("_ next _")) {
-                        for (String s : builder.toString().split("_ next _")) {
-                            String[] parts = s.substring(1).split("_ ; _");
+                        String   s     = builder.toString();
+                        String[] parts = s.substring(1, s.indexOf("_ next _")).split("_ ; _");
 
-                            if (s.startsWith("m") && parts.length == 6) {
-                                int    mid   = Integer.parseInt(parts[0]);
-                                String mtext = Verschluesseln.decrypt(parts[1], Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
-                                long   mdate = Long.parseLong(parts[3] + "000");
-                                int    cid   = Integer.parseInt(parts[4]);
-                                int    uid   = Integer.parseInt(parts[5]);
+                        if (s.startsWith("m") && parts.length == 6) {
+                            int    mid   = Integer.parseInt(parts[0]);
+                            String mtext = Verschluesseln.decrypt(parts[1], Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                            long   mdate = Long.parseLong(parts[3] + "000");
+                            int    cid   = Integer.parseInt(parts[4]);
+                            int    uid   = Integer.parseInt(parts[5]);
 
-                                Utils.getMDB().insertMessage(new Message(mid, mtext, mdate, cid, uid));
-                            } else if (s.startsWith("c") && parts.length == 3) {
-                                int           cid   = Integer.parseInt(parts[0]);
-                                String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
-                                Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
+                            Utils.getMDB().insertMessage(new Message(mid, mtext, mdate, cid, uid));
+                        } else if (s.startsWith("c") && parts.length == 3) {
+                            int           cid   = Integer.parseInt(parts[0]);
+                            String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                            Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
 
-                                Utils.getMDB().insertChat(new Chat(cid, cname, ctype));
-                            } else if (s.startsWith("u") && parts.length == 5) {
-                                int    uid          = Integer.parseInt(parts[0]);
-                                String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
-                                String ustufe       = parts[2];
-                                int    upermission  = Integer.parseInt(parts[3]);
-                                String udefaultname = parts[4];
+                            Utils.getMDB().insertChat(new Chat(cid, cname, ctype));
+                        } else if (s.startsWith("u") && parts.length == 5) {
+                            int    uid          = Integer.parseInt(parts[0]);
+                            String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                            String ustufe       = parts[2];
+                            int    upermission  = Integer.parseInt(parts[3]);
+                            String udefaultname = parts[4];
 
-                                Utils.getMDB().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
-                            } else if (s.startsWith("a")) {
-                                assoziationen();
-                            }
+                            Utils.getMDB().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
+                        } else if (s.startsWith("a")) {
+                            assoziationen();
                         }
 
-                        builder = new StringBuilder();
+                        builder.delete(0, builder.length());
 
                         if (Utils.getMessengerActivity() != null)
                             Utils.getMessengerActivity().notifyUpdate();
@@ -251,12 +256,14 @@ public class ReceiveService extends Service {
 
         private void assoziationen() {
             try {
+                HttpsURLConnection connection = (HttpsURLConnection)
+                        new URL(Utils.BASE_URL + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID())
+                                .openConnection();
+                connection.setRequestProperty("Authorization", Utils.authorization);
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
-                                        new URL(Utils.BASE_URL + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID())
-                                                .openConnection()
-                                                .getInputStream(), "UTF-8"));
+                                        connection.getInputStream(), "UTF-8"));
                 StringBuilder builder = new StringBuilder();
                 String        l;
                 while ((l = reader.readLine()) != null)

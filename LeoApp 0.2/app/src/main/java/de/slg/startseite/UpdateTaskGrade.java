@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.leoapp.Utils;
 
 public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
@@ -23,18 +25,22 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(String... params) {
-        BufferedReader    in         = null;
-        String            result     = "";
-        boolean           connection = hasActiveInternetConnection();
-        SharedPreferences pref       = PreferenceManager.getDefaultSharedPreferences(c);
-        if (!connection)
+        BufferedReader    in            = null;
+        String            result        = "";
+        boolean           hasConnection = hasActiveInternetConnection();
+        SharedPreferences pref          = PreferenceManager.getDefaultSharedPreferences(c);
+        if (!hasConnection)
             return false;
         try {
-            int    id          = pref.getInt("pref_key_general_id", -1);
-            String klasse      = pref.getString("pref_key_level_general", "N/A");
-            URL    interfaceDB = new URL(Utils.BASE_URL + "updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse);
+            int    id     = pref.getInt("pref_key_general_id", -1);
+            String klasse = pref.getString("pref_key_level_general", "N/A");
+            HttpsURLConnection connection = (HttpsURLConnection)
+                    new URL(Utils.BASE_URL + "updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse)
+                            .openConnection();
+            connection.setRequestProperty("Authorization", Utils.authorization);
+
             in = null;
-            in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 if (!inputLine.contains("<"))

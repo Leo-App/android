@@ -26,6 +26,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.GregorianCalendar;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
@@ -239,12 +241,14 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             if (daten == null) {
                 try {
+                    HttpsURLConnection connection = (HttpsURLConnection)
+                            new URL(Utils.BASE_URL + "stimmungsbarometer/ergebnisse.php?key=5453&userid=" + Utils.getUserID())
+                                    .openConnection();
+                    connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            new URL(Utils.BASE_URL + "stimmungsbarometer/ergebnisse.php?key=5453&userid=" + Utils.getUserID())
-                                                    .openConnection()
-                                                    .getInputStream(), "UTF-8"));
+                                            connection.getInputStream(), "UTF-8"));
                     String        line;
                     StringBuilder builder = new StringBuilder();
                     while ((line = reader.readLine()) != null)

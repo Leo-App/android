@@ -126,7 +126,6 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
                         .putBoolean("pref_key_notification_schedule", false)
                         .apply();
             }
-
         } else {
             if (!connection) {
                 showSnackbar();

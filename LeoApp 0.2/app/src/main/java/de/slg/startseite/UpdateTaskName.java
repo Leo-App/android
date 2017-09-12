@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
@@ -33,11 +35,13 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
         if (!Utils.checkNetwork())
             return ReturnValues.NO_CONNECTION;
         try {
-            int    id          = Utils.getUserID();
-            String username    = Utils.getUserName().replace(' ', '+');
-            URL    interfaceDB = new URL(Utils.BASE_URL + "updateUsername.php?key=5453&userid=" + id + "&username=" + username);
+            int                id         = Utils.getUserID();
+            String             username   = Utils.getUserName().replace(' ', '+');
+            HttpsURLConnection connection = (HttpsURLConnection) new URL(Utils.BASE_URL + "updateUsername.php?key=5453&userid=" + id + "&username=" + username).openConnection();
+            connection.setRequestProperty("Authorization", Utils.authorization);
+
             in = null;
-            in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 if (!inputLine.contains("<"))

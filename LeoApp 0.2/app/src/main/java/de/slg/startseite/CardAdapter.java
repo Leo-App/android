@@ -23,6 +23,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DecimalFormat;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.GraphicUtils;
@@ -285,7 +287,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
             TextView temperature = new TextView(Utils.getContext());
             temperature.setId(generateViewId());
             TextView humidity = new TextView(Utils.getContext());
-            //            new WeatherUpdateTask().execute(weatherIcon, temperature, humidity);
+            new WeatherUpdateTask().execute(weatherIcon, temperature, humidity);
             weatherIcon.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
             if (quick) {
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT);
@@ -403,25 +405,33 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
             try {
                 if (!Utils.checkNetwork())
                     return null;
-                URL            apiURL = new URL(Utils.BASE_URL + "getWeatherData.php");
-                BufferedReader b      = new BufferedReader(new InputStreamReader(apiURL.openConnection().getInputStream()));
-                String         current;
-                StringBuilder  json   = new StringBuilder();
-                while ((current = b.readLine()) != null)
+                HttpsURLConnection connection = (HttpsURLConnection)
+                        new URL(Utils.BASE_URL + "getWeatherData.php")
+                                .openConnection();
+                connection.setRequestProperty("Authorization", Utils.authorization);
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        connection.getInputStream(), "UTF-8"));
+                String        current;
+                StringBuilder json = new StringBuilder();
+                while ((current = reader.readLine()) != null)
                     json.append(current);
-                StringBuilder weatherCode = new StringBuilder();
-                StringBuilder tempCode    = new StringBuilder();
-                StringBuilder humidCode   = new StringBuilder();
-                int           indexStart  = json.indexOf("\"description\":");
-                for (int i = indexStart + 15; json.charAt(i) != '"'; i++)
-                    weatherCode.append(json.charAt(i));
-                indexStart = json.indexOf("\"temp\":");
-                for (int i = indexStart + 7; json.charAt(i) != ','; i++)
-                    tempCode.append(json.charAt(i));
-                indexStart = json.indexOf("\"humidity\":");
-                for (int i = indexStart + 11; json.charAt(i) != ','; i++)
-                    humidCode.append(json.charAt(i));
-                return new String[]{weatherCode.toString(), tempCode.toString(), humidCode.toString()};
+                if (json.length() > 0) {
+                    StringBuilder weatherCode = new StringBuilder();
+                    StringBuilder tempCode    = new StringBuilder();
+                    StringBuilder humidCode   = new StringBuilder();
+                    int           indexStart  = json.indexOf("\"description\":");
+                    for (int i = indexStart + 15; json.charAt(i) != '"'; i++)
+                        weatherCode.append(json.charAt(i));
+                    indexStart = json.indexOf("\"temp\":");
+                    for (int i = indexStart + 7; json.charAt(i) != ','; i++)
+                        tempCode.append(json.charAt(i));
+                    indexStart = json.indexOf("\"humidity\":");
+                    for (int i = indexStart + 11; json.charAt(i) != ','; i++)
+                        humidCode.append(json.charAt(i));
+                    return new String[]{weatherCode.toString(), tempCode.toString(), humidCode.toString()};
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

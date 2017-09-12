@@ -29,6 +29,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.leoapp.GraphicUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
@@ -283,7 +285,7 @@ public class ChatActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            Message            current     = messagesArray[position];
+            Message current = messagesArray[position];
 
             final View         v           = holder.itemView;
             final TextView     datum       = (TextView) v.findViewById(R.id.textViewDate);
@@ -384,12 +386,13 @@ public class ChatActivity extends AppCompatActivity {
                     return null;
                 if (Utils.checkNetwork()) {
                     try {
+                        HttpsURLConnection connection = (HttpsURLConnection) new URL(Utils.BASE_URL + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
+                                .openConnection();
+                        connection.setRequestProperty("Authorization", Utils.authorization);
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                new URL(Utils.BASE_URL + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
-                                                        .openConnection()
-                                                        .getInputStream(), "UTF-8"));
+                                                connection.getInputStream(), "UTF-8"));
                         String erg = "";
                         String l;
                         while ((l = reader.readLine()) != null)
@@ -416,12 +419,14 @@ public class ChatActivity extends AppCompatActivity {
                     refreshUI(false, true);
 
                     try {
+                        HttpsURLConnection connection = (HttpsURLConnection)
+                                new URL(generateURL(params[0]))
+                                        .openConnection();
+                        connection.setRequestProperty("Authorization", Utils.authorization);
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                new URL(generateURL(params[0]))
-                                                        .openConnection()
-                                                        .getInputStream(), "UTF-8"));
+                                                connection.getInputStream(), "UTF-8"));
                         String line;
                         while ((line = reader.readLine()) != null)
                             Log.e("TAG", line);

@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.messenger.AddGroupChatActivity;
@@ -36,7 +38,8 @@ import de.slg.stundenplan.StundenplanDB;
 
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
-    public static final String BASE_URL = "http://moritz.liegmanns.de/";
+    public static final String BASE_URL      = "https://secureaccess.itac-school.de/slgweb/leoapp_php/";
+    public static final String authorization = "Basic bW9ybGllMDMxMDAwOnRyYWN5MzEw";
     public static  Context           context;
     private static SharedPreferences preferences;
 
@@ -190,12 +193,14 @@ public abstract class Utils {
                 @Override
                 protected Boolean doInBackground(Void... params) {
                     try {
+                        HttpsURLConnection connection = (HttpsURLConnection)
+                                new URL(Utils.BASE_URL + "stimmungsbarometer/voted.php?key=5453&userid=" + getUserID())
+                                        .openConnection();
+                        connection.setRequestProperty("Authorization", Utils.authorization);
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
-                                                new URL(Utils.BASE_URL + "stimmungsbarometer/voted.php?key=5453&userid=" + getUserID())
-                                                        .openConnection()
-                                                        .getInputStream(), "UTF-8"));
+                                                connection.getInputStream(), "UTF-8"));
                         b = !Boolean.parseBoolean(reader.readLine());
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -390,7 +395,7 @@ public abstract class Utils {
             getMainActivity().finish();
     }
 
-    //User-Stuff
+    //User-Stuff<<<
     public static User getCurrentUser() {
         return new User(getUserID(), "Du", getUserStufe(), getUserPermission(), "");
     }
