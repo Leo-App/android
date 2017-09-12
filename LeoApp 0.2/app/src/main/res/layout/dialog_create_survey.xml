@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="@string/survey_description_title"
+        android:layout_below="@+id/title_details"
+        android:layout_alignLeft="@+id/title_details"
+        android:layout_alignStart="@+id/title_details" />
+
+    <EditText
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:inputType="textCapSentences"
+        android:layout_marginStart="20dp"
+        android:layout_below="@+id/description"
+        android:textColor="@color/colorText"
+        android:lines="1"/>
+
+    <Button
+        android:id="@+id/buttonExamSave"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/button_next"
+        android:drawableRight="@drawable/ic_chevron_right_white_24dp"
+        android:drawableTint="@color/colorPrimary"
+        android:textAllCaps="true"
+        android:layout_below="@+id/content"
+        android:layout_alignRight="@+id/content"
+        android:layout_alignEnd="@+id/content" />
+
+</RelativeLayout>

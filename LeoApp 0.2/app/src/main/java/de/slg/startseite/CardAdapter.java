@@ -369,6 +369,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
     @Override
     public void onItemDismiss(int position) {
         cards.toIndex(position);
+        cards.remove();
         notifyItemRemoved(position);
     }
 

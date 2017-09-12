@@ -153,6 +153,7 @@
     <string name="schriftlich">Schriftlich</string>
     <string name="notizen">Notizen</string>
     <string name="mache_bild">Bild erstellen</string>
+    <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
 
 
     <!-- Einstellungen -->
@@ -191,7 +192,7 @@
 
     <!--Klausurplan-->
     <string name="settings_summary_notification_test">Informiere mich über anstehende Klausuren</string>
-    <string name="settings_summary_testplan_time">Klausuren löschen nach...</string>
+    <string name="settings_summary_testplan_time">Klausuren löschen nach &#8230;</string>
     <string name="settings_title_testplan_time">Klausuren löschen</string>
     <string name="settings_summary_test_timetable">Nach Stundenplan filtern</string>
     <string name="settings_title_test_timetable">Filtern</string>
@@ -206,7 +207,9 @@
     <string name="settings_title_messenger_sync">Synchronisieren</string>
 
     <!--Schwarzes Brett-->
-    <string name="settings_summary_notification_news">Infromiere mich über neue Einträge</string>
+    <string name="settings_summary_notification_news">Informiere mich über neue Einträge</string>
+    <string name="new_entry">Neuer Eintrag</string>
+
 
     <!--Stimmungsbarometer-->
     <string name="settings_summary_notification_survey">Benachrichtige mich, falls ich noch nicht abgestimmt habe</string>
