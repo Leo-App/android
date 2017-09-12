@@ -162,6 +162,8 @@
     <string name="survey_checkbox_answers">Mehrere Möglich</string>
     <string name="survey_new_answer">Antwort</string>
     <string name="send_survey">Abschicken</string>
+    <string name="title_survey_to">Addressat</string>
+    <string name="title_description_to">An wen ist deine Umfrage gerichtet?</string>
 
 
     <!-- Einstellungen -->

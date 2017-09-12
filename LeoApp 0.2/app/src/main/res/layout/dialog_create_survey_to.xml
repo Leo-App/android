@@ -13,7 +13,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="@string/title_survey_title"
+        android:text="@string/title_survey_to"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
-        android:text="@string/survey_description_title"
+        android:text="@string/title_description_to"
         android:layout_below="@+id/title_details"
         android:layout_alignLeft="@+id/title_details"
         android:layout_alignStart="@+id/title_details"
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/title_to"
+        android:layout_below="@id/description"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
