@@ -13,7 +13,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="@string/title_survey_title"
+        android:text="@string/title_survey_answers"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView
@@ -21,12 +21,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
-        android:text="@string/survey_description_title"
+        android:text="@string/survey_description_answers"
         android:layout_below="@+id/title_details"
         android:layout_alignLeft="@+id/title_details"
         android:layout_alignStart="@+id/title_details"
         android:layout_alignRight="@+id/title_details"
-        android:layout_alignEnd="@+id/title_details" />
+        android:layout_alignEnd="@+id/title_details"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/multiple"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/description"
+        android:text="@string/survey_checkbox_answers"/>
+
+    <Button
+        android:id="@+id/new_answer"
+        android:text="@string/survey_new_answer"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:drawableLeft="@drawable/ic_add_white_24dp"
+        android:drawableTint="@color/colorPrimary"
+        android:layout_marginTop="10dp"
+        android:textAllCaps="true"
+        android:layout_marginStart="20dp"
+        android:layout_below="@+id/multiple"
+        android:textColor="@color/colorPrimary"/>
 
     <EditText
         android:id="@+id/content"
@@ -34,13 +61,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
         android:inputType="textCapSentences"
         android:layout_marginStart="20dp"
-        android:layout_below="@+id/description"
-        android:textColor="@color/colorText"
-        android:lines="1"/>
+        android:lines="1"
+        android:layout_below="@+id/new_answer"
+        android:textColor="@color/colorText"/>
 
     <Button
         android:id="@+id/buttonExamSave"
@@ -53,6 +81,6 @@
         android:drawableTint="@color/colorPrimary"
         android:textAllCaps="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"  />
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>
