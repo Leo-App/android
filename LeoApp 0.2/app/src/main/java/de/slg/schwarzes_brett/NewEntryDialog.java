@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import de.slg.leoapp.R;
 
 public class NewEntryDialog extends AlertDialog {
+
     protected NewEntryDialog(@NonNull Context context) {
         super(context);
     }
@@ -19,4 +20,5 @@ public class NewEntryDialog extends AlertDialog {
         setContentView(R.layout.dialog_create_entry);
 
     }
+
 }

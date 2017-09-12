@@ -161,6 +161,7 @@
     <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
     <string name="survey_checkbox_answers">Mehrere Möglich</string>
     <string name="survey_new_answer">Antwort</string>
+    <string name="send_survey">Abschicken</string>
 
 
     <!-- Einstellungen -->
