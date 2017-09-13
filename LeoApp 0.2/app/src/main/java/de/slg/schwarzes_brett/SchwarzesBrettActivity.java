@@ -51,12 +51,12 @@ import de.slg.stundenplan.StundenplanActivity;
 public class SchwarzesBrettActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
-    private static SQLiteConnector           db;
-    private static SQLiteDatabase            dbh;
-    private        List<String>              groupList;
-    private        List<String>              childList;
-    private        Map<String, List<String>> schwarzesBrett;
-    private        DrawerLayout              drawerLayout;
+    private static SQLiteConnector db;
+    private static SQLiteDatabase dbh;
+    private List<String> groupList;
+    private List<String> childList;
+    private Map<String, List<String>> schwarzesBrett;
+    private DrawerLayout drawerLayout;
 
     private String rawLocation;
 
@@ -207,27 +207,30 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     }
 
     private void initButton() {
+        View button = findViewById(R.id.floatingActionButton);
         if (Utils.getUserPermission() >= 2) {
-            View button = findViewById(R.id.floatingActionButton);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Utils.BASE_URL + "schwarzes_brett/NeueMeldung.php"));
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(intent);
-                    }
+                    new NewEntryDialog(SchwarzesBrettActivity.this).show();
                 }
             });
         } else {
-            findViewById(R.id.floatingActionButton).setVisibility(View.GONE);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new NewEntryDialog(SchwarzesBrettActivity.this).show();
+                }
+            });
+
         }
     }
 
     private ArrayList<Integer> createViewList() {
         ArrayList<Integer> viewList = new ArrayList<>();
-        SQLiteConnector    db       = new SQLiteConnector(getBaseContext());
-        SQLiteDatabase     dbh      = db.getReadableDatabase();
-        Cursor             cursor   = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_VIEWS + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
+        SQLiteConnector db = new SQLiteConnector(getBaseContext());
+        SQLiteDatabase dbh = db.getReadableDatabase();
+        Cursor cursor = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_VIEWS + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             viewList.add(cursor.getInt(0));
         }
@@ -237,10 +240,10 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private void createGroupList() {
         groupList = new ArrayList<>();
-        SQLiteConnector db    = new SQLiteConnector(getBaseContext());
-        SQLiteDatabase  dbh   = db.getReadableDatabase();
-        String          stufe = Utils.getUserStufe();
-        Cursor          cursor;
+        SQLiteConnector db = new SQLiteConnector(getBaseContext());
+        SQLiteDatabase dbh = db.getReadableDatabase();
+        String stufe = Utils.getUserStufe();
+        Cursor cursor;
         if (!stufe.equals("") && !stufe.equals("TEA")) {
             cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null, null, null, null);
         } else {
@@ -249,8 +252,8 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         schwarzesBrett = new LinkedHashMap<>();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             groupList.add(cursor.getString(1));
-            Date             erstelldatum     = new Date(cursor.getLong(3));
-            Date             ablaufdatum      = new Date(cursor.getLong(4));
+            Date erstelldatum = new Date(cursor.getLong(3));
+            Date ablaufdatum = new Date(cursor.getLong(4));
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
 
             String[] children;
@@ -302,9 +305,9 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
         private final Map<String, List<String>> eintraege;
-        private final List<String>              titel;
+        private final List<String> titel;
         @Nullable
-        private       ArrayList<Integer>        views;
+        private ArrayList<Integer> views;
 
         ExpandableListAdapter(List<String> titel, Map<String, List<String>> eintraege) {
             this.eintraege = eintraege;

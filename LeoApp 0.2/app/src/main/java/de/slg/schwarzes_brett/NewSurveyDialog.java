@@ -6,14 +6,14 @@ import android.support.v7.app.AlertDialog;
 
 import de.slg.leoapp.R;
 
-public class NewSurveyDialog extends AlertDialog {
+class NewSurveyDialog extends AlertDialog {
 
-    int stage = 0;
-    int[] layouts = {R.layout.dialog_create_survey, R.layout.dialog_create_survey_content, R.layout.dialog_create_survey_answers};
+    private int stage = 0;
+    private int[] layouts = {R.layout.dialog_create_survey, R.layout.dialog_create_survey_content, R.layout.dialog_create_survey_answers};
 
-    protected NewSurveyDialog(@NonNull Context context) {
+    NewSurveyDialog(@NonNull Context context) {
         super(context);
-        setContentView(layouts[stage]);
+        setContentView(R.layout.dialog_create_survey);
     }
 
     private void next() {

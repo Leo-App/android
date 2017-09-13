@@ -154,7 +154,7 @@
 
 
     <Button
-        android:id="@+id/buttonExamSave"
+        android:id="@+id/buttonSave"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -168,13 +168,13 @@
         android:textAllCaps="true"/>
 
     <Button
-        android:id="@+id/buttonExamDel"
+        android:id="@+id/buttonDel"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/buttonExamSave"
-        android:layout_alignBottom="@id/buttonExamSave"
-        android:layout_toLeftOf="@id/buttonExamSave"
+        android:layout_alignBaseline="@id/buttonSave"
+        android:layout_alignBottom="@id/buttonSave"
+        android:layout_toLeftOf="@id/buttonSave"
         android:text="@string/discard"
         android:textAllCaps="true"/>
 
