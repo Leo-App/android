@@ -224,7 +224,7 @@ public class StundenplanActivity extends AppCompatActivity {
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
-                                refreshUI();
+                                Utils.getStundenplanActivity().refreshUI();
                             }
                         });
                     }

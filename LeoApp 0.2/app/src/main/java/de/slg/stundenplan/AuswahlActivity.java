@@ -26,10 +26,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.PreferenceActivity;
@@ -41,6 +40,7 @@ public class AuswahlActivity extends AppCompatActivity {
     private KursAdapter   adapter;
     private StundenplanDB db;
     private FachImporter  importer;
+    private ListView      listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,14 @@ public class AuswahlActivity extends AppCompatActivity {
             initDB();
             initListView();
         }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listView.smoothScrollToPositionFromTop(adapter.getCount() - 1, 0);
+                listView.smoothScrollToPositionFromTop(0, 0);
+                refresh();
+            }
+        }, 100);
     }
 
     @Override
@@ -100,7 +108,7 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private void initListView() {
-        ListView listView = (ListView) findViewById(R.id.listA);
+        listView = (ListView) findViewById(R.id.listA);
         adapter = new KursAdapter(getApplicationContext(), db.getFaecher());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,9 +123,15 @@ public class AuswahlActivity extends AppCompatActivity {
                         adapter.ausgewaehlteStunden[(int) (d - 1)][(int) (d * 10 % 10 - 1)] = checked;
                     }
                     if (checked)
-                        adapter.ausgewaehlteFaecher.append(f.gibKurz().substring(0, 2));
+                        if (!f.gibKurz().startsWith("IB"))
+                            adapter.ausgewaehlteFaecher.append(f.gibKurz().substring(0, 2));
+                        else
+                            adapter.ausgewaehlteFaecher.append(f.gibKurz().substring(3, 6));
                     else {
-                        adapter.ausgewaehlteFaecher.contains(f.gibKurz().substring(0, 2));
+                        if (!f.gibKurz().startsWith("IB"))
+                            adapter.ausgewaehlteFaecher.contains(f.gibKurz().substring(0, 2));
+                        else
+                            adapter.ausgewaehlteFaecher.contains(f.gibKurz().substring(3, 6));
                         adapter.ausgewaehlteFaecher.remove();
                     }
                     refresh();
@@ -186,14 +200,14 @@ public class AuswahlActivity extends AppCompatActivity {
             if (Utils.checkNetwork()) {
                 Log.e("FachImporter", "started");
                 try {
-                    HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(Utils.BASE_URL + "stundenplan_neu.txt")
+                    HttpURLConnection connection = (HttpURLConnection)
+                            new URL("http://moritz.liegmanns.de/" + "stundenplan_neu.txt")
                                     .openConnection();
                     connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            connection.getInputStream(), "UTF-8"));
+                                            connection.getInputStream()));
                     BufferedWriter writer =
                             new BufferedWriter(
                                     new OutputStreamWriter(
@@ -201,6 +215,10 @@ public class AuswahlActivity extends AppCompatActivity {
                                                     "testdaten.txt",
                                                     Context.MODE_PRIVATE)));
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                        if (line.contains("�")) {
+                            Log.e("TAG", line);
+                            Log.e("TAG", String.valueOf((int) line.charAt(line.indexOf('�'))));
+                        }
                         writer.write(line);
                         writer.newLine();
                     }
@@ -217,14 +235,14 @@ public class AuswahlActivity extends AppCompatActivity {
                         String[] fach = line.replace("\"", "").split(",");
                         if (fach[1].startsWith(stufe)) {
                             if (!fach[3].equals(lastKurzel)) {
-                                lastID = Utils.getStundDB().insertFach(fach[3], fach[2], fach[4]);
+                                lastID = Utils.getStundDB().insertFach(fach[3], fach[2]);
                                 lastKurzel = fach[3];
                                 if (Utils.getUserPermission() == 2 && fach[2].equals(Utils.getLehrerKuerzel().toUpperCase())) {
                                     Utils.getStundDB().waehleFach(lastID);
                                     Utils.getStundDB().setzeSchriftlich(true, lastID);
                                 }
                             }
-                            Utils.getStundDB().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]));
+                            Utils.getStundDB().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]), fach[4]);
                         }
                     }
                     reader.close();
@@ -274,7 +292,10 @@ public class AuswahlActivity extends AppCompatActivity {
                 checkBox.setChecked(db.istGewaehlt(current.id));
 
                 if (checkBox.isChecked()) {
-                    ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
+                    if (!current.gibKurz().startsWith("IB"))
+                        ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
+                    else
+                        ausgewaehlteFaecher.append(current.gibKurz().substring(3, 6));
                     double[] stunden = db.gibStunden(current.id);
                     for (double d : stunden) {
                         ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
@@ -282,7 +303,7 @@ public class AuswahlActivity extends AppCompatActivity {
                     tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                     tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                     tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2))) {
+                } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || (current.gibKurz().startsWith("IB") ? ausgewaehlteFaecher.contains(current.gibKurz().substring(3, 6)) : ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2)))) {
                     views[position].setEnabled(false);
                     tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
                     tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
@@ -306,7 +327,7 @@ public class AuswahlActivity extends AppCompatActivity {
                         tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                         tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                         tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                    } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2))) {
+                    } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || (current.gibKurz().startsWith("IB") ? ausgewaehlteFaecher.contains(current.gibKurz().substring(3, 6)) : ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2)))) {
                         views[i].setEnabled(false);
                         tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
                         tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));

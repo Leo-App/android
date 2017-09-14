@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
@@ -17,20 +16,20 @@ public class StundenplanDB extends SQLiteOpenHelper {
     private static final String FACH_NAME           = "fname";
     private static final String FACH_KURZEL         = "fkurz";
     private static final String FACH_LEHRER         = "flehrer";
-    private static final String FACH_RAUM           = "fraum";
     private static final String FACH_ART            = "fart";
     private static final String TABLE_STUNDEN       = "stunden";
     private static final String STUNDEN_TAG         = "stag";
     private static final String STUNDEN_STUNDE      = "sstunde";
+    private static final String STUNDE_RAUM         = "sraum";
+    private static final String STUNDE_NOTIZ        = "snotiz";
     private static final String TABLE_GEWAHLT       = "gewaehlt";
     private static final String GEWAHLT_SCHRIFTLICH = "gschriftlich";
-    private static final String GEWAHLT_NOTIZ       = "gnotiz";
 
     private final SQLiteDatabase database;
     private final Context        context;
 
     public StundenplanDB(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 3);
         database = getWritableDatabase();
         this.context = context;
     }
@@ -42,19 +41,20 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 FACH_ART + " TEXT NOT NULL, " +
                 FACH_KURZEL + " TEXT NOT NULL, " +
                 FACH_NAME + " TEXT NOT NULL, " +
-                FACH_LEHRER + " TEXT NOT NULL, " +
-                FACH_RAUM + " TEXT NOT NULL)");
+                FACH_LEHRER + " TEXT NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_STUNDEN + " (" +
                 FACH_ID + " INTEGER NOT NULL, " +
                 STUNDEN_TAG + " INTEGER NOT NULL, " +
-                STUNDEN_STUNDE + " INTEGER NOT NULL, PRIMARY KEY" +
+                STUNDEN_STUNDE + " INTEGER NOT NULL, " +
+                STUNDE_RAUM + " TEXT NOT NULL, " +
+                STUNDE_NOTIZ + " TEXT, " +
+                "PRIMARY KEY" +
                 " (" + FACH_ID +
                 ", " + STUNDEN_TAG +
                 ", " + STUNDEN_STUNDE + "))");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_GEWAHLT + " (" +
                 FACH_ID + " INTEGER PRIMARY KEY, " +
-                GEWAHLT_SCHRIFTLICH + " INTEGER NOT NULL, " +
-                GEWAHLT_NOTIZ + " TEXT NOT NULL)");
+                GEWAHLT_SCHRIFTLICH + " INTEGER NOT NULL)");
     }
 
     @Override
@@ -65,11 +65,8 @@ public class StundenplanDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    long insertFach(String kurz, String lehrer, String raum) {
+    long insertFach(String kurz, String lehrer) {
         kurz = kurz.replace('-', ' ').replaceAll("[ ]{2,}", " ");
-        Log.e("INSERT FACH", "Kürzel = " + kurz);
-        Log.e("INSERT FACH", "Lehrer = " + lehrer);
-        Log.e("INSERT FACH", "Raum = " + raum);
         String selection = FACH_KURZEL + " = '" + kurz + "' AND " + FACH_LEHRER + " = '" + lehrer + "'";
         Cursor cursor    = database.query(TABLE_FACHER, new String[]{FACH_ID}, selection, null, null, null, null);
         if (cursor.getCount() > 0) {
@@ -80,18 +77,17 @@ public class StundenplanDB extends SQLiteOpenHelper {
         }
         cursor.close();
         ContentValues values = new ContentValues();
-        if (kurz.length() > 2 && (kurz.charAt(2) == 'G' || kurz.charAt(2) == 'L' || kurz.charAt(2) == 'Z'))
+        if (kurz.length() > 2 && (kurz.charAt(2) == 'L' || kurz.charAt(2) == 'Z'))
             values.put(FACH_ART, kurz.charAt(2) + "K");
         else
             values.put(FACH_ART, "GK");
         values.put(FACH_KURZEL, kurz);
         values.put(FACH_NAME, kuerzelToFach(kurz)); //Hier brauchen wir jetzt doch das ganze Kürzel!
         values.put(FACH_LEHRER, lehrer);
-        values.put(FACH_RAUM, raum);
         return database.insert(TABLE_FACHER, null, values);
     }
 
-    void insertStunde(long fid, int tag, int stunde) {
+    void insertStunde(long fid, int tag, int stunde, String raum) {
         String selection = FACH_ID + " = " + fid + " AND " + STUNDEN_TAG + " = " + tag + " AND " + STUNDEN_STUNDE + " = " + stunde;
         Cursor cursor    = database.query(TABLE_STUNDEN, new String[]{FACH_ID}, selection, null, null, null, null);
         if (cursor.getCount() == 0) {
@@ -99,6 +95,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             values.put(FACH_ID, fid);
             values.put(STUNDEN_TAG, tag);
             values.put(STUNDEN_STUNDE, stunde);
+            values.put(STUNDE_RAUM, raum);
             database.insert(TABLE_STUNDEN, null, values);
         }
         cursor.close();
@@ -107,15 +104,14 @@ public class StundenplanDB extends SQLiteOpenHelper {
     void waehleFach(long fid) {
         ContentValues values = new ContentValues();
         values.put(FACH_ID, fid);
-        values.put(GEWAHLT_NOTIZ, "");
         values.put(GEWAHLT_SCHRIFTLICH, mussSchriftlich(fid) ? 1 : 0);
         database.insert(TABLE_GEWAHLT, null, values);
     }
 
-    void setzeNotiz(String notiz, int fid) {
+    void setzeNotiz(String notiz, int fid, int tag, int stunde) {
         ContentValues values = new ContentValues();
-        values.put(GEWAHLT_NOTIZ, notiz);
-        database.update(TABLE_GEWAHLT, values, FACH_ID + " = " + fid, null);
+        values.put(STUNDE_NOTIZ, notiz);
+        database.update(TABLE_STUNDEN, values, FACH_ID + " = " + fid + " AND " + STUNDEN_TAG + " = " + tag + " AND " + STUNDEN_STUNDE + " = " + stunde, null);
     }
 
     void setzeSchriftlich(boolean schriftlich, long fid) {
@@ -130,7 +126,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
 
     Fach[] getFaecher() {
         String   table     = TABLE_FACHER + ", " + TABLE_STUNDEN;
-        String[] columns   = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
+        String[] columns   = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, STUNDE_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
         String   selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_ART + " != 'FREI'";
         Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_ART + " DESC, " + TABLE_FACHER + "." + FACH_ID);
         Fach[]   faecher   = new Fach[cursor.getCount()];
@@ -149,10 +145,10 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 FACH_NAME,
                 FACH_ART,
                 FACH_LEHRER,
-                FACH_RAUM,
+                STUNDE_RAUM,
                 STUNDEN_STUNDE,
                 GEWAHLT_SCHRIFTLICH,
-                GEWAHLT_NOTIZ};
+                STUNDE_NOTIZ};
         String selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + TABLE_FACHER + "." + FACH_ID + " = " + TABLE_GEWAHLT + "." + FACH_ID + " AND " + TABLE_STUNDEN + "." + STUNDEN_TAG + " = " + tag;
         Cursor cursor    = database.query(table, columns, selection, null, null, null, STUNDEN_STUNDE);
         Fach[] faecher   = new Fach[0];
@@ -180,11 +176,11 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 FACH_NAME,
                 FACH_ART,
                 FACH_LEHRER,
-                FACH_RAUM,
+                STUNDE_RAUM,
                 STUNDEN_TAG,
                 STUNDEN_STUNDE,
                 GEWAHLT_SCHRIFTLICH,
-                GEWAHLT_NOTIZ};
+                STUNDE_NOTIZ};
         String selection = TABLE_GEWAHLT + "." + FACH_ID + " = " + TABLE_FACHER + "." + FACH_ID
                 + " AND " + TABLE_STUNDEN + "." + FACH_ID + " = " + TABLE_FACHER + "." + FACH_ID
                 + " AND " + TABLE_STUNDEN + "." + STUNDEN_TAG + " = " + tag
@@ -231,17 +227,14 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 }
                 String hilfskuerzel = kuerzel.substring(0, kuerzel.length() - 1); //Muss es -1 oder -2 sein, wenn der letzte Buchstabe wegfallen soll
                 if (hilfskuerzel.endsWith("ZG")) {
-                    return this.teilkuerzelOS(hilfskuerzel.substring(0, 2)) + context.getString(R.string.ZK);
+                    return this.teilkuerzelOS(hilfskuerzel.substring(0, 2)) + ' ' + context.getString(R.string.ZK);
                 }
                 if (hilfskuerzel.endsWith("P")) {
-                    return this.teilkuerzelOS(hilfskuerzel.substring(0, 2)) + context.getString(R.string.Projektk);
+                    return this.teilkuerzelOS(hilfskuerzel.substring(0, 2)) + ' ' + context.getString(R.string.Projektk);
                 }
                 if (hilfskuerzel.endsWith("VTF")) {
-                    return this.teilkuerzelOS(hilfskuerzel.substring(1, 2)) + context.getString(R.string.Vertiefung);
+                    return this.teilkuerzelOS(hilfskuerzel.substring(1, 2)) + ' ' + context.getString(R.string.Vertiefung);
                 }
-            }
-            if (kuerzel.substring(0, 2).contains("0,1,2,3,4,5,6,7,8,9")) { // impossible
-                return this.teilkuerzelOS(kuerzel.substring(0, 2).replace("0,1,2,3,4,5,6,7,8,9", " "));
             }
             return this.teilkuerzelOS(kuerzel.substring(0, 2));
         } else if (!stufe.equals("")) {
@@ -458,7 +451,6 @@ public class StundenplanDB extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(FACH_NAME, "");
             values.put(FACH_ART, "FREI");
-            values.put(FACH_RAUM, "");
             values.put(FACH_LEHRER, "");
             values.put(FACH_KURZEL, "FREI");
             int fid = (int) database.insert(TABLE_FACHER, null, values);
@@ -466,10 +458,10 @@ public class StundenplanDB extends SQLiteOpenHelper {
             values.put(FACH_ID, fid);
             values.put(STUNDEN_TAG, tag);
             values.put(STUNDEN_STUNDE, stunde);
+            values.put(STUNDE_RAUM, "");
             database.insert(TABLE_STUNDEN, null, values);
             values.clear();
             values.put(FACH_ID, fid);
-            values.put(GEWAHLT_NOTIZ, "");
             values.put(GEWAHLT_SCHRIFTLICH, 0);
             database.insert(TABLE_GEWAHLT, null, values);
         }

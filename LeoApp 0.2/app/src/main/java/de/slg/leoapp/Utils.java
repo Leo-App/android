@@ -328,7 +328,7 @@ public abstract class Utils {
         return schwarzesBrettActivity;
     }
 
-    private static StundenplanActivity getStundenplanActivity() {
+    public static StundenplanActivity getStundenplanActivity() {
         return stundenplanActivity;
     }
 

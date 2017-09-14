@@ -54,7 +54,7 @@ class DetailsDialog extends AlertDialog {
                     Utils.getStundDB().setzeSchriftlich(b, fach.id);
                 }
                 fach.setzeNotiz(notiz);
-                Utils.getStundDB().setzeNotiz(notiz, fach.id);
+                Utils.getStundDB().setzeNotiz(notiz, fach.id, fach.gibTag(), fach.gibStunde());
                 dismiss();
             }
         });
