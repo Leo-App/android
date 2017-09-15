@@ -208,22 +208,23 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private void initButton() {
         View button = findViewById(R.id.floatingActionButton);
+        View button2 = findViewById(R.id.floatingActionButtonSurvey);
         if (Utils.getUserPermission() >= 2) {
+            button.setVisibility(View.VISIBLE);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new NewEntryDialog(SchwarzesBrettActivity.this).show();
                 }
             });
-        } else {
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new NewEntryDialog(SchwarzesBrettActivity.this).show();
-                }
-            });
-
         }
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new NewSurveyDialog(SchwarzesBrettActivity.this).show();
+            }
+        });
     }
 
     private ArrayList<Integer> createViewList() {

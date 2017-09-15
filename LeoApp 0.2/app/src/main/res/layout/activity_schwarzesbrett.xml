@@ -34,7 +34,7 @@
         </ExpandableListView>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/floatingActionButtonSurvey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -44,6 +44,24 @@
             android:layout_marginRight="20dp"
             android:adjustViewBounds="true"
             android:clickable="true"
+            android:scaleType="fitCenter"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/survey"
+            android:tint="@android:color/white"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/floatingActionButtonSurvey"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:visibility="gone"
             android:scaleType="fitCenter"
             app:fabSize="normal"
             app:srcCompat="@drawable/ic_add_white_24dp" />

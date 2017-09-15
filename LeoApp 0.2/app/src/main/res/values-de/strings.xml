@@ -159,7 +159,7 @@
     <string name="survey_description_content">Beschreibe dein Anliegen in einigen Worten.</string>
     <string name="title_survey_answers">Antwortmöglichkeiten</string>
     <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
-    <string name="survey_checkbox_answers">Mehrere Möglich</string>
+    <string name="survey_checkbox_answers">Mehrere Möglichkeiten</string>
     <string name="survey_new_answer">Antwort</string>
     <string name="send_survey">Abschicken</string>
     <string name="title_survey_to">Addressat</string>

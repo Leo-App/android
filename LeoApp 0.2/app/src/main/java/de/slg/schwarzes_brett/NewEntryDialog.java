@@ -10,13 +10,12 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -29,9 +28,11 @@ import de.slg.leoapp.Utils;
 class NewEntryDialog extends AlertDialog {
 
     private DatePickerDialog datePickerDialog;
+    private Context c;
 
     NewEntryDialog(@NonNull Context context) {
         super(context);
+        c = context;
     }
 
     @Override
@@ -43,6 +44,7 @@ class NewEntryDialog extends AlertDialog {
         initSpinner();
         initTextViews();
         initButtons();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 
     }
 
@@ -51,7 +53,6 @@ class NewEntryDialog extends AlertDialog {
         final TextView t1 = (TextView) findViewById(R.id.title_edittext);
         final TextView t2 = (TextView) findViewById(R.id.eingabeDatum);
         final TextView t3 = (TextView) findViewById(R.id.content);
-        final Spinner t4 = (Spinner) findViewById(R.id.spinner2);
 
         TextWatcher listener = new TextWatcher() {
 
@@ -66,7 +67,7 @@ class NewEntryDialog extends AlertDialog {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                submit.setEnabled(t1.getText().length() > 0 && t2.getText().length() > 0 && t3.getText().length() > 0 && t4.isSelected());
+                submit.setEnabled(t1.getText().length() > 0 && t2.getText().length() > 0 && t3.getText().length() > 0);
             }
         };
 
@@ -89,6 +90,7 @@ class NewEntryDialog extends AlertDialog {
             @Override
             public void onClick(View v) {
                 new sendEntryTask().execute();
+                dismiss();
             }
         });
     }
@@ -110,7 +112,7 @@ class NewEntryDialog extends AlertDialog {
     private void setDateTimeField(final TextView t) {
         final Calendar newCalendar = Calendar.getInstance();
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
-        datePickerDialog = new DatePickerDialog(Utils.context, new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(c, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
@@ -125,8 +127,8 @@ class NewEntryDialog extends AlertDialog {
 
         Spinner s = (Spinner) findViewById(R.id.spinner2);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Utils.context,
-                R.array.level, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.level, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         s.setAdapter(adapter);
 
     }
