@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.slg.leoapp">
 
     <uses-feature android:name="android.hardware.camera" />
@@ -85,7 +86,7 @@
         <activity
             android:name="de.slg.stimmungsbarometer.AbstimmActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TransparentTheme" />
+            android:theme="@android:style/Theme.Dialog" />
 
 
         <activity

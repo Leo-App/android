@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -59,14 +58,6 @@ public class AuswahlActivity extends AppCompatActivity {
             initDB();
             initListView();
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                listView.smoothScrollToPositionFromTop(adapter.getCount() - 1, 0);
-                listView.smoothScrollToPositionFromTop(0, 0);
-                refresh();
-            }
-        }, 100);
     }
 
     @Override
@@ -109,8 +100,11 @@ public class AuswahlActivity extends AppCompatActivity {
 
     private void initListView() {
         listView = (ListView) findViewById(R.id.listA);
+
         adapter = new KursAdapter(getApplicationContext(), db.getFaecher());
+
         listView.setAdapter(adapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -138,12 +132,11 @@ public class AuswahlActivity extends AppCompatActivity {
                 }
             }
         });
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refresh();
-            }
-        }, 100);
+
+        for (int i = 0; i < adapter.getCount(); i++) {
+            adapter.getView(i, null, listView);
+        }
+        refresh();
     }
 
     private void initSnackbarNoGrade() {
@@ -161,7 +154,7 @@ public class AuswahlActivity extends AppCompatActivity {
     private void refresh() {
         adapter.refresh();
         int anzahl = adapter.gibAnzahlAusgewaehlte();
-        if (anzahl > 0) {
+        if (anzahl > 0 && menu != null) {
             MenuItem item = menu.findItem(R.id.action_speichern);
             item.setVisible(true);
             item.setEnabled(true);
@@ -215,10 +208,6 @@ public class AuswahlActivity extends AppCompatActivity {
                                                     "testdaten.txt",
                                                     Context.MODE_PRIVATE)));
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                        if (line.contains("�")) {
-                            Log.e("TAG", line);
-                            Log.e("TAG", String.valueOf((int) line.charAt(line.indexOf('�'))));
-                        }
                         writer.write(line);
                         writer.newLine();
                     }
@@ -233,7 +222,8 @@ public class AuswahlActivity extends AppCompatActivity {
                     long   lastID     = -1;
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                         String[] fach = line.replace("\"", "").split(",");
-                        if (fach[1].startsWith(stufe)) {
+                        if (fach[1].replace("0", "").startsWith(stufe)) {
+                            Log.e("TAG", line);
                             if (!fach[3].equals(lastKurzel)) {
                                 lastID = Utils.getStundDB().insertFach(fach[3], fach[2]);
                                 lastKurzel = fach[3];

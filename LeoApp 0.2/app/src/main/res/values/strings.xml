@@ -152,12 +152,8 @@
     <string name="mi">Wed</string>
     <string name="don">Thu</string>
     <string name="fr">Fri</string>
-    <string name="filepath" translatable="false">‪C:\Users\Luzia\beispieldaten.txt</string>
-    <string name="menu_stundenplan_name" translatable="false">stundenplan_name</string>
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
-    <string name="prefname" translatable="false">stundenplan.luzia.PREFERENCE-KEY</string>
-    <string name="aufgerufen_pref" translatable="false">pref_stundenplan_aufgerufen</string>
-    <string name="laden_name">Refresh</string>
+    <string name="menu_stundenplan_name">Edit Courses</string>
+
     <string name="mathe">Mathematics</string>
     <string name="deutsch">German</string>
     <string name="latein">Latin</string>
@@ -179,14 +175,16 @@
     <string name="literatur">Literature</string>
     <string name="kunst">Art</string>
     <string name="musik">Music</string>
+    <string name="vokal">Vokalpraxis</string>
+
     <string name="SnackBarMes">Could not load plan</string>
-    <string name="später">Later</string>
-    <string name="lk">Higher Level</string>
+
     <string name="montag">Monday</string>
     <string name="dienstag">Tueseday</string>
     <string name="mittwoch">Wednesday</string>
     <string name="donnerstag">Thursday</string>
     <string name="freitag">Friday</string>
+
     <string name="zeit">Time</string>
     <string name="raum">Room</string>
     <string name="lehrer">Teacher</string>
@@ -194,10 +192,9 @@
     <string name="notizen">Notes</string>
     <string name="mache_bild">Print</string>
     <string name="seconds">Seconds</string>
+
     <string name="settings_summary_notification_messenger">Notify me about new messages</string>
-    <string name="settings_summary_refresh_interval">Refresh Interval</string>
     <string name="settings_summary_testplan_time">Delete exams after...</string>
-    <string name="settings_title_refresh_interval">Refresh Time</string>
     <string name="settings_title_testplan_time">Delete test</string>
     <string name="minute">Minute</string>
     <string name="minutes">Minutes</string>
@@ -205,7 +202,6 @@
     <string name="hours">Hours</string>
     <string name="button_next">Next</string>
     <string name="toolbar_name_info">About</string>
-    <string name="heute">Today</string>
     <string name="info_screen_fifth">Developer</string>
     <string name="info_screen_first" translatable="false">VersionPlaceholder</string>
     <string name="messenger_notification_title">New Messages!</string>
@@ -239,13 +235,17 @@
     <string name="settings_no_access_data">No access data needed</string>
     <string name="SnackBarMes2">No Grade selected</string>
     <string name="edit_chat">Change chatname</string>
-    <string name="add_user">Add user</string>
-    <string name="remove_users">Remove user from this chat</string>
-    <string name="chat_info" translatable="false">Information</string>
+    <string name="add_user">Add users</string>
+    <string name="remove_users">Remove users</string>
+
     <string name="drawer_placeholder_name">Username</string>
+
     <string name="need_internet">To do this, you need an internet connection</string>
+
     <string name="queue">Queue</string>
+
     <string name="settings_title_reasons_survey">Reasons</string>
+
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="drawer_placeholder_grade">Grade</string>
@@ -276,9 +276,9 @@
     <string name="snackbar_missing_title">Please add a subject</string>
     <string name="discard">Discard</string>
     <string name="free_hour">Free period</string>
-    <string name="Tok">TOK</string>
-    <string name="Weltlit">Weltliteratur</string>
-    <string name="ZK">Zusatzkurs</string>
+    <string name="Tok" translatable="false">TOK</string>
+    <string name="Weltlit">German A Literature</string>
+    <string name="ZK" translatable="false">ZK</string>
     <string name="Projektk">Projektkurs</string>
     <string name="Vertiefung">Vertiefungskurs</string>
     <string name="Soz">Soziales Lernen</string>

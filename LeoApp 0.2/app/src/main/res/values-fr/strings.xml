@@ -191,7 +191,6 @@
 
     <!--Stimmungsbarometer-->
     <string name="settings_summary_notification_survey">Informe moi si je n\'ai pas encore choisit mon moral</string>
-    <string name="heute">Aujourd\'hui</string>
 
     <!--Stundenplan-->
     <string name="settings_summary_notification_schedule">Informe moi sur mes cours de demain</string>
@@ -274,5 +273,4 @@
     <string name="snackbar_missing_title">Veulliez ajouter une matière</string>
     <string name="discard">Annuler</string>
     <string name="free_hour">Heure creuse</string>
-    <string name="Tok">TOK</string>
 </resources>

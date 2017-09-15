@@ -39,10 +39,10 @@ class SyncTaskGrade extends AsyncTask<Void, Void, Void> {
         }
         if (result.startsWith("-"))
             return null;
-        Utils.getPreferences()
-                .edit()
-                .putString("pref_key_level_general", result)
-                .apply();
+        //        Utils.getPreferences()
+        //                .edit()
+        //                .putString("pref_key_level_general", result)
+        //                .apply();
         return null;
     }
 }

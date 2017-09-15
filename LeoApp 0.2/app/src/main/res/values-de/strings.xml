@@ -106,7 +106,6 @@
     <string name="seconds">Sekunden</string>
     <string name="minute">Minute</string>
     <string name="minutes">Minuten</string>
-    <string name="today">Heute</string>
     <string name="yesterday">Gestern</string>
     <string name="queue">Warteschlange</string>
 
@@ -220,7 +219,7 @@
 
     <!--Stimmungsbarometer-->
     <string name="settings_summary_notification_survey">Benachrichtige mich, falls ich noch nicht abgestimmt habe</string>
-    <string name="heute">Heute</string>
+    <string name="today">Heute</string>
     <string name="settings_title_reasons_survey">Gründe</string>
     <string name="settings_summary_reasons_survey">Gründe beim Abstimmen anzeigen</string>
 
@@ -306,12 +305,13 @@
     <string name="snackbar_missing_title">Bitte ein Fach hinzufügen</string>
     <string name="discard">Verwerfen</string>
     <string name="free_hour">Freistunde</string>
-    <string name="Tok">TOK</string>
     <string name="SoWiZ">SoWi-Zusatzkurs</string>
     <string name="GeZK">Geschichte Zusatzkurs</string>
     <string name="Diff">Differenzierung</string>
     <string name="PoWi">Politik-Wirtschaft</string>
     <string name="Förder">Förderkurs</string>
     <string name="sport">Sport</string>
+    <string name="Weltlit">Weltliteratur</string>
+    <string name="Vertiefung"></string>
 
 </resources>
