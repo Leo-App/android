@@ -460,7 +460,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
                     @Override
                     public boolean canScrollVertically() {
-                        return true;
+                        return false;
                     }
                 }
 
@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new LinearLayoutManager(getApplicationContext()) {
                     @Override
                     public boolean canScrollVertically() {
-                        return true;
+                        return false;
                     }
                 };
 
