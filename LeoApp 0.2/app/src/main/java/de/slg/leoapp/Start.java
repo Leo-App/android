@@ -40,8 +40,6 @@ public class Start extends Activity {
         startService(new Intent(getApplicationContext(), ReceiveService.class));
         startService(new Intent(getApplicationContext(), NotificationService.class));
 
-        deleteDatabase("stundenplan");
-
         startActivity(main);
         finish();
     }

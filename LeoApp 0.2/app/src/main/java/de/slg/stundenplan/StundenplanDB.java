@@ -291,29 +291,29 @@ public class StundenplanDB extends SQLiteOpenHelper {
             case "BI":
                 return context.getString(R.string.bio);
             case "KU":
-                break;
+                return context.getString(R.string.kunst);
             case "GE":
-                break;
+                return context.getString(R.string.geschichte);
             case "PK":
-                break;
+                return context.getString(R.string.politik);
             case "EK":
-                break;
+                return context.getString(R.string.geo);
             case "PH":
                 break;
             case "CH":
-                break;
+                return context.getString(R.string.chemie);
             case "N":
-                break;
+                return context.getString(R.string.niederländisch);
             case "IF":
-                break;
+                return context.getString(R.string.info);
             case "KR":
-                break;
+                return context.getString(R.string.reliKat);
             case "ER":
-                break;
+                return context.getString(R.string.reliEv);
             case "PP":
-                break;
+                return context.getString(R.string.philo);
             case "MU":
-                break;
+                return context.getString(R.string.musik);
         }
         return null;
     }
