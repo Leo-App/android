@@ -395,7 +395,7 @@ public abstract class Utils {
             getMainActivity().finish();
     }
 
-    //User-Stuff<<<
+    //User-Stuff
     public static User getCurrentUser() {
         return new User(getUserID(), "Du", getUserStufe(), getUserPermission(), "");
     }
@@ -409,11 +409,7 @@ public abstract class Utils {
     }
 
     public static String getUserStufe() {
-        try {
-            return getPreferences().getString("pref_key_level_general", "").replace("N/A", "");
-        } catch (ClassCastException e) {
-            return "";
-        }
+        return getPreferences().getString("pref_key_level_general", "").replace("N/A", "");
     }
 
     public static int getUserPermission() {

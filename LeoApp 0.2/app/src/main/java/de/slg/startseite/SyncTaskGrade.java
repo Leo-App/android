@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.leoapp.Utils;
 
 class SyncTaskGrade extends AsyncTask<Void, Void, Void> {
@@ -17,8 +19,11 @@ class SyncTaskGrade extends AsyncTask<Void, Void, Void> {
         BufferedReader in     = null;
         String         result = "";
         try {
-            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/getKlasse.php?key=5453&userid=" + Utils.getUserID());
-            in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
+            HttpsURLConnection connection = (HttpsURLConnection)
+                    new URL(Utils.BASE_URL + "getKlasse.php?key=5453&userid=" + Utils.getUserID())
+                            .openConnection();
+            connection.setRequestProperty("Authorization", Utils.authorization);
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 if (!inputLine.contains("<"))
