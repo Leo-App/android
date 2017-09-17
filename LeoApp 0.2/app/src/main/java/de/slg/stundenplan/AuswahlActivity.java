@@ -27,7 +27,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.PreferenceActivity;
@@ -39,7 +38,6 @@ public class AuswahlActivity extends AppCompatActivity {
     private KursAdapter   adapter;
     private StundenplanDB db;
     private FachImporter  importer;
-    private ListView      listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +52,6 @@ public class AuswahlActivity extends AppCompatActivity {
         initToolbar();
         if (stufe.equals("")) {
             initSnackbarNoGrade();
-        } else {
-            initDB();
-            initListView();
         }
     }
 
@@ -99,7 +94,7 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private void initListView() {
-        listView = (ListView) findViewById(R.id.listA);
+        ListView listView = (ListView) findViewById(R.id.listA);
 
         adapter = new KursAdapter(getApplicationContext(), db.getFaecher());
 
@@ -167,12 +162,6 @@ public class AuswahlActivity extends AppCompatActivity {
 
     private void initDB() {
         db = Utils.getStundDB();
-        try {
-            if (importer != null)
-                importer.get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
         if (db.getFaecher().length == 0) {
             Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes, Snackbar.LENGTH_SHORT);
             snack.show();
@@ -186,6 +175,13 @@ public class AuswahlActivity extends AppCompatActivity {
         FachImporter(Context c, String pStufe) {
             this.context = c;
             stufe = pStufe;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            if (Utils.getAuswahlActivity() != null) {
+                Utils.getAuswahlActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
@@ -208,7 +204,7 @@ public class AuswahlActivity extends AppCompatActivity {
                                                     "testdaten.txt",
                                                     Context.MODE_PRIVATE)));
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                        writer.write(line);
+                        writer.write(line.replace("L�Z", "LÜZ").replace("CH�", "CHÜ").replace("BI�", "BIÜ"));
                         writer.newLine();
                     }
                     reader.close();
@@ -242,6 +238,15 @@ public class AuswahlActivity extends AppCompatActivity {
                 }
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (Utils.getAuswahlActivity() != null) {
+                Utils.getAuswahlActivity().initDB();
+                Utils.getAuswahlActivity().initListView();
+                Utils.getAuswahlActivity().findViewById(R.id.progressBar).setVisibility(View.GONE);
+            }
         }
     }
 

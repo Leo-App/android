@@ -75,30 +75,6 @@ public class NotificationService extends Service {
 
         new NotificationThread().start();
 
-        Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class);
-
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        getApplicationContext(),
-                        0,
-                        resultIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-
-        Notification notification =
-                new NotificationCompat.Builder(getApplicationContext())
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setLargeIcon(icon)
-                        .setSmallIcon(R.drawable.ic_insert_emoticon_white_24dp)
-                        .setVibrate(new long[]{200})
-                        .setContentTitle("Du hast noch nicht abgestimmt!")
-                        .setContentText("Jetzt abstimmen")
-                        .setAutoCancel(true)
-                        .setContentIntent(resultPendingIntent)
-                        .build();
-
-        notificationManager.notify(ID_BAROMETER, notification);
-
         Log.i("NotificationService", "Service (re)started!");
         return START_STICKY;
     }

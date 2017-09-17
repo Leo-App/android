@@ -336,7 +336,7 @@ public abstract class Utils {
         return stundenplanBildActivity;
     }
 
-    private static AuswahlActivity getAuswahlActivity() {
+    public static AuswahlActivity getAuswahlActivity() {
         return auswahlActivity;
     }
 

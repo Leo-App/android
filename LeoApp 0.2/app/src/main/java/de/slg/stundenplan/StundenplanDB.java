@@ -210,7 +210,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         if (kuerzel.startsWith("L-") || kuerzel.matches("L[0-9]")) {
             return context.getString(R.string.latein);
         }
-        if (stufe.equals("EF") || stufe.equals("Q1") || stufe.equals("Q2")) {
+        if (!stufe.matches("[0-9]{1,2}")) {
             if (kuerzel.length() > 4) {
                 if (kuerzel.equals("GEF")) {
                     return context.getString(R.string.bili);
@@ -244,15 +244,15 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 if (kuerzel.length() == 3 && kuerzel.endsWith("F")) {
                     return fachnameUnterstufe(kuerzel.substring(0, 2));
                 }
-                if (kuerzel.endsWith("DF")) {
+                if (kuerzel.toUpperCase().endsWith("DF")) {
                     if (kuerzel.startsWith("PK")) {
-                        return context.getString(R.string.PoWi) + ' ' + context.getString(R.string.Diff);
+                        return context.getString(R.string.PoWi);
                     }
-                    return fachnameUnterstufe(kuerzel.substring(0, 2) + context.getString(R.string.Diff));
+                    return fachnameUnterstufe(kuerzel.substring(0, 2));
                 }
                 if (kuerzel.endsWith("FÖ")) {
                     int i = kuerzel.indexOf("FÖ");
-                    return fachnameUnterstufe(kuerzel.substring(0, i)) + context.getString(R.string.Förder);
+                    return fachnameUnterstufe(kuerzel.substring(0, i));
                 }
                 if (kuerzel.startsWith("LÜZ")) {
                     return context.getString(R.string.lüz);
@@ -299,7 +299,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             case "EK":
                 return context.getString(R.string.geo);
             case "PH":
-                break;
+                return context.getString(R.string.physik);
             case "CH":
                 return context.getString(R.string.chemie);
             case "N":
@@ -314,6 +314,8 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 return context.getString(R.string.philo);
             case "MU":
                 return context.getString(R.string.musik);
+            case "S":
+                return context.getString(R.string.spanisch);
         }
         return null;
     }
