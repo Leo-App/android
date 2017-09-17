@@ -85,8 +85,9 @@
             android:theme="@style/MainActivitiesTheme" />
         <activity
             android:name="de.slg.stimmungsbarometer.AbstimmActivity"
+            android:excludeFromRecents="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@style/DialogTheme" />
 
 
         <activity

@@ -1,7 +1,6 @@
 package de.slg.startseite;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -58,7 +57,6 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-@SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler {
     public static boolean editing;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
@@ -66,14 +64,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ProgressBar progressBar;
     public TextView    title, info;
     public Button verify, dismiss;
+    public  AbstimmDialog    abstimmDialog;
     private ZXingScannerView scV;
     private boolean          runningScan;
-
-    private NavigationView navigationView;
-    private DrawerLayout   drawerLayout;
-    private CardAdapter    mAdapter;
-
-    private AbstimmDialog abstimmDialog;
+    private NavigationView   navigationView;
+    private DrawerLayout     drawerLayout;
+    private CardAdapter      mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,9 +234,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 return false;
             }
-            return super.onKeyDown(keyCode, event);
-        } else
-            return super.onKeyDown(keyCode, event);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -248,8 +243,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
 
-        if (abstimmDialog != null)
+        if (abstimmDialog != null) {
             abstimmDialog.show();
+        }
 
         if (!runningScan) {
 
