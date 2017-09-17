@@ -169,36 +169,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
+            if (editing)
+                onBackPressed();
+            else
+                drawerLayout.openDrawer(GravityCompat.START);
         } else if (item.getItemId() == R.id.action_appedit) {
             editing = true;
+
             initFeatureCards();
+
             findViewById(R.id.card_viewMain).setVisibility(View.GONE);
             findViewById(R.id.card_view0).setVisibility(View.GONE);
-            final Handler handler = new Handler(); //Short delay for aesthetics
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    invalidateOptionsMenu();
-                }
-            }, 100);
+
             getSupportActionBar().setTitle(getString(R.string.cards_customize));
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
+
+            invalidateOptionsMenu();
         } else if (item.getItemId() == R.id.action_appedit_done) {
             editing = false;
             writeCardsToPreferences();
+
             initFeatureCards();
+
             findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
             if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
+
             getSupportActionBar().setTitle(getString(R.string.title_home));
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+
             invalidateOptionsMenu();
         } else if (item.getItemId() == R.id.action_appinfo_quick) {
             writeCardsToPreferences();
+
             boolean b = Utils.getPreferences().getBoolean("pref_key_card_config_quick", false);
+
             Utils.getPreferences().edit()
                     .putBoolean("pref_key_card_config_quick", !b)
                     .apply();
+
             initFeatureCards();
+
             if (!b)
                 item.setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
             else
@@ -218,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
             getSupportActionBar().setTitle(getString(R.string.title_home));
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
             invalidateOptionsMenu();
         } else {
             finish();
