@@ -73,8 +73,8 @@ public class ReceiveService extends Service {
                         if (Utils.getMDB().hasQueuedMessages())
                             new SendQueuedMessages().execute();
 
-                        //if (!socketRunning)
-                        //    new MessengerSocket().run();
+                        if (!socketRunning)
+                            new MessengerSocket().run();
                     }
                     sleep(5000);
                 } catch (InterruptedException e) {
@@ -234,6 +234,8 @@ public class ReceiveService extends Service {
                             Utils.getMDB().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
                         } else if (s.startsWith("a")) {
                             assoziationen();
+                        } else if (s.startsWith("-")) {
+                            Log.e("SocketError", s);
                         }
 
                         builder.delete(0, builder.length());
@@ -264,13 +266,15 @@ public class ReceiveService extends Service {
                         new BufferedReader(
                                 new InputStreamReader(
                                         connection.getInputStream(), "UTF-8"));
+
                 StringBuilder builder = new StringBuilder();
                 String        l;
                 while ((l = reader.readLine()) != null)
                     builder.append(l);
+
                 reader.close();
-                String            erg    = builder.toString();
-                String[]          result = erg.split(";");
+
+                String[]          result = builder.toString().split(";");
                 List<Assoziation> list   = new List<>();
                 for (String s : result) {
                     String[] current = s.split(",");
@@ -278,8 +282,9 @@ public class ReceiveService extends Service {
                         list.append(new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1])));
                     }
                 }
+
                 Utils.getMDB().insertAssoziationen(list);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
