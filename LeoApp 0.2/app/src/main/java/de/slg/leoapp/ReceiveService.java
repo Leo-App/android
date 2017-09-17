@@ -74,7 +74,7 @@ public class ReceiveService extends Service {
                             new SendQueuedMessages().execute();
 
                         if (!socketRunning)
-                            new MessengerSocket().run();
+                            new MessengerSocket().start();
                     }
                     sleep(5000);
                 } catch (InterruptedException e) {
@@ -203,7 +203,7 @@ public class ReceiveService extends Service {
                                                 .getInputStream(), "UTF-8"));
 
                 StringBuilder builder = new StringBuilder();
-                for (String line = reader.readLine(); running; line = reader.readLine()) {
+                for (String line = reader.readLine(); running && line != null; line = reader.readLine()) {
                     builder.append(line)
                             .append(System.getProperty("line.separator"));
                     if (line.endsWith("_ next _")) {
