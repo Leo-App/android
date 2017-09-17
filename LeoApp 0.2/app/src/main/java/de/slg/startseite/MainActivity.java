@@ -23,7 +23,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -186,19 +185,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             invalidateOptionsMenu();
         } else if (item.getItemId() == R.id.action_appedit_done) {
-            editing = false;
             writeCardsToPreferences();
 
-            initFeatureCards();
-
-            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
-            if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
-                findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
-
-            getSupportActionBar().setTitle(getString(R.string.title_home));
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-
-            invalidateOptionsMenu();
+            onBackPressed();
         } else if (item.getItemId() == R.id.action_appinfo_quick) {
             writeCardsToPreferences();
 
@@ -224,30 +213,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
         if (editing) {
             editing = false;
+
             initFeatureCards();
-            //           findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
+
+            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
             if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
+
             getSupportActionBar().setTitle(getString(R.string.title_home));
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+
             invalidateOptionsMenu();
+        } else if (runningScan) {
+            runningScan = false;
+
+            scV.stopCamera();
+            finish();
+
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
         } else {
             finish();
         }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            if (runningScan) {
-                runningScan = false;
-                scV.stopCamera();
-                finish();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                return false;
-            }
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override
