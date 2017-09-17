@@ -23,55 +23,49 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 class RegistrationTask extends AsyncTask<String, Void, Boolean> {
-
-    private final MainActivity c;
-    private       boolean      connection;
-
-    RegistrationTask(MainActivity c) {
-        this.c = c;
-    }
+    private boolean connection;
 
     @Override
     protected Boolean doInBackground(String... params) {
-        BufferedReader in     = null;
-        String         result = "";
+        String result = "";
         connection = hasActiveInternetConnection();
-        Log.d("LeoApp", "test");
-        if (!connection)
+        if (!connection) {
             return false;
+        }
+
         try {
             String klasse = "N/A";
             if (params[1].equals("2"))
                 klasse = "TEA";
+
             HttpsURLConnection connection = (HttpsURLConnection)
                     new URL(Utils.BASE_URL + "addUser.php?key=5453&name=" + params[0] + "&permission=" + params[1] + "&klasse=" + klasse)
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.authorization);
-            Log.e("TAG", connection.getURL().toString());
-            in = null;
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                if (!inputLine.contains("<"))
-                    result += inputLine;
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    connection.getInputStream()));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.contains("<")) {
+                    result += line;
+                }
             }
-            in.close();
+
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            if (in != null)
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
         }
-        Log.d("LeoApp", "finished");
-        Log.d("LeoApp", result);
-        if (result.startsWith("-"))
+
+        Log.d("RegistrationTask", result);
+
+        if (result.startsWith("-")) {
             return false;
+        }
+
         if (result.startsWith("_new_")) {
             Utils.getPreferences()
                     .edit()
@@ -79,7 +73,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
                     .putInt("pref_key_general_permission", Integer.parseInt(params[1]))
                     .putInt("pref_key_general_id", Integer.valueOf(result.replaceFirst("_new_", "")))
                     .apply();
-            PreferenceActivity.setCurrentUsername(Utils.getPreferences().getString("pref_key_username_general", ""));
+            PreferenceActivity.setCurrentUsername(Utils.getUserName());
             return true;
         } else if (result.startsWith("_old_")) {
             String[] data = result.split("_");
@@ -90,7 +84,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
                     .putInt("pref_key_general_permission", Integer.parseInt(params[1]))
                     .putInt("pref_key_general_id", Integer.parseInt(data[data.length - 5]))
                     .apply();
-            PreferenceActivity.setCurrentUsername(Utils.getPreferences().getString("pref_key_username_general", ""));
+            PreferenceActivity.setCurrentUsername(Utils.getUserName());
             return true;
         } else
             return false;
@@ -99,17 +93,18 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean b) {
         if (b) {
-            MainActivity.title.setTextColor(Color.GREEN);
-            MainActivity.title.setText(c.getString(R.string.title_info_auth));
-            MainActivity.info.setText(c.getString(R.string.summary_info_auth_success));
-            MainActivity.verify.setText(c.getString(R.string.button_info_noreminder));
-            MainActivity.progressBar.setVisibility(View.GONE);
-            MainActivity.title.setVisibility(View.VISIBLE);
-            MainActivity.info.setVisibility(View.VISIBLE);
-            MainActivity.verify.setVisibility(View.VISIBLE);
-            MainActivity.dismiss.setVisibility(View.GONE);
+            Utils.getMainActivity().title.setTextColor(Color.GREEN);
+            Utils.getMainActivity().title.setText(Utils.getString(R.string.title_info_auth));
+            Utils.getMainActivity().info.setText(Utils.getString(R.string.summary_info_auth_success));
+            Utils.getMainActivity().verify.setText(Utils.getString(R.string.button_info_noreminder));
+            Utils.getMainActivity().progressBar.setVisibility(View.GONE);
+            Utils.getMainActivity().title.setVisibility(View.VISIBLE);
+            Utils.getMainActivity().info.setVisibility(View.VISIBLE);
+            Utils.getMainActivity().verify.setVisibility(View.VISIBLE);
+            Utils.getMainActivity().dismiss.setVisibility(View.GONE);
             Utils.getMainActivity().initFeatureCards();
             Utils.getMainActivity().initNavigationView();
+
             Calendar c = new GregorianCalendar();
             c.add(Calendar.YEAR, 1);
             c.set(Calendar.MONTH, Calendar.OCTOBER);
@@ -120,7 +115,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
                     .putString("valid_until", date)
                     .apply();
 
-            if (Utils.getPreferences().getInt("pref_key_general_permission", -1) == 2) {
+            if (Utils.getUserPermission() == 2) {
                 Utils.getPreferences()
                         .edit()
                         .putBoolean("pref_key_notification_test", false)
@@ -132,17 +127,17 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         } else {
             if (!connection) {
                 showSnackbar();
-                MainActivity.progressBar.setVisibility(View.GONE);
-                MainActivity.title.setVisibility(View.VISIBLE);
-                MainActivity.info.setVisibility(View.VISIBLE);
-                MainActivity.verify.setVisibility(View.VISIBLE);
+                Utils.getMainActivity().progressBar.setVisibility(View.GONE);
+                Utils.getMainActivity().title.setVisibility(View.VISIBLE);
+                Utils.getMainActivity().info.setVisibility(View.VISIBLE);
+                Utils.getMainActivity().verify.setVisibility(View.VISIBLE);
             } else {
-                MainActivity.info.setText(c.getString(R.string.summary_info_auth_failed));
-                MainActivity.title.setText(c.getString(R.string.error));
-                MainActivity.progressBar.setVisibility(View.GONE);
-                MainActivity.title.setVisibility(View.VISIBLE);
-                MainActivity.info.setVisibility(View.VISIBLE);
-                MainActivity.verify.setVisibility(View.VISIBLE);
+                Utils.getMainActivity().info.setText(Utils.getString(R.string.summary_info_auth_failed));
+                Utils.getMainActivity().title.setText(Utils.getString(R.string.error));
+                Utils.getMainActivity().progressBar.setVisibility(View.GONE);
+                Utils.getMainActivity().title.setVisibility(View.VISIBLE);
+                Utils.getMainActivity().info.setVisibility(View.VISIBLE);
+                Utils.getMainActivity().verify.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -152,9 +147,9 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         final Runnable r = new Runnable() {
             @Override
             public void run() {
-                final Snackbar cS = Snackbar.make(MainActivity.cooredinatorLayout, R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
+                final Snackbar cS = Snackbar.make(Utils.getMainActivity().cooredinatorLayout, R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
                 cS.setActionTextColor(Color.WHITE);
-                cS.setAction(c.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+                cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         cS.dismiss();

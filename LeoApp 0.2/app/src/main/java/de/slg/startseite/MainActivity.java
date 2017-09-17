@@ -60,12 +60,12 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler {
-    public static View        cooredinatorLayout;
-    public static ProgressBar progressBar;
-    public static TextView    title, info;
-    public static Button verify, dismiss;
     public static boolean editing;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
+    public View        cooredinatorLayout;
+    public ProgressBar progressBar;
+    public TextView    title, info;
+    public Button verify, dismiss;
     private ZXingScannerView scV;
     private boolean          runningScan;
 
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (Utils.isVerified()) {
-            MainActivity.dismiss.setVisibility(View.GONE);
+            Utils.getMainActivity().dismiss.setVisibility(View.GONE);
             title.setTextColor(Color.GREEN);
             title.setText(getString(R.string.title_info_auth));
             info.setText(getString(R.string.summary_info_auth_success));
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (item.getItemId() == R.id.action_appedit) {
             editing = true;
             initFeatureCards();
-           findViewById(R.id.card_viewMain).setVisibility(View.GONE);
+            findViewById(R.id.card_viewMain).setVisibility(View.GONE);
             findViewById(R.id.card_view0).setVisibility(View.GONE);
             final Handler handler = new Handler(); //Short delay for aesthetics
             handler.postDelayed(new Runnable() {
@@ -303,7 +303,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!Utils.isVerified())
                 showVerificationDialog();
             else {
-                Utils.getPreferences().edit()
+                Utils.getPreferences()
+                        .edit()
                         .putBoolean("pref_key_dont_remind_me", true)
                         .apply();
                 Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
@@ -336,13 +337,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         finish();
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         String results = result.getText();
-        Log.d("LeoApp", results);
-        Log.d("LeoApp", "checkCode");
+
         if (isValid(results)) {
             final String[] data = results.split("-");
             Log.d("LeoApp", "validCode");
-            final Handler handler = new Handler();
-            final Runnable r = new Runnable() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     progressBar.setVisibility(View.VISIBLE);
@@ -351,21 +350,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     verify.setVisibility(View.GONE);
                     dismiss.setVisibility(View.GONE);
 
-                    RegistrationTask t = new RegistrationTask(MainActivity.this);
+                    RegistrationTask t = new RegistrationTask();
                     t.execute(data[0], String.valueOf(data[1]));
                 }
-            };
-            handler.postDelayed(r, 100);
+            }, 100);
         } else {
-            final Handler handler = new Handler();
-            final Runnable r = new Runnable() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    MainActivity.info.setText(getString(R.string.summary_info_auth_failed));
-                    MainActivity.title.setText(getString(R.string.error));
+                    Utils.getMainActivity().info.setText(getString(R.string.summary_info_auth_failed));
+                    Utils.getMainActivity().title.setText(getString(R.string.error));
                 }
-            };
-            handler.postDelayed(r, 100);
+            }, 100);
         }
     }
 
@@ -446,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
 
         TextView version = (TextView) findViewById(R.id.versioncode_maincard);
-       version.setText(Utils.getAppVersionName());
+        version.setText(Utils.getAppVersionName());
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();
@@ -528,7 +524,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri webpage = Uri.parse("http://www.leoapp-slg.de");
+                Uri    webpage = Uri.parse("http://www.leoapp-slg.de");
                 Intent intent  = new Intent(Intent.ACTION_VIEW, webpage);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
@@ -618,15 +614,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             b.append("");
         }
 
-        Utils.getPreferences().edit()
+        Utils.getPreferences()
+                .edit()
                 .putString("pref_key_card_config", b.toString())
                 .apply();
     }
 
     private void startCamera() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            Log.d("LeoApp", "No permission. Checking");
-
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_USE_CAMERA);
         } else {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
