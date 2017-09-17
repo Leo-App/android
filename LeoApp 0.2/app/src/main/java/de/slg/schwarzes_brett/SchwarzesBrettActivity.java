@@ -253,10 +253,10 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'SEK II' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
             default:
-                cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'SEK I' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
         }
         schwarzesBrett = new LinkedHashMap<>();
