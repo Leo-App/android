@@ -11,20 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 class NewSurveyDialog extends AlertDialog {
 
     private int stage = 0;
-    private int[] layouts = {R.layout.dialog_create_survey, R.layout.dialog_create_survey_content, R.layout.dialog_create_survey_answers};
+    private int[] layouts = {R.layout.dialog_create_survey, R.layout.dialog_create_survey_content, R.layout.dialog_create_survey_answers, R.layout.dialog_create_survey_to};
     private Context c;
     private View currentView;
 
     private String title;
     private String description;
     private String[] answers;
+    private int to;
 
     NewSurveyDialog(@NonNull Context context) {
         super(context);
@@ -37,6 +41,29 @@ class NewSurveyDialog extends AlertDialog {
         setContentView(R.layout.dialog_create_survey);
         initNextButton();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+    }
+
+    private void initEditText() {
+        switch (stage) {
+            case 0:
+                ((EditText)findViewById(R.id.content)).setText(title);
+                break;
+            case 1:
+                ((EditText)findViewById(R.id.content)).setText(description);
+                break;
+            case 2:
+                if(answers == null)
+                    break;
+                int[] layouts = {R.id.text1, R.id.new_answer, R.id.text2, R.id.button, R.id.text3, R.id.button1, R.id.text4, R.id.button2, R.id.text5, R.id.button3};
+                for(int i = 0; i < answers.length; i++) {
+                    if(answers[i].length() > 0) {
+                        findViewById(layouts[i*2+1]).setVisibility(View.INVISIBLE);
+                        findViewById(layouts[i*2]).setVisibility(View.VISIBLE);
+                        ((EditText)findViewById(layouts[i*2])).setText(answers[i]);
+                    }
+                }
+                break;
+        }
     }
 
     private void initNextButton() {
@@ -84,7 +111,11 @@ class NewSurveyDialog extends AlertDialog {
                             break;
                         }
 
-                        answers = new String[]{s1, s2, s3, s4, s5};
+                        saveAnswers();
+                        next();
+                        break;
+                    case 3:
+                        to = ((Spinner) findViewById(R.id.spinner2)).getSelectedItemPosition();
                         next();
                         break;
                 }
@@ -96,6 +127,20 @@ class NewSurveyDialog extends AlertDialog {
                 back();
             }
         });
+    }
+
+    private void saveAnswers() {
+
+        if(stage != 2)
+            return;
+
+        String s1 = ((EditText)findViewById(R.id.text1)).getText().toString(),
+                s2 = ((EditText)findViewById(R.id.text2)).getText().toString(),
+                s3 = ((EditText)findViewById(R.id.text3)).getText().toString(),
+                s4 = ((EditText)findViewById(R.id.text4)).getText().toString(),
+                s5 = ((EditText)findViewById(R.id.text5)).getText().toString();
+
+        answers = new String[]{s1, s2, s3, s4, s5};
     }
 
     private void initAnswers() {
@@ -141,16 +186,20 @@ class NewSurveyDialog extends AlertDialog {
     private void next() {
         stage++;
         if (stage >= layouts.length) {
-            new sendSurveyTask().execute();
+            new SendSurveyTask().execute();
             dismiss();
             return;
         }
+        if(stage == 1)
+            saveAnswers();
         LayoutInflater inflater = getLayoutInflater();
         currentView = inflater.inflate(layouts[stage], null, false);
         currentView.startAnimation(AnimationUtils.loadAnimation(c, R.anim.text_view_slide_in));
         setContentView(currentView);
         initNextButton();
         initAnswers();
+        initEditText();
+        initSpinner();
     }
 
     private void back() {
@@ -159,15 +208,32 @@ class NewSurveyDialog extends AlertDialog {
             dismiss();
             return;
         }
+        if(stage == 1)
+            saveAnswers();
         LayoutInflater inflater = getLayoutInflater();
         currentView = inflater.inflate(layouts[stage], null, false);
         currentView.startAnimation(AnimationUtils.loadAnimation(c, R.anim.text_view_slide_in));
         setContentView(currentView);
         initNextButton();
         initAnswers();
+        initEditText();
+        initSpinner();
     }
 
-    private class sendSurveyTask extends AsyncTask<Void, Void, Void> {
+    private void initSpinner() {
+
+        if(stage != layouts.length-1)
+            return;
+
+        Spinner s = (Spinner) findViewById(R.id.spinner2);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Utils.context,
+                R.array.level, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        s.setAdapter(adapter);
+
+    }
+
+    private class SendSurveyTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             return null;

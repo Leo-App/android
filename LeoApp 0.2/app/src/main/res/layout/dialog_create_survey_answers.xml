@@ -188,18 +188,19 @@
         android:layout_marginStart="20dp"
         />
 
-
     <Button
         android:id="@+id/buttonExamSave"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/button3"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="15dp"
-        android:text="@string/send_survey"
-        android:textAllCaps="true" />
+        android:text="@string/button_next"
+        android:drawableRight="@drawable/ic_chevron_right_white_24dp"
+        android:drawableTint="@color/colorPrimary"
+        android:textAllCaps="true"
+        android:layout_below="@id/button3"
+        android:layout_alignParentRight="true"  />
+
 
     <Button
         android:id="@+id/buttonBack"
