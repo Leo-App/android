@@ -294,7 +294,6 @@ public class ChatActivity extends AppCompatActivity {
             final TextView     uhrzeit     = (TextView) v.findViewById(R.id.datum);
             final LinearLayout layout      = (LinearLayout) v.findViewById(R.id.chatbubblewrapper);
             final View         chatbubble  = v.findViewById(R.id.chatbubble);
-            final View         space       = v.findViewById(R.id.space);
             final View         progressbar = v.findViewById(R.id.progressBar);
 
             nachricht.setText(current.mtext);
@@ -332,11 +331,14 @@ public class ChatActivity extends AppCompatActivity {
             final boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
             if (first) {
                 datum.setVisibility(View.VISIBLE);
+                layout.setPadding((int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3), (int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3));
             } else {
                 datum.setVisibility(View.GONE);
                 if (current.uid == messagesArray[position - 1].uid) {
                     absender.setVisibility(View.GONE);
-                    space.setVisibility(View.GONE);
+                    layout.setPadding((int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(0), (int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3));
+                } else {
+                    layout.setPadding((int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3), (int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3));
                 }
             }
 
@@ -365,6 +367,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 TextView nachricht = (TextView) itemView.findViewById(R.id.nachricht);
                 nachricht.setMaxWidth(GraphicUtils.getDisplayWidth() * 2 / 3);
+                TextView absender = (TextView) itemView.findViewById(R.id.absender);
+                absender.setMaxWidth(GraphicUtils.getDisplayWidth() * 2 / 3);
 
                 itemView.setOnLongClickListener(longClickListener);
                 itemView.setOnClickListener(clickListener);

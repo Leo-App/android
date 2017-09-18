@@ -54,4 +54,9 @@
         <item name="windowActionBar">false</item>
     </style>
 
+    <style name="ProgressBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@android:color/white</item>
+        <item name="colorPrimary">@android:color/white</item>
+    </style>
+
 </resources>
