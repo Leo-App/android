@@ -242,7 +242,15 @@ public class MessengerActivity extends AppCompatActivity {
                             .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
                 }
             };
-            rvUsers.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
+                    rvUsers.getContext(),
+                    linearLayoutManager.getOrientation()
+            );
+            rvUsers.addItemDecoration(mDividerItemDecoration);
+            rvUsers.setLayoutManager(linearLayoutManager);
+
             rvUsers.setAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().userArray, userClickListener));
         }
 
@@ -523,7 +531,15 @@ public class MessengerActivity extends AppCompatActivity {
                     }
                 }
             };
-            rvSearch.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
+                    rvSearch.getContext(),
+                    linearLayoutManager.getOrientation()
+            );
+            rvSearch.addItemDecoration(mDividerItemDecoration);
+            rvSearch.setLayoutManager(linearLayoutManager);
+
             rvSearch.setAdapter(new HybridAdapter(getActivity().getLayoutInflater()));
         }
 
