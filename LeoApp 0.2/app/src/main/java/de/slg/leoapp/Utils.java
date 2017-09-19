@@ -39,7 +39,7 @@ import de.slg.stundenplan.StundenplanDB;
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
     public static final String BASE_URL      = "https://secureaccess.itac-school.de/slgweb/leoapp_php/";
-    public static final String authorization = "Basic bW9ybGllMDMxMDAwOnRyYWN5MzEw";
+    public static final String authorization = "Basic bGVvYXBwOmxlb2FwcA==";
     public static  Context           context;
     private static SharedPreferences preferences;
 
