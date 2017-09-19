@@ -33,7 +33,7 @@ class FeatureDialog extends AlertDialog {
                 String emailText = ((EditText) findViewById(R.id.feature_request_desc)).getText().toString();
                 new MailSendTask().execute(emailText);
                 dismiss();
-                Toast.makeText(Utils.getContext(), Utils.getString(R.string.thank_you_feature), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Utils.getController().getContext(), Utils.getString(R.string.thank_you_feature), Toast.LENGTH_SHORT).show();
             }
         });
         ((EditText) findViewById(R.id.feature_request_desc)).addTextChangedListener(new TextWatcher() {

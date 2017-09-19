@@ -113,17 +113,17 @@ class KlausurDialog extends AppCompatDialog {
         currentKlausur.setNotiz(eingabeNotiz.getText().toString());
         if (currentKlausur.getFach().equals("")) {
             currentKlausur.setFach(eingabeFach.getText().toString());
-            Utils.getKlausurplanActivity().add(currentKlausur, true);
+            Utils.getController().getKlausurplanActivity().add(currentKlausur, true);
         } else {
-            Utils.getKlausurplanActivity().remove(currentKlausur);
+            Utils.getController().getKlausurplanActivity().remove(currentKlausur);
             currentKlausur.setFach(eingabeFach.getText().toString());
-            Utils.getKlausurplanActivity().add(currentKlausur, true);
+            Utils.getController().getKlausurplanActivity().add(currentKlausur, true);
         }
     }
 
     private void klausurLöschen() {
         if (!currentKlausur.getFach().equals(""))
-            Utils.getKlausurplanActivity().remove(currentKlausur);
+            Utils.getController().getKlausurplanActivity().remove(currentKlausur);
     }
 
     private boolean istDatumFormat(String s) {

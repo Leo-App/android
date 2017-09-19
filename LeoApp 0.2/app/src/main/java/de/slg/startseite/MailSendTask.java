@@ -14,13 +14,13 @@ class MailSendTask extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... strings) {
         String requestText = strings[0];
         if (!Utils.checkNetwork()) {
-            Utils.getPreferences()
+            Utils.getController().getPreferences()
                     .edit()
                     .putString("pref_key_request_cached", requestText)
                     .apply();
             return null;
         }
-        Utils.getPreferences()
+        Utils.getController().getPreferences()
                 .edit()
                 .putString("pref_key_request_cached", "-")
                 .apply();

@@ -44,11 +44,11 @@ public class AbstimmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_abstimmen);
 
-        Utils.context = getApplicationContext();
+        Utils.getController().setContext(getApplicationContext());
 
         Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
-        if (Utils.getMainActivity() != null && Utils.getMainActivity().abstimmDialog != null)
-            Utils.getMainActivity().abstimmDialog.dismiss();
+        if (Utils.getController().getMainActivity() != null && Utils.getController().getMainActivity().abstimmDialog != null)
+            Utils.getController().getMainActivity().abstimmDialog.dismiss();
 
         initListView();
         initSmileys();
@@ -133,7 +133,7 @@ public class AbstimmActivity extends AppCompatActivity {
 
     private void initListView() {
         listView = (ListView) findViewById(R.id.listView);
-        if (Utils.getPreferences().getBoolean("pref_key_show_reasons_survey", false)) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_show_reasons_survey", false)) {
             listView.setClickable(false);
             listView.setVisibility(View.VISIBLE);
             listView.setAdapter(new ListAdapterGrund(getApplicationContext(), gruende));

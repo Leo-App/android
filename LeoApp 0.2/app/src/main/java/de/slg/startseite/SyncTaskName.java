@@ -43,7 +43,7 @@ class SyncTaskName extends AsyncTask<Void, Void, Void> {
         if (builder.charAt(0) == '-') {
             return null;
         }
-        Utils.getPreferences()
+        Utils.getController().getPreferences()
                 .edit()
                 .putString("pref_key_username_general", builder.toString())
                 .apply();

@@ -17,11 +17,11 @@ public class Start extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Utils.context = getApplicationContext();
+        Utils.getController().setContext(getApplicationContext());
 
         int days = 15;
         try {
-            Date     d = new SimpleDateFormat("dd.MM.yyyy").parse(Utils.getPreferences().getString("valid_until", "null"));
+            Date     d = new SimpleDateFormat("dd.MM.yyyy").parse(Utils.getController().getPreferences().getString("valid_until", "null"));
             Calendar c = new GregorianCalendar();
             for (int i = 1; i <= 14; i++) {
                 c.add(Calendar.DAY_OF_MONTH, 1);

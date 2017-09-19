@@ -134,7 +134,7 @@ public class AbstimmDialog extends AlertDialog {
 
     private void initListView() {
         listView = (ListView) findViewById(R.id.listView);
-        if (Utils.getPreferences().getBoolean("pref_key_show_reasons_survey", false)) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_show_reasons_survey", false)) {
             listView.setClickable(false);
             listView.setVisibility(View.VISIBLE);
             listView.setAdapter(new ListAdapterGrund(getContext(), gruende));

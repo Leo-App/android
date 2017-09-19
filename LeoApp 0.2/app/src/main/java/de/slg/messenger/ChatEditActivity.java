@@ -48,7 +48,7 @@ public class ChatEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_chat_edit);
-        Utils.registerChatEditActivity(this);
+        Utils.getController().registerChatEditActivity(this);
 
         cid = getIntent().getIntExtra("cid", -1);
         cname = getIntent().getStringExtra("cname");
@@ -84,9 +84,9 @@ public class ChatEditActivity extends AppCompatActivity {
         super.finish();
 
         setResult(1, getIntent().putExtra("cname", cname));
-        Utils.getMDB().muteChat(cid, !notifications.isChecked());
+        Utils.getController().getMessengerDataBase().muteChat(cid, !notifications.isChecked());
 
-        Utils.registerChatEditActivity(null);
+        Utils.getController().registerChatEditActivity(null);
     }
 
     @Override
@@ -115,8 +115,8 @@ public class ChatEditActivity extends AppCompatActivity {
         scrollView = findViewById(R.id.scrollView);
         listView = (ListView) findViewById(R.id.listView);
 
-        usersInChat = Utils.getMDB().getUsersInChat(cid);
-        usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
+        usersInChat = Utils.getController().getMessengerDataBase().getUsersInChat(cid);
+        usersNotInChat = Utils.getController().getMessengerDataBase().getUsersNotInChat(cid);
         uRemove = new UserAdapter(getApplicationContext(), usersInChat);
         uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
 
@@ -147,7 +147,7 @@ public class ChatEditActivity extends AppCompatActivity {
     private void initSettings() {
         mode = "";
         notifications = (Switch) findViewById(R.id.switch1);
-        notifications.setChecked(!Utils.getMDB().isMute(cid));
+        notifications.setChecked(!Utils.getController().getMessengerDataBase().isMute(cid));
 
         final View name = findViewById(R.id.changeName);
         name.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +200,7 @@ public class ChatEditActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         removeUsers(Utils.getCurrentUser());
                         finish();
-                        Utils.getChatActivity().finish();
+                        Utils.getController().getChatActivity().finish();
                         dialog.dismiss();
                     }
                 });
@@ -233,7 +233,7 @@ public class ChatEditActivity extends AppCompatActivity {
         final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
 
         username.setText(Utils.getUserName());
-        userdefault.setText(Utils.getMDB().getMyDefaultName() + ", " + Utils.getUserStufe());
+        userdefault.setText(Utils.getController().getMessengerDataBase().getMyDefaultName() + ", " + Utils.getUserStufe());
 
         v.findViewById(R.id.checkBox).setVisibility(View.GONE);
 
@@ -304,7 +304,7 @@ public class ChatEditActivity extends AppCompatActivity {
                     while (reader.readLine() != null)
                         ;
                     reader.close();
-                    Utils.getMDB().insertAssoziation(assoziation);
+                    Utils.getController().getMessengerDataBase().insertAssoziation(assoziation);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -317,8 +317,8 @@ public class ChatEditActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            usersInChat = Utils.getMDB().getUsersInChat(cid);
-            usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
+            usersInChat = Utils.getController().getMessengerDataBase().getUsersInChat(cid);
+            usersNotInChat = Utils.getController().getMessengerDataBase().getUsersNotInChat(cid);
             uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
             uRemove = new UserAdapter(getApplicationContext(), usersInChat);
 
@@ -370,7 +370,7 @@ public class ChatEditActivity extends AppCompatActivity {
                     while (reader.readLine() != null)
                         ;
                     reader.close();
-                    Utils.getMDB().removeUserFormChat(assoziation.uid, assoziation.cid);
+                    Utils.getController().getMessengerDataBase().removeUserFormChat(assoziation.uid, assoziation.cid);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -383,8 +383,8 @@ public class ChatEditActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            usersInChat = Utils.getMDB().getUsersInChat(cid);
-            usersNotInChat = Utils.getMDB().getUsersNotInChat(cid);
+            usersInChat = Utils.getController().getMessengerDataBase().getUsersInChat(cid);
+            usersNotInChat = Utils.getController().getMessengerDataBase().getUsersNotInChat(cid);
             uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
             uRemove = new UserAdapter(getApplicationContext(), usersInChat);
 

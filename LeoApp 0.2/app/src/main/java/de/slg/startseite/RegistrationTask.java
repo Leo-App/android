@@ -67,7 +67,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         }
 
         if (result.startsWith("_new_")) {
-            Utils.getPreferences()
+            Utils.getController().getPreferences()
                     .edit()
                     .putString("pref_key_username_general", params[0])
                     .putInt("pref_key_general_permission", Integer.parseInt(params[1]))
@@ -77,7 +77,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             return true;
         } else if (result.startsWith("_old_")) {
             String[] data = result.split("_");
-            Utils.getPreferences()
+            Utils.getController().getPreferences()
                     .edit()
                     .putString("pref_key_level_general", data[data.length - 1])
                     .putString("pref_key_username_general", data[data.length - 3])
@@ -93,30 +93,30 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean b) {
         if (b) {
-            Utils.getMainActivity().title.setTextColor(Color.GREEN);
-            Utils.getMainActivity().title.setText(Utils.getString(R.string.title_info_auth));
-            Utils.getMainActivity().info.setText(Utils.getString(R.string.summary_info_auth_success));
-            Utils.getMainActivity().verify.setText(Utils.getString(R.string.button_info_noreminder));
-            Utils.getMainActivity().progressBar.setVisibility(View.GONE);
-            Utils.getMainActivity().title.setVisibility(View.VISIBLE);
-            Utils.getMainActivity().info.setVisibility(View.VISIBLE);
-            Utils.getMainActivity().verify.setVisibility(View.VISIBLE);
-            Utils.getMainActivity().dismiss.setVisibility(View.GONE);
-            Utils.getMainActivity().initFeatureCards();
-            Utils.getMainActivity().initNavigationView();
+            Utils.getController().getMainActivity().title.setTextColor(Color.GREEN);
+            Utils.getController().getMainActivity().title.setText(Utils.getString(R.string.title_info_auth));
+            Utils.getController().getMainActivity().info.setText(Utils.getString(R.string.summary_info_auth_success));
+            Utils.getController().getMainActivity().verify.setText(Utils.getString(R.string.button_info_noreminder));
+            Utils.getController().getMainActivity().progressBar.setVisibility(View.GONE);
+            Utils.getController().getMainActivity().title.setVisibility(View.VISIBLE);
+            Utils.getController().getMainActivity().info.setVisibility(View.VISIBLE);
+            Utils.getController().getMainActivity().verify.setVisibility(View.VISIBLE);
+            Utils.getController().getMainActivity().dismiss.setVisibility(View.GONE);
+            Utils.getController().getMainActivity().initFeatureCards();
+            Utils.getController().getMainActivity().initNavigationView();
 
             Calendar c = new GregorianCalendar();
             c.add(Calendar.YEAR, 1);
             c.set(Calendar.MONTH, Calendar.OCTOBER);
             c.set(Calendar.DAY_OF_MONTH, 1);
             String date = new SimpleDateFormat("dd.MM.yyyy").format(c.getTime());
-            Utils.getPreferences()
+            Utils.getController().getPreferences()
                     .edit()
                     .putString("valid_until", date)
                     .apply();
 
             if (Utils.getUserPermission() == 2) {
-                Utils.getPreferences()
+                Utils.getController().getPreferences()
                         .edit()
                         .putBoolean("pref_key_notification_test", false)
                         .putBoolean("pref_key_notification_essensqr", false)
@@ -127,17 +127,17 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         } else {
             if (!connection) {
                 showSnackbar();
-                Utils.getMainActivity().progressBar.setVisibility(View.GONE);
-                Utils.getMainActivity().title.setVisibility(View.VISIBLE);
-                Utils.getMainActivity().info.setVisibility(View.VISIBLE);
-                Utils.getMainActivity().verify.setVisibility(View.VISIBLE);
+                Utils.getController().getMainActivity().progressBar.setVisibility(View.GONE);
+                Utils.getController().getMainActivity().title.setVisibility(View.VISIBLE);
+                Utils.getController().getMainActivity().info.setVisibility(View.VISIBLE);
+                Utils.getController().getMainActivity().verify.setVisibility(View.VISIBLE);
             } else {
-                Utils.getMainActivity().info.setText(Utils.getString(R.string.summary_info_auth_failed));
-                Utils.getMainActivity().title.setText(Utils.getString(R.string.error));
-                Utils.getMainActivity().progressBar.setVisibility(View.GONE);
-                Utils.getMainActivity().title.setVisibility(View.VISIBLE);
-                Utils.getMainActivity().info.setVisibility(View.VISIBLE);
-                Utils.getMainActivity().verify.setVisibility(View.VISIBLE);
+                Utils.getController().getMainActivity().info.setText(Utils.getString(R.string.summary_info_auth_failed));
+                Utils.getController().getMainActivity().title.setText(Utils.getString(R.string.error));
+                Utils.getController().getMainActivity().progressBar.setVisibility(View.GONE);
+                Utils.getController().getMainActivity().title.setVisibility(View.VISIBLE);
+                Utils.getController().getMainActivity().info.setVisibility(View.VISIBLE);
+                Utils.getController().getMainActivity().verify.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -147,7 +147,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         final Runnable r = new Runnable() {
             @Override
             public void run() {
-                final Snackbar cS = Snackbar.make(Utils.getMainActivity().cooredinatorLayout, R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
+                final Snackbar cS = Snackbar.make(Utils.getController().getMainActivity().cooredinatorLayout, R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
                 cS.setActionTextColor(Color.WHITE);
                 cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
                     @Override

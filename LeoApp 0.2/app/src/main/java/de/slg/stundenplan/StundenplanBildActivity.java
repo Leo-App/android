@@ -36,7 +36,7 @@ public class StundenplanBildActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stundenplan_image);
-        Utils.registerStundenplanBildActivity(this);
+        Utils.getController().registerStundenplanBildActivity(this);
         view = (StundenplanView) findViewById(R.id.image);
         initToolbar();
     }
@@ -60,7 +60,7 @@ public class StundenplanBildActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        Utils.registerStundenplanBildActivity(null);
+        Utils.getController().registerStundenplanBildActivity(null);
     }
 
     @Override

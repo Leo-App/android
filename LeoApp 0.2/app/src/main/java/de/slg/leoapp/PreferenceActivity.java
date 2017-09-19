@@ -41,7 +41,6 @@ import java.security.NoSuchAlgorithmException;
 import de.slg.essensqr.Auth;
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.messenger.DBConnection;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.InfoActivity;
@@ -83,7 +82,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preference);
-        Utils.registerPreferenceActivity(this);
+        Utils.getController().registerPreferenceActivity(this);
 
         addPreferencesFromResource(R.xml.preferences_overview);
 
@@ -246,7 +245,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     @Override
     public void finish() {
         super.finish();
-        Utils.registerPreferenceActivity(null);
+        Utils.getController().registerPreferenceActivity(null);
     }
 
     private void initPreferenceChanges() {
@@ -315,9 +314,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         syncPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Utils.invalidateMDB();
-                deleteDatabase(DBConnection.DBHelper.DATABASE_NAME);
-                //TODO Verbindung zum Server neu herstellen
+                Utils.getController().getMessengerDataBase().clear();
                 return Utils.checkNetwork();
             }
         });

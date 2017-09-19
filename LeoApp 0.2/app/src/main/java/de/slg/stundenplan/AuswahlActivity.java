@@ -43,7 +43,7 @@ public class AuswahlActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auswahl);
-        Utils.registerAuswahlActivity(this);
+        Utils.getController().registerAuswahlActivity(this);
         String stufe = Utils.getUserStufe();
         if (!stufe.equals("")) {
             importer = new FachImporter(getApplicationContext(), stufe);
@@ -80,7 +80,7 @@ public class AuswahlActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        Utils.registerAuswahlActivity(null);
+        Utils.getController().registerAuswahlActivity(null);
     }
 
     private void initToolbar() {
@@ -161,7 +161,7 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private void initDB() {
-        db = Utils.getStundDB();
+        db = Utils.getController().getStundplanDataBase();
         if (db.getFaecher().length == 0) {
             Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes, Snackbar.LENGTH_SHORT);
             snack.show();
@@ -179,8 +179,8 @@ public class AuswahlActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            if (Utils.getAuswahlActivity() != null) {
-                Utils.getAuswahlActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+            if (Utils.getController().getAuswahlActivity() != null) {
+                Utils.getController().getAuswahlActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
             }
         }
 
@@ -221,14 +221,14 @@ public class AuswahlActivity extends AppCompatActivity {
                         if (fach[1].replace("0", "").startsWith(stufe)) {
                             Log.e("TAG", line);
                             if (!fach[3].equals(lastKurzel)) {
-                                lastID = Utils.getStundDB().insertFach(fach[3], fach[2]);
+                                lastID = Utils.getController().getStundplanDataBase().insertFach(fach[3], fach[2]);
                                 lastKurzel = fach[3];
                                 if (Utils.getUserPermission() == 2 && fach[2].equals(Utils.getLehrerKuerzel().toUpperCase())) {
-                                    Utils.getStundDB().waehleFach(lastID);
-                                    Utils.getStundDB().setzeSchriftlich(true, lastID);
+                                    Utils.getController().getStundplanDataBase().waehleFach(lastID);
+                                    Utils.getController().getStundplanDataBase().setzeSchriftlich(true, lastID);
                                 }
                             }
-                            Utils.getStundDB().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]), fach[4]);
+                            Utils.getController().getStundplanDataBase().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]), fach[4]);
                         }
                     }
                     reader.close();
@@ -242,10 +242,10 @@ public class AuswahlActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (Utils.getAuswahlActivity() != null) {
-                Utils.getAuswahlActivity().initDB();
-                Utils.getAuswahlActivity().initListView();
-                Utils.getAuswahlActivity().findViewById(R.id.progressBar).setVisibility(View.GONE);
+            if (Utils.getController().getAuswahlActivity() != null) {
+                Utils.getController().getAuswahlActivity().initDB();
+                Utils.getController().getAuswahlActivity().initListView();
+                Utils.getController().getAuswahlActivity().findViewById(R.id.progressBar).setVisibility(View.GONE);
             }
         }
     }
@@ -260,7 +260,7 @@ public class AuswahlActivity extends AppCompatActivity {
 
         KursAdapter(Context context, Fach[] array) {
             super(context, R.layout.list_item_kurs, array);
-            db = Utils.getStundDB();
+            db = Utils.getController().getStundplanDataBase();
             fachArray = array;
             views = new View[array.length];
             cbs = new CheckBox[array.length];

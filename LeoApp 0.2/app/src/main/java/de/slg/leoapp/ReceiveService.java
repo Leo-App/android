@@ -23,13 +23,13 @@ import de.slg.messenger.Verschluesseln;
 import de.slg.schwarzes_brett.SQLiteConnector;
 
 public class ReceiveService extends Service {
-    boolean receiveNews;
+    public  boolean receiveNews;
     private boolean running, socketRunning;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Utils.context = getApplicationContext();
-        Utils.registerReceiveService(this);
+        Utils.getController().setContext(getApplicationContext());
+        Utils.getController().registerReceiveService(this);
 
         running = true;
         socketRunning = false;
@@ -51,15 +51,14 @@ public class ReceiveService extends Service {
     @Override
     public void onDestroy() {
         running = false;
-        Utils.registerReceiveService(null);
+        Utils.getController().registerReceiveService(null);
         Log.i("ReceiveService", "Service stopped!");
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.e("ReceiveService", "TASK REMOVED!");
-        Utils.getMDB().close();
-        Utils.invalidateMDB();
+        Utils.getController().getMessengerDataBase().close();
         super.onTaskRemoved(rootIntent);
     }
 
@@ -70,7 +69,7 @@ public class ReceiveService extends Service {
             while (running) {
                 try {
                     if (Utils.checkNetwork()) {
-                        if (Utils.getMDB().hasQueuedMessages())
+                        if (Utils.getController().getMessengerDataBase().hasQueuedMessages())
                             new SendQueuedMessages().execute();
 
                         if (!socketRunning)
@@ -106,7 +105,7 @@ public class ReceiveService extends Service {
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
-                Message[] array = Utils.getMDB().getQueuedMessages();
+                Message[] array = Utils.getController().getMessengerDataBase().getQueuedMessages();
                 for (Message m : array) {
                     try {
                         HttpsURLConnection connection = (HttpsURLConnection)
@@ -120,7 +119,7 @@ public class ReceiveService extends Service {
                         while (reader.readLine() != null)
                             ;
                         reader.close();
-                        Utils.getMDB().dequeueMessage(m.mid);
+                        Utils.getController().getMessengerDataBase().dequeueMessage(m.mid);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -184,8 +183,8 @@ public class ReceiveService extends Service {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (Utils.getSchwarzesBrettActivity() != null)
-                Utils.getSchwarzesBrettActivity().refreshUI();
+            if (Utils.getController().getSchwarzesBrettActivity() != null)
+                Utils.getController().getSchwarzesBrettActivity().refreshUI();
             Log.i("ReceiveService", "received News");
         }
     }
@@ -217,13 +216,13 @@ public class ReceiveService extends Service {
                             int    cid   = Integer.parseInt(parts[4]);
                             int    uid   = Integer.parseInt(parts[5]);
 
-                            Utils.getMDB().insertMessage(new Message(mid, mtext, mdate, cid, uid));
+                            Utils.getController().getMessengerDataBase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
                         } else if (s.startsWith("c") && parts.length == 3) {
                             int           cid   = Integer.parseInt(parts[0]);
                             String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
                             Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
 
-                            Utils.getMDB().insertChat(new Chat(cid, cname, ctype));
+                            Utils.getController().getMessengerDataBase().insertChat(new Chat(cid, cname, ctype));
                         } else if (s.startsWith("u") && parts.length == 5) {
                             int    uid          = Integer.parseInt(parts[0]);
                             String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
@@ -231,7 +230,7 @@ public class ReceiveService extends Service {
                             int    upermission  = Integer.parseInt(parts[3]);
                             String udefaultname = parts[4];
 
-                            Utils.getMDB().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
+                            Utils.getController().getMessengerDataBase().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
                         } else if (s.startsWith("a")) {
                             assoziationen();
                         } else if (s.startsWith("-")) {
@@ -240,8 +239,8 @@ public class ReceiveService extends Service {
 
                         builder.delete(0, builder.length());
 
-                        if (Utils.getMessengerActivity() != null)
-                            Utils.getMessengerActivity().notifyUpdate();
+                        if (Utils.getController().getMessengerActivity() != null)
+                            Utils.getController().getMessengerActivity().notifyUpdate();
                     }
                 }
             } catch (IOException e) {
@@ -283,7 +282,7 @@ public class ReceiveService extends Service {
                     }
                 }
 
-                Utils.getMDB().insertAssoziationen(list);
+                Utils.getController().getMessengerDataBase().insertAssoziationen(list);
             } catch (IOException e) {
                 e.printStackTrace();
             }

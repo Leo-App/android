@@ -55,7 +55,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stimmungsbarometer);
-        Utils.registerStimmungsbarometerActivity(this);
+        Utils.getController().registerStimmungsbarometerActivity(this);
         drawI = Utils.isVerified();
         drawS = true;
         drawL = true;
@@ -74,7 +74,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        Utils.registerStimmungsbarometerActivity(null);
+        Utils.getController().registerStimmungsbarometerActivity(null);
     }
 
     private void initLayouts() {
