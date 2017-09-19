@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import de.slg.leoapp.Utils;
 
 class RegistrationTask extends AsyncTask<String, Void, Boolean> {
     private boolean connection;
+    int code;
 
     @Override
     protected Boolean doInBackground(String... params) {
@@ -34,7 +36,19 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         }
 
         try {
-            String klasse = "N/A";
+
+            String password = Utils.getPreferences().getString("pref_key_password_general", "");
+
+            HttpsURLConnection checkConnection = (HttpsURLConnection)
+                    new URL(Utils.BASE_DOMAIN + "/slg")
+                            .openConnection();
+            checkConnection.setRequestProperty("Authorization", Utils.authorizationPre + Utils.toAuthFormat(params[0], password));
+
+            code = checkConnection.getResponseCode();
+
+            if(checkConnection.getResponseCode() != 200)
+                return false;
+       /*     String klasse = "N/A";
             if (params[1].equals("2"))
                 klasse = "TEA";
 
@@ -54,12 +68,12 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
                 }
             }
 
-            reader.close();
+            reader.close(); */
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-
+/*
         Log.d("RegistrationTask", result);
 
         if (result.startsWith("-")) {
@@ -87,12 +101,16 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
             PreferenceActivity.setCurrentUsername(Utils.getUserName());
             return true;
         } else
-            return false;
+            return false; */
+    return true;
     }
 
     @Override
     protected void onPostExecute(Boolean b) {
-        if (b) {
+
+        Toast.makeText(Utils.getContext(), "WORKED "+code, Toast.LENGTH_LONG).show();
+
+     /*   if (b) {
             Utils.getMainActivity().title.setTextColor(Color.GREEN);
             Utils.getMainActivity().title.setText(Utils.getString(R.string.title_info_auth));
             Utils.getMainActivity().info.setText(Utils.getString(R.string.summary_info_auth_success));
@@ -139,7 +157,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
                 Utils.getMainActivity().info.setVisibility(View.VISIBLE);
                 Utils.getMainActivity().verify.setVisibility(View.VISIBLE);
             }
-        }
+        } */
     }
 
     private void showSnackbar() {

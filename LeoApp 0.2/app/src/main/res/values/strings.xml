@@ -74,7 +74,13 @@
     <string name="settings_category_general">General</string>
 
     <string name="settings_title_username">Username</string>
-    <string name="settings_summary_username" translatable="false">N/A</string>
+    <string name="settings_summary_username">Der Benutzername deines Schulaccounts</string>
+
+    <string name="settings_title_nickname">Nickname</string>
+    <string name="settings_summary_nickname">Dieser Name wird deinen Mitschülern angezeigt</string>
+
+    <string name="settings_title_password">Password</string>
+    <string name="settings_summary_password">Gib hier dein Schulpasswort ein</string>
 
     <string name="settings_title_level">Grade</string>
     <string name="settings_summary_level" translatable="false">N/A</string>
