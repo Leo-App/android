@@ -25,7 +25,7 @@
     <string name="new_entry_title">Title</string>
     <string name="new_entry_content">Content</string>
     <string name="to">To</string>
-    <string name="info_add_entry">Consider using the webinterface for more options</string>
+    <string name="info_add_entry">Consider using the web interface for more options</string>
 
 
     <!-- Menu titles -->
@@ -175,7 +175,6 @@
     <string name="literatur">Literature</string>
     <string name="kunst">Art</string>
     <string name="musik">Music</string>
-    <string name="vokal">Vokalpraxis</string>
 
     <string name="SnackBarMes">Could not load plan</string>
 
@@ -277,16 +276,31 @@
     <string name="discard">Discard</string>
     <string name="free_hour">Free period</string>
     <string name="Tok" translatable="false">TOK</string>
-    <string name="Weltlit">German A Literature</string>
+    <string name="Weltlit">Literature</string>
     <string name="ZK" translatable="false">ZK</string>
-    <string name="Projektk">Projektkurs</string>
-    <string name="Vertiefung">Vertiefungskurs</string>
-    <string name="Soz">Soziales Lernen</string>
-    <string name="schwimmen">Schwimmen (Sport)</string>
-    <string name="lüz">LÜZ</string>
-    <string name="ag">AG:</string>
+    <string name="Projektk">Project course</string>
+    <string name="Vertiefung">Foster course</string>
+    <string name="Soz">Social competences</string>
+    <string name="lüz" translatable="false">LÜZ</string>
+    <string name="ag">Club:</string>
     <string name="sport">Sports</string>
     <string name="politik">Politik</string>
-    <string name="niederländisch">Niederländisch</string>
+    <string name="niederländisch">Dutch</string>
+    <string name="PoWi">Politics</string>
+    <string name="GeZK">History (additional)</string>
+    <string name="SoWiZ">Social science (addiational)</string>
+    <string name="Diff">Specialisation</string>
+    <string name="download_description_news">Pin Board - Download</string>
+    <string name="laden_name">Reload</string>
+    <string name="lk">Major</string>
+    <string name="no_order">No order</string>
+    <string name="not_loggedin">Not logged in</string>
+    <string name="schwimmen">Swimming (Sport)</string>
+    <string name="settings_summary_refresh_interval">Period between the sync</string>
+    <string name="später">Later</string>
+    <string name="todo_description"></string>
+    <string name="vokal">Singing</string>
+    <string name="settings_title_refresh_interval">Period betwenn sync</string>
+    <string name="Förder">Foster course</string>
 
 </resources>

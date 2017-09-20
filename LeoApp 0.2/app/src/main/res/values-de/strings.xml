@@ -178,7 +178,7 @@
     <string name="feature_request">Beschreibe hier kurz deinen Vorschlag</string>
     <string name="feature_request_title">Feature-Idee</string>
     <string name="todo_description">\t- Terminplaner\n\t- Digitaler Vertretungsplan\n\t- Nachhilfebörse\n\t- Eure Vorschläge</string>
-    <string name="download_description_news">Schwarzes Brett - Download</string>
+    <string name="download_description_news">Schwarzes Brett - Herunterladen</string>
 
     <!--Essensbons-->
     <string name="settings_summary_customid">Gib deine lunch.leo-ac.de Benutzer-ID ein</string>
@@ -312,6 +312,19 @@
     <string name="Förder">Förderkurs</string>
     <string name="sport">Sport</string>
     <string name="Weltlit">Weltliteratur</string>
-    <string name="Vertiefung"></string>
+    <string name="Soz">Soziales Lernen</string>
+    <string name="Projektk">Projektkurs</string>
+    <string name="Vertiefung">Vertiefungskurs</string>
+    <string name="ag">AG:</string>
+    <string name="menu_stundenplan_name">Kurse ändern</string>
+    <string name="lüz"></string>
+    <string name="new_entry_content">Inhalt</string>
+    <string name="new_entry_title">Title</string>
+    <string name="niederländisch">Niederländisch</string>
+    <string name="info_add_entry">Bitte benutzen Sie das Web-Interface für erweiterte Einstellungen</string>
+    <string name="politik">Politics</string>
+    <string name="schwimmen">Schwimmen (Sport)</string>
+    <string name="to">An</string>
+    <string name="vokal">Vokalpraxis</string>
 
 </resources>

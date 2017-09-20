@@ -237,6 +237,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                 KlausurDialog.currentKlausur = new Klausur("", null, "", "");
                 KlausurDialog klausurDialog = new KlausurDialog(KlausurplanActivity.this);
                 klausurDialog.show();
+
                 klausurDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 klausurDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
@@ -251,12 +252,14 @@ public class KlausurplanActivity extends AppCompatActivity {
     private void refresh() {
         writeToFile();
         lvKlausuren.setAdapter(new KlausurenAdapter(getApplicationContext(), klausurList, findeNächsteKlausur()));
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                lvKlausuren.smoothScrollToPositionFromTop(findeNächsteWoche(), 0);
-            }
-        }, 100);
+       // new Handler().postDelayed(new Runnable() {
+        //    @Override
+         //   public void run() {
+       //         lvKlausuren.smoothScrollToPositionFromTop(findeNächsteWoche(), 0);
+       //     }
+        //}, 100);
+
+        lvKlausuren.setSelection(findeNächsteWoche());
     }
 
     public void add(Klausur k, boolean refresh) {
