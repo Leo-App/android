@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (Utils.getController().getPreferences().getBoolean("pref_key_level_has_to_be_synchronized", false)) {
-            new UpdateTaskGrade(getApplicationContext()).execute();
+            new UpdateTaskGrade().execute();
         }
 
         if (Utils.isVerified()) {

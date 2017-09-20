@@ -18,7 +18,6 @@ import java.util.GregorianCalendar;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
@@ -69,22 +68,22 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
         if (result.startsWith("_new_")) {
             Utils.getController().getPreferences()
                     .edit()
-                    .putString("pref_key_username_general", params[0])
+                    .putString("pref_key_general_name", params[0])
                     .putInt("pref_key_general_permission", Integer.parseInt(params[1]))
                     .putInt("pref_key_general_id", Integer.valueOf(result.replaceFirst("_new_", "")))
                     .apply();
-            PreferenceActivity.setCurrentUsername(Utils.getUserName());
+            Utils.getController().getPreferenceActivity().setCurrentUsername(Utils.getUserName());
             return true;
         } else if (result.startsWith("_old_")) {
             String[] data = result.split("_");
             Utils.getController().getPreferences()
                     .edit()
-                    .putString("pref_key_level_general", data[data.length - 1])
-                    .putString("pref_key_username_general", data[data.length - 3])
+                    .putString("pref_key_general_klasse", data[data.length - 1])
+                    .putString("pref_key_general_name", data[data.length - 3])
                     .putInt("pref_key_general_permission", Integer.parseInt(params[1]))
                     .putInt("pref_key_general_id", Integer.parseInt(data[data.length - 5]))
                     .apply();
-            PreferenceActivity.setCurrentUsername(Utils.getUserName());
+            Utils.getController().getPreferenceActivity().setCurrentUsername(Utils.getUserName());
             return true;
         } else
             return false;

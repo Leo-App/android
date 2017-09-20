@@ -8,7 +8,7 @@
         <EditTextPreference
             android:enabled="true"
             android:hint="@string/settings_title_username"
-            android:key="pref_key_username_general"
+            android:key="pref_key_general_name"
             android:maxEms="20"
             android:maxLines="1"
             android:singleLine="true"
@@ -17,7 +17,7 @@
 
         <de.slg.startseite.ClassPickerPref
             android:enabled="true"
-            android:key="pref_key_level_general"
+            android:key="pref_key_general_klasse"
             android:summary="@string/settings_summary_level"
             android:title="@string/settings_title_level" />
 

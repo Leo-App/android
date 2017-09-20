@@ -71,7 +71,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         return new String(hexChars);
     }
 
-    public static void setCurrentUsername(String newName) {
+    public void setCurrentUsername(String newName) {
         currentUsername = newName;
     }
 
@@ -208,15 +208,15 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 connectionPref = findPreference("pref_key_qr_autofade_time");
                 connectionPref.setEnabled(sharedPreferences.getBoolean(key, false));
                 break;
-            case "pref_key_level_general":
-                new UpdateTaskGrade(this).execute();
+            case "pref_key_general_klasse":
+                new UpdateTaskGrade().execute();
                 String res = pref.getString(key, "N/A");
-                findPreference("pref_key_level_general").setSummary(res);
+                findPreference("pref_key_general_klasse").setSummary(res);
                 initNavigationView();
                 break;
-            case "pref_key_username_general":
+            case "pref_key_general_name":
                 showProgressBar();
-                UpdateTaskName task = new de.slg.startseite.UpdateTaskName(this, currentUsername);
+                UpdateTaskName task = new de.slg.startseite.UpdateTaskName(currentUsername);
                 task.execute();
                 initNavigationView();
                 break;
@@ -263,27 +263,27 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         currentUsername = Utils.getUserName();
 
         if (!Utils.getUserStufe().equals(""))
-            findPreference("pref_key_level_general").setSummary(Utils.getUserStufe());
+            findPreference("pref_key_general_klasse").setSummary(Utils.getUserStufe());
         else
-            findPreference("pref_key_level_general").setSummary("N/A");
+            findPreference("pref_key_general_klasse").setSummary("N/A");
 
-        findPreference("pref_key_username_general").setSummary(currentUsername);
+        findPreference("pref_key_general_name").setSummary(currentUsername);
 
         if (!Utils.isVerified()) {
-            findPreference("pref_key_level_general").setEnabled(false);
-            findPreference("pref_key_username_general").setSummary("N/A");
+            findPreference("pref_key_general_klasse").setEnabled(false);
+            findPreference("pref_key_general_name").setSummary("N/A");
         }
 
         PreferenceCategory general = (PreferenceCategory) findPreference("pref_key_general_settings");
         if (permission == 2) {
-            general.removePreference(findPreference("pref_key_level_general"));
+            general.removePreference(findPreference("pref_key_general_klasse"));
             findPreference("pref_key_kuerzel_general").setSummary(pref.getString("pref_key_kuerzel_general", "N/A"));
         } else {
             general.removePreference(findPreference("pref_key_kuerzel_general"));
         }
 
         if (!Utils.isVerified())
-            findPreference("pref_key_username_general").setEnabled(false);
+            findPreference("pref_key_general_name").setEnabled(false);
 
         findPreference("pref_key_version_app").setSummary(Utils.getAppVersionName());
 

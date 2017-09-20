@@ -421,7 +421,7 @@ public class NotificationService extends Service {
         public void run() {
             running = true;
             while (running) {
-                if (Utils.getController().getContext() == null)
+                if (Utils.getContext() == null)
                     Utils.getController().setContext(getApplicationContext());
                 messengerNotification();
                 schwarzesBrettNotification();

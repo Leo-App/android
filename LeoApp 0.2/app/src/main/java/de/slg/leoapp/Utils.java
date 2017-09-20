@@ -59,6 +59,10 @@ public abstract class Utils {
         return controller;
     }
 
+    public static Context getContext() {
+        return getController().getContext();
+    }
+
     public static String getString(int id) {
         return getController().getContext().getString(id);
     }
@@ -162,11 +166,11 @@ public abstract class Utils {
     }
 
     public static String getUserName() {
-        return getController().getPreferences().getString("pref_key_username_general", "");
+        return getController().getPreferences().getString("pref_key_general_name", "");
     }
 
     public static String getUserStufe() {
-        return getController().getPreferences().getString("pref_key_level_general", "").replace("N/A", "");
+        return getController().getPreferences().getString("pref_key_general_klasse", "").replace("N/A", "");
     }
 
     public static int getUserPermission() {

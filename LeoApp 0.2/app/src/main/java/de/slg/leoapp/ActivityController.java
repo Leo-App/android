@@ -52,7 +52,7 @@ public class ActivityController {
 
     private ReceiveService receiveService;
 
-    public Context getContext() {
+    Context getContext() {
         if (context != null) {
             return context;
         } else if (mainActivity != null) {
