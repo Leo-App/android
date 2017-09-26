@@ -226,11 +226,11 @@ public class AddGroupChatActivity extends AppCompatActivity {
         }
 
         private String generateURL(String cname) throws UnsupportedEncodingException {
-            return Utils.BASE_URL + "messenger/addChat.php?key=5453&chatname=" + URLEncoder.encode(cname, "UTF-8") + "&chattype=" + Chat.ChatType.GROUP.toString().toLowerCase();
+            return Utils.BASE_URL_PHP + "messenger/addChat.php?key=5453&chatname=" + URLEncoder.encode(cname, "UTF-8") + "&chattype=" + Chat.ChatType.GROUP.toString().toLowerCase();
         }
 
         private String generateURL(Assoziation assoziation) {
-            return Utils.BASE_URL + "messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+            return Utils.BASE_URL_PHP + "messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
 
         @Override

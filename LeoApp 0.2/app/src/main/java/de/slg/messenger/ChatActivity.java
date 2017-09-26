@@ -390,8 +390,9 @@ public class ChatActivity extends AppCompatActivity {
                     return null;
                 if (Utils.checkNetwork()) {
                     try {
-                        HttpsURLConnection connection = (HttpsURLConnection) new URL(Utils.BASE_URL + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
-                                .openConnection();
+                        HttpsURLConnection connection = (HttpsURLConnection)
+                                new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
+                                        .openConnection();
                         connection.setRequestProperty("Authorization", Utils.authorization);
                         BufferedReader reader =
                                 new BufferedReader(
@@ -448,7 +449,7 @@ public class ChatActivity extends AppCompatActivity {
             String key      = Verschluesseln.createKey(message);
             String vMessage = Verschluesseln.encrypt(message, key);
             String vKey     = Verschluesseln.encryptKey(key);
-            return Utils.BASE_URL + "messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + cid + "&vKey=" + vKey;
+            return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + cid + "&vKey=" + vKey;
         }
     }
 }

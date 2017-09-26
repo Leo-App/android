@@ -407,7 +407,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 if (!Utils.checkNetwork())
                     return null;
                 HttpsURLConnection connection = (HttpsURLConnection)
-                        new URL(Utils.BASE_URL + "getWeatherData.php")
+                        new URL(Utils.BASE_URL_PHP + "getWeatherData.php")
                                 .openConnection();
                 connection.setRequestProperty("Authorization", Utils.authorization);
                 BufferedReader reader =

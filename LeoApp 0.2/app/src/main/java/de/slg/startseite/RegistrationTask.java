@@ -38,7 +38,7 @@ class RegistrationTask extends AsyncTask<String, Void, Boolean> {
                 klasse = "TEA";
 
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL + "addUser.php?key=5453&name=" + params[0] + "&permission=" + params[1] + "&klasse=" + klasse)
+                    new URL(Utils.BASE_URL_PHP + "addUser.php?key=5453&name=" + params[0] + "&permission=" + params[1] + "&klasse=" + klasse)
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.authorization);
             BufferedReader reader =

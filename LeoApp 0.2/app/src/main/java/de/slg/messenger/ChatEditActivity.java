@@ -312,7 +312,7 @@ public class ChatEditActivity extends AppCompatActivity {
         }
 
         private String generateURL(Assoziation assoziation) {
-            return Utils.BASE_URL + "messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+            return Utils.BASE_URL_PHP + "messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
 
         @Override
@@ -378,7 +378,7 @@ public class ChatEditActivity extends AppCompatActivity {
         }
 
         private String generateURL(Assoziation assoziation) {
-            return Utils.BASE_URL + "messenger/removeAssoziation.php?key=5453&chatid=" + assoziation.cid + "&userid=" + assoziation.uid;
+            return Utils.BASE_URL_PHP + "messenger/removeAssoziation.php?key=5453&chatid=" + assoziation.cid + "&userid=" + assoziation.uid;
         }
 
         @Override
@@ -437,7 +437,7 @@ public class ChatEditActivity extends AppCompatActivity {
         }
 
         private String generateURL(String name) throws UnsupportedEncodingException {
-            return Utils.BASE_URL + "messenger/editChatname.php?key=5453&chatid=" + cid + "&chatname=" + URLEncoder.encode(name, "UTF-8");
+            return Utils.BASE_URL_PHP + "messenger/editChatname.php?key=5453&chatid=" + cid + "&chatname=" + URLEncoder.encode(name, "UTF-8");
         }
 
         @Override

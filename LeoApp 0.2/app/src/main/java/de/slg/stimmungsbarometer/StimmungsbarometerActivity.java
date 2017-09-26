@@ -242,7 +242,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
             if (daten == null) {
                 try {
                     HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(Utils.BASE_URL + "stimmungsbarometer/ergebnisse.php?key=5453&userid=" + Utils.getUserID())
+                            new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/ergebnisse.php?key=5453&userid=" + Utils.getUserID())
                                     .openConnection();
                     connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =

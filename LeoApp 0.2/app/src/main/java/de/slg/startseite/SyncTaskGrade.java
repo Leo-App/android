@@ -20,7 +20,7 @@ class SyncTaskGrade extends AsyncTask<Void, Void, Void> {
         String         result = "";
         try {
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL + "getKlasse.php?key=5453&userid=" + Utils.getUserID())
+                    new URL(Utils.BASE_URL_PHP + "getKlasse.php?key=5453&userid=" + Utils.getUserID())
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.authorization);
             in = new BufferedReader(new InputStreamReader(connection.getInputStream()));

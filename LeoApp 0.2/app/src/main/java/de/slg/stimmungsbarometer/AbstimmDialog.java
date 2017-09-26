@@ -210,7 +210,7 @@ public class AbstimmDialog extends AlertDialog {
                 try {
                     AbstimmDialog.Wahl w = wahls[0];
                     HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(Utils.BASE_URL + "stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
+                            new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
                                     .openConnection();
                     connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =

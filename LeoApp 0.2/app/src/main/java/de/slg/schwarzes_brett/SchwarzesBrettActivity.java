@@ -214,7 +214,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Utils.BASE_URL + "schwarzes_brett/NeueMeldung.php"));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Utils.BASE_URL_PHP + "schwarzes_brett/NeueMeldung.php"));
                     if (intent.resolveActivity(getPackageManager()) != null) {
                         startActivity(intent);
                     }

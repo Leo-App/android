@@ -129,7 +129,7 @@ public class ReceiveService extends Service {
         }
 
         private String generateURL(String message, int cid) {
-            return Utils.BASE_URL + "messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
+            return Utils.BASE_URL_PHP + "messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
         }
     }
 
@@ -139,7 +139,7 @@ public class ReceiveService extends Service {
             if (Utils.checkNetwork()) {
                 try {
                     HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(Utils.BASE_URL + "schwarzesBrett/meldungen.php")
+                            new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
                                     .openConnection();
                     connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
@@ -197,7 +197,7 @@ public class ReceiveService extends Service {
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
-                                        new URL(Utils.BASE_URL.substring(0, Utils.BASE_URL.indexOf("slgweb/")) + "/leoapp?uid=" + Utils.getUserID())
+                                        new URL(Utils.URL_TOMCAT + "?uid=" + Utils.getUserID())
                                                 .openConnection()
                                                 .getInputStream(), "UTF-8"));
 
@@ -243,6 +243,7 @@ public class ReceiveService extends Service {
                             Utils.getController().getMessengerActivity().notifyUpdate();
                     }
                 }
+                reader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -258,7 +259,7 @@ public class ReceiveService extends Service {
         private void assoziationen() {
             try {
                 HttpsURLConnection connection = (HttpsURLConnection)
-                        new URL(Utils.BASE_URL + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID())
+                        new URL(Utils.BASE_URL_PHP + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID())
                                 .openConnection();
                 connection.setRequestProperty("Authorization", Utils.authorization);
                 BufferedReader reader =

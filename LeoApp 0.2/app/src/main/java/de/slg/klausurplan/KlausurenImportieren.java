@@ -39,7 +39,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             listeMitHeruntergeladenenKlausuren = new List<>();
 
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL + "klausurplan2017.xml")
+                    new URL(Utils.BASE_URL_PHP + "klausurplan2017.xml")
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.authorization);
 

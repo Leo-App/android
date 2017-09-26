@@ -20,7 +20,7 @@ class SyncTaskName extends AsyncTask<Void, Void, Void> {
         StringBuilder builder = new StringBuilder();
         try {
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL + "getName.php?key=5453&userid=" + Utils.getUserID())
+                    new URL(Utils.BASE_URL_PHP + "getName.php?key=5453&userid=" + Utils.getUserID())
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.authorization);
             BufferedReader reader =

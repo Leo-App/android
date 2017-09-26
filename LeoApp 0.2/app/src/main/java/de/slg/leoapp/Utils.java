@@ -20,9 +20,9 @@ import java.util.concurrent.ExecutionException;
 import javax.net.ssl.HttpsURLConnection;
 
 public abstract class Utils {
-    public static final String BASE_URL      = "https://secureaccess.itac-school.de/slgweb/leoapp_php/";
+    public static final String BASE_URL_PHP  = "https://secureaccess.itac-school.de/slgweb/leoapp_php/";
     public static final String authorization = "Basic bGVvYXBwOmxlb2FwcA==";
-
+    static final        String URL_TOMCAT    = "https://secureaccess.itac-school.de/leoapp/";
     @SuppressLint("StaticFieldLeak")
     private static ActivityController controller;
 
@@ -99,7 +99,7 @@ public abstract class Utils {
                 protected Boolean doInBackground(Void... params) {
                     try {
                         HttpsURLConnection connection = (HttpsURLConnection)
-                                new URL(Utils.BASE_URL + "stimmungsbarometer/voted.php?key=5453&userid=" + getUserID())
+                                new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/voted.php?key=5453&userid=" + getUserID())
                                         .openConnection();
                         connection.setRequestProperty("Authorization", Utils.authorization);
                         BufferedReader reader =
