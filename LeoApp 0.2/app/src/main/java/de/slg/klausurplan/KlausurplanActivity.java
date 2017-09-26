@@ -58,7 +58,7 @@ public class KlausurplanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_klausurplan);
-        Utils.registerKlausurplanActivity(this);
+        Utils.getController().registerKlausurplanActivity(this);
 
         initList();
         initToolbar();
@@ -67,7 +67,7 @@ public class KlausurplanActivity extends AppCompatActivity {
         initAddButton();
         initSnackbar();
 
-        löscheAlteKlausuren(Utils.getPreferences().getInt("pref_key_delete", -1));
+        löscheAlteKlausuren(Utils.getController().getPreferences().getInt("pref_key_delete", -1));
         filternNachStufe(Utils.getUserStufe());
         refresh();
     }
@@ -102,7 +102,7 @@ public class KlausurplanActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        Utils.registerKlausurplanActivity(null);
+        Utils.getController().registerKlausurplanActivity(null);
         if (dialog != null)
             dialog.dismiss();
     }
@@ -237,6 +237,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                 KlausurDialog.currentKlausur = new Klausur("", null, "", "");
                 KlausurDialog klausurDialog = new KlausurDialog(KlausurplanActivity.this);
                 klausurDialog.show();
+
                 klausurDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 klausurDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
@@ -251,12 +252,14 @@ public class KlausurplanActivity extends AppCompatActivity {
     private void refresh() {
         writeToFile();
         lvKlausuren.setAdapter(new KlausurenAdapter(getApplicationContext(), klausurList, findeNächsteKlausur()));
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                lvKlausuren.smoothScrollToPositionFromTop(findeNächsteWoche(), 0);
-            }
-        }, 100);
+       // new Handler().postDelayed(new Runnable() {
+        //    @Override
+         //   public void run() {
+       //         lvKlausuren.smoothScrollToPositionFromTop(findeNächsteWoche(), 0);
+       //     }
+        //}, 100);
+
+        lvKlausuren.setSelection(findeNächsteWoche());
     }
 
     public void add(Klausur k, boolean refresh) {
@@ -399,7 +402,7 @@ public class KlausurplanActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.snackbar_no_connection_info, Toast.LENGTH_SHORT).show();
             }
             filternNachStufe(Utils.getUserStufe());
-            löscheAlteKlausuren(Utils.getPreferences().getInt("pref_key_delete", -1));
+            löscheAlteKlausuren(Utils.getController().getPreferences().getInt("pref_key_delete", -1));
             return null;
         }
 

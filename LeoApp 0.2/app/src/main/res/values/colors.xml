@@ -21,4 +21,7 @@
     <color name="colorSchueler">#f57f17</color>
     <color name="colorLehrer">#ffaa66cc</color>
     <color name="colorAlle">@color/colorPrimary</color>
+    <color name="introSlide1">#424242</color>
+    <color name="introSlide2">#f57f17</color>
+    <color name="introSlide3">@color/colorPrimary</color>
 </resources>

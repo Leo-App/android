@@ -1,9 +1,6 @@
 package de.slg.startseite;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,24 +13,16 @@ import javax.net.ssl.HttpsURLConnection;
 import de.slg.leoapp.Utils;
 
 public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
-
-    private final Context c;
-
-    public UpdateTaskGrade(Context c) {
-        this.c = c;
-    }
-
     @Override
     protected Boolean doInBackground(String... params) {
         BufferedReader    in            = null;
         String            result        = "";
         boolean           hasConnection = hasActiveInternetConnection();
-        SharedPreferences pref          = PreferenceManager.getDefaultSharedPreferences(c);
         if (!hasConnection)
             return false;
         try {
-            int    id     = pref.getInt("pref_key_general_id", -1);
-            String klasse = pref.getString("pref_key_level_general", "N/A");
+            int    id     = Utils.getUserID();
+            String klasse = Utils.getUserStufe();
             HttpsURLConnection connection = (HttpsURLConnection)
                     new URL(Utils.BASE_URL + "updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse)
                             .openConnection();
@@ -64,16 +53,18 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean b) {
         if (!b) {
-            SharedPreferences        pref = PreferenceManager.getDefaultSharedPreferences(c);
-            SharedPreferences.Editor e    = pref.edit();
-            e.putBoolean("pref_key_level_has_to_be_synchronized", true);
-            e.apply();
+            Utils.getController().getPreferences()
+                    .edit()
+                    .putBoolean("pref_key_level_has_to_be_synchronized", true)
+                    .apply();
         }
     }
 
     private boolean hasActiveInternetConnection() {
         try {
-            HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
+            HttpURLConnection urlc = (HttpURLConnection)
+                    new URL("http://www.lunch.leo-ac.de")
+                            .openConnection();
             urlc.setRequestProperty("User-Agent", "Test");
             urlc.setRequestProperty("Connection", "close");
             urlc.setConnectTimeout(1500);

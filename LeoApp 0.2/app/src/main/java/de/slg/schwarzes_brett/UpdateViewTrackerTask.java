@@ -23,7 +23,7 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
                                 .openConnection();
                 connection.setRequestProperty("Authorization", Utils.authorization);
                 connection.getInputStream();
-                Utils.getPreferences()
+                Utils.getController().getPreferences()
                         .edit()
                         .putString("pref_key_cache_vieweditems", getNewCacheString())
                         .apply();
@@ -35,7 +35,7 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
     }
 
     private String getNewCacheString() {
-        String        cache   = Utils.getPreferences().getString("pref_key_cache_vieweditems", "");
+        String        cache   = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
         String[]      items   = cache.split("-");
         StringBuilder builder = new StringBuilder();
         for (String s : items) {

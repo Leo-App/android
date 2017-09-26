@@ -45,7 +45,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
 
         try {
 
-            String password = Utils.getPreferences().getString("pref_key_password_general", "");
+            String password = Utils.getController().getPreferences().getString("pref_key_password_general", "");
 
             HttpsURLConnection checkConnection = (HttpsURLConnection)
                     new URL(Utils.BASE_DOMAIN + "/slg")
@@ -93,24 +93,25 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
         }
 
         if (result.startsWith("_new_")) {
-            Utils.getPreferences()
+            Utils.getController().getPreferences()
                     .edit()
-                    .putString("pref_key_username_general", params[0])
+                    .putString("pref_key_general_name", params[0])
                     .putInt("pref_key_general_permission", teacher ? 2 : 1)
                     .putInt("pref_key_general_id", Integer.valueOf(result.replaceFirst("_new_", "")))
                     .apply();
-            PreferenceActivity.setCurrentUsername(Utils.getUserName());
+
+            Utils.getController().getPreferenceActivity().setCurrentUsername(Utils.getUserName());
             return ResponseCode.SUCCESS;
         } else if (result.startsWith("_old_")) {
             String[] data = result.split("_");
-            Utils.getPreferences()
+            Utils.getController().getPreferences()
                     .edit()
-                    .putString("pref_key_level_general", data[data.length - 1])
-                    .putString("pref_key_username_general", data[data.length - 3])
+                    .putString("pref_key_general_klasse", data[data.length - 1])
+                    .putString("pref_key_general_name", data[data.length - 3])
                     .putInt("pref_key_general_permission", teacher ? 2 : 1)
                     .putInt("pref_key_general_id", Integer.parseInt(data[data.length - 5]))
                     .apply();
-            PreferenceActivity.setCurrentUsername(Utils.getUserName());
+            Utils.getController().getPreferenceActivity().setCurrentUsername(Utils.getUserName());
             return ResponseCode.SUCCESS;
         } else
             return ResponseCode.SERVER_FAILED;
@@ -133,19 +134,19 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 showSnackbarServerFailed();
                 break;
             case SUCCESS:
-                Utils.getMainActivity().findViewById(R.id.card_view0).setVisibility(GONE);
+                Utils.getController().getMainActivity().findViewById(R.id.card_view0).setVisibility(GONE);
                 Calendar c = new GregorianCalendar();
                 c.add(Calendar.YEAR, 1);
                 c.set(Calendar.MONTH, Calendar.OCTOBER);
                 c.set(Calendar.DAY_OF_MONTH, 1);
                 String date = new SimpleDateFormat("dd.MM.yyyy").format(c.getTime());
-                Utils.getPreferences()
+                Utils.getController().getPreferences()
                         .edit()
                         .putString("valid_until", date)
                         .apply();
 
                 if (Utils.getUserPermission() == 2) {
-                    Utils.getPreferences()
+                    Utils.getController().getPreferences()
                             .edit()
                             .putBoolean("pref_key_notification_test", false)
                             .putBoolean("pref_key_notification_essensqr", false)
@@ -156,8 +157,8 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 dialog.dismiss();
                 Toast.makeText(Utils.getContext(), "Erfolgreich verifiziert", Toast.LENGTH_LONG).show();
                 break;
+            }
 
-        }
     }
 
     private void showSnackbarServerFailed() {

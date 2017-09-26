@@ -49,23 +49,23 @@ public class NotificationService extends Service {
     private int     unreadMessages;
 
     public static void getTimes() {
-        String qr = Utils.getPreferences().getString("pref_key_notification_time_foodmarks", "00:00");
+        String qr = Utils.getController().getPreferences().getString("pref_key_notification_time_foodmarks", "00:00");
         hoursQR = Short.parseShort(qr.split(":")[0]);
         minutesQR = Short.parseShort(qr.split(":")[1]);
-        String tt = Utils.getPreferences().getString("pref_key_notification_time_schedule", "00:00");
+        String tt = Utils.getController().getPreferences().getString("pref_key_notification_time_schedule", "00:00");
         hoursTT = Short.parseShort(tt.split(":")[0]);
         minutesTT = Short.parseShort(tt.split(":")[1]);
-        String tp = Utils.getPreferences().getString("pref_key_notification_time_test", "00:00");
+        String tp = Utils.getController().getPreferences().getString("pref_key_notification_time_test", "00:00");
         hoursTP = Short.parseShort(tp.split(":")[0]);
         minutesTP = Short.parseShort(tp.split(":")[1]);
-        String sb = Utils.getPreferences().getString("pref_key_notification_time_survey", "00:00");
+        String sb = Utils.getController().getPreferences().getString("pref_key_notification_time_survey", "00:00");
         hoursSB = Short.parseShort(sb.split(":")[0]);
         minutesSB = Short.parseShort(sb.split(":")[1]);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Utils.context = getApplicationContext();
+        Utils.getController().setContext(getApplicationContext());
 
         notificationManager = Utils.getNotificationManager();
 
@@ -130,7 +130,7 @@ public class NotificationService extends Service {
     }
 
     private void checkEssensqr() {
-        if (!Utils.getPreferences().getBoolean("pref_key_status_loggedin", false))
+        if (!Utils.getController().getPreferences().getBoolean("pref_key_status_loggedin", false))
             return;
         SQLiteHandler  db     = new SQLiteHandler(this);
         SQLiteDatabase dbw    = db.getReadableDatabase();
@@ -163,7 +163,7 @@ public class NotificationService extends Service {
     }
 
     private void essensqrNotification() {
-        if (Utils.getPreferences().getBoolean("pref_key_notification_essensqr", true)) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_essensqr", true)) {
             Intent resultIntent = new Intent(this, MainActivity.class)
                     .putExtra("start_intent", ID_ESSENSQR);
 
@@ -222,7 +222,7 @@ public class NotificationService extends Service {
     }
 
     private void klausurplanNotification() {
-        if (Utils.getPreferences().getBoolean("pref_key_notification_test", true)) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_test", true)) {
             Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
                     .putExtra("start_intent", ID_KLAUSURPLAN);
 
@@ -251,8 +251,8 @@ public class NotificationService extends Service {
     }
 
     private void messengerNotification() {
-        if (Utils.getPreferences().getBoolean("pref_key_notification_messenger", true) && Utils.getMDB().hasUnreadMessages() && Utils.getMessengerActivity() == null) {
-            Message[] unread = Utils.getMDB().getUnreadMessages();
+        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true) && Utils.getController().getMessengerDataBase().hasUnreadMessages() && Utils.getController().getMessengerActivity() == null) {
+            Message[] unread = Utils.getController().getMessengerDataBase().getUnreadMessages();
 
             if (unread.length != unreadMessages) {
                 NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
@@ -262,7 +262,7 @@ public class NotificationService extends Service {
                 for (Message m : unread) {
                     String line = m.uname;
 
-                    if (Utils.getMDB().getType(m.cid) == Chat.ChatType.GROUP) {
+                    if (Utils.getController().getMessengerDataBase().getType(m.cid) == Chat.ChatType.GROUP) {
                         line += " @ " + m.cname;
                     }
 
@@ -301,7 +301,7 @@ public class NotificationService extends Service {
     }
 
     private void schwarzesBrettNotification() {
-        if (Utils.getPreferences().getBoolean("pref_key_notification_news", true)) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true)) {
             SQLiteConnector db     = new SQLiteConnector(getApplicationContext());
             SQLiteDatabase  dbh    = db.getReadableDatabase();
             long            latest = db.getLatestDate(dbh);
@@ -309,7 +309,7 @@ public class NotificationService extends Service {
             db.close();
             if (latest > Utils.getLatestSchwarzesBrettDate()) {
                 Utils.notifiedSchwarzesBrett(latest);
-                if (Utils.getSchwarzesBrettActivity() == null) {
+                if (Utils.getController().getSchwarzesBrettActivity() == null) {
                     Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
                             .putExtra("start_intent", ID_NEWS);
 
@@ -340,7 +340,7 @@ public class NotificationService extends Service {
     }
 
     private void stimmungsbarometernotification() {
-        if (Utils.getPreferences().getBoolean("pref_key_notification_survey", false) && Utils.showVoteOnStartup()) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_survey", false) && Utils.showVoteOnStartup()) {
             Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class);
 
             PendingIntent resultPendingIntent =
@@ -368,10 +368,10 @@ public class NotificationService extends Service {
     }
 
     private void stundenplanNotification() {
-        if (Utils.getPreferences().getBoolean("pref_key_notification_schedule", true)) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_schedule", true)) {
             StringBuilder builder = new StringBuilder();
             if (gibNaechstenWochentag() <= 5) {
-                Fach[] faecher = Utils.getStundDB().gewaehlteFaecherAnTag(gibNaechstenWochentag());
+                Fach[] faecher = Utils.getController().getStundplanDataBase().gewaehlteFaecherAnTag(gibNaechstenWochentag());
                 for (int i = 0; i < faecher.length; i++) {
                     if (faecher[i].gibName().length() > 0 && (i == 0 || !faecher[i].gibName().equals(faecher[i - 1].gibName()))) {
                         builder.append(faecher[i].gibName());
@@ -421,8 +421,8 @@ public class NotificationService extends Service {
         public void run() {
             running = true;
             while (running) {
-                if (Utils.context == null)
-                    Utils.context = getApplicationContext();
+                if (Utils.getContext() == null)
+                    Utils.getController().setContext(getApplicationContext());
                 messengerNotification();
                 schwarzesBrettNotification();
                 timeCheck();

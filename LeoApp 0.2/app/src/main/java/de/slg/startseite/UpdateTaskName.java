@@ -1,9 +1,7 @@
 package de.slg.startseite;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
@@ -12,19 +10,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
 public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
-    private final PreferenceActivity c;
     private final String             old;
 
-    public UpdateTaskName(PreferenceActivity c, String oldUsername) {
-        this.c = c;
+    public UpdateTaskName(String oldUsername) {
         old = oldUsername;
     }
 
@@ -35,9 +31,11 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
         if (!Utils.checkNetwork())
             return ReturnValues.NO_CONNECTION;
         try {
-            int                id         = Utils.getUserID();
-            String             username   = Utils.getUserName().replace(' ', '+');
-            HttpsURLConnection connection = (HttpsURLConnection) new URL(Utils.BASE_URL + "updateUsername.php?key=5453&userid=" + id + "&username=" + username).openConnection();
+            int    id       = Utils.getUserID();
+            String username = URLEncoder.encode(Utils.getUserName(), "UTF-8");
+            HttpsURLConnection connection = (HttpsURLConnection)
+                    new URL(Utils.BASE_URL + "updateUsername.php?key=5453&userid=" + id + "&username=" + username)
+                            .openConnection();
             connection.setRequestProperty("Authorization", Utils.authorization);
 
             in = null;
@@ -60,8 +58,9 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
                 }
         }
         if (result.startsWith("-")) {
-            if (result.startsWith("-username"))
+            if (result.startsWith("-username")) {
                 return ReturnValues.USERNAME_TAKEN;
+            }
             return ReturnValues.ERROR;
         }
         return ReturnValues.SUCCESSFUL;
@@ -69,7 +68,7 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
 
     @Override
     protected void onPostExecute(ReturnValues b) {
-        c.hideProgressBar();
+        Utils.getController().getPreferenceActivity().hideProgressBar();
         switch (b) {
             case USERNAME_TAKEN:
                 resetName();
@@ -84,25 +83,25 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
                 showSnackbar3();
                 break;
             case SUCCESSFUL:
-                Toast t = Toast.makeText(c, c.getString(R.string.settings_toast_username_success), Toast.LENGTH_LONG);
+                Toast t = Toast.makeText(Utils.getContext(), Utils.getString(R.string.settings_toast_username_success), Toast.LENGTH_LONG);
                 t.show();
                 break;
         }
-        c.findPreference("pref_key_username_general").setSummary(PreferenceManager.getDefaultSharedPreferences(c).getString("pref_key_username_general", ""));
-        PreferenceActivity.setCurrentUsername(PreferenceManager.getDefaultSharedPreferences(c).getString("pref_key_username_general", ""));
+        Utils.getController().getPreferenceActivity().findPreference("pref_key_general_name").setSummary(Utils.getController().getPreferences().getString("pref_key_general_name", ""));
+        Utils.getController().getPreferenceActivity().setCurrentUsername(Utils.getController().getPreferences().getString("pref_key_general_name", ""));
     }
 
     private void resetName() {
-        SharedPreferences        pref = PreferenceManager.getDefaultSharedPreferences(c);
-        SharedPreferences.Editor e    = pref.edit();
-        e.putString("pref_key_username_general", old);
-        e.apply();
+        Utils.getController().getPreferences()
+                .edit()
+                .putString("pref_key_general_name", old)
+                .apply();
     }
 
     private void showSnackbar() {
-        final Snackbar cS = Snackbar.make(c.getCoordinatorLayout(), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
+        final Snackbar cS = Snackbar.make(Utils.getController().getPreferenceActivity().getCoordinatorLayout(), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
-        cS.setAction(c.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cS.dismiss();
@@ -112,9 +111,9 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     }
 
     private void showSnackbar2() {
-        final Snackbar cS = Snackbar.make(c.getCoordinatorLayout(), R.string.settings_snackbar_username_taken, Snackbar.LENGTH_LONG);
+        final Snackbar cS = Snackbar.make(Utils.getController().getPreferenceActivity().getCoordinatorLayout(), R.string.settings_snackbar_username_taken, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
-        cS.setAction(c.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cS.dismiss();
@@ -124,9 +123,9 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     }
 
     private void showSnackbar3() {
-        final Snackbar cS = Snackbar.make(c.getCoordinatorLayout(), R.string.error, Snackbar.LENGTH_LONG);
+        final Snackbar cS = Snackbar.make(Utils.getController().getPreferenceActivity().getCoordinatorLayout(), R.string.error, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
-        cS.setAction(c.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cS.dismiss();

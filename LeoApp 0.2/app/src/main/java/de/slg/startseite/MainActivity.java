@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startseite);
-        Utils.registerMainActivity(this);
+        Utils.getController().registerMainActivity(this);
 
-        Utils.context = getApplicationContext();
+        Utils.getController().setContext(getApplicationContext());
 
         if (getIntent().getBooleanExtra("show_dialog", false)) {
             abstimmDialog = new AbstimmDialog(this);
@@ -118,23 +118,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new SyncTaskName().execute();
         new SyncTaskGrade().execute();
 
-        if (!Utils.getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
-            new MailSendTask().execute(Utils.getPreferences().getString("pref_key_request_cached", ""));
+        if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
+            new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
         }
 
-        if (Utils.getPreferences().getBoolean("pref_key_level_has_to_be_synchronized", false)) {
-            new UpdateTaskGrade(getApplicationContext()).execute();
+        if (Utils.getController().getPreferences().getBoolean("pref_key_level_has_to_be_synchronized", false)) {
+            new UpdateTaskGrade().execute();
         }
 
         if (Utils.isVerified()) {
             findViewById(R.id.card_view0).setVisibility(View.GONE);
         }
 
-        if (Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false)) {
-            findViewById(R.id.card_view0).setVisibility(View.GONE);
-        }
-
-        if (!EssensQRActivity.mensaModeRunning && Utils.getPreferences().getBoolean("pref_key_mensa_mode", false)) {
+        if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
         } else {
             EssensQRActivity.mensaModeRunning = false;
@@ -147,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getMenuInflater().inflate(R.menu.startseite_edit, menu);
         } else {
             getMenuInflater().inflate(R.menu.startseite, menu);
-            if (Utils.getPreferences().getBoolean("pref_key_card_config_quick", false))
+            if (Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false))
                 menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
             else
                 menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
@@ -182,9 +178,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (item.getItemId() == R.id.action_appinfo_quick) {
             writeCardsToPreferences();
 
-            boolean b = Utils.getPreferences().getBoolean("pref_key_card_config_quick", false);
+            boolean b = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
 
-            Utils.getPreferences().edit()
+            Utils.getController().getPreferences().edit()
                     .putBoolean("pref_key_card_config_quick", !b)
                     .apply();
 
@@ -208,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             initFeatureCards();
 
             findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
-            if (!Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false))
+            if (!Utils.getController().getPreferences().getBoolean("pref_key_dont_remind_me", false))
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
 
             getSupportActionBar().setTitle(getString(R.string.title_home));
@@ -273,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!Utils.isVerified())
                 showVerificationDialog();
             else {
-                Utils.getPreferences()
+                Utils.getController().getPreferences()
                         .edit()
                         .putBoolean("pref_key_dont_remind_me", true)
                         .apply();
@@ -373,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();
 
-        final boolean quickLayout = Utils.getPreferences().getBoolean("pref_key_card_config_quick", false);
+        final boolean quickLayout = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
 
         RecyclerView.LayoutManager mLayoutManager = quickLayout
 
@@ -473,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void notificationIntent() {
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);
         if (notificationTarget != -1) {
-            Utils.closeAll();
+            Utils.getController().closeAll();
 
             switch (notificationTarget) {
                 case NotificationService.ID_ESSENSQR:
@@ -520,7 +516,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             b.append("");
         }
 
-        Utils.getPreferences()
+        Utils.getController().getPreferences()
                 .edit()
                 .putString("pref_key_card_config", b.toString())
                 .apply();

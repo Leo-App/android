@@ -84,8 +84,10 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schwarzesbrett);
-        Utils.registerSchwarzesBrettActivity(this);
-        Utils.receiveNews();
+        Utils.getController().registerSchwarzesBrettActivity(this);
+
+        receive();
+
         initToolbar();
         initNavigationView();
         initButton();
@@ -187,10 +189,10 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 int remoteID = getRemoteId(groupPosition);
                 if (!Utils.isVerified() || Utils.getUserPermission() != 1 || Utils.messageAlreadySeen(remoteID))
                     return false;
-                String cache = Utils.getPreferences().getString("pref_key_cache_vieweditems", "");
+                String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
                 if (!cache.equals(""))
                     cache += "-";
-                Utils.getPreferences().edit()
+                Utils.getController().getPreferences().edit()
                         .putString("pref_key_cache_vieweditems", cache + "1:" + remoteID)
                         .apply();
                 if (Utils.checkNetwork())
@@ -286,6 +288,11 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         initExpandableListView();
     }
 
+    private void receive() {
+        if (Utils.getController().getReceiveService() != null)
+            Utils.getController().getReceiveService().receiveNews = true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == android.R.id.home) {
@@ -297,7 +304,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        Utils.registerSchwarzesBrettActivity(null);
+        Utils.getController().registerSchwarzesBrettActivity(null);
     }
 
     private class ExpandableListAdapter extends BaseExpandableListAdapter {

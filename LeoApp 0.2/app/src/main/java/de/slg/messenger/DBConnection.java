@@ -33,6 +33,7 @@ import static de.slg.messenger.DBConnection.DBHelper.USER_ID;
 import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_PERMISSION;
 import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
+import static de.slg.messenger.DBConnection.DBHelper.version;
 
 public class DBConnection {
     private final SQLiteDatabase database;
@@ -497,14 +498,19 @@ public class DBConnection {
         database.update(table, values, where, null);
     }
 
-    public class DBHelper extends SQLiteOpenHelper {
-        public static final String DATABASE_NAME   = "messenger";
-        static final        String TABLE_MESSAGES  = "messages";
-        static final        String MESSAGE_ID      = "mid";
-        static final        String MESSAGE_TEXT    = "mtext";
-        static final        String MESSAGE_DATE    = "mdate";
-        static final        String MESSAGE_READ    = "mgelesen";
-        static final        String MESSAGE_DELETED = "mdeleted";
+    public void clear() {
+        helper.onUpgrade(database, -1, version);
+    }
+
+    class DBHelper extends SQLiteOpenHelper {
+        static final String DATABASE_NAME = "messenger";
+
+        static final String TABLE_MESSAGES  = "messages";
+        static final String MESSAGE_ID      = "mid";
+        static final String MESSAGE_TEXT    = "mtext";
+        static final String MESSAGE_DATE    = "mdate";
+        static final String MESSAGE_READ    = "mgelesen";
+        static final String MESSAGE_DELETED = "mdeleted";
 
         static final String TABLE_CHATS  = "chats";
         static final String CHAT_ID      = "cid";
@@ -524,8 +530,10 @@ public class DBConnection {
 
         static final String TABLE_MESSAGES_QUEUED = "messages_unsend";
 
+        static final int version = 4;
+
         DBHelper(Context context) {
-            super(context, DATABASE_NAME, null, 4);
+            super(context, DATABASE_NAME, null, version);
         }
 
         @Override

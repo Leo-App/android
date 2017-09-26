@@ -58,9 +58,9 @@ public class MessengerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_messenger);
-        Utils.registerMessengerActivity(this);
+        Utils.getController().registerMessengerActivity(this);
 
-        Utils.getMDB();
+        Utils.getController().getMessengerDataBase();
 
         initToolbar();
         initArrays();
@@ -90,7 +90,7 @@ public class MessengerActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        Utils.registerMessengerActivity(null);
+        Utils.getController().registerMessengerActivity(null);
         super.finish();
     }
 
@@ -196,20 +196,20 @@ public class MessengerActivity extends AppCompatActivity {
     }
 
     private void initArrays() {
-        userArray = Utils.getMDB().getUsers();
-        chatArray = Utils.getMDB().getChats();
+        userArray = Utils.getController().getMessengerDataBase().getUsers();
+        chatArray = Utils.getController().getMessengerDataBase().getChats();
     }
 
     public void notifyUpdate() {
-        chatArray = Utils.getMDB().getChats();
-        userArray = Utils.getMDB().getUsers();
+        chatArray = Utils.getController().getMessengerDataBase().getChats();
+        userArray = Utils.getController().getMessengerDataBase().getUsers();
         if (uFragment != null)
             uFragment.refreshUI();
         if (cFragment != null)
             cFragment.refreshUI();
         if (sFragment != null)
             sFragment.refreshUI();
-        ChatActivity chatActivity = Utils.getChatActivity();
+        ChatActivity chatActivity = Utils.getController().getChatActivity();
         if (chatActivity != null)
             chatActivity.refreshUI(true, false);
     }
@@ -234,10 +234,10 @@ public class MessengerActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     int  position    = rvUsers.getChildAdapterPosition(view);
-                    User clickedUser = Utils.getMessengerActivity().userArray[position];
+                    User clickedUser = Utils.getController().getMessengerActivity().userArray[position];
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("uid", clickedUser.uid)
-                            .putExtra("cid", Utils.getMDB().getChatWith(clickedUser.uid))
+                            .putExtra("cid", Utils.getController().getMessengerDataBase().getChatWith(clickedUser.uid))
                             .putExtra("cname", clickedUser.uname)
                             .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
                 }
@@ -251,7 +251,7 @@ public class MessengerActivity extends AppCompatActivity {
             rvUsers.addItemDecoration(mDividerItemDecoration);
             rvUsers.setLayoutManager(linearLayoutManager);
 
-            rvUsers.setAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().userArray, userClickListener));
+            rvUsers.setAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getController().getMessengerActivity().userArray, userClickListener));
         }
 
         public void refreshUI() {
@@ -260,7 +260,7 @@ public class MessengerActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (rvUsers != null)
-                            rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().userArray, userClickListener), false);
+                            rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getController().getMessengerActivity().userArray, userClickListener), false);
                     }
                 });
             }
@@ -331,7 +331,7 @@ public class MessengerActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     int  position    = rvChats.getChildAdapterPosition(view);
-                    Chat clickedChat = Utils.getMessengerActivity().chatArray[position];
+                    Chat clickedChat = Utils.getController().getMessengerActivity().chatArray[position];
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("cid", clickedChat.cid)
                             .putExtra("cname", clickedChat.cname)
@@ -372,7 +372,7 @@ public class MessengerActivity extends AppCompatActivity {
             rvChats.addItemDecoration(mDividerItemDecoration);
             rvChats.setLayoutManager(linearLayoutManager);
 
-            rvChats.setAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().chatArray, chatClickListener, chatLongClickListener));
+            rvChats.setAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getController().getMessengerActivity().chatArray, chatClickListener, chatLongClickListener));
         }
 
         public void refreshUI() {
@@ -381,7 +381,7 @@ public class MessengerActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (rvChats != null)
-                            rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getMessengerActivity().chatArray, chatClickListener, chatLongClickListener), false);
+                            rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getController().getMessengerActivity().chatArray, chatClickListener, chatLongClickListener), false);
                     }
                 });
             }
@@ -450,18 +450,18 @@ public class MessengerActivity extends AppCompatActivity {
                     buttonDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Utils.getMDB().deleteChat(c.cid);
+                            Utils.getController().getMessengerDataBase().deleteChat(c.cid);
                             selected = -1;
                             previousPosition = -1;
-                            Utils.getMessengerActivity().notifyUpdate();
+                            Utils.getController().getMessengerActivity().notifyUpdate();
                         }
                     });
                     buttonMute.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Utils.getMDB().muteChat(c.cid, !c.cmute);
+                            Utils.getController().getMessengerDataBase().muteChat(c.cid, !c.cmute);
                             selected = -1;
-                            Utils.getMessengerActivity().notifyUpdate();
+                            Utils.getController().getMessengerActivity().notifyUpdate();
                         }
                     });
                 }
@@ -500,7 +500,7 @@ public class MessengerActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             if (view == null) {
                 view = inflater.inflate(R.layout.fragment_search, container, false);
-                data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, USER_STUFE + ", " + name);
+                data = Utils.getController().getMessengerDataBase().getSuchergebnisse(suchbegriff, chatsFirst, USER_STUFE + ", " + name);
                 initRecyclerView();
                 initSearch();
                 initSort();
@@ -519,7 +519,7 @@ public class MessengerActivity extends AppCompatActivity {
                         User clickedUser = (User) data[position];
                         startActivity(new Intent(getContext(), ChatActivity.class)
                                 .putExtra("uid", clickedUser.uid)
-                                .putExtra("cid", Utils.getMDB().getChatWith(clickedUser.uid))
+                                .putExtra("cid", Utils.getController().getMessengerDataBase().getChatWith(clickedUser.uid))
                                 .putExtra("cname", clickedUser.uname)
                                 .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
                     } else {
@@ -668,7 +668,7 @@ public class MessengerActivity extends AppCompatActivity {
                             orderUser += name;
                             if (nameDesc)
                                 orderUser += " DESC";
-                            data = Utils.getMDB().getSuchergebnisse(suchbegriff, chatsFirst, orderUser);
+                            data = Utils.getController().getMessengerDataBase().getSuchergebnisse(suchbegriff, chatsFirst, orderUser);
                             rvSearch.swapAdapter(new HybridAdapter(getActivity().getLayoutInflater()), false);
                         }
                     }

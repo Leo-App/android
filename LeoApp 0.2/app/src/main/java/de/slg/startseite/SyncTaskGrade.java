@@ -44,9 +44,9 @@ class SyncTaskGrade extends AsyncTask<Void, Void, Void> {
         }
         if (result.startsWith("-"))
             return null;
-        Utils.getPreferences()
+        Utils.getController().getPreferences()
                 .edit()
-                .putString("pref_key_level_general", result)
+                .putString("pref_key_general_klasse", result)
                 .apply();
         return null;
     }

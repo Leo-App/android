@@ -29,7 +29,7 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class AddGroupChatActivity extends AppCompatActivity {
-    private final User[] users = Utils.getMDB().getUsers();
+    private final User[] users = Utils.getController().getMessengerDataBase().getUsers();
     private EditText  etChatname;
     private MenuItem  confirm;
     private boolean[] selection;
@@ -41,7 +41,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_add_chat);
-        Utils.registerAddGroupChatActivity(this);
+        Utils.getController().registerAddGroupChatActivity(this);
 
         initToolbar();
         initContainer();
@@ -73,7 +73,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        Utils.registerAddGroupChatActivity(null);
+        Utils.getController().registerAddGroupChatActivity(null);
     }
 
     private void initToolbar() {
@@ -199,7 +199,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
                 cid = Integer.parseInt(builder.toString());
 
-                Utils.getMDB().insertChat(new Chat(cid, cname, Chat.ChatType.GROUP));
+                Utils.getController().getMessengerDataBase().insertChat(new Chat(cid, cname, Chat.ChatType.GROUP));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -219,7 +219,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
                     while (reader.readLine() != null)
                         ;
                     reader.close();
-                    Utils.getMDB().insertAssoziation(assoziation);
+                    Utils.getController().getMessengerDataBase().insertAssoziation(assoziation);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

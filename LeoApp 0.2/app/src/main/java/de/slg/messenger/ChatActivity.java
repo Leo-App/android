@@ -54,7 +54,7 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Utils.registerChatActivity(this);
+        Utils.getController().registerChatActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
@@ -69,7 +69,7 @@ public class ChatActivity extends AppCompatActivity {
         initRecyclerView();
 
         if (cid != -1)
-            Utils.getMDB().setMessagesRead(cid);
+            Utils.getController().getMessengerDataBase().setMessagesRead(cid);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        Utils.registerChatActivity(null);
+        Utils.getController().registerChatActivity(null);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onPause();
         Utils.setCurrentlyDisplayedChat(-1);
         if (cid != -1)
-            Utils.getMDB().setMessagesRead(cid);
+            Utils.getController().getMessengerDataBase().setMessagesRead(cid);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        if (ctype != Chat.ChatType.PRIVATE && Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
+        if (ctype != Chat.ChatType.PRIVATE && Utils.getController().getMessengerDataBase().userInChat(Utils.getUserID(), cid)) {
             toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -200,7 +200,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        if (ctype == Chat.ChatType.GROUP && !Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
+        if (ctype == Chat.ChatType.GROUP && !Utils.getController().getMessengerDataBase().userInChat(Utils.getUserID(), cid)) {
             etMessage.setEnabled(false);
             etMessage.setHint("Du bist nicht in diesem Chat!");
             sendButton.setEnabled(false);
@@ -233,7 +233,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void refreshUI(boolean refreshArray, final boolean scroll) {
         if (refreshArray) {
-            messagesArray = Utils.getMDB().getMessagesFromChat(cid);
+            messagesArray = Utils.getController().getMessengerDataBase().getMessagesFromChat(cid);
         }
 
         if (messagesArray.length != selected.length) {
@@ -267,9 +267,9 @@ public class ChatActivity extends AppCompatActivity {
         for (int i = 0; i < selected.length; i++) {
             if (selected[i]) {
                 if (messagesArray[i].mdate.getTime() > 0) {
-                    Utils.getMDB().deleteMessage(messagesArray[i].mid);
+                    Utils.getController().getMessengerDataBase().deleteMessage(messagesArray[i].mid);
                 } else {
-                    Utils.getMDB().deleteQueuedMessage(messagesArray[i].mid);
+                    Utils.getController().getMessengerDataBase().deleteQueuedMessage(messagesArray[i].mid);
                 }
                 selected[i] = false;
             }
@@ -413,7 +413,7 @@ public class ChatActivity extends AppCompatActivity {
 
             if (cid != -1) {
                 if (!Utils.checkNetwork()) {
-                    Utils.getMDB().enqueueMessage(params[0], cid);
+                    Utils.getController().getMessengerDataBase().enqueueMessage(params[0], cid);
                     refreshUI(true, true);
                 } else {
                     Message[] mOld = messagesArray;

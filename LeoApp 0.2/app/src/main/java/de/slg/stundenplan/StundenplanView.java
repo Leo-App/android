@@ -84,7 +84,7 @@ public class StundenplanView extends View {
         canvas.drawLine(baseLineX, baseline2Y, width - baseLineX, baseline2Y, paint);
         Fach[][] gewaehlteFaecher = new Fach[5][];
         for (int i = 0; i < gewaehlteFaecher.length; i++) {
-            gewaehlteFaecher[i] = Utils.getStundDB().gewaehlteFaecherAnTag(i + 1);
+            gewaehlteFaecher[i] = Utils.getController().getStundplanDataBase().gewaehlteFaecherAnTag(i + 1);
         }
         for (int i = 1; i < 10; i++) {
             int yValue = baseline2Y + (i - 1) * abstandY;

@@ -63,7 +63,7 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_qr);
-        Utils.registerEssensQRActivity(this);
+        Utils.getController().registerEssensQRActivity(this);
 
         runningScan = false;
         runningSync = false;
@@ -297,6 +297,6 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
     @Override
     public void finish() {
         super.finish();
-        Utils.registerEssensQRActivity(null);
+        Utils.getController().registerEssensQRActivity(null);
     }
 }
