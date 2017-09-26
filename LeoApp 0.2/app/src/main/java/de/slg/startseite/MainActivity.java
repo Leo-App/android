@@ -115,16 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initNavigationView();
         initButtons();
 
-
-
-        //TODO ------------
-
-            Utils.getPreferences().edit().putString("pref_key_password_general", "commandercody").apply();
-            new RegistrationTask().execute("giaspi270700");
-
-
-        //TODO ------------
-
         new SyncTaskName().execute();
         new SyncTaskGrade().execute();
 
@@ -137,11 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (Utils.isVerified()) {
-            Utils.getMainActivity().dismiss.setVisibility(View.GONE);
-            title.setTextColor(Color.GREEN);
-            title.setText(getString(R.string.title_info_auth));
-            info.setText(getString(R.string.summary_info_auth_success));
-            verify.setText(getString(R.string.button_info_noreminder));
+            findViewById(R.id.card_view0).setVisibility(View.GONE);
         }
 
         if (Utils.getPreferences().getBoolean("pref_key_dont_remind_me", false)) {

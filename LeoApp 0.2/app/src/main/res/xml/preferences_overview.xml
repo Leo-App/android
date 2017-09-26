@@ -7,15 +7,15 @@
 
         <EditTextPreference
             android:enabled="true"
-            android:hint="@string/settings_title_nickname"
-            android:key="pref_key_username_general"
+            android:hint="@string/settings_title_username"
+            android:key="pref_key_general_name"
             android:maxEms="20"
             android:maxLines="1"
             android:singleLine="true"
-            android:summary="@string/settings_summary_nickname"
+            android:summary="@string/settings_summary_username"
             android:title="@string/settings_title_username"/>
 
-        <Preference
+        <de.slg.startseite.ClassPickerPref
             android:enabled="true"
             android:key="pref_key_level_general"
             android:summary="@string/settings_summary_level"
