@@ -56,19 +56,16 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ZXingScannerView.ResultHandler {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static boolean editing;
-    private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
-    public View        cooredinatorLayout;
+    public View cooredinatorLayout;
     public ProgressBar progressBar;
-    public TextView    title, info;
+    public TextView title, info;
     public Button verify, dismiss;
-    public  AbstimmDialog    abstimmDialog;
-    private ZXingScannerView scV;
-    private boolean          runningScan;
-    private NavigationView   navigationView;
-    private DrawerLayout     drawerLayout;
-    private CardAdapter      mAdapter;
+    public AbstimmDialog abstimmDialog;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private CardAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +110,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         cooredinatorLayout = findViewById(R.id.coordinator);
 
-        runningScan = false;
-
         initToolbar();
         initFeatureCards();
         initNavigationView();
@@ -132,14 +127,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (Utils.isVerified()) {
-            Utils.getController().getMainActivity().dismiss.setVisibility(View.GONE);
-            title.setTextColor(Color.GREEN);
-            title.setText(getString(R.string.title_info_auth));
-            info.setText(getString(R.string.summary_info_auth_success));
-            verify.setText(getString(R.string.button_info_noreminder));
-        }
-
-        if (Utils.getController().getPreferences().getBoolean("pref_key_dont_remind_me", false)) {
             findViewById(R.id.card_view0).setVisibility(View.GONE);
         }
 
@@ -224,13 +211,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 
             invalidateOptionsMenu();
-        } else if (runningScan) {
-            runningScan = false;
-
-            scV.stopCamera();
-            finish();
-
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
         } else {
             finish();
         }
@@ -245,25 +225,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             abstimmDialog.show();
         }
 
-        if (!runningScan) {
 
-            TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-            username.setText(Utils.getUserName());
+        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+        username.setText(Utils.getUserName());
 
-            TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-            if (Utils.getUserPermission() == 2)
-                grade.setText(Utils.getLehrerKuerzel());
-            else
-                grade.setText(Utils.getUserStufe());
+        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
+        if (Utils.getUserPermission() == 2)
+            grade.setText(Utils.getLehrerKuerzel());
+        else
+            grade.setText(Utils.getUserStufe());
 
-            ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-            mood.setImageResource(Utils.getCurrentMoodRessource());
+        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+        mood.setImageResource(Utils.getCurrentMoodRessource());
 
-            //            ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-            //           scrollView.smoothScrollTo(0, 0);
+        mAdapter.updateCustomCards();
 
-            mAdapter.updateCustomCards();
-        }
 
         Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
         Utils.getNotificationManager().cancel(NotificationService.ID_STUNDENPLAN);
@@ -271,11 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onPause() {
-        if (scV != null && scV.isActivated()) {
-            scV.stopCamera();
-            finish();
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        } else if (abstimmDialog != null) {
+        if (abstimmDialog != null) {
             abstimmDialog.hide();
             super.onPause();
         } else {
@@ -321,50 +293,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     findViewById(R.id.card_view0).setVisibility(View.GONE);
                 }
             }, 310);
-        }
-    }
-
-    @Override
-    public void handleResult(Result result) {
-        runningScan = false;
-        scV.stopCamera();
-        finish();
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        String results = result.getText();
-
-        if (isValid(results)) {
-            final String[] data = results.split("-");
-            Log.d("LeoApp", "validCode");
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    progressBar.setVisibility(View.VISIBLE);
-                    title.setVisibility(View.GONE);
-                    info.setVisibility(View.GONE);
-                    verify.setVisibility(View.GONE);
-                    dismiss.setVisibility(View.GONE);
-
-                    RegistrationTask t = new RegistrationTask();
-                    t.execute(data[0], String.valueOf(data[1]));
-                }
-            }, 100);
-        } else {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Utils.getController().getMainActivity().info.setText(getString(R.string.summary_info_auth_failed));
-                    Utils.getController().getMainActivity().title.setText(getString(R.string.error));
-                }
-            }, 100);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == MY_PERMISSIONS_REQUEST_USE_CAMERA &&
-                grantResults.length > 0 &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            startCamera();
         }
     }
 
@@ -518,13 +446,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri    webpage = Uri.parse("http://www.leoapp-slg.de");
-                Intent intent  = new Intent(Intent.ACTION_VIEW, webpage);
+                Uri webpage = Uri.parse("http://www.leoapp-slg.de");
+                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
-
-                // startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
             }
         });
 
@@ -566,25 +492,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showVerificationDialog() {
-        final AlertDialog dialog = new AlertDialog.Builder(this).create();
-
-        View v = getLayoutInflater().inflate(R.layout.dialog_verification, null);
-        v.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        v.findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                startCamera();
-            }
-        });
-        dialog.setView(v);
-
-        dialog.show();
+        new VerificationDialog(this).show();
     }
 
     public void addCard(CardType t) {
@@ -614,82 +522,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .apply();
     }
 
-    private void startCamera() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_USE_CAMERA);
-        } else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-            scV = new ZXingScannerView(getApplicationContext());
-            setContentView(scV);
-            scV.setResultHandler(this);
-            scV.startCamera(0);
-
-            runningScan = true;
-        }
-    }
-
-    private boolean isValid(String s) {
-        String[] parts = s.split("-");
-
-        if (parts.length != 3)
-            return false;
-        Log.d("LeoApp", "passedLengthTest");
-
-        int priority;
-        int birthyear;
-        if (parts[0].length() < 6)
-            return false;
-        Log.d("LeoApp", "passedUsernameLengthTest");
-
-        try {
-            priority = Integer.parseInt(parts[1]);
-            Log.d("LeoApp", "passedPriorityNumberTest");
-
-            if (priority < 1 || priority > 2)
-                return false;
-            Log.d("LeoApp", "passedPriorityNumberSizeTest");
-
-            if (priority == 2)
-                birthyear = 0x58;
-            else if (parts[0].length() != 12)
-                return false;
-            else
-                birthyear = Integer.parseInt(parts[0].substring(10));
-            Log.d("LeoApp", "passedBirthyearTest");
-        } catch (NumberFormatException e) {
-            return false;
-        }
-
-        return birthyear >= 0 && getChecksum(parts[0], priority, birthyear).equals(parts[2]);
-    }
-
-    private int toInt(String s) {
-        int    result = 0, i, count = 1;
-        String regex  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (char c : s.toCharArray()) {
-            for (i = 0; i < regex.length(); i++) {
-                if (c == regex.charAt(i))
-                    break;
-            }
-            result += i * count;
-            count *= 64;
-        }
-        return result;
-    }
-
-    private String getChecksum(String username, int priority, int birthyear) {
-        Calendar c = new GregorianCalendar();
-
-        int year  = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH) + 1;
-        int day   = c.get(Calendar.DAY_OF_MONTH);
-
-        int numericName     = toInt(username.substring(0, 3));
-        int numericLastName = toInt(username.substring(3, 6));
-
-        long checksum = (long) (Long.valueOf((int) (Math.pow(year, 2)) + "" + (int) (Math.pow(day, 2)) + "" + (int) (Math.pow(month, 2))) * username.length() * Math.cos(birthyear) + priority * (numericName - numericLastName));
-
-        return Long.toHexString(checksum);
-    }
 }

@@ -2,21 +2,60 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:id="@+id/snackbar"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/dialog_verify_info"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="15sp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp" />
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="Verifizieren"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewExpl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:text="Gib die Anmeldedaten deines Schulaccounts ein, um dich zu verifizieren."
+        android:layout_margin="15dp"
+        />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/textViewExpl"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:hint="Benutzername"
+        android:inputType="textCapWords"
+        android:maxLines="1"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/etPasswd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/etName"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:hint="Passwort"
+        android:inputType="textCapWords"
+        android:maxLines="1"
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/buttonDialog1"
@@ -36,9 +75,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView5"
+        android:layout_below="@+id/etPasswd"
         android:layout_marginTop="15dp"
         android:text="@string/confirm"
         android:textAllCaps="true" />
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminateTintMode="src_in"
+        android:layout_marginTop="11dp"
+        android:layout_alignTop="@+id/buttonDialog1"
+        android:layout_toLeftOf="@+id/buttonDialog1"
+        android:layout_toStartOf="@+id/buttonDialog1"
+        android:layout_marginRight="29dp"
+        android:layout_marginEnd="29dp" />
 
 </RelativeLayout>
