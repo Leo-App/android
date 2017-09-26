@@ -38,7 +38,7 @@ class VerificationDialog extends AlertDialog {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.progressBar1).setVisibility(VISIBLE);
-                Utils.getPreferences().edit().putString("pref_key_password_general", pass.getText().toString()).apply();
+                Utils.getController().getPreferences().edit().putString("pref_key_password_general", pass.getText().toString()).apply();
                 dismiss();
                 new RegistrationTask(VerificationDialog.this).execute(user.getText().toString());
             }
