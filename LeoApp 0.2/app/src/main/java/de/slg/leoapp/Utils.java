@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.util.Base64;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,9 +21,11 @@ import java.util.concurrent.ExecutionException;
 import javax.net.ssl.HttpsURLConnection;
 
 public abstract class Utils {
-    public static final String BASE_URL_PHP  = "https://secureaccess.itac-school.de/slgweb/leoapp_php/";
-    public static final String authorization = "Basic bGVvYXBwOmxlb2FwcA==";
-    static final        String URL_TOMCAT    = "https://secureaccess.itac-school.de/leoapp/";
+    public static final String BASE_DOMAIN      = "https://secureaccess.itac-school.de/";
+    public static final String BASE_URL_PHP     = BASE_DOMAIN + "slgweb/leoapp_php/";
+    public static final String authorizationPre = "Basic ";
+    public static final String authorization    = authorizationPre + "bGVvYXBwOmxlb2FwcA==";
+    static final        String URL_TOMCAT       = BASE_DOMAIN + "leoapp/";
     @SuppressLint("StaticFieldLeak")
     private static ActivityController controller;
 
@@ -205,5 +208,10 @@ public abstract class Utils {
                 cachedValues.add(Integer.parseInt(s.split(":")[1]));
         }
         return cachedValues;
+    }
+
+    public static String toAuthFormat(String pPart1, String pPart2) {
+        byte[] bytesEncoded = Base64.encode((pPart1 + ":" + pPart2).getBytes(), 0);
+        return new String(bytesEncoded);
     }
 }

@@ -1,14 +1,10 @@
 package de.slg.klausurplan;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDialog;
 import android.view.View;
@@ -24,11 +20,9 @@ import java.util.GregorianCalendar;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
-import static de.slg.leoapp.R.string.month;
-
 class KlausurDialog extends AppCompatDialog {
 
-    static Klausur currentKlausur;
+    static  Klausur  currentKlausur;
     private EditText eingabeFach;
     private EditText eingabeDatum;
     private EditText eingabeNotiz;
@@ -40,26 +34,6 @@ class KlausurDialog extends AppCompatDialog {
 
     KlausurDialog(@NonNull Context context) {
         super(context);
-    }
-
-    class mDateSetListener implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public void onDateSet(DatePicker view, int yearL, int monthL, int dayL) {
-            String dayS = String.valueOf(dayL);
-            if(dayS.length() == 1){
-                dayS = "0"+dayS;
-            }
-            String monthS = String.valueOf(monthL+1); //month is zero based!
-            if(monthS.length() == 1){
-                monthS = "0"+monthS;
-            }
-
-            String yearS = String.valueOf(yearL);
-            yearS = yearS.substring(2,4);
-
-            eingabeDatum.setText(dayS+"."+monthS +"."+yearS);
-        }
     }
 
     @Override
@@ -99,20 +73,17 @@ class KlausurDialog extends AppCompatDialog {
         findViewById(R.id.calendarPickerButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                Calendar c      = Calendar.getInstance();
+                int      mYear  = c.get(Calendar.YEAR);
+                int      mMonth = c.get(Calendar.MONTH);
+                int      mDay   = c.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog dialog = new DatePickerDialog(getContext(),
                         new mDateSetListener(), mYear, mMonth, mDay);
                 dialog.show();
-
-
             }
         });
 
     }
-
 
     private void initSnackbarTitel() {
         snackbarTitle = Snackbar.make(findViewById(R.id.snack), getContext().getString(R.string.snackbar_missing_title), Snackbar.LENGTH_LONG);
@@ -191,14 +162,34 @@ class KlausurDialog extends AppCompatDialog {
         if (istDatumFormat(s)) {
             String[] parts = s.replace('.', '_').split("_");
             if (parts.length == 3) {
-                int day = Integer.parseInt(parts[0]);
-                int month = Integer.parseInt(parts[1]) - 1;
-                int year = 2000 + Integer.parseInt(parts[2]);
-                Calendar c = new GregorianCalendar();
+                int      day   = Integer.parseInt(parts[0]);
+                int      month = Integer.parseInt(parts[1]) - 1;
+                int      year  = 2000 + Integer.parseInt(parts[2]);
+                Calendar c     = new GregorianCalendar();
                 c.set(year, month, day, 0, 0, 0);
                 return c.getTime();
             }
         }
         return null;
+    }
+
+    class mDateSetListener implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public void onDateSet(DatePicker view, int yearL, int monthL, int dayL) {
+            String dayS = String.valueOf(dayL);
+            if (dayS.length() == 1) {
+                dayS = "0" + dayS;
+            }
+            String monthS = String.valueOf(monthL + 1); //month is zero based!
+            if (monthS.length() == 1) {
+                monthS = "0" + monthS;
+            }
+
+            String yearS = String.valueOf(yearL);
+            yearS = yearS.substring(2, 4);
+
+            eingabeDatum.setText(dayS + "." + monthS + "." + yearS);
+        }
     }
 }

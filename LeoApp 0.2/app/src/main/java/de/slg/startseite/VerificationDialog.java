@@ -17,7 +17,7 @@ class VerificationDialog extends AlertDialog {
 
     VerificationDialog(@NonNull Context context) {
         super(context);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
     @Override
@@ -43,7 +43,5 @@ class VerificationDialog extends AlertDialog {
                 new RegistrationTask(VerificationDialog.this).execute(user.getText().toString());
             }
         });
-
     }
-
 }

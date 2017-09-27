@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:id="@+id/snackbar"
-    android:orientation="vertical">
+                android:id="@+id/snackbar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView"
@@ -25,8 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView"
-        android:text="Gib die Anmeldedaten deines Schulaccounts ein, um dich zu verifizieren."
         android:layout_margin="15dp"
+        android:text="Gib die Anmeldedaten deines Schulaccounts ein, um dich zu verifizieren."
         />
 
     <EditText
@@ -85,15 +85,15 @@
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:indeterminate="true"
-        android:visibility="gone"
-        android:indeterminateTint="@color/colorPrimary"
-        android:indeterminateTintMode="src_in"
-        android:layout_marginTop="11dp"
         android:layout_alignTop="@+id/buttonDialog1"
+        android:layout_marginEnd="29dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginTop="11dp"
         android:layout_toLeftOf="@+id/buttonDialog1"
         android:layout_toStartOf="@+id/buttonDialog1"
-        android:layout_marginRight="29dp"
-        android:layout_marginEnd="29dp" />
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminateTintMode="src_in"
+        android:visibility="gone" />
 
 </RelativeLayout>

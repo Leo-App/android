@@ -122,7 +122,8 @@
             android:name="de.slg.nachhilfe.Verwalten"
             android:screenOrientation="portrait" />
 
-        <activity android:name="de.slg.intro.IntroActivity"
+        <activity
+            android:name="de.slg.intro.IntroActivity"
             android:screenOrientation="portrait" />
     </application>
 

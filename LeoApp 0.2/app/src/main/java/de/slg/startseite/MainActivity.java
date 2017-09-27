@@ -1,20 +1,15 @@
 package de.slg.startseite;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,7 +17,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,11 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.Result;
-
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -54,18 +44,17 @@ import de.slg.schwarzes_brett.UpdateViewTrackerTask;
 import de.slg.stimmungsbarometer.AbstimmDialog;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public static boolean editing;
-    public View cooredinatorLayout;
-    public ProgressBar progressBar;
-    public TextView title, info;
+    public static boolean     editing;
+    public        View        cooredinatorLayout;
+    public        ProgressBar progressBar;
+    public        TextView    title, info;
     public Button verify, dismiss;
-    public AbstimmDialog abstimmDialog;
+    public  AbstimmDialog  abstimmDialog;
     private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
-    private CardAdapter mAdapter;
+    private DrawerLayout   drawerLayout;
+    private CardAdapter    mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,7 +213,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (abstimmDialog != null) {
             abstimmDialog.show();
         }
-
 
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
@@ -446,8 +434,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri webpage = Uri.parse("http://www.leoapp-slg.de");
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                Uri    webpage = Uri.parse("http://www.leoapp-slg.de");
+                Intent intent  = new Intent(Intent.ACTION_VIEW, webpage);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }

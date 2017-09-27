@@ -1,8 +1,6 @@
 package de.slg.startseite;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -12,7 +10,6 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,7 +17,6 @@ import java.util.GregorianCalendar;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
@@ -36,7 +32,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
 
     @Override
     protected ResponseCode doInBackground(String... params) {
-        String result = "";
+        String  result  = "";
         boolean teacher = params[0].length() % 6 == 0;
 
         if (Utils.checkNetwork()) {
@@ -48,7 +44,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
             String password = Utils.getController().getPreferences().getString("pref_key_password_general", "");
 
             HttpsURLConnection checkConnection = (HttpsURLConnection)
-                    new URL(Utils.BASE_DOMAIN + "/slg")
+                    new URL(Utils.BASE_DOMAIN + "slg")
                             .openConnection();
             checkConnection.setRequestProperty("Authorization", Utils.authorizationPre + Utils.toAuthFormat(params[0], password));
 
@@ -158,7 +154,6 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 Toast.makeText(Utils.getContext(), "Erfolgreich verifiziert", Toast.LENGTH_LONG).show();
                 break;
             }
-
     }
 
     private void showSnackbarServerFailed() {

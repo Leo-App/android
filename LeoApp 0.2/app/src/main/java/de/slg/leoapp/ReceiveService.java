@@ -247,7 +247,6 @@ public class ReceiveService extends Service {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            socketRunning = false;
         }
 
         @Override

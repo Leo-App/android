@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -252,11 +251,11 @@ public class KlausurplanActivity extends AppCompatActivity {
     private void refresh() {
         writeToFile();
         lvKlausuren.setAdapter(new KlausurenAdapter(getApplicationContext(), klausurList, findeNächsteKlausur()));
-       // new Handler().postDelayed(new Runnable() {
+        // new Handler().postDelayed(new Runnable() {
         //    @Override
-         //   public void run() {
-       //         lvKlausuren.smoothScrollToPositionFromTop(findeNächsteWoche(), 0);
-       //     }
+        //   public void run() {
+        //         lvKlausuren.smoothScrollToPositionFromTop(findeNächsteWoche(), 0);
+        //     }
         //}, 100);
 
         lvKlausuren.setSelection(findeNächsteWoche());

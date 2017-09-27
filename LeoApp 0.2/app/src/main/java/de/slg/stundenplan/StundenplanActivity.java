@@ -277,7 +277,7 @@ public class StundenplanActivity extends AppCompatActivity {
                 TextView tvRaum   = (TextView) v.findViewById(R.id.raum_wt);
                 TextView tvStunde = (TextView) v.findViewById(R.id.stunde_wt);
                 if (fachAd[position] != null) {
-                    if (fachAd[position].gibName().equals("") && !fachAd[position].gibNotiz().equals("")) {
+                    if (fachAd[position].gibName() != null && fachAd[position].gibNotiz() != null && fachAd[position].gibName().equals("") && !fachAd[position].gibNotiz().equals("")) {
                         String[] sa = fachAd[position].gibNotiz().split(" ");
                         tvFach.setText(sa[0]);
                     } else {
