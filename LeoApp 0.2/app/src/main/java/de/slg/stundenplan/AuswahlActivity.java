@@ -37,7 +37,6 @@ public class AuswahlActivity extends AppCompatActivity {
     private Menu          menu;
     private KursAdapter   adapter;
     private StundenplanDB db;
-    private FachImporter  importer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +45,7 @@ public class AuswahlActivity extends AppCompatActivity {
         Utils.getController().registerAuswahlActivity(this);
         String stufe = Utils.getUserStufe();
         if (!stufe.equals("")) {
-            importer = new FachImporter(getApplicationContext(), stufe);
-            importer.execute();
+            new FachImporter().execute();
         }
         initToolbar();
         if (stufe.equals("")) {
@@ -81,6 +79,8 @@ public class AuswahlActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         Utils.getController().registerAuswahlActivity(null);
+        if (!Utils.getController().getStundplanDataBase().hatGewaehlt())
+            Utils.getController().getStundenplanActivity().finish();
     }
 
     private void initToolbar() {
@@ -169,14 +169,6 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     static class FachImporter extends AsyncTask<Void, Void, Void> {
-        private final Context context;
-        private final String  stufe;
-
-        FachImporter(Context c, String pStufe) {
-            this.context = c;
-            stufe = pStufe;
-        }
-
         @Override
         protected void onPreExecute() {
             if (Utils.getController().getAuswahlActivity() != null) {
@@ -200,7 +192,7 @@ public class AuswahlActivity extends AppCompatActivity {
                     BufferedWriter writer =
                             new BufferedWriter(
                                     new OutputStreamWriter(
-                                            context.openFileOutput(
+                                            Utils.getContext().openFileOutput(
                                                     "testdaten.txt",
                                                     Context.MODE_PRIVATE)));
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
@@ -213,12 +205,12 @@ public class AuswahlActivity extends AppCompatActivity {
                     reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            context.openFileInput("testdaten.txt")));
+                                            Utils.getContext().openFileInput("testdaten.txt")));
                     String lastKurzel = "";
                     long   lastID     = -1;
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                         String[] fach = line.replace("\"", "").split(",");
-                        if (fach[1].replace("0", "").startsWith(stufe)) {
+                        if (fach[1].replace("0", "").startsWith(Utils.getUserStufe())) {
                             Log.e("TAG", line);
                             if (!fach[3].equals(lastKurzel)) {
                                 lastID = Utils.getController().getStundplanDataBase().insertFach(fach[3], fach[2]);

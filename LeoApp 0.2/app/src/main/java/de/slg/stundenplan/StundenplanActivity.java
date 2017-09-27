@@ -302,7 +302,7 @@ public class StundenplanActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-            importer = new AuswahlActivity.FachImporter(getApplicationContext(), "");
+            importer = new AuswahlActivity.FachImporter();
             importer.execute();
         }
 
