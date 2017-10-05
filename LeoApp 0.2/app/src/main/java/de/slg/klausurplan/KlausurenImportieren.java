@@ -8,12 +8,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.Utils;
@@ -38,12 +37,12 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
         try {
             listeMitHeruntergeladenenKlausuren = new List<>();
 
-            HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "klausurplan2017.xml")
+            HttpURLConnection connection = (HttpURLConnection)
+                    new URL("http://moritz.liegmanns.de/" + "klausurplan17_18.xml")
                             .openConnection();
-            connection.setRequestProperty("Authorization", Utils.authorization);
+            //            connection.setRequestProperty("Authorization", Utils.authorization);
 
-            FileOutputStream fileOutput  = context.openFileOutput("klausurplan2017.xml", Context.MODE_PRIVATE);
+            FileOutputStream fileOutput  = context.openFileOutput("klausurplan.xml", Context.MODE_PRIVATE);
             InputStream      inputStream = connection.getInputStream();
             byte[]           buffer      = new byte[1024];
             int              bufferLength;
@@ -52,7 +51,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             }
             fileOutput.close();
 
-            reader = new BufferedReader(new InputStreamReader(context.openFileInput("klausurplan2017.xml")));
+            reader = new BufferedReader(new InputStreamReader(context.openFileInput("klausurplan.xml")));
             year = getYear();
             String line;
             while ((line = reader.readLine()) != null) {
@@ -72,7 +71,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
         for (int offset = 0; s.substring(offset).contains("<row>"); offset = s.indexOf("</row>", offset) + 6) {
             String substring = s.substring(s.indexOf("<row>", offset) + 5, s.indexOf("</row>", offset)); // Trennen bei <row>, <\row>  Bsp: <entry><para>MO </para></entry><entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry>
             substring = substring.substring(substring.indexOf("</entry>") + 8); //Trennen nach erstem <\entry> (Wochentag wird nicht benötigt) Bsp: <entry><para>20.03.</para></entry><entry><para/></entry><entry><para>GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 </para></entry><entry><para/></entry>
-            substring = substring.replace("<para>", "").replace("</para>", "").replace("<para/>", " ").replace("<entry>", "").replace("</entry>", ";"); //entfernen aller para, Anfangs entry, Ersetzen der </entry> Tags durch ; Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
+            substring = substring.replace("</para>", "").replace("<para/>", " ").replace("<entry><para>", "").replace("</entry>", ";").replace("<para>", ", ").replace("<entry>", ""); //entfernen aller para, Anfangs entry, Ersetzen der </entry> Tags durch ; Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
 
             if (!substring.contains("<entry namest=\"c3\" nameend=\"c5\">")) { //? beim neuen Klausurplan nirgendwo der Fall
                 if (!substring.startsWith("EF")) { //nicht benötigte Zeilen Bsp:EF;Q1;Q2;
@@ -133,8 +132,9 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             while (c.length() > 0 && (c.charAt(0) == '_' || (c.charAt(0) > 47 && c.charAt(0) < 58)))
                 c = c.substring(1);//enfernt Zahlen und _ am Anfang //E_RUS__23_   //GE_G3_HUC__11_
             if (c.length() > 0) {
-                boolean istGK = c.matches("[A-Z]{1,3}_*[GLK]{1,2}_*[0-9]_*[A-Z|ÄÖÜ]{3}_*[0-9]{1,2}.*"); //Format FF_G1_LLL__19_
-                boolean istLK = c.matches("[A-Z]{1,3}_*[A-ZÄÖÜ]{3}_*[0-9]{1,2}.*");//Format FF_LLL_12_
+                boolean istGK     = c.matches("[A-Z]{1,3}_*[GLK]{1,2}_*[0-9]_*[A-ZÄÖÜ]{3}_*[0-9]{1,2}.*"); //Format FF_G1_LLL__19_
+                boolean istLK     = c.matches("[A-Z]{1,3}_*[A-ZÄÖÜ]{3}_*[0-9]{1,2}.*");//Format FF_LLL_12_
+                boolean istKOOPLK = c.matches("LK_[0-9]*+_[COUKG]{3}:_[A-Z]{1,3}.*"); // Format LK_1_COU:_FFF
                 if (c.length() >= 12 && istGK) {
                     String klausur = c.substring(0, 12); // etwas zu viel, um mehr Leerzeichen zuzulassen (es gibt jedoch keine kürzeren GK Klausuren, da kürzestes Format: F_G1_LLL__1_)
                     while (klausur.length() > 7 && (klausur.charAt(klausur.length() - 1) == '_' || (klausur.charAt(klausur.length() - 1) > 47 && klausur.charAt(klausur.length() - 1) < 58)))
@@ -153,6 +153,16 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
                     klausur = teil1 + " L" + teil2;// L dazwischen einfügen
                     //Log.e("LK", klausur);
                     list.append(klausur);
+                }
+                if (istKOOPLK) {
+                    c = c.substring(5);
+                    String schule = c.substring(0, 3);
+                    c = c.substring(c.indexOf(':') + 2);
+                    if (c.contains("_"))
+                        c = c.substring(0, c.indexOf("_"));
+                    c = c + ' ' + schule;
+                    //                    Log.e("KOOPLK", c);
+                    list.append(c);
                 }
             }
         }

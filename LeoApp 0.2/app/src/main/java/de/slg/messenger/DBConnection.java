@@ -175,6 +175,17 @@ public class DBConnection {
         delete(TABLE_MESSAGES_QUEUED, MESSAGE_ID + " = " + mid);
     }
 
+    public String getLatestMessage() {
+        String[] columns = {"MAX(" + MESSAGE_DATE + ")"};
+        Cursor   cursor  = query(TABLE_MESSAGES, columns, null, null);
+        cursor.moveToFirst();
+        String erg = "";
+        if (cursor.getCount() > 0)
+            erg = cursor.getString(0);
+        cursor.close();
+        return erg;
+    }
+
     //User
     public void insertUser(User u) {
         if (u != null) {

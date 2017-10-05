@@ -197,7 +197,7 @@ public class ReceiveService extends Service {
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
-                                        new URL(Utils.URL_TOMCAT + "?uid=" + Utils.getUserID())
+                                        new URL(Utils.URL_TOMCAT + "?uid=" + Utils.getUserID() + "&mdate=" + Utils.getController().getMessengerDataBase().getLatestMessage())
                                                 .openConnection()
                                                 .getInputStream(), "UTF-8"));
 
