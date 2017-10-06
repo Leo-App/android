@@ -6,10 +6,38 @@
     android:gravity="right"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorAccentTransparent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Neue Nachrichten"
+            android:textAllCaps="true"
+            android:textColor="?attr/colorControlNormal"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayout1"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="6dp"

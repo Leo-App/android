@@ -347,6 +347,12 @@ public class ChatActivity extends AppCompatActivity {
             } else {
                 v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
             }
+
+            if (current.mread && (position == 0 || !messagesArray[position - 1].mread)) {
+                v.findViewById(R.id.linearLayout1).setVisibility(View.VISIBLE);
+            } else {
+                v.findViewById(R.id.linearLayout1).setVisibility(View.GONE);
+            }
         }
 
         @Override
