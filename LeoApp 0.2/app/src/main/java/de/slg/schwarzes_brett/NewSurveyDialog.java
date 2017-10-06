@@ -12,8 +12,15 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
@@ -28,6 +35,7 @@ class NewSurveyDialog extends AlertDialog {
     private String title;
     private String description;
     private String[] answers;
+    private boolean multiple;
     private int to;
 
     NewSurveyDialog(@NonNull Context context) {
@@ -46,20 +54,20 @@ class NewSurveyDialog extends AlertDialog {
     private void initEditText() {
         switch (stage) {
             case 0:
-                ((EditText)findViewById(R.id.content)).setText(title);
+                ((EditText) findViewById(R.id.content)).setText(title);
                 break;
             case 1:
-                ((EditText)findViewById(R.id.content)).setText(description);
+                ((EditText) findViewById(R.id.content)).setText(description);
                 break;
             case 2:
-                if(answers == null)
+                if (answers == null)
                     break;
                 int[] layouts = {R.id.text1, R.id.new_answer, R.id.text2, R.id.button, R.id.text3, R.id.button1, R.id.text4, R.id.button2, R.id.text5, R.id.button3};
-                for(int i = 0; i < answers.length; i++) {
-                    if(answers[i].length() > 0) {
-                        findViewById(layouts[i*2+1]).setVisibility(View.INVISIBLE);
-                        findViewById(layouts[i*2]).setVisibility(View.VISIBLE);
-                        ((EditText)findViewById(layouts[i*2])).setText(answers[i]);
+                for (int i = 0; i < answers.length; i++) {
+                    if (answers[i].length() > 0) {
+                        findViewById(layouts[i * 2 + 1]).setVisibility(View.INVISIBLE);
+                        findViewById(layouts[i * 2]).setVisibility(View.VISIBLE);
+                        ((EditText) findViewById(layouts[i * 2])).setText(answers[i]);
                     }
                 }
                 break;
@@ -72,7 +80,7 @@ class NewSurveyDialog extends AlertDialog {
             public void onClick(View v) {
                 switch (stage) {
                     case 0:
-                        if(((EditText)findViewById(R.id.content)).getText().toString().length() == 0) {
+                        if (((EditText) findViewById(R.id.content)).getText().toString().length() == 0) {
                             final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), "Du musst einen Titel angeben", Snackbar.LENGTH_SHORT);
                             snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
                             snackbar.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
@@ -84,32 +92,34 @@ class NewSurveyDialog extends AlertDialog {
                             snackbar.show();
                             break;
                         }
-                        title = ((EditText)findViewById(R.id.content)).getText().toString();
+                        title = ((EditText) findViewById(R.id.content)).getText().toString();
                         next();
                         break;
                     case 1:
-                        description = ((EditText)findViewById(R.id.content)).getText().toString();
+                        description = ((EditText) findViewById(R.id.content)).getText().toString();
                         next();
                         break;
                     case 2:
-                        String s1 = ((EditText)findViewById(R.id.text1)).getText().toString(),
-                                s2 = ((EditText)findViewById(R.id.text2)).getText().toString(),
-                                s3 = ((EditText)findViewById(R.id.text3)).getText().toString(),
-                                s4 = ((EditText)findViewById(R.id.text4)).getText().toString(),
-                                s5 = ((EditText)findViewById(R.id.text5)).getText().toString();
+                        String s1 = ((EditText) findViewById(R.id.text1)).getText().toString(),
+                                s2 = ((EditText) findViewById(R.id.text2)).getText().toString(),
+                                s3 = ((EditText) findViewById(R.id.text3)).getText().toString(),
+                                s4 = ((EditText) findViewById(R.id.text4)).getText().toString(),
+                                s5 = ((EditText) findViewById(R.id.text5)).getText().toString();
 
-                        if(s1.length()+s2.length()+s3.length()+s4.length()+s5.length() < 1) {
+                        if (s1.length() + s2.length() + s3.length() + s4.length() + s5.length() < 1) {
                             final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), "Du musst mindestens eine Antwortmöglichkeit angeben", Snackbar.LENGTH_SHORT);
                             snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
                             snackbar.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                snackbar.dismiss();
+                                    snackbar.dismiss();
                                 }
                             });
                             snackbar.show();
                             break;
                         }
+
+                        multiple = ((CheckBox) findViewById(R.id.multiple)).isChecked();
 
                         saveAnswers();
                         next();
@@ -131,14 +141,14 @@ class NewSurveyDialog extends AlertDialog {
 
     private void saveAnswers() {
 
-        if(stage != 2)
+        if (stage != 2)
             return;
 
-        String s1 = ((EditText)findViewById(R.id.text1)).getText().toString(),
-                s2 = ((EditText)findViewById(R.id.text2)).getText().toString(),
-                s3 = ((EditText)findViewById(R.id.text3)).getText().toString(),
-                s4 = ((EditText)findViewById(R.id.text4)).getText().toString(),
-                s5 = ((EditText)findViewById(R.id.text5)).getText().toString();
+        String s1 = ((EditText) findViewById(R.id.text1)).getText().toString(),
+                s2 = ((EditText) findViewById(R.id.text2)).getText().toString(),
+                s3 = ((EditText) findViewById(R.id.text3)).getText().toString(),
+                s4 = ((EditText) findViewById(R.id.text4)).getText().toString(),
+                s5 = ((EditText) findViewById(R.id.text5)).getText().toString();
 
         answers = new String[]{s1, s2, s3, s4, s5};
     }
@@ -187,10 +197,9 @@ class NewSurveyDialog extends AlertDialog {
         stage++;
         if (stage >= layouts.length) {
             new SendSurveyTask().execute();
-            dismiss();
             return;
         }
-        if(stage == 1)
+        if (stage == 1)
             saveAnswers();
         LayoutInflater inflater = getLayoutInflater();
         currentView = inflater.inflate(layouts[stage], null, false);
@@ -208,7 +217,7 @@ class NewSurveyDialog extends AlertDialog {
             dismiss();
             return;
         }
-        if(stage == 1)
+        if (stage == 1)
             saveAnswers();
         LayoutInflater inflater = getLayoutInflater();
         currentView = inflater.inflate(layouts[stage], null, false);
@@ -222,7 +231,7 @@ class NewSurveyDialog extends AlertDialog {
 
     private void initSpinner() {
 
-        if(stage != layouts.length-1)
+        if (stage != layouts.length - 1)
             return;
 
         Spinner s = (Spinner) findViewById(R.id.spinner2);
@@ -233,11 +242,62 @@ class NewSurveyDialog extends AlertDialog {
 
     }
 
-    private class SendSurveyTask extends AsyncTask<Void, Void, Void> {
+    private class SendSurveyTask extends AsyncTask<Void, Void, Boolean> {
         @Override
-        protected Void doInBackground(Void... params) {
-            return null;
+        protected Boolean doInBackground(Void... params) {
+
+            String answerString = answers[0];
+
+            for (int i = 1; i < 5 && answers[i].equals(""); i++)
+                answerString += "_;_" + answers[i];
+
+
+            BufferedReader in = null;
+            String result = "";
+            try {
+                URL interfaceDB = new URL(("http://www.moritz.liegmanns.de/survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
+                in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
+                    if (!inputLine.contains("<"))
+                        result += inputLine;
+                }
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                if (in != null)
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+
+            }
+            return result.startsWith("-");
         }
+
+        @Override
+        protected void onPostExecute(Boolean b) {
+            if (b) {
+                dismiss();
+                Toast.makeText(Utils.getContext(), "Umfrage erfolgreich erstellt", Toast.LENGTH_LONG).show();
+            } else {
+                final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), "Es ist etwas schiefgelaufen, versuche es später erneut", Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                snackbar.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                });
+                snackbar.show();
+            }
+
+        }
+
     }
 
 }
