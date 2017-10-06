@@ -16,6 +16,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
     private static final String FACH_NAME           = "fname";
     private static final String FACH_KURZEL         = "fkurz";
     private static final String FACH_LEHRER         = "flehrer";
+    private static final String FACH_KLASSE         = "fklasse";
     private static final String FACH_ART            = "fart";
     private static final String TABLE_STUNDEN       = "stunden";
     private static final String STUNDEN_TAG         = "stag";
@@ -29,7 +30,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
     private final Context        context;
 
     public StundenplanDB(Context context) {
-        super(context, DATABASE_NAME, null, 3);
+        super(context, DATABASE_NAME, null, 4);
         database = getWritableDatabase();
         this.context = context;
     }
@@ -41,7 +42,8 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 FACH_ART + " TEXT NOT NULL, " +
                 FACH_KURZEL + " TEXT NOT NULL, " +
                 FACH_NAME + " TEXT NOT NULL, " +
-                FACH_LEHRER + " TEXT NOT NULL)");
+                FACH_LEHRER + " TEXT NOT NULL, " +
+                FACH_KLASSE + " TEXT NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_STUNDEN + " (" +
                 FACH_ID + " INTEGER NOT NULL, " +
                 STUNDEN_TAG + " INTEGER NOT NULL, " +
@@ -65,7 +67,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    long insertFach(String kurz, String lehrer) {
+    long insertFach(String kurz, String lehrer, String klasse) {
         while (kurz.contains("  "))
             kurz = kurz.replace("  ", " ");
 
@@ -87,6 +89,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         values.put(FACH_KURZEL, kurz);
         values.put(FACH_NAME, getFachname(kurz)); //Hier brauchen wir jetzt doch das ganze Kürzel!
         values.put(FACH_LEHRER, lehrer);
+        values.put(FACH_KLASSE, klasse);
         return database.insert(TABLE_FACHER, null, values);
     }
 
@@ -129,13 +132,13 @@ public class StundenplanDB extends SQLiteOpenHelper {
 
     Fach[] getFaecher() {
         String   table     = TABLE_FACHER + ", " + TABLE_STUNDEN;
-        String[] columns   = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, STUNDE_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
+        String[] columns   = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_KLASSE, STUNDE_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
         String   selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_ART + " != 'FREI'";
         Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_ART + " DESC, " + TABLE_FACHER + "." + FACH_ID);
         Fach[]   faecher   = new Fach[cursor.getCount()];
         int      i         = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
-            faecher[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getInt(6), cursor.getInt(7));
+            faecher[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8));
         }
         cursor.close();
         return faecher;
@@ -148,6 +151,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 FACH_NAME,
                 FACH_ART,
                 FACH_LEHRER,
+                FACH_KLASSE,
                 STUNDE_RAUM,
                 STUNDEN_STUNDE,
                 GEWAHLT_SCHRIFTLICH,
@@ -159,13 +163,13 @@ public class StundenplanDB extends SQLiteOpenHelper {
             cursor.moveToLast();
             faecher = new Fach[cursor.getInt(6)];
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                faecher[cursor.getInt(6) - 1] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), tag, cursor.getInt(6));
+                faecher[cursor.getInt(6) - 1] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getString(6), tag, cursor.getInt(7));
                 faecher[cursor.getInt(6) - 1].setzeNotiz(cursor.getString(8));
                 faecher[cursor.getInt(6) - 1].setzeSchriftlich(cursor.getInt(7) == 1);
             }
             for (int i = 0; i < faecher.length; i++) {
                 if (faecher[i] == null)
-                    faecher[i] = new Fach(0, "", "", "", "", tag, i + 1);
+                    faecher[i] = new Fach(0, "", "", "", "", "", tag, i + 1);
             }
         }
         cursor.close();
@@ -179,6 +183,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 FACH_NAME,
                 FACH_ART,
                 FACH_LEHRER,
+                FACH_KLASSE,
                 STUNDE_RAUM,
                 STUNDEN_TAG,
                 STUNDEN_STUNDE,
@@ -197,6 +202,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
                     cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""),
                     cursor.getString(4),
                     cursor.getString(5),
+                    cursor.getString(6),
                     tag, stunde);
             f.setzeNotiz(cursor.getString(9));
             f.setzeSchriftlich(cursor.getInt(8) == 1);

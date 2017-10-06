@@ -6,17 +6,19 @@ public class Fach {
     private final String  kuerzel;
     private final String  raum;
     private final String  lehrer;
+    private final String  klasse;
     private final int     tag;
     private final int     stunde;
     private       boolean schriftlich;
     private       String  notiz;
 
-    public Fach(int id, String kurz, String name, String lehrer, String raum, int tag, int stunde) {
+    public Fach(int id, String kurz, String name, String lehrer, String klasse, String raum, int tag, int stunde) {
         this.id = id;
         this.kuerzel = kurz;
         this.name = name;
         this.raum = raum;
         this.lehrer = lehrer;
+        this.klasse = klasse;
         this.tag = tag;
         this.stunde = stunde;
         this.schriftlich = false;
@@ -93,5 +95,9 @@ public class Fach {
 
     boolean gibSchriftlich() {
         return schriftlich;
+    }
+
+    public String getKlasse() {
+        return klasse;
     }
 }

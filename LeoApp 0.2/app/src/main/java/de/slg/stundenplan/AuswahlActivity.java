@@ -211,9 +211,8 @@ public class AuswahlActivity extends AppCompatActivity {
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                         String[] fach = line.replace("\"", "").split(",");
                         if (fach[1].replace("0", "").startsWith(Utils.getUserStufe())) {
-                            Log.e("TAG", line);
                             if (!fach[3].equals(lastKurzel)) {
-                                lastID = Utils.getController().getStundplanDataBase().insertFach(fach[3], fach[2]);
+                                lastID = Utils.getController().getStundplanDataBase().insertFach(fach[3], fach[2], fach[1]);
                                 lastKurzel = fach[3];
                                 if (Utils.getUserPermission() == 2 && fach[2].equals(Utils.getLehrerKuerzel().toUpperCase())) {
                                     Utils.getController().getStundplanDataBase().waehleFach(lastID);
@@ -270,6 +269,7 @@ public class AuswahlActivity extends AppCompatActivity {
                 TextView tvFach    = (TextView) views[position].findViewById(R.id.fach_auswahl);
                 TextView tvKuerzel = (TextView) views[position].findViewById(R.id.kürzel_auswahl);
                 TextView tvLehrer  = (TextView) views[position].findViewById(R.id.lehrer_auswahl);
+                TextView tvKlasse  = (TextView) views[position].findViewById(R.id.klasse_auswahl);
                 CheckBox checkBox  = (CheckBox) views[position].findViewById(R.id.checkBox);
                 Fach     current   = fachArray[position];
 
@@ -277,6 +277,11 @@ public class AuswahlActivity extends AppCompatActivity {
                 tvKuerzel.setText(current.gibKurz());
                 tvLehrer.setText(current.gibLehrer());
                 checkBox.setChecked(db.istGewaehlt(current.id));
+
+                if (Utils.getUserStufe().matches("[0-9]+")) {
+                    tvKlasse.setVisibility(View.VISIBLE);
+                    tvKlasse.setText(current.getKlasse());
+                }
 
                 if (checkBox.isChecked()) {
                     if (!current.gibKurz().startsWith("IB"))
