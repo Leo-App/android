@@ -48,13 +48,13 @@ class DetailsDialog extends AlertDialog {
             public void onClick(View view) {
                 ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etNotiz.getWindowToken(), 0);
                 String notiz = etNotiz.getText().toString();
-                if (!fach.gibKurz().equals("FREI")) {
+                if (!fach.getKuerzel().equals("FREI")) {
                     boolean b = cbSchrift.isChecked();
                     fach.setzeSchriftlich(b);
                     Utils.getController().getStundplanDataBase().setzeSchriftlich(b, fach.id);
                 }
                 fach.setzeNotiz(notiz);
-                Utils.getController().getStundplanDataBase().setzeNotiz(notiz, fach.id, fach.gibTag(), fach.gibStunde());
+                Utils.getController().getStundplanDataBase().setzeNotiz(notiz, fach.id, fach.getTag(), fach.getStunde());
                 dismiss();
             }
         });
@@ -66,13 +66,13 @@ class DetailsDialog extends AlertDialog {
     }
 
     private void initDetails() {
-        if (!fach.gibKurz().equals("FREI")) {
-            title.setText(fach.gibName() + " " + fach.gibKurz().substring(2));
+        if (!fach.getKuerzel().equals("FREI")) {
+            title.setText(fach.getName() + " " + fach.getKuerzel().substring(2));
             tvZeit.setText(Utils.getController().getStundplanDataBase().gibZeiten(fach));
-            tvRaum.setText(fach.gibRaum());
-            tvLehrer.setText(fach.gibLehrer());
-            etNotiz.setText(fach.gibNotiz());
-            cbSchrift.setChecked(fach.gibSchriftlich());
+            tvRaum.setText(fach.getRaum());
+            tvLehrer.setText(fach.getLehrer());
+            etNotiz.setText(fach.getNotiz());
+            cbSchrift.setChecked(fach.getSchriftlich());
             cbSchrift.setClickable(!Utils.getController().getStundplanDataBase().mussSchriftlich(fach.id));
         } else {
             title.setText(getContext().getString(R.string.free_hour));
@@ -81,8 +81,8 @@ class DetailsDialog extends AlertDialog {
             cbSchrift.setVisibility(View.GONE);
             findViewById(R.id.raum_details).setVisibility(View.GONE);
             findViewById(R.id.lehrer_details).setVisibility(View.GONE);
-            tvZeit.setText(Utils.getController().getStundplanDataBase().gibZeit(fach.gibTag(), fach.gibStunde()));
-            etNotiz.setText(fach.gibNotiz());
+            tvZeit.setText(Utils.getController().getStundplanDataBase().gibZeit(fach.getTag(), fach.getStunde()));
+            etNotiz.setText(fach.getNotiz());
         }
     }
 
@@ -98,7 +98,7 @@ class DetailsDialog extends AlertDialog {
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == R.id.action_det_speichern) {
             String notiz = etNotiz.getText().toString();
-            if (!fach.gibKurz().equals("FREI")) {
+            if (!fach.getKuerzel().equals("FREI")) {
                 boolean b = cbSchrift.isChecked();
                 fach.setzeSchriftlich(b);
                 Utils.getStundplanDataBase().setzeSchriftlich(b, fach.id);
@@ -113,7 +113,7 @@ class DetailsDialog extends AlertDialog {
 /*    @Override
     public void finish() {
         super.finish();
-        if (fach.gibNotiz().equals(""))
-            Utils.getStundplanDataBase().deleteFreistunde(fach.gibTag(), fach.gibStunde());
+        if (fach.getNotiz().equals(""))
+            Utils.getStundplanDataBase().deleteFreistunde(fach.getTag(), fach.getStunde());
     }*/
 }

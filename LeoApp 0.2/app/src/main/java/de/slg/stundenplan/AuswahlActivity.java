@@ -112,15 +112,15 @@ public class AuswahlActivity extends AppCompatActivity {
                         adapter.ausgewaehlteStunden[(int) (d - 1)][(int) (d * 10 % 10 - 1)] = checked;
                     }
                     if (checked)
-                        if (!f.gibKurz().startsWith("IB"))
-                            adapter.ausgewaehlteFaecher.append(f.gibKurz().substring(0, 2));
+                        if (!f.getKuerzel().startsWith("IB"))
+                            adapter.ausgewaehlteFaecher.append(f.getKuerzel().substring(0, 2));
                         else
-                            adapter.ausgewaehlteFaecher.append(f.gibKurz().substring(3, 6));
+                            adapter.ausgewaehlteFaecher.append(f.getKuerzel().substring(3, 6));
                     else {
-                        if (!f.gibKurz().startsWith("IB"))
-                            adapter.ausgewaehlteFaecher.contains(f.gibKurz().substring(0, 2));
+                        if (!f.getKuerzel().startsWith("IB"))
+                            adapter.ausgewaehlteFaecher.contains(f.getKuerzel().substring(0, 2));
                         else
-                            adapter.ausgewaehlteFaecher.contains(f.gibKurz().substring(3, 6));
+                            adapter.ausgewaehlteFaecher.contains(f.getKuerzel().substring(3, 6));
                         adapter.ausgewaehlteFaecher.remove();
                     }
                     refresh();
@@ -273,9 +273,9 @@ public class AuswahlActivity extends AppCompatActivity {
                 CheckBox checkBox  = (CheckBox) views[position].findViewById(R.id.checkBox);
                 Fach     current   = fachArray[position];
 
-                tvFach.setText(current.gibName());
-                tvKuerzel.setText(current.gibKurz());
-                tvLehrer.setText(current.gibLehrer());
+                tvFach.setText(current.getName());
+                tvKuerzel.setText(current.getKuerzel());
+                tvLehrer.setText(current.getLehrer());
                 checkBox.setChecked(db.istGewaehlt(current.id));
 
                 if (Utils.getUserStufe().matches("[0-9]+")) {
@@ -284,10 +284,10 @@ public class AuswahlActivity extends AppCompatActivity {
                 }
 
                 if (checkBox.isChecked()) {
-                    if (!current.gibKurz().startsWith("IB"))
-                        ausgewaehlteFaecher.append(current.gibKurz().substring(0, 2));
+                    if (!current.getKuerzel().startsWith("IB"))
+                        ausgewaehlteFaecher.append(current.getKuerzel().substring(0, 2));
                     else
-                        ausgewaehlteFaecher.append(current.gibKurz().substring(3, 6));
+                        ausgewaehlteFaecher.append(current.getKuerzel().substring(3, 6));
                     double[] stunden = db.gibStunden(current.id);
                     for (double d : stunden) {
                         ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
@@ -295,7 +295,7 @@ public class AuswahlActivity extends AppCompatActivity {
                     tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                     tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                     tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || (current.gibKurz().startsWith("IB") ? ausgewaehlteFaecher.contains(current.gibKurz().substring(3, 6)) : ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2)))) {
+                } else if (ausgewaehlteStunden[current.getTag() - 1][current.getStunde() - 1] || (current.getKuerzel().startsWith("IB") ? ausgewaehlteFaecher.contains(current.getKuerzel().substring(3, 6)) : ausgewaehlteFaecher.contains(current.getKuerzel().substring(0, 2)))) {
                     views[position].setEnabled(false);
                     tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
                     tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
@@ -319,7 +319,7 @@ public class AuswahlActivity extends AppCompatActivity {
                         tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                         tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
                         tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                    } else if (ausgewaehlteStunden[current.gibTag() - 1][current.gibStunde() - 1] || (current.gibKurz().startsWith("IB") ? ausgewaehlteFaecher.contains(current.gibKurz().substring(3, 6)) : ausgewaehlteFaecher.contains(current.gibKurz().substring(0, 2)))) {
+                    } else if (ausgewaehlteStunden[current.getTag() - 1][current.getStunde() - 1] || (current.getKuerzel().startsWith("IB") ? ausgewaehlteFaecher.contains(current.getKuerzel().substring(3, 6)) : ausgewaehlteFaecher.contains(current.getKuerzel().substring(0, 2)))) {
                         views[i].setEnabled(false);
                         tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
                         tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));

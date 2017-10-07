@@ -402,7 +402,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         String condition, table;
         if (f.id == 0) {
             table = TABLE_STUNDEN + ", " + TABLE_FACHER;
-            condition = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_KURZEL + " = '" + f.gibKurz() + "'";
+            condition = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_KURZEL + " = '" + f.getKuerzel() + "'";
         } else {
             table = TABLE_STUNDEN;
             condition = FACH_ID + " = " + f.id;

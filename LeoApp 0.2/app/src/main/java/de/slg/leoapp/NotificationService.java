@@ -373,8 +373,8 @@ public class NotificationService extends Service {
             if (gibNaechstenWochentag() <= 5) {
                 Fach[] faecher = Utils.getController().getStundplanDataBase().gewaehlteFaecherAnTag(gibNaechstenWochentag());
                 for (int i = 0; i < faecher.length; i++) {
-                    if (faecher[i].gibName().length() > 0 && (i == 0 || !faecher[i].gibName().equals(faecher[i - 1].gibName()))) {
-                        builder.append(faecher[i].gibName());
+                    if (faecher[i].getName().length() > 0 && (i == 0 || !faecher[i].getName().equals(faecher[i - 1].getName()))) {
+                        builder.append(faecher[i].getName());
                         if (i < faecher.length - 1) {
                             builder.append(", ");
                         }

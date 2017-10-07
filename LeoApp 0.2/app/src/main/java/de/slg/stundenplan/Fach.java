@@ -51,7 +51,6 @@ public class Fach {
                 return Integer.toString(pStunde);
         }
     }
-    //Getter und Setter
 
     void setzeNotiz(String notiz) {
         this.notiz = notiz;
@@ -61,43 +60,43 @@ public class Fach {
         schriftlich = b;
     }
 
-    String gibKurz() {
+    String getKuerzel() {
         return kuerzel;
     }
 
-    public String gibName() {
+    public String getName() {
         return name;
     }
 
-    String gibLehrer() {
+    String getLehrer() {
         return lehrer;
     }
 
-    String gibRaum() {
+    String getRaum() {
         return raum;
     }
 
-    int gibTag() {
+    int getTag() {
         return tag;
     }
 
-    int gibStunde() {
+    int getStunde() {
         return stunde;
     }
 
-    String gibStundenName() {
+    String getStundenName() {
         return this.gibStundenName(stunde);
     }
 
-    String gibNotiz() {
+    String getNotiz() {
         return notiz;
     }
 
-    boolean gibSchriftlich() {
+    boolean getSchriftlich() {
         return schriftlich;
     }
 
-    public String getKlasse() {
+    String getKlasse() {
         return klasse;
     }
 }

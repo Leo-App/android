@@ -93,10 +93,10 @@ public class StundenplanView extends View {
                 if (i - 1 < tag.length) {
                     Fach   f = tag[i - 1];
                     String text;
-                    if (f.gibName().equals("") && !f.gibNotiz().equals("")) {
-                        text = f.gibNotiz().split(" ")[0];
+                    if (f.getName().equals("") && !f.getNotiz().equals("")) {
+                        text = f.getNotiz().split(" ")[0];
                     } else {
-                        text = f.gibName().split(" ")[0];
+                        text = f.getName().split(" ")[0];
                     }
                     canvas.drawText(text, baseLineX + abstandX * j + paddingX, yValue + paddingY * 2, paint);
                 }

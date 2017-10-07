@@ -268,25 +268,28 @@ public class StundenplanActivity extends AppCompatActivity {
         public View getView(int position, View v, @NonNull ViewGroup parent) {
             if (position < fachAd.length && fachAd[0] != null) {
                 if (v == null) {
-                    LayoutInflater layIn = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    int            id2   = R.layout.list_item_schulstunde;
-                    v = layIn.inflate(id2, null);
+                    LayoutInflater layoutInflater = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    v = layoutInflater.inflate(R.layout.list_item_schulstunde, null);
                 }
                 TextView tvFach   = (TextView) v.findViewById(R.id.fach_wt);
                 TextView tvLehrer = (TextView) v.findViewById(R.id.lehrer_wt);
                 TextView tvRaum   = (TextView) v.findViewById(R.id.raum_wt);
                 TextView tvStunde = (TextView) v.findViewById(R.id.stunde_wt);
                 if (fachAd[position] != null) {
-                    if (fachAd[position].gibName() != null && fachAd[position].gibNotiz() != null && fachAd[position].gibName().equals("") && !fachAd[position].gibNotiz().equals("")) {
-                        String[] sa = fachAd[position].gibNotiz().split(" ");
+                    if (fachAd[position].getName() != null && fachAd[position].getNotiz() != null && fachAd[position].getName().equals("") && !fachAd[position].getNotiz().equals("")) {
+                        String[] sa = fachAd[position].getNotiz().split(" ");
                         tvFach.setText(sa[0]);
                     } else {
-                        tvFach.setText(fachAd[position].gibName());
+                        tvFach.setText(fachAd[position].getName());
                     }
-                    tvLehrer.setText(fachAd[position].gibLehrer());
-                    tvRaum.setText(fachAd[position].gibRaum());
-                    tvStunde.setText(fachAd[position].gibStundenName());
-                    if (fachAd[position].gibSchriftlich()) {
+                    if (Utils.getUserPermission() == 2) {
+                        tvLehrer.setText(fachAd[position].getKlasse());
+                    } else {
+                        tvLehrer.setText(fachAd[position].getLehrer());
+                    }
+                    tvRaum.setText(fachAd[position].getRaum());
+                    tvStunde.setText(fachAd[position].getStundenName());
+                    if (fachAd[position].getSchriftlich()) {
                         v.findViewById(R.id.iconSchriftlich).setVisibility(View.VISIBLE);
                     }
                 }
