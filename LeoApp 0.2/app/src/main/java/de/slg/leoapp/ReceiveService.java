@@ -217,7 +217,7 @@ public class ReceiveService extends Service {
                                 Short.parseShort(res[4])
                         ));
 
-                        for(int i = 5; i < res.length; i+=2) {
+                        for(int i = 5; i < res.length-1; i+=2) {
                             dbh.insert(SQLiteConnector.TABLE_ANSWERS, null, db.getAnswerContentValues(
                                     Integer.parseInt(res[i]),
                                     res[i+1],

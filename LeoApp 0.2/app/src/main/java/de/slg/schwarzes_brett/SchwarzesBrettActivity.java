@@ -1,13 +1,13 @@
 package de.slg.schwarzes_brett;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -55,6 +55,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     private static SQLiteDatabase dbh;
     private List<String> groupList;
     private List<String> childList;
+    private int surveyBegin;
     private Map<String, List<String>> schwarzesBrett;
     private DrawerLayout drawerLayout;
 
@@ -86,6 +87,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         setContentView(R.layout.activity_schwarzesbrett);
         Utils.registerSchwarzesBrettActivity(this);
         Utils.receiveNews();
+        surveyBegin = 0;
         initToolbar();
         initNavigationView();
         initButton();
@@ -184,6 +186,8 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if(groupPosition >= surveyBegin)
+                    return false;
                 int remoteID = getRemoteId(groupPosition);
                 if (!Utils.isVerified() || Utils.getUserPermission() != 1 || Utils.messageAlreadySeen(remoteID))
                     return false;
@@ -284,6 +288,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             }
             loadChildren(children);
             schwarzesBrett.put(cursor.getString(1), childList);
+            surveyBegin++;
         }
         cursor.close();
 
@@ -303,16 +308,27 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         }
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            groupList.add(Utils.getString(R.string.survey)+cursor.getString(1));
+            groupList.add(cursor.getString(1));
 
             String[] children;
             children = new String[]{
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        (cursor.getInt(4) == 0) ? "false" : "true",
-                        String.valueOf(cursor.getInt(5))
+                    cursor.getString(0), //Adressat
+                    cursor.getString(2), //Beschreibung
+                    (cursor.getInt(4) == 0) ? "false" : "true", //Checkbox oder Radiobuttons
+                    String.valueOf(cursor.getInt(5)) //Umfrageid
             };
+
+            Cursor cursorAnswers = cursor = dbh.query(SQLiteConnector.TABLE_ANSWERS, new String[]{SQLiteConnector.ANSWERS_INHALT, SQLiteConnector.ANSWERS_REMOTE_ID}, null, null, null, null, null);
+            StringBuilder answerFormat = new StringBuilder();
+            ArrayList<String> answers = new ArrayList<>();
+
+            for (cursorAnswers.moveToFirst(); !cursorAnswers.isAfterLast(); cursorAnswers.moveToNext()) {
+                answerFormat.append(cursorAnswers.getString(0)).append("|").append(cursorAnswers.getString(1));
+                answers.add(answerFormat.toString());
+            }
+
             loadChildren(children);
+            childList.addAll(answers);
             schwarzesBrett.put(cursor.getString(1), childList);
         }
 
@@ -361,12 +377,17 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             this.views = views;
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-            if(((String) getGroup(groupPosition)).startsWith(Utils.getString(R.string.survey)))
+            if (groupPosition >= surveyBegin) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_alt, null);
-            else {
+                TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                textView.setText((String)getGroup(groupPosition));
+                TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
+                textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
+            } else {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
                 TextView textView = (TextView) convertView.findViewById(R.id.textView);
                 textView.setText((String) getGroup(groupPosition));
@@ -389,19 +410,23 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         @Override
         public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-            if(((String) getGroup(groupPosition)).startsWith(Utils.getString(R.string.survey))) {
+            if (groupPosition >= surveyBegin) {
 
-                if(isLastChild) {
+                if (isLastChild) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt2, null);
-                    findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //TODO open vote dialog
-                        }
-                    });
-                } else {
+                } else if(childPosition == 0) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
-                    ((TextView)findViewById(R.id.textView)).setText(eintraege.get(titel.get(groupPosition)).get(1));
+                    ((TextView) convertView.findViewById(R.id.textView)).setText(eintraege.get(titel.get(groupPosition)).get(1));
+                } else {
+                    childPosition+=3;
+                    if(childPosition < getChildrenCount(groupPosition)) {
+
+                        convertView = getLayoutInflater().inflate(Boolean.parseBoolean(eintraege.get(titel.get(groupPosition)).get(2)) ?
+                                R.layout.list_item_expandable_child_survey_multiple :
+                                R.layout.list_item_expandable_child_survey_single, null);
+
+                        ((TextView) convertView.findViewById(R.id.checkBox)).setText(eintraege.get(titel.get(groupPosition)).get(childPosition));
+                    }
                 }
 
             } else {
