@@ -286,6 +286,37 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             schwarzesBrett.put(cursor.getString(1), childList);
         }
         cursor.close();
+
+        switch (stufe) {
+            case "":
+            case "TEA":
+                cursor = dbh.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID}, null, null, null, null, null);
+                break;
+            case "EF":
+            case "Q1":
+            case "Q2":
+                cursor = dbh.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
+                break;
+            default:
+                cursor = dbh.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
+                break;
+        }
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            groupList.add(Utils.getString(R.string.survey)+cursor.getString(1));
+
+            String[] children;
+            children = new String[]{
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        (cursor.getInt(4) == 0) ? "false" : "true",
+                        String.valueOf(cursor.getInt(5))
+            };
+            loadChildren(children);
+            schwarzesBrett.put(cursor.getString(1), childList);
+        }
+
+        cursor.close();
         dbh.close();
         db.close();
     }
@@ -332,63 +363,87 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
-            TextView textView = (TextView) convertView.findViewById(R.id.textView);
-            textView.setText((String) getGroup(groupPosition));
-            TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
-            textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
-            if (views != null) {
-                TextView textViewViews = (TextView) convertView.findViewById(R.id.textViewViews);
-                textViewViews.setVisibility(View.VISIBLE);
-                String viewString = views.get(groupPosition) > 999 ? "999+" : String.valueOf(views.get(groupPosition));
-                textViewViews.setText(viewString);
-            } else {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textViewStufe.getLayoutParams();
-                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                textViewStufe.setLayoutParams(params);
+
+            if(((String) getGroup(groupPosition)).startsWith(Utils.getString(R.string.survey)))
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_alt, null);
+            else {
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
+                TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                textView.setText((String) getGroup(groupPosition));
+                TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
+                textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
+                if (views != null) {
+                    TextView textViewViews = (TextView) convertView.findViewById(R.id.textViewViews);
+                    textViewViews.setVisibility(View.VISIBLE);
+                    String viewString = views.get(groupPosition) > 999 ? "999+" : String.valueOf(views.get(groupPosition));
+                    textViewViews.setText(viewString);
+                } else {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textViewStufe.getLayoutParams();
+                    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                    textViewStufe.setLayoutParams(params);
+                }
             }
             return convertView;
         }
 
         @Override
         public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-            if (isLastChild) {
-                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
 
-                final TextView textViewDate = (TextView) convertView.findViewById(R.id.textView);
-                textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
-            } else if (childPosition == 0) {
-                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
+            if(((String) getGroup(groupPosition)).startsWith(Utils.getString(R.string.survey))) {
 
-                final TextView textView = (TextView) convertView.findViewById(R.id.textView);
-                textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
-            } else {
-                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
-
-                final String location = eintraege.get(titel.get(groupPosition)).get(3);
-
-                final View.OnClickListener listener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        rawLocation = location;
-
-                        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(SchwarzesBrettActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-                        } else {
-                            new FileDownloadTask().execute(rawLocation);
+                if(isLastChild) {
+                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt2, null);
+                    findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //TODO open vote dialog
                         }
-                    }
-                };
+                    });
+                } else {
+                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
+                    ((TextView)findViewById(R.id.textView)).setText(eintraege.get(titel.get(groupPosition)).get(1));
+                }
 
-                final ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewIcon);
-                iv.setImageResource(R.drawable.ic_file_download_black_24dp);
-                iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
-                iv.setOnClickListener(listener);
+            } else {
 
-                final TextView textView = (TextView) convertView.findViewById(R.id.textView);
-                textView.setText(location.substring(location.lastIndexOf('/') + 1));
-                textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                textView.setOnClickListener(listener);
+                if (isLastChild) {
+                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
+
+                    final TextView textViewDate = (TextView) convertView.findViewById(R.id.textView);
+                    textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
+                } else if (childPosition == 0) {
+                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
+
+                    final TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                    textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
+                } else {
+                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
+
+                    final String location = eintraege.get(titel.get(groupPosition)).get(3);
+
+                    final View.OnClickListener listener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            rawLocation = location;
+
+                            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(SchwarzesBrettActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                            } else {
+                                new FileDownloadTask().execute(rawLocation);
+                            }
+                        }
+                    };
+
+                    final ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewIcon);
+                    iv.setImageResource(R.drawable.ic_file_download_black_24dp);
+                    iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
+                    iv.setOnClickListener(listener);
+
+                    final TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                    textView.setText(location.substring(location.lastIndexOf('/') + 1));
+                    textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                    textView.setOnClickListener(listener);
+                }
             }
             return convertView;
         }

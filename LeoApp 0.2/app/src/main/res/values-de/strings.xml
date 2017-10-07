@@ -8,6 +8,8 @@
     <string name="action_delete">Löschen</string>
     <string name="cancel">Abbrechen</string>
     <string name="error">Entschuldige, es ist etwas schief gelaufen</string>
+    <string name="survey">Umfrage: </string>
+    <string name="vote_button">Abstimmen</string>
 
 
     <!-- Titel -->
