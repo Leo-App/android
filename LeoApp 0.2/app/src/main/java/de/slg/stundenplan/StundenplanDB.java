@@ -161,11 +161,11 @@ public class StundenplanDB extends SQLiteOpenHelper {
         Fach[] faecher   = new Fach[0];
         if (cursor.getCount() > 0) {
             cursor.moveToLast();
-            faecher = new Fach[cursor.getInt(6)];
+            faecher = new Fach[cursor.getInt(7)];
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                faecher[cursor.getInt(6) - 1] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getString(6), tag, cursor.getInt(7));
-                faecher[cursor.getInt(6) - 1].setzeNotiz(cursor.getString(8));
-                faecher[cursor.getInt(6) - 1].setzeSchriftlich(cursor.getInt(7) == 1);
+                faecher[cursor.getInt(7) - 1] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getString(6), tag, cursor.getInt(7));
+                faecher[cursor.getInt(7) - 1].setzeNotiz(cursor.getString(9));
+                faecher[cursor.getInt(7) - 1].setzeSchriftlich(cursor.getInt(8) == 1);
             }
             for (int i = 0; i < faecher.length; i++) {
                 if (faecher[i] == null)
@@ -204,8 +204,8 @@ public class StundenplanDB extends SQLiteOpenHelper {
                     cursor.getString(5),
                     cursor.getString(6),
                     tag, stunde);
-            f.setzeNotiz(cursor.getString(9));
-            f.setzeSchriftlich(cursor.getInt(8) == 1);
+            f.setzeNotiz(cursor.getString(10));
+            f.setzeSchriftlich(cursor.getInt(9) == 1);
         }
         cursor.close();
         return f;

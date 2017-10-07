@@ -67,33 +67,6 @@ public class ReceiveService extends Service {
         public void run() {
             Looper.prepare();
 
-            //            if (Utils.isVerified() && Utils.checkNetwork()) {
-            //                try {
-            //                    BufferedReader reader =
-            //                            new BufferedReader(
-            //                                    new InputStreamReader(
-            //                                            new URL("http://moritz.liegmanns.de/messenger/getUsers.php?key=5453&userid=1008")
-            //                                                    .openConnection()
-            //                                                    .getInputStream(), "UTF-8"));
-            //                    StringBuilder builder = new StringBuilder();
-            //                    String l;
-            //                    while ((l = reader.readLine()) != null)
-            //                        builder.append(l);
-            //                    reader.close();
-            //                    String erg = builder.toString();
-            //                    String[] result = erg.split("_ next_");
-            //                    for (String s : result) {
-            //                        String[] current = s.split("_ ;_");
-            //                        if (current.length == 5) {
-            //                            User u = new User(Integer.parseInt(current[0]), current[1], current[2], Integer.parseInt(current[3]), current[4]);
-            //                            Utils.getController().getMessengerDataBase().insertUser(u);
-            //                        }
-            //                    }
-            //                } catch (Exception e) {
-            //                    e.printStackTrace();
-            //                }
-            //            }
-
             while (running) {
                 try {
                     if (Utils.checkNetwork()) {
