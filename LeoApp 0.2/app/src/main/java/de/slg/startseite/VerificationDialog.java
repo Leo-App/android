@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import de.slg.leoapp.R;
@@ -17,7 +16,6 @@ class VerificationDialog extends AlertDialog {
 
     VerificationDialog(@NonNull Context context) {
         super(context);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
     @Override
@@ -38,9 +36,12 @@ class VerificationDialog extends AlertDialog {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.progressBar1).setVisibility(VISIBLE);
-                Utils.getController().getPreferences().edit().putString("pref_key_password_general", pass.getText().toString()).apply();
-                dismiss();
-                new RegistrationTask(VerificationDialog.this).execute(user.getText().toString());
+                Utils.getController().getPreferences()
+                        .edit()
+                        .putString("pref_key_general_passwort", pass.getText().toString())
+                        .putString("pref_key_general_defaultusername", user.getText().toString())
+                        .apply();
+                new RegistrationTask(VerificationDialog.this).execute();
             }
         });
     }

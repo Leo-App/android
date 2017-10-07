@@ -11,9 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -23,7 +20,6 @@ import de.slg.leoapp.Utils;
 import static android.view.View.GONE;
 
 class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
-
     private AlertDialog dialog;
 
     RegistrationTask(AlertDialog dialog) {
@@ -32,23 +28,27 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
 
     @Override
     protected ResponseCode doInBackground(String... params) {
-        String  result  = "";
-        boolean teacher = params[0].length() % 6 == 0;
+        String username = Utils.getController().getPreferences().getString("pref_key_general_defaultusername", "");
+        String password = Utils.getController().getPreferences().getString("pref_key_password_general", "");
 
-        if (Utils.checkNetwork()) {
+        String  result  = "";
+        boolean teacher = username.length() == 6;
+
+        if (!Utils.checkNetwork()) {
             return ResponseCode.NO_CONNECTION;
         }
 
         try {
+            String klasse = "N/A";
+            if (teacher)
+                klasse = "TEA";
 
-            String password = Utils.getController().getPreferences().getString("pref_key_password_general", "");
-
-            HttpsURLConnection checkConnection = (HttpsURLConnection)
-                    new URL(Utils.BASE_DOMAIN + "slg")
+            HttpsURLConnection connection = (HttpsURLConnection)
+                    new URL(Utils.BASE_URL_PHP + "addUser.php?key=5453&name=" + params[0] + "&permission=" + (teacher ? 2 : 1) + "&klasse=" + klasse)
                             .openConnection();
-            checkConnection.setRequestProperty("Authorization", Utils.authorizationPre + Utils.toAuthFormat(params[0], password));
+            connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
-            int code = checkConnection.getResponseCode();
+            int code = connection.getResponseCode();
 
             if (code != 200) {
                 if (code == 401)
@@ -56,14 +56,6 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 return ResponseCode.SERVER_FAILED;
             }
 
-            String klasse = "N/A";
-            if (teacher)
-                klasse = "TEA";
-
-            HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "addUser.php?key=5453&name=" + params[0] + "&permission=" + params[1] + "&klasse=" + klasse)
-                            .openConnection();
-            connection.setRequestProperty("Authorization", Utils.authorization);
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(
@@ -109,17 +101,16 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                     .apply();
             Utils.getController().getPreferenceActivity().setCurrentUsername(Utils.getUserName());
             return ResponseCode.SUCCESS;
-        } else
+        } else {
             return ResponseCode.SERVER_FAILED;
+        }
     }
 
     @Override
     protected void onPostExecute(ResponseCode b) {
-
         dialog.findViewById(R.id.progressBar1).setVisibility(GONE);
 
         switch (b) {
-
             case NO_CONNECTION:
                 showSnackbarNoConnection();
                 break;
@@ -131,16 +122,6 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 break;
             case SUCCESS:
                 Utils.getController().getMainActivity().findViewById(R.id.card_view0).setVisibility(GONE);
-                Calendar c = new GregorianCalendar();
-                c.add(Calendar.YEAR, 1);
-                c.set(Calendar.MONTH, Calendar.OCTOBER);
-                c.set(Calendar.DAY_OF_MONTH, 1);
-                String date = new SimpleDateFormat("dd.MM.yyyy").format(c.getTime());
-                Utils.getController().getPreferences()
-                        .edit()
-                        .putString("valid_until", date)
-                        .apply();
-
                 if (Utils.getUserPermission() == 2) {
                     Utils.getController().getPreferences()
                             .edit()
@@ -153,7 +134,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 dialog.dismiss();
                 Toast.makeText(Utils.getContext(), "Erfolgreich verifiziert", Toast.LENGTH_LONG).show();
                 break;
-            }
+        }
     }
 
     private void showSnackbarServerFailed() {
@@ -179,7 +160,6 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
     }
 
     private void showSnackbarNoConnection() {
-
         final Snackbar cS = Snackbar.make(dialog.findViewById(R.id.snackbar), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
         cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override

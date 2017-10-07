@@ -83,14 +83,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         }
 
-        if (getIntent().getIntExtra("days", 15) <= 14) {
-            showVerificationDialog();
-            //TODO neu verifizieren dialog!!!
-        }
-
         //Schwarzes Brett: ViewTracker-Synchronization
         ArrayList<Integer> cachedViews = Utils.getCachedIDs();
         new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
+        new SyncTaskName().execute();
+        new SyncTaskGrade().execute();
 
         title = (TextView) findViewById(R.id.info_title0);
         info = (TextView) findViewById(R.id.info_text0);
@@ -103,9 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initFeatureCards();
         initNavigationView();
         initButtons();
-
-        new SyncTaskName().execute();
-        new SyncTaskGrade().execute();
 
         if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
             new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
@@ -227,7 +221,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mood.setImageResource(Utils.getCurrentMoodRessource());
 
         mAdapter.updateCustomCards();
-
 
         Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
         Utils.getNotificationManager().cancel(NotificationService.ID_STUNDENPLAN);
@@ -480,7 +473,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void showVerificationDialog() {
-        new VerificationDialog(this).show();
+        VerificationDialog dialog = new VerificationDialog(this);
+        dialog.show();
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
     public void addCard(CardType t) {
@@ -509,5 +505,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .putString("pref_key_card_config", b.toString())
                 .apply();
     }
-
 }

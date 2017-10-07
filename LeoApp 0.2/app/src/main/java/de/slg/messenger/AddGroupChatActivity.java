@@ -30,10 +30,11 @@ import de.slg.leoapp.Utils;
 
 public class AddGroupChatActivity extends AppCompatActivity {
     private final User[] users = Utils.getController().getMessengerDataBase().getUsers();
-    private EditText  etChatname;
-    private MenuItem  confirm;
-    private boolean[] selection;
-    private int       selected;
+    private LinearLayout container;
+    private EditText     etChatname;
+    private MenuItem     confirm;
+    private boolean[]    selection;
+    private int          selected;
 
     private boolean chatnameSet, usersSelected;
 
@@ -46,7 +47,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
         initToolbar();
         initContainer();
         initEditText();
-        initSearchButton();
+        initSearch();
 
         chatnameSet = false;
         usersSelected = false;
@@ -105,9 +106,30 @@ public class AddGroupChatActivity extends AppCompatActivity {
         });
     }
 
+    private void initSearch() {
+        EditText search = (EditText) findViewById(R.id.editTextSearch);
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fitContainer(s.toString());
+            }
+        });
+    }
+
     private void initContainer() {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayoutUsers);
-        linearLayout.removeAllViews();
+        container = (LinearLayout) findViewById(R.id.linearLayoutUsers);
+        container.removeAllViews();
 
         for (int i = 0; i < users.length; i++) {
             User u = users[i];
@@ -137,21 +159,23 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 }
             });
 
-            linearLayout.addView(v);
+            container.addView(v);
         }
 
         selected = 0;
         selection = new boolean[users.length];
     }
 
-    private void initSearchButton() {
-        View v = findViewById(R.id.floatingActionButton);
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //                findViewById(R.id.editTextSearch).startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.text_view_slide_in));
+    private void fitContainer(String search) {
+        search = search.toLowerCase();
+        for (int i = 0; i < container.getChildCount(); i++) {
+            User u = users[i];
+            if (u.udefaultname.toLowerCase().contains(search) || u.uname.toLowerCase().contains(search)) {
+                container.getChildAt(i).setVisibility(View.VISIBLE);
+            } else {
+                container.getChildAt(i).setVisibility(View.GONE);
             }
-        });
+        }
     }
 
     private class CreateChat extends AsyncTask<Void, Void, Void> {

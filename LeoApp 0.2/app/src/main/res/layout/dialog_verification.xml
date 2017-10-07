@@ -92,7 +92,6 @@
         android:layout_toLeftOf="@+id/buttonDialog1"
         android:layout_toStartOf="@+id/buttonDialog1"
         android:indeterminate="true"
-        android:indeterminateTint="@color/colorPrimary"
         android:indeterminateTintMode="src_in"
         android:visibility="gone" />
 

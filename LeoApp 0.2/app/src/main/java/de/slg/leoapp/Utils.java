@@ -212,6 +212,6 @@ public abstract class Utils {
 
     public static String toAuthFormat(String pPart1, String pPart2) {
         byte[] bytesEncoded = Base64.encode((pPart1 + ":" + pPart2).getBytes(), 0);
-        return new String(bytesEncoded);
+        return authorizationPre + new String(bytesEncoded);
     }
 }
