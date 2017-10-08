@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -31,6 +33,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -371,6 +377,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         private ArrayList<Integer> views;
         private HashMap<Integer, List<TextView>> checkboxes;
 
+
         ExpandableListAdapter(List<String> titel, Map<String, List<String>> eintraege) {
             this.eintraege = eintraege;
             this.titel = titel;
@@ -422,15 +429,20 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 if (isLastChild) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt2, null);
 
-                    if(Integer.parseInt(metadata[2]) == Utils.getUserID())
+                    if (Integer.parseInt(metadata[2]) == Utils.getUserID())
                         convertView.findViewById(R.id.delete).setVisibility(View.VISIBLE);
 
                     convertView.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            
+                            for (TextView textView : checkboxes.get(groupPosition)) {
+                                RadioButton rb = (RadioButton) textView;
+                                if (rb.isChecked())
+                                    new sendVoteTask().execute((Integer) rb.getTag(0));
+                            }
                         }
                     });
+
                 } else if (childPosition == 0) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_survey_meta, null);
                     ((TextView) convertView.findViewById(R.id.metadata)).setText(getString(R.string.meta_id_placeholder, metadata[2]));
@@ -447,12 +459,13 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                     final TextView t = (TextView) convertView.findViewById(R.id.checkBox);
 
                     t.setText(option.split("_;_")[0]);
-                    t.setTag(0, option.split("_;_")[1]);
+                    t.setTag(0, Integer.parseInt(option.split("_;_")[1]));
+                    ((CompoundButton) t).setChecked(isChecked(option.split("_;_")[1]));
 
                     t.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(!multiple) {
+                            if (!multiple) {
                                 for (TextView textView : checkboxes.get(groupPosition)) {
                                     RadioButton rb = (RadioButton) textView;
                                     if (!rb.equals(t))
@@ -464,7 +477,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
                     List<TextView> checkboxList;
 
-                    if((checkboxList = checkboxes.get(groupPosition)) == null)
+                    if ((checkboxList = checkboxes.get(groupPosition)) == null)
                         checkboxes.put(groupPosition, (checkboxList = new ArrayList<>()));
 
                     checkboxList.add(t);
@@ -515,6 +528,13 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             return convertView;
         }
 
+        private boolean isChecked(String id) {
+            Cursor c = dbh.rawQuery("SELECT * FROM "+SQLiteConnector.TABLE_ANSWERS + " WHERE "+SQLiteConnector.ANSWERS_REMOTE_ID+" = "+id+ " AND "+SQLiteConnector.ANSWERS_SELECTED+" = 1", null);
+            boolean ret = c.getCount() > 0;
+            c.close();
+            return ret;
+        }
+
         @Override
         public int getGroupCount() {
             return titel.size();
@@ -554,5 +574,58 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         public boolean isChildSelectable(int groupPosition, int childPosition) {
             return false;
         }
+
+        private class sendVoteTask extends AsyncTask<Integer, Void, ResponseCode> {
+
+            @Override
+            protected ResponseCode doInBackground(Integer... params) {
+
+                if(!Utils.checkNetwork())
+                    return ResponseCode.NO_CONNECTION;
+
+                SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
+                SQLiteDatabase  dbh = db.getWritableDatabase();
+
+                dbh.rawQuery("UPDATE " + SQLiteConnector.TABLE_ANSWERS + " SET " + SQLiteConnector.ANSWERS_SELECTED + " = 1 WHERE "+SQLiteConnector.ANSWERS_REMOTE_ID + " = "+params[0], null);
+
+                try {
+                    URL updateURL = new URL("http://moritz.liegmanns.de/survey/addResult.php?user="+Utils.getUserID()+"&answer="+params[0]);
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
+
+                    StringBuilder builder = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null)
+                        builder.append(line);
+                    reader.close();
+
+                    if(builder.toString().startsWith("-"))
+                        return ResponseCode.SERVER_ERROR;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return ResponseCode.SERVER_ERROR;
+                }
+                return ResponseCode.SUCCESS;
+            }
+
+            @Override
+            protected void onPostExecute(ResponseCode r) {
+                switch (r) {
+                    case NO_CONNECTION:
+                        //TODO Snackbar
+                        break;
+                    case SERVER_ERROR:
+                        //TODO Snackbar
+                        break;
+                    case SUCCESS:
+                        //TODO Toast + ButtonChange
+                        break;
+                }
+            }
+
+        }
+
     }
 }

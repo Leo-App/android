@@ -198,9 +198,19 @@ public class ReceiveService extends Service {
                 StringBuilder builder = new StringBuilder();
                 String        line;
                 while ((line = reader.readLine()) != null)
-                    builder.append(line)
-                            .append(System.getProperty("line.separator"));
+                    builder.append(line);
                 reader.close();
+
+                URL resultURL = new URL("http://moritz.liegmanns.de/survey/getSingleResult.php?user="+Utils.getUserID());
+                reader =
+                        new BufferedReader(
+                                new InputStreamReader(resultURL.openConnection().getInputStream(), "UTF-8"));
+
+                StringBuilder resultBuilder = new StringBuilder();
+                while ((line = reader.readLine()) != null)
+                    resultBuilder.append(line);
+                reader.close();
+
                 SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
                 SQLiteDatabase  dbh = db.getWritableDatabase();
                 dbh.delete(SQLiteConnector.TABLE_SURVEYS, null, null);
@@ -222,7 +232,8 @@ public class ReceiveService extends Service {
                             dbh.insert(SQLiteConnector.TABLE_ANSWERS, null, db.getAnswerContentValues(
                                     Integer.parseInt(res[i]),
                                     res[i+1],
-                                    id
+                                    id,
+                                    resultBuilder.toString().contains(res[i]) ? 1 : 0
                             ));
                         }
                     }

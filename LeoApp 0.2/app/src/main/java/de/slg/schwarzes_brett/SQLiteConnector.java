@@ -107,12 +107,12 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         return values;
     }
 
-    public ContentValues getAnswerContentValues(int id, String inhalt, long umfrageId) {
+    public ContentValues getAnswerContentValues(int id, String inhalt, long umfrageId, int selected) {
         ContentValues values = new ContentValues();
         values.put(ANSWERS_SID, umfrageId);
         values.put(ANSWERS_INHALT, inhalt);
         values.put(ANSWERS_REMOTE_ID, id);
-        values.put(ANSWERS_SELECTED, 0);
+        values.put(ANSWERS_SELECTED, selected);
         return values;
     }
 
