@@ -18,22 +18,29 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -186,7 +193,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if(groupPosition >= surveyBegin)
+                if (groupPosition >= surveyBegin)
                     return false;
                 int remoteID = getRemoteId(groupPosition);
                 if (!Utils.isVerified() || Utils.getUserPermission() != 1 || Utils.messageAlreadySeen(remoteID))
@@ -300,10 +307,10 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = dbh.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = dbh.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
             default:
-                cursor = dbh.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = dbh.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
         }
 
@@ -312,21 +319,18 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
             String[] children;
             children = new String[]{
-                    cursor.getString(0), //Adressat
                     cursor.getString(2), //Beschreibung
-                    (cursor.getInt(4) == 0) ? "false" : "true", //Checkbox oder Radiobuttons
-                    String.valueOf(cursor.getInt(5)) //Umfrageid
+                    ((cursor.getInt(4) == 0) ? "false" : "true") + "_;_" + cursor.getString(0) + "_;_" + cursor.getInt(5), //Umfrage Metadaten
             };
 
-            Cursor cursorAnswers = cursor = dbh.query(SQLiteConnector.TABLE_ANSWERS, new String[]{SQLiteConnector.ANSWERS_INHALT, SQLiteConnector.ANSWERS_REMOTE_ID}, null, null, null, null, null);
-            StringBuilder answerFormat = new StringBuilder();
+            Cursor cursorAnswers = dbh.query(SQLiteConnector.TABLE_ANSWERS, new String[]{SQLiteConnector.ANSWERS_INHALT, SQLiteConnector.ANSWERS_REMOTE_ID}, SQLiteConnector.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
             ArrayList<String> answers = new ArrayList<>();
 
             for (cursorAnswers.moveToFirst(); !cursorAnswers.isAfterLast(); cursorAnswers.moveToNext()) {
-                answerFormat.append(cursorAnswers.getString(0)).append("|").append(cursorAnswers.getString(1));
-                answers.add(answerFormat.toString());
+                answers.add(cursorAnswers.getString(0) + "_;_" + cursorAnswers.getString(1));
             }
 
+            cursorAnswers.close();
             loadChildren(children);
             childList.addAll(answers);
             schwarzesBrett.put(cursor.getString(1), childList);
@@ -365,6 +369,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         private final List<String> titel;
         @Nullable
         private ArrayList<Integer> views;
+        private HashMap<Integer, List<TextView>> checkboxes;
 
         ExpandableListAdapter(List<String> titel, Map<String, List<String>> eintraege) {
             this.eintraege = eintraege;
@@ -384,9 +389,9 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             if (groupPosition >= surveyBegin) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_alt, null);
                 TextView textView = (TextView) convertView.findViewById(R.id.textView);
-                textView.setText((String)getGroup(groupPosition));
+                textView.setText((String) getGroup(groupPosition));
                 TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
-                textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
+                textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(1).split("_;_")[1]);
             } else {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
                 TextView textView = (TextView) convertView.findViewById(R.id.textView);
@@ -412,21 +417,58 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
             if (groupPosition >= surveyBegin) {
 
+                String[] metadata = eintraege.get(titel.get(groupPosition)).get(1).split("_;_");
+
                 if (isLastChild) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt2, null);
-                } else if(childPosition == 0) {
+
+                    if(Integer.parseInt(metadata[2]) == Utils.getUserID())
+                        convertView.findViewById(R.id.delete).setVisibility(View.VISIBLE);
+
+                    convertView.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            
+                        }
+                    });
+                } else if (childPosition == 0) {
+                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_survey_meta, null);
+                    ((TextView) convertView.findViewById(R.id.metadata)).setText(getString(R.string.meta_id_placeholder, metadata[2]));
+                } else if (childPosition == 1) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
-                    ((TextView) convertView.findViewById(R.id.textView)).setText(eintraege.get(titel.get(groupPosition)).get(1));
+                    ((TextView) convertView.findViewById(R.id.textView)).setText(eintraege.get(titel.get(groupPosition)).get(0));
                 } else {
-                    childPosition+=3;
-                    if(childPosition < getChildrenCount(groupPosition)) {
+                    final boolean multiple = Boolean.parseBoolean(metadata[0]);
+                    convertView = getLayoutInflater().inflate(multiple ?
+                            R.layout.list_item_expandable_child_survey_multiple :
+                            R.layout.list_item_expandable_child_survey_single, null);
 
-                        convertView = getLayoutInflater().inflate(Boolean.parseBoolean(eintraege.get(titel.get(groupPosition)).get(2)) ?
-                                R.layout.list_item_expandable_child_survey_multiple :
-                                R.layout.list_item_expandable_child_survey_single, null);
+                    String option = eintraege.get(titel.get(groupPosition)).get(childPosition);
+                    final TextView t = (TextView) convertView.findViewById(R.id.checkBox);
 
-                        ((TextView) convertView.findViewById(R.id.checkBox)).setText(eintraege.get(titel.get(groupPosition)).get(childPosition));
-                    }
+                    t.setText(option.split("_;_")[0]);
+                    t.setTag(0, option.split("_;_")[1]);
+
+                    t.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(!multiple) {
+                                for (TextView textView : checkboxes.get(groupPosition)) {
+                                    RadioButton rb = (RadioButton) textView;
+                                    if (!rb.equals(t))
+                                        rb.setChecked(false);
+                                }
+                            }
+                        }
+                    });
+
+                    List<TextView> checkboxList;
+
+                    if((checkboxList = checkboxes.get(groupPosition)) == null)
+                        checkboxes.put(groupPosition, (checkboxList = new ArrayList<>()));
+
+                    checkboxList.add(t);
+
                 }
 
             } else {

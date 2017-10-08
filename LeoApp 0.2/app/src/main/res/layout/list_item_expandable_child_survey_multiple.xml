@@ -13,8 +13,9 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:textColor="@color/colorText"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
+        android:layout_marginLeft="30dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:textSize="17sp"
         />
 

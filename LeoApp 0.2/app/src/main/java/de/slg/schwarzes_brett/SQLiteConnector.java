@@ -24,6 +24,7 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     static final         String SURVEYS_ADRESSAT     = "adressat";
     static final         String SURVEYS_BESCHREIBUNG = "inhalt";
     static final         String SURVEYS_ABSENDER     = "absender";
+    static final         String SURVEYS_REMOTE_ID    = "remoteid";
     static final         String SURVEYS_MULTIPLE     = "multiple";
     static final         String SURVEYS_ID           = "id";
 
@@ -56,14 +57,15 @@ public class SQLiteConnector extends SQLiteOpenHelper {
                 SURVEYS_TITEL + " TEXT NOT NULL, " +
                 SURVEYS_ADRESSAT + " TEXT NOT NULL, " +
                 SURVEYS_ABSENDER + " TEXT NOT NULL, " +
+                SURVEYS_REMOTE_ID + " INTEGER NOT NULL, " +
                 SURVEYS_MULTIPLE + " TINYINT NOT NULL, " +
                 SURVEYS_BESCHREIBUNG + " TEXT NOT NULL" +
                 ")");
         db.execSQL("CREATE TABLE " + TABLE_ANSWERS + " (" +
                 ANSWERS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 ANSWERS_SID + " INTEGER NOT NULL, " +
-                ANSWERS_SELECTED + " TINYINT NOT NULL, " +
                 ANSWERS_REMOTE_ID + " INTEGER NOT NULL, " +
+                ANSWERS_SELECTED + " TINYINT NOT NULL, " +
                 ANSWERS_INHALT + " TEXT NOT NULL" +
                 ")");
     }
@@ -94,22 +96,23 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         return values;
     }
 
-    public ContentValues getSurveyContentValues(String titel, String adressat, String beschreibung, String absender, short multiple) {
+    public ContentValues getSurveyContentValues(String titel, String adressat, String beschreibung, String absender, short multiple, int remoteId) {
         ContentValues values = new ContentValues();
         values.put(SURVEYS_TITEL, titel);
         values.put(SURVEYS_ADRESSAT, adressat);
         values.put(SURVEYS_ABSENDER, absender);
         values.put(SURVEYS_BESCHREIBUNG, beschreibung);
         values.put(SURVEYS_MULTIPLE, multiple);
+        values.put(SURVEYS_REMOTE_ID, remoteId);
         return values;
     }
 
-    public ContentValues getAnswerContentValues(long id, String inhalt, long umfrageId) {
+    public ContentValues getAnswerContentValues(int id, String inhalt, long umfrageId) {
         ContentValues values = new ContentValues();
         values.put(ANSWERS_SID, umfrageId);
         values.put(ANSWERS_INHALT, inhalt);
-        values.put(ANSWERS_SELECTED, 0);
         values.put(ANSWERS_REMOTE_ID, id);
+        values.put(ANSWERS_SELECTED, 0);
         return values;
     }
 

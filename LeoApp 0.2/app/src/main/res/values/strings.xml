@@ -47,6 +47,8 @@
 
     <string name="error">Sorry, something went wrong</string>
 
+    <string name="meta_id_placeholder">Survey-ID: #%1$s </string>
+
     <string name="button_info_try">Try it</string>
     <string name="button_info_auth">Verify</string>
     <string name="button_info_noreminder">Awesome!</string>

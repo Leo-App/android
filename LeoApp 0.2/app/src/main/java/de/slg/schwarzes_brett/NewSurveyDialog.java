@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -248,7 +249,7 @@ class NewSurveyDialog extends AlertDialog {
 
             String answerString = answers[0];
 
-            for (int i = 1; i < 5 && answers[i].equals(""); i++)
+            for (int i = 1; i < 5 && !answers[i].equals(""); i++)
                 answerString += "_;_" + answers[i];
 
 
@@ -256,6 +257,7 @@ class NewSurveyDialog extends AlertDialog {
             String result = "";
             try {
                 URL interfaceDB = new URL(("http://www.moritz.liegmanns.de/survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
+                Log.wtf("LeoApp", interfaceDB.toString());
                 in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
@@ -276,7 +278,7 @@ class NewSurveyDialog extends AlertDialog {
                     }
 
             }
-            return result.startsWith("-");
+            return !result.startsWith("-");
         }
 
         @Override
