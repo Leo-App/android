@@ -51,27 +51,26 @@ import de.slg.stundenplan.StundenplanActivity;
 public class SchwarzesBrettActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
-    private static SQLiteConnector           db;
-    private static SQLiteDatabase            dbh;
+    private static SQLiteConnector           sqLiteConnector;
+    private static SQLiteDatabase            sqLiteDatabase;
     private        List<String>              groupList;
-    private        List<String>              childList;
-    private        Map<String, List<String>> schwarzesBrett;
+    private        Map<String, List<String>> entriesMap;
     private        DrawerLayout              drawerLayout;
 
     private String rawLocation;
 
     private static int getRemoteId(int position) {
         //Maybe cache already transformed ids to avoid excessive RAM usage
-        if (db == null)
-            db = new SQLiteConnector(Utils.getContext());
-        if (dbh == null)
-            dbh = db.getReadableDatabase();
+        if (sqLiteConnector == null)
+            sqLiteConnector = new SQLiteConnector(Utils.getContext());
+        if (sqLiteDatabase == null)
+            sqLiteDatabase = sqLiteConnector.getReadableDatabase();
         String stufe = Utils.getUserStufe();
-        Cursor cursor = !stufe.equals("") ?
-                dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE + " WHERE " +
-                        " " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null)
-                :
-                dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
+        Cursor cursor = sqLiteDatabase.rawQuery(
+                "SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID +
+                        " FROM " + SQLiteConnector.TABLE_EINTRAEGE + (!stufe.equals("") ?
+                        " WHERE " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'" :
+                        ""), null);
         cursor.moveToPosition(position);
         if (cursor.getCount() < position)
             return -1;
@@ -87,6 +86,11 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         Utils.getController().registerSchwarzesBrettActivity(this);
 
         receive();
+
+        if (sqLiteConnector == null)
+            sqLiteConnector = new SQLiteConnector(Utils.getContext());
+        if (sqLiteDatabase == null)
+            sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
         initToolbar();
         initNavigationView();
@@ -177,13 +181,14 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     private void initExpandableListView() {
         createGroupList();
 
-        ExpandableListView expListView = (ExpandableListView) findViewById(R.id.eintraege);
-        ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() > 1
-                ? new ExpandableListAdapter(groupList, schwarzesBrett, createViewList())
-                : new ExpandableListAdapter(groupList, schwarzesBrett);
-        expListView.setAdapter(expandableListAdapter);
+        ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.eintraege);
 
-        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+        ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() > 1
+                ? new ExpandableListAdapter(entriesMap, groupList, createViewList())
+                : new ExpandableListAdapter(entriesMap, groupList);
+        expandableListView.setAdapter(expandableListAdapter);
+
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 int remoteID = getRemoteId(groupPosition);
@@ -192,7 +197,8 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
                 if (!cache.equals(""))
                     cache += "-";
-                Utils.getController().getPreferences().edit()
+                Utils.getController().getPreferences()
+                        .edit()
                         .putString("pref_key_cache_vieweditems", cache + "1:" + remoteID)
                         .apply();
                 if (Utils.checkNetwork())
@@ -227,9 +233,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private ArrayList<Integer> createViewList() {
         ArrayList<Integer> viewList = new ArrayList<>();
-        SQLiteConnector    db       = new SQLiteConnector(getBaseContext());
-        SQLiteDatabase     dbh      = db.getReadableDatabase();
-        Cursor             cursor   = dbh.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_VIEWS + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
+        Cursor             cursor   = sqLiteDatabase.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_VIEWS + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             viewList.add(cursor.getInt(0));
         }
@@ -239,18 +243,20 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
     private void createGroupList() {
         groupList = new ArrayList<>();
-        SQLiteConnector db    = new SQLiteConnector(getBaseContext());
-        SQLiteDatabase  dbh   = db.getReadableDatabase();
-        String          stufe = Utils.getUserStufe();
-        Cursor          cursor;
+        entriesMap = new LinkedHashMap<>();
+
+        String stufe = Utils.getUserStufe();
+
+        Cursor cursor;
         if (!stufe.equals("") && !stufe.equals("TEA")) {
-            cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null, null, null, null);
+            cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'", null, null, null, null);
         } else {
-            cursor = dbh.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, null, null, null, null, null);
+            cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, null, null, null, null, null);
         }
-        schwarzesBrett = new LinkedHashMap<>();
+
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             groupList.add(cursor.getString(1));
+
             Date             erstelldatum     = new Date(cursor.getLong(3));
             Date             ablaufdatum      = new Date(cursor.getLong(4));
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
@@ -258,7 +264,6 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             String[] children;
 
             if (cursor.getString(5).equals("null")) {
-
                 children = new String[]{cursor.getString(0),
                         cursor.getString(2),
                         simpleDateFormat.format(erstelldatum) +
@@ -271,17 +276,13 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                                 " - " + simpleDateFormat.format(ablaufdatum),
                         cursor.getString(5)};
             }
-            loadChildren(children);
-            schwarzesBrett.put(cursor.getString(1), childList);
+
+            List<String> childList = new ArrayList<>();
+            Collections.addAll(childList, children);
+
+            entriesMap.put(cursor.getString(1), childList);
         }
         cursor.close();
-        dbh.close();
-        db.close();
-    }
-
-    private void loadChildren(String[] children) {
-        childList = new ArrayList<>();
-        Collections.addAll(childList, children);
     }
 
     public void refreshUI() {
@@ -313,26 +314,29 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         @Nullable
         private       ArrayList<Integer>        views;
 
-        ExpandableListAdapter(List<String> titel, Map<String, List<String>> eintraege) {
+        ExpandableListAdapter(Map<String, List<String>> eintraege, List<String> titel) {
             this.eintraege = eintraege;
             this.titel = titel;
         }
 
-        ExpandableListAdapter(List<String> titel, Map<String, List<String>> eintraege, @Nullable ArrayList<Integer> views) {
+        ExpandableListAdapter(Map<String, List<String>> eintraege, List<String> titel, @Nullable ArrayList<Integer> views) {
             this.eintraege = eintraege;
             this.titel = titel;
             this.views = views;
         }
 
         @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
-            TextView textView = (TextView) convertView.findViewById(R.id.textView);
-            textView.setText((String) getGroup(groupPosition));
-            TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
-            textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
+        public View getGroupView(int groupPosition, boolean isExpanded, View view, ViewGroup parent) {
+            view = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
+
+            final TextView textViewTitel = (TextView) view.findViewById(R.id.textView);
+            textViewTitel.setText((String) getGroup(groupPosition));
+
+            final TextView textViewStufe = (TextView) view.findViewById(R.id.textViewStufe);
+            textViewStufe.setText((String) getChild(groupPosition, 0));
+
             if (views != null) {
-                TextView textViewViews = (TextView) convertView.findViewById(R.id.textViewViews);
+                TextView textViewViews = (TextView) view.findViewById(R.id.textViewViews);
                 textViewViews.setVisibility(View.VISIBLE);
                 String viewString = views.get(groupPosition) > 999 ? "999+" : String.valueOf(views.get(groupPosition));
                 textViewViews.setText(viewString);
@@ -341,25 +345,26 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 textViewStufe.setLayoutParams(params);
             }
-            return convertView;
+
+            return view;
         }
 
         @Override
-        public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup parent) {
             if (isLastChild) {
-                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
+                view = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
 
-                final TextView textViewDate = (TextView) convertView.findViewById(R.id.textView);
-                textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
+                final TextView textViewDate = (TextView) view.findViewById(R.id.textView);
+                textViewDate.setText((String) getChild(groupPosition, 2));
             } else if (childPosition == 0) {
-                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
+                view = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
 
-                final TextView textView = (TextView) convertView.findViewById(R.id.textView);
-                textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
+                final TextView textView = (TextView) view.findViewById(R.id.textView);
+                textView.setText((String) getChild(groupPosition, 1));
             } else {
-                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
+                view = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
 
-                final String location = eintraege.get(titel.get(groupPosition)).get(3);
+                final String location = (String) getChild(groupPosition, 3);
 
                 final View.OnClickListener listener = new View.OnClickListener() {
                     @Override
@@ -374,17 +379,18 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                     }
                 };
 
-                final ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewIcon);
+                final ImageView iv = (ImageView) view.findViewById(R.id.imageViewIcon);
                 iv.setImageResource(R.drawable.ic_file_download_black_24dp);
                 iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
                 iv.setOnClickListener(listener);
 
-                final TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                final TextView textView = (TextView) view.findViewById(R.id.textView);
                 textView.setText(location.substring(location.lastIndexOf('/') + 1));
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 textView.setOnClickListener(listener);
             }
-            return convertView;
+
+            return view;
         }
 
         @Override

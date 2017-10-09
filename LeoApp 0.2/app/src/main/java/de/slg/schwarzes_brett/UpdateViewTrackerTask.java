@@ -10,7 +10,6 @@ import javax.net.ssl.HttpsURLConnection;
 import de.slg.leoapp.Utils;
 
 public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
-
     private int remote;
 
     @Override
