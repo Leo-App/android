@@ -194,7 +194,7 @@ public class AuswahlActivity extends AppCompatActivity {
                             new BufferedWriter(
                                     new OutputStreamWriter(
                                             Utils.getContext().openFileOutput(
-                                                    "testdaten.txt",
+                                                    "stundenplan.txt",
                                                     Context.MODE_PRIVATE)));
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                         writer.write(line.replace("L�Z", "LÜZ").replace("CH�", "CHÜ").replace("BI�", "BIÜ"));
@@ -206,7 +206,7 @@ public class AuswahlActivity extends AppCompatActivity {
                     reader =
                             new BufferedReader(
                                     new InputStreamReader(
-                                            Utils.getContext().openFileInput("testdaten.txt")));
+                                            Utils.getContext().openFileInput("stundenplan.txt")));
                     String lastKurzel = "";
                     long   lastID     = -1;
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {

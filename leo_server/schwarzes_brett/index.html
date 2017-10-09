@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Neue Mitteilung</title>
+  <link href="_css/main.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" type="image/png" href="_media/ic_event_note_black_24dp_2x.png" />
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <div id="main-content">
+    <h2>SCHWARZES BRETT WEBINTERFACE</h2>
+
+    <legend><span class="number">1</span>TITEL<span class="required">*</span></legend>
+    <input type="text" id="title" class="textinput input" />
+    <legend><span class="number">2</span>INHALT<span class="required">*</span></legend>
+    <textarea class="textarea input" id="content"></textarea>
+
+    <div id="wrapper-additional">
+
+      <div id="wrapper-address">
+
+        <legend><span class="number">3</span>ADDRESSAT<span class="required">*</span></legend>
+        <select id="to" class="select input" multiple>
+          <optgroup label="Allgemein">
+            <option id="all" value="all">Alle</option>
+            <option id="sek1" value="sek1">Sek1</option>
+            <option value="sek2">Sek2</option>
+          </optgroup>
+          <optgroup label="Stufe">
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="EF">EF</option>
+            <option value="Q1">Q1</option>
+            <option value="Q2">Q2</option>
+          </optgroup>
+        </select>
+
+      </div>
+      <div id="wrapper-addon">
+
+		  <legend><span class="number">4</span>ABLAUFDATUM<span class="required">*</span></legend>
+		  <p>
+		  <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script> 
+            <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+            <script>
+            webshims.setOptions('forms-ext', {types: 'date'});
+            webshims.polyfill('forms forms-ext');
+            $.webshims.formcfg = {
+            en: {
+            dFormat: '-',
+            dateSigns: '-',
+            patterns: {
+            d: "yyyy-mm-dd"
+            }
+            }
+            };
+            </script>
+		  </p>
+        <input type="date" id="date" class="dateinput input" />
+
+        <legend class="fit-height"><span class="number">5</span>ANHANG</legend>
+        <input type="file" id="addon" class="fileinput input" />
+
+      </div>
+
+    </div>
+
+    <p id="error">
+      Ein Fehler ist afgetreten,überprüfen Sie ihre Angaben und versuchen sie es erneut
+    </p>
+
+    <input type="submit" value="Absenden" class="button-submit" onclick="submit()">
+    <div class="loader" id="loadbutton"></div>
+    </input>
+
+    <img src="_media/LeoAppGrau.svg" id="label-icon" />
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+
+    function submit() {
+
+      $('#loadbutton').css('visibility', 'visible');
+
+      var file = document.getElementById('addon').files[0];
+
+      if(file == undefined) {
+        send(null);
+      } else {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = send;
+      }
+
+    }
+
+    function send(event) {
+
+      if(event != null) {
+        var addon = event.target.result;
+        var filename = document.getElementById('addon').files[0].name;
+      } else {
+        var addon = "";
+        var filename = "";
+      }
+
+      $.ajax({
+        url: '_php/ajax.php',
+        type: 'POST',
+        encoding: "UTF-8",
+        data: {
+          title: $('#title').val(),
+          content: $('#content').val(),
+          to: $('#to').val(),
+          date: $('#date').val(),
+          addon: addon,
+          filename: filename
+        }
+      }).done(function(data) {
+        $('#loadbutton').css('visibility', 'hidden');
+        $('#error').css('visibility', 'visible');
+        if (data == "-ERR db") {
+          $('#error').css('color', 'red');
+          $('#error').text("Ein Fehler ist aufgetreten, versuche es später erneut.");
+        }
+        else if (data == "-ERR m") {
+          $('#error').css('color', 'red');
+          $('#error').text("Mit '*' markierte Felder sind Plichtfelder");
+        }
+        else {
+          $('#error').text("Eintrag erfolgreich hinzugefügt.");
+          $('#error').css('color', 'green');
+          $('.input').val('');
+        }
+
+      });
+    }
+  </script>
+</body>
+
+</html>
+<!-- Copyright (c) 2017 Gian Luca Spitzer All Rights Reserved. -->
