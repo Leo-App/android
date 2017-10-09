@@ -10,6 +10,7 @@
     <string name="error">Entschuldige, es ist etwas schief gelaufen</string>
     <string name="survey">Umfrage: \b</string>
     <string name="vote_button">Abstimmen</string>
+    <string name="result">Ergebnis</string>
 
 
     <!-- Titel -->

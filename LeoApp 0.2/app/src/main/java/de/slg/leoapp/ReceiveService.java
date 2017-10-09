@@ -214,10 +214,10 @@ public class ReceiveService extends Service {
                 SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
                 SQLiteDatabase  dbh = db.getWritableDatabase();
                 dbh.delete(SQLiteConnector.TABLE_SURVEYS, null, null);
+                dbh.delete(SQLiteConnector.TABLE_ANSWERS, null, null);
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
                     String[] res = s.split("_;_");
-
                     if (res.length >= 6) {
                         long id = dbh.insert(SQLiteConnector.TABLE_SURVEYS, null, db.getSurveyContentValues(
                                 res[1],

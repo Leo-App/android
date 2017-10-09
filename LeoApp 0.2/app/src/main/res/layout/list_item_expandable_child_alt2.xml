@@ -13,20 +13,22 @@
         android:layout_alignParentRight="true"
         android:id="@+id/button"/>
 
-    <ImageView
+    <ImageButton
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_centerVertical="true"
+        android:background="@null"
         android:id="@+id/share"
         android:layout_toLeftOf="@id/button"
         app:srcCompat="@drawable/ic_share_white_24dp"
         android:layout_marginRight="20dp"
         android:tint="@color/colorPrimary"/>
 
-    <ImageView
+    <ImageButton
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_centerVertical="true"
+        android:background="@null"
         android:id="@+id/delete"
         android:layout_toLeftOf="@id/share"
         app:srcCompat="@drawable/ic_delete_white_24dp"
