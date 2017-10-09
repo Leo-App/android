@@ -10,7 +10,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-class SyncUserTask extends AsyncTask<Void, Void, Void> {
+public class SyncUserTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         if (!Utils.checkNetwork()) {
@@ -24,7 +24,7 @@ class SyncUserTask extends AsyncTask<Void, Void, Void> {
             String password = Utils.getController().getPreferences().getString("pref_key_password_general", "");
 
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "updateUser.php")
+                    new URL(Utils.BASE_URL_PHP + "/user/updateUser.php")
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
             BufferedReader reader =

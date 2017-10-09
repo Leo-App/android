@@ -15,6 +15,7 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.SyncUserTask;
 import de.slg.leoapp.Utils;
 
 import static android.view.View.GONE;
@@ -44,7 +45,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 klasse = "TEA";
 
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "addUser.php?key=5453&name=" + params[0] + "&permission=" + (teacher ? 2 : 1) + "&klasse=" + klasse)
+                    new URL(Utils.BASE_URL_PHP + "/user/addUser.php?key=5453&name=" + params[0] + "&permission=" + (teacher ? 2 : 1) + "&klasse=" + klasse)
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
@@ -76,34 +77,11 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
 
         Log.d("RegistrationTask", result);
 
-        if (result.startsWith("-")) {
-            return ResponseCode.SERVER_FAILED;
+        if (result.startsWith("+")) {
+            return ResponseCode.SUCCESS;
         }
 
-        if (result.startsWith("_new_")) {
-            Utils.getController().getPreferences()
-                    .edit()
-                    .putString("pref_key_general_name", params[0])
-                    .putInt("pref_key_general_permission", teacher ? 2 : 1)
-                    .putInt("pref_key_general_id", Integer.valueOf(result.replaceFirst("_new_", "")))
-                    .apply();
-
-            Utils.getController().getPreferenceActivity().setCurrentUsername(Utils.getUserName());
-            return ResponseCode.SUCCESS;
-        } else if (result.startsWith("_old_")) {
-            String[] data = result.split("_");
-            Utils.getController().getPreferences()
-                    .edit()
-                    .putString("pref_key_general_klasse", data[data.length - 1])
-                    .putString("pref_key_general_name", data[data.length - 3])
-                    .putInt("pref_key_general_permission", teacher ? 2 : 1)
-                    .putInt("pref_key_general_id", Integer.parseInt(data[data.length - 5]))
-                    .apply();
-            Utils.getController().getPreferenceActivity().setCurrentUsername(Utils.getUserName());
-            return ResponseCode.SUCCESS;
-        } else {
-            return ResponseCode.SERVER_FAILED;
-        }
+        return ResponseCode.SERVER_FAILED;
     }
 
     @Override
@@ -132,7 +110,8 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                             .apply();
                 }
                 dialog.dismiss();
-                Toast.makeText(Utils.getContext(), "Erfolgreich verifiziert", Toast.LENGTH_LONG).show();
+                Toast.makeText(Utils.getContext(), "Dein Benutzer wurde erfogreich erstellt!", Toast.LENGTH_LONG).show();
+                new SyncUserTask().execute();
                 break;
         }
     }

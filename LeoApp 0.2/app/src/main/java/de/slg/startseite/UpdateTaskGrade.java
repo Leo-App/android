@@ -24,7 +24,7 @@ public class UpdateTaskGrade extends AsyncTask<String, Void, Boolean> {
             int    id     = Utils.getUserID();
             String klasse = Utils.getUserStufe();
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse)
+                    new URL(Utils.BASE_URL_PHP + "/user/updateKlasse.php?key=5453&userid=" + id + "&userklasse=" + klasse)
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.authorization);
 

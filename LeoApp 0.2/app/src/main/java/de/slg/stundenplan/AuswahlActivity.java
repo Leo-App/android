@@ -25,8 +25,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.PreferenceActivity;
@@ -181,8 +182,8 @@ public class AuswahlActivity extends AppCompatActivity {
             if (Utils.checkNetwork()) {
                 Log.e("FachImporter", "started");
                 try {
-                    HttpURLConnection connection = (HttpURLConnection)
-                            new URL("http://moritz.liegmanns.de/" + "stundenplan_neu.txt")
+                    HttpsURLConnection connection = (HttpsURLConnection)
+                            new URL(Utils.BASE_URL_PHP + "/stundenplan/stundenplan_aktuell.txt")
                                     .openConnection();
                     connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =
