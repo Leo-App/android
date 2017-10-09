@@ -24,7 +24,7 @@ import de.slg.schwarzes_brett.SQLiteConnector;
 
 public class ReceiveService extends Service {
     public  boolean receiveNews;
-    private boolean running, socketRunning;
+    private boolean running, socketRunning, idle;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -34,9 +34,10 @@ public class ReceiveService extends Service {
         running = true;
         socketRunning = false;
         receiveNews = false;
+        idle = false;
 
-        new MessengerThread().start();
-        new NewsThread().start();
+        new ReceiveThread().start();
+        new QueueThread().start();
 
         Log.i("ReceiveService", "Service (re)started!");
         return START_STICKY;
@@ -57,12 +58,17 @@ public class ReceiveService extends Service {
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        Log.e("ReceiveService", "TASK REMOVED!");
+        Log.e("ReceiveService", "ReceiveService removed");
         Utils.getController().getMessengerDataBase().close();
+        Utils.getController().registerReceiveService(null);
         super.onTaskRemoved(rootIntent);
     }
 
-    private class MessengerThread extends Thread {
+    public void notifyQueuedMessages() {
+        new QueueThread().start();
+    }
+
+    private class ReceiveThread extends Thread {
         @Override
         public void run() {
             Looper.prepare();
@@ -70,29 +76,19 @@ public class ReceiveService extends Service {
             while (running) {
                 try {
                     if (Utils.checkNetwork()) {
-                        if (Utils.getController().getMessengerDataBase().hasQueuedMessages())
-                            new SendQueuedMessages().execute();
-
                         if (!socketRunning)
                             new MessengerSocket().start();
-                    }
-                    sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    break;
-                }
-            }
-        }
-    }
 
-    private class NewsThread extends Thread {
-        @Override
-        public void run() {
-            while (running) {
-                try {
-                    new ReceiveNews().execute();
-                    for (int i = 0; i < 60000 && running && !receiveNews; i++)
+                        new ReceiveNews().execute();
+                    }
+
+                    while (idle) {
                         sleep(1);
+                    }
+
+                    for (int i = 0; i < 2400 && running && !receiveNews; i++)
+                        sleep(25);
+
                     receiveNews = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -102,39 +98,12 @@ public class ReceiveService extends Service {
         }
     }
 
-    private class SendQueuedMessages extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (Utils.checkNetwork()) {
-                Message[] array = Utils.getController().getMessengerDataBase().getQueuedMessages();
-                for (Message m : array) {
-                    try {
-                        HttpsURLConnection connection = (HttpsURLConnection)
-                                new URL(generateURL(m.mtext, m.cid))
-                                        .openConnection();
-                        connection.setRequestProperty("Authorization", Utils.authorization);
-                        BufferedReader reader =
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                connection.getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null)
-                            ;
-                        reader.close();
-                        Utils.getController().getMessengerDataBase().dequeueMessage(m.mid);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return null;
-        }
-
-        private String generateURL(String message, int cid) {
-            return Utils.BASE_URL_PHP + "messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
-        }
-    }
-
     private class ReceiveNews extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            idle = true;
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
@@ -191,7 +160,8 @@ public class ReceiveService extends Service {
         protected void onPostExecute(Void aVoid) {
             if (Utils.getController().getSchwarzesBrettActivity() != null)
                 Utils.getController().getSchwarzesBrettActivity().refreshUI();
-            Log.i("ReceiveService", "received News");
+
+            idle = false;
         }
     }
 
@@ -292,6 +262,47 @@ public class ReceiveService extends Service {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class QueueThread extends Thread {
+        @Override
+        public void run() {
+            while (Utils.getController().getMessengerDataBase().hasQueuedMessages())
+                if (Utils.checkNetwork())
+                    new SendQueuedMessages().execute();
+        }
+    }
+
+    private class SendQueuedMessages extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (Utils.checkNetwork()) {
+                Message[] array = Utils.getController().getMessengerDataBase().getQueuedMessages();
+                for (Message m : array) {
+                    try {
+                        HttpsURLConnection connection = (HttpsURLConnection)
+                                new URL(generateURL(m.mtext, m.cid))
+                                        .openConnection();
+                        connection.setRequestProperty("Authorization", Utils.authorization);
+                        BufferedReader reader =
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                connection.getInputStream(), "UTF-8"));
+                        while (reader.readLine() != null)
+                            ;
+                        reader.close();
+                        Utils.getController().getMessengerDataBase().dequeueMessage(m.mid);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return null;
+        }
+
+        private String generateURL(String message, int cid) {
+            return Utils.BASE_URL_PHP + "messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
         }
     }
 }

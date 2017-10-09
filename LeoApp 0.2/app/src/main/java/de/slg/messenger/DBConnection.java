@@ -134,6 +134,8 @@ public class DBConnection {
         values.put(MESSAGE_TEXT, mtext);
         values.put(CHAT_ID, cid);
         insert(TABLE_MESSAGES_QUEUED, values);
+
+        Utils.getController().getReceiveService().notifyQueuedMessages();
     }
 
     public boolean hasQueuedMessages() {
