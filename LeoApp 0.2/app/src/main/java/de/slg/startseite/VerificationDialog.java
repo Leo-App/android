@@ -13,7 +13,6 @@ import de.slg.leoapp.Utils;
 import static android.view.View.VISIBLE;
 
 class VerificationDialog extends AlertDialog {
-
     VerificationDialog(@NonNull Context context) {
         super(context);
     }

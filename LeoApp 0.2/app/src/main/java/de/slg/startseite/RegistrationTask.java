@@ -45,7 +45,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 klasse = "TEA";
 
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "/user/addUser.php?key=5453&name=" + params[0] + "&permission=" + (teacher ? 2 : 1) + "&klasse=" + klasse)
+                    new URL(Utils.BASE_URL_PHP + "user/addUser.php?key=5453&name=" + username + "&permission=" + (teacher ? 2 : 1) + "&klasse=" + klasse)
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
@@ -70,36 +70,37 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
             }
 
             reader.close();
+
+            Log.d("RegistrationTask", result);
+
+            if (result.startsWith("+")) {
+                return ResponseCode.SUCCESS;
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseCode.SERVER_FAILED;
-        }
-
-        Log.d("RegistrationTask", result);
-
-        if (result.startsWith("+")) {
-            return ResponseCode.SUCCESS;
         }
 
         return ResponseCode.SERVER_FAILED;
     }
 
     @Override
-    protected void onPostExecute(ResponseCode b) {
-        dialog.findViewById(R.id.progressBar1).setVisibility(GONE);
-
-        switch (b) {
+    protected void onPostExecute(ResponseCode code) {
+        switch (code) {
             case NO_CONNECTION:
+                dialog.findViewById(R.id.progressBar1).setVisibility(GONE);
                 showSnackbarNoConnection();
                 break;
             case AUTH_FAILED:
+                dialog.findViewById(R.id.progressBar1).setVisibility(GONE);
                 showSnackbarAuthFailed();
                 break;
             case SERVER_FAILED:
+                dialog.findViewById(R.id.progressBar1).setVisibility(GONE);
                 showSnackbarServerFailed();
                 break;
             case SUCCESS:
                 Utils.getController().getMainActivity().findViewById(R.id.card_view0).setVisibility(GONE);
+
                 if (Utils.getUserPermission() == 2) {
                     Utils.getController().getPreferences()
                             .edit()
@@ -109,9 +110,10 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                             .putBoolean("pref_key_notification_schedule", false)
                             .apply();
                 }
-                dialog.dismiss();
+
                 Toast.makeText(Utils.getContext(), "Dein Benutzer wurde erfogreich erstellt!", Toast.LENGTH_LONG).show();
-                new SyncUserTask().execute();
+
+                new SyncUserTask(dialog).execute();
                 break;
         }
     }

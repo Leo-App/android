@@ -34,7 +34,7 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
             int    id       = Utils.getUserID();
             String username = URLEncoder.encode(Utils.getUserName(), "UTF-8");
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "/user/updateUsername.php?key=5453&userid=" + id + "&username=" + username)
+                    new URL(Utils.BASE_URL_PHP + "user/updateUsername.php?key=5453&userid=" + id + "&username=" + username)
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.authorization);
 

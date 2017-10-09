@@ -183,7 +183,7 @@ public class AuswahlActivity extends AppCompatActivity {
                 Log.e("FachImporter", "started");
                 try {
                     HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(Utils.BASE_URL_PHP + "/stundenplan/stundenplan_aktuell.txt")
+                            new URL(Utils.BASE_URL_PHP + "stundenplan/stundenplan_aktuell.txt")
                                     .openConnection();
                     connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =

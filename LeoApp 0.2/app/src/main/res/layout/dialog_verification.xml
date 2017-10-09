@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/snackbar"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/snackbar"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView"
@@ -39,7 +40,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
         android:hint="Benutzername"
-        android:inputType="textCapWords"
+        android:inputType="textVisiblePassword"
         android:maxLines="1"
         android:textSize="15sp" />
 
@@ -53,7 +54,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:hint="Passwort"
-        android:inputType="textCapWords"
+        android:inputType="textPassword"
         android:maxLines="1"
         android:textSize="15sp" />
 
@@ -92,7 +93,6 @@
         android:layout_toLeftOf="@+id/buttonDialog1"
         android:layout_toStartOf="@+id/buttonDialog1"
         android:indeterminate="true"
-        android:indeterminateTintMode="src_in"
         android:visibility="gone" />
 
 </RelativeLayout>
