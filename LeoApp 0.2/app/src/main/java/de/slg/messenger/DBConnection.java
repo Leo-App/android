@@ -123,6 +123,40 @@ public class DBConnection {
         return b;
     }
 
+    public String getNotificationString() {
+        String   table   = TABLE_MESSAGES + ", " + TABLE_CHATS;
+        String[] columns = {MESSAGE_ID, TABLE_MESSAGES + "." + CHAT_ID};
+        String selection = MESSAGE_READ + " = 0 AND " +
+                USER_ID + " != " + Utils.getUserID() + " AND " +
+                TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
+                CHAT_MUTE + " = 0 AND " +
+                TABLE_MESSAGES + "." + CHAT_ID + " != " + Utils.currentlyDisplayedChat();
+        Cursor cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID);
+        cursor.moveToFirst();
+
+        int mcount = cursor.getCount();
+
+        int cprev  = cursor.getInt(1);
+        int ccount = 1;
+        for (cursor.moveToNext(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            if (cursor.getInt(1) != cprev) {
+                ccount++;
+                cprev = cursor.getInt(1);
+            }
+        }
+
+        cursor.close();
+
+        String notificationString = mcount + " neue Nachrichten";
+        if (ccount > 1) {
+            notificationString += " in " + ccount + " Chats.";
+        } else {
+            notificationString += ".";
+        }
+
+        return notificationString;
+    }
+
     void setMessagesRead(int cid) {
         ContentValues values = new ContentValues();
         values.put(MESSAGE_READ, 1);

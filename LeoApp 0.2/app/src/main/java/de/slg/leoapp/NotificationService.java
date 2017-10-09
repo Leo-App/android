@@ -256,7 +256,7 @@ public class NotificationService extends Service {
 
             if (unread.length != unreadMessages) {
                 NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
-                        .setSummaryText((unread.length) + " ungelesene Nachrichten")
+                        .setSummaryText(Utils.getController().getMessengerDataBase().getNotificationString())
                         .setBigContentTitle(getString(R.string.messenger_notification_title));
 
                 for (Message m : unread) {
