@@ -23,14 +23,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
@@ -40,25 +36,20 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
-import de.slg.schwarzes_brett.UpdateViewTrackerTask;
 import de.slg.stimmungsbarometer.AbstimmDialog;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public static boolean     editing;
-    public        View        cooredinatorLayout;
-    public        ProgressBar progressBar;
-    public        TextView    title, info;
-    public Button verify, dismiss;
-    public  AbstimmDialog  abstimmDialog;
-    private NavigationView navigationView;
-    private DrawerLayout   drawerLayout;
-    private CardAdapter    mAdapter;
+public class MainActivity extends AppCompatActivity {
+    public static boolean        editing;
+    public        AbstimmDialog  abstimmDialog;
+    private       NavigationView navigationView;
+    private       DrawerLayout   drawerLayout;
+    private       CardAdapter    mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        notificationIntent();
+        processIntent();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startseite);
@@ -66,52 +57,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Utils.getController().setContext(getApplicationContext());
 
-        if (getIntent().getBooleanExtra("show_dialog", false)) {
-            abstimmDialog = new AbstimmDialog(this);
-            abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-                    mood.setImageResource(Utils.getCurrentMoodRessource());
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            abstimmDialog = null;
-                        }
-                    }, 100);
-                }
-            });
-        }
-
-        //Schwarzes Brett: ViewTracker-Synchronization
-        ArrayList<Integer> cachedViews = Utils.getCachedIDs();
-        new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
-        new SyncTaskName().execute();
-        new SyncTaskGrade().execute();
-
-        title = (TextView) findViewById(R.id.info_title0);
-        info = (TextView) findViewById(R.id.info_text0);
-        verify = (Button) findViewById(R.id.buttonCardView0);
-        dismiss = (Button) findViewById(R.id.buttonDismissCardView0);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-        cooredinatorLayout = findViewById(R.id.coordinator);
-
         initToolbar();
         initFeatureCards();
         initNavigationView();
         initButtons();
-
-        if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
-            new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
-        }
-
-        if (Utils.getController().getPreferences().getBoolean("pref_key_level_has_to_be_synchronized", false)) {
-            new UpdateTaskGrade().execute();
-        }
-
-        if (Utils.isVerified()) {
-            findViewById(R.id.card_view0).setVisibility(View.GONE);
-        }
 
         if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
@@ -244,39 +193,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.finish();
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.buttonCardView0) {
-            if (!Utils.isVerified())
-                showVerificationDialog();
-            else {
-                Utils.getController().getPreferences()
-                        .edit()
-                        .putBoolean("pref_key_dont_remind_me", true)
-                        .apply();
-                Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
-                findViewById(R.id.card_view0).startAnimation(anim);
-                final Handler handler = new Handler(); //Remove card after animation
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        findViewById(R.id.card_view0).setVisibility(View.GONE);
-                    }
-                }, 310);
-            }
-        } else {
-            Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
-            findViewById(R.id.card_view0).startAnimation(anim);
-            final Handler handler = new Handler(); //Remove card after animation
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    findViewById(R.id.card_view0).setVisibility(View.GONE);
-                }
-            }, 310);
-        }
-    }
-
     void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -340,9 +256,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void initFeatureCards() {
+        if (Utils.isVerified()) {
+            findViewById(R.id.card_view0).setVisibility(View.GONE);
+        }
 
-        findViewById(R.id.buttonCardView0).setOnClickListener(this);
-        findViewById(R.id.buttonDismissCardView0).setOnClickListener(this);
+        findViewById(R.id.buttonCardView0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!Utils.isVerified())
+                    showVerificationDialog();
+                else {
+                    Utils.getController().getPreferences()
+                            .edit()
+                            .putBoolean("pref_key_dont_remind_me", true)
+                            .apply();
+                    Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
+                    findViewById(R.id.card_view0).startAnimation(anim);
+                    final Handler handler = new Handler(); //Remove card after animation
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            findViewById(R.id.card_view0).setVisibility(View.GONE);
+                        }
+                    }, 310);
+                }
+            }
+        });
+        findViewById(R.id.buttonDismissCardView0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
+                findViewById(R.id.card_view0).startAnimation(anim);
+                final Handler handler = new Handler(); //Remove card after animation
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        findViewById(R.id.card_view0).setVisibility(View.GONE);
+                    }
+                }, 310);
+            }
+        });
 
         TextView version = (TextView) findViewById(R.id.versioncode_maincard);
         version.setText(Utils.getAppVersionName());
@@ -351,26 +304,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAdapter = new CardAdapter();
 
         final boolean quickLayout = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
-
-        RecyclerView.LayoutManager mLayoutManager = quickLayout
-
-                ?
-
-                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
-                    @Override
-                    public boolean canScrollVertically() {
-                        return true;
-                    }
-                }
-
-                :
-
-                new LinearLayoutManager(getApplicationContext()) {
-                    @Override
-                    public boolean canScrollVertically() {
-                        return true;
-                    }
-                };
 
         ItemTouchHelper.Callback simpleItemTouchCallback = new ItemTouchHelper.Callback() {
 
@@ -407,7 +340,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
-        mRecyclerView.setLayoutManager(editing ? mLayoutManager : mLayoutManager);
+
+        if (quickLayout) {
+            GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
+                @Override
+                public boolean canScrollVertically() {
+                    return true;
+                }
+            };
+            layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return 1;
+                }
+            });
+            mRecyclerView.setLayoutManager(layoutManager);
+        } else {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext()) {
+                @Override
+                public boolean canScrollVertically() {
+                    return true;
+                }
+            };
+
+            mRecyclerView.setLayoutManager(layoutManager);
+        }
+
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -447,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void notificationIntent() {
+    private void processIntent() {
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);
         if (notificationTarget != -1) {
             Utils.getController().closeAll();
@@ -469,6 +427,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
                     break;
             }
+        }
+
+        if (getIntent().getBooleanExtra("show_dialog", false)) {
+            abstimmDialog = new AbstimmDialog(this);
+            abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+                    mood.setImageResource(Utils.getCurrentMoodRessource());
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            abstimmDialog = null;
+                        }
+                    }, 100);
+                }
+            });
         }
     }
 

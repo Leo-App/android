@@ -1,4 +1,4 @@
-package de.slg.startseite;
+package de.slg.leoapp;
 
 import android.os.AsyncTask;
 
@@ -8,8 +8,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import de.slg.leoapp.Utils;
 
 class SyncTaskGrade extends AsyncTask<Void, Void, Void> {
     @Override
