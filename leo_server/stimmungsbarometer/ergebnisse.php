@@ -1,14 +1,14 @@
 <?php
 
-	if ($_GET['key'] != 5453)
-		die("permission denied!");
-
+	if ($_SERVER["REMOTE_USER"] != "leoapp")
+		die("-permission denied!");
+	
 	require_once('../dbconfig.php');
 
 	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
 	if ($db->connect_error)
-    	die("Connection failed: ".$db->connect_error);
+    	die("-connection failed: ".$db->connect_error);
 
 	//mitgegebene Werte über get: userid
 
@@ -18,10 +18,10 @@
 
 	$result = $db->query($queryIch);
 	if ($result === false)
-		die("error in queryIch");
+		die("-error in queryIch");
 
 	if ($result->num_rows == 0)
-		echo ".";
+		echo "-1;".date("d.m.Y");
 	while($row = $result->fetch_assoc())
 		echo $row['vvalue'].";".$row['vday'].".".$row['vmonth'].".".$row['vyear']."_next_";
 	
@@ -29,11 +29,11 @@
 
 	$result = $db->query($querySchueler);
 	if ($result === false)
-		die("error in querySchueler");
+		die("-error in querySchueler");
 
 	echo "_abschnitt_";
 	if ($result->num_rows == 0)
-		echo ".";
+		echo "-1;".date("d.m.Y");
 	while($row = $result->fetch_assoc())
 		echo $row['vvalue'].";".$row['vday'].".".$row['vmonth'].".".$row['vyear']."_next_";
 
@@ -41,11 +41,11 @@
 
 	$result = $db->query($queryLehrer);
 	if ($result === false)
-		die("error in queryLehrer");
+		die("-error in queryLehrer");
 
 	echo "_abschnitt_";
 	if ($result->num_rows == 0)
-		echo ".";
+		echo "-1;".date("d.m.Y");
 	while($row = $result->fetch_assoc())
 		echo $row['vvalue'].";".$row['vday'].".".$row['vmonth'].".".$row['vyear']."_next_";
 
@@ -53,11 +53,11 @@
 
 	$result = $db->query($queryAlle);
 	if ($result === false)
-		die("error in queryAlle");
+		die("-error in queryAlle");
 
 	echo "_abschnitt_";
 	if ($result->num_rows == 0)
-		echo ".";
+		echo "-1;".date("d.m.Y");
 	while($row = $result->fetch_assoc())
 		echo $row['vvalue'].";".$row['vday'].".".$row['vmonth'].".".$row['vyear']."_next_";
 
