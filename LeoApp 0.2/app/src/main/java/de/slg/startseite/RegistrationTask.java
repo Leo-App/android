@@ -28,7 +28,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
 
     @Override
     protected ResponseCode doInBackground(String... params) {
-        String username = Utils.getController().getPreferences().getString("pref_key_general_defaultusername", "");
+        String username = Utils.getUserDefaultName();
         String password = Utils.getController().getPreferences().getString("pref_key_password_general", "");
 
         String  result  = "";

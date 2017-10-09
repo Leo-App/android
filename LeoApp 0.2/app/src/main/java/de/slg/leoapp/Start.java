@@ -22,14 +22,14 @@ public class Start extends Activity {
         startServices();
 
         final Intent main = new Intent(getApplicationContext(), MainActivity.class)
-                .putExtra("show_dialog", Utils.showVoteOnStartup());
+                .putExtra("show_dialog", de.slg.stimmungsbarometer.Utils.showVoteOnStartup());
 
         startActivity(main);
         finish();
     }
 
     private void runUpdateTasks() {
-        ArrayList<Integer> cachedViews = Utils.getCachedIDs();
+        ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.Utils.getCachedIDs();
         new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
 
         new SyncUserTask().execute();

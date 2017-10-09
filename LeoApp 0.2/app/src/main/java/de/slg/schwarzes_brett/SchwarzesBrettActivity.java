@@ -175,7 +175,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         else
             grade.setText(Utils.getUserStufe());
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(Utils.getCurrentMoodRessource());
+        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private void initExpandableListView() {
@@ -192,7 +192,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 int remoteID = getRemoteId(groupPosition);
-                if (!Utils.isVerified() || Utils.getUserPermission() != 1 || Utils.messageAlreadySeen(remoteID))
+                if (!Utils.isVerified() || Utils.getUserPermission() != 1 || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
                     return false;
                 String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
                 if (!cache.equals(""))

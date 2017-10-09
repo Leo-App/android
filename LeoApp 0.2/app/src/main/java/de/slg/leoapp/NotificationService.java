@@ -307,8 +307,8 @@ public class NotificationService extends Service {
             long            latest = db.getLatestDate(dbh);
             dbh.close();
             db.close();
-            if (latest > Utils.getLatestSchwarzesBrettDate()) {
-                Utils.notifiedSchwarzesBrett(latest);
+            if (latest > de.slg.schwarzes_brett.Utils.getLatestSchwarzesBrettDate()) {
+                de.slg.schwarzes_brett.Utils.notifiedSchwarzesBrett(latest);
                 if (Utils.getController().getSchwarzesBrettActivity() == null) {
                     Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
                             .putExtra("start_intent", ID_NEWS);
@@ -340,7 +340,7 @@ public class NotificationService extends Service {
     }
 
     private void stimmungsbarometernotification() {
-        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_survey", false) && Utils.showVoteOnStartup()) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_survey", false) && de.slg.stimmungsbarometer.Utils.showVoteOnStartup()) {
             Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class);
 
             PendingIntent resultPendingIntent =

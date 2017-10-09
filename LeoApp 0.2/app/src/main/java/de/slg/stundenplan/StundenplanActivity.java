@@ -138,7 +138,7 @@ public class StundenplanActivity extends AppCompatActivity {
         else
             grade.setText(Utils.getUserStufe());
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(Utils.getCurrentMoodRessource());
+        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private void initToolbar() {

@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
             grade.setText(Utils.getUserStufe());
 
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(Utils.getCurrentMoodRessource());
+        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
 
         mAdapter.updateCustomCards();
 
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
             grade.setText(Utils.getUserStufe());
 
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(Utils.getCurrentMoodRessource());
+        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     void initFeatureCards() {
@@ -435,7 +435,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
                     ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-                    mood.setImageResource(Utils.getCurrentMoodRessource());
+                    mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {

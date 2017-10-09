@@ -20,7 +20,7 @@ class SyncUserTask extends AsyncTask<Void, Void, Void> {
         try {
             StringBuilder builder = new StringBuilder();
 
-            String username = Utils.getController().getPreferences().getString("pref_key_general_defaultusername", "");
+            String username = Utils.getUserDefaultName();
             String password = Utils.getController().getPreferences().getString("pref_key_password_general", "");
 
             HttpsURLConnection connection = (HttpsURLConnection)

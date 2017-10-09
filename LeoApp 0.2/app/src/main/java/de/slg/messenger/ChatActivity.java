@@ -68,8 +68,9 @@ public class ChatActivity extends AppCompatActivity {
         initSendMessage();
         initRecyclerView();
 
-        if (cid != -1)
+        if (cid != -1) {
             Utils.getController().getMessengerDataBase().setMessagesRead(cid);
+        }
     }
 
     @Override
@@ -101,15 +102,16 @@ public class ChatActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         refreshUI(false, true);
-        Utils.setCurrentlyDisplayedChat(cid);
+        de.slg.messenger.Utils.setCurrentlyDisplayedChat(cid);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Utils.setCurrentlyDisplayedChat(-1);
-        if (cid != -1)
+        de.slg.messenger.Utils.setCurrentlyDisplayedChat(-1);
+        if (cid != -1) {
             Utils.getController().getMessengerDataBase().setMessagesRead(cid);
+        }
     }
 
     @Override

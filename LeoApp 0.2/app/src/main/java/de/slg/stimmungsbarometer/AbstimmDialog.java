@@ -117,7 +117,7 @@ public class AbstimmDialog extends AlertDialog {
             public void onClick(View view) {
                 if (confirm.isEnabled()) {
                     new SendeDaten().execute(new Wahl(voteid, userid, ausgewählterGrund));
-                    Utils.setLastVote(voteid);
+                    de.slg.stimmungsbarometer.Utils.setLastVote(voteid);
                     dismiss();
                 }
             }

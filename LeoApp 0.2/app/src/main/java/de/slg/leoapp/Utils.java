@@ -7,29 +7,16 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.util.Base64;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.ExecutionException;
-
-import javax.net.ssl.HttpsURLConnection;
-
 public abstract class Utils {
-    public static final String BASE_DOMAIN      = "https://secureaccess.itac-school.de/";
-    public static final String BASE_URL_PHP     = BASE_DOMAIN + "slgweb/leoapp_php/";
-    public static final String authorizationPre = "Basic ";
-    public static final String authorization    = authorizationPre + "bGVvYXBwOmxlb2FwcA==";
-    static final        String URL_TOMCAT       = BASE_DOMAIN + "leoapp/";
+    private static final String BASE_DOMAIN      = "https://secureaccess.itac-school.de/";
+    public static final  String BASE_URL_PHP     = BASE_DOMAIN + "slgweb/leoapp_php/";
+    static final         String URL_TOMCAT       = BASE_DOMAIN + "leoapp/";
+    private static final String authorizationPre = "Basic ";
+    public static final  String authorization    = authorizationPre + "bGVvYXBwOmxlb2FwcA==";
     @SuppressLint("StaticFieldLeak")
     private static ActivityController controller;
-
-    private static int currentlyDisplayedChatId = -1;
 
     public static boolean checkNetwork() {
         ConnectivityManager c = (ConnectivityManager) getController().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -70,95 +57,6 @@ public abstract class Utils {
         return getController().getContext().getString(id);
     }
 
-    //Für Benachrichtigungen
-    static long getLatestSchwarzesBrettDate() {
-        return getController().getPreferences().getLong("pref_key_general_last_notification_schwarzes_brett", 0);
-    }
-
-    static void notifiedSchwarzesBrett(long date) {
-        getController().getPreferences().edit()
-                .putLong("pref_key_general_last_notification_schwarzes_brett", date)
-                .apply();
-    }
-
-    public static int currentlyDisplayedChat() {
-        return currentlyDisplayedChatId;
-    }
-
-    public static void setCurrentlyDisplayedChat(int cid) {
-        currentlyDisplayedChatId = cid;
-    }
-
-    //Stimmungsbarometer
-    static boolean showVoteOnStartup() {
-        if (getLastVote().equals(getCurrentDate()))
-            return false;
-        boolean b = isVerified() && checkNetwork();
-        if (b) {
-            AsyncTask<Void, Void, Boolean> t = new AsyncTask<Void, Void, Boolean>() {
-                private boolean b;
-
-                @Override
-                protected Boolean doInBackground(Void... params) {
-                    try {
-                        HttpsURLConnection connection = (HttpsURLConnection)
-                                new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/voted.php?key=5453&userid=" + getUserID())
-                                        .openConnection();
-                        connection.setRequestProperty("Authorization", Utils.authorization);
-                        BufferedReader reader =
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                connection.getInputStream(), "UTF-8"));
-                        b = !Boolean.parseBoolean(reader.readLine());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return b;
-                }
-            };
-            t.execute();
-            try {
-                return t.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-
-    private static String getCurrentDate() {
-        return new SimpleDateFormat("dd.MM").format(new Date());
-    }
-
-    public static int getCurrentMoodRessource() {
-        int i = getController().getPreferences().getInt("pref_key_general_vote_id", -1);
-        switch (i) {
-            case 1:
-                return R.drawable.ic_sentiment_very_satisfied_white_24px;
-            case 2:
-                return R.drawable.ic_sentiment_satisfied_white_24px;
-            case 3:
-                return R.drawable.ic_sentiment_neutral_white_24px;
-            case 4:
-                return R.drawable.ic_sentiment_dissatisfied_white_24px;
-            case 5:
-                return R.drawable.ic_sentiment_very_dissatisfied_white_24px;
-            default:
-                return R.drawable.ic_account_circle_black_24dp;
-        }
-    }
-
-    private static String getLastVote() {
-        return getController().getPreferences().getString("pref_key_general_last_vote", "00.00");
-    }
-
-    public static void setLastVote(int vote) {
-        getController().getPreferences().edit()
-                .putString("pref_key_general_last_vote", getCurrentDate())
-                .putInt("pref_key_general_vote_id", vote)
-                .apply();
-    }
-
     //User-Stuff
     public static User getCurrentUser() {
         return new User(getUserID(), "Du", getUserStufe(), getUserPermission(), "");
@@ -170,6 +68,10 @@ public abstract class Utils {
 
     public static String getUserName() {
         return getController().getPreferences().getString("pref_key_general_name", "");
+    }
+
+    public static String getUserDefaultName() {
+        return getController().getPreferences().getString("pref_key_general_defaultusername", "");
     }
 
     public static String getUserStufe() {
@@ -186,28 +88,6 @@ public abstract class Utils {
 
     public static boolean isVerified() {
         return getUserID() > -1;
-    }
-
-    //Schwarzes Brett
-    public static boolean messageAlreadySeen(int id) {
-        String   cache = getController().getPreferences().getString("pref_key_cache_vieweditems", "");
-        String[] items = cache.split("-");
-        for (String s : items) {
-            if (s.matches("[01]:" + id))
-                return true;
-        }
-        return false;
-    }
-
-    public static ArrayList<Integer> getCachedIDs() {
-        ArrayList<Integer> cachedValues = new ArrayList<>();
-        String             cache        = getController().getPreferences().getString("pref_key_cache_vieweditems", "");
-        String[]           items        = cache.split("-");
-        for (String s : items) {
-            if (s.matches("1:.+"))
-                cachedValues.add(Integer.parseInt(s.split(":")[1]));
-        }
-        return cachedValues;
     }
 
     public static String toAuthFormat(String pPart1, String pPart2) {
