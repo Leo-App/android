@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/result_icon"
+        android:id="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/title_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/imageView2"
+        android:text="Ergebnisse"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Meinungen zum Design?"
+        android:textSize="17sp"
+        android:id="@+id/question"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@id/imageView2"
+        android:layout_below="@id/imageView2"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="50/120 Stimmen (41,6 %)"
+        android:textSize="15sp"
+        android:id="@+id/votes"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="25dp"
+        android:layout_alignLeft="@id/imageView2"
+        android:layout_below="@id/question"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Antwortmöglichkeit 1"
+        android:textSize="15sp"
+        android:id="@+id/answer1"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="30dp"
+        android:layout_alignLeft="@id/imageView2"
+        android:layout_below="@id/votes"
+        />
+    
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:foregroundTint="@color/colorPrimary"
+        android:id="@+id/progressBar1"
+        android:progress="80"
+        android:layout_below="@+id/answer1"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="80%"
+        android:textSize="15sp"
+        android:id="@+id/percent1"
+        android:layout_alignBottom="@+id/progressBar1"
+        android:layout_alignLeft="@+id/percent2"
+        android:layout_alignStart="@+id/percent2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Antwortmöglichkeit 2"
+        android:textSize="15sp"
+        android:id="@+id/answer2"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="35dp"
+        android:layout_alignLeft="@id/imageView2"
+        android:layout_below="@id/answer1"
+        />
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/progressBar2"
+        android:progress="12"
+        android:foregroundTint="@color/colorPrimary"
+        android:layout_below="@+id/answer2"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12%"
+        android:textSize="15sp"
+        android:id="@+id/percent2"
+        android:layout_marginRight="23dp"
+        android:layout_marginEnd="23dp"
+        android:layout_alignBottom="@+id/progressBar2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Antwortmöglichkeit 3"
+        android:textSize="15sp"
+        android:id="@+id/answer3"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="35dp"
+        android:layout_alignLeft="@id/imageView2"
+        android:layout_below="@id/answer2"
+        />
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/progressBar3"
+        android:progress="5"
+        android:foregroundTint="@color/colorPrimary"
+        android:layout_below="@+id/answer3"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5%"
+        android:textSize="15sp"
+        android:id="@+id/percent3"
+        android:layout_marginRight="23dp"
+        android:layout_marginEnd="23dp"
+        android:layout_alignBottom="@+id/progressBar3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Antwortmöglichkeit 4"
+        android:textSize="15sp"
+        android:id="@+id/answer4"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="35dp"
+        android:layout_alignLeft="@id/imageView2"
+        android:layout_below="@id/answer3"
+        />
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/progressBar4"
+        android:progress="2"
+        android:foregroundTint="@color/colorPrimary"
+        android:layout_below="@+id/answer4"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2%"
+        android:textSize="15sp"
+        android:id="@+id/percent4"
+        android:layout_marginRight="23dp"
+        android:layout_marginEnd="23dp"
+        android:layout_alignBottom="@+id/progressBar4"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Antwortmöglichkeit 5"
+        android:textSize="15sp"
+        android:id="@+id/answer5"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="35dp"
+        android:layout_alignLeft="@id/imageView2"
+        android:layout_below="@id/answer4"
+        />
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/progressBar5"
+        android:progress="1"
+        android:foregroundTint="@color/colorPrimary"
+        android:layout_below="@+id/answer5"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1%"
+        android:textSize="15sp"
+        android:id="@+id/percent5"
+        android:layout_marginRight="23dp"
+        android:layout_marginEnd="23dp"
+        android:layout_alignBottom="@+id/progressBar5"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_confirm"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_below="@+id/progressBar5"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp" />
+
+</RelativeLayout>

@@ -61,6 +61,7 @@
     <string name="snackbar_ungültig">Fach oder Datum ungültig</string>
     <string name="snackbar_gelöscht">Alle Klausuren gelöscht</string>
     <string name="snackbar_undo">Rückgängig</string>
+    <string name="survey_deleted">Umfrage gelöscht</string>
     <string name="subject">Fach</string>
     <string name="date">Datum</string>
     <string name="note">Notiz</string>

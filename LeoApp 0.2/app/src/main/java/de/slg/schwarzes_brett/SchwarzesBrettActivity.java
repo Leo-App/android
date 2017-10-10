@@ -339,11 +339,11 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             boolean voted = false;
 
             for (cursorAnswers.moveToFirst(); !cursorAnswers.isAfterLast(); cursorAnswers.moveToNext()) {
-                answers.add(cursorAnswers.getString(0) + "_;_" + cursorAnswers.getString(1)+"_;_"+cursorAnswers.getInt(2));
+                answers.add(cursorAnswers.getString(0) + "_;_" + cursorAnswers.getString(1) + "_;_" + cursorAnswers.getInt(2));
                 voted = voted || cursorAnswers.getInt(2) == 1;
             }
 
-            children[1] += "_;_"+voted;
+            children[1] += "_;_" + voted;
 
             cursorAnswers.close();
             loadChildren(children);
@@ -436,7 +436,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
 
             if (groupPosition >= surveyBegin) {
 
-                String[] metadata = eintraege.get(titel.get(groupPosition)).get(1).split("_;_");
+                final String[] metadata = eintraege.get(titel.get(groupPosition)).get(1).split("_;_");
 
                 if (isLastChild) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt2, null);
@@ -451,7 +451,35 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                     delete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //TODO delete survey from database and remove from listview with animation
+                            eintraege.remove(titel.get(groupPosition));
+                            titel.remove(groupPosition);
+                            notifyDataSetChanged();
+                            final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.survey_deleted), Snackbar.LENGTH_SHORT);
+                            snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
+                            snackbar2.setAction(Utils.getContext().getString(R.string.snackbar_undo), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    snackbar2.dismiss();
+                                }
+                            });
+                            snackbar2.addCallback(new Snackbar.Callback() {
+
+                                @Override
+                                public void onDismissed(Snackbar snackbar, int event) {
+                                    if(event == DISMISS_EVENT_TIMEOUT) {
+                                        new deleteTask().execute(Integer.parseInt(metadata[3]));
+                                    } else {
+                                        initExpandableListView();
+                                    }
+                                }
+
+                                @Override
+                                public void onShown(Snackbar snackbar) {
+
+                                }
+                            });
+                            snackbar2.show();
+
                         }
                     });
 
@@ -462,7 +490,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                         }
                     });
 
-                    if(!Boolean.parseBoolean(metadata[3])) {
+                    if (!Boolean.parseBoolean(metadata[3])) {
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -478,7 +506,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //TODO Show result dialog
+                                showResultDialog(Integer.parseInt(metadata[3]));
                             }
                         });
 
@@ -568,6 +596,12 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             return convertView;
         }
 
+        private void showResultDialog(int id) {
+
+            new ResultDialog(Utils.getContext(), id).show();
+
+        }
+
         @Override
         public int getGroupCount() {
             return titel.size();
@@ -611,6 +645,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         private class sendVoteTask extends AsyncTask<Integer, Void, ResponseCode> {
 
             private Button b;
+            private int id;
 
             sendVoteTask(Button b) {
                 this.b = b;
@@ -619,18 +654,20 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             @Override
             protected ResponseCode doInBackground(Integer... params) {
 
-                if(!Utils.checkNetwork())
+                if (!Utils.checkNetwork())
                     return ResponseCode.NO_CONNECTION;
 
-                SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
-                SQLiteDatabase  dbh = db.getWritableDatabase();
+                id = params[1];
 
-                dbh.execSQL("UPDATE " + SQLiteConnector.TABLE_ANSWERS + " SET " + SQLiteConnector.ANSWERS_SELECTED + " = 1 WHERE "+SQLiteConnector.ANSWERS_REMOTE_ID + " = "+params[0]);
+                SQLiteConnector db = new SQLiteConnector(getApplicationContext());
+                SQLiteDatabase dbh = db.getWritableDatabase();
+
+                dbh.execSQL("UPDATE " + SQLiteConnector.TABLE_ANSWERS + " SET " + SQLiteConnector.ANSWERS_SELECTED + " = 1 WHERE " + SQLiteConnector.ANSWERS_REMOTE_ID + " = " + params[0]);
 
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL("http://moritz.liegmanns.de/survey/addResult.php?user="+Utils.getUserID()+"&answer="+params[0]);
+                    URL updateURL = new URL("http://moritz.liegmanns.de/survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
@@ -641,7 +678,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                         builder.append(line);
                     reader.close();
 
-                    if(builder.toString().startsWith("-"))
+                    if (builder.toString().startsWith("-"))
                         return ResponseCode.SERVER_ERROR;
 
                 } catch (IOException e) {
@@ -681,10 +718,80 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //TODO Show result dialog
+                                showResultDialog(id);
                             }
                         });
                         Toast.makeText(Utils.getContext(), "Erfolgreich abgestimmt", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+        }
+
+        private class deleteTask extends AsyncTask<Integer, Void, ResponseCode> {
+
+            @Override
+            protected ResponseCode doInBackground(Integer... params) {
+
+                if (!Utils.checkNetwork())
+                    return ResponseCode.NO_CONNECTION;
+
+                SQLiteConnector db = new SQLiteConnector(getApplicationContext());
+                SQLiteDatabase dbh = db.getWritableDatabase();
+
+                dbh.execSQL("DELETE FROM " + SQLiteConnector.TABLE_SURVEYS + " WHERE " + SQLiteConnector.SURVEYS_REMOTE_ID + " = "+params[0]);
+                dbh.execSQL("DELETE FROM " + SQLiteConnector.TABLE_ANSWERS + " WHERE " + SQLiteConnector.ANSWERS_SID + " = (SELECT "+SQLiteConnector.SURVEYS_ID+" FROM "+SQLiteConnector.TABLE_SURVEYS+" WHERE "+SQLiteConnector.SURVEYS_REMOTE_ID+" = "+params[0]+")");
+
+                dbh.close();
+
+                try {
+                    URL updateURL = new URL("http://moritz.liegmanns.de/survey/deleteSurvey.php?survey=" + params[0]);
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
+
+                    StringBuilder builder = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null)
+                        builder.append(line);
+                    reader.close();
+
+                    if (builder.toString().startsWith("-"))
+                        return ResponseCode.SERVER_ERROR;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return ResponseCode.SERVER_ERROR;
+                }
+                return ResponseCode.SUCCESS;
+            }
+
+            @Override
+            protected void onPostExecute(ResponseCode r) {
+                switch (r) {
+                    case NO_CONNECTION:
+                        final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_SHORT);
+                        snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
+                        snackbar.setAction(Utils.getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                            }
+                        });
+                        snackbar.show();
+                        break;
+                    case SERVER_ERROR:
+                        final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, versuche es später erneut", Snackbar.LENGTH_SHORT);
+                        snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
+                        snackbar2.setAction(Utils.getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar2.dismiss();
+                            }
+                        });
+                        snackbar2.show();
+                        break;
+                    case SUCCESS:
                         break;
                 }
             }
