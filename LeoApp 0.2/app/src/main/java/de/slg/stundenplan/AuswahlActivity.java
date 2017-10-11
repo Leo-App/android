@@ -180,7 +180,7 @@ public class AuswahlActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
-                Log.e("FachImporter", "started");
+                Log.i("FachImporter", "started");
                 try {
                     HttpsURLConnection connection = (HttpsURLConnection)
                             new URL(Utils.BASE_URL_PHP + "stundenplan/aktuell.txt")
@@ -224,7 +224,7 @@ public class AuswahlActivity extends AppCompatActivity {
                         }
                     }
                     reader.close();
-                    Log.e("FachImporter", "done!");
+                    Log.i("FachImporter", "done!");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

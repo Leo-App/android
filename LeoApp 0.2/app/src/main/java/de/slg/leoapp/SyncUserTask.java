@@ -3,7 +3,6 @@ package de.slg.leoapp;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -56,28 +55,27 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
             }
             reader.close();
 
-            if (builder.charAt(0) != '-') {
-                String result = builder.toString();
-
-                int uid = Integer.parseInt(result.substring(0, result.indexOf(';')));
-                result = result.substring(result.indexOf(';'));
-
-                int permission = Integer.parseInt(result.substring(0, result.indexOf(';')));
-                result = result.substring(result.indexOf(';'));
-
-                String uname = result;
-
-                Utils.getController().getPreferences()
-                        .edit()
-                        .putInt("pref_key_general_id", uid)
-                        .putInt("pref_key_general_permission", permission)
-                        .putString("pref_key_general_name", uname)
-                        .apply();
-
-                return ResponseCode.SUCCESS;
-            } else {
-                Log.e("SyncUserTask", builder.toString());
+            String result = builder.toString();
+            if (result.startsWith("-")) {
+                throw new IOException(result);
             }
+
+            int uid = Integer.parseInt(result.substring(0, result.indexOf(';')));
+            result = result.substring(result.indexOf(';'));
+
+            int permission = Integer.parseInt(result.substring(0, result.indexOf(';')));
+            result = result.substring(result.indexOf(';'));
+
+            String uname = result;
+
+            Utils.getController().getPreferences()
+                    .edit()
+                    .putInt("pref_key_general_id", uid)
+                    .putInt("pref_key_general_permission", permission)
+                    .putString("pref_key_general_name", uname)
+                    .apply();
+
+            return ResponseCode.SUCCESS;
         } catch (IOException e) {
             e.printStackTrace();
         }

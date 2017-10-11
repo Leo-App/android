@@ -46,6 +46,7 @@ public class ZeitraumFragment extends Fragment {
     void fillData() {
         Ergebnis[][] allData = StimmungsbarometerActivity.getData();
         data = new Ergebnis[4][];
+
         for (int i = 0; i < allData.length; i++) {
             List<Ergebnis> list = new List<>();
             if (zeitraum == 3) {
@@ -63,15 +64,18 @@ public class ZeitraumFragment extends Fragment {
                     if (vorherigeWoche(e.date))
                         list.append(e);
             }
+
             if (list.size() > 0) {
                 list.toFirst();
                 Calendar c1 = new GregorianCalendar(), c2 = new GregorianCalendar();
                 c1.setTime(list.getContent().date);
                 c2.setTime(new Date());
+
                 if (c1.get(Calendar.DAY_OF_MONTH) != c2.get(Calendar.DAY_OF_MONTH) || c1.get(Calendar.MONTH) != c2.get(Calendar.MONTH) || c1.get(Calendar.YEAR) != c2.get(Calendar.YEAR))
                     list.insertBefore(new Ergebnis(c2.getTime(), -1, list.getContent().ich, list.getContent().schueler, list.getContent().lehrer, list.getContent().alle));
                 for (list.toFirst(); list.hasAccess() && list.hasNext(); list.next()) {
                     Ergebnis current = list.getContent(), next = list.getNext();
+
                     if (!vorherigerTag(current.date, next.date)) {
                         Calendar c = new GregorianCalendar();
                         c.setTime(new Date(current.date.getTime()));
@@ -79,6 +83,7 @@ public class ZeitraumFragment extends Fragment {
                         list.insertBehind(new Ergebnis(c.getTime(), -1, current.ich, current.schueler, current.lehrer, current.alle));
                     }
                 }
+
                 list.toLast();
                 Ergebnis last = list.getContent();
                 c1.setTime(last.date);
@@ -100,6 +105,7 @@ public class ZeitraumFragment extends Fragment {
                     }
                 }
             }
+
             data[i] = list.fill(new Ergebnis[list.size()]);
         }
     }

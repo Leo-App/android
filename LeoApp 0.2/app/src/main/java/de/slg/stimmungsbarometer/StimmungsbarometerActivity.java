@@ -56,10 +56,17 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stimmungsbarometer);
         Utils.getController().registerStimmungsbarometerActivity(this);
+
         drawI = Utils.isVerified();
         drawS = true;
         drawL = true;
         drawA = true;
+
+        initTabs();
+        initToolbar();
+        initNavigationView();
+        initLayouts();
+
         new StartTask().execute();
     }
 
@@ -226,15 +233,9 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
     }
 
     private class StartTask extends AsyncTask<Void, Void, Void> {
-        private String[] splitI, splitS, splitL, splitA;
-
         @Override
         protected void onPreExecute() {
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-            initTabs();
-            initToolbar();
-            initNavigationView();
-            initLayouts();
         }
 
         @Override
@@ -264,10 +265,10 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
 
                     String[] e = builder.toString().split("_abschnitt_");
 
-                    splitI = e[0].split("_next_");
-                    splitS = e[1].split("_next_");
-                    splitL = e[2].split("_next_");
-                    splitA = e[3].split("_next_");
+                    String[] splitI = e[0].split("_next_");
+                    String[] splitS = e[1].split("_next_");
+                    String[] splitL = e[2].split("_next_");
+                    String[] splitA = e[3].split("_next_");
 
                     Ergebnis[][] ergebnisse = new Ergebnis[4][];
                     ergebnisse[0] = new Ergebnis[splitI.length];
@@ -306,14 +307,17 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                             ergebnisse[3][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, false, true);
                         }
                     }
+
                     daten = ergebnisse;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+
             for (ZeitraumFragment fragment : fragments) {
                 fragment.fillData();
             }
+
             return null;
         }
 
