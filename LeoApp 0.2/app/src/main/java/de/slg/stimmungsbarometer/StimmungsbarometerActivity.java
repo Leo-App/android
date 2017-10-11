@@ -251,19 +251,30 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                                             connection.getInputStream(), "UTF-8"));
                     String        line;
                     StringBuilder builder = new StringBuilder();
-                    while ((line = reader.readLine()) != null)
+                    while ((line = reader.readLine()) != null) {
                         builder.append(line);
-                    String[] e = builder.toString().split("_abschnitt_");
+                    }
                     reader.close();
+
+                    String result = builder.toString();
+                    if (result.startsWith("-")) {
+                        Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+                        throw new IOException(result);
+                    }
+
+                    String[] e = builder.toString().split("_abschnitt_");
+
                     splitI = e[0].split("_next_");
                     splitS = e[1].split("_next_");
                     splitL = e[2].split("_next_");
                     splitA = e[3].split("_next_");
+
                     Ergebnis[][] ergebnisse = new Ergebnis[4][];
                     ergebnisse[0] = new Ergebnis[splitI.length];
                     ergebnisse[1] = new Ergebnis[splitS.length];
                     ergebnisse[2] = new Ergebnis[splitL.length];
                     ergebnisse[3] = new Ergebnis[splitA.length];
+
                     for (int i = 0; i < ergebnisse[0].length; i++) {
                         String[] current = splitI[i].split(";");
                         if (current.length == 2) {
@@ -271,6 +282,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                             ergebnisse[0][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), true, false, false, false);
                         }
                     }
+
                     for (int i = 0; i < ergebnisse[1].length; i++) {
                         String[] current = splitS[i].split(";");
                         if (current.length == 2) {
@@ -278,6 +290,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                             ergebnisse[1][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, true, false, false);
                         }
                     }
+
                     for (int i = 0; i < ergebnisse[2].length; i++) {
                         String[] current = splitL[i].split(";");
                         if (current.length == 2) {
@@ -285,6 +298,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                             ergebnisse[2][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, true, false);
                         }
                     }
+
                     for (int i = 0; i < ergebnisse[3].length; i++) {
                         String[] current = splitA[i].split(";");
                         if (current.length == 2) {

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import de.slg.schwarzes_brett.UpdateViewTrackerTask;
 import de.slg.startseite.MailSendTask;
 import de.slg.startseite.MainActivity;
-import de.slg.startseite.UpdateTaskGrade;
 
 public class Start extends Activity {
     @Override
@@ -17,6 +16,10 @@ public class Start extends Activity {
         super.onCreate(savedInstanceState);
 
         Utils.getController().setContext(getApplicationContext());
+        Utils.getController().getPreferences()
+                .edit()
+                //                .putInt("pref_key_general_id", 1008)
+                .apply();
 
         runUpdateTasks();
         startServices();
@@ -33,14 +36,10 @@ public class Start extends Activity {
         new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
 
         new SyncUserTask().execute();
-        new SyncTaskGrade().execute();
+        new SyncGradeTask().execute();
 
         if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
             new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
-        }
-
-        if (Utils.getController().getPreferences().getBoolean("pref_key_level_has_to_be_synchronized", false)) {
-            new UpdateTaskGrade().execute();
         }
     }
 

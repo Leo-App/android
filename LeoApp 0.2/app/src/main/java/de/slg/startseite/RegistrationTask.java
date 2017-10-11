@@ -30,7 +30,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
     @Override
     protected ResponseCode doInBackground(String... params) {
         String username = Utils.getUserDefaultName();
-        String password = Utils.getController().getPreferences().getString("pref_key_password_general", "");
+        String password = Utils.getController().getPreferences().getString("pref_key_general_password", "");
 
         String  result  = "";
         boolean teacher = username.length() == 6;
@@ -50,6 +50,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
             int code = connection.getResponseCode();
+            Log.d("code", String.valueOf(code));
 
             if (code != 200) {
                 if (code == 401)

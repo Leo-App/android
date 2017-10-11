@@ -244,10 +244,14 @@ public class ReceiveService extends Service {
 
                 StringBuilder builder = new StringBuilder();
                 String        l;
-                while ((l = reader.readLine()) != null)
+                while ((l = reader.readLine()) != null) {
                     builder.append(l);
-
+                }
                 reader.close();
+
+                if (builder.toString().startsWith("-")) {
+                    throw new IOException(builder.toString());
+                }
 
                 String[]          result = builder.toString().split(";");
                 List<Assoziation> list   = new List<>();
@@ -270,16 +274,16 @@ public class ReceiveService extends Service {
         public void run() {
             while (Utils.getController().getMessengerDataBase().hasQueuedMessages())
                 if (Utils.checkNetwork())
-                    new SendQueuedMessages().execute();
+                    new SendMessages().execute();
         }
     }
 
-    private class SendQueuedMessages extends AsyncTask<Void, Void, Void> {
+    private class SendMessages extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            if (Utils.checkNetwork()) {
-                Message[] array = Utils.getController().getMessengerDataBase().getQueuedMessages();
-                for (Message m : array) {
+            Message[] array = Utils.getController().getMessengerDataBase().getQueuedMessages();
+            for (Message m : array) {
+                if (Utils.checkNetwork()) {
                     try {
                         HttpsURLConnection connection = (HttpsURLConnection)
                                 new URL(generateURL(m.mtext, m.cid))

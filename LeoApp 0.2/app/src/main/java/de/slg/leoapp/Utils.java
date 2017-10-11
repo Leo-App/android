@@ -13,8 +13,10 @@ public abstract class Utils {
     private static final String BASE_DOMAIN      = "https://secureaccess.itac-school.de/";
     public static final  String BASE_URL_PHP     = BASE_DOMAIN + "slgweb/leoapp_php/";
     static final         String URL_TOMCAT       = BASE_DOMAIN + "leoapp/";
+
     private static final String authorizationPre = "Basic ";
     public static final  String authorization    = authorizationPre + "bGVvYXBwOmxlb2FwcA==";
+
     @SuppressLint("StaticFieldLeak")
     private static ActivityController controller;
 
@@ -90,8 +92,8 @@ public abstract class Utils {
         return getUserID() > -1;
     }
 
-    public static String toAuthFormat(String pPart1, String pPart2) {
-        byte[] bytesEncoded = Base64.encode((pPart1 + ":" + pPart2).getBytes(), 0);
+    public static String toAuthFormat(String user, String pass) {
+        byte[] bytesEncoded = Base64.encode((user + ":" + pass).getBytes(), 0);
         return authorizationPre + new String(bytesEncoded);
     }
 }
