@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
@@ -238,6 +238,7 @@
 
     <Button
         android:layout_width="wrap_content"
+        android:id="@+id/buttonOK"
         android:layout_height="wrap_content"
         android:text="@string/button_confirm"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
@@ -245,5 +246,12 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="24dp" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyle"
+        android:id="@+id/progressBarLoading"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
