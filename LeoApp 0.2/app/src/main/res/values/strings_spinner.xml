@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="level">
+        <item>Alle</item>
+        <item>Sek1</item>
+        <item>Sek2</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>EF</item>
+        <item>Q1</item>
+        <item>Q2</item>
+    </string-array>
+</resources>

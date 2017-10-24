@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
             GridLayoutManager layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false) {
                 @Override
                 public boolean canScrollVertically() {
-                    return true;
+                    return false;
                 }
             };
             layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -359,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext()) {
                 @Override
                 public boolean canScrollVertically() {
-                    return true;
+                    return false;
                 }
             };
 

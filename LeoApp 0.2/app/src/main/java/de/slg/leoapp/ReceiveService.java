@@ -107,53 +107,114 @@ public class ReceiveService extends Service {
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
-                try {
-                    HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
-                                    .openConnection();
-                    connection.setRequestProperty("Authorization", Utils.authorization);
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            connection.getInputStream(), "UTF-8"));
-                    StringBuilder builder = new StringBuilder();
-                    String        line;
-                    while ((line = reader.readLine()) != null)
-                        builder.append(line)
-                                .append(System.getProperty("line.separator"));
-                    reader.close();
-
-                    SQLiteConnector sqLiteConnector = new SQLiteConnector(getApplicationContext());
-                    SQLiteDatabase  sqLiteDatabase  = sqLiteConnector.getWritableDatabase();
-
-                    sqLiteDatabase.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnector.TABLE_EINTRAEGE + "'");
-                    sqLiteDatabase.delete(SQLiteConnector.TABLE_EINTRAEGE, null, null);
-
-                    String[] result = builder.toString().split("_next_");
-                    for (String s : result) {
-                        String[] res = s.split(";");
-                        if (res.length == 8) {
-                            sqLiteDatabase.insert(SQLiteConnector.TABLE_EINTRAEGE, null,
-                                    sqLiteConnector.getContentValues(
-                                            res[0],
-                                            res[1],
-                                            res[2],
-                                            Long.parseLong(res[3] + "000"),
-                                            Long.parseLong(res[4] + "000"),
-                                            Integer.parseInt(res[5]),
-                                            Integer.parseInt(res[6]),
-                                            res[7]
-                                    )
-                            );
-                        }
-                    }
-                    sqLiteDatabase.close();
-                    sqLiteConnector.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                getEntries();
+                getSurveys();
             }
             return null;
+        }
+
+        private void getEntries() {
+            try {
+                HttpsURLConnection connection = (HttpsURLConnection)
+                        new URL(Utils.BASE_URL + "schwarzesBrett/meldungen.php")
+                                .openConnection();
+                connection.setRequestProperty("Authorization", Utils.authorization);
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        connection.getInputStream(), "UTF-8"));
+                StringBuilder builder = new StringBuilder();
+                String        line;
+                while ((line = reader.readLine()) != null)
+                    builder.append(line)
+                            .append(System.getProperty("line.separator"));
+                reader.close();
+                SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
+                SQLiteDatabase  dbh = db.getWritableDatabase();
+                dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnector.TABLE_EINTRAEGE + "'");
+                dbh.delete(SQLiteConnector.TABLE_EINTRAEGE, null, null);
+                String[] result = builder.toString().split("_next_");
+                for (String s : result) {
+                    String[] res = s.split(";");
+                    if (res.length == 8) {
+                        dbh.insert(SQLiteConnector.TABLE_EINTRAEGE, null, db.getEntryContentValues(
+                                res[0],
+                                res[1],
+                                res[2],
+                                Long.parseLong(res[3] + "000"),
+                                Long.parseLong(res[4] + "000"),
+                                Integer.parseInt(res[5]),
+                                Integer.parseInt(res[6]),
+                                res[7]
+                        ));
+                    }
+                }
+                dbh.close();
+                db.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void getSurveys() {
+
+            try {
+                URL updateURL = new URL("http://moritz.liegmanns.de/survey/getSurveys.php");
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
+
+                StringBuilder builder = new StringBuilder();
+                String        line;
+                while ((line = reader.readLine()) != null)
+                    builder.append(line);
+                reader.close();
+
+                URL resultURL = new URL("http://moritz.liegmanns.de/survey/getSingleResult.php?user="+Utils.getUserID());
+                reader =
+                        new BufferedReader(
+                                new InputStreamReader(resultURL.openConnection().getInputStream(), "UTF-8"));
+
+                StringBuilder resultBuilder = new StringBuilder();
+                while ((line = reader.readLine()) != null)
+                    resultBuilder.append(line);
+                reader.close();
+
+                SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
+                SQLiteDatabase  dbh = db.getWritableDatabase();
+                dbh.delete(SQLiteConnector.TABLE_SURVEYS, null, null);
+                dbh.delete(SQLiteConnector.TABLE_ANSWERS, null, null);
+                String[] result = builder.toString().split("_next_");
+                for (String s : result) {
+                    String[] res = s.split("_;_");
+                    if (res.length >= 6) {
+                        long id = dbh.insert(SQLiteConnector.TABLE_SURVEYS, null, db.getSurveyContentValues(
+                                res[1],
+                                res[3],
+                                res[2],
+                                res[0],
+                                Short.parseShort(res[4]),
+                                Integer.parseInt(res[5])
+                        ));
+
+                        for(int i = 6; i < res.length-1; i+=2) {
+                            dbh.insert(SQLiteConnector.TABLE_ANSWERS, null, db.getAnswerContentValues(
+                                    Integer.parseInt(res[i]),
+                                    res[i+1],
+                                    id,
+                                    resultBuilder.toString().contains(res[i]) ? 1 : 0
+                            ));
+                        }
+                    }
+                }
+                dbh.close();
+                db.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         }
 
         @Override

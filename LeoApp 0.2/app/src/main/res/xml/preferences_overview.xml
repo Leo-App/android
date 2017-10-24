@@ -50,23 +50,23 @@
             android:key="pref_key_qr_pw"
             android:summary="@string/settings_summary_pw"
             android:title="@string/settings_title_pw" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_mensa_mode"
             android:summary="@string/settings_summary_mode"
             android:title="@string/settings_title_mode" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_qr_camera"
             android:summary="@string/settings_summary_camera"
             android:title="@string/settings_title_camera" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="pref_key_qr_sync"
             android:summary="@string/settings_summary_sync"
             android:title="@string/settings_title_sync" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_qr_autofade"
             android:summary="@string/settings_summary_fade"
@@ -90,7 +90,7 @@
             android:summary="@string/settings_summary_testplan_time"
             android:title="@string/settings_title_testplan_time" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_test_timetable_sync"
             android:summary="@string/settings_summary_test_timetable"
@@ -113,7 +113,7 @@
         android:key="pref_key_storage_settings"
         android:title="@string/title_survey">
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_show_reasons_survey"
             android:summary="@string/settings_summary_reasons_survey"
@@ -185,7 +185,7 @@
 
             </PreferenceScreen>
 
-            <CheckBoxPreference
+            <SwitchPreference
                 android:defaultValue="false"
                 android:key="pref_key_network_wlanonly"
                 android:summary="@string/settings_summary_network"
@@ -198,20 +198,20 @@
                 android:title="@string/settings_title_interval_subst"
                 />
 
-            <CheckBoxPreference
+            <SwitchPreference
                 android:defaultValue="false"
                 android:key="pref_key_filter_subst"
                 android:summary="@string/settings_summary_filter_subst"
                 android:title="@string/settings_title_filter_subst" />
 
-            <CheckBoxPreference
+            <SwitchPreference
                 android:defaultValue="false"
                 android:enabled="false"
                 android:key="pref_key_filterby_level"
                 android:summary="@string/settings_summary_filterby_level"
                 android:title="@string/settings_title_filterby_level" />
 
-            <CheckBoxPreference
+            <SwitchPreference
                 android:defaultValue="false"
                 android:enabled="false"
                 android:key="pref_key_filterby_schedule"
