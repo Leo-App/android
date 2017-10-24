@@ -9,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
 
+import java.lang.reflect.Array;
+
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
     private static final String BASE_DOMAIN      = "https://secureaccess.itac-school.de/";

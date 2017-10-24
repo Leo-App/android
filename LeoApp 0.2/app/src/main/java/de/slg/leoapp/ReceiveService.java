@@ -116,7 +116,7 @@ public class ReceiveService extends Service {
         private void getEntries() {
             try {
                 HttpsURLConnection connection = (HttpsURLConnection)
-                        new URL(Utils.BASE_URL + "schwarzesBrett/meldungen.php")
+                        new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
                                 .openConnection();
                 connection.setRequestProperty("Authorization", Utils.authorization);
                 BufferedReader reader =

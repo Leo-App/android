@@ -66,17 +66,14 @@ import de.slg.stundenplan.StundenplanActivity;
 public class SchwarzesBrettActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
-
-    private static SQLiteConnector           db2;
-    private static SQLiteDatabase            dbh2;
     private static SQLiteConnector           sqLiteConnector;
     private static SQLiteDatabase            sqLiteDatabase;
-  
+
     private        List<String>              groupList;
     private        List<String>              childList;
-    private        Map<String, List<String>> schwarzesBrett;
+    private        Map<String, List<String>> entriesMap;
     private        DrawerLayout              drawerLayout;
-  
+
     private int surveyBegin;
 
 
@@ -106,7 +103,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schwarzesbrett);
-      
+
         surveyBegin = 0;
 
         Utils.getController().registerSchwarzesBrettActivity(this);
@@ -117,7 +114,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             sqLiteConnector = new SQLiteConnector(Utils.getContext());
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
-      
+
         initToolbar();
         initNavigationView();
         initButton();
@@ -294,11 +291,11 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                 break;
         }
 
-        schwarzesBrett = new LinkedHashMap<>();
-      
+        entriesMap = new LinkedHashMap<>();
+
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             groupList.add(cursor.getString(1));
-          
+
             Date erstelldatum = new Date(cursor.getLong(3));
             Date ablaufdatum  = new Date(cursor.getLong(4));
 
@@ -321,7 +318,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             }
 
             loadChildren(children);
-            schwarzesBrett.put(cursor.getString(1), childList);
+            entriesMap.put(cursor.getString(1), childList);
             surveyBegin++;
         }
         cursor.close();
@@ -329,15 +326,15 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         switch (stufe) {
             case "":
             case "TEA":
-                cursor = dbh.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, null, null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, null, null, null, null, null);
                 break;
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = dbh.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
             default:
-                cursor = dbh.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
         }
 
@@ -350,7 +347,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
                     ((cursor.getInt(4) == 0) ? "false" : "true") + "_;_" + cursor.getString(0) + "_;_" + cursor.getInt(6), //Umfrage Metadaten
             };
 
-            Cursor cursorAnswers = dbh.query(SQLiteConnector.TABLE_ANSWERS, new String[]{SQLiteConnector.ANSWERS_INHALT, SQLiteConnector.ANSWERS_REMOTE_ID, SQLiteConnector.ANSWERS_SELECTED}, SQLiteConnector.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
+            Cursor cursorAnswers = sqLiteDatabase.query(SQLiteConnector.TABLE_ANSWERS, new String[]{SQLiteConnector.ANSWERS_INHALT, SQLiteConnector.ANSWERS_REMOTE_ID, SQLiteConnector.ANSWERS_SELECTED}, SQLiteConnector.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
             ArrayList<String> answers = new ArrayList<>();
 
             boolean voted = false;
@@ -367,12 +364,11 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
             childList.addAll(answers);
             childList.add("-");
             childList.add("-");
-            schwarzesBrett.put(cursor.getString(1), childList);
+            entriesMap.put(cursor.getString(1), childList);
         }
 
         cursor.close();
-        dbh.close();
-        db.close();
+        sqLiteDatabase.close();
     }
 
     private void loadChildren(String[] children) {
