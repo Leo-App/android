@@ -12,7 +12,7 @@
     <string name="vote_button">Abstimmen</string>
     <string name="result">Ergebnis</string>
     <string name="results">Ergebnisse</string>
-    <string name="statistics_result">%1$d/%2$d Stimmen (%3$d &#37;)</string>
+    <string name="statistics_result">%1$d/%2$d Stimmen (%3$d Prozent)</string>
 
 
     <!-- Titel -->

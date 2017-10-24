@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -225,9 +227,27 @@ class ResultDialog extends AlertDialog {
             switch (b) {
                 case NO_CONNECTION:
                     findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
+                    final Snackbar snack = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
+                    snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                    snack.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snack.dismiss();
+                        }
+                    });
+                    snack.show();
                     break;
                 case SERVER_ERROR:
                     findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
+                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), "Es ist etwas schiefgelaufen, versuche es später erneut", Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                    snackbar.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+                    snackbar.show();
                     break;
                 case SUCCESS:
                     animateChanges(amountAnswers, answerResults, target, sumVotes);

@@ -6,6 +6,8 @@ import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,7 +19,10 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -25,16 +30,34 @@ import java.util.Locale;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
+/**
+ * Nachrichtendialog
+ *
+ * Dieser Dialog stellt eine Möglichkeit dar, Schwarzes-Brett Nachrichten innerhalb der App zu verfassen.
+ *
+ * @version 2017.2410
+ * @since 0.5.5
+ */
 class NewEntryDialog extends AlertDialog {
 
     private DatePickerDialog datePickerDialog;
     private Context c;
 
+    /**
+     * Konstruktor.
+     *
+     * @param context Kontextobjekt
+     */
     NewEntryDialog(@NonNull Context context) {
         super(context);
         c = context;
     }
 
+    /**
+     * Dialog Inputs werden initialisiert.
+     *
+     * @param b Metadaten
+     */
     @Override
     public void onCreate(Bundle b) {
 
@@ -78,7 +101,6 @@ class NewEntryDialog extends AlertDialog {
     }
 
     private void initButtons() {
-
         findViewById(R.id.buttonDel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,8 +111,11 @@ class NewEntryDialog extends AlertDialog {
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new sendEntryTask().execute();
-                dismiss();
+                final TextView t1 = (TextView) findViewById(R.id.title_edittext);
+                final TextView t2 = (TextView) findViewById(R.id.eingabeDatum);
+                final TextView t3 = (TextView) findViewById(R.id.content);
+                Spinner s1 = (Spinner) findViewById(R.id.spinner2);
+                new sendEntryTask().execute(t1.getText().toString(), t2.getText().toString(), t3.getText().toString(), s1.getSelectedItem().toString());
             }
         });
     }
@@ -133,11 +158,47 @@ class NewEntryDialog extends AlertDialog {
 
     }
 
-    private class sendEntryTask extends AsyncTask<Void, Void, Void> {
+    /**
+     * Nachrichten-Task
+     *
+     * Sendet neue Nachricht an Remote-Datenbank
+     *
+     * @since 0.5.6
+     * @version 2017.2410
+     */
+    private class sendEntryTask extends AsyncTask<String, Void, Boolean> {
         @Override
-        protected Void doInBackground(Void... params) {
-            return null;
+        protected Boolean doInBackground(String... params) {
+            if(!Utils.checkNetwork())
+                return false;
+            try {
+                URL updateURL = new URL(("http://moritz.liegmanns.de/schwarzes_brett/_php/ajax.php?to=" + params[3] + "&title=" + params[0] + "&content=" +params[1]+ "&date=" + params[2]).replace(" ", "%20"));
+                updateURL.openConnection().getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
         }
+
+        @Override
+        protected void onPostExecute(Boolean b) {
+            if(b) {
+                dismiss();
+                Toast.makeText(Utils.getContext(), "Gesendet", Toast.LENGTH_SHORT);
+            } else {
+                final Snackbar snack = Snackbar.make(findViewById(R.id.dialog_entry), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
+                snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                snack.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snack.dismiss();
+                    }
+                });
+                snack.show();
+            }
+        }
+
     }
 
 }

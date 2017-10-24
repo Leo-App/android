@@ -1,5 +1,6 @@
 package de.slg.leoapp;
 
+import android.os.Process;
 import android.view.View;
 
 /**
@@ -45,7 +46,11 @@ public abstract class ItemAnimator<ContentType extends View> {
     public final void execute() {
         if(interval+iterations < 0)
             return;
-        //TODO: Implementieren
+
+        Thread t = new Thread(new RunThread());
+        t.start();
+
+        doOnFinal(view);
 
     }
 
@@ -71,12 +76,24 @@ public abstract class ItemAnimator<ContentType extends View> {
         return this;
     }
 
+    /**
+     * Animations-Thread
+     *
+     * Nach interval Millisekunden wird {@link #doInIteration(ContentType) doInIteration} aufgerufen. Der Thread läuft im Hintergrund.
+     */
     private class RunThread implements Runnable {
 
         @Override
         public void run() {
-            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-
+            for (int i = 0; i < iterations; i++) {
+                doInIteration(view);
+                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+                try {
+                    Thread.sleep(interval);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
