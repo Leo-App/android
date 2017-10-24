@@ -5,10 +5,11 @@ import android.os.AsyncTask;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.leoapp.Utils;
 
 public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
-
     private int remote;
 
     @Override
@@ -16,9 +17,12 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
         for (Integer cur : params) {
             remote = cur;
             try {
-                URL updateURL = new URL("http://www.moritz.liegmanns.de/updateViewTracker.php?key=5453&remote=" + remote);
-                updateURL.openConnection().getInputStream();
-                Utils.getPreferences()
+                HttpsURLConnection connection = (HttpsURLConnection)
+                        new URL(Utils.BASE_URL_PHP + "updateViewTracker.php?key=5453&remote=" + remote)
+                                .openConnection();
+                connection.setRequestProperty("Authorization", Utils.authorization);
+                connection.getInputStream();
+                Utils.getController().getPreferences()
                         .edit()
                         .putString("pref_key_cache_vieweditems", getNewCacheString())
                         .apply();
@@ -30,7 +34,7 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
     }
 
     private String getNewCacheString() {
-        String        cache   = Utils.getPreferences().getString("pref_key_cache_vieweditems", "");
+        String        cache   = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
         String[]      items   = cache.split("-");
         StringBuilder builder = new StringBuilder();
         for (String s : items) {

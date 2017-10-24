@@ -6,17 +6,19 @@ public class Fach {
     private final String  kuerzel;
     private final String  raum;
     private final String  lehrer;
+    private final String  klasse;
     private final int     tag;
     private final int     stunde;
     private       boolean schriftlich;
     private       String  notiz;
 
-    public Fach(int id, String kurz, String name, String lehrer, String raum, int tag, int stunde) {
+    public Fach(int id, String kurz, String name, String lehrer, String klasse, String raum, int tag, int stunde) {
         this.id = id;
         this.kuerzel = kurz;
         this.name = name;
         this.raum = raum;
         this.lehrer = lehrer;
+        this.klasse = klasse;
         this.tag = tag;
         this.stunde = stunde;
         this.schriftlich = false;
@@ -49,7 +51,6 @@ public class Fach {
                 return Integer.toString(pStunde);
         }
     }
-    //Getter und Setter
 
     void setzeNotiz(String notiz) {
         this.notiz = notiz;
@@ -59,39 +60,43 @@ public class Fach {
         schriftlich = b;
     }
 
-    String gibKurz() {
+    String getKuerzel() {
         return kuerzel;
     }
 
-    public String gibName() {
+    public String getName() {
         return name;
     }
 
-    String gibLehrer() {
+    String getLehrer() {
         return lehrer;
     }
 
-    String gibRaum() {
+    String getRaum() {
         return raum;
     }
 
-    int gibTag() {
+    int getTag() {
         return tag;
     }
 
-    int gibStunde() {
+    int getStunde() {
         return stunde;
     }
 
-    String gibStundenName() {
+    String getStundenName() {
         return this.gibStundenName(stunde);
     }
 
-    String gibNotiz() {
+    String getNotiz() {
         return notiz;
     }
 
-    boolean gibSchriftlich() {
+    boolean getSchriftlich() {
         return schriftlich;
+    }
+
+    String getKlasse() {
+        return klasse;
     }
 }

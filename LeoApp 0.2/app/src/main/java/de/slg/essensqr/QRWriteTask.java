@@ -99,7 +99,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
     protected void onPostExecute(Bitmap result) {
         ProgressBar spinner = (ProgressBar) target.findViewById(R.id.progressBar1);
         spinner.setVisibility(INVISIBLE);
-        boolean loggedin = Utils.getPreferences().getBoolean("pref_key_status_loggedin", false);
+        boolean loggedin = Utils.getController().getPreferences().getBoolean("pref_key_status_loggedin", false);
         if (!connection)
             ((QRFragment) qr).showSnackBarNoConnection();
 
@@ -176,7 +176,7 @@ class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         BufferedReader in     = null;
         String         result = "";
         try {
-            URL interfaceDB = new URL(Utils.BASE_URL + "essenqr/qr_database.php?id=" + EssensQRActivity.sharedPref.getString("pref_key_qr_id", "00000")
+            URL interfaceDB = new URL(Utils.BASE_URL_PHP + "essenqr/qr_database.php?id=" + EssensQRActivity.sharedPref.getString("pref_key_qr_id", "00000")
                     + "&auth=2SnDS7GBdHf5sd");
             Log.d("LeoApp", interfaceDB.toString());
             in = null;

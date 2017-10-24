@@ -49,8 +49,8 @@ public class StundenplanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stundenplan);
-        Utils.registerStundenplanActivity(this);
-        if (!Utils.getStundDB().hatGewaehlt()) {
+        Utils.getController().registerStundenplanActivity(this);
+        if (!Utils.getController().getStundplanDataBase().hatGewaehlt()) {
             if (Utils.getUserPermission() != 2) {
                 startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
             } else {
@@ -83,7 +83,7 @@ public class StundenplanActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        Utils.registerStundenplanActivity(null);
+        Utils.getController().registerStundenplanActivity(null);
     }
 
     private void initNavigationView() {
@@ -138,7 +138,7 @@ public class StundenplanActivity extends AppCompatActivity {
         else
             grade.setText(Utils.getUserStufe());
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(Utils.getCurrentMoodRessource());
+        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private void initToolbar() {
@@ -212,19 +212,19 @@ public class StundenplanActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (fachArray[position].id <= 0) {
-                            Utils.getStundDB().freistunde(tag, position + 1);
-                            fachArray[position] = Utils.getStundDB().getFach(tag, position + 1);
+                            Utils.getController().getStundplanDataBase().freistunde(tag, position + 1);
+                            fachArray[position] = Utils.getController().getStundplanDataBase().getFach(tag, position + 1);
                             view.invalidate();
                         }
                         DetailsDialog dialog = new DetailsDialog(getActivity());
                         dialog.show();
                         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                        dialog.init(Utils.getStundDB().getFach(tag, position + 1));
+                        dialog.init(Utils.getController().getStundplanDataBase().getFach(tag, position + 1));
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
-                                refreshUI();
+                                Utils.getController().getStundenplanActivity().refreshUI();
                             }
                         });
                     }
@@ -241,7 +241,7 @@ public class StundenplanActivity extends AppCompatActivity {
 
         private void refreshUI() {
             if (listView != null) {
-                fachArray = Utils.getStundDB().gewaehlteFaecherAnTag(tag);
+                fachArray = Utils.getController().getStundplanDataBase().gewaehlteFaecherAnTag(tag);
                 listView.setAdapter(new StundenAdapter(getContext(), fachArray));
             }
         }
@@ -268,25 +268,28 @@ public class StundenplanActivity extends AppCompatActivity {
         public View getView(int position, View v, @NonNull ViewGroup parent) {
             if (position < fachAd.length && fachAd[0] != null) {
                 if (v == null) {
-                    LayoutInflater layIn = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    int            id2   = R.layout.list_item_schulstunde;
-                    v = layIn.inflate(id2, null);
+                    LayoutInflater layoutInflater = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    v = layoutInflater.inflate(R.layout.list_item_schulstunde, null);
                 }
                 TextView tvFach   = (TextView) v.findViewById(R.id.fach_wt);
                 TextView tvLehrer = (TextView) v.findViewById(R.id.lehrer_wt);
                 TextView tvRaum   = (TextView) v.findViewById(R.id.raum_wt);
                 TextView tvStunde = (TextView) v.findViewById(R.id.stunde_wt);
                 if (fachAd[position] != null) {
-                    if (fachAd[position].gibName().equals("") && !fachAd[position].gibNotiz().equals("")) {
-                        String[] sa = fachAd[position].gibNotiz().split(" ");
+                    if (fachAd[position].getName() != null && fachAd[position].getNotiz() != null && fachAd[position].getName().equals("") && !fachAd[position].getNotiz().equals("")) {
+                        String[] sa = fachAd[position].getNotiz().split(" ");
                         tvFach.setText(sa[0]);
                     } else {
-                        tvFach.setText(fachAd[position].gibName());
+                        tvFach.setText(fachAd[position].getName());
                     }
-                    tvLehrer.setText(fachAd[position].gibLehrer());
-                    tvRaum.setText(fachAd[position].gibRaum());
-                    tvStunde.setText(fachAd[position].gibStundenName());
-                    if (fachAd[position].gibSchriftlich()) {
+                    if (Utils.getUserPermission() == 2) {
+                        tvLehrer.setText(fachAd[position].getKlasse());
+                    } else {
+                        tvLehrer.setText(fachAd[position].getLehrer());
+                    }
+                    tvRaum.setText(fachAd[position].getRaum());
+                    tvStunde.setText(fachAd[position].getStundenName());
+                    if (fachAd[position].getSchriftlich()) {
                         v.findViewById(R.id.iconSchriftlich).setVisibility(View.VISIBLE);
                     }
                 }
@@ -302,7 +305,7 @@ public class StundenplanActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-            importer = new AuswahlActivity.FachImporter(getApplicationContext(), "");
+            importer = new AuswahlActivity.FachImporter();
             importer.execute();
         }
 

@@ -112,7 +112,6 @@
     <string name="seconds">Sekunden</string>
     <string name="minute">Minute</string>
     <string name="minutes">Minuten</string>
-    <string name="today">Heute</string>
     <string name="yesterday">Gestern</string>
     <string name="queue">Warteschlange</string>
 
@@ -189,7 +188,7 @@
     <string name="feature_request">Beschreibe hier kurz deinen Vorschlag</string>
     <string name="feature_request_title">Feature-Idee</string>
     <string name="todo_description">\t- Terminplaner\n\t- Digitaler Vertretungsplan\n\t- Nachhilfebörse\n\t- Eure Vorschläge</string>
-    <string name="download_description_news">Schwarzes Brett - Download</string>
+    <string name="download_description_news">Schwarzes Brett - Herunterladen</string>
 
     <!--Essensbons-->
     <string name="settings_summary_customid">Gib deine lunch.leo-ac.de Benutzer-ID ein</string>
@@ -230,7 +229,7 @@
 
     <!--Stimmungsbarometer-->
     <string name="settings_summary_notification_survey">Benachrichtige mich, falls ich noch nicht abgestimmt habe</string>
-    <string name="heute">Heute</string>
+    <string name="today">Heute</string>
     <string name="settings_title_reasons_survey">Gründe</string>
     <string name="settings_summary_reasons_survey">Gründe beim Abstimmen anzeigen</string>
 
@@ -316,12 +315,26 @@
     <string name="snackbar_missing_title">Bitte ein Fach hinzufügen</string>
     <string name="discard">Verwerfen</string>
     <string name="free_hour">Freistunde</string>
-    <string name="Tok">TOK</string>
     <string name="SoWiZ">SoWi-Zusatzkurs</string>
     <string name="GeZK">Geschichte Zusatzkurs</string>
     <string name="Diff">Differenzierung</string>
     <string name="PoWi">Politik-Wirtschaft</string>
     <string name="Förder">Förderkurs</string>
     <string name="sport">Sport</string>
+    <string name="Weltlit">Weltliteratur</string>
+    <string name="Soz">Soziales Lernen</string>
+    <string name="Projektk">Projektkurs</string>
+    <string name="Vertiefung">Vertiefungskurs</string>
+    <string name="ag">AG:</string>
+    <string name="menu_stundenplan_name">Kurse ändern</string>
+    <string name="lüz"></string>
+    <string name="new_entry_content">Inhalt</string>
+    <string name="new_entry_title">Title</string>
+    <string name="niederländisch">Niederländisch</string>
+    <string name="info_add_entry">Bitte benutzen Sie das Web-Interface für erweiterte Einstellungen</string>
+    <string name="politik">Politics</string>
+    <string name="schwimmen">Schwimmen (Sport)</string>
+    <string name="to">An</string>
+    <string name="vokal">Vokalpraxis</string>
 
 </resources>

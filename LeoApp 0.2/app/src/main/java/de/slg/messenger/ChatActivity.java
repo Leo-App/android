@@ -54,7 +54,7 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Utils.registerChatActivity(this);
+        Utils.getController().registerChatActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
@@ -68,8 +68,9 @@ public class ChatActivity extends AppCompatActivity {
         initSendMessage();
         initRecyclerView();
 
-        if (cid != -1)
-            Utils.getMDB().setMessagesRead(cid);
+        if (cid != -1) {
+            Utils.getController().getMessengerDataBase().setMessagesRead(cid);
+        }
     }
 
     @Override
@@ -94,22 +95,23 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        Utils.registerChatActivity(null);
+        Utils.getController().registerChatActivity(null);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         refreshUI(false, true);
-        Utils.setCurrentlyDisplayedChat(cid);
+        de.slg.messenger.Utils.setCurrentlyDisplayedChat(cid);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Utils.setCurrentlyDisplayedChat(-1);
-        if (cid != -1)
-            Utils.getMDB().setMessagesRead(cid);
+        de.slg.messenger.Utils.setCurrentlyDisplayedChat(-1);
+        if (cid != -1) {
+            Utils.getController().getMessengerDataBase().setMessagesRead(cid);
+        }
     }
 
     @Override
@@ -177,7 +179,7 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        if (ctype != Chat.ChatType.PRIVATE && Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
+        if (ctype != Chat.ChatType.PRIVATE && Utils.getController().getMessengerDataBase().userInChat(Utils.getUserID(), cid)) {
             toolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -200,7 +202,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        if (ctype == Chat.ChatType.GROUP && !Utils.getMDB().userInChat(Utils.getUserID(), cid)) {
+        if (ctype == Chat.ChatType.GROUP && !Utils.getController().getMessengerDataBase().userInChat(Utils.getUserID(), cid)) {
             etMessage.setEnabled(false);
             etMessage.setHint("Du bist nicht in diesem Chat!");
             sendButton.setEnabled(false);
@@ -233,7 +235,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void refreshUI(boolean refreshArray, final boolean scroll) {
         if (refreshArray) {
-            messagesArray = Utils.getMDB().getMessagesFromChat(cid);
+            messagesArray = Utils.getController().getMessengerDataBase().getMessagesFromChat(cid);
         }
 
         if (messagesArray.length != selected.length) {
@@ -267,9 +269,9 @@ public class ChatActivity extends AppCompatActivity {
         for (int i = 0; i < selected.length; i++) {
             if (selected[i]) {
                 if (messagesArray[i].mdate.getTime() > 0) {
-                    Utils.getMDB().deleteMessage(messagesArray[i].mid);
+                    Utils.getController().getMessengerDataBase().deleteMessage(messagesArray[i].mid);
                 } else {
-                    Utils.getMDB().deleteQueuedMessage(messagesArray[i].mid);
+                    Utils.getController().getMessengerDataBase().deleteQueuedMessage(messagesArray[i].mid);
                 }
                 selected[i] = false;
             }
@@ -294,7 +296,6 @@ public class ChatActivity extends AppCompatActivity {
             final TextView     uhrzeit     = (TextView) v.findViewById(R.id.datum);
             final LinearLayout layout      = (LinearLayout) v.findViewById(R.id.chatbubblewrapper);
             final View         chatbubble  = v.findViewById(R.id.chatbubble);
-            final View         space       = v.findViewById(R.id.space);
             final View         progressbar = v.findViewById(R.id.progressBar);
 
             nachricht.setText(current.mtext);
@@ -332,11 +333,14 @@ public class ChatActivity extends AppCompatActivity {
             final boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
             if (first) {
                 datum.setVisibility(View.VISIBLE);
+                layout.setPadding((int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3), (int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3));
             } else {
                 datum.setVisibility(View.GONE);
                 if (current.uid == messagesArray[position - 1].uid) {
                     absender.setVisibility(View.GONE);
-                    space.setVisibility(View.GONE);
+                    layout.setPadding((int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(0), (int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3));
+                } else {
+                    layout.setPadding((int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3), (int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3));
                 }
             }
 
@@ -344,6 +348,12 @@ public class ChatActivity extends AppCompatActivity {
                 v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
             } else {
                 v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
+            }
+
+            if (current.mread && (position == 0 || !messagesArray[position - 1].mread)) {
+                v.findViewById(R.id.linearLayout1).setVisibility(View.VISIBLE);
+            } else {
+                v.findViewById(R.id.linearLayout1).setVisibility(View.GONE);
             }
         }
 
@@ -365,6 +375,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 TextView nachricht = (TextView) itemView.findViewById(R.id.nachricht);
                 nachricht.setMaxWidth(GraphicUtils.getDisplayWidth() * 2 / 3);
+                TextView absender = (TextView) itemView.findViewById(R.id.absender);
+                absender.setMaxWidth(GraphicUtils.getDisplayWidth() * 2 / 3);
 
                 itemView.setOnLongClickListener(longClickListener);
                 itemView.setOnClickListener(clickListener);
@@ -386,8 +398,9 @@ public class ChatActivity extends AppCompatActivity {
                     return null;
                 if (Utils.checkNetwork()) {
                     try {
-                        HttpsURLConnection connection = (HttpsURLConnection) new URL(Utils.BASE_URL + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
-                                .openConnection();
+                        HttpsURLConnection connection = (HttpsURLConnection)
+                                new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
+                                        .openConnection();
                         connection.setRequestProperty("Authorization", Utils.authorization);
                         BufferedReader reader =
                                 new BufferedReader(
@@ -409,7 +422,7 @@ public class ChatActivity extends AppCompatActivity {
 
             if (cid != -1) {
                 if (!Utils.checkNetwork()) {
-                    Utils.getMDB().enqueueMessage(params[0], cid);
+                    Utils.getController().getMessengerDataBase().enqueueMessage(params[0], cid);
                     refreshUI(true, true);
                 } else {
                     Message[] mOld = messagesArray;
@@ -444,7 +457,7 @@ public class ChatActivity extends AppCompatActivity {
             String key      = Verschluesseln.createKey(message);
             String vMessage = Verschluesseln.encrypt(message, key);
             String vKey     = Verschluesseln.encryptKey(key);
-            return Utils.BASE_URL + "messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + cid + "&vKey=" + vKey;
+            return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + cid + "&vKey=" + vKey;
         }
     }
 }

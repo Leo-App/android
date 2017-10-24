@@ -1,178 +1,154 @@
 package de.slg.startseite;
 
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
-import de.slg.leoapp.PreferenceActivity;
+import javax.net.ssl.HttpsURLConnection;
+
 import de.slg.leoapp.R;
+import de.slg.leoapp.SyncUserTask;
 import de.slg.leoapp.Utils;
 
-class RegistrationTask extends AsyncTask<String, Void, Boolean> {
+import static android.view.View.GONE;
 
-    private final MainActivity c;
-    private       boolean      connection;
+class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
+    private AlertDialog dialog;
 
-    RegistrationTask(MainActivity c) {
-        this.c = c;
+    RegistrationTask(AlertDialog dialog) {
+        this.dialog = dialog;
     }
 
     @Override
-    protected Boolean doInBackground(String... params) {
-        BufferedReader in     = null;
-        String         result = "";
-        connection = hasActiveInternetConnection();
-        Log.d("LeoApp", "test");
-        if (!connection)
-            return false;
+    protected ResponseCode doInBackground(String... params) {
+        String username = Utils.getUserDefaultName();
+        String password = Utils.getController().getPreferences().getString("pref_key_general_password", "");
+
+        String  result  = "";
+        boolean teacher = username.length() == 6;
+
+        if (!Utils.checkNetwork()) {
+            return ResponseCode.NO_CONNECTION;
+        }
+
         try {
             String klasse = "N/A";
-            if (params[1].equals("2"))
+            if (teacher)
                 klasse = "TEA";
-            URL interfaceDB = new URL("http://www.moritz.liegmanns.de/addUser.php?key=5453&name=" + params[0] + "&permission=" + params[1] + "&klasse=" + klasse);
-            Log.e("TAG", interfaceDB.toString());
-            Log.d("LeoApp", "URL SET");
-            in = null;
-            in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                if (!inputLine.contains("<"))
-                    result += inputLine;
+
+            HttpsURLConnection connection = (HttpsURLConnection)
+                    new URL(Utils.BASE_URL_PHP + "user/addUser.php?key=5453&name=" + username + "&permission=" + (teacher ? 2 : 1) + "&klasse=" + klasse)
+                            .openConnection();
+            connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
+
+            int code = connection.getResponseCode();
+            Log.d("code", String.valueOf(code));
+
+            if (code != 200) {
+                if (code == 401)
+                    return ResponseCode.AUTH_FAILED;
+                return ResponseCode.SERVER_FAILED;
             }
-            in.close();
+
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    connection.getInputStream()));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.contains("<")) {
+                    result += line;
+                }
+            }
+
+            reader.close();
+
+            Log.d("RegistrationTask", result);
+
+            if (result.startsWith("+")) {
+                return ResponseCode.SUCCESS;
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
-        } finally {
-            if (in != null)
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
         }
-        Log.d("LeoApp", "finished");
-        Log.d("LeoApp", result);
-        if (result.startsWith("-"))
-            return false;
-        if (result.startsWith("_new_")) {
-            SharedPreferences        pref = PreferenceManager.getDefaultSharedPreferences(c);
-            SharedPreferences.Editor e    = pref.edit();
-            e.putString("pref_key_username_general", params[0]);
-            e.putInt("pref_key_general_permission", Integer.parseInt(params[1]));
-            e.putInt("pref_key_general_id", Integer.valueOf(result.replaceFirst("_new_", "")));
-            e.apply();
-            PreferenceActivity.setCurrentUsername(pref.getString("pref_key_username_general", ""));
-            return true;
-        } else if (result.startsWith("_old_")) {
-            Log.d("LeoApp", "inRightPart");
-            String[]                 data = result.split("_");
-            SharedPreferences        pref = PreferenceManager.getDefaultSharedPreferences(c);
-            SharedPreferences.Editor e    = pref.edit();
-            e.putInt("pref_key_level_general", Integer.parseInt(params[1]));
-            e.putString("pref_key_username_general", data[data.length - 3]);
-            e.putInt("pref_key_general_permission", Integer.parseInt(params[1]));
-            e.putInt("pref_key_general_id", Integer.parseInt(data[data.length - 5]));
-            e.apply();
-            PreferenceActivity.setCurrentUsername(pref.getString("pref_key_username_general", ""));
-            return true;
-        } else
-            return false;
+
+        return ResponseCode.SERVER_FAILED;
     }
 
     @Override
-    protected void onPostExecute(Boolean b) {
-        if (b) {
-            MainActivity.title.setTextColor(Color.GREEN);
-            MainActivity.title.setText(c.getString(R.string.title_info_auth));
-            MainActivity.info.setText(c.getString(R.string.summary_info_auth_success));
-            MainActivity.verify.setText(c.getString(R.string.button_info_noreminder));
-            MainActivity.progressBar.setVisibility(View.GONE);
-            MainActivity.title.setVisibility(View.VISIBLE);
-            MainActivity.info.setVisibility(View.VISIBLE);
-            MainActivity.verify.setVisibility(View.VISIBLE);
-            MainActivity.dismiss.setVisibility(View.GONE);
-            Utils.getMainActivity().initFeatureCards();
-            Utils.getMainActivity().initNavigationView();
-            Calendar c = new GregorianCalendar();
-            c.add(Calendar.YEAR, 1);
-            c.set(Calendar.MONTH, Calendar.OCTOBER);
-            c.set(Calendar.DAY_OF_MONTH, 1);
-            String date = new SimpleDateFormat("dd.MM.yyyy").format(c.getTime());
-            Utils.getPreferences()
-                    .edit()
-                    .putString("valid_until", date)
-                    .apply();
+    protected void onPostExecute(ResponseCode code) {
+        switch (code) {
+            case NO_CONNECTION:
+                dialog.findViewById(R.id.progressBar1).setVisibility(GONE);
+                showSnackbarNoConnection();
+                break;
+            case AUTH_FAILED:
+                dialog.findViewById(R.id.progressBar1).setVisibility(GONE);
+                showSnackbarAuthFailed();
+                break;
+            case SERVER_FAILED:
+                dialog.findViewById(R.id.progressBar1).setVisibility(GONE);
+                showSnackbarServerFailed();
+                break;
+            case SUCCESS:
+                Utils.getController().getMainActivity().findViewById(R.id.card_view0).setVisibility(GONE);
 
-            if (Utils.getPreferences().getInt("pref_key_level_general", -1) == 2) {
-                Utils.getPreferences().edit().putBoolean("pref_key_notification_test", false)
-                        .putBoolean("pref_key_notification_essensqr", false)
-                        .putBoolean("pref_key_notification_news", false)
-                        .putBoolean("pref_key_notification_schedule", false)
-                        .apply();
-            }
-        } else {
-            if (!connection) {
-                showSnackbar();
-                MainActivity.progressBar.setVisibility(View.GONE);
-                MainActivity.title.setVisibility(View.VISIBLE);
-                MainActivity.info.setVisibility(View.VISIBLE);
-                MainActivity.verify.setVisibility(View.VISIBLE);
-            } else {
-                MainActivity.info.setText(c.getString(R.string.summary_info_auth_failed));
-                MainActivity.title.setText(c.getString(R.string.error));
-                MainActivity.progressBar.setVisibility(View.GONE);
-                MainActivity.title.setVisibility(View.VISIBLE);
-                MainActivity.info.setVisibility(View.VISIBLE);
-                MainActivity.verify.setVisibility(View.VISIBLE);
-            }
+                if (Utils.getUserPermission() == 2) {
+                    Utils.getController().getPreferences()
+                            .edit()
+                            .putBoolean("pref_key_notification_test", false)
+                            .putBoolean("pref_key_notification_essensqr", false)
+                            .putBoolean("pref_key_notification_news", false)
+                            .putBoolean("pref_key_notification_schedule", false)
+                            .apply();
+                }
+
+                Toast.makeText(Utils.getContext(), "Dein Benutzer wurde erfogreich erstellt!", Toast.LENGTH_LONG).show();
+
+                new SyncUserTask(dialog).execute();
+                break;
         }
     }
 
-    private void showSnackbar() {
-        final Handler handler = new Handler();
-        final Runnable r = new Runnable() {
+    private void showSnackbarServerFailed() {
+        final Snackbar cS = Snackbar.make(dialog.findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, versuche es zu einem späteren Zeitpunkt erneut", Snackbar.LENGTH_LONG);
+        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
-            public void run() {
-                final Snackbar cS = Snackbar.make(MainActivity.cooredinatorLayout, R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
-                cS.setActionTextColor(Color.WHITE);
-                cS.setAction(c.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        cS.dismiss();
-                    }
-                });
-                cS.show();
+            public void onClick(View v) {
+                cS.dismiss();
             }
-        };
-        handler.postDelayed(r, 1000);
+        });
+        cS.show();
     }
 
-    private boolean hasActiveInternetConnection() {
-        try {
-            HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
-            urlc.setRequestProperty("User-Agent", "Test");
-            urlc.setRequestProperty("Connection", "close");
-            urlc.setConnectTimeout(1500);
-            urlc.connect();
-            return urlc.getResponseCode() == 200;
-        } catch (IOException e) {
-            return false;
-        }
+    private void showSnackbarAuthFailed() {
+        final Snackbar cS = Snackbar.make(dialog.findViewById(R.id.snackbar), "Benutzername und Passwort stimmen nicht überein", Snackbar.LENGTH_LONG);
+        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cS.dismiss();
+            }
+        });
+        cS.show();
+    }
+
+    private void showSnackbarNoConnection() {
+        final Snackbar cS = Snackbar.make(dialog.findViewById(R.id.snackbar), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
+        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cS.dismiss();
+            }
+        });
+        cS.show();
     }
 }

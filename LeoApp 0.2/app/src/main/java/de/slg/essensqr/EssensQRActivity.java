@@ -63,7 +63,7 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_qr);
-        Utils.registerEssensQRActivity(this);
+        Utils.getController().registerEssensQRActivity(this);
 
         runningScan = false;
         runningSync = false;
@@ -189,7 +189,7 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
             grade.setText(Utils.getUserStufe());
 
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(Utils.getCurrentMoodRessource());
+        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private void initToolbar() {
@@ -297,6 +297,6 @@ public class EssensQRActivity extends AppCompatActivity implements ZXingScannerV
     @Override
     public void finish() {
         super.finish();
-        Utils.registerEssensQRActivity(null);
+        Utils.getController().registerEssensQRActivity(null);
     }
 }

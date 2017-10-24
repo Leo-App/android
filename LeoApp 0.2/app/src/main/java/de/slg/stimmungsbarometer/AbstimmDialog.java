@@ -117,7 +117,7 @@ public class AbstimmDialog extends AlertDialog {
             public void onClick(View view) {
                 if (confirm.isEnabled()) {
                     new SendeDaten().execute(new Wahl(voteid, userid, ausgewählterGrund));
-                    Utils.setLastVote(voteid);
+                    de.slg.stimmungsbarometer.Utils.setLastVote(voteid);
                     dismiss();
                 }
             }
@@ -134,7 +134,7 @@ public class AbstimmDialog extends AlertDialog {
 
     private void initListView() {
         listView = (ListView) findViewById(R.id.listView);
-        if (Utils.getPreferences().getBoolean("pref_key_show_reasons_survey", false)) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_show_reasons_survey", false)) {
             listView.setClickable(false);
             listView.setVisibility(View.VISIBLE);
             listView.setAdapter(new ListAdapterGrund(getContext(), gruende));
@@ -210,7 +210,7 @@ public class AbstimmDialog extends AlertDialog {
                 try {
                     AbstimmDialog.Wahl w = wahls[0];
                     HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(Utils.BASE_URL + "stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
+                            new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
                                     .openConnection();
                     connection.setRequestProperty("Authorization", Utils.authorization);
                     BufferedReader reader =

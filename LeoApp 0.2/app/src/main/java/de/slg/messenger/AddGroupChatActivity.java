@@ -29,11 +29,12 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class AddGroupChatActivity extends AppCompatActivity {
-    private final User[] users = Utils.getMDB().getUsers();
-    private EditText  etChatname;
-    private MenuItem  confirm;
-    private boolean[] selection;
-    private int       selected;
+    private final User[] users = Utils.getController().getMessengerDataBase().getUsers();
+    private LinearLayout container;
+    private EditText     etChatname;
+    private MenuItem     confirm;
+    private boolean[]    selection;
+    private int          selected;
 
     private boolean chatnameSet, usersSelected;
 
@@ -41,12 +42,12 @@ public class AddGroupChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.activity_add_chat);
-        Utils.registerAddGroupChatActivity(this);
+        Utils.getController().registerAddGroupChatActivity(this);
 
         initToolbar();
         initContainer();
         initEditText();
-        initSearchButton();
+        initSearch();
 
         chatnameSet = false;
         usersSelected = false;
@@ -73,7 +74,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        Utils.registerAddGroupChatActivity(null);
+        Utils.getController().registerAddGroupChatActivity(null);
     }
 
     private void initToolbar() {
@@ -105,9 +106,30 @@ public class AddGroupChatActivity extends AppCompatActivity {
         });
     }
 
+    private void initSearch() {
+        EditText search = (EditText) findViewById(R.id.editTextSearch);
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fitContainer(s.toString());
+            }
+        });
+    }
+
     private void initContainer() {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linearLayoutUsers);
-        linearLayout.removeAllViews();
+        container = (LinearLayout) findViewById(R.id.linearLayoutUsers);
+        container.removeAllViews();
 
         for (int i = 0; i < users.length; i++) {
             User u = users[i];
@@ -137,21 +159,23 @@ public class AddGroupChatActivity extends AppCompatActivity {
                 }
             });
 
-            linearLayout.addView(v);
+            container.addView(v);
         }
 
         selected = 0;
         selection = new boolean[users.length];
     }
 
-    private void initSearchButton() {
-        View v = findViewById(R.id.floatingActionButton);
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //                findViewById(R.id.editTextSearch).startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.text_view_slide_in));
+    private void fitContainer(String search) {
+        search = search.toLowerCase();
+        for (int i = 0; i < container.getChildCount(); i++) {
+            User u = users[i];
+            if (u.udefaultname.toLowerCase().contains(search) || u.uname.toLowerCase().contains(search)) {
+                container.getChildAt(i).setVisibility(View.VISIBLE);
+            } else {
+                container.getChildAt(i).setVisibility(View.GONE);
             }
-        });
+        }
     }
 
     private class CreateChat extends AsyncTask<Void, Void, Void> {
@@ -199,7 +223,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
                 cid = Integer.parseInt(builder.toString());
 
-                Utils.getMDB().insertChat(new Chat(cid, cname, Chat.ChatType.GROUP));
+                Utils.getController().getMessengerDataBase().insertChat(new Chat(cid, cname, Chat.ChatType.GROUP));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -219,18 +243,18 @@ public class AddGroupChatActivity extends AppCompatActivity {
                     while (reader.readLine() != null)
                         ;
                     reader.close();
-                    Utils.getMDB().insertAssoziation(assoziation);
+                    Utils.getController().getMessengerDataBase().insertAssoziation(assoziation);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
         }
 
         private String generateURL(String cname) throws UnsupportedEncodingException {
-            return Utils.BASE_URL + "messenger/addChat.php?key=5453&chatname=" + URLEncoder.encode(cname, "UTF-8") + "&chattype=" + Chat.ChatType.GROUP.toString().toLowerCase();
+            return Utils.BASE_URL_PHP + "messenger/addChat.php?key=5453&chatname=" + URLEncoder.encode(cname, "UTF-8") + "&chattype=" + Chat.ChatType.GROUP.toString().toLowerCase();
         }
 
         private String generateURL(Assoziation assoziation) {
-            return Utils.BASE_URL + "messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+            return Utils.BASE_URL_PHP + "messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
         }
 
         @Override

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
@@ -17,20 +16,21 @@ public class StundenplanDB extends SQLiteOpenHelper {
     private static final String FACH_NAME           = "fname";
     private static final String FACH_KURZEL         = "fkurz";
     private static final String FACH_LEHRER         = "flehrer";
-    private static final String FACH_RAUM           = "fraum";
+    private static final String FACH_KLASSE         = "fklasse";
     private static final String FACH_ART            = "fart";
     private static final String TABLE_STUNDEN       = "stunden";
     private static final String STUNDEN_TAG         = "stag";
     private static final String STUNDEN_STUNDE      = "sstunde";
+    private static final String STUNDE_RAUM         = "sraum";
+    private static final String STUNDE_NOTIZ        = "snotiz";
     private static final String TABLE_GEWAHLT       = "gewaehlt";
     private static final String GEWAHLT_SCHRIFTLICH = "gschriftlich";
-    private static final String GEWAHLT_NOTIZ       = "gnotiz";
 
     private final SQLiteDatabase database;
     private final Context        context;
 
     public StundenplanDB(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 4);
         database = getWritableDatabase();
         this.context = context;
     }
@@ -43,18 +43,20 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 FACH_KURZEL + " TEXT NOT NULL, " +
                 FACH_NAME + " TEXT NOT NULL, " +
                 FACH_LEHRER + " TEXT NOT NULL, " +
-                FACH_RAUM + " TEXT NOT NULL)");
+                FACH_KLASSE + " TEXT NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_STUNDEN + " (" +
                 FACH_ID + " INTEGER NOT NULL, " +
                 STUNDEN_TAG + " INTEGER NOT NULL, " +
-                STUNDEN_STUNDE + " INTEGER NOT NULL, PRIMARY KEY" +
+                STUNDEN_STUNDE + " INTEGER NOT NULL, " +
+                STUNDE_RAUM + " TEXT NOT NULL, " +
+                STUNDE_NOTIZ + " TEXT, " +
+                "PRIMARY KEY" +
                 " (" + FACH_ID +
                 ", " + STUNDEN_TAG +
                 ", " + STUNDEN_STUNDE + "))");
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_GEWAHLT + " (" +
                 FACH_ID + " INTEGER PRIMARY KEY, " +
-                GEWAHLT_SCHRIFTLICH + " INTEGER NOT NULL, " +
-                GEWAHLT_NOTIZ + " TEXT NOT NULL)");
+                GEWAHLT_SCHRIFTLICH + " INTEGER NOT NULL)");
     }
 
     @Override
@@ -65,11 +67,10 @@ public class StundenplanDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    long insertFach(String kurz, String lehrer, String raum) {
-        kurz = kurz.replace('-', ' ').replaceAll("[ ]{2,}", " ");
-        Log.e("INSERT FACH", "Kürzel = " + kurz);
-        Log.e("INSERT FACH", "Lehrer = " + lehrer);
-        Log.e("INSERT FACH", "Raum = " + raum);
+    long insertFach(String kurz, String lehrer, String klasse) {
+        while (kurz.contains("  "))
+            kurz = kurz.replace("  ", " ");
+
         String selection = FACH_KURZEL + " = '" + kurz + "' AND " + FACH_LEHRER + " = '" + lehrer + "'";
         Cursor cursor    = database.query(TABLE_FACHER, new String[]{FACH_ID}, selection, null, null, null, null);
         if (cursor.getCount() > 0) {
@@ -79,19 +80,20 @@ public class StundenplanDB extends SQLiteOpenHelper {
             return id;
         }
         cursor.close();
+
         ContentValues values = new ContentValues();
-        if (kurz.length() > 2 && (kurz.charAt(2) == 'G' || kurz.charAt(2) == 'L' || kurz.charAt(2) == 'Z'))
+        if (kurz.length() > 2 && (kurz.charAt(2) == 'L' || kurz.charAt(2) == 'Z'))
             values.put(FACH_ART, kurz.charAt(2) + "K");
         else
             values.put(FACH_ART, "GK");
         values.put(FACH_KURZEL, kurz);
-        values.put(FACH_NAME, kuerzelToFach(kurz)); //Hier brauchen wir jetzt doch das ganze Kürzel!
+        values.put(FACH_NAME, getFachname(kurz)); //Hier brauchen wir jetzt doch das ganze Kürzel!
         values.put(FACH_LEHRER, lehrer);
-        values.put(FACH_RAUM, raum);
+        values.put(FACH_KLASSE, klasse);
         return database.insert(TABLE_FACHER, null, values);
     }
 
-    void insertStunde(long fid, int tag, int stunde) {
+    void insertStunde(long fid, int tag, int stunde, String raum) {
         String selection = FACH_ID + " = " + fid + " AND " + STUNDEN_TAG + " = " + tag + " AND " + STUNDEN_STUNDE + " = " + stunde;
         Cursor cursor    = database.query(TABLE_STUNDEN, new String[]{FACH_ID}, selection, null, null, null, null);
         if (cursor.getCount() == 0) {
@@ -99,6 +101,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             values.put(FACH_ID, fid);
             values.put(STUNDEN_TAG, tag);
             values.put(STUNDEN_STUNDE, stunde);
+            values.put(STUNDE_RAUM, raum);
             database.insert(TABLE_STUNDEN, null, values);
         }
         cursor.close();
@@ -107,15 +110,14 @@ public class StundenplanDB extends SQLiteOpenHelper {
     void waehleFach(long fid) {
         ContentValues values = new ContentValues();
         values.put(FACH_ID, fid);
-        values.put(GEWAHLT_NOTIZ, "");
         values.put(GEWAHLT_SCHRIFTLICH, mussSchriftlich(fid) ? 1 : 0);
         database.insert(TABLE_GEWAHLT, null, values);
     }
 
-    void setzeNotiz(String notiz, int fid) {
+    void setzeNotiz(String notiz, int fid, int tag, int stunde) {
         ContentValues values = new ContentValues();
-        values.put(GEWAHLT_NOTIZ, notiz);
-        database.update(TABLE_GEWAHLT, values, FACH_ID + " = " + fid, null);
+        values.put(STUNDE_NOTIZ, notiz);
+        database.update(TABLE_STUNDEN, values, FACH_ID + " = " + fid + " AND " + STUNDEN_TAG + " = " + tag + " AND " + STUNDEN_STUNDE + " = " + stunde, null);
     }
 
     void setzeSchriftlich(boolean schriftlich, long fid) {
@@ -130,13 +132,13 @@ public class StundenplanDB extends SQLiteOpenHelper {
 
     Fach[] getFaecher() {
         String   table     = TABLE_FACHER + ", " + TABLE_STUNDEN;
-        String[] columns   = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
+        String[] columns   = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_KLASSE, STUNDE_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
         String   selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_ART + " != 'FREI'";
         Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_ART + " DESC, " + TABLE_FACHER + "." + FACH_ID);
         Fach[]   faecher   = new Fach[cursor.getCount()];
         int      i         = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
-            faecher[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getInt(6), cursor.getInt(7));
+            faecher[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8));
         }
         cursor.close();
         return faecher;
@@ -149,24 +151,25 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 FACH_NAME,
                 FACH_ART,
                 FACH_LEHRER,
-                FACH_RAUM,
+                FACH_KLASSE,
+                STUNDE_RAUM,
                 STUNDEN_STUNDE,
                 GEWAHLT_SCHRIFTLICH,
-                GEWAHLT_NOTIZ};
+                STUNDE_NOTIZ};
         String selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + TABLE_FACHER + "." + FACH_ID + " = " + TABLE_GEWAHLT + "." + FACH_ID + " AND " + TABLE_STUNDEN + "." + STUNDEN_TAG + " = " + tag;
         Cursor cursor    = database.query(table, columns, selection, null, null, null, STUNDEN_STUNDE);
         Fach[] faecher   = new Fach[0];
         if (cursor.getCount() > 0) {
             cursor.moveToLast();
-            faecher = new Fach[cursor.getInt(6)];
+            faecher = new Fach[cursor.getInt(7)];
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                faecher[cursor.getInt(6) - 1] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), tag, cursor.getInt(6));
-                faecher[cursor.getInt(6) - 1].setzeNotiz(cursor.getString(8));
-                faecher[cursor.getInt(6) - 1].setzeSchriftlich(cursor.getInt(7) == 1);
+                faecher[cursor.getInt(7) - 1] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getString(6), tag, cursor.getInt(7));
+                faecher[cursor.getInt(7) - 1].setzeNotiz(cursor.getString(9));
+                faecher[cursor.getInt(7) - 1].setzeSchriftlich(cursor.getInt(8) == 1);
             }
             for (int i = 0; i < faecher.length; i++) {
                 if (faecher[i] == null)
-                    faecher[i] = new Fach(0, "", "", "", "", tag, i + 1);
+                    faecher[i] = new Fach(0, "", "", "", "", "", tag, i + 1);
             }
         }
         cursor.close();
@@ -180,11 +183,12 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 FACH_NAME,
                 FACH_ART,
                 FACH_LEHRER,
-                FACH_RAUM,
+                FACH_KLASSE,
+                STUNDE_RAUM,
                 STUNDEN_TAG,
                 STUNDEN_STUNDE,
                 GEWAHLT_SCHRIFTLICH,
-                GEWAHLT_NOTIZ};
+                STUNDE_NOTIZ};
         String selection = TABLE_GEWAHLT + "." + FACH_ID + " = " + TABLE_FACHER + "." + FACH_ID
                 + " AND " + TABLE_STUNDEN + "." + FACH_ID + " = " + TABLE_FACHER + "." + FACH_ID
                 + " AND " + TABLE_STUNDEN + "." + STUNDEN_TAG + " = " + tag
@@ -198,26 +202,22 @@ public class StundenplanDB extends SQLiteOpenHelper {
                     cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""),
                     cursor.getString(4),
                     cursor.getString(5),
+                    cursor.getString(6),
                     tag, stunde);
-            f.setzeNotiz(cursor.getString(9));
-            f.setzeSchriftlich(cursor.getInt(8) == 1);
+            f.setzeNotiz(cursor.getString(10));
+            f.setzeSchriftlich(cursor.getInt(9) == 1);
         }
         cursor.close();
         return f;
     }
 
-    private String kuerzelToFach(String kuerzel) {
-        String stufe = Utils.getUserStufe().toUpperCase();
-        kuerzel = kuerzel.toUpperCase();
-        if (stufe.equals("EF") || stufe.equals("Q1") || stufe.equals("Q2")) {
+    private String getFachname(String kuerzel) {
+        String stufe = Utils.getUserStufe();
+        if (kuerzel.startsWith("L-") || kuerzel.matches("L[0-9]")) {
+            return context.getString(R.string.latein);
+        }
+        if (!stufe.matches("[0-9]{1,2}")) {
             if (kuerzel.length() > 4) {
-                if (kuerzel.charAt(2) == ' ') {
-                    String k = kuerzel.substring(0, 2) + kuerzel.substring(3);
-                    return this.kuerzelToFach(k);
-                }
-                if (kuerzel.startsWith("L-")) {
-                    return context.getString(R.string.latein);
-                }
                 if (kuerzel.equals("GEF")) {
                     return context.getString(R.string.bili);
                 }
@@ -229,56 +229,46 @@ public class StundenplanDB extends SQLiteOpenHelper {
                         return context.getString(R.string.Weltlit);
                     }
                 }
-                String hilfskuerzel = kuerzel.substring(0, kuerzel.length() - 1); //Muss es -1 oder -2 sein, wenn der letzte Buchstabe wegfallen soll
+                String hilfskuerzel = kuerzel.substring(0, kuerzel.length() - 1);
                 if (hilfskuerzel.endsWith("ZG")) {
-                    return this.teilkuerzelOS(hilfskuerzel.substring(0, 2)) + context.getString(R.string.ZK);
+                    return fachnameOberstufe(hilfskuerzel.substring(0, 2)) + ' ' + context.getString(R.string.ZK);
                 }
                 if (hilfskuerzel.endsWith("P")) {
-                    return this.teilkuerzelOS(hilfskuerzel.substring(0, 2)) + context.getString(R.string.Projektk);
+                    return fachnameOberstufe(hilfskuerzel.substring(0, 2)) + ' ' + context.getString(R.string.Projektk);
                 }
                 if (hilfskuerzel.endsWith("VTF")) {
-                    return this.teilkuerzelOS(hilfskuerzel.substring(1, 2)) + context.getString(R.string.Vertiefung);
+                    return fachnameOberstufe(hilfskuerzel.charAt(1) + " ") + ' ' + context.getString(R.string.Vertiefung);
                 }
             }
-            if (kuerzel.substring(0, 2).contains("0,1,2,3,4,5,6,7,8,9")) { // impossible
-                return this.teilkuerzelOS(kuerzel.substring(0, 2).replace("0,1,2,3,4,5,6,7,8,9", " "));
-            }
-            return this.teilkuerzelOS(kuerzel.substring(0, 2));
+            return this.fachnameOberstufe(kuerzel.substring(0, 2));
         } else if (!stufe.equals("")) {
             if (kuerzel.length() > 2) {
                 if (kuerzel.contains("-")) {
                     int i = kuerzel.indexOf('-');
-                    return this.teilkuerzelUS(kuerzel.substring(0, i));
+                    return fachnameUnterstufe(kuerzel.substring(0, i));
                 }
                 if (kuerzel.length() == 3 && kuerzel.endsWith("F")) {
-                    return this.teilkuerzelUS(kuerzel.substring(0, 2));
+                    return fachnameUnterstufe(kuerzel.substring(0, 2));
                 }
-                if (kuerzel.endsWith("DF")) {
+                if (kuerzel.toUpperCase().endsWith("DF")) {
                     if (kuerzel.startsWith("PK")) {
-                        return context.getString(R.string.PoWi) + context.getString(R.string.Diff);
+                        return context.getString(R.string.PoWi);
                     }
-                    return this.teilkuerzelUS(kuerzel.substring(0, 2) + context.getString(R.string.Diff));
+                    return fachnameUnterstufe(kuerzel.substring(0, 2));
                 }
                 if (kuerzel.endsWith("FÖ")) {
                     int i = kuerzel.indexOf("FÖ");
-                    return this.teilkuerzelUS(kuerzel.substring(0, i)) + context.getString(R.string.Förder);
+                    return fachnameUnterstufe(kuerzel.substring(0, i));
                 }
                 if (kuerzel.startsWith("LÜZ")) {
-                    switch (kuerzel.substring(3)) {
-                        case "MO":
-                            return context.getString(R.string.lüz) + context.getString(R.string.montag);
-                        case "MI":
-                            return context.getString(R.string.lüz) + context.getString(R.string.mittwoch);
-                        case "DO":
-                            return context.getString(R.string.lüz) + context.getString(R.string.donnerstag);
-                    }
+                    return context.getString(R.string.lüz);
                 }
                 if (kuerzel.startsWith("AG")) {
                     String teil = kuerzel.substring(2);
                     if (kuerzel.charAt(2) == ' ') {
                         teil = kuerzel.substring(3);
                     }
-                    return context.getString(R.string.ag) + this.teilkuerzelAG(teil);
+                    return context.getString(R.string.ag) + fachnameAG(teil);
                 }
                 if (kuerzel.equals("SOZ")) {
                     return context.getString(R.string.Soz);
@@ -287,12 +277,12 @@ public class StundenplanDB extends SQLiteOpenHelper {
                     return context.getString(R.string.schwimmen);
                 }
             }
-            return this.teilkuerzelUS(kuerzel);
+            return this.fachnameUnterstufe(kuerzel);
         }
         return kuerzel;
     }
 
-    private String teilkuerzelUS(String teil) {
+    private String fachnameUnterstufe(String teil) {
         switch (teil.toUpperCase()) {
             case "F":
                 return context.getString(R.string.franze);
@@ -301,20 +291,52 @@ public class StundenplanDB extends SQLiteOpenHelper {
             case "E":
                 return context.getString(R.string.englisch);
             case "SP":
-                //Hier weiter arbeiten // TODO: 09.09.2017  
+                return context.getString(R.string.sport);
+            case "DE":
+                return context.getString(R.string.deutsch);
+            case "BI":
+                return context.getString(R.string.bio);
+            case "KU":
+                return context.getString(R.string.kunst);
+            case "GE":
+                return context.getString(R.string.geschichte);
+            case "PK":
+                return context.getString(R.string.politik);
+            case "EK":
+                return context.getString(R.string.geo);
+            case "PH":
+                return context.getString(R.string.physik);
+            case "CH":
+                return context.getString(R.string.chemie);
+            case "N":
+                return context.getString(R.string.niederländisch);
+            case "IF":
+                return context.getString(R.string.info);
+            case "KR":
+                return context.getString(R.string.reliKat);
+            case "ER":
+                return context.getString(R.string.reliEv);
+            case "PP":
+                return context.getString(R.string.philo);
+            case "MU":
+                return context.getString(R.string.musik);
+            case "S":
+                return context.getString(R.string.spanisch);
         }
         return null;
     }
 
-    private String teilkuerzelAG(String teil) {
-        return null;
+    private String fachnameAG(String teil) {
+        return teil;
     }
 
-    private String teilkuerzelOS(String teil) {
+    private String fachnameOberstufe(String teil) {
         switch (teil.toUpperCase()) {
             case "M ":
                 return context.getString(R.string.mathe);
             case "D ":
+                return context.getString(R.string.deutsch);
+            case "DE":
                 return context.getString(R.string.deutsch);
             case "L ":
                 return context.getString(R.string.latein);
@@ -354,18 +376,33 @@ public class StundenplanDB extends SQLiteOpenHelper {
                 return context.getString(R.string.kunst);
             case "MU":
                 return context.getString(R.string.musik);
+            case "MV":
+                return context.getString(R.string.vokal);
             case "SP":
                 return context.getString(R.string.sport);
-            default:
-                return null;
         }
+        if (teil.matches("S[0-9]"))
+            return context.getString(R.string.spanisch);
+        return null;
+    }
+
+    private String getFachart(String kuerzel) {
+        if (kuerzel.contains("VTF"))
+            return "VTF";
+        if (kuerzel.matches("[A-Za-zÄÖÜäöü]{1,3}[ ]?L[0-9]"))
+            return "LK";
+        if (kuerzel.charAt(kuerzel.length() - 2) == 'P')
+            return "PK";
+        if (kuerzel.substring(0, kuerzel.length() - 1).endsWith("ZG"))
+            return "ZK";
+        return "GK";
     }
 
     String gibZeiten(Fach f) {
         String condition, table;
         if (f.id == 0) {
             table = TABLE_STUNDEN + ", " + TABLE_FACHER;
-            condition = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_KURZEL + " = '" + f.gibKurz() + "'";
+            condition = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_KURZEL + " = '" + f.getKuerzel() + "'";
         } else {
             table = TABLE_STUNDEN;
             condition = FACH_ID + " = " + f.id;
@@ -458,7 +495,6 @@ public class StundenplanDB extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(FACH_NAME, "");
             values.put(FACH_ART, "FREI");
-            values.put(FACH_RAUM, "");
             values.put(FACH_LEHRER, "");
             values.put(FACH_KURZEL, "FREI");
             int fid = (int) database.insert(TABLE_FACHER, null, values);
@@ -466,10 +502,10 @@ public class StundenplanDB extends SQLiteOpenHelper {
             values.put(FACH_ID, fid);
             values.put(STUNDEN_TAG, tag);
             values.put(STUNDEN_STUNDE, stunde);
+            values.put(STUNDE_RAUM, "");
             database.insert(TABLE_STUNDEN, null, values);
             values.clear();
             values.put(FACH_ID, fid);
-            values.put(GEWAHLT_NOTIZ, "");
             values.put(GEWAHLT_SCHRIFTLICH, 0);
             database.insert(TABLE_GEWAHLT, null, values);
         }

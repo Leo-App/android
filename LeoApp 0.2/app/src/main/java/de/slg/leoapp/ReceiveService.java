@@ -23,20 +23,21 @@ import de.slg.messenger.Verschluesseln;
 import de.slg.schwarzes_brett.SQLiteConnector;
 
 public class ReceiveService extends Service {
-    boolean receiveNews;
-    private boolean running, socketRunning;
+    public  boolean receiveNews;
+    private boolean running, socketRunning, idle;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Utils.context = getApplicationContext();
-        Utils.registerReceiveService(this);
+        Utils.getController().setContext(getApplicationContext());
+        Utils.getController().registerReceiveService(this);
 
         running = true;
         socketRunning = false;
         receiveNews = false;
+        idle = false;
 
-        new MessengerThread().start();
-        new NewsThread().start();
+        new ReceiveThread().start();
+        new QueueThread().start();
 
         Log.i("ReceiveService", "Service (re)started!");
         return START_STICKY;
@@ -51,48 +52,43 @@ public class ReceiveService extends Service {
     @Override
     public void onDestroy() {
         running = false;
-        Utils.registerReceiveService(null);
+        Utils.getController().registerReceiveService(null);
         Log.i("ReceiveService", "Service stopped!");
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        Log.e("ReceiveService", "TASK REMOVED!");
-        Utils.getMDB().close();
-        Utils.invalidateMDB();
+        Log.e("ReceiveService", "ReceiveService removed");
+        Utils.getController().getMessengerDataBase().close();
+        Utils.getController().registerReceiveService(null);
         super.onTaskRemoved(rootIntent);
     }
 
-    private class MessengerThread extends Thread {
+    public void notifyQueuedMessages() {
+        new QueueThread().start();
+    }
+
+    private class ReceiveThread extends Thread {
         @Override
         public void run() {
             Looper.prepare();
+
             while (running) {
                 try {
                     if (Utils.checkNetwork()) {
-                        if (Utils.getMDB().hasQueuedMessages())
-                            new SendQueuedMessages().execute();
+                        if (!socketRunning)
+                            new MessengerSocket().start();
 
-                        //if (!socketRunning)
-                        //    new MessengerSocket().run();
+                        new ReceiveNews().execute();
                     }
-                    sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    break;
-                }
-            }
-        }
-    }
 
-    private class NewsThread extends Thread {
-        @Override
-        public void run() {
-            while (running) {
-                try {
-                    new ReceiveNews().execute();
-                    for (int i = 0; i < 60000 && running && !receiveNews; i++)
+                    while (idle) {
                         sleep(1);
+                    }
+
+                    for (int i = 0; i < 2400 && running && !receiveNews; i++)
+                        sleep(25);
+
                     receiveNews = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -102,39 +98,12 @@ public class ReceiveService extends Service {
         }
     }
 
-    private class SendQueuedMessages extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (Utils.checkNetwork()) {
-                Message[] array = Utils.getMDB().getQueuedMessages();
-                for (Message m : array) {
-                    try {
-                        HttpsURLConnection connection = (HttpsURLConnection)
-                                new URL(generateURL(m.mtext, m.cid))
-                                        .openConnection();
-                        connection.setRequestProperty("Authorization", Utils.authorization);
-                        BufferedReader reader =
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                connection.getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null)
-                            ;
-                        reader.close();
-                        Utils.getMDB().dequeueMessage(m.mid);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return null;
-        }
-
-        private String generateURL(String message, int cid) {
-            return Utils.BASE_URL + "messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
-        }
-    }
-
     private class ReceiveNews extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            idle = true;
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
@@ -250,9 +219,10 @@ public class ReceiveService extends Service {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (Utils.getSchwarzesBrettActivity() != null)
-                Utils.getSchwarzesBrettActivity().refreshUI();
-            Log.i("ReceiveService", "received News");
+            if (Utils.getController().getSchwarzesBrettActivity() != null)
+                Utils.getController().getSchwarzesBrettActivity().refreshUI();
+
+            idle = false;
         }
     }
 
@@ -264,12 +234,12 @@ public class ReceiveService extends Service {
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
-                                        new URL(Utils.BASE_URL.substring(0, Utils.BASE_URL.indexOf("slgweb/")) + "/leoapp?uid=" + Utils.getUserID())
+                                        new URL(Utils.URL_TOMCAT + "?uid=" + Utils.getUserID() + "&mdate=" + Utils.getController().getMessengerDataBase().getLatestMessage())
                                                 .openConnection()
                                                 .getInputStream(), "UTF-8"));
 
                 StringBuilder builder = new StringBuilder();
-                for (String line = reader.readLine(); running; line = reader.readLine()) {
+                for (String line = reader.readLine(); running && line != null; line = reader.readLine()) {
                     builder.append(line)
                             .append(System.getProperty("line.separator"));
                     if (line.endsWith("_ next _")) {
@@ -283,13 +253,13 @@ public class ReceiveService extends Service {
                             int    cid   = Integer.parseInt(parts[4]);
                             int    uid   = Integer.parseInt(parts[5]);
 
-                            Utils.getMDB().insertMessage(new Message(mid, mtext, mdate, cid, uid));
+                            Utils.getController().getMessengerDataBase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
                         } else if (s.startsWith("c") && parts.length == 3) {
                             int           cid   = Integer.parseInt(parts[0]);
                             String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
                             Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
 
-                            Utils.getMDB().insertChat(new Chat(cid, cname, ctype));
+                            Utils.getController().getMessengerDataBase().insertChat(new Chat(cid, cname, ctype));
                         } else if (s.startsWith("u") && parts.length == 5) {
                             int    uid          = Integer.parseInt(parts[0]);
                             String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
@@ -297,21 +267,23 @@ public class ReceiveService extends Service {
                             int    upermission  = Integer.parseInt(parts[3]);
                             String udefaultname = parts[4];
 
-                            Utils.getMDB().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
+                            Utils.getController().getMessengerDataBase().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
                         } else if (s.startsWith("a")) {
                             assoziationen();
+                        } else if (s.startsWith("-")) {
+                            Log.e("SocketError", s);
                         }
 
                         builder.delete(0, builder.length());
 
-                        if (Utils.getMessengerActivity() != null)
-                            Utils.getMessengerActivity().notifyUpdate();
+                        if (Utils.getController().getMessengerActivity() != null)
+                            Utils.getController().getMessengerActivity().notifyUpdate();
                     }
                 }
+                reader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            socketRunning = false;
         }
 
         @Override
@@ -323,20 +295,26 @@ public class ReceiveService extends Service {
         private void assoziationen() {
             try {
                 HttpsURLConnection connection = (HttpsURLConnection)
-                        new URL(Utils.BASE_URL + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID())
+                        new URL(Utils.BASE_URL_PHP + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID())
                                 .openConnection();
                 connection.setRequestProperty("Authorization", Utils.authorization);
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
                                         connection.getInputStream(), "UTF-8"));
+
                 StringBuilder builder = new StringBuilder();
                 String        l;
-                while ((l = reader.readLine()) != null)
+                while ((l = reader.readLine()) != null) {
                     builder.append(l);
+                }
                 reader.close();
-                String            erg    = builder.toString();
-                String[]          result = erg.split(";");
+
+                if (builder.toString().startsWith("-")) {
+                    throw new IOException(builder.toString());
+                }
+
+                String[]          result = builder.toString().split(";");
                 List<Assoziation> list   = new List<>();
                 for (String s : result) {
                     String[] current = s.split(",");
@@ -344,10 +322,52 @@ public class ReceiveService extends Service {
                         list.append(new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1])));
                     }
                 }
-                Utils.getMDB().insertAssoziationen(list);
-            } catch (Exception e) {
+
+                Utils.getController().getMessengerDataBase().insertAssoziationen(list);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class QueueThread extends Thread {
+        @Override
+        public void run() {
+            while (Utils.getController().getMessengerDataBase().hasQueuedMessages())
+                if (Utils.checkNetwork())
+                    new SendMessages().execute();
+        }
+    }
+
+    private class SendMessages extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            Message[] array = Utils.getController().getMessengerDataBase().getQueuedMessages();
+            for (Message m : array) {
+                if (Utils.checkNetwork()) {
+                    try {
+                        HttpsURLConnection connection = (HttpsURLConnection)
+                                new URL(generateURL(m.mtext, m.cid))
+                                        .openConnection();
+                        connection.setRequestProperty("Authorization", Utils.authorization);
+                        BufferedReader reader =
+                                new BufferedReader(
+                                        new InputStreamReader(
+                                                connection.getInputStream(), "UTF-8"));
+                        while (reader.readLine() != null)
+                            ;
+                        reader.close();
+                        Utils.getController().getMessengerDataBase().dequeueMessage(m.mid);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return null;
+        }
+
+        private String generateURL(String message, int cid) {
+            return Utils.BASE_URL_PHP + "messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
         }
     }
 }

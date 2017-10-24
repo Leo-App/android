@@ -114,7 +114,7 @@ public class NachhilfeboerseActivity extends AppCompatActivity {
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
         grade.setText(Utils.getUserStufe());
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(Utils.getCurrentMoodRessource());
+        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private void initListView() {

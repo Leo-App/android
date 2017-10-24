@@ -41,7 +41,6 @@ import java.security.NoSuchAlgorithmException;
 import de.slg.essensqr.Auth;
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.messenger.DBConnection;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.InfoActivity;
@@ -72,7 +71,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         return new String(hexChars);
     }
 
-    public static void setCurrentUsername(String newName) {
+    public void setCurrentUsername(String newName) {
         currentUsername = newName;
     }
 
@@ -83,7 +82,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preference);
-        Utils.registerPreferenceActivity(this);
+        Utils.getController().registerPreferenceActivity(this);
 
         addPreferencesFromResource(R.xml.preferences_overview);
 
@@ -209,15 +208,15 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 connectionPref = findPreference("pref_key_qr_autofade_time");
                 connectionPref.setEnabled(sharedPreferences.getBoolean(key, false));
                 break;
-            case "pref_key_level_general":
-                new UpdateTaskGrade(this).execute();
+            case "pref_key_general_klasse":
+                new UpdateTaskGrade().execute();
                 String res = pref.getString(key, "N/A");
-                findPreference("pref_key_level_general").setSummary(res);
+                findPreference("pref_key_general_klasse").setSummary(res);
                 initNavigationView();
                 break;
-            case "pref_key_username_general":
+            case "pref_key_general_name":
                 showProgressBar();
-                UpdateTaskName task = new de.slg.startseite.UpdateTaskName(this, currentUsername);
+                UpdateTaskName task = new de.slg.startseite.UpdateTaskName(currentUsername);
                 task.execute();
                 initNavigationView();
                 break;
@@ -246,7 +245,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     @Override
     public void finish() {
         super.finish();
-        Utils.registerPreferenceActivity(null);
+        Utils.getController().registerPreferenceActivity(null);
     }
 
     private void initPreferenceChanges() {
@@ -264,27 +263,27 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         currentUsername = Utils.getUserName();
 
         if (!Utils.getUserStufe().equals(""))
-            findPreference("pref_key_level_general").setSummary(Utils.getUserStufe());
+            findPreference("pref_key_general_klasse").setSummary(Utils.getUserStufe());
         else
-            findPreference("pref_key_level_general").setSummary("N/A");
+            findPreference("pref_key_general_klasse").setSummary("N/A");
 
-        findPreference("pref_key_username_general").setSummary(currentUsername);
+        findPreference("pref_key_general_name").setSummary(currentUsername);
 
         if (!Utils.isVerified()) {
-            findPreference("pref_key_level_general").setEnabled(false);
-            findPreference("pref_key_username_general").setSummary("N/A");
+            findPreference("pref_key_general_klasse").setEnabled(false);
+            findPreference("pref_key_general_name").setSummary("N/A");
         }
 
         PreferenceCategory general = (PreferenceCategory) findPreference("pref_key_general_settings");
         if (permission == 2) {
-            general.removePreference(findPreference("pref_key_level_general"));
+            general.removePreference(findPreference("pref_key_general_klasse"));
             findPreference("pref_key_kuerzel_general").setSummary(pref.getString("pref_key_kuerzel_general", "N/A"));
         } else {
             general.removePreference(findPreference("pref_key_kuerzel_general"));
         }
 
         if (!Utils.isVerified())
-            findPreference("pref_key_username_general").setEnabled(false);
+            findPreference("pref_key_general_name").setEnabled(false);
 
         findPreference("pref_key_version_app").setSummary(Utils.getAppVersionName());
 
@@ -315,9 +314,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         syncPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Utils.invalidateMDB();
-                deleteDatabase(DBConnection.DBHelper.DATABASE_NAME);
-                //TODO Verbindung zum Server neu herstellen
+                Utils.getController().getMessengerDataBase().clear();
                 return Utils.checkNetwork();
             }
         });
@@ -425,7 +422,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             grade.setText(Utils.getUserStufe());
 
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(Utils.getCurrentMoodRessource());
+        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private ActionBar getSupportActionBar() {
@@ -511,7 +508,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                     BufferedReader in;
                     String         md5      = bytesToHex(enc);
                     Log.d("LeoApp", md5);
-                    URL interfaceDB = new URL(Utils.BASE_URL + "essenqr/qr_checkval.php?id=" + pref.getString("pref_key_qr_id", "00000") + "&auth=RW6SlQ&pw=" + md5);
+                    URL interfaceDB = new URL(Utils.BASE_URL_PHP + "essenqr/qr_checkval.php?id=" + pref.getString("pref_key_qr_id", "00000") + "&auth=RW6SlQ&pw=" + md5);
                     Log.d("LeoApp", interfaceDB.toString());
                     in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
                     String inputLine;

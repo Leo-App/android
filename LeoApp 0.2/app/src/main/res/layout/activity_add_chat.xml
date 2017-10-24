@@ -60,46 +60,36 @@
                 app:cardElevation="1dp">
 
                 <LinearLayout
-                    android:id="@+id/linearLayoutUsers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:divider="?android:attr/dividerVertical"
-                    android:orientation="vertical"
-                    android:showDividers="middle" />
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/editTextSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:hint="Benutzer suchen"
+                        android:inputType="textPersonName"
+                        android:lines="1" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutUsers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="?android:attr/dividerVertical"
+                        android:orientation="vertical"
+                        android:showDividers="middle" />
+
+                </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
     </ScrollView>
-
-    <EditText
-        android:id="@+id/editTextSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/floatingActionButton"
-        android:layout_alignTop="@+id/floatingActionButton"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="2dp"
-        android:layout_toLeftOf="@+id/floatingActionButton"
-        android:layout_toStartOf="@+id/floatingActionButton"
-        android:inputType="textPersonName"
-        android:lines="1"
-        android:text="Name"
-        android:visibility="gone" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        android:clickable="true"
-        android:visibility="gone"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/ic_search_white_24dp" />
 
     <ProgressBar
         android:id="@+id/progressBar"

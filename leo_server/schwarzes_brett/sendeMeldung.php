@@ -1,11 +1,14 @@
 <?php
 
+	if ($_SERVER["REMOTE_USER"] != "leoapp")
+		die("-permission denied!");
+	
 	require_once('../dbconfig.php');
 
 	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
 	if ($db->connect_error)
-    	die("Connection failed: ".$db->connect_error);
+    	die("-connection failed: ".$db->connect_error);
 
 	$heute = date("Y-m-d H:i:s");
     $titel = $_GET['titel'];
@@ -34,10 +37,10 @@ else{
   </form> 
 </html>
 <?php
-	$query = "INSERT INTO Einträge VALUES ('null','".$adressat."', '".$titel."', '".$inhalt."', '".$heute."', '".$ablaufdatum."')";
+	$query = "INSERT INTO Einträge VALUES ('null', 'null', '".$adressat."', '".$titel."', '".$inhalt."', '".$heute."', '".$ablaufdatum."')";
 	$result = $db->query($query);
 	if ($result === false)
-		die("error in query");
+		die("-error in query");
 }
 
 	$db->close();

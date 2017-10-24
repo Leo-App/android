@@ -6,50 +6,62 @@
 
 
     <CheckBox
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:id="@+id/checkBox"
-        android:focusable="false"
-        android:clickable="false"
-        android:layout_marginRight="10dp"
-        android:focusableInTouchMode="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
         android:buttonTint="@color/colorAccent"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
     <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/fach_auswahl"
-        android:textStyle="normal|bold"
-        android:textSize="18sp"
-        android:textColor="@color/colorText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="Fach"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
 
     <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/kürzel_auswahl"
-        android:textSize="16sp"
-        android:textColor="@color/colorText"
-        android:layout_below="@+id/fach_auswahl"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lehrer_auswahl"
-        android:textSize="16sp"
-        android:textColor="@color/colorText"
-        android:layout_below="@+id/kürzel_auswahl"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/fach_auswahl"
+        android:text="Kurs"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/lehrer_auswahl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/kürzel_auswahl"
+        android:text="Lehrerkürzel"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/klasse_auswahl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/checkBox"
+        android:layout_alignLeft="@+id/checkBox"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/checkBox"
+        android:layout_alignStart="@+id/checkBox"
+        android:textAlignment="center"
+        android:visibility="visible" />
 
 </RelativeLayout>

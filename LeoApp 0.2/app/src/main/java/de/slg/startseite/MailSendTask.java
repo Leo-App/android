@@ -9,18 +9,18 @@ import javax.mail.MessagingException;
 import de.slg.leoapp.List;
 import de.slg.leoapp.Utils;
 
-class MailSendTask extends AsyncTask<String, Void, Void> {
+public class MailSendTask extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... strings) {
         String requestText = strings[0];
         if (!Utils.checkNetwork()) {
-            Utils.getPreferences()
+            Utils.getController().getPreferences()
                     .edit()
                     .putString("pref_key_request_cached", requestText)
                     .apply();
             return null;
         }
-        Utils.getPreferences()
+        Utils.getController().getPreferences()
                 .edit()
                 .putString("pref_key_request_cached", "-")
                 .apply();
@@ -37,9 +37,5 @@ class MailSendTask extends AsyncTask<String, Void, Void> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    public void onPostExecute(Void v) {
     }
 }

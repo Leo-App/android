@@ -33,6 +33,7 @@ import static de.slg.messenger.DBConnection.DBHelper.USER_ID;
 import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_PERMISSION;
 import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
+import static de.slg.messenger.DBConnection.DBHelper.version;
 
 public class DBConnection {
     private final SQLiteDatabase database;
@@ -57,7 +58,7 @@ public class DBConnection {
             values.put(MESSAGE_DATE, m.mdate.getTime());
             values.put(CHAT_ID, m.cid);
             values.put(USER_ID, m.uid);
-            values.put(MESSAGE_READ, m.uid == Utils.getUserID() || m.cid == Utils.currentlyDisplayedChat() ? 1 : 0);
+            values.put(MESSAGE_READ, m.uid == Utils.getUserID() || m.cid == de.slg.messenger.Utils.currentlyDisplayedChat() ? 1 : 0);
             values.put(MESSAGE_DELETED, 0);
             insert(TABLE_MESSAGES, values);
             if (m.uid == Utils.getUserID()) {
@@ -104,7 +105,7 @@ public class DBConnection {
         String selection = MESSAGE_READ + " = 0 AND " +
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
-                CHAT_MUTE + " = 0 AND " + TABLE_MESSAGES + "." + CHAT_ID + " != " + Utils.currentlyDisplayedChat();
+                CHAT_MUTE + " = 0 AND " + TABLE_MESSAGES + "." + CHAT_ID + " != " + de.slg.messenger.Utils.currentlyDisplayedChat();
         Cursor    cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE);
         Message[] array  = new Message[cursor.getCount()];
         cursor.moveToFirst();
@@ -116,10 +117,44 @@ public class DBConnection {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_READ + " = 0 AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + Utils.currentlyDisplayedChat(), null);
+        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_READ + " = 0 AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + de.slg.messenger.Utils.currentlyDisplayedChat(), null);
         boolean b      = cursor.getCount() > 0;
         cursor.close();
         return b;
+    }
+
+    public String getNotificationString() {
+        String   table   = TABLE_MESSAGES + ", " + TABLE_CHATS;
+        String[] columns = {MESSAGE_ID, TABLE_MESSAGES + "." + CHAT_ID};
+        String selection = MESSAGE_READ + " = 0 AND " +
+                USER_ID + " != " + Utils.getUserID() + " AND " +
+                TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
+                CHAT_MUTE + " = 0 AND " +
+                TABLE_MESSAGES + "." + CHAT_ID + " != " + de.slg.messenger.Utils.currentlyDisplayedChat();
+        Cursor cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID);
+        cursor.moveToFirst();
+
+        int mcount = cursor.getCount();
+
+        int cprev  = cursor.getInt(1);
+        int ccount = 1;
+        for (cursor.moveToNext(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            if (cursor.getInt(1) != cprev) {
+                ccount++;
+                cprev = cursor.getInt(1);
+            }
+        }
+
+        cursor.close();
+
+        String notificationString = mcount + " neue Nachrichten";
+        if (ccount > 1) {
+            notificationString += " in " + ccount + " Chats.";
+        } else {
+            notificationString += ".";
+        }
+
+        return notificationString;
     }
 
     void setMessagesRead(int cid) {
@@ -133,6 +168,8 @@ public class DBConnection {
         values.put(MESSAGE_TEXT, mtext);
         values.put(CHAT_ID, cid);
         insert(TABLE_MESSAGES_QUEUED, values);
+
+        Utils.getController().getReceiveService().notifyQueuedMessages();
     }
 
     public boolean hasQueuedMessages() {
@@ -172,6 +209,17 @@ public class DBConnection {
 
     void deleteQueuedMessage(int mid) {
         delete(TABLE_MESSAGES_QUEUED, MESSAGE_ID + " = " + mid);
+    }
+
+    public String getLatestMessage() {
+        String[] columns = {"MAX(" + MESSAGE_DATE + ")"};
+        Cursor   cursor  = query(TABLE_MESSAGES, columns, null, null);
+        cursor.moveToFirst();
+        String erg = "";
+        if (cursor.getCount() > 0)
+            erg = cursor.getString(0);
+        cursor.close();
+        return erg;
     }
 
     //User
@@ -497,14 +545,19 @@ public class DBConnection {
         database.update(table, values, where, null);
     }
 
-    public class DBHelper extends SQLiteOpenHelper {
-        public static final String DATABASE_NAME   = "messenger";
-        static final        String TABLE_MESSAGES  = "messages";
-        static final        String MESSAGE_ID      = "mid";
-        static final        String MESSAGE_TEXT    = "mtext";
-        static final        String MESSAGE_DATE    = "mdate";
-        static final        String MESSAGE_READ    = "mgelesen";
-        static final        String MESSAGE_DELETED = "mdeleted";
+    public void clear() {
+        helper.onUpgrade(database, -1, version);
+    }
+
+    class DBHelper extends SQLiteOpenHelper {
+        static final String DATABASE_NAME = "messenger";
+
+        static final String TABLE_MESSAGES  = "messages";
+        static final String MESSAGE_ID      = "mid";
+        static final String MESSAGE_TEXT    = "mtext";
+        static final String MESSAGE_DATE    = "mdate";
+        static final String MESSAGE_READ    = "mgelesen";
+        static final String MESSAGE_DELETED = "mdeleted";
 
         static final String TABLE_CHATS  = "chats";
         static final String CHAT_ID      = "cid";
@@ -524,8 +577,10 @@ public class DBConnection {
 
         static final String TABLE_MESSAGES_QUEUED = "messages_unsend";
 
+        static final int version = 4;
+
         DBHelper(Context context) {
-            super(context, DATABASE_NAME, null, 4);
+            super(context, DATABASE_NAME, null, version);
         }
 
         @Override

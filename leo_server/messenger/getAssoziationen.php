@@ -1,14 +1,14 @@
 <?php
 
-	if ($_GET['key'] != 5453)
-		die("permission denied!");
-
+	if ($_SERVER["REMOTE_USER"] != "leoapp")
+		die("-permission denied!");
+	
 	require_once('../dbconfig.php');
 
 	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
 	if ($db->connect_error)
-		die("Connection failed: " . $db->connect_error);
+    	die("-connection failed: ".$db->connect_error);
 
 	// mitgegebene Wert über get: userid
 
@@ -18,7 +18,7 @@
 
 	$result = $db->query($query);
 	if ($result === false)
-		die("error in query");
+		die("-error in query");
 
 	while($row = $result->fetch_assoc())
 		echo $row['cid'].",".$row['uid'].";";

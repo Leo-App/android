@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.ArrayList;
 
+import de.slg.schwarzes_brett.UpdateViewTrackerTask;
+import de.slg.startseite.MailSendTask;
 import de.slg.startseite.MainActivity;
 
 public class Start extends Activity {
@@ -17,30 +15,36 @@ public class Start extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Utils.context = getApplicationContext();
+        Utils.getController().setContext(getApplicationContext());
+        Utils.getController().getPreferences()
+                .edit()
+                //                .putInt("pref_key_general_id", 1008)
+                .apply();
 
-        int days = 15;
-        try {
-            Date     d = new SimpleDateFormat("dd.MM.yyyy").parse(Utils.getPreferences().getString("valid_until", "null"));
-            Calendar c = new GregorianCalendar();
-            for (int i = 1; i <= 14; i++) {
-                c.add(Calendar.DAY_OF_MONTH, 1);
-                if (c.getTime().after(d)) {
-                    days = i;
-                    break;
-                }
-            }
-        } catch (ParseException ignored) {
-        }
+        runUpdateTasks();
+        startServices();
 
         final Intent main = new Intent(getApplicationContext(), MainActivity.class)
-                .putExtra("show_dialog", Utils.showVoteOnStartup())
-                .putExtra("days", days);
-
-        startService(new Intent(getApplicationContext(), ReceiveService.class));
-        startService(new Intent(getApplicationContext(), NotificationService.class));
+                .putExtra("show_dialog", de.slg.stimmungsbarometer.Utils.showVoteOnStartup());
 
         startActivity(main);
         finish();
+    }
+
+    private void runUpdateTasks() {
+        ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.Utils.getCachedIDs();
+        new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
+
+        new SyncUserTask().execute();
+        new SyncGradeTask().execute();
+
+        if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
+            new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
+        }
+    }
+
+    private void startServices() {
+        startService(new Intent(getApplicationContext(), ReceiveService.class));
+        startService(new Intent(getApplicationContext(), NotificationService.class));
     }
 }

@@ -1,5 +1,6 @@
 package de.slg.klausurplan;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.util.Calendar;
@@ -28,12 +30,14 @@ class KlausurDialog extends AppCompatDialog {
     private Snackbar snackbarDate;
     private Snackbar snackbarTitle;
 
+    private int DATE_DIALOG_ID = 0;
+
     KlausurDialog(@NonNull Context context) {
         super(context);
     }
 
     @Override
-    public void onCreate(Bundle savedInstancesState) {
+    public void onCreate(final Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.dialog_klausur);
 
@@ -66,6 +70,19 @@ class KlausurDialog extends AppCompatDialog {
                 }
             }
         });
+        findViewById(R.id.calendarPickerButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c      = Calendar.getInstance();
+                int      mYear  = c.get(Calendar.YEAR);
+                int      mMonth = c.get(Calendar.MONTH);
+                int      mDay   = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(getContext(),
+                        new mDateSetListener(), mYear, mMonth, mDay);
+                dialog.show();
+            }
+        });
+
     }
 
     private void initSnackbarTitel() {
@@ -113,17 +130,17 @@ class KlausurDialog extends AppCompatDialog {
         currentKlausur.setNotiz(eingabeNotiz.getText().toString());
         if (currentKlausur.getFach().equals("")) {
             currentKlausur.setFach(eingabeFach.getText().toString());
-            Utils.getKlausurplanActivity().add(currentKlausur, true);
+            Utils.getController().getKlausurplanActivity().add(currentKlausur, true);
         } else {
-            Utils.getKlausurplanActivity().remove(currentKlausur);
+            Utils.getController().getKlausurplanActivity().remove(currentKlausur);
             currentKlausur.setFach(eingabeFach.getText().toString());
-            Utils.getKlausurplanActivity().add(currentKlausur, true);
+            Utils.getController().getKlausurplanActivity().add(currentKlausur, true);
         }
     }
 
     private void klausurLöschen() {
         if (!currentKlausur.getFach().equals(""))
-            Utils.getKlausurplanActivity().remove(currentKlausur);
+            Utils.getController().getKlausurplanActivity().remove(currentKlausur);
     }
 
     private boolean istDatumFormat(String s) {
@@ -154,5 +171,25 @@ class KlausurDialog extends AppCompatDialog {
             }
         }
         return null;
+    }
+
+    class mDateSetListener implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public void onDateSet(DatePicker view, int yearL, int monthL, int dayL) {
+            String dayS = String.valueOf(dayL);
+            if (dayS.length() == 1) {
+                dayS = "0" + dayS;
+            }
+            String monthS = String.valueOf(monthL + 1); //month is zero based!
+            if (monthS.length() == 1) {
+                monthS = "0" + monthS;
+            }
+
+            String yearS = String.valueOf(yearL);
+            yearS = yearS.substring(2, 4);
+
+            eingabeDatum.setText(dayS + "." + monthS + "." + yearS);
+        }
     }
 }
