@@ -8,7 +8,7 @@ import android.util.Log;
 
 import de.slg.schwarzes_brett.SQLiteConnector;
 
-class SQLitePrinter {
+public class SQLitePrinter {
 
     public static void printDatabase(Context c) {
         new SQLitePrinter().new checkTask(c).execute();

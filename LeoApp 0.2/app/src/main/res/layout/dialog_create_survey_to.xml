@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/wrapper"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/wrapper">
 
     <TextView
         android:id="@+id/title_details"
@@ -13,7 +13,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="@string/title_survey_content"
+        android:text="@string/title_survey_to"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView
@@ -21,38 +21,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
-        android:text="@string/survey_description_content"
+        android:text="@string/title_description_to"
         android:layout_below="@+id/title_details"
         android:layout_alignLeft="@+id/title_details"
         android:layout_alignStart="@+id/title_details"
         android:layout_alignRight="@+id/title_details"
-        android:layout_alignEnd="@+id/title_details"/>
+        android:layout_alignEnd="@+id/title_details" />
 
-    <EditText
-        android:id="@+id/content"
+    <Spinner
+        android:id="@+id/spinner2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:inputType="textCapSentences|textMultiLine"
-        android:layout_marginStart="20dp"
-        android:layout_below="@+id/description"
-        android:textColor="@color/colorText"/>
+        android:layout_below="@id/description"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentStart="true"
+        android:drawSelectorOnTop="true"/>
 
     <Button
         android:id="@+id/buttonExamSave"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/spinner2"
         android:layout_marginTop="20dp"
-        android:text="@string/button_next"
-        android:drawableRight="@drawable/ic_chevron_right_white_24dp"
-        android:drawableTint="@color/colorPrimary"
-        android:textAllCaps="true"
-        android:layout_below="@id/content"
-        android:layout_alignParentRight="true" />
+        android:layout_marginRight="15dp"
+        android:text="@string/send_survey"
+        android:textAllCaps="true" />
 
     <Button
         android:id="@+id/buttonBack"
@@ -64,7 +62,7 @@
         android:textAllCaps="true"
         android:drawableLeft="@drawable/ic_chevron_left_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:layout_below="@id/content"
+        android:layout_below="@id/spinner2"
         android:layout_alignParentLeft="true"  />
 
 </RelativeLayout>

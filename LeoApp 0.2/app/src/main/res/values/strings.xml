@@ -13,7 +13,7 @@
     <string name="snackbar_undo">Undo</string>
     <string name="klausuren_filemane" translatable="false">klausuren.txt</string>
     <string name="subject">Subject</string>
-
+    <string name="all_dialog">All</string>
     <string name="date">Date</string>
     <string name="date_format" translatable="false">DD.MM.YY</string>
     <string name="note">Memo</string>
@@ -46,6 +46,8 @@
     <string name="cancel">Cancel</string>
 
     <string name="error">Sorry, something went wrong</string>
+
+    <string name="meta_id_placeholder">Survey-ID: #%1$s </string>
 
     <string name="button_info_try">Try it</string>
     <string name="button_info_auth">Verify</string>

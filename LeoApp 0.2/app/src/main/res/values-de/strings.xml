@@ -8,6 +8,11 @@
     <string name="action_delete">Löschen</string>
     <string name="cancel">Abbrechen</string>
     <string name="error">Entschuldige, es ist etwas schief gelaufen</string>
+    <string name="survey">Umfrage: \b</string>
+    <string name="vote_button">Abstimmen</string>
+    <string name="result">Ergebnis</string>
+    <string name="results">Ergebnisse</string>
+    <string name="statistics_result">%1$d/%2$d Stimmen (%3$d Prozent)</string>
 
 
     <!-- Titel -->
@@ -58,6 +63,7 @@
     <string name="snackbar_ungültig">Fach oder Datum ungültig</string>
     <string name="snackbar_gelöscht">Alle Klausuren gelöscht</string>
     <string name="snackbar_undo">Rückgängig</string>
+    <string name="survey_deleted">Umfrage gelöscht</string>
     <string name="subject">Fach</string>
     <string name="date">Datum</string>
     <string name="note">Notiz</string>
@@ -153,13 +159,17 @@
     <string name="notizen">Notizen</string>
     <string name="mache_bild">Bild erstellen</string>
     <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
-    <string name="title_survey_content">Beschreibung</string>
-    <string name="title_survey_title">Beschreibung</string>
+    <string name="title_survey_content">Beschreibung (optional)</string>
+    <string name="title_survey_title">Titel</string>
     <string name="survey_description_content">Beschreibe dein Anliegen in einigen Worten.</string>
     <string name="title_survey_answers">Antwortmöglichkeiten</string>
     <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
-    <string name="survey_checkbox_answers">Mehrere Möglich</string>
+    <string name="survey_checkbox_answers">Mehrere Möglichkeiten auswählbar</string>
     <string name="survey_new_answer">Antwort</string>
+    <string name="send_survey">Abschicken</string>
+    <string name="title_survey_to">Addressat</string>
+    <string name="title_description_to">An wen ist deine Umfrage gerichtet?</string>
+    <string name="back">Zurück</string>
 
 
     <!-- Einstellungen -->

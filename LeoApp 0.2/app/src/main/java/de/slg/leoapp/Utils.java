@@ -9,6 +9,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
 
+import java.lang.reflect.Array;
+
+@SuppressLint("StaticFieldLeak")
 public abstract class Utils {
     private static final String BASE_DOMAIN      = "https://secureaccess.itac-school.de/";
     public static final  String BASE_URL_PHP     = BASE_DOMAIN + "slgweb/leoapp_php/";
@@ -96,4 +99,17 @@ public abstract class Utils {
         byte[] bytesEncoded = Base64.encode((user + ":" + pass).getBytes(), 0);
         return authorizationPre + new String(bytesEncoded);
     }
+
+    public static <T> T[] concatArrays(T[] a, T[] b) {
+        int aLen = a.length;
+        int bLen = b.length;
+
+        @SuppressWarnings("unchecked")
+        T[] c = (T[]) Array.newInstance(a.getClass().getComponentType(), aLen+bLen);
+        System.arraycopy(a, 0, c, 0, aLen);
+        System.arraycopy(b, 0, c, aLen, bLen);
+
+        return c;
+    }
+
 }
