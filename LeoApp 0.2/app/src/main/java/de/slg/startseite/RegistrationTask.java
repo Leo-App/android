@@ -45,12 +45,12 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 klasse = "TEA";
 
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "user/addUser.php?key=5453&name=" + username + "&permission=" + (teacher ? 2 : 1) + "&klasse=" + klasse)
+                    new URL(Utils.BASE_URL_PHP + "user/addUser.php?permission=" + (teacher ? 2 : 1) + "&klasse=" + klasse)
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
             int code = connection.getResponseCode();
-            Log.d("code", String.valueOf(code));
+            Log.d("code_register", String.valueOf(code));
 
             if (code != 200) {
                 if (code == 401)

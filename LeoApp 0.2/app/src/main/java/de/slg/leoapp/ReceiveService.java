@@ -296,7 +296,9 @@ public class ReceiveService extends Service {
                         while (reader.readLine() != null)
                             ;
                         reader.close();
-                        Utils.getController().getMessengerDataBase().dequeueMessage(m.mid);
+
+                        if (connection.getResponseCode() == 200)
+                            Utils.getController().getMessengerDataBase().dequeueMessage(m.mid);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

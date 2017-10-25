@@ -18,7 +18,7 @@ public class Start extends Activity {
         Utils.getController().setContext(getApplicationContext());
         Utils.getController().getPreferences()
                 .edit()
-                //                .putInt("pref_key_general_id", 1008)
+                //.putInt("pref_key_general_id", 1008)
                 .apply();
 
         runUpdateTasks();
@@ -44,7 +44,9 @@ public class Start extends Activity {
     }
 
     private void startServices() {
-        startService(new Intent(getApplicationContext(), ReceiveService.class));
+        if (Utils.isVerified()) {
+            startService(new Intent(getApplicationContext(), ReceiveService.class));
+        }
         startService(new Intent(getApplicationContext(), NotificationService.class));
     }
 }

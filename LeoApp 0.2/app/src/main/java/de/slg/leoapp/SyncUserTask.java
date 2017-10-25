@@ -1,5 +1,6 @@
 package de.slg.leoapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -14,8 +15,6 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.startseite.ResponseCode;
-
-import static android.view.View.GONE;
 
 public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
     private final AlertDialog dialog;
@@ -87,16 +86,17 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
         if (dialog != null) {
             switch (code) {
                 case NO_CONNECTION:
-                    dialog.findViewById(R.id.progressBar1).setVisibility(GONE);
+                    dialog.findViewById(R.id.progressBar1).setVisibility(View.GONE);
                     showSnackbarNoConnection();
                     break;
                 case SERVER_FAILED:
-                    dialog.findViewById(R.id.progressBar1).setVisibility(GONE);
+                    dialog.findViewById(R.id.progressBar1).setVisibility(View.GONE);
                     showSnackbarServerFailed();
                     break;
                 case SUCCESS:
                     dialog.dismiss();
                     Toast.makeText(Utils.getContext(), "Verifizierung abgeschlossen!", Toast.LENGTH_SHORT).show();
+                    Utils.getController().getMainActivity().startService(new Intent(Utils.getContext(), ReceiveService.class));
                     break;
             }
         }
