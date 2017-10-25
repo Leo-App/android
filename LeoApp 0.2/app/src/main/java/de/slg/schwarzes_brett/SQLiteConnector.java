@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLiteConnector extends SQLiteOpenHelper {
     public static final  String TABLE_EINTRAEGE        = "Eintraege";
+    public static final  String TABLE_SURVEYS          = "Umfragen";
+    public static final  String TABLE_ANSWERS          = "Antworten";
     static final         String EINTRAEGE_TITEL        = "titel";
     static final         String EINTRAEGE_ADRESSAT     = "adressat";
     static final         String EINTRAEGE_INHALT       = "inhalt";
@@ -16,27 +18,23 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     static final         String EINTRAEGE_ABLAUFDATUM  = "ablaufdatum";
     static final         String EINTRAEGE_REMOTE_ID    = "remoteid";
     static final         String EINTRAEGE_VIEWS        = "gesehen";
+    static final         String SURVEYS_TITEL          = "titel";
+    static final         String SURVEYS_ADRESSAT       = "adressat";
+    static final         String SURVEYS_BESCHREIBUNG   = "inhalt";
+    static final         String SURVEYS_ABSENDER       = "absender";
+    static final         String SURVEYS_REMOTE_ID      = "remoteid";
+    static final         String SURVEYS_MULTIPLE       = "multiple";
+    static final         String SURVEYS_ID             = "id";
+    static final         String ANSWERS_SID            = "umfrageid";
+    static final         String ANSWERS_INHALT         = "inhalt";
+    static final         String ANSWERS_REMOTE_ID      = "remoteid";
+    static final         String ANSWERS_SELECTED       = "gewaehlt";
     private static final String EINTRAEGE_ID           = "id";
     private static final String DATABASE_NAME          = "entries.db";
-
-    public static final  String TABLE_SURVEYS        = "Umfragen";
-    static final         String SURVEYS_TITEL        = "titel";
-    static final         String SURVEYS_ADRESSAT     = "adressat";
-    static final         String SURVEYS_BESCHREIBUNG = "inhalt";
-    static final         String SURVEYS_ABSENDER     = "absender";
-    static final         String SURVEYS_REMOTE_ID    = "remoteid";
-    static final         String SURVEYS_MULTIPLE     = "multiple";
-    static final         String SURVEYS_ID           = "id";
-
-    public static final  String TABLE_ANSWERS        = "Antworten";
-    static final         String ANSWERS_SID          = "umfrageid";
-    static final         String ANSWERS_INHALT       = "inhalt";
-    static final         String ANSWERS_REMOTE_ID    = "remoteid";
-    static final         String ANSWERS_SELECTED     = "gewaehlt";
-    static final         String ANSWERS_ID           = "id";
+    private static final String ANSWERS_ID             = "id";
 
     public SQLiteConnector(Context c) {
-        super(c, DATABASE_NAME, null, 3);
+        super(c, DATABASE_NAME, null, 4);
     }
 
     @Override

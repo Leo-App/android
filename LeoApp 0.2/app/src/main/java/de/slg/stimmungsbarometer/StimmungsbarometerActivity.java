@@ -36,6 +36,7 @@ import de.slg.leoapp.Utils;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
+import de.slg.startseite.ResponseCode;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class StimmungsbarometerActivity extends AppCompatActivity {
@@ -232,14 +233,14 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
-    private class StartTask extends AsyncTask<Void, Void, Void> {
+    private class StartTask extends AsyncTask<Void, Void, ResponseCode> {
         @Override
         protected void onPreExecute() {
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected ResponseCode doInBackground(Void... params) {
             if (daten == null) {
                 try {
                     HttpsURLConnection connection = (HttpsURLConnection)
@@ -259,7 +260,6 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
 
                     String result = builder.toString();
                     if (result.startsWith("-")) {
-                        Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
                         throw new IOException(result);
                     }
 
@@ -311,6 +311,7 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                     daten = ergebnisse;
                 } catch (IOException e) {
                     e.printStackTrace();
+                    return ResponseCode.SERVER_FAILED;
                 }
             }
 
@@ -318,11 +319,14 @@ public class StimmungsbarometerActivity extends AppCompatActivity {
                 fragment.fillData();
             }
 
-            return null;
+            return ResponseCode.SUCCESS;
         }
 
         @Override
-        protected void onPostExecute(Void v) {
+        protected void onPostExecute(ResponseCode v) {
+            if (v == ResponseCode.SERVER_FAILED) {
+                Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+            }
             updateFragments(true);
             findViewById(R.id.progressBar).setVisibility(View.GONE);
         }
