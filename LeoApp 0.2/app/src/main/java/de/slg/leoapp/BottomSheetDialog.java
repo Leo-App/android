@@ -3,6 +3,8 @@ package de.slg.leoapp;
 import android.app.Dialog;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.View;
+import android.widget.TextView;
+
 
 /**
  * BottomSheetDialog
@@ -35,6 +37,8 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         //noinspection RestrictedApi
         super.setupDialog(dialog, style);
         View contentView = View.inflate(getContext(), R.layout.dialog_bottom_sheet, null);
+        ((TextView)contentView.findViewById(R.id.textView1)).setText(title);
+        ((TextView)contentView.findViewById(R.id.textView10)).setText(content);
         dialog.setContentView(contentView);
     }
 
