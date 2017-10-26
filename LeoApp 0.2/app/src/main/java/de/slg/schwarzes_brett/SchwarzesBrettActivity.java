@@ -128,6 +128,15 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sqLiteDatabase.close();
+        sqLiteConnector.close();
+        sqLiteDatabase = null;
+        sqLiteConnector = null;
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE &&
                 grantResults.length > 0 &&
@@ -242,6 +251,7 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
     private void initButton() {
         View button = findViewById(R.id.floatingActionButton);
         View button2 = findViewById(R.id.floatingActionButtonSurvey);
+
         if (Utils.getUserPermission() >= 2) {
             button.setVisibility(View.VISIBLE);
             button.setOnClickListener(new View.OnClickListener() {
@@ -368,7 +378,6 @@ public class SchwarzesBrettActivity extends AppCompatActivity {
         }
 
         cursor.close();
-        sqLiteDatabase.close();
     }
 
     private void loadChildren(String[] children) {
