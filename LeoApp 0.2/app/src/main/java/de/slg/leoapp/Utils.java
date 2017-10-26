@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.StringRes;
 import android.util.Base64;
 
 /**
@@ -111,7 +112,7 @@ public abstract class Utils {
      * @param id String-ID des angefragten Strings.
      * @return String zu übergebener ID.
      */
-    public static String getString(int id) {
+    public static String getString(@StringRes int id) {
         return getController().getContext().getString(id);
     }
 

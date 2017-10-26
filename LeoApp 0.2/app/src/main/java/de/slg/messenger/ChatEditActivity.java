@@ -27,8 +27,9 @@ import javax.net.ssl.HttpsURLConnection;
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
+import de.slg.leoview.ActionLogActivity;
 
-public class ChatEditActivity extends AppCompatActivity {
+public class ChatEditActivity extends ActionLogActivity {
     private int    cid;
     private String cname;
 

@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
 
-public class Hinzufuegen extends AppCompatActivity {
+public class Hinzufuegen extends ActionLogActivity {
     private String fach;
 
     @Override

@@ -25,8 +25,9 @@ import javax.net.ssl.HttpsURLConnection;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
+import de.slg.leoview.ActionLogActivity;
 
-public class AbstimmActivity extends AppCompatActivity {
+public class AbstimmActivity extends ActionLogActivity {
     private final String[] gruende           = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
     private final int      userid            = Utils.getUserID();
     private       int      voteid            = 0;

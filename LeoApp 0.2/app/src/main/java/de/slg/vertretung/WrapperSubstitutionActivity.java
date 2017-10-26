@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -26,13 +27,14 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
+import de.slg.leoview.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
-public class WrapperSubstitutionActivity extends AppCompatActivity {
+public class WrapperSubstitutionActivity extends ActionLogActivity {
 
     private DrawerLayout           drawerLayout;
     private SubstitutionFragment[] fragments;

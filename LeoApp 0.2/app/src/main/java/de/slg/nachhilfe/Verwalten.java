@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
 
-public class Verwalten extends AppCompatActivity {
+public class Verwalten extends ActionLogActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

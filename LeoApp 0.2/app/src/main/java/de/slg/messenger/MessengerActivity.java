@@ -37,6 +37,7 @@ import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
+import de.slg.leoview.ActionLogActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
@@ -46,7 +47,7 @@ import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
 
-public class MessengerActivity extends AppCompatActivity {
+public class MessengerActivity extends ActionLogActivity {
     private DrawerLayout   drawerLayout;
     private ChatsFragment  cFragment;
     private UserFragment   uFragment;

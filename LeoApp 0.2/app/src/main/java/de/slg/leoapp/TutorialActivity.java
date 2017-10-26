@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class TutorialActivity extends AppCompatActivity {
+public class TutorialActivity extends ActionLogActivity {
     private String[] categories;
     private int category = 0;
     private TextView             title;

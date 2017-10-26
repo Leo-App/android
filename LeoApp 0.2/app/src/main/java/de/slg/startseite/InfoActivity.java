@@ -10,8 +10,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
+import de.slg.leoview.ActionLogActivity;
 
-public class InfoActivity extends AppCompatActivity {
+public class InfoActivity extends ActionLogActivity {
     @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);

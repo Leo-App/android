@@ -27,8 +27,9 @@ import javax.net.ssl.HttpsURLConnection;
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
+import de.slg.leoview.ActionLogActivity;
 
-public class AddGroupChatActivity extends AppCompatActivity {
+public class AddGroupChatActivity extends ActionLogActivity {
     private final User[] users = Utils.getController().getMessengerDatabase().getUsers();
     private LinearLayout container;
     private EditText     etChatname;

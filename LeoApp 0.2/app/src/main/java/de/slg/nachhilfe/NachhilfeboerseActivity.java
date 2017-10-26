@@ -29,7 +29,7 @@ import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
-public class NachhilfeboerseActivity extends AppCompatActivity {
+public class NachhilfeboerseActivity extends ActionLogActivity {
 
     private DrawerLayout drawerLayout;
     private ListView     help;

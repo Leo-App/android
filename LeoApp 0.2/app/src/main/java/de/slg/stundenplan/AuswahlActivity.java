@@ -33,8 +33,9 @@ import de.slg.leoapp.List;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
+import de.slg.leoview.ActionLogActivity;
 
-public class AuswahlActivity extends AppCompatActivity {
+public class AuswahlActivity extends ActionLogActivity {
     private Menu          menu;
     private KursAdapter   adapter;
     private StundenplanDB db;

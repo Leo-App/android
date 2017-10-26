@@ -39,6 +39,7 @@ import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
+import de.slg.leoview.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
@@ -47,7 +48,7 @@ import de.slg.stundenplan.StundenplanActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
-public class EssensQRActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class EssensQRActivity extends ActionLogActivity implements ZXingScannerView.ResultHandler {
     public static SharedPreferences sharedPref;
     public static SQLiteHandler     sqlh;
     public static Button            scan;

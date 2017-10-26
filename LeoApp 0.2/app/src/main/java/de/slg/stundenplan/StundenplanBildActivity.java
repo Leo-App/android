@@ -27,8 +27,9 @@ import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
+import de.slg.leoview.ActionLogActivity;
 
-public class StundenplanBildActivity extends AppCompatActivity {
+public class StundenplanBildActivity extends ActionLogActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
     private StundenplanView view;
 

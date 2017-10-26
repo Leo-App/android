@@ -58,12 +58,13 @@ import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
+import de.slg.leoview.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
-public class SchwarzesBrettActivity extends AppCompatActivity {
+public class SchwarzesBrettActivity extends ActionLogActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
     private static SQLiteConnector           sqLiteConnector;

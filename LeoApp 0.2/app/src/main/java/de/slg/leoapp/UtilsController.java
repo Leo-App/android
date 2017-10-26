@@ -1,11 +1,15 @@
 package de.slg.leoapp;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoview.ActionLogActivity;
+import de.slg.leoview.ActivityStatus;
 import de.slg.messenger.AddGroupChatActivity;
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.ChatEditActivity;
@@ -133,6 +137,35 @@ public class UtilsController {
         if (stundenplanDB == null)
             stundenplanDB = new StundenplanDB(getContext());
         return stundenplanDB;
+    }
+
+    public ActionLogActivity getActiveActivity() {
+        if (mainActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return mainActivity;
+        } else if (messengerActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return messengerActivity;
+        } else if (chatActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return chatActivity;
+        } else if (chatEditActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return chatEditActivity;
+        } else if (addGroupChatActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return addGroupChatActivity;
+        } else if (schwarzesBrettActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return schwarzesBrettActivity;
+        } else if (stimmungsbarometerActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return stimmungsbarometerActivity;
+        } else if (stundenplanActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return stundenplanActivity;
+        } else if (stundenplanBildActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return stundenplanBildActivity;
+        } else if (auswahlActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return auswahlActivity;
+        } else if (klausurplanActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return klausurplanActivity;
+        } else if (essensQRActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return essensQRActivity;
+        } else
+            return null;
     }
 
     public void registerMessengerActivity(MessengerActivity activity) {
