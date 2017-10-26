@@ -251,18 +251,18 @@ public class NotificationService extends Service {
     }
 
     private void messengerNotification() {
-        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true) && Utils.getController().getMessengerDataBase().hasUnreadMessages() && Utils.getController().getMessengerActivity() == null) {
-            Message[] unread = Utils.getController().getMessengerDataBase().getUnreadMessages();
+        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true) && Utils.getController().getMessengerDatabase().hasUnreadMessages() && Utils.getController().getMessengerActivity() == null) {
+            Message[] unread = Utils.getController().getMessengerDatabase().getUnreadMessages();
 
             if (unread.length != unreadMessages) {
                 NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
-                        .setSummaryText(Utils.getController().getMessengerDataBase().getNotificationString())
+                        .setSummaryText(Utils.getController().getMessengerDatabase().getNotificationString())
                         .setBigContentTitle(getString(R.string.messenger_notification_title));
 
                 for (Message m : unread) {
                     String line = m.uname;
 
-                    if (Utils.getController().getMessengerDataBase().getType(m.cid) == Chat.ChatType.GROUP) {
+                    if (Utils.getController().getMessengerDatabase().getType(m.cid) == Chat.ChatType.GROUP) {
                         line += " @ " + m.cname;
                     }
 
@@ -371,7 +371,7 @@ public class NotificationService extends Service {
         if (Utils.getController().getPreferences().getBoolean("pref_key_notification_schedule", true)) {
             StringBuilder builder = new StringBuilder();
             if (gibNaechstenWochentag() <= 5) {
-                Fach[] faecher = Utils.getController().getStundplanDataBase().gewaehlteFaecherAnTag(gibNaechstenWochentag());
+                Fach[] faecher = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(gibNaechstenWochentag());
                 for (int i = 0; i < faecher.length; i++) {
                     if (faecher[i].getName().length() > 0 && (i == 0 || !faecher[i].getName().equals(faecher[i - 1].getName()))) {
                         builder.append(faecher[i].getName());

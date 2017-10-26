@@ -130,11 +130,15 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.title = Utils.getString(R.string.title_news);
                 c.descr = Utils.getString(R.string.summary_info_news);
                 c.buttonDescr = Utils.getString(R.string.button_info_try);
+                c.enabled = Utils.isVerified();
                 c.icon = R.drawable.ic_event_note_white_24px;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SchwarzesBrettActivity.class));
+                        if(Utils.isVerified())
+                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SchwarzesBrettActivity.class));
+                        else
+                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -230,8 +234,8 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 ret.wrapper.requestLayout();
                 ret.wrapper.getLayoutParams().height = GraphicUtils.getDisplayWidth() / 2 - (int) GraphicUtils.dpToPx(20);
                 ret.wrapper.getLayoutParams().width = ret.wrapper.getLayoutParams().height;
-                ret.icon.getLayoutParams().height = (ret.wrapper.getLayoutParams().height / 100) * 65; //Icon 65% of quick tile
-                ret.icon.getLayoutParams().width = (ret.wrapper.getLayoutParams().height / 100) * 65;
+                ret.icon.getLayoutParams().height = (ret.wrapper.getLayoutParams().height / 100) * 66; //Icon 65% of quick tile
+                ret.icon.getLayoutParams().width = (ret.wrapper.getLayoutParams().height / 100) * 66;
                 return ret;
             default:
                 itemView = LayoutInflater.from(parent.getContext())

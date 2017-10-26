@@ -59,7 +59,7 @@ public class ReceiveService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.e("ReceiveService", "ReceiveService removed");
-        Utils.getController().getMessengerDataBase().close();
+        Utils.getController().getMessengerDatabase().close();
         Utils.getController().registerReceiveService(null);
         super.onTaskRemoved(rootIntent);
     }
@@ -234,7 +234,7 @@ public class ReceiveService extends Service {
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
-                                        new URL(Utils.URL_TOMCAT + "?uid=" + Utils.getUserID() + "&mdate=" + Utils.getController().getMessengerDataBase().getLatestMessage())
+                                        new URL(Utils.URL_TOMCAT + "?uid=" + Utils.getUserID() + "&mdate=" + Utils.getController().getMessengerDatabase().getLatestMessage())
                                                 .openConnection()
                                                 .getInputStream(), "UTF-8"));
 
@@ -253,13 +253,13 @@ public class ReceiveService extends Service {
                             int    cid   = Integer.parseInt(parts[4]);
                             int    uid   = Integer.parseInt(parts[5]);
 
-                            Utils.getController().getMessengerDataBase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
+                            Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
                         } else if (s.startsWith("c") && parts.length == 3) {
                             int           cid   = Integer.parseInt(parts[0]);
                             String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
                             Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
 
-                            Utils.getController().getMessengerDataBase().insertChat(new Chat(cid, cname, ctype));
+                            Utils.getController().getMessengerDatabase().insertChat(new Chat(cid, cname, ctype));
                         } else if (s.startsWith("u") && parts.length == 5) {
                             int    uid          = Integer.parseInt(parts[0]);
                             String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
@@ -267,7 +267,7 @@ public class ReceiveService extends Service {
                             int    upermission  = Integer.parseInt(parts[3]);
                             String udefaultname = parts[4];
 
-                            Utils.getController().getMessengerDataBase().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
+                            Utils.getController().getMessengerDatabase().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
                         } else if (s.startsWith("a")) {
                             assoziationen();
                         } else if (s.startsWith("-")) {
@@ -323,7 +323,7 @@ public class ReceiveService extends Service {
                     }
                 }
 
-                Utils.getController().getMessengerDataBase().insertAssoziationen(list);
+                Utils.getController().getMessengerDatabase().insertAssoziationen(list);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -333,7 +333,7 @@ public class ReceiveService extends Service {
     private class QueueThread extends Thread {
         @Override
         public void run() {
-            while (Utils.getController().getMessengerDataBase().hasQueuedMessages())
+            while (Utils.getController().getMessengerDatabase().hasQueuedMessages())
                 if (Utils.checkNetwork())
                     new SendMessages().execute();
         }
@@ -342,7 +342,7 @@ public class ReceiveService extends Service {
     private class SendMessages extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            Message[] array = Utils.getController().getMessengerDataBase().getQueuedMessages();
+            Message[] array = Utils.getController().getMessengerDatabase().getQueuedMessages();
             for (Message m : array) {
                 if (Utils.checkNetwork()) {
                     try {
@@ -359,7 +359,7 @@ public class ReceiveService extends Service {
                         reader.close();
 
                         if (connection.getResponseCode() == 200)
-                            Utils.getController().getMessengerDataBase().dequeueMessage(m.mid);
+                            Utils.getController().getMessengerDatabase().dequeueMessage(m.mid);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -29,7 +29,7 @@ import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 
 public class AddGroupChatActivity extends AppCompatActivity {
-    private final User[] users = Utils.getController().getMessengerDataBase().getUsers();
+    private final User[] users = Utils.getController().getMessengerDatabase().getUsers();
     private LinearLayout container;
     private EditText     etChatname;
     private MenuItem     confirm;
@@ -223,7 +223,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
 
                 cid = Integer.parseInt(builder.toString());
 
-                Utils.getController().getMessengerDataBase().insertChat(new Chat(cid, cname, Chat.ChatType.GROUP));
+                Utils.getController().getMessengerDatabase().insertChat(new Chat(cid, cname, Chat.ChatType.GROUP));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -243,7 +243,7 @@ public class AddGroupChatActivity extends AppCompatActivity {
                     while (reader.readLine() != null)
                         ;
                     reader.close();
-                    Utils.getController().getMessengerDataBase().insertAssoziation(assoziation);
+                    Utils.getController().getMessengerDatabase().insertAssoziation(assoziation);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

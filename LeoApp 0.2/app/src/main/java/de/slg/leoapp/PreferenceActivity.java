@@ -314,7 +314,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         syncPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Utils.getController().getMessengerDataBase().clear();
+                Utils.getController().getMessengerDatabase().clear();
                 return Utils.checkNetwork();
             }
         });

@@ -80,7 +80,7 @@ public class AuswahlActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         Utils.getController().registerAuswahlActivity(null);
-        if (!Utils.getController().getStundplanDataBase().hatGewaehlt())
+        if (!Utils.getController().getStundenplanDatabase().hatGewaehlt())
             Utils.getController().getStundenplanActivity().finish();
     }
 
@@ -162,7 +162,7 @@ public class AuswahlActivity extends AppCompatActivity {
     }
 
     private void initDB() {
-        db = Utils.getController().getStundplanDataBase();
+        db = Utils.getController().getStundenplanDatabase();
         if (db.getFaecher().length == 0) {
             Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes, Snackbar.LENGTH_SHORT);
             snack.show();
@@ -213,14 +213,14 @@ public class AuswahlActivity extends AppCompatActivity {
                         String[] fach = line.replace("\"", "").split(",");
                         if (fach[1].replace("0", "").startsWith(Utils.getUserStufe())) {
                             if (!fach[3].equals(lastKurzel)) {
-                                lastID = Utils.getController().getStundplanDataBase().insertFach(fach[3], fach[2], fach[1]);
+                                lastID = Utils.getController().getStundenplanDatabase().insertFach(fach[3], fach[2], fach[1]);
                                 lastKurzel = fach[3];
                                 if (Utils.getUserPermission() == 2 && fach[2].equals(Utils.getLehrerKuerzel().toUpperCase())) {
-                                    Utils.getController().getStundplanDataBase().waehleFach(lastID);
-                                    Utils.getController().getStundplanDataBase().setzeSchriftlich(true, lastID);
+                                    Utils.getController().getStundenplanDatabase().waehleFach(lastID);
+                                    Utils.getController().getStundenplanDatabase().setzeSchriftlich(true, lastID);
                                 }
                             }
-                            Utils.getController().getStundplanDataBase().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]), fach[4]);
+                            Utils.getController().getStundenplanDatabase().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]), fach[4]);
                         }
                     }
                     reader.close();
@@ -252,7 +252,7 @@ public class AuswahlActivity extends AppCompatActivity {
 
         KursAdapter(Context context, Fach[] array) {
             super(context, R.layout.list_item_kurs, array);
-            db = Utils.getController().getStundplanDataBase();
+            db = Utils.getController().getStundenplanDatabase();
             fachArray = array;
             views = new View[array.length];
             cbs = new CheckBox[array.length];

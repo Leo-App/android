@@ -50,7 +50,7 @@ public class StundenplanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_stundenplan);
         Utils.getController().registerStundenplanActivity(this);
-        if (!Utils.getController().getStundplanDataBase().hatGewaehlt()) {
+        if (!Utils.getController().getStundenplanDatabase().hatGewaehlt()) {
             if (Utils.getUserPermission() != 2) {
                 startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
             } else {
@@ -212,15 +212,15 @@ public class StundenplanActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (fachArray[position].id <= 0) {
-                            Utils.getController().getStundplanDataBase().freistunde(tag, position + 1);
-                            fachArray[position] = Utils.getController().getStundplanDataBase().getFach(tag, position + 1);
+                            Utils.getController().getStundenplanDatabase().freistunde(tag, position + 1);
+                            fachArray[position] = Utils.getController().getStundenplanDatabase().getFach(tag, position + 1);
                             view.invalidate();
                         }
                         DetailsDialog dialog = new DetailsDialog(getActivity());
                         dialog.show();
                         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                        dialog.init(Utils.getController().getStundplanDataBase().getFach(tag, position + 1));
+                        dialog.init(Utils.getController().getStundenplanDatabase().getFach(tag, position + 1));
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
@@ -241,7 +241,7 @@ public class StundenplanActivity extends AppCompatActivity {
 
         private void refreshUI() {
             if (listView != null) {
-                fachArray = Utils.getController().getStundplanDataBase().gewaehlteFaecherAnTag(tag);
+                fachArray = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(tag);
                 listView.setAdapter(new StundenAdapter(getContext(), fachArray));
             }
         }

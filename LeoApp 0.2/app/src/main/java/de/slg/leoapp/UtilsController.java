@@ -19,7 +19,16 @@ import de.slg.stundenplan.StundenplanActivity;
 import de.slg.stundenplan.StundenplanBildActivity;
 import de.slg.stundenplan.StundenplanDB;
 
-public class ActivityController {
+/**
+ * UtilsController
+ *
+ * Verwaltet Activities, Services u.Ä.
+ *
+ * @author Moritz
+ * @since 0.5.5
+ * @version 2017.2610
+ */
+public class UtilsController {
     private Context           context;
     private SharedPreferences preferences;
 
@@ -52,6 +61,12 @@ public class ActivityController {
 
     private ReceiveService receiveService;
 
+    /**
+     * Liefert ein Context-Objekt.
+     *
+     * @return Context-Objekt.
+     * @see Utils#getContext()
+     */
     Context getContext() {
         if (context != null) {
             return context;
@@ -87,10 +102,20 @@ public class ActivityController {
         return null;
     }
 
+    /**
+     * Setzt ein allgemeines Context-Objekt.
+     *
+     * @param context Context.
+     */
     public void setContext(Context context) {
         this.context = context;
     }
 
+    /**
+     * Liefert eine Instanz der Einstellungen
+     *
+     * @return SharedPreferences-Objekt
+     */
     public SharedPreferences getPreferences() {
         if (preferences == null && getContext() != null) {
             preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -98,13 +123,13 @@ public class ActivityController {
         return preferences;
     }
 
-    public DBConnection getMessengerDataBase() {
+    public DBConnection getMessengerDatabase() {
         if (dbConnection == null)
             dbConnection = new DBConnection(getContext());
         return dbConnection;
     }
 
-    public StundenplanDB getStundplanDataBase() {
+    public StundenplanDB getStundenplanDatabase() {
         if (stundenplanDB == null)
             stundenplanDB = new StundenplanDB(getContext());
         return stundenplanDB;
@@ -166,68 +191,133 @@ public class ActivityController {
         notificationPreferenceActivity = activity;
     }
 
+    /**
+     *
+     * @return Aktive Messenger-Activity, null wenn nicht aktiv.
+     */
     public MessengerActivity getMessengerActivity() {
         return messengerActivity;
     }
 
+    /**
+     *
+     * @return Aktive Chat-Activity, null wenn nicht aktiv.
+     */
     public ChatActivity getChatActivity() {
         return chatActivity;
     }
 
+    /**
+     *
+     * @return Aktive Klausurplan-Activity, null wenn nicht aktiv.
+     */
     public KlausurplanActivity getKlausurplanActivity() {
         return klausurplanActivity;
     }
 
+    /**
+     *
+     * @return Aktive Main-Activity, null wenn nicht aktiv.
+     */
     public MainActivity getMainActivity() {
         return mainActivity;
     }
 
+    /**
+     *
+     * @return Aktive SchwarzesBrett-Activity, null wenn nicht aktiv.
+     */
     public SchwarzesBrettActivity getSchwarzesBrettActivity() {
         return schwarzesBrettActivity;
     }
 
+    /**
+     *
+     * @return Aktive Stundenplan-Activity, null wenn nicht aktiv.
+     */
     public StundenplanActivity getStundenplanActivity() {
         return stundenplanActivity;
     }
 
+    /**
+     *
+     * @return Aktive StundenplanBild-Activity (Anzeige des Stundenplans im .bmp Format)
+     */
     public StundenplanBildActivity getStundenplanBildActivity() {
         return stundenplanBildActivity;
     }
 
+    /**
+     *
+     * @return Aktive Auswahl-Activity (Auswahl der Fächer im Stundenplan)
+     */
     public AuswahlActivity getAuswahlActivity() {
         return auswahlActivity;
     }
 
+    /**
+     *
+     * @return Aktive Stimmungsbarometer-Activity, null wenn nicht aktiv.
+     */
     public StimmungsbarometerActivity getStimmungsbarometerActivity() {
         return stimmungsbarometerActivity;
     }
 
+    /**
+     *
+     * @return Aktive ChatEdit-Activity, null wenn nicht aktiv.
+     */
     public ChatEditActivity getChatEditActivity() {
         return chatEditActivity;
     }
 
+    /**
+     *
+     * @return Aktive Messenger-Activity, null wenn nicht aktiv.
+     */
     public AddGroupChatActivity getAddGroupChatActivity() {
         return addGroupChatActivity;
     }
 
+    /**
+     *
+     * @return Aktive QR-Activity (Anzeige der Essensbons)
+     */
     public EssensQRActivity getEssensQRActivity() {
         return essensQRActivity;
     }
 
+    /**
+     *
+     * @return Aktive Preference-Activity (Einstellungen)
+     */
     public PreferenceActivity getPreferenceActivity() {
         return preferenceActivity;
     }
 
+    /**
+     *
+     * @return Aktive BotificationPreference-Activity (Notification Einstellungen)
+     */
     public NotificationPreferenceActivity getNotificationPreferenceActivity() {
         return notificationPreferenceActivity;
     }
 
-    public void registerReceiveService(ReceiveService service) {
-        receiveService = service;
-    }
-
+    /**
+     *
+     * @return Laufender Receive-Service, null wenn nicht aktiv.
+     */
     public ReceiveService getReceiveService() {
         return receiveService;
+    }
+
+    /**
+     * Registriert neuen ReceiveService.
+     *
+     * @param service ReceiveService.
+     */
+    public void registerReceiveService(ReceiveService service) {
+        receiveService = service;
     }
 
     public void closeAll() {
@@ -274,12 +364,12 @@ public class ActivityController {
             getMainActivity().finish();
         }
 
-        if (getMessengerDataBase() != null) {
-            getMessengerDataBase().close();
+        if (getMessengerDatabase() != null) {
+            getMessengerDatabase().close();
             dbConnection = null;
         }
-        if (getStundplanDataBase() != null) {
-            getStundplanDataBase().close();
+        if (getStundenplanDatabase() != null) {
+            getStundenplanDatabase().close();
             stundenplanDB = null;
         }
     }

@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             invalidateOptionsMenu();
         } else if (item.getItemId() == R.id.action_appedit_done) {
             writeCardsToPreferences();
-
             onBackPressed();
         } else if (item.getItemId() == R.id.action_appinfo_quick) {
             writeCardsToPreferences();
