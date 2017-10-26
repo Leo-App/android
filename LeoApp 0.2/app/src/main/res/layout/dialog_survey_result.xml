@@ -242,7 +242,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/imageViewError"
-        app:srcCompat="@drawable/ic_qrcode_crossedout"
+        app:srcCompat="@drawable/ic_chart_bar"
         android:tint="@color/colorTextGreyed"
         android:visibility="gone"
         android:layout_centerInParent="true" />

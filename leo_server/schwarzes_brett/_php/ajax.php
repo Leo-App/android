@@ -1,66 +1,63 @@
 <?php
 
-	if ($_SERVER["REMOTE_USER"] != "leoapp")
-		die("-permission denied!");
-	
-	require_once('../dbconfig.php');
+require_once('../../dbconfig.php');
 
-	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
+$db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
-	if ($db->connect_error)
-    	die("-connection failed: ".$db->connect_error);
+if ($db->connect_error)
+    die("-ERR db");
 
-	$toArr = $_POST['to'];
+$toArr = $_POST['to'];
 
-	$data = $_POST['addon'];
-	$fileName = $_POST['filename'];
+$data = $_POST['addon'];
+$fileName = $_POST['filename'];
 
-	if($fileName != "") {
+if($fileName != "") {
 
-	  $serverFile = date().$fileName;
-	  $fp = fopen('../uploads/'.$serverFile,'w');
-	  $url = "/schwarzes_brett/uploads/".$serverFile;
-	  $date_decoded = base64_decode(substr($data, 28));
+  $serverFile = date().$fileName;
+  $fp = fopen('../uploads/'.$serverFile,'w');
+  $url = "/schwarzes_brett/uploads/".$serverFile;
+  $date_decoded = base64_decode(substr($data, 28));
 
-	  fwrite($fp, $date_decoded);
-	  fclose($fp);
+  fwrite($fp, $date_decoded);
+  fclose($fp);
 
-	} else {
-		$url = 'null';
-	}
+} else {
+	$url = 'null';
+}
 
-	if($toArr == "")
-	  die("-ERR m");
+if($toArr == "")
+  die("-ERR m");
 
-	foreach ($toArr as $adressat) {
+foreach ($toArr as $adressat) {
 
-	  if($adressat == "sek1") {
-		$adressat = "Sek I";
-	  } else if($adressat == "sek2") {
-		$adressat = "Sek II";
-	  } else if($adArray == "all") {
-		$adressat = "Alle";
-	  }
+  if($adressat == "sek1") {
+    $adressat = "Sek I";
+  } else if($adressat == "sek2") {
+    $adressat = "Sek II";
+  } else if($adArray == "all") {
+    $adressat = "Alle";
+  }
 
-	  $heute = date("Y-m-d H:i:s");
-	  $titel = $db->real_escape_string($_POST['title']);
-	  $inhalt = $db->real_escape_string($_POST['content']);
-	  $ablaufdatum = $db->real_escape_string($_POST['date']);
+  $heute = date("Y-m-d H:i:s");
+  $titel = $db->real_escape_string($_POST['title']);
+  $inhalt = $db->real_escape_string($_POST['content']);
+  $ablaufdatum = $db->real_escape_string($_POST['date']);
 
-	  if($titel==""||$inhalt==""||$ablaufdatum=="")
-		die("-ERR m");
+  if($titel==""||$inhalt==""||$ablaufdatum=="")
+    die("-ERR m");
 
-	  $query = "INSERT INTO Einträge VALUES ('null', 'null', '".$adressat."', '".utf8_encode($titel)."', '".utf8_encode($inhalt)."', '".utf8_encode($url)."' , '".$heute."', '".$ablaufdatum."')";
-	  $result = $db->query($query);
-	  if ($result === false) {
-		echo $db->error;
-		die("-ERR db");
-	  }
+  $query = "INSERT INTO Einträge VALUES ('null', 'null', '".$adressat."', '".utf8_encode($titel)."', '".utf8_encode($inhalt)."', '".utf8_encode($url)."' , '".$heute."', '".$ablaufdatum."')";
+  $result = $db->query($query);
+  if ($result === false) {
+    echo $db->error;
+    die("-ERR db");
+  }
 
-	  echo "+OK";
+  echo "+OK";
 
-	}
+}
 
-	$db->close();
+$db->close();
 
 ?>
