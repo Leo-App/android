@@ -17,6 +17,7 @@
 
     <!-- Titel -->
 
+
     <string name="title_home">Startseite</string>
     <string name="title_foodmarks">Essensbons</string>
     <string name="title_testplan">Klausurplan</string>
@@ -87,7 +88,7 @@
     <string name="dialog_desc_valid">Bestelltes Menü:</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
     <string name="qr_display_not_ordered">Du hast für den heutigen Tag kein Essen bestellt</string>
-    <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine Daten</string>
+    <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine Anmeldedaten in den Einstellungen</string>
     <string name="explain_desc_1">Mit dieser Funktion lassen sich die QR-Codes der Essensbestellung überprüfen.</string>
     <string name="explain_title_2">Schritt 1</string>
     <string name="explain_desc_2">Klicke auf den \"Scannen\"-Button und halte den grün umrandeten Bereich über den zu scannenden QR-Code.</string>

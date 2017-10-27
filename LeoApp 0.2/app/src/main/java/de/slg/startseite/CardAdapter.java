@@ -360,17 +360,6 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
     }
 
     @Override
-    public void onItemMove(int fromPosition, int toPosition) {
-        cards.toIndex(fromPosition);
-        Card temp = cards.getContent();
-        cards.remove();
-        cards.toIndex(toPosition);
-        cards.insertBefore(temp);
-        notifyItemMoved(fromPosition, toPosition);
-        notifyItemMoved(toPosition, fromPosition);
-    }
-
-    @Override
     public void onItemDismiss(int position) {
         cards.toIndex(position);
         cards.remove();

@@ -12,6 +12,7 @@ import android.widget.ListView;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
+import de.slg.leoview.ActionLogActivity;
 
 public class Verwalten extends ActionLogActivity {
 

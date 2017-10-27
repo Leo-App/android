@@ -290,6 +290,14 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     * @param enabled siehe {@link Button}
+     */
+    public void setEnabled(boolean enabled) {
+        b.setEnabled(enabled);
+    }
+
+    /**
+     * Delegiert von android.widget.Button
      * @param clickable siehe {@link Button}
      */
     public void setClickable(boolean clickable) {

@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
+import de.slg.leoview.ActionLogActivity;
 
 public class Hinzufuegen extends ActionLogActivity {
     private String fach;
