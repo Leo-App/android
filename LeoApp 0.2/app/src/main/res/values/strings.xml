@@ -131,7 +131,7 @@
     <string name="subject">Subject</string>
     <string name="date">Date</string>
     <string name="date_format" translatable="false">DD.MM.YY</string>
-    <string name="note">Memo</string>
+    <string name="note">Grade</string>
     <string name="week">Week</string>
 
 
@@ -222,7 +222,7 @@
     <string name="lüz" translatable="false">LÜZ</string>
     <string name="ag">Club:</string>
     <string name="sport">Sports</string>
-    <string name="politik">Politik</string>
+    <string name="politik">Politics</string>
     <string name="niederländisch">Dutch</string>
     <string name="PoWi">Politics</string>
     <string name="GeZK">History (additional)</string>
@@ -324,7 +324,6 @@
     <string name="settings_title_filterby_level">Grade</string>
     <string name="settings_summary_filterby_schedule">Filter by schedule</string>
     <string name="settings_title_filterby_schedule">Schedule</string>
-    <string name="settings_summary_test_timetable">Filter by schedule</string>
     <string name="settings_title_test_timetable">Filter</string>
 
     <string name="settings_screen_slg_data">SLG Accessdata</string>
@@ -332,11 +331,11 @@
     <string name="settings_screen_kkg_data">KKG Accessdata</string>
     <string name="settings_no_access_data">No access data needed</string>
 
-    <string name="settings_summary_messenger_sync">All your messagesand chats will be deleted and then downloaded again</string>
+    <string name="settings_summary_messenger_sync">All your messages and chats will be deleted and then downloaded again</string>
     <string name="settings_title_messenger_sync">Synchronize your device</string>
 
     <string name="settings_title_reasons_survey">Reasons</string>
-    <string name="settings_summary_reasons_survey">Show reasons when choosing your nood</string>
+    <string name="settings_summary_reasons_survey">Show reasons when choosing your mood</string>
 
     <string name="settings_title_kuerzel">Teacher abbreviation</string>
 

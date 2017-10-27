@@ -16,34 +16,34 @@
 
 
     <!-- Snackbar -->
-    <string name="snackbar_ungültig">Subject or date are incorrect</string>
-    <string name="snackbar_gelöscht">All Exams deleted</string>
-    <string name="snackbar_undo">Undo</string>
-    <string name="snackbar_no_connection_info">No internet connection</string>
-    <string name="snackbar_no_connection_button">Dismiss</string>
-    <string name="settings_snackbar_username_taken">That username is already taken</string>
-    <string name="snackbar_no_connection_info_check">No internet connection to check login data</string>
-    <string name="snackbar_not_correct_info">Login data not correct</string>
-    <string name="SnackBarMes">Could not load plan</string>
-    <string name="SnackBarMes2">No Grade selected</string>
-    <string name="snackbar_select">Select</string>
-    <string name="snackbar_date_invalid">Date is invalid</string>
-    <string name="snackbar_missing_title">Please add a subject</string>
+    <string name="snackbar_ungültig">Fach oder Datum ungültig</string>
+    <string name="snackbar_gelöscht">Alle Klausuren gelöscht</string>
+    <string name="snackbar_undo">Rückgängig</string>
+    <string name="snackbar_no_connection_info">Keine Internet-Verbindung</string>
+    <string name="snackbar_no_connection_button">Ausblenden</string>
+    <string name="settings_snackbar_username_taken">Dieser Nutzername ist bereits vergeben</string>
+    <string name="snackbar_no_connection_info_check">Keine Internet-Verbindung zum überprüfen der Daten</string>
+    <string name="snackbar_not_correct_info">Login-Daten nicht korrekt</string>
+    <string name="SnackBarMes">Plan konnte nicht heruntergeladen werden</string>
+    <string name="SnackBarMes2">Keine Stufe ausgewählt</string>
+    <string name="snackbar_select">Auswählen</string>
+    <string name="snackbar_date_invalid">Datum ungültig</string>
+    <string name="snackbar_missing_title">Bitte gib ein Fach ein</string>
 
 
     <!-- Menu titles -->
-    <string name="title_home">Home</string>
-    <string name="title_foodmarks">Foodmarks</string>
-    <string name="title_testplan">Exams</string>
+    <string name="title_home">Startseite</string>
+    <string name="title_foodmarks">Essensqr</string>
+    <string name="title_testplan">Klausurplan</string>
     <string name="title_messenger">Messenger</string>
-    <string name="title_tutoring">Tutoring</string>
-    <string name="title_news">Pin Board</string>
-    <string name="title_survey">Moodsurvey</string>
-    <string name="title_plan">Timetable</string>
-    <string name="title_subst">Substitutions</string>
+    <string name="title_tutoring">Nachhilfebörse</string>
+    <string name="title_news">Schwarzes Brett</string>
+    <string name="title_survey">Stimmungsbarometer</string>
+    <string name="title_plan">Stundenplan</string>
+    <string name="title_subst">Vertretungsplan</string>
 
-    <string name="title_settings">Settings</string>
-    <string name="title_settings_notifications">Notifications</string>
+    <string name="title_settings">Einstellungen</string>
+    <string name="title_settings_notifications">Benachrichtigungen</string>
 
 
     <!-- Startseite -->
@@ -62,18 +62,18 @@
     <string name="button_card_dismiss">Dismiss</string>
     <string name="add_card">Add card</string>
     <string name="button_add">Add</string>
-    <string name="selector_card">Add a card</string>
+    <string name="selector_card">Karte hinzufügen</string>
 
     <string name="button_info_try">Ausprobieren</string>
 
-    <string name="title_info_auth_failed">You are not verified yet</string>
-    <string name="title_info_auth">You are verified</string>
+    <string name="title_info_auth_failed">Du bist noch nicht verifiziert</string>
+    <string name="title_info_auth">Du bist verifiziert</string>
 
-    <string name="summary_about">Information about this application</string>
+    <string name="summary_about">Informationen über diese Anwendung</string>
     <string name="cards_customize">Anpassen</string>
-    <string name="thank_you_feature">Thank you for your feedback</string>
+    <string name="thank_you_feature">Danke für dein Feedback</string>
 
-    <string name="set_changes">Save changes</string>
+    <string name="set_changes">Speichern</string>
     <string name="feature_request">Beschreibe deinen Vorschlag</string>
     <string name="feature_request_title">Verbesserungsvorschlag</string>
     <string name="cards_quick">Quick access</string>
@@ -82,7 +82,7 @@
 
 
     <!-- Info -->
-    <string name="toolbar_name_info">About</string>
+    <string name="toolbar_name_info">Über</string>
     <string name="info_screen_title">LeoApp für Android</string>
     <string name="info_screen_second">Entwickelt im Projektkurs Informatik 2017</string>
     <string name="info_screen_fourth">Alle Angaben ohne Gewähr</string>
@@ -90,14 +90,14 @@
 
 
     <!-- EssensQR -->
-    <string name="toolbar_scan">Scan!</string>
+    <string name="toolbar_scan">Scannen!</string>
     <string name="toolbar_title">Essensbons</string>
     <string name="button_scan">Scannen</string>
-    <string name="qr_display_title">Your order for today, the</string>
-    <string name="qr_display_menu">Menu</string>
+    <string name="qr_display_title">Deine Bestellung für heute, den</string>
+    <string name="qr_display_menu">Menü</string>
     <string name="dialog_desc_valid">Bestelltes Menü:</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
-    <string name="qr_display_not_ordered">You have no order for today</string>
+    <string name="qr_display_not_ordered">Für heute liegt keine Bestellung vor</string>
     <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine Anmeldedaten in den Einstellungen</string>
     <string name="explain_desc_1">This is used to scan the QR-Foodmarks.</string>
     <string name="explain_title_2">Schritt 1</string>
@@ -105,47 +105,47 @@
     <string name="explain_title_3">Schritt 2</string>
     <string name="explain_desc_3">After a successful scan you will get all necessary information: Mainly whether or not the code has already been used and which menu was ordered.</string>
     <string name="invalidId">User-ID ungültig</string>
-    <string name="popup_code_not_valid">Code is not valid or has already been scanned by this device</string>
-    <string name="notification_summary_notif">You haven\'t synchronized your order yet</string>
+    <string name="popup_code_not_valid">QR-Code ist ungültig oder auf diesem Gerät bereits eingelöst</string>
+    <string name="notification_summary_notif">Du hast deine Bestellung noch nicht synchronisiert</string>
     <string name="login_success">Erfolgreich eingeloggt</string>
-    <string name="no_order">No order</string>
-    <string name="not_loggedin">Not logged in</string>
+    <string name="no_order">Keine Bestellung</string>
+    <string name="not_loggedin">Nicht eingeloggt</string>
     <string name="minutes">Minuten</string>
     <string name="hour">Stunde</string>
     <string name="hours">Stunden</string>
 
 
     <!-- Klausurplan -->
-    <string name="title_activity">Exam</string>
-    <string name="subject">Subject</string>
+    <string name="title_activity">Klausur</string>
+    <string name="subject">Fach</string>
     <string name="date">Datum</string>
-    <string name="note">Memo</string>
-    <string name="week">Week</string>
+    <string name="note">Note</string>
+    <string name="week">Woche</string>
 
 
     <!-- Messenger -->
     <string name="name_of_chat">Chatname</string>
-    <string name="title_new_groupchat">New group</string>
-    <string name="serviceDescription">Receives messages while the app is closed</string>
+    <string name="title_new_groupchat">Neuer Gruppenchat</string>
+    <string name="serviceDescription">Empfängt Nachrichten</string>
     <string name="need_internet">To do this, you need an internet connection</string>
-    <string name="queue">Queue</string>
+    <string name="queue">Warteschlange</string>
     <string name="edit_chat">Chatnamen ändern</string>
     <string name="add_user">Add users</string>
-    <string name="remove_users">Remove users</string>
+    <string name="remove_users">Benutzer entfernen</string>
     <string name="messenger_notification_title">Neue Nachrichten!</string>
-    <string name="today">Today</string>
-    <string name="yesterday">Yesterday</string>
+    <string name="today">Heute</string>
+    <string name="yesterday">Gestern</string>
 
 
     <!-- Nachhilfebörse -->
-    <string name="tutoring_title_new">New announcement</string>
+    <string name="tutoring_title_new">Neue Anzeige</string>
 
 
     <!-- Schwarzes Brett -->
-    <string name="new_entry">New Entry</string>
-    <string name="new_entry_title">Title</string>
-    <string name="new_entry_content">Content</string>
-    <string name="to">To</string>
+    <string name="new_entry">Neuer Eintrag</string>
+    <string name="new_entry_title">Titel</string>
+    <string name="new_entry_content">Inhalt</string>
+    <string name="to">Addressat</string>
     <string name="info_add_entry">Benutze des Web-Interface für mehr Optionen</string>
     <string name="download_description_news">Schwarzes Brett - Download</string>
 
@@ -153,10 +153,10 @@
     <!-- Stundenplan -->
     <string name="month">Monat</string>
     <string name="months">Monate</string>
-    <string name="year">Year</string>
-    <string name="stunden">Choose Courses</string>
+    <string name="year">Jahr</string>
+    <string name="stunden">Kurse auswählen</string>
     <string name="bearbeiten">Bearbeiten</string>
-    <string name="speichern">Save</string>
+    <string name="speichern">Speichern</string>
     <string name="mo">Mon</string>
     <string name="di">Die</string>
     <string name="mi">Mit</string>
@@ -168,18 +168,18 @@
     <string name="latein">Latein</string>
     <string name="franze">Französisch</string>
     <string name="englisch">Englisch</string>
-    <string name="spanisch">Spanish</string>
+    <string name="spanisch">Spanisch</string>
     <string name="bili">Geschichte Bilingual</string>
     <string name="geschichte">Geschichte</string>
     <string name="geo">Erdkunde</string>
-    <string name="sowi">Social sciences</string>
-    <string name="pada">Pedagogy</string>
-    <string name="reliKat">Religious education (catholic)</string>
-    <string name="reliEv">Religious education (protestant)</string>
-    <string name="philo">Philosophy</string>
+    <string name="sowi">Sozial-Wissenschaften</string>
+    <string name="pada">Pädagogik</string>
+    <string name="reliKat">Katholische Religion</string>
+    <string name="reliEv">Evangelische Religion</string>
+    <string name="philo">Philosophie</string>
     <string name="info">Informatik</string>
     <string name="chemie">Chemie</string>
-    <string name="physik">Physics</string>
+    <string name="physik">Physik</string>
     <string name="bio">Biologie</string>
     <string name="literatur">Literatur</string>
     <string name="kunst">Kunst</string>
@@ -189,38 +189,38 @@
     <string name="mittwoch">Mittwoch</string>
     <string name="donnerstag">Donnerstag</string>
     <string name="freitag">Freitag</string>
-    <string name="zeit">Time</string>
-    <string name="raum">Room</string>
+    <string name="zeit">Zeit</string>
+    <string name="raum">Raum</string>
     <string name="lehrer">Lehrer</string>
-    <string name="schriftlich">Written exams</string>
-    <string name="notizen">Notes</string>
+    <string name="schriftlich">Schriftlich</string>
+    <string name="notizen">Notizen</string>
     <string name="mache_bild">Drucken</string>
-    <string name="seconds">Seconds</string>
-    <string name="vokal">Singing</string>
-    <string name="Förder">Foster course</string>
-    <string name="schwimmen">Swimming (Sport)</string>
-    <string name="später">Later</string>
+    <string name="seconds">Sekundne</string>
+    <string name="vokal">Vokalpraxis</string>
+    <string name="Förder">Förderkurs</string>
+    <string name="schwimmen">Schwimmen</string>
+    <string name="später">Später</string>
     <string name="free_hour">Freistunde</string>
-    <string name="Projektk">Project course</string>
+    <string name="Projektk">Projektkurs</string>
     <string name="Vertiefung">Vertiefung</string>
-    <string name="Soz">Social competences</string>
+    <string name="Soz">Soziales Lernen</string>
     <string name="ag">AG:</string>
-    <string name="sport">Sports</string>
+    <string name="sport">Sport</string>
     <string name="politik">Politik</string>
-    <string name="niederländisch">Dutch</string>
-    <string name="PoWi">Politics</string>
-    <string name="GeZK">History (additional)</string>
-    <string name="SoWiZ">Social science (addiational)</string>
-    <string name="Diff">Specialisation</string>
-    <string name="yourTimeTable">Your Timetable</string>
+    <string name="niederländisch">Niederländisch</string>
+    <string name="PoWi">Politik</string>
+    <string name="GeZK">Geschichte ZK</string>
+    <string name="SoWiZ">Sozial-Wissenschaften ZK</string>
+    <string name="Diff">Differenzierung</string>
+    <string name="yourTimeTable">Dein Stundenplan</string>
 
 
     <!-- Umfragen -->
     <string name="meta_id_placeholder">Survey-ID: #%1$s </string>
     <string name="button_next">Weiter</string>
-    <string name="result">Result</string>
-    <string name="results">Results</string>
-    <string name="send_survey">Send</string>
+    <string name="result">Ergibnis</string>
+    <string name="results">Ergebnisse</string>
+    <string name="send_survey">Senden</string>
     <string name="statistics_result">%1$d/%2$d Stimmen (%3$d Prozent)</string>
     <string name="survey">Umfrage: b</string>
     <string name="survey_checkbox_answers">Mehrere Möglichkeiten auswählbar</string>
@@ -228,97 +228,97 @@
     <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
     <string name="survey_description_content">Beschreibe dein Anliegen in einigen Worten.</string>
     <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
-    <string name="survey_new_answer">Answer</string>
+    <string name="survey_new_answer">Antwort</string>
     <string name="title_description_to">An wen ist deine Umfrage gerichtet?</string>
     <string name="title_survey_answers">Antwortmöglichkeiten</string>
     <string name="title_survey_content">Beschreibung (optional)</string>
-    <string name="title_survey_title">Title</string>
+    <string name="title_survey_title">Titel</string>
     <string name="title_survey_to">Addressat</string>
-    <string name="vote_button">Vote</string>
+    <string name="vote_button">Abstimmen</string>
 
 
     <!-- Einstellungen -->
-    <string name="settings_category_general">General</string>
+    <string name="settings_category_general">Generell</string>
 
-    <string name="settings_title_username">Username</string>
+    <string name="settings_title_username">Benutzername</string>
     <string name="settings_summary_username">Der Benutzername deines Schulaccounts</string>
 
     <string name="settings_title_nickname">Nickname</string>
     <string name="settings_summary_nickname">Dieser Name wird deinen Mitschülern angezeigt</string>
 
-    <string name="settings_title_password">Password</string>
+    <string name="settings_title_password">Passwort</string>
     <string name="settings_summary_password">Gib hier dein Schulpasswort ein</string>
 
-    <string name="settings_title_level">Grade</string>
+    <string name="settings_title_level">Stufe</string>
 
-    <string name="settings_toast_username_success">Username changed!</string>
+    <string name="settings_toast_username_success">Benutzername geändert!</string>
 
     <string name="settings_category_info">Contact &#38; Information</string>
 
-    <string name="settings_title_contact">Contact</string>
+    <string name="settings_title_contact">Kontakt</string>
 
-    <string name="settings_summary_customid">Enter your lunch.leo-ac.de customer ID</string>
-    <string name="settings_title_pw">Password</string>
-    <string name="settings_summary_pw">Enter your lunch.leo-ac.de password</string>
-    <string name="settings_summary_sync">Synchronize data on app start</string>
-    <string name="settings_title_fade">Auto dismiss</string>
-    <string name="settings_summary_fade">Automatically dismiss scan-information</string>
-    <string name="settings_title_fade_time">Dismiss time</string>
-    <string name="settings_summary_fade_time">Time the dialog window stays open</string>
-    <string name="settings_title_camera">Use front camera</string>
-    <string name="settings_summary_camera">Use the front camera for the scan interface</string>
-    <string name="settings_summary_mode">MensaMode&#8482; for canteen staff</string>
-    <string name="settings_title_notification">Receive notifications</string>
-    <string name="settings_summary_notification">Notify me on missing synchronisation</string>
-    <string name="settings_title_notification_time">Notification Time</string>
-    <string name="settings_summary_notification_time">When should we remind you?</string>
+    <string name="settings_summary_customid">Gib deine lunch.leo-ac.de ID ein</string>
+    <string name="settings_title_pw">Passwort</string>
+    <string name="settings_summary_pw">Gib dein lunch.leo-ac.de Passwort ein</string>
+    <string name="settings_summary_sync">Beim App-Start synchronisieren</string>
+    <string name="settings_title_fade">Automatisch ausblenden</string>
+    <string name="settings_summary_fade">Scan-Informationen automatisch ausblenden</string>
+    <string name="settings_title_fade_time">Zeitspanne</string>
+    <string name="settings_title_camera">Frontkamera benutzen</string>
+    <string name="settings_summary_camera">Frontkamera zum scannen benutzen</string>
+    <string name="settings_summary_mode">MensaMode&#8482; für Mensa-Personal</string>
+    <string name="settings_title_notification">Benachrichtigungen erhalten</string>
+    <string name="settings_summary_notification">Benachrichtigungen bei fehlender Synchronisierung erhalten</string>
+    <string name="settings_title_notification_time">Benachrichtigungs-Zeit</string>
+    <string name="settings_summary_notification_time">Wann möchtest du benachrichtigt werden?</string>
 
-    <string name="settings_summary_notification_test">Notify me on approaching exams</string>
-    <string name="settings_summary_notification_survey">Notify me if I haven\\\'nt voted yet</string>
-    <string name="settings_summary_notification_schedule">Notify me about my lessons tomorrow</string>
-    <string name="settings_summary_notification_news">Notify me about new entries</string>
+    <string name="settings_summary_notification_test">Benachrichtigungen über anstehende Klausuren erhalten</string>
+    <string name="settings_summary_notification_survey">Benachrichtigungen bei fehlender Stimmung erhalten</string>
+    <string name="settings_summary_notification_schedule">Benachrichtigungen über morgigen Stundenplan erhalten</string>
+    <string name="settings_summary_notification_news">Benachrichtigungen über neue Nachrichten erhalten</string>
 
-    <string name="settings_summary_notification_messenger">Notify me about new messages</string>
-    <string name="settings_summary_testplan_time">Delete exams after...</string>
-    <string name="settings_title_testplan_time">Delete test</string>
+    <string name="settings_summary_notification_messenger">Benachrichtigungen bei neuen Nachrichten erhalten</string>
+    <string name="settings_summary_testplan_time">Klausuren löschen nach</string>
+    <string name="settings_title_testplan_time">Klausuren löschen</string>
 
-    <string name="settings_name_changed">Name changed!</string>
+    <string name="settings_name_changed">Name geändertd!</string>
 
-    <string name="settings_category_subst">Substitutions</string>
-    <string name="settings_summary_username_school">Enter the schools username</string>
-    <string name="settings_title_username_school">Username</string>
-    <string name="settings_summary_password_school">Enter the schools password</string>
-    <string name="settings_title_password_school">Password</string>
-    <string name="settings_summary_notification_subst">Should we inform you on substitutions?</string>
-    <string name="settings_summary_network">Only synchronize data with active WiFi connection</string>
+    <string name="settings_category_subst">Vertretungsplan</string>
+    <string name="settings_summary_username_school">Gib deinen Schulbenutzernamen ein</string>
+    <string name="settings_title_username_school">Benutzername</string>
+    <string name="settings_summary_password_school">Gib dein Schulpasswort ein</string>
+    <string name="settings_title_password_school">Passwort</string>
+    <string name="settings_summary_notification_subst">Benachrichtigungen über Vertretung erhalten</string>
+    <string name="settings_summary_network">Nur über WLAN aktualisieren</string>
     <string name="settings_title_network">WiFi only</string>
-    <string name="settings_summary_interval_subst">In which interval do you want the data to be updated</string>
+    <string name="settings_summary_interval_subst">In welchen Abständen soll der Plan aktualisiert werden?</string>
     <string name="settings_title_interval_subst">Interval</string>
-    <string name="settings_summary_filter_subst">Do you want to filter your data?</string>
+    <string name="settings_summary_filter_subst">Plan filtern</string>
     <string name="settings_title_filter_subst">Filter</string>
-    <string name="settings_summary_filterby_level">Filter by grade</string>
-    <string name="settings_title_filterby_level">Grade</string>
-    <string name="settings_summary_filterby_schedule">Filter by schedule</string>
-    <string name="settings_title_filterby_schedule">Schedule</string>
-    <string name="settings_summary_test_timetable">Filter by schedule</string>
-    <string name="settings_title_test_timetable">Filter</string>
+    <string name="settings_summary_filterby_level">Nach Stufe filtern</string>
+    <string name="settings_title_filterby_level">Stufe</string>
+    <string name="settings_summary_filterby_schedule">Nach Stundenplan filtern</string>
+    <string name="settings_title_filterby_schedule">Stundenplan</string>
+    <string name="settings_title_test_timetable">Filtern</string>
 
-    <string name="settings_screen_slg_data">SLG Accessdata</string>
-    <string name="settings_screen_cg_data">Couven Accessdata</string>
-    <string name="settings_screen_kkg_data">KKG Accessdata</string>
-    <string name="settings_no_access_data">No access data needed</string>
+    <string name="settings_screen_slg_data">SLG Zugangsdaten</string>
+    <string name="settings_screen_cg_data">Couven Zugangsdaten</string>
+    <string name="settings_screen_kkg_data">KKG Zugangsdaten</string>
+    <string name="settings_no_access_data">Keine Zugangsdaten nötig</string>
 
-    <string name="settings_summary_messenger_sync">All your messagesand chats will be deleted and then downloaded again</string>
-    <string name="settings_title_messenger_sync">Synchronize your device</string>
+    <string name="settings_summary_messenger_sync">Deine lokalen Nachrichten und Chats werden gelöscht und neu vom Server heruntergeladen</string>
+    <string name="settings_title_messenger_sync">nur WLAN</string>
 
-    <string name="settings_title_reasons_survey">Reasons</string>
-    <string name="settings_summary_reasons_survey">Show reasons when choosing your nood</string>
+    <string name="settings_title_reasons_survey">Gründe</string>
+    <string name="settings_summary_reasons_survey">Gründe für deine Stimmung beim abstimmen anzeigen</string>
 
-    <string name="settings_title_kuerzel">Teacher abbreviation</string>
+    <string name="settings_title_kuerzel">Lehrer-Kürzel</string>
 
-    <string name="settings_title_notification_all">Receive all notifications</string>
-    <string name="settings_title_notification_custom">Receive some notifications</string>
-    <string name="settings_title_notification_none">Do not receive any notifications</string>
+    <string name="settings_title_notification_all">Alle Benachrichtigungen erhalten</string>
+    <string name="settings_title_notification_custom">Einige Benachrichtigungen erhalten</string>
+    <string name="settings_title_notification_none">Keine Benachrichtigungen erhalten</string>
     <string name="button_info_auth">Verify</string>
+    <string name="settings_summary_fade_time">Zeitspanne bis sich das Fenster schließt</string>
+    <string name="back">Rückgängig</string>
 
 </resources>
