@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name" translatable="false">LeoApp</string>
@@ -82,7 +83,7 @@
     <string name="feature_request_title">Feature idea</string>
     <string name="cards_quick">Quick access</string>
     <string name="discard">Discard</string>
-    <string name="todo_description"></string>
+    <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>
 
 
     <!-- Info -->
@@ -233,6 +234,23 @@
     <!-- Umfragen -->
     <string name="meta_id_placeholder">Survey-ID: #%1$s </string>
     <string name="button_next">Next</string>
+    <string name="result">Result</string>
+    <string name="results">Results</string>
+    <string name="send_survey">Send</string>
+    <string name="statistics_result">%1$d/%2$d Stimmen (%3$d Prozent)</string>
+    <string name="survey">Umfrage: b</string>
+    <string name="survey_checkbox_answers">Mehrere Möglichkeiten auswählbar</string>
+    <string name="survey_deleted">Umfrage gelöscht</string>
+    <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
+    <string name="survey_description_content">Beschreibe dein Anliegen in einigen Worten.</string>
+    <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
+    <string name="survey_new_answer">Answer</string>
+    <string name="title_description_to">An wen ist deine Umfrage gerichtet?</string>
+    <string name="title_survey_answers">Antwortmöglichkeiten</string>
+    <string name="title_survey_content">Beschreibung (optional)</string>
+    <string name="title_survey_title">Title</string>
+    <string name="title_survey_to">Addressat</string>
+    <string name="vote_button">Vote</string>
 
 
     <!-- Einstellungen -->
