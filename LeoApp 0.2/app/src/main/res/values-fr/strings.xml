@@ -319,5 +319,6 @@
     <string name="settings_title_notification_all">Receive all notifications</string>
     <string name="settings_title_notification_custom">Receive some notifications</string>
     <string name="settings_title_notification_none">Do not receive any notifications</string>
+    <string name="button_info_auth">Verify</string>
 
 </resources>
