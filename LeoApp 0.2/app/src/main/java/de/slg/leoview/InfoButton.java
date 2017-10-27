@@ -67,14 +67,6 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
-     * @param l siehe {@link Button}
-     */
-    public void setOnFocusChangeListener(View.OnFocusChangeListener l) {
-        b.setOnFocusChangeListener(l);
-    }
-
-    /**
-     * Delegiert von android.widget.Button
      * @param listener siehe {@link Button}
      */
     public void addOnLayoutChangeListener(View.OnLayoutChangeListener listener) {
@@ -115,6 +107,15 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     * @param l siehe {@link Button}
+     */
+    public void setOnFocusChangeListener(View.OnFocusChangeListener l) {
+        b.setOnFocusChangeListener(l);
+    }
+
+    /**
+     * Delegiert von android.widget.Button
+     *
      * @param l siehe {@link Button}
      */
     public void setOnClickListener(@Nullable android.view.View.OnClickListener l) {
@@ -322,18 +323,18 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
-     * @param pressed siehe {@link Button}
-     */
-    public void setPressed(boolean pressed) {
-        b.setPressed(pressed);
-    }
-
-    /**
-     * Delegiert von android.widget.Button
      * @return siehe {@link Button}
      */
     public boolean isPressed() {
         return b.isPressed();
+    }
+
+    /**
+     * Delegiert von android.widget.Button
+     * @param pressed siehe {@link Button}
+     */
+    public void setPressed(boolean pressed) {
+        b.setPressed(pressed);
     }
 
     /**
@@ -551,18 +552,18 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
-     * @param resid siehe {@link Button}
-     */
-    public void setHint(@StringRes int resid) {
-        b.setHint(resid);
-    }
-
-    /**
-     * Delegiert von android.widget.Button
      * @return siehe {@link Button}
      */
     public CharSequence getHint() {
         return b.getHint();
+    }
+
+    /**
+     * Delegiert von android.widget.Button
+     * @param resid siehe {@link Button}
+     */
+    public void setHint(@StringRes int resid) {
+        b.setHint(resid);
     }
 
     /**

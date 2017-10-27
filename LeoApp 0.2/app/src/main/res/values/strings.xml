@@ -214,7 +214,7 @@
     <string name="später">Later</string>
     <string name="free_hour">Free period</string>
     <string name="Tok" translatable="false">TOK</string>
-    <string name="Weltlit">Literature</string>
+    <string name="Weltlit" translatable="false">WLT</string>
     <string name="ZK" translatable="false">ZK</string>
     <string name="Projektk">Project course</string>
     <string name="Vertiefung">Foster course</string>
