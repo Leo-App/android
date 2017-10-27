@@ -47,21 +47,22 @@
 
 
     <!-- Startseite -->
-    <string name="summary_info_auth">In order to use some of the features, you need to be verified. You can do so by clicking the button below.</string>
-    <string name="summary_info_foodmark">This feature is used to confirm your lunch order digitally. Just show the QR-Code to the mensa staff.</string>
-    <string name="summary_info_testplan">This is an automatically generated plan for your tests. You can filter them by configuring your settings or add your own assignments</string>
-    <string name="summary_info_messenger">Use this feature to communicate with your classmates or teachers without them knowing your mobile number. You can add group chats or chat normally. Your username can be changed in the settings</string>
-    <string name="summary_info_tutoring">In need of a tutor or a student? Just add a message to the tutoring board!</string>
-    <string name="summary_info_news">You can find all relevant news concerning your scholar life on the LeoApp-Newsboard</string>
-    <string name="summary_info_survey">You can choose your current mood daily and see some statistics</string>
-    <string name="summary_info_subst">See your substitutions for today and tomorrow</string>
-    <string name="summary_info_schedule">After choosing your lessons, a schedule will be generated which you can further customize</string>
+    <string name="summary_info_auth">Einige Funktionen benötigen eine Verifizierung. Verifiziere dich hier.</string>
+
+    <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Nachdem du in den Einstellungen deine Zugangsdaten angegeben hast, brauchst du nur noch den anschließend generierten QR-Code vorzuzeigen und du erhälst dein bestelltes Menü.</string>
+    <string name="summary_info_testplan">Hier findest du eine Sammlung deiner anstehenden Klausuren. Ergänze dein Profil um die Filterfunktion zu verwenden oder füge deine eigenen Einträge hinzu.</string>
+    <string name="summary_info_messenger">Mithilfe dieser Funktion kannst du mit deinen Klassenkameraden und Lehrern kommunizieren, ohne dass diese deine Telefonnummer erfahren. Du kannst in Gruppen oder privat chatten. Deinen Benutzernamen kannst du in den Einstellungen ändern.</string>
+    <string name="summary_info_tutoring">Brauchst du Nachhilfe in einem Fach? Bitte einfach darum in der Nachhilfebörse!</string>
+    <string name="summary_info_news">Hier stehen alle wichtigen Neuigkeiten über dein Schulleben.</string>
+    <string name="summary_info_survey">Hier kannst du jeden Tag deine Stimmung angeben und auch die der gesamten Schule sehen.</string>
+    <string name="summary_info_schedule">Wähle deine belegten Kurse aus und dir wird ein automatischer Stundenplan generiert. Diesen kannst du natürlich noch anpassen.</string>
+    <string name="summary_info_subst">Deine Vertretungen für heute und morgen</string>
 
     <string name="card_title_weather">aktuelles Wetter</string>
 
-    <string name="button_card_dismiss">Dismiss</string>
-    <string name="add_card">Add card</string>
-    <string name="button_add">Add</string>
+    <string name="button_card_dismiss">Ausblenden</string>
+    <string name="add_card">Karte hinzufügen</string>
+    <string name="button_add">Hinzufügen</string>
     <string name="selector_card">Karte hinzufügen</string>
 
     <string name="button_info_try">Ausprobieren</string>
