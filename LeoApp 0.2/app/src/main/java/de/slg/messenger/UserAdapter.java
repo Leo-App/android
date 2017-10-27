@@ -41,6 +41,11 @@ class UserAdapter extends ArrayAdapter<User> {
         return v;
     }
 
+    /**
+     * Zählt die ausgewählten Benutzer
+     *
+     * @return Anzahl der ausgewählten Benutzer
+     */
     int selectCount() {
         int count = 0;
         for (int i = 0; i < users.length; i++) {
@@ -50,6 +55,11 @@ class UserAdapter extends ArrayAdapter<User> {
         return count;
     }
 
+    /**
+     * Erstellt ein Array der ausgewählten Benutzer
+     *
+     * @return {@link User}-Array
+     */
     User[] getSelected() {
         User[] result = new User[selectCount()];
         int    i1     = 0;

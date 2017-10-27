@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
 
 public class StundenplanView extends View {
     private final Canvas canvas;

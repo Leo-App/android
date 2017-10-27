@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,15 +21,15 @@
         android:id="@+id/time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/zeit"
-        android:textColor="@color/colorText"
-        android:textSize="18sp"
+        android:layout_alignEnd="@+id/title_details"
+        android:layout_alignLeft="@+id/title_details"
+        android:layout_alignRight="@+id/title_details"
+        android:layout_alignStart="@+id/title_details"
         android:layout_below="@+id/title_details"
         android:layout_marginTop="15dp"
-        android:layout_alignLeft="@+id/title_details"
-        android:layout_alignStart="@+id/title_details"
-        android:layout_alignRight="@+id/title_details"
-        android:layout_alignEnd="@+id/title_details" />
+        android:text="@string/zeit"
+        android:textColor="@color/colorText"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/uhrzeit_details"
@@ -69,37 +69,37 @@
         android:id="@+id/lehrer_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/raumnr_details"
+        android:layout_alignEnd="@+id/uhrzeit_details"
+        android:layout_alignRight="@+id/uhrzeit_details"
+        android:layout_marginEnd="73dp"
+        android:layout_marginRight="73dp"
         android:text="@string/lehrer"
         android:textColor="@color/colorText"
-        android:textSize="18sp"
-        android:layout_marginRight="73dp"
-        android:layout_marginEnd="73dp"
-        android:layout_above="@+id/raumnr_details"
-        android:layout_alignRight="@+id/uhrzeit_details"
-        android:layout_alignEnd="@+id/uhrzeit_details" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/lehrerK_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/uhrzeit_details"
         android:layout_alignLeft="@+id/lehrer_details"
+        android:layout_alignRight="@+id/uhrzeit_details"
         android:layout_alignStart="@+id/lehrer_details"
         android:layout_below="@+id/lehrer_details"
-        android:text="XXX"
-        android:layout_alignRight="@+id/uhrzeit_details"
-        android:layout_alignEnd="@+id/uhrzeit_details" />
+        android:text="XXX" />
 
     <CheckBox
         android:id="@+id/checkBox_schriftlich"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonSav"
+        android:layout_toEndOf="@+id/notizFeld_details"
+        android:layout_toRightOf="@+id/notizFeld_details"
         android:buttonTint="@color/colorAccent"
         android:text="@string/schriftlich"
         android:textColor="@color/colorText"
-        android:textSize="18sp"
-        android:layout_toRightOf="@+id/notizFeld_details"
-        android:layout_toEndOf="@+id/notizFeld_details"
-        android:layout_above="@+id/buttonSav" />
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/notizFeld_details"
@@ -119,20 +119,20 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/speichern"
-        android:textAllCaps="true"
-        android:layout_below="@+id/notizFeld_details"
+        android:layout_alignEnd="@+id/lehrerK_details"
         android:layout_alignRight="@+id/lehrerK_details"
-        android:layout_alignEnd="@+id/lehrerK_details" />
+        android:layout_below="@+id/notizFeld_details"
+        android:text="@string/speichern"
+        android:textAllCaps="true" />
 
     <Button
         android:id="@+id/buttonDis"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:layout_alignBaseline="@+id/buttonSav"
         android:layout_alignBottom="@+id/buttonSav"
+        android:layout_marginBottom="10dp"
         android:layout_toLeftOf="@+id/buttonSav"
         android:layout_toStartOf="@+id/buttonSav"
         android:text="@string/discard"

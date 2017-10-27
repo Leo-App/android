@@ -141,6 +141,11 @@ public class Message {
         return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH);
     }
 
+    /**
+     * Liefert einen String, der abhängig vom aktuellen Datum das Datum der Nachricht repräsentiert
+     *
+     * @return Heute; Gestern, DD.MM, DD.MM.YY, Warteschlange
+     */
     String getDate() {
         if (mdate.getTime() == 0)
             return Utils.getString(R.string.queue);
@@ -154,6 +159,11 @@ public class Message {
         return simpleDateFormat.format(mdate);
     }
 
+    /**
+     * Liefert einen String, der die Uhrzeit der Nachricht repräsentiert
+     *
+     * @return HH:mm:ss
+     */
     String getTime() {
         if (mdate.getTime() == 0 || sending)
             return "";

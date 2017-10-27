@@ -7,6 +7,13 @@ import java.net.URLEncoder;
 public abstract class Verschluesseln {
     private static final String key2 = "ABCD";
 
+    /**
+     * Verschlüsselt text mit key
+     *
+     * @param text UTF-8 codierter Text, der verschlüsselt wird
+     * @param key  Schlüssel zum verschlüsseln
+     * @return text mit key verschlüsselt
+     */
     static String encrypt(String text, String key) {
         StringBuilder builder = new StringBuilder();
         assert key.matches("[A-Z]*");
@@ -37,6 +44,13 @@ public abstract class Verschluesseln {
         return builder.toString();
     }
 
+    /**
+     * Entschlüsselt text mit key
+     *
+     * @param text Text, der entschlüsselt wird
+     * @param key Schlüssel zum entschlüsseln
+     * @return text mit key entschlüsselt
+     */
     public static String decrypt(String text, String key) throws UnsupportedEncodingException {
         StringBuilder builder = new StringBuilder();
         assert key.matches("[A-Z]*");
@@ -68,6 +82,12 @@ public abstract class Verschluesseln {
         return URLDecoder.decode(builder.toString(), "UTF-8");
     }
 
+    /**
+     * Entschlüsselt key mit key2
+     *
+     * @param key Schlüssel, der entschlüsselt wird
+     * @return key mit key2 entschlüsselt
+     */
     public static String decryptKey(String key) {
         StringBuilder builder = new StringBuilder();
         assert key2.matches("[A-Z]*");
@@ -82,6 +102,12 @@ public abstract class Verschluesseln {
         return builder.toString();
     }
 
+    /**
+     * Verschlüsselt key mit key2
+     *
+     * @param key Schlüssel, der verschlüsselt wird
+     * @return key mit key2 verschlüsselt
+     */
     static String encryptKey(String key) {
         StringBuilder builder = new StringBuilder();
         assert key2.matches("[A-Z]*");
@@ -96,6 +122,12 @@ public abstract class Verschluesseln {
         return builder.toString();
     }
 
+    /**
+     * Erzeugt einen zufälligen String, der der Länge des Textes entspricht
+     *
+     * @param text UTF-8 codierter Text
+     * @return zufälliger Text aus Großbuchstaben
+     */
     static String createKey(String text) {
         int length = text.length();
         for (int i = 0; i < text.length(); i++)

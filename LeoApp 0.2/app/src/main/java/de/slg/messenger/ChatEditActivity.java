@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -234,7 +233,7 @@ public class ChatEditActivity extends ActionLogActivity {
         final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
 
         username.setText(Utils.getUserName());
-        userdefault.setText(Utils.getController().getMessengerDatabase().getMyDefaultName() + ", " + Utils.getUserStufe());
+        userdefault.setText(Utils.getUserDefaultName() + ", " + Utils.getUserStufe());
 
         v.findViewById(R.id.checkBox).setVisibility(View.GONE);
 

@@ -3,7 +3,6 @@ package de.slg.nachhilfe;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +14,7 @@ import android.widget.Spinner;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
+import de.slg.leoview.ActionLogActivity;
 
 public class Hinzufuegen extends ActionLogActivity {
     private String fach;

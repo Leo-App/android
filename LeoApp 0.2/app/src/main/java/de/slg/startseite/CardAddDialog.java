@@ -12,13 +12,13 @@ import de.slg.leoapp.R;
 
 class CardAddDialog extends AlertDialog {
 
-    private final MainActivity  context;
+    private final MainActivity  mainActivity;
     private       ImageButton[] buttons;
     private       CardType      type;
 
-    CardAddDialog(@NonNull MainActivity context) {
-        super(context);
-        this.context = context;
+    CardAddDialog(@NonNull MainActivity mainActivity) {
+        super(mainActivity);
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -46,7 +46,7 @@ class CardAddDialog extends AlertDialog {
                 @Override
                 public void onClick(View v) {
                     greyOut();
-                    copy.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+                    copy.setColorFilter(ContextCompat.getColor(mainActivity, R.color.colorPrimary));
                     findViewById(R.id.buttonDialog2).setEnabled(true);
                     type = CardType.valueOf(String.valueOf(copy.getTag()));
                 }
@@ -70,7 +70,7 @@ class CardAddDialog extends AlertDialog {
         findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.addCard(type);
+                mainActivity.addCard(type);
                 dismiss();
             }
         });

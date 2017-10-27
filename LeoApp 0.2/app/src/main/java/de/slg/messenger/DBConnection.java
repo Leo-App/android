@@ -35,6 +35,9 @@ import static de.slg.messenger.DBConnection.DBHelper.USER_PERMISSION;
 import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
 import static de.slg.messenger.DBConnection.DBHelper.version;
 
+/**
+ * Jede Methode tut das, was der Name sagt!
+ */
 public class DBConnection {
     private final SQLiteDatabase database;
     private final DBHelper       helper;
@@ -274,16 +277,6 @@ public class DBConnection {
         boolean b      = cursor.getCount() > 0;
         cursor.close();
         return b;
-    }
-
-    String getMyDefaultName() {
-        Cursor cursor = query(TABLE_USERS, new String[]{USER_DEFAULTNAME}, USER_ID + " = " + Utils.getUserID(), null);
-        cursor.moveToFirst();
-        String udefaultname = "";
-        if (cursor.getCount() > 0)
-            udefaultname = cursor.getString(0);
-        cursor.close();
-        return udefaultname;
     }
 
     //Chat

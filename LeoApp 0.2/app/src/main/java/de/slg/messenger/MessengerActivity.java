@@ -3,7 +3,6 @@ package de.slg.messenger;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,20 +11,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +23,6 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.User;
 import de.slg.leoapp.Utils;
 import de.slg.leoview.ActionLogActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
@@ -43,17 +30,11 @@ import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
-import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
-import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
-import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
-
 public class MessengerActivity extends ActionLogActivity {
     private DrawerLayout   drawerLayout;
     private ChatsFragment  cFragment;
     private UserFragment   uFragment;
     private SearchFragment sFragment;
-    private Chat[] chatArray = null;
-    private User[] userArray = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +45,6 @@ public class MessengerActivity extends ActionLogActivity {
         Utils.getController().getMessengerDatabase();
 
         initToolbar();
-        initArrays();
         initNavigationView();
         initTabs();
     }
@@ -196,14 +176,10 @@ public class MessengerActivity extends ActionLogActivity {
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
-    private void initArrays() {
-        userArray = Utils.getController().getMessengerDatabase().getUsers();
-        chatArray = Utils.getController().getMessengerDatabase().getChats();
-    }
-
+    /**
+     * Falls initialisiert, aktualisiert die Tabs und die {@link ChatActivity}
+     */
     public void notifyUpdate() {
-        chatArray = Utils.getController().getMessengerDatabase().getChats();
-        userArray = Utils.getController().getMessengerDatabase().getUsers();
         if (uFragment != null)
             uFragment.refreshUI();
         if (cFragment != null)
@@ -213,514 +189,5 @@ public class MessengerActivity extends ActionLogActivity {
         ChatActivity chatActivity = Utils.getController().getChatActivity();
         if (chatActivity != null)
             chatActivity.refreshUI(true, false);
-    }
-
-    public static class UserFragment extends Fragment {
-        public View         view;
-        public RecyclerView rvUsers;
-        View.OnClickListener userClickListener;
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            if (view == null) {
-                view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
-                initRecyclerView();
-            }
-            return view;
-        }
-
-        private void initRecyclerView() {
-            rvUsers = (RecyclerView) view.findViewById(R.id.recyclerView);
-            userClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int  position    = rvUsers.getChildAdapterPosition(view);
-                    User clickedUser = Utils.getController().getMessengerActivity().userArray[position];
-                    startActivity(new Intent(getContext(), ChatActivity.class)
-                            .putExtra("uid", clickedUser.uid)
-                            .putExtra("cid", Utils.getController().getMessengerDatabase().getChatWith(clickedUser.uid))
-                            .putExtra("cname", clickedUser.uname)
-                            .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
-                }
-            };
-
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                    rvUsers.getContext(),
-                    linearLayoutManager.getOrientation()
-            );
-            rvUsers.addItemDecoration(mDividerItemDecoration);
-            rvUsers.setLayoutManager(linearLayoutManager);
-
-            rvUsers.setAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getController().getMessengerActivity().userArray, userClickListener));
-        }
-
-        public void refreshUI() {
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (rvUsers != null)
-                            rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), Utils.getController().getMessengerActivity().userArray, userClickListener), false);
-                    }
-                });
-            }
-        }
-
-        private class UserAdapter extends RecyclerView.Adapter {
-            private final LayoutInflater       inflater;
-            private final User[]               array;
-            private final View.OnClickListener listener;
-
-            UserAdapter(LayoutInflater inflater, User[] array, View.OnClickListener listener) {
-                this.inflater = inflater;
-                this.array = array;
-                this.listener = listener;
-            }
-
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new ViewHolder(inflater.inflate(R.layout.list_item_user, null));
-            }
-
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                View           v           = holder.itemView;
-                final TextView username    = (TextView) v.findViewById(R.id.username);
-                final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
-                username.setText(array[position].uname);
-                userdefault.setText(array[position].udefaultname + ", " + array[position].ustufe);
-                v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public int getItemCount() {
-                return array.length;
-            }
-
-            private class ViewHolder extends RecyclerView.ViewHolder {
-                ViewHolder(View itemView) {
-                    super(itemView);
-                    itemView.setOnClickListener(listener);
-                }
-            }
-        }
-    }
-
-    public static class ChatsFragment extends Fragment {
-        public  RecyclerView             rvChats;
-        private View                     view;
-        private View.OnClickListener     chatClickListener;
-        private View.OnLongClickListener chatLongClickListener;
-        private int                      selected;
-        private int                      previousPosition;
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            if (view == null) {
-                view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
-                initRecyclerView();
-            }
-            return view;
-        }
-
-        private void initRecyclerView() {
-            selected = -1;
-            rvChats = (RecyclerView) view.findViewById(R.id.recyclerView);
-
-            chatClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int  position    = rvChats.getChildAdapterPosition(view);
-                    Chat clickedChat = Utils.getController().getMessengerActivity().chatArray[position];
-                    startActivity(new Intent(getContext(), ChatActivity.class)
-                            .putExtra("cid", clickedChat.cid)
-                            .putExtra("cname", clickedChat.cname)
-                            .putExtra("ctype", clickedChat.ctype.toString()));
-                    view.findViewById(R.id.notify).setVisibility(View.GONE);
-                    view.findViewById(R.id.imageButtonDelete).setVisibility(View.GONE);
-                    view.findViewById(R.id.imageButtonMute).setVisibility(View.GONE);
-                }
-            };
-
-            chatLongClickListener = new View.OnLongClickListener() {
-                private int visibility;
-
-                @Override
-                public boolean onLongClick(final View view) {
-                    if (previousPosition != -1) {
-                        rvChats.getChildAt(previousPosition).findViewById(R.id.imageButtonDelete).setVisibility(View.GONE);
-                        rvChats.getChildAt(previousPosition).findViewById(R.id.imageButtonMute).setVisibility(View.GONE);
-                        rvChats.getChildAt(previousPosition).findViewById(R.id.notify).setVisibility(visibility);
-                    }
-                    previousPosition = rvChats.getChildAdapterPosition(view);
-                    final View delete = view.findViewById(R.id.imageButtonDelete);
-                    final View mute   = view.findViewById(R.id.imageButtonMute);
-                    final View notify = view.findViewById(R.id.notify);
-                    visibility = notify.getVisibility();
-                    notify.setVisibility(View.GONE);
-                    delete.setVisibility(View.VISIBLE);
-                    mute.setVisibility(View.VISIBLE);
-                    return true;
-                }
-            };
-
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                    rvChats.getContext(),
-                    linearLayoutManager.getOrientation()
-            );
-            rvChats.addItemDecoration(mDividerItemDecoration);
-            rvChats.setLayoutManager(linearLayoutManager);
-
-            rvChats.setAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getController().getMessengerActivity().chatArray, chatClickListener, chatLongClickListener));
-        }
-
-        public void refreshUI() {
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (rvChats != null)
-                            rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), Utils.getController().getMessengerActivity().chatArray, chatClickListener, chatLongClickListener), false);
-                    }
-                });
-            }
-        }
-
-        private class ChatAdapter extends RecyclerView.Adapter {
-            private final LayoutInflater           inflater;
-            private final Chat[]                   chats;
-            private final View.OnClickListener     clickListener;
-            private final View.OnLongClickListener longClickListener;
-
-            ChatAdapter(LayoutInflater inflater, Chat[] chats, View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
-                this.inflater = inflater;
-                this.chats = chats;
-                this.clickListener = clickListener;
-                this.longClickListener = longClickListener;
-            }
-
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new ViewHolder(inflater.inflate(R.layout.list_item_chat, null));
-            }
-
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                final View      v            = holder.itemView;
-                final TextView  chatname     = (TextView) v.findViewById(R.id.chatname);
-                final TextView  lastMessage  = (TextView) v.findViewById(R.id.letzteNachricht);
-                final ImageView icon         = (ImageView) v.findViewById(R.id.iconChat);
-                final View      iconMute     = v.findViewById(R.id.iconMute);
-                final View      buttonDelete = v.findViewById(R.id.imageButtonDelete);
-                final View      buttonMute   = v.findViewById(R.id.imageButtonMute);
-                final View      notify       = v.findViewById(R.id.notify);
-                final Chat      c            = chats[position];
-                if (c != null) {
-                    chatname.setText(c.cname);
-                    if (c.m != null) {
-                        lastMessage.setVisibility(View.VISIBLE);
-                        lastMessage.setText(c.m.uname + ": " + c.m.mtext);
-                        if (!c.m.mread)
-                            notify.setVisibility(View.VISIBLE);
-                        else
-                            notify.setVisibility(View.GONE);
-                    } else {
-                        lastMessage.setVisibility(View.GONE);
-                        notify.setVisibility(View.GONE);
-                    }
-                    if (c.ctype == Chat.ChatType.PRIVATE) {
-                        icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
-                    } else {
-                        icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
-                    }
-                    if (c.cmute) {
-                        iconMute.setVisibility(View.VISIBLE);
-                    } else {
-                        iconMute.setVisibility(View.GONE);
-                    }
-                    buttonMute.setActivated(c.cmute);
-                    if (position != selected) {
-                        buttonDelete.setVisibility(View.GONE);
-                        buttonMute.setVisibility(View.GONE);
-                    } else {
-                        buttonDelete.setVisibility(View.VISIBLE);
-                        buttonMute.setVisibility(View.VISIBLE);
-                    }
-                    buttonDelete.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Utils.getController().getMessengerDatabase().deleteChat(c.cid);
-                            selected = -1;
-                            previousPosition = -1;
-                            Utils.getController().getMessengerActivity().notifyUpdate();
-                        }
-                    });
-                    buttonMute.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Utils.getController().getMessengerDatabase().muteChat(c.cid, !c.cmute);
-                            selected = -1;
-                            Utils.getController().getMessengerActivity().notifyUpdate();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public int getItemCount() {
-                return chats.length;
-            }
-
-            private class ViewHolder extends RecyclerView.ViewHolder {
-                ViewHolder(View itemView) {
-                    super(itemView);
-                    itemView.setOnClickListener(clickListener);
-                    itemView.setOnLongClickListener(longClickListener);
-                }
-            }
-        }
-    }
-
-    public static class SearchFragment extends Fragment {
-        public View         view;
-        public RecyclerView rvSearch;
-        boolean initialized = false;
-        private Object[]             data;
-        private View.OnClickListener clickListener;
-
-        private boolean expanded;
-
-        private String  suchbegriff = "";
-        private boolean chatsFirst  = false;
-        private String  name        = USER_DEFAULTNAME;
-        private boolean nameDesc    = false, groupGrade = true;
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            if (view == null) {
-                view = inflater.inflate(R.layout.fragment_search, container, false);
-                data = Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, USER_STUFE + ", " + name);
-                initRecyclerView();
-                initSearch();
-                initSort();
-            }
-            initialized = true;
-            return view;
-        }
-
-        private void initRecyclerView() {
-            rvSearch = (RecyclerView) view.findViewById(R.id.recyclerViewSearch);
-            clickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = rvSearch.getChildAdapterPosition(v);
-                    if (data[position] instanceof User) {
-                        User clickedUser = (User) data[position];
-                        startActivity(new Intent(getContext(), ChatActivity.class)
-                                .putExtra("uid", clickedUser.uid)
-                                .putExtra("cid", Utils.getController().getMessengerDatabase().getChatWith(clickedUser.uid))
-                                .putExtra("cname", clickedUser.uname)
-                                .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
-                    } else {
-                        Chat clickedChat = (Chat) data[position];
-                        startActivity(new Intent(getContext(), ChatActivity.class)
-                                .putExtra("cid", clickedChat.cid)
-                                .putExtra("cname", clickedChat.cname)
-                                .putExtra("ctype", Chat.ChatType.GROUP.toString()));
-                    }
-                }
-            };
-
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                    rvSearch.getContext(),
-                    linearLayoutManager.getOrientation()
-            );
-            rvSearch.addItemDecoration(mDividerItemDecoration);
-            rvSearch.setLayoutManager(linearLayoutManager);
-
-            rvSearch.setAdapter(new HybridAdapter(getActivity().getLayoutInflater()));
-        }
-
-        private void initSearch() {
-            TextView input = (TextView) view.findViewById(R.id.editText);
-            input.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    suchbegriff = s.toString();
-                    refreshUI();
-                }
-            });
-        }
-
-        private void initSort() {
-            expanded = false;
-            view.findViewById(R.id.sortCard).setVisibility(View.GONE);
-            final FloatingActionButton expand = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
-            expand.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    expanded = !expanded;
-                    if (expanded) {
-                        expand.setImageResource(R.drawable.ic_expand_less_white_24dp);
-                        SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.VISIBLE);
-                    } else {
-                        expand.setImageResource(R.drawable.ic_expand_more_white_24dp);
-                        SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.GONE);
-                    }
-                }
-            });
-            final Button first = (Button) view.findViewById(R.id.buttonFirst);
-            first.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (chatsFirst) {
-                        first.setText("Benutzer");
-                        chatsFirst = false;
-                    } else {
-                        first.setText("Chats");
-                        chatsFirst = true;
-                    }
-                    refreshUI();
-                }
-            });
-            if (!chatsFirst) {
-                first.setText("Benutzer");
-            } else {
-                first.setText("Chats");
-            }
-            final Button sortName = (Button) view.findViewById(R.id.buttonName);
-            sortName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (name.equals(USER_DEFAULTNAME)) {
-                        name = USER_NAME;
-                        sortName.setText("Nickname");
-                    } else {
-                        name = USER_DEFAULTNAME;
-                        sortName.setText("Standardname");
-                    }
-                    refreshUI();
-                }
-            });
-            if (!name.equals(USER_DEFAULTNAME)) {
-                sortName.setText("Nickname");
-            } else {
-                sortName.setText("Standardname");
-            }
-            final ImageButton nameUpDown = (ImageButton) view.findViewById(R.id.buttonNameUpDown);
-            nameUpDown.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (nameDesc) {
-                        nameDesc = false;
-                        nameUpDown.setImageResource(R.drawable.ic_expand_less_white_24dp);
-                    } else {
-                        nameDesc = true;
-                        nameUpDown.setImageResource(R.drawable.ic_expand_more_white_24dp);
-                    }
-                    refreshUI();
-                }
-            });
-            if (!nameDesc) {
-                nameUpDown.setImageResource(R.drawable.ic_expand_less_white_24dp);
-            } else {
-                nameUpDown.setImageResource(R.drawable.ic_expand_more_white_24dp);
-            }
-            final Button grade = (Button) view.findViewById(R.id.buttonGrade);
-            grade.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    grade.setActivated(groupGrade);
-                    if (groupGrade)
-                        grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
-                    else
-                        grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                    groupGrade = !groupGrade;
-                    refreshUI();
-                }
-            });
-            grade.setActivated(!groupGrade);
-            if (!groupGrade)
-                grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
-            else
-                grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-        }
-
-        public void refreshUI() {
-            if (getActivity() != null && initialized) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (rvSearch != null) {
-                            String orderUser = "";
-                            if (groupGrade)
-                                orderUser = USER_STUFE + ", ";
-                            orderUser += name;
-                            if (nameDesc)
-                                orderUser += " DESC";
-                            data = Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, orderUser);
-                            rvSearch.swapAdapter(new HybridAdapter(getActivity().getLayoutInflater()), false);
-                        }
-                    }
-                });
-            }
-        }
-
-        private class HybridAdapter extends RecyclerView.Adapter {
-            private final LayoutInflater inflater;
-
-            HybridAdapter(LayoutInflater inflater) {
-                this.inflater = inflater;
-            }
-
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new ViewHolder(inflater.inflate(R.layout.list_item_user, null));
-            }
-
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                View            v           = holder.itemView;
-                Object          current     = data[position];
-                final TextView  username    = (TextView) v.findViewById(R.id.username);
-                final TextView  userdefault = (TextView) v.findViewById(R.id.userdefault);
-                final ImageView icon        = (ImageView) v.findViewById(R.id.iconUser);
-                if (current instanceof User) {
-                    User u = (User) current;
-                    username.setText(u.uname);
-                    userdefault.setText(u.udefaultname + ", " + u.ustufe);
-                    icon.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                } else {
-                    Chat c = (Chat) current;
-                    username.setText(c.cname);
-                    userdefault.setText("");
-                    icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
-                }
-            }
-
-            @Override
-            public int getItemCount() {
-                return data.length;
-            }
-
-            private class ViewHolder extends RecyclerView.ViewHolder {
-                ViewHolder(View itemView) {
-                    super(itemView);
-                    itemView.setOnClickListener(clickListener);
-                    itemView.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);
-                }
-            }
-        }
     }
 }

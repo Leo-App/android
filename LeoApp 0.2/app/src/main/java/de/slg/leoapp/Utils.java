@@ -48,7 +48,7 @@ public abstract class Utils {
     /**
      * Prüft, ob das aktuelle Gerät mit dem Internet verbunden ist.
      *
-     * @return Gerät hat aktive Internetverbindung
+     * @return true, falls eine aktive Netzwerkverbindung besteht; false, falls nicht
      */
     public static boolean checkNetwork() {
         ConnectivityManager c = (ConnectivityManager) getController().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -167,7 +167,7 @@ public abstract class Utils {
     /**
      * Liefert die Berechtigungsstufe des Users.
      *
-     * @return Berechtigungsstufe, wenn nicht verifiziert 0.
+     * @return 0: nicht verifiziert, 1: Schüler, 2: Lehrer, 3: Administrator
      */
     public static int getUserPermission() {
         return getController().getPreferences().getInt("pref_key_general_permission", 0);
@@ -184,9 +184,9 @@ public abstract class Utils {
     }
 
     /**
-     * Prüft, ob der aktuelle User verifiziert ist.
+     * Prüft, ob das aktuelle Gerät verifiziert ist.
      *
-     * @return true - User ist verifiziert, false - User ist nicht verifiziert.
+     * @return true - Gerät ist verifiziert, false - Gerät ist nicht verifiziert.
      */
     public static boolean isVerified() {
         return getUserID() > -1;
@@ -203,5 +203,4 @@ public abstract class Utils {
         byte[] bytesEncoded = Base64.encode((user + ":" + pass).getBytes(), 0);
         return authorizationPre + new String(bytesEncoded);
     }
-
 }

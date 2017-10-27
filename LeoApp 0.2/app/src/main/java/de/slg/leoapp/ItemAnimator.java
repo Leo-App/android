@@ -1,6 +1,5 @@
 package de.slg.leoapp;
 
-import android.os.Process;
 import android.view.View;
 
 /**

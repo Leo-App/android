@@ -2,7 +2,6 @@ package de.slg.schwarzes_brett;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

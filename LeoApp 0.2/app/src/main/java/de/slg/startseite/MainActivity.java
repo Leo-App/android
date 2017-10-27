@@ -10,7 +10,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -193,7 +192,7 @@ public class MainActivity extends ActionLogActivity {
         super.finish();
     }
 
-    void initNavigationView() {
+    private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
 
@@ -255,7 +254,14 @@ public class MainActivity extends ActionLogActivity {
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
-    void initFeatureCards() {
+    private void initFeatureCards() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.scrollView).scrollTo(0, 0);
+            }
+        }, 60);
+
         if (Utils.isVerified()) {
             findViewById(R.id.card_view0).setVisibility(View.GONE);
         }
@@ -447,14 +453,14 @@ public class MainActivity extends ActionLogActivity {
         }
     }
 
-    public void showVerificationDialog() {
+    void showVerificationDialog() {
         VerificationDialog dialog = new VerificationDialog(this);
         dialog.show();
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
-    public void addCard(CardType t) {
+    void addCard(CardType t) {
 
         mAdapter.addToList(t);
         mAdapter.notifyDataSetChanged();
