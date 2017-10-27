@@ -1,35 +1,40 @@
 <resources>
-    <string name="app_name" translatable="false">LeoApp</string>
-    <string name="drawer_placeholder">\@ Username</string>
-    <string name="drawer_profile_title">Your profile</string>
 
-    <string name="toolbar" translatable="false">Toolbar</string>
+    <string name="app_name" translatable="false">LeoApp</string>
+
+    <string name="dismiss" translatable="false">OK</string>
+    <string name="confirm" translatable="false">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="error">Sorry, something went wrong</string>
+
+    <string name="drawer_placeholder_name">Username</string>
+    <string name="drawer_placeholder_grade">Grade</string>
+
+    <!-- Action -->
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
-    <string name="title_activity">Exam</string>
-    <string name="snackbar_ungültig">Subject or date are incorrect</string>
-    <string name="dismiss" translatable="false">OK</string>
-    <string name="snackbar_gelöscht">All Exams deleted</string>
-    <string name="snackbar_undo">Undo</string>
-    <string name="klausuren_filemane" translatable="false">klausuren.txt</string>
-    <string name="subject">Subject</string>
-    <string name="all_dialog">All</string>
-    <string name="date">Date</string>
-    <string name="date_format" translatable="false">DD.MM.YY</string>
-    <string name="note">Memo</string>
-    <string name="grade">Grade</string>
-    <string name="week">Week</string>
     <string name="action_load">Load exams</string>
     <string name="action_delete_all">Suprimer tous</string>
-    <string name="new_entry">New Entry</string>
-    <string name="new_entry_title">Title</string>
-    <string name="new_entry_content">Content</string>
-    <string name="to">To</string>
-    <string name="info_add_entry">Consider using the web interface for more options</string>
+    <string name="action_leave_chat">Leave chat</string>
+
+
+    <!-- Snackbar -->
+    <string name="snackbar_ungültig">Subject or date are incorrect</string>
+    <string name="snackbar_gelöscht">All Exams deleted</string>
+    <string name="snackbar_undo">Undo</string>
+    <string name="snackbar_no_connection_info">No internet connection</string>
+    <string name="snackbar_no_connection_button">Dismiss</string>
+    <string name="settings_snackbar_username_taken">That username is already taken</string>
+    <string name="snackbar_no_connection_info_check">No internet connection to check login data</string>
+    <string name="snackbar_not_correct_info">Login data not correct</string>
+    <string name="SnackBarMes">Could not load plan</string>
+    <string name="SnackBarMes2">No Grade selected</string>
+    <string name="snackbar_select">Select</string>
+    <string name="snackbar_date_invalid">Date is invalid</string>
+    <string name="snackbar_missing_title">Please add a subject</string>
 
 
     <!-- Menu titles -->
-
     <string name="title_home">Home</string>
     <string name="title_foodmarks">Foodmarks</string>
     <string name="title_testplan">Exams</string>
@@ -38,26 +43,14 @@
     <string name="title_news">Pin Board</string>
     <string name="title_survey">Moodsurvey</string>
     <string name="title_plan">Timetable</string>
+    <string name="title_subst">Substitutions</string>
 
     <string name="title_settings">Settings</string>
     <string name="title_settings_notifications">Notifications</string>
 
-    <string name="confirm" translatable="false">OK</string>
-    <string name="cancel">Cancel</string>
 
-    <string name="error">Sorry, something went wrong</string>
-
-    <string name="meta_id_placeholder">Survey-ID: #%1$s </string>
-
-    <string name="button_info_try">Try it</string>
-    <string name="button_info_auth">Verify</string>
-    <string name="button_info_noreminder">Awesome!</string>
-
-    <string name="title_info_auth_failed">You are not verified yet</string>
-    <string name="title_info_auth">You are verified</string>
-    <string name="summary_info_auth_success">You are verified and able to use all features, yay!</string>
+    <!-- Startseite -->
     <string name="summary_info_auth">In order to use some of the features, you need to be verified. You can do so by clicking the button below.</string>
-    <string name="summary_info_auth_failed">Something went wrong during your verification. Make sure your code is valid and try again.</string>
     <string name="summary_info_foodmark">This feature is used to confirm your lunch order digitally. Just show the QR-Code to the mensa staff.</string>
     <string name="summary_info_testplan">This is an automatically generated plan for your tests. You can filter them by configuring your settings or add your own assignments</string>
     <string name="summary_info_messenger">Use this feature to communicate with your classmates or teachers without them knowing your mobile number. You can add group chats or chat normally. Your username can be changed in the settings</string>
@@ -67,47 +60,46 @@
     <string name="summary_info_subst">See your substitutions for today and tomorrow</string>
     <string name="summary_info_schedule">After choosing your lessons, a schedule will be generated which you can further customize</string>
 
-    <string name="dialog_verify_title">Verification</string>
-    <string name="dialog_verify_info">Please login on a Computer in the School-Network with YOUR Account and start the Verification-Program</string>
-
-    <string name="snackbar_no_connection_info">No internet connection</string>
-    <string name="snackbar_no_connection_button">Dismiss</string>
-
-    <string name="settings_category_general">General</string>
-
-    <string name="settings_title_username">Username</string>
-    <string name="settings_summary_username">Der Benutzername deines Schulaccounts</string>
-
-    <string name="settings_title_nickname">Nickname</string>
-    <string name="settings_summary_nickname">Dieser Name wird deinen Mitschülern angezeigt</string>
-
-    <string name="settings_title_password">Password</string>
-    <string name="settings_summary_password">Gib hier dein Schulpasswort ein</string>
-
-    <string name="settings_title_level">Grade</string>
-    <string name="settings_summary_level" translatable="false">N/A</string>
-
-    <string name="settings_snackbar_username_taken">That username is already taken</string>
-    <string name="settings_toast_username_success">Username changed!</string>
-
-    <string name="settings_category_info">Contact &#38; Information</string>
-    <string name="settings_title_version" translatable="false">Version</string>
-    <string name="settings_summary_version" translatable="false">LeoApp v1.0.1</string>
-    <string name="settings_title_contact">Contact</string>
-    <string name="settings_summary_contact" translatable="false">email\@maildomain.de</string>
-
-    <string name="action_leave_chat">Leave chat</string>
-    <string name="name_of_chat">Chatname</string>
-    <string name="title_new_groupchat">New group</string>
-    <string name="serviceDescription">Receives messages while the app is closed</string>
-
-    <string name="toolbar_scan">Scan!</string>
     <string name="card_title_weather">current weather</string>
+    <string name="coming_soon" translatable="false">Coming soon!</string>
+
+    <string name="button_card_dismiss">Dismiss</string>
+    <string name="add_card">Add card</string>
+    <string name="button_add">Add</string>
+    <string name="selector_card">Add a card</string>
+
+    <string name="button_info_try">Try it</string>
+
+    <string name="title_info_auth_failed">You are not verified yet</string>
+    <string name="title_info_auth">You are verified</string>
+
+    <string name="summary_about">Information about this application</string>
+    <string name="cards_customize">Adjust</string>
+    <string name="thank_you_feature">Thank you for your feedback</string>
+
+    <string name="set_changes">Save changes</string>
+    <string name="feature_request">Explain your suggestion</string>
+    <string name="feature_request_title">Feature idea</string>
+    <string name="cards_quick">Quick access</string>
+    <string name="discard">Discard</string>
+    <string name="todo_description"></string>
+
+
+    <!-- Info -->
+    <string name="toolbar_name_info">About</string>
+    <string name="info_screen_title">LeoApp for Android</string>
+    <string name="info_screen_first" translatable="false">VersionPlaceholder</string>
+    <string name="info_screen_second">Developed in the informatics project course 2017 by students of the SLG</string>
+    <string name="info_screen_third" translatable="false">St. Leonhard Gymnasium</string>
+    <string name="info_screen_fourth">No responsibility is accepted for the accuracy of any information</string>
+    <string name="info_screen_fifth">Developer</string>
+
+
+    <!-- EssensQR -->
+    <string name="toolbar_scan">Scan!</string>
     <string name="toolbar_title">Essensbons</string>
     <string name="button_scan">Scan</string>
     <string name="button_confirm" translatable="false">OK</string>
-    <string name="action_refresh">Refresh</string>
-    <string name="button_sidemenu">Navigation</string>
     <string name="textview_placeholder" translatable="false">placeholder</string>
     <string name="qr_display_title">Your order for today, the</string>
     <string name="qr_display_menu">Menu</string>
@@ -121,34 +113,55 @@
     <string name="explain_desc_2">Use the scan button below to start the camera and move the green box above the QR-code you intend on scanning and wait for the app to process the results.</string>
     <string name="explain_title_3">Step 2</string>
     <string name="explain_desc_3">After a successful scan you will get all necessary information: Mainly whether or not the code has already been used and which menu was ordered.</string>
-    <string name="settings_title_customid" translatable="false">Customer ID</string>
-    <string name="settings_summary_customid">Enter your lunch.leo-ac.de customer ID</string>
-    <string name="settings_title_pw">Password</string>
-    <string name="settings_summary_pw">Enter your lunch.leo-ac.de password</string>
-    <string name="settings_title_sync" translatable="false">Auto-Sync</string>
-    <string name="settings_summary_sync">Synchronize data on app start</string>
-    <string name="settings_title_fade">Auto dismiss</string>
-    <string name="settings_summary_fade">Automatically dismiss scan-information</string>
-    <string name="settings_title_fade_time">Dismiss time</string>
-    <string name="settings_summary_fade_time">Time the dialog window stays open</string>
-    <string name="settings_title_camera">Use front camera</string>
-    <string name="settings_summary_camera">Use the front camera for the scan interface</string>
     <string name="invalidId">User-ID invalid</string>
-    <string name="snackbar_no_connection_info_check">No internet connection to check login data</string>
-    <string name="snackbar_not_correct_info">Login data not correct</string>
     <string name="popup_code_not_valid">Code is not valid or has already been scanned by this device</string>
-    <string name="settings_title_mode" translatable="false">MensaMode&#8482;</string>
-    <string name="settings_summary_mode">MensaMode&#8482; for canteen staff</string>
-    <string name="settings_title_notification">Receive notifications</string>
-    <string name="settings_summary_notification">Notify me on missing synchronisation</string>
-    <string name="settings_title_notification_time">Notification Time</string>
-    <string name="settings_summary_notification_time">When should we remind you?</string>
     <string name="notification_summary_notif">You haven\'t synchronized your order yet</string>
     <string name="login_success">Login successful</string>
-    <string name="settings_summary_notification_test">Notify me on approaching exams</string>
-    <string name="settings_summary_notification_survey">Notify me if I haven\\\'nt voted yet</string>
-    <string name="settings_summary_notification_schedule">Notify me about my lessons tomorrow</string>
-    <string name="settings_summary_notification_news">Notify me about new entries</string>
+    <string name="no_order">No order</string>
+    <string name="not_loggedin">Not logged in</string>
+    <string name="minutes">Minutes</string>
+    <string name="hour">Hour</string>
+    <string name="hours">Hours</string>
+
+
+    <!-- Klausurplan -->
+    <string name="title_activity">Exam</string>
+    <string name="klausuren_filemane" translatable="false">klausuren.txt</string>
+    <string name="subject">Subject</string>
+    <string name="date">Date</string>
+    <string name="date_format" translatable="false">DD.MM.YY</string>
+    <string name="note">Memo</string>
+    <string name="week">Week</string>
+
+
+    <!-- Messenger -->
+    <string name="name_of_chat">Chatname</string>
+    <string name="title_new_groupchat">New group</string>
+    <string name="serviceDescription">Receives messages while the app is closed</string>
+    <string name="need_internet">To do this, you need an internet connection</string>
+    <string name="queue">Queue</string>
+    <string name="edit_chat">Change chatname</string>
+    <string name="add_user">Add users</string>
+    <string name="remove_users">Remove users</string>
+    <string name="messenger_notification_title">New Messages!</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+
+
+    <!-- Nachhilfebörse -->
+    <string name="tutoring_title_new">New announcement</string>
+
+
+    <!-- Schwarzes Brett -->
+    <string name="new_entry">New Entry</string>
+    <string name="new_entry_title">Title</string>
+    <string name="new_entry_content">Content</string>
+    <string name="to">To</string>
+    <string name="info_add_entry">Consider using the web interface for more options</string>
+    <string name="download_description_news">Pin Board - Download</string>
+
+
+    <!-- Stundenplan -->
     <string name="month">Month</string>
     <string name="months">Months</string>
     <string name="year">Year</string>
@@ -161,7 +174,6 @@
     <string name="don">Thu</string>
     <string name="fr">Fri</string>
     <string name="menu_stundenplan_name">Edit Courses</string>
-
     <string name="mathe">Mathematics</string>
     <string name="deutsch">German</string>
     <string name="latein">Latin</string>
@@ -183,15 +195,11 @@
     <string name="literatur">Literature</string>
     <string name="kunst">Art</string>
     <string name="musik">Music</string>
-
-    <string name="SnackBarMes">Could not load plan</string>
-
     <string name="montag">Monday</string>
     <string name="dienstag">Tueseday</string>
     <string name="mittwoch">Wednesday</string>
     <string name="donnerstag">Thursday</string>
     <string name="freitag">Friday</string>
-
     <string name="zeit">Time</string>
     <string name="raum">Room</string>
     <string name="lehrer">Teacher</string>
@@ -199,23 +207,88 @@
     <string name="notizen">Notes</string>
     <string name="mache_bild">Print</string>
     <string name="seconds">Seconds</string>
+    <string name="vokal">Singing</string>
+    <string name="Förder">Foster course</string>
+    <string name="schwimmen">Swimming (Sport)</string>
+    <string name="später">Later</string>
+    <string name="free_hour">Free period</string>
+    <string name="Tok" translatable="false">TOK</string>
+    <string name="Weltlit">Literature</string>
+    <string name="ZK" translatable="false">ZK</string>
+    <string name="Projektk">Project course</string>
+    <string name="Vertiefung">Foster course</string>
+    <string name="Soz">Social competences</string>
+    <string name="lüz" translatable="false">LÜZ</string>
+    <string name="ag">Club:</string>
+    <string name="sport">Sports</string>
+    <string name="politik">Politik</string>
+    <string name="niederländisch">Dutch</string>
+    <string name="PoWi">Politics</string>
+    <string name="GeZK">History (additional)</string>
+    <string name="SoWiZ">Social science (addiational)</string>
+    <string name="Diff">Specialisation</string>
+    <string name="yourTimeTable">Your Timetable</string>
+
+
+    <!-- Umfragen -->
+    <string name="meta_id_placeholder">Survey-ID: #%1$s </string>
+    <string name="button_next">Next</string>
+
+
+    <!-- Einstellungen -->
+    <string name="settings_category_general">General</string>
+
+    <string name="settings_title_username">Username</string>
+    <string name="settings_summary_username">Der Benutzername deines Schulaccounts</string>
+
+    <string name="settings_title_nickname">Nickname</string>
+    <string name="settings_summary_nickname">Dieser Name wird deinen Mitschülern angezeigt</string>
+
+    <string name="settings_title_password">Password</string>
+    <string name="settings_summary_password">Gib hier dein Schulpasswort ein</string>
+
+    <string name="settings_title_level">Grade</string>
+    <string name="settings_summary_level" translatable="false">N/A</string>
+
+    <string name="settings_toast_username_success">Username changed!</string>
+
+    <string name="settings_category_info">Contact &#38; Information</string>
+
+    <string name="settings_title_version" translatable="false">Version</string>
+    <string name="settings_summary_version" translatable="false">LeoApp v1.0.1</string>
+    <string name="settings_title_contact">Contact</string>
+    <string name="settings_summary_contact" translatable="false">email\@maildomain.de</string>
+
+    <string name="settings_title_customid" translatable="false">Customer ID</string>
+    <string name="settings_summary_customid">Enter your lunch.leo-ac.de customer ID</string>
+    <string name="settings_title_pw">Password</string>
+    <string name="settings_summary_pw">Enter your lunch.leo-ac.de password</string>
+    <string name="settings_title_sync" translatable="false">Auto-Sync</string>
+    <string name="settings_summary_sync">Synchronize data on app start</string>
+    <string name="settings_title_fade">Auto dismiss</string>
+    <string name="settings_summary_fade">Automatically dismiss scan-information</string>
+    <string name="settings_title_fade_time">Dismiss time</string>
+    <string name="settings_summary_fade_time">Time the dialog window stays open</string>
+    <string name="settings_title_camera">Use front camera</string>
+    <string name="settings_summary_camera">Use the front camera for the scan interface</string>
+    <string name="settings_title_mode" translatable="false">MensaMode&#8482;</string>
+    <string name="settings_summary_mode">MensaMode&#8482; for canteen staff</string>
+    <string name="settings_title_notification">Receive notifications</string>
+    <string name="settings_summary_notification">Notify me on missing synchronisation</string>
+    <string name="settings_title_notification_time">Notification Time</string>
+    <string name="settings_summary_notification_time">When should we remind you?</string>
+
+    <string name="settings_summary_notification_test">Notify me on approaching exams</string>
+    <string name="settings_summary_notification_survey">Notify me if I haven\\\'nt voted yet</string>
+    <string name="settings_summary_notification_schedule">Notify me about my lessons tomorrow</string>
+    <string name="settings_summary_notification_news">Notify me about new entries</string>
 
     <string name="settings_summary_notification_messenger">Notify me about new messages</string>
     <string name="settings_summary_testplan_time">Delete exams after...</string>
     <string name="settings_title_testplan_time">Delete test</string>
-    <string name="minute">Minute</string>
-    <string name="minutes">Minutes</string>
-    <string name="hour">Hour</string>
-    <string name="hours">Hours</string>
-    <string name="button_next">Next</string>
-    <string name="toolbar_name_info">About</string>
-    <string name="info_screen_fifth">Developer</string>
-    <string name="info_screen_first" translatable="false">VersionPlaceholder</string>
-    <string name="messenger_notification_title">New Messages!</string>
+
     <string name="settings_name_changed">Name changed!</string>
-    <string name="info_screen_third" translatable="false">St. Leonhard Gymnasium</string>
-    <string name="info_screen_title">LeoApp for Android</string>
-    <string name="title_subst">Substitutions</string>
+
     <string name="settings_category_subst">Substitutions</string>
     <string name="settings_summary_username_school">Enter the schools username</string>
     <string name="settings_title_username_school">Username</string>
@@ -234,81 +307,22 @@
     <string name="settings_title_filterby_schedule">Schedule</string>
     <string name="settings_summary_test_timetable">Filter by schedule</string>
     <string name="settings_title_test_timetable">Filter</string>
-    <string name="info_screen_fourth">No responsibility is accepted for the accuracy of any information</string>
-    <string name="info_screen_second">Developed in the informatics project course 2017 by students of the SLG</string>
+
     <string name="settings_screen_slg_data">SLG Accessdata</string>
     <string name="settings_screen_cg_data">Couven Accessdata</string>
     <string name="settings_screen_kkg_data">KKG Accessdata</string>
     <string name="settings_no_access_data">No access data needed</string>
-    <string name="SnackBarMes2">No Grade selected</string>
-    <string name="edit_chat">Change chatname</string>
-    <string name="add_user">Add users</string>
-    <string name="remove_users">Remove users</string>
 
-    <string name="drawer_placeholder_name">Username</string>
-
-    <string name="need_internet">To do this, you need an internet connection</string>
-
-    <string name="queue">Queue</string>
-
-    <string name="settings_title_reasons_survey">Reasons</string>
-
-    <string name="today">Today</string>
-    <string name="yesterday">Yesterday</string>
-    <string name="drawer_placeholder_grade">Grade</string>
     <string name="settings_summary_messenger_sync">All your messagesand chats will be deleted and then downloaded again</string>
     <string name="settings_title_messenger_sync">Synchronize your device</string>
-    <string name="tutoring_title_new">New announcement</string>
-    <string name="help">Help</string>
-    <string name="yourTimeTable">Your Timetable</string>
-    <string name="snackbar_select">Select</string>
-    <string name="coming_soon" translatable="false">Coming soon!</string>
-    <string name="button_card_dismiss">Dismiss</string>
-    <string name="add_card">Add card</string>
-    <string name="button_add">Add</string>
-    <string name="selector_card">Add a card</string>
-    <string name="summary_about">Information about this application</string>
-    <string name="cards_customize">Adjust</string>
-    <string name="thank_you_feature">Thank you for your feedback</string>
+
+    <string name="settings_title_reasons_survey">Reasons</string>
+    <string name="settings_summary_reasons_survey">Show reasons when choosing your nood</string>
+
     <string name="settings_title_kuerzel">Teacher abbreviation</string>
+
     <string name="settings_title_notification_all">Receive all notifications</string>
     <string name="settings_title_notification_custom">Receive some notifications</string>
     <string name="settings_title_notification_none">Do not receive any notifications</string>
-    <string name="settings_summary_reasons_survey">Show reasons when choosing your nood</string>
-    <string name="set_changes">Save changes</string>
-    <string name="feature_request">Explain your suggestion</string>
-    <string name="feature_request_title">Feature idea</string>
-    <string name="cards_quick">Quick access</string>
-    <string name="snackbar_date_invalid">Date is invalid</string>
-    <string name="snackbar_missing_title">Please add a subject</string>
-    <string name="discard">Discard</string>
-    <string name="free_hour">Free period</string>
-    <string name="Tok" translatable="false">TOK</string>
-    <string name="Weltlit">Literature</string>
-    <string name="ZK" translatable="false">ZK</string>
-    <string name="Projektk">Project course</string>
-    <string name="Vertiefung">Foster course</string>
-    <string name="Soz">Social competences</string>
-    <string name="lüz" translatable="false">LÜZ</string>
-    <string name="ag">Club:</string>
-    <string name="sport">Sports</string>
-    <string name="politik">Politik</string>
-    <string name="niederländisch">Dutch</string>
-    <string name="PoWi">Politics</string>
-    <string name="GeZK">History (additional)</string>
-    <string name="SoWiZ">Social science (addiational)</string>
-    <string name="Diff">Specialisation</string>
-    <string name="download_description_news">Pin Board - Download</string>
-    <string name="laden_name">Reload</string>
-    <string name="lk">Major</string>
-    <string name="no_order">No order</string>
-    <string name="not_loggedin">Not logged in</string>
-    <string name="schwimmen">Swimming (Sport)</string>
-    <string name="settings_summary_refresh_interval">Period between the sync</string>
-    <string name="später">Later</string>
-    <string name="todo_description"></string>
-    <string name="vokal">Singing</string>
-    <string name="settings_title_refresh_interval">Period betwenn sync</string>
-    <string name="Förder">Foster course</string>
 
 </resources>

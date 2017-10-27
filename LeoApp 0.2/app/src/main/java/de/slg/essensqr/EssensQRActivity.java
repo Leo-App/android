@@ -283,6 +283,7 @@ public class EssensQRActivity extends ActionLogActivity implements ZXingScannerV
             case MY_PERMISSIONS_REQUEST_USE_CAMERA: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
                     runningScan = true;
                     scV = new ZXingScannerView(getApplicationContext());
                     setContentView(scV);

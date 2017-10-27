@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:paddingTop="10dp"
         android:text="@string/action_leave_chat"
         android:textColor="@android:color/holo_red_dark"

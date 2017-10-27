@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
  * @author Gianni
  */
 
-public class ActionLogActivity extends AppCompatActivity {
+public abstract class ActionLogActivity extends AppCompatActivity {
 
     private ActivityStatus status;
 
