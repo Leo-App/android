@@ -63,6 +63,7 @@ public class MessengerActivity extends ActionLogActivity {
             if (Utils.checkNetwork()) {
                 startActivity(new Intent(getApplicationContext(), AddGroupChatActivity.class));
             } else {
+                //TODO vielleicht offline verfügbar
                 Toast.makeText(getApplicationContext(), R.string.need_internet, Toast.LENGTH_SHORT).show();
             }
         }

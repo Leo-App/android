@@ -110,7 +110,7 @@
     <string name="login_success">Erfolgreich eingeloggt</string>
     <string name="no_order">No order</string>
     <string name="not_loggedin">Not logged in</string>
-    <string name="minutes">Minutes</string>
+    <string name="minutes">Minuten</string>
     <string name="hour">Stunde</string>
     <string name="hours">Stunden</string>
 
@@ -132,7 +132,7 @@
     <string name="edit_chat">Chatnamen ändern</string>
     <string name="add_user">Add users</string>
     <string name="remove_users">Remove users</string>
-    <string name="messenger_notification_title">New Messages!</string>
+    <string name="messenger_notification_title">Neue Nachrichten!</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
 
@@ -151,19 +151,19 @@
 
 
     <!-- Stundenplan -->
-    <string name="month">Month</string>
-    <string name="months">Months</string>
+    <string name="month">Monat</string>
+    <string name="months">Monate</string>
     <string name="year">Year</string>
     <string name="stunden">Choose Courses</string>
     <string name="bearbeiten">Bearbeiten</string>
     <string name="speichern">Save</string>
     <string name="mo">Mon</string>
     <string name="di">Die</string>
-    <string name="mi">Wed</string>
+    <string name="mi">Mit</string>
     <string name="don">Don</string>
     <string name="fr">Fre</string>
     <string name="menu_stundenplan_name">Edit Courses</string>
-    <string name="mathe">Mathematics</string>
+    <string name="mathe">Mathematik</string>
     <string name="deutsch">Deutsch</string>
     <string name="latein">Latein</string>
     <string name="franze">Französisch</string>
@@ -183,10 +183,10 @@
     <string name="bio">Biologie</string>
     <string name="literatur">Literatur</string>
     <string name="kunst">Kunst</string>
-    <string name="musik">Music</string>
-    <string name="montag">Monday</string>
+    <string name="musik">Musik</string>
+    <string name="montag">Montag</string>
     <string name="dienstag">Dienstag</string>
-    <string name="mittwoch">Wednesday</string>
+    <string name="mittwoch">Mittwoch</string>
     <string name="donnerstag">Donnerstag</string>
     <string name="freitag">Freitag</string>
     <string name="zeit">Time</string>
@@ -194,7 +194,7 @@
     <string name="lehrer">Lehrer</string>
     <string name="schriftlich">Written exams</string>
     <string name="notizen">Notes</string>
-    <string name="mache_bild">Print</string>
+    <string name="mache_bild">Drucken</string>
     <string name="seconds">Seconds</string>
     <string name="vokal">Singing</string>
     <string name="Förder">Foster course</string>
