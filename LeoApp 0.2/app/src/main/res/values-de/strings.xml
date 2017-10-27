@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" translatable="false">LeoApp</string>
-
-    <string name="dismiss" translatable="false">OK</string>
-    <string name="confirm" translatable="false">OK</string>
     <string name="cancel">Cancel</string>
     <string name="error">Sorry, something went wrong</string>
 
@@ -62,7 +58,6 @@
     <string name="summary_info_schedule">After choosing your lessons, a schedule will be generated which you can further customize</string>
 
     <string name="card_title_weather">current weather</string>
-    <string name="coming_soon" translatable="false">Coming soon!</string>
 
     <string name="button_card_dismiss">Dismiss</string>
     <string name="add_card">Add card</string>
@@ -89,9 +84,7 @@
     <!-- Info -->
     <string name="toolbar_name_info">About</string>
     <string name="info_screen_title">LeoApp for Android</string>
-    <string name="info_screen_first" translatable="false">VersionPlaceholder</string>
     <string name="info_screen_second">Developed in the informatics project course 2017 by students of the SLG</string>
-    <string name="info_screen_third" translatable="false">St. Leonhard Gymnasium</string>
     <string name="info_screen_fourth">No responsibility is accepted for the accuracy of any information</string>
     <string name="info_screen_fifth">Developer</string>
 
@@ -100,15 +93,12 @@
     <string name="toolbar_scan">Scan!</string>
     <string name="toolbar_title">Essensbons</string>
     <string name="button_scan">Scan</string>
-    <string name="button_confirm" translatable="false">OK</string>
-    <string name="textview_placeholder" translatable="false">placeholder</string>
     <string name="qr_display_title">Your order for today, the</string>
     <string name="qr_display_menu">Menu</string>
     <string name="dialog_desc_valid">Ordered menu:</string>
     <string name="dialog_desc_valid_id">User-ID: </string>
     <string name="qr_display_not_ordered">You have no order for today</string>
     <string name="qr_display_not_loggedin">You\'re not logged in, please check your user data</string>
-    <string name="explain_title_1" translatable="false">Info</string>
     <string name="explain_desc_1">This is used to scan the QR-Foodmarks.</string>
     <string name="explain_title_2">Step 1</string>
     <string name="explain_desc_2">Use the scan button below to start the camera and move the green box above the QR-code you intend on scanning and wait for the app to process the results.</string>
@@ -127,10 +117,8 @@
 
     <!-- Klausurplan -->
     <string name="title_activity">Exam</string>
-    <string name="klausuren_filemane" translatable="false">klausuren.txt</string>
     <string name="subject">Subject</string>
     <string name="date">Date</string>
-    <string name="date_format" translatable="false">DD.MM.YY</string>
     <string name="note">Memo</string>
     <string name="week">Week</string>
 
@@ -213,13 +201,10 @@
     <string name="schwimmen">Swimming (Sport)</string>
     <string name="später">Later</string>
     <string name="free_hour">Free period</string>
-    <string name="Tok" translatable="false">TOK</string>
     <string name="Weltlit">Literature</string>
-    <string name="ZK" translatable="false">ZK</string>
     <string name="Projektk">Project course</string>
     <string name="Vertiefung">Foster course</string>
     <string name="Soz">Social competences</string>
-    <string name="lüz" translatable="false">LÜZ</string>
     <string name="ag">Club:</string>
     <string name="sport">Sports</string>
     <string name="politik">Politik</string>
@@ -266,22 +251,16 @@
     <string name="settings_summary_password">Gib hier dein Schulpasswort ein</string>
 
     <string name="settings_title_level">Grade</string>
-    <string name="settings_summary_level" translatable="false">N/A</string>
 
     <string name="settings_toast_username_success">Username changed!</string>
 
     <string name="settings_category_info">Contact &#38; Information</string>
 
-    <string name="settings_title_version" translatable="false">Version</string>
-    <string name="settings_summary_version" translatable="false">LeoApp v1.0.1</string>
     <string name="settings_title_contact">Contact</string>
-    <string name="settings_summary_contact" translatable="false">email\@maildomain.de</string>
 
-    <string name="settings_title_customid" translatable="false">Customer ID</string>
     <string name="settings_summary_customid">Enter your lunch.leo-ac.de customer ID</string>
     <string name="settings_title_pw">Password</string>
     <string name="settings_summary_pw">Enter your lunch.leo-ac.de password</string>
-    <string name="settings_title_sync" translatable="false">Auto-Sync</string>
     <string name="settings_summary_sync">Synchronize data on app start</string>
     <string name="settings_title_fade">Auto dismiss</string>
     <string name="settings_summary_fade">Automatically dismiss scan-information</string>
@@ -289,7 +268,6 @@
     <string name="settings_summary_fade_time">Time the dialog window stays open</string>
     <string name="settings_title_camera">Use front camera</string>
     <string name="settings_summary_camera">Use the front camera for the scan interface</string>
-    <string name="settings_title_mode" translatable="false">MensaMode&#8482;</string>
     <string name="settings_summary_mode">MensaMode&#8482; for canteen staff</string>
     <string name="settings_title_notification">Receive notifications</string>
     <string name="settings_summary_notification">Notify me on missing synchronisation</string>
