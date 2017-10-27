@@ -290,7 +290,7 @@
     <string name="settings_title_password_school">Passwort</string>
     <string name="settings_summary_notification_subst">Benachrichtigungen über Vertretung erhalten</string>
     <string name="settings_summary_network">Nur über WLAN aktualisieren</string>
-    <string name="settings_title_network">WiFi only</string>
+    <string name="settings_title_network">nur WLAN</string>
     <string name="settings_summary_interval_subst">In welchen Abständen soll der Plan aktualisiert werden?</string>
     <string name="settings_title_interval_subst">Interval</string>
     <string name="settings_summary_filter_subst">Plan filtern</string>
@@ -307,7 +307,7 @@
     <string name="settings_no_access_data">Keine Zugangsdaten nötig</string>
 
     <string name="settings_summary_messenger_sync">Deine lokalen Nachrichten und Chats werden gelöscht und neu vom Server heruntergeladen</string>
-    <string name="settings_title_messenger_sync">nur WLAN</string>
+    <string name="settings_title_messenger_sync">Synchronisieren</string>
 
     <string name="settings_title_reasons_survey">Gründe</string>
     <string name="settings_summary_reasons_survey">Gründe für deine Stimmung beim abstimmen anzeigen</string>
