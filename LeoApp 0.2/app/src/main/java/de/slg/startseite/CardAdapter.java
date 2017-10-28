@@ -57,6 +57,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.title = Utils.getString(R.string.title_foodmarks);
                 c.desc = Utils.getString(R.string.summary_info_foodmark);
                 c.icon = R.drawable.qrcode;
+                c.enabled = true;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -163,6 +164,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_subst);
                 c.desc = Utils.getString(R.string.summary_info_subst);
+                c.enabled = true;
                 c.icon = R.drawable.ic_account_switch;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
@@ -175,6 +177,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.coming_soon);
                 c.desc = Utils.getString(R.string.coming_soon);
+                c.enabled = true;
                 c.icon = R.drawable.ic_priority_high_white_24dp;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
