@@ -22,16 +22,34 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
     private String title;
     private String content;
 
+    /**
+     * Setzt den Titel des Informationsdialogs.
+     *
+     * @param title Titel
+     * @return Instanz des aktuellen Dialogs
+     */
     public BottomSheetDialog setTitle(String title) {
         this.title = title;
         return this;
     }
 
+    /**
+     * Setzt den Inhalt des Informationsdialogs.
+     *
+     * @param content Inhalt
+     * @return Instanz des aktuellen Dialogs
+     */
     public BottomSheetDialog setContent(String content) {
         this.content = content;
         return this;
     }
 
+    /**
+     * Siehe {@link BottomSheetDialogFragment}
+     *
+     * @param dialog siehe BottomSheetDialogFragment
+     * @param style siehe BottomSheetDialogFragment
+     */
     @Override
     public void setupDialog(final Dialog dialog, int style) {
         //noinspection RestrictedApi

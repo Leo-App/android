@@ -41,6 +41,11 @@ public abstract class ActionLogActivity extends AppCompatActivity {
         status = ActivityStatus.PAUSED;
     }
 
+    /**
+     * Gibt den aktuellen Status der Activity zurück
+     *
+     * @return Activitystatus
+     */
     public ActivityStatus getStatus() {
         return status;
     }

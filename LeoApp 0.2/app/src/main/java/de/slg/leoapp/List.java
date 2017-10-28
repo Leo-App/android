@@ -2,12 +2,24 @@ package de.slg.leoapp;
 
 import java.util.Iterator;
 
+/**
+ * Um einige Methoden erweiterte doppelt verkettete Liste. Die Liste besitzt einen Pointer, der beliebig verschoben werden- und somit die einzelnen Inhaltsobjekte
+ * addressieren kann.
+ *
+ * @param <ContentType> Inhaltsdatentyp
+ * @author Moritz
+ * @since 0.0.1
+ * @version 2017.2810
+ */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class List<ContentType> implements Iterable<ContentType> {
 
     private Node first, last, current;
     private int length;
 
+    /**
+     * Konstruktor.
+     */
     public List() {
         first = null;
         last = null;
@@ -15,6 +27,11 @@ public class List<ContentType> implements Iterable<ContentType> {
         length = 0;
     }
 
+    /**
+     * Konstruktor. Erlaubt das direkte Füllen der Liste mit dem Inhalt eines Arrays desselben Datentyps.
+     *
+     * @param array Neuer Listeninhalt
+     */
     public List(ContentType[] array) {
         first = null;
         last = null;
@@ -23,50 +40,97 @@ public class List<ContentType> implements Iterable<ContentType> {
         adapt(array);
     }
 
+    /**
+     * Überprüft, ob die Liste Elemente enthält.
+     *
+     * @return true, wenn Liste leer, sonst false.
+     */
     public boolean isEmpty() {
         return first == null;
     }
 
+    /**
+     * Überprüft, ob der Listenpointer auf einem Element steht. Immer false, wenn die Liste leer ist.
+     *
+     * @return true wenn Pointer auf einem Listenelement.
+     */
     public boolean hasAccess() {
         return current != null;
     }
 
+    /**
+     * Gibt true zurück, wenn das Listenelement, auf dem der Pointer steht, einen Vorgänger hat. Entspricht i.d.R. {@link #isFirst()}.
+     *
+     * @return Aktuelles Element hat einen Vorgänger
+     */
     public boolean hasPrevious() {
         return hasAccess() && current.previous != null;
     }
 
+    /**
+     * Gibt true zurück, wenn das Listenelement, auf dem der Pointer steht, einen Nachfolger hat. Entspricht i.d.R. {@link #isLast()}.
+     *
+     * @return Aktuelles Element hat einen Vorgänger
+     */
     public boolean hasNext() {
         return hasAccess() && current.next != null;
     }
 
+    /**
+     * Gibt true zurück, wenn das aktuelle Listenobjekt am Anfang der Liste steht.
+     *
+     * @return Aktuelles Element befindet sich am Anfang der Liste.
+     */
     public boolean isFirst() {
         return current == first;
     }
 
+    /**
+     * Gibt true zurück, wenn das aktuelle Listenobjekt am Ende der Liste steht.
+     *
+     * @return Aktuelles Element befindet sich am Ende der Liste.
+     */
     public boolean isLast() {
         return current == last;
     }
 
+    /**
+     * Verschiebt den Listenpointer um eine Stelle Richtung Ende der Liste.
+     */
     public void next() {
         current = current.next;
     }
 
+    /**
+     * Verschiebt den Listenpointer um eine Stelle Richtung Anfang der Liste.
+     */
     public void previous() {
         current = current.previous;
     }
 
+    /**
+     * Verschiebt den Listenpointer zum Anfang der Liste.
+     */
     public void toFirst() {
         if (!isEmpty()) {
             current = first;
         }
     }
 
+    /**
+     * Verschiebt den Listenpointer zum Ende der Liste.
+     */
     public void toLast() {
         if (!isEmpty()) {
             current = last;
         }
     }
 
+    /**
+     * Verschiebt den Listenpointer zu einem definierten Index.
+     *
+     * @param index Zielindex
+     */
     public void toIndex(int index) {
         if (index >= length - 1)
             toLast();
@@ -75,6 +139,12 @@ public class List<ContentType> implements Iterable<ContentType> {
                 ;
     }
 
+    /**
+     * Tauscht zwei Listenelemente. Der Listenpointer steht danach auf firstIndex.
+     *
+     * @param firstIndex Index des ersten zu vertauschenden Elements
+     * @param secondIndex Index des zweiten zu vertauschenden Elements
+     */
     public void swap(int firstIndex, int secondIndex) {
         toIndex(firstIndex);
         ContentType t1 = getContent();
@@ -90,29 +160,55 @@ public class List<ContentType> implements Iterable<ContentType> {
         insertBefore(t2);
     }
 
+    /**
+     * Gibt das Objekt an der aktuellen Position des Pointers zurück
+     *
+     * @return Aktuelles Objekt.
+     */
     public ContentType getContent() {
         if (this.hasAccess())
             return current.content;
         return null;
     }
 
+    /**
+     * Ersetzt das Objekt an der aktuellen Listenposition durch ein per Parameter Übergebenes.
+     *
+     * @param pContent Neues Listenobjekt
+     */
     public void setContent(ContentType pContent) {
         if (pContent != null && this.hasAccess())
             current.content = pContent;
     }
 
+    /**
+     * Liefert das Objekt nach dem Aktuellen, ohne den Pointer zu verschieben.
+     *
+     * @return Folgendes Listenobjekt.
+     */
     public ContentType getNext() {
         if (hasAccess() && current.next != null)
             return current.next.content;
         return null;
     }
 
+    /**
+     * Liefert das Objekt vor dem Aktuellen, ohne den Pointer zu verschieben.
+     *
+     * @return Folgendes Listenobjekt.
+     */
     public ContentType getPrevious() {
         if (hasAccess() && current.previous != null)
             return current.previous.content;
         return null;
     }
 
+    /**
+     * Fügt ein neues Objekt vor die Position des Pointers ein, steht dieser auf dem null-Objekt ({@link #hasAccess()} returns false), wird das Objekt ans
+     * Ende der Liste angehängt. Der Pointer wird nicht verschoben.
+     *
+     * @param pContent Neues Listenobjekt
+     */
     public void insertBefore(ContentType pContent) {
         if (pContent != null) {
             if (hasAccess()) {
@@ -134,6 +230,12 @@ public class List<ContentType> implements Iterable<ContentType> {
         }
     }
 
+    /**
+     * Fügt ein neues Objekt hinter die Position des Pointers ein, steht dieser auf dem null-Objekt ({@link #hasAccess()} returns false), wird das Objekt ans
+     * Ende der Liste angehängt. Der Pointer wird nicht verschoben.
+     *
+     * @param pContent Neues Listenobjekt
+     */
     public void insertBehind(ContentType pContent) {
         if (pContent != null) {
             if (hasAccess()) {
@@ -153,6 +255,12 @@ public class List<ContentType> implements Iterable<ContentType> {
         }
     }
 
+    /**
+     * Hängt ein neues Objekt ans Ende der Liste an ohne den Pointer zu verschieben.
+     *
+     * @param pContent Neues Listenobjekt
+     * @return Instanz der geänderten Liste
+     */
     public List<ContentType> append(ContentType pContent) {
         if (pContent != null) {
             if (this.isEmpty()) {
@@ -167,6 +275,12 @@ public class List<ContentType> implements Iterable<ContentType> {
         return this;
     }
 
+    /**
+     * Hängt eine andere Liste ans Ende der aktuellen Liste an ohne den Pointer zu verschieben.
+     *
+     * @param pList Liste, die angehängt werden soll.
+     * @return Instanz der geänderten Liste.
+     */
     public List<ContentType> concat(List<ContentType> pList) {
         if (pList != this && pList != null && !pList.isEmpty()) {
             if (this.isEmpty()) {
@@ -185,6 +299,9 @@ public class List<ContentType> implements Iterable<ContentType> {
         return this;
     }
 
+    /**
+     * Entfernt das Objekt, auf das der Pointer zeigt. Der Pointer steht danach auf dem Nachfolgeelement.
+     */
     public void remove() {
         if (this.hasAccess() && !this.isEmpty()) {
             if (current == first)
@@ -204,11 +321,22 @@ public class List<ContentType> implements Iterable<ContentType> {
         }
     }
 
+    /**
+     * Hängt ein Array ans Ende der aktuellen Liste an ohne den Pointer zu verschieben.
+     *
+     * @param array Array, das angehängt werden soll.
+     */
     public void adapt(ContentType[] array) {
         for (ContentType c : array)
             append(c);
     }
 
+    /**
+     * Füllt ein Array desselben Datentyps mit dem Inhalt der Liste
+     *
+     * @param array Zu befüllendes Array
+     * @return ""Gefülltes" Array
+     */
     public ContentType[] fill(ContentType[] array) {
         toFirst();
         for (int i = 0; i < array.length; i++, next())
@@ -216,10 +344,21 @@ public class List<ContentType> implements Iterable<ContentType> {
         return array;
     }
 
+    /**
+     * Liefert die Größe der Liste.
+     *
+     * @return Listengröße
+     */
     public int size() {
         return length;
     }
 
+    /**
+     * Überprüft, ob die Liste ein bestimmtes Objekt enthält
+     *
+     * @param object Zu überprüfendes Objekt.
+     * @return true, wenn Objekt Element der Liste.
+     */
     public boolean contains(ContentType object) {
         for (toFirst(); hasAccess(); next()) {
             if (object.equals(getContent()))
@@ -228,11 +367,22 @@ public class List<ContentType> implements Iterable<ContentType> {
         return false;
     }
 
+    /**
+     * Liefert das Objekt an einem bestimmten Listenindex. Entspricht Aufrufen von {@link #toIndex(int)} und anschließend {@link #getContent()}.
+     *
+     * @param index Listenindex
+     * @return Listenobjekt
+     */
     public ContentType getObjectAt(int index) {
         toIndex(index);
         return getContent();
     }
 
+    /**
+     * Gibt einen Iterator der Liste zurück.
+     *
+     * @return Iterator
+     */
     @Override
     public Iterator<ContentType> iterator() {
         current = null;
