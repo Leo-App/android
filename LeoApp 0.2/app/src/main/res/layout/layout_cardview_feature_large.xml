@@ -13,7 +13,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="44dp"
         android:minHeight="200dp"
         android:padding="15dp">
 
@@ -21,8 +21,8 @@
             android:id="@+id/info_card_icon"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:tint="#9E9E9E"
             card_view:srcCompat="@drawable/qrcode" />
@@ -31,32 +31,12 @@
             android:id="@+id/info_title0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/textview_placeholder"
-            android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
-            android:textSize="17sp" />
-
-        <TextView
-            android:id="@+id/info_text0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_gravity="center_horizontal|start"
-            android:layout_marginTop="51dp"
-            android:text="@string/textview_placeholder" />
-
-        <Button
-            android:id="@+id/buttonCardView0"
-            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/info_card_icon"
+            android:layout_toRightOf="@+id/info_card_icon"
             android:text="@string/textview_placeholder"
-            android:textAllCaps="true" />
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <RelativeLayout
             android:id="@+id/info_content0"
@@ -65,6 +45,17 @@
             android:visibility="gone">
 
         </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            card_view:srcCompat="@drawable/ic_arrow_forward_white"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true" />
 
 
     </RelativeLayout>

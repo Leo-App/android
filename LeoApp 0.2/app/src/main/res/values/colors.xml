@@ -8,8 +8,10 @@
     <color name="colorChatBackground">#8ea7b4</color>
     <color name="colorTabIndicator">@android:color/white</color>
     <color name="colorText">@android:color/black</color>
-    <color name="colorTextGreyed">#FFD8D8D8</color>
+    <color name="colorTextGreyed">#c8c8c8</color>
     <color name="colorWocheBackground">#dfdfdf</color>
+    <color name="colorGreyNormal">#737373</color>
+
 
     <color name="colorVerySatisfied">#669900</color>
     <color name="colorSatisfied">#aeea00</color>
@@ -21,7 +23,11 @@
     <color name="colorSchueler">#f57f17</color>
     <color name="colorLehrer">#ffaa66cc</color>
     <color name="colorAlle">@color/colorPrimary</color>
-    <color name="introSlide1">#424242</color>
-    <color name="introSlide2">#f57f17</color>
-    <color name="introSlide3">@color/colorPrimary</color>
+
+
+    <color name="introSlide1">#546e7a</color>
+    <color name="introSlide2">#5ba0d1</color>
+    <color name="introSlide3">#0277bd</color>
+    <color name="introSlide4">#4664a7</color>
+
 </resources>

@@ -1,14 +1,14 @@
 package de.slg.startseite;
-
-abstract class Card {
-
-    final boolean  large;
+import android.view.View;
+class Card {
     final CardType type;
     String title;
+    String desc;
     int    icon;
+    View.OnClickListener buttonListener;
+    boolean enabled;
 
-    Card(boolean large, CardType type) {
-        this.large = large;
+    Card( CardType type) {
         this.type = type;
     }
 

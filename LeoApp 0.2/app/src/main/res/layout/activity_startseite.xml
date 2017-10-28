@@ -169,7 +169,7 @@
                                 android:text="@string/summary_info_auth" />
 
                             <Button
-                                android:id="@+id/buttonCardView0"
+                                android:id="@+id/buttonCard"
                                 style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -185,8 +185,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentBottom="true"
-                                android:layout_toLeftOf="@id/buttonCardView0"
-                                android:layout_toStartOf="@id/buttonCardView0"
+                                android:layout_toLeftOf="@id/buttonCard"
+                                android:layout_toStartOf="@id/buttonCard"
                                 android:text="@string/button_card_dismiss"
                                 android:textAllCaps="true" />
 

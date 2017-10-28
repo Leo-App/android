@@ -2,7 +2,6 @@ package de.slg.startseite;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -28,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import de.slg.essensqr.EssensQRActivity;
+import de.slg.intro.IntroActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
@@ -266,7 +266,7 @@ public class MainActivity extends ActionLogActivity {
             findViewById(R.id.card_view0).setVisibility(View.GONE);
         }
 
-        findViewById(R.id.buttonCardView0).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.buttonCard).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!Utils.isVerified())
@@ -391,11 +391,14 @@ public class MainActivity extends ActionLogActivity {
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri    webpage = Uri.parse("http://www.leoapp-slg.de");
+                /*Uri    webpage = Uri.parse("http://www.leoapp-slg.de");
                 Intent intent  = new Intent(Intent.ACTION_VIEW, webpage);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
-                }
+                }*/
+
+                Intent myIntent = new Intent(MainActivity.this, IntroActivity.class);
+                MainActivity.this.startActivity(myIntent);
             }
         });
 
