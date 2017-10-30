@@ -1,21 +1,18 @@
 <?php
 
-	if ($_GET['key'] != 5453)
-		die("-permission denied!");
-
 	require_once('../dbconfig.php');
 
 	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
-	if ($conn->connect_error)
-    	die("-Connection failed: " . $conn->connect_error);
+	if ($db->connect_error)
+    	die("-connection failed: ".$db->connect_error);
 
-	// mitgegebene Werte �ber get: userid, userklasse
+	// mitgegebene Werte über get: userklasse
 
-	$id = $db->real_escape_string($_GET['userid']);
+	$name = $_SERVER['REMOTE_USER'];
 	$klasse = $db->real_escape_string($_GET['userklasse']);
 
-	$query = "UPDATE Users SET uklasse = '".$klasse."' WHERE uid = ".$id;
+	$query = "UPDATE Users SET uklasse = '".$klasse."' WHERE udefaultname = '".$name."'";
 
 	$result = $db->query($query);
 	if ($result === false)

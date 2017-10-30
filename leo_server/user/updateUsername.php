@@ -1,18 +1,15 @@
 <?php
 
-	if ($_GET['key'] != 5453)
-		die("-permission denied!");
-
 	require_once('../dbconfig.php');
 
 	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
-	if ($conn->connect_error)
-    	die("-Connection failed: " . $conn->connect_error);
+	if ($db->connect_error)
+    	die("-connection failed: " . $db->connect_error);
 
-	// mitgegebene Werte �ber get: userid, username
+	// mitgegebene Werte über get: username
 
-	$id =	$db->real_escape_string($_GET['userid']);
+	$name = $_SERVER['REMOTE_USER'];
 	$username = $db->real_escape_string($_GET['username']);
 
 	$query = "SELECT * FROM Users WHERE uname = '".$username."'";
@@ -24,11 +21,13 @@
 	if($result->num_rows > 0)
 		die("-username already exists");
 
-	$query = "UPDATE Users SET uname = '".$username."' WHERE uid = ".$id;
+	$query = "UPDATE Users SET uname = '".$username."' WHERE udefaultname = '".$name."'";
 
 	$result = $db->query($query);
 	if ($result === false)
 		die("-error in query");
+
+	echo "+";
 
 	$db->close();
 

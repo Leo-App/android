@@ -1,6 +1,6 @@
 <?php
 	
-	if ($_SERVER["REMOTE_USER"] != "leoapp")
+	if ($_SERVER['REMOTE_USER'] != "leoapp")
 		die("-permission denied!");
 	
 	require_once('../dbconfig.php');
@@ -17,8 +17,10 @@
 	$grund = $_GET['grund'];
 	$date = date("Y-m-d");
 
-	//nachricht wird gesendet
+	//stimmung wird gesendet
+
 	$query = "INSERT INTO Vote VALUES (".$voteid.", ".$userid.", '".$date."', '".$grund."')";
+
 	$result = $db->query($query);
 	if ($result === false)
 		die("-error in query");

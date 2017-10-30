@@ -5,12 +5,10 @@
 	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
 	if ($db->connect_error)
-    		die("-connection failed: ".$db->connect_error);
+    	die("-connection failed: ".$db->connect_error);
 
 	// mitgegebene Werte über get: name, klasse, permission
 	$name = $_SERVER["REMOTE_USER"];
-	$klasse = $db->real_escape_string($_GET['klasse']);
-	$permission = $db->real_escape_string($_GET['permission']);
 	$date = date("Y-m-d");
 
 	$query = "SELECT uname, uid, uklasse FROM Users WHERE udefaultname = '".$name."'";

@@ -1,6 +1,6 @@
 <?php
 
-	if ($_SERVER["REMOTE_USER"] != "leoapp")
+	if ($_SERVER['REMOTE_USER'] != "leoapp")
 		die("-permission denied!");
 	
 	require_once('../dbconfig.php');
@@ -19,8 +19,9 @@
 		while ($row = $result->fetch_assoc()) {
 				echo utf8_encode($row['Titel']) . ";" . utf8_encode($row['Adressat']) . ";" . utf8_encode($row['Inhalt']) . ";" . $row['Erstell'] . ";" . $row['Ablauf']. ";" . $row['EintragID'] . ";" . $row['Gelesen'] . ";" . $row['Anhang'] . "_next_"; 
 		}
-	}else
+	} else {
 		die("-error in query");
+	}
 		
 	$db->close();
 

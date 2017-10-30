@@ -5,7 +5,7 @@
   $db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
   if ($db->connect_error)
-    die("-Connection failed: ".$db->connect_error);
+    die("-connection failed: ".$db->connect_error);
 
   $user = $db->real_escape_string($_GET['user']);
 
@@ -21,5 +21,6 @@
 
   }
 
+	$db->close();
 
 ?>

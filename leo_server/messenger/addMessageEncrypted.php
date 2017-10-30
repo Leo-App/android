@@ -1,6 +1,6 @@
 <?php
 
-	if ($_SERVER["REMOTE_USER"] != "leoapp")
+	if ($_SERVER['REMOTE_USER'] != "leoapp")
 		die("-permission denied!");
 	
 	require_once('../dbconfig.php');

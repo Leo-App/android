@@ -5,7 +5,7 @@
   $db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
   if ($db->connect_error)
-    die("-Connection failed: ".$db->connect_error);
+    die("-connection failed: ".$db->connect_error);
 
   $survey = $db->real_escape_string($_GET['survey']);
   $to = $db->real_escape_string($_GET['to']);
@@ -45,6 +45,7 @@
     echo $row['ans']."_;_".$row['count']."_next_";
 
   }
-
+	
+	$db->close();
 
 ?>
