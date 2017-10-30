@@ -1,6 +1,6 @@
 <?php
-	
-	require_once('dbconfig.php');
+
+	require_once('../dbconfig.php');
 
 	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
 

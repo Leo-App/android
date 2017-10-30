@@ -1,6 +1,6 @@
 <?php
-	
-	require_once('dbconfig.php');
+
+	require_once('../dbconfig.php');
 
 	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
@@ -12,14 +12,14 @@
 	$klasse = $db->real_escape_string($_GET['klasse']);
 	$permission = $db->real_escape_string($_GET['permission']);
 	$date = date("Y-m-d");
-	
+
 	$query = "SELECT uname, uid, uklasse FROM Users WHERE udefaultname = '".$name."'";
 
 	$result = $db->query($query);
 
 	if ($result === false)
 		die("-error in query");
-	
+
 	if($result->num_rows == 0) { //User existiert noch nicht und wird erstellt
 		$query = "INSERT INTO Users VALUES (null, '".$name."', '".$name."', '".$klasse."', '".$permission."', '".$date."')";
 		$result = $db->query($query);

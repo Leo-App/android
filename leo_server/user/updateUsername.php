@@ -1,16 +1,16 @@
 <?php
-	
+
 	if ($_GET['key'] != 5453)
 		die("-permission denied!");
-	
-	require_once('dbconfig.php');
+
+	require_once('../dbconfig.php');
 
 	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
 
 	if ($conn->connect_error)
     	die("-Connection failed: " . $conn->connect_error);
 
-	// mitgegebene Werte über get: userid, username
+	// mitgegebene Werte ï¿½ber get: userid, username
 
 	$id =	$db->real_escape_string($_GET['userid']);
 	$username = $db->real_escape_string($_GET['username']);
@@ -23,7 +23,7 @@
 
 	if($result->num_rows > 0)
 		die("-username already exists");
-	
+
 	$query = "UPDATE Users SET uname = '".$username."' WHERE uid = ".$id;
 
 	$result = $db->query($query);
