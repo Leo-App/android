@@ -395,12 +395,12 @@ public class UtilsController {
             getMainActivity().finish();
         }
 
-        if (getMessengerDatabase() != null) {
-            getMessengerDatabase().close();
+        if (dbConnection != null) {
+            dbConnection.close();
             dbConnection = null;
         }
-        if (getStundenplanDatabase() != null) {
-            getStundenplanDatabase().close();
+        if (stundenplanDB != null) {
+            stundenplanDB.close();
             stundenplanDB = null;
         }
     }

@@ -5,7 +5,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -113,7 +112,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                             .apply();
                 }
 
-                Toast.makeText(Utils.getContext(), "Dein Benutzer wurde erfogreich erstellt!", Toast.LENGTH_LONG).show();
+                //                Toast.makeText(Utils.getContext(), "Dein Benutzer wurde erfogreich erstellt!", Toast.LENGTH_LONG).show();
 
                 new SyncUserTask(dialog).execute();
                 break;

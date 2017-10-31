@@ -96,7 +96,8 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
                 case SUCCESS:
                     dialog.dismiss();
                     Toast.makeText(Utils.getContext(), "Verifizierung abgeschlossen!", Toast.LENGTH_SHORT).show();
-                    Utils.getController().getMainActivity().startService(new Intent(Utils.getContext(), ReceiveService.class));
+                    Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), Start.class)
+                            .putExtra("updateUser", false));
                     break;
             }
         }

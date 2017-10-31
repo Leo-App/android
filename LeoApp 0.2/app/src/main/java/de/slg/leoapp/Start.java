@@ -13,6 +13,8 @@ import de.slg.startseite.MainActivity;
 public class Start extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Utils.getController().closeAll();
+
         super.onCreate(savedInstanceState);
 
         Utils.getController().setContext(getApplicationContext());
@@ -35,7 +37,9 @@ public class Start extends Activity {
         ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.Utils.getCachedIDs();
         new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
 
-        new SyncUserTask().execute();
+        if (getIntent().getBooleanExtra("updateUser", true))
+            new SyncUserTask().execute();
+        
         new SyncGradeTask().execute();
 
         if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
