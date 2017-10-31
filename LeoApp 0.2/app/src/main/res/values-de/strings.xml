@@ -8,11 +8,11 @@
     <string name="drawer_placeholder_grade">Stufe</string>
 
     <!-- Action -->
-    <string name="action_save">Save</string>
-    <string name="action_delete">Delete</string>
-    <string name="action_load">Load exams</string>
-    <string name="action_delete_all">Suprimer tous</string>
-    <string name="action_leave_chat">Leave chat</string>
+    <string name="action_save">Speichern</string>
+    <string name="action_delete">Löschen</string>
+    <string name="action_load">Klausurplan herunterladen</string>
+    <string name="action_delete_all">Alle löschen</string>
+    <string name="action_leave_chat">Chat verlassen</string>
 
 
     <!-- Snackbar -->
@@ -77,7 +77,7 @@
     <string name="set_changes">Speichern</string>
     <string name="feature_request">Beschreibe deinen Vorschlag</string>
     <string name="feature_request_title">Verbesserungsvorschlag</string>
-    <string name="cards_quick">Quick access</string>
+    <string name="cards_quick">Schnellzugriffe</string>
     <string name="discard">Ausblenden</string>
     <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>
 
@@ -128,10 +128,10 @@
     <string name="name_of_chat">Chatname</string>
     <string name="title_new_groupchat">Neuer Gruppenchat</string>
     <string name="serviceDescription">Empfängt Nachrichten</string>
-    <string name="need_internet">To do this, you need an internet connection</string>
+    <string name="need_internet">Dafür brauchst du eine Internetverbindung</string>
     <string name="queue">Warteschlange</string>
     <string name="edit_chat">Chatnamen ändern</string>
-    <string name="add_user">Add users</string>
+    <string name="add_user">Mitglieder hinzufügen</string>
     <string name="remove_users">Benutzer entfernen</string>
     <string name="messenger_notification_title">Neue Nachrichten!</string>
     <string name="today">Heute</string>
@@ -163,7 +163,7 @@
     <string name="mi">Mit</string>
     <string name="don">Don</string>
     <string name="fr">Fre</string>
-    <string name="menu_stundenplan_name">Edit Courses</string>
+    <string name="menu_stundenplan_name">Kurse bearbeiten</string>
     <string name="mathe">Mathematik</string>
     <string name="deutsch">Deutsch</string>
     <string name="latein">Latein</string>
@@ -196,7 +196,7 @@
     <string name="schriftlich">Schriftlich</string>
     <string name="notizen">Notizen</string>
     <string name="mache_bild">Drucken</string>
-    <string name="seconds">Sekundne</string>
+    <string name="seconds">Sekunden</string>
     <string name="vokal">Vokalpraxis</string>
     <string name="Förder">Förderkurs</string>
     <string name="schwimmen">Schwimmen</string>
@@ -217,9 +217,9 @@
 
 
     <!-- Umfragen -->
-    <string name="meta_id_placeholder">Survey-ID: #%1$s </string>
+    <string name="meta_id_placeholder">"Umfragen-ID: #%1$s "</string>
     <string name="button_next">Weiter</string>
-    <string name="result">Ergibnis</string>
+    <string name="result">Ergebnis</string>
     <string name="results">Ergebnisse</string>
     <string name="send_survey">Senden</string>
     <string name="statistics_result">%1$d/%2$d Stimmen (%3$d Prozent)</string>
@@ -254,7 +254,7 @@
 
     <string name="settings_toast_username_success">Benutzername geändert!</string>
 
-    <string name="settings_category_info">Contact &#38; Information</string>
+    <string name="settings_category_info">Kontakt &#38; Informationen</string>
 
     <string name="settings_title_contact">Kontakt</string>
 
@@ -303,7 +303,7 @@
     <string name="settings_title_test_timetable">Filtern</string>
 
     <string name="settings_screen_slg_data">SLG Zugangsdaten</string>
-    <string name="settings_screen_cg_data">Couven Zugangsdaten</string>
+    <string name="settings_screen_cg_data">COU Zugangsdaten</string>
     <string name="settings_screen_kkg_data">KKG Zugangsdaten</string>
     <string name="settings_no_access_data">Keine Zugangsdaten nötig</string>
 
@@ -318,8 +318,9 @@
     <string name="settings_title_notification_all">Alle Benachrichtigungen erhalten</string>
     <string name="settings_title_notification_custom">Einige Benachrichtigungen erhalten</string>
     <string name="settings_title_notification_none">Keine Benachrichtigungen erhalten</string>
-    <string name="button_info_auth">Verify</string>
+    <string name="button_info_auth">Verifiziern</string>
     <string name="settings_summary_fade_time">Zeitspanne bis sich das Fenster schließt</string>
     <string name="back">Rückgängig</string>
+    <string name="ZK" translatable="false"></string>
 
 </resources>

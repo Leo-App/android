@@ -280,7 +280,10 @@ public class StundenplanActivity extends ActionLogActivity {
                         String[] sa = fachAd[position].getNotiz().split(" ");
                         tvFach.setText(sa[0]);
                     } else {
-                        tvFach.setText(fachAd[position].getName());
+                        if (Utils.getUserPermission() == 2)
+                            tvFach.setText(fachAd[position].getName() + ' ' + fachAd[position].getKuerzel());
+                        else
+                            tvFach.setText(fachAd[position].getName());
                     }
                     if (Utils.getUserPermission() == 2) {
                         tvLehrer.setText(fachAd[position].getKlasse());

@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.StringRes;
 import android.util.Base64;
+import android.util.Log;
 
 /**
  * Utils
@@ -201,6 +202,8 @@ public abstract class Utils {
      */
     public static String toAuthFormat(String user, String pass) {
         byte[] bytesEncoded = Base64.encode((user + ":" + pass).getBytes(), 0);
-        return authorizationPre + new String(bytesEncoded);
+        String auth         = authorizationPre + new String(bytesEncoded);
+        Log.d("TAG", auth);
+        return auth;
     }
 }

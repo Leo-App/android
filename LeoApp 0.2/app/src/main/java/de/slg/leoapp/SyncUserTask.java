@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,8 +14,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import de.slg.startseite.ResponseCode;
 
 public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
     private final AlertDialog dialog;
@@ -37,12 +36,13 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
             StringBuilder builder = new StringBuilder();
 
             String username = Utils.getUserDefaultName();
-            String password = Utils.getController().getPreferences().getString("pref_key_password_general", "");
+            String password = Utils.getController().getPreferences().getString("pref_key_general_password", "");
 
             HttpsURLConnection connection = (HttpsURLConnection)
                     new URL(Utils.BASE_URL_PHP + "user/updateUser.php")
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
+            Log.d("code_update", String.valueOf(connection.getResponseCode()));
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(
@@ -60,10 +60,10 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
             }
 
             int uid = Integer.parseInt(result.substring(0, result.indexOf(';')));
-            result = result.substring(result.indexOf(';'));
+            result = result.substring(result.indexOf(';') + 1);
 
             int permission = Integer.parseInt(result.substring(0, result.indexOf(';')));
-            result = result.substring(result.indexOf(';'));
+            result = result.substring(result.indexOf(';') + 1);
 
             String uname = result;
 
@@ -103,24 +103,24 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
     }
 
     private void showSnackbarServerFailed() {
-        final Snackbar cS = Snackbar.make(dialog.findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, bitte starte die App erneut", Snackbar.LENGTH_LONG);
-        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, bitte starte die App erneut", Snackbar.LENGTH_LONG);
+        snackbar.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cS.dismiss();
+                snackbar.dismiss();
             }
         });
-        cS.show();
+        snackbar.show();
     }
 
     private void showSnackbarNoConnection() {
-        final Snackbar cS = Snackbar.make(dialog.findViewById(R.id.snackbar), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
-        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
+        snackbar.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cS.dismiss();
+                snackbar.dismiss();
             }
         });
-        cS.show();
+        snackbar.show();
     }
 }

@@ -198,7 +198,7 @@ public class ZeitraumFragment extends Fragment {
             baseLineY = height * 99 / 100;
             abstandY = baseLineY * 9 / 40;
             baseLineX = width / 20;
-            radius = 4;
+            radius = 8;
             if (bitmapIch == null || bitmapSchueler == null || bitmapLehrer == null || bitmapAlle == null) {
                 createCharts();
             }
@@ -285,7 +285,7 @@ public class ZeitraumFragment extends Fragment {
             int previousAlle     = 0;
             for (int i = 1; i < data[3].length; i++) {
                 Paint p = new Paint();
-                p.setStrokeWidth(4);
+                p.setStrokeWidth(radius);
                 if (i < data[0].length && data[0][i].value > 0) {
                     if (data[0][previousIch].value > 0) {
                         p.setColor(ContextCompat.getColor(getContext(), R.color.colorIch));

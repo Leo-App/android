@@ -45,8 +45,6 @@ import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.InfoActivity;
 import de.slg.startseite.MainActivity;
-import de.slg.startseite.UpdateTaskGrade;
-import de.slg.startseite.UpdateTaskName;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
@@ -216,7 +214,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 break;
             case "pref_key_general_name":
                 showProgressBar();
-                UpdateTaskName task = new de.slg.startseite.UpdateTaskName(currentUsername);
+                UpdateTaskName task = new UpdateTaskName(currentUsername);
                 task.execute();
                 initNavigationView();
                 break;
