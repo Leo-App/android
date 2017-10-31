@@ -17,6 +17,8 @@
     <string name="action_load">Load exams</string>
     <string name="action_delete_all">Suprimer tous</string>
     <string name="action_leave_chat">Leave chat</string>
+    <string name="action_help">Help</string>
+    <string name="action_request">Feature-Request</string>
 
 
     <!-- Snackbar -->

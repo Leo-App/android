@@ -60,7 +60,6 @@ public class MainActivity extends ActionLogActivity {
         initToolbar();
         initFeatureCards();
         initNavigationView();
-        initButtons();
 
         if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
@@ -81,48 +80,85 @@ public class MainActivity extends ActionLogActivity {
                 menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
         }
 
+        if(Utils.isVerified()) {
+            menu.removeItem(R.id.action_verify);
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (editing)
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (editing)
+                    onBackPressed();
+                else
+                    drawerLayout.openDrawer(GravityCompat.START);
+                break;
+
+            case R.id.action_appedit:
+                editing = true;
+
+                initFeatureCards();
+
+                findViewById(R.id.card_viewMain).setVisibility(View.GONE);
+                findViewById(R.id.card_view0).setVisibility(View.GONE);
+
+                getSupportActionBar().setTitle(getString(R.string.cards_customize));
+                getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
+
+                invalidateOptionsMenu();
+                break;
+
+            case R.id.action_appedit_done:
+                writeCardsToPreferences();
                 onBackPressed();
-            else
-                drawerLayout.openDrawer(GravityCompat.START);
-        } else if (item.getItemId() == R.id.action_appedit) {
-            editing = true;
+                break;
 
-            initFeatureCards();
+            case R.id.action_appinfo_quick:
+                writeCardsToPreferences();
 
-            findViewById(R.id.card_viewMain).setVisibility(View.GONE);
-            findViewById(R.id.card_view0).setVisibility(View.GONE);
+                boolean b = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
 
-            getSupportActionBar().setTitle(getString(R.string.cards_customize));
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
+                Utils.getController().getPreferences().edit()
+                        .putBoolean("pref_key_card_config_quick", !b)
+                        .apply();
 
-            invalidateOptionsMenu();
-        } else if (item.getItemId() == R.id.action_appedit_done) {
-            writeCardsToPreferences();
-            onBackPressed();
-        } else if (item.getItemId() == R.id.action_appinfo_quick) {
-            writeCardsToPreferences();
+                initFeatureCards();
 
-            boolean b = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
+                if (!b)
+                    item.setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
+                else
+                    item.setIcon(R.drawable.ic_widgets_white_24dp);
+                break;
 
-            Utils.getController().getPreferences().edit()
-                    .putBoolean("pref_key_card_config_quick", !b)
-                    .apply();
+            case R.id.action_appedit_add:
+                new CardAddDialog(this).show();
+                break;
 
-            initFeatureCards();
+            case R.id.action_verify:
+                showVerificationDialog();
+                break;
 
-            if (!b)
-                item.setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
-            else
-                item.setIcon(R.drawable.ic_widgets_white_24dp);
-        } else if (item.getItemId() == R.id.action_appedit_add) {
-            new CardAddDialog(this).show();
+            case R.id.action_request:
+                FeatureDialog dialog = new FeatureDialog(MainActivity.this);
+                dialog.show();
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                break;
+
+            case R.id.action_settings:
+                startActivity(new Intent(getApplicationContext(), PreferenceActivity.class));
+                break;
+
+            case R.id.action_help:
+                Intent myIntent = new Intent(MainActivity.this, IntroActivity.class);
+                MainActivity.this.startActivity(myIntent);
+                break;
+
+
         }
         return true;
     }
@@ -386,33 +422,6 @@ public class MainActivity extends ActionLogActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void initButtons() {
-        final ImageButton help = (ImageButton) findViewById(R.id.help);
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*Uri    webpage = Uri.parse("http://www.leoapp-slg.de");
-                Intent intent  = new Intent(Intent.ACTION_VIEW, webpage);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }*/
-
-                Intent myIntent = new Intent(MainActivity.this, IntroActivity.class);
-                MainActivity.this.startActivity(myIntent);
-            }
-        });
-
-        final ImageButton feature = (ImageButton) findViewById(R.id.feature_request);
-        feature.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FeatureDialog dialog = new FeatureDialog(MainActivity.this);
-                dialog.show();
-                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-            }
-        });
-    }
 
     private void processIntent() {
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);

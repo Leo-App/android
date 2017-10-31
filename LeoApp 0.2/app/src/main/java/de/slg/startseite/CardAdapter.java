@@ -214,10 +214,10 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                         .inflate(R.layout.layout_cardview_feature_quick, parent, false);
                 CardViewHolder ret = new CardViewHolder(itemView);
                 ret.wrapper.requestLayout();
-                ret.wrapper.getLayoutParams().height = GraphicUtils.getDisplayWidth() / 2 - (int) GraphicUtils.dpToPx(20);
+                ret.wrapper.getLayoutParams().height = GraphicUtils.getDisplayWidth() / 2 - (int) GraphicUtils.dpToPx(17);
                 ret.wrapper.getLayoutParams().width = ret.wrapper.getLayoutParams().height;
-                ret.icon.getLayoutParams().height = (ret.wrapper.getLayoutParams().height / 100) * 66; //Icon 65% of quick tile
-                ret.icon.getLayoutParams().width = (ret.wrapper.getLayoutParams().height / 100) * 66;
+                ret.icon.getLayoutParams().height = (ret.wrapper.getLayoutParams().height / 100) * 65; //Icon 65% of quick tile
+                ret.icon.getLayoutParams().width = (ret.wrapper.getLayoutParams().height / 100) * 65;
                 return ret;
             default:
                 itemView = LayoutInflater.from(parent.getContext())
