@@ -578,7 +578,7 @@ public class DBConnection {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            Log.wtf("DBHelper", "Datenbank wird erstellt");
+            Log.i("DBHelper", "Datenbank wird erstellt");
             try {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " (" +
                         MESSAGE_ID + " INTEGER PRIMARY KEY, " +

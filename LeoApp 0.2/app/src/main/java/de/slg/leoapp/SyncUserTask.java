@@ -95,15 +95,16 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
                     break;
                 case SUCCESS:
                     dialog.dismiss();
-                    Toast.makeText(Utils.getContext(), R.string.verification_success, Toast.LENGTH_SHORT).show();
-                    Utils.getController().getMainActivity().startService(new Intent(Utils.getContext(), ReceiveService.class));
+                    Toast.makeText(Utils.getContext(), "Verifizierung abgeschlossen!", Toast.LENGTH_SHORT).show();
+                    Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), Start.class)
+                            .putExtra("updateUser", false));
                     break;
             }
         }
     }
 
     private void showSnackbarServerFailed() {
-        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), R.string.error_snackbar, Snackbar.LENGTH_LONG);
+        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, bitte starte die App erneut", Snackbar.LENGTH_LONG);
         snackbar.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {

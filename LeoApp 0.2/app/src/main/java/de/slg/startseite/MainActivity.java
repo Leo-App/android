@@ -171,7 +171,7 @@ public class MainActivity extends ActionLogActivity {
             initFeatureCards();
 
             findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
-            if (!Utils.getController().getPreferences().getBoolean("pref_key_dont_remind_me", false))
+            if (!Utils.getController().getPreferences().getBoolean("pref_key_dont_remind_me", false) && !Utils.isVerified())
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
 
             getSupportActionBar().setTitle(getString(R.string.title_home));
@@ -298,7 +298,7 @@ public class MainActivity extends ActionLogActivity {
             }
         }, 60);
 
-        if (Utils.isVerified()) {
+        if (Utils.isVerified() || Utils.getController().getPreferences().getBoolean("pref_key_dont_remind_me", false)) {
             findViewById(R.id.card_view0).setVisibility(View.GONE);
         }
 
@@ -327,6 +327,10 @@ public class MainActivity extends ActionLogActivity {
         findViewById(R.id.buttonDismissCardView0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.getController().getPreferences()
+                        .edit()
+                        .putBoolean("pref_key_dont_remind_me", true)
+                        .apply();
                 Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
                 findViewById(R.id.card_view0).startAnimation(anim);
                 final Handler handler = new Handler(); //Remove card after animation
@@ -470,15 +474,14 @@ public class MainActivity extends ActionLogActivity {
         dialog.show();
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        dialog.setCancelable(false);
     }
 
     void addCard(CardType t) {
-
         mAdapter.addToList(t);
         mAdapter.notifyDataSetChanged();
 
         //TODO: Scroll to new Position
-
     }
 
     private void writeCardsToPreferences() {
