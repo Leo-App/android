@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -46,12 +48,12 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class KlausurplanActivity extends ActionLogActivity {
-    private ListView      lvKlausuren;
+    private ListView lvKlausuren;
     private List<Klausur> klausurList;
-    private DrawerLayout  drawerLayout;
-    private Snackbar      snackbar;
+    private DrawerLayout drawerLayout;
+    private Snackbar snackbar;
     private KlausurDialog dialog;
-    private boolean       confirmDelete;
+    private boolean confirmDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class KlausurplanActivity extends ActionLogActivity {
         setContentView(R.layout.activity_klausurplan);
         Utils.getController().registerKlausurplanActivity(this);
 
+        initFile();
         initList();
         initToolbar();
         initListView();
@@ -66,9 +69,19 @@ public class KlausurplanActivity extends ActionLogActivity {
         initAddButton();
         initSnackbar();
 
-        löscheAlteKlausuren(Utils.getController().getPreferences().getInt("pref_key_delete", -1));
+        loescheAlteKlausuren(Utils.getController().getPreferences().getInt("pref_key_delete", -1));
         filternNachStufe(Utils.getUserStufe());
         refresh();
+    }
+
+    private void initFile() {
+        try {
+            File f = new File(getFilesDir().getPath() + "/klausuren.txt");
+            if (!f.exists())
+                f.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -287,7 +300,7 @@ public class KlausurplanActivity extends ActionLogActivity {
 
     private int findeNächsteWoche() {
         Date heute = new Date();
-        int  i     = 0;
+        int i = 0;
         klausurList.toFirst();
         while (klausurList.hasAccess() && heute.after(klausurList.getContent().datum)) {
             klausurList.next();
@@ -309,7 +322,7 @@ public class KlausurplanActivity extends ActionLogActivity {
             }
     }
 
-    private void löscheAlteKlausuren(int monate) {
+    private void loescheAlteKlausuren(int monate) {
         if (monate < 0)
             return;
         GregorianCalendar calendar = new GregorianCalendar();
@@ -341,9 +354,9 @@ public class KlausurplanActivity extends ActionLogActivity {
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(
-                                    openFileInput(getString(R.string.klausuren_filemane))));
+                                    openFileInput(getString(R.string.klausuren_filename))));
             StringBuilder builder = new StringBuilder();
-            String        line;
+            String line;
             while ((line = reader.readLine()) != null) {
                 builder.append(line).append('_');
             }
@@ -365,7 +378,7 @@ public class KlausurplanActivity extends ActionLogActivity {
             BufferedWriter writer =
                     new BufferedWriter(
                             new OutputStreamWriter(
-                                    openFileOutput(getString(R.string.klausuren_filemane), MODE_PRIVATE)));
+                                    openFileOutput(getString(R.string.klausuren_filename), MODE_PRIVATE)));
             for (klausurList.toFirst(); klausurList.hasAccess(); klausurList.next()) {
                 writer.write(klausurList.getContent().getWriterString());
                 writer.newLine();
@@ -401,7 +414,7 @@ public class KlausurplanActivity extends ActionLogActivity {
                 Toast.makeText(getApplicationContext(), R.string.snackbar_no_connection_info, Toast.LENGTH_SHORT).show();
             }
             filternNachStufe(Utils.getUserStufe());
-            löscheAlteKlausuren(Utils.getController().getPreferences().getInt("pref_key_delete", -1));
+            loescheAlteKlausuren(Utils.getController().getPreferences().getInt("pref_key_delete", -1));
             return null;
         }
 

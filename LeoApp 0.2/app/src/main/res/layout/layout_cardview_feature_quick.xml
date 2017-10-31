@@ -10,8 +10,8 @@
     android:layout_height="150dp"
     android:id="@+id/card_preset"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginTop="7dp"
+    android:layout_marginBottom="2dp"
     android:layout_marginRight="5dp"
     android:layout_marginLeft="5dp"
     card_view:cardCornerRadius="4dp">
