@@ -32,7 +32,6 @@ class CardAddDialog extends AlertDialog {
                 (ImageButton) findViewById(R.id.imageButton5),
                 (ImageButton) findViewById(R.id.imageButton6),
                 (ImageButton) findViewById(R.id.imageButton7),
-                (ImageButton) findViewById(R.id.imageButton8),
                 (ImageButton) findViewById(R.id.imageButton9)
         };
         initOptions();

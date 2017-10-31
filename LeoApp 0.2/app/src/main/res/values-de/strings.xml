@@ -33,7 +33,7 @@
 
     <!-- Menu titles -->
     <string name="title_home">Startseite</string>
-    <string name="title_foodmarks">Essensqr</string>
+    <string name="title_foodmarks">Essensbons</string>
     <string name="title_testplan">Klausurplan</string>
     <string name="title_messenger">Messenger</string>
     <string name="title_tutoring">Nachhilfebörse</string>
@@ -83,7 +83,7 @@
 
 
     <!-- Info -->
-    <string name="toolbar_name_info">Über</string>
+    <string name="toolbar_name_info">Über die App</string>
     <string name="info_screen_title">LeoApp für Android</string>
     <string name="info_screen_second">Entwickelt im Projektkurs Informatik 2017</string>
     <string name="info_screen_fourth">Alle Angaben ohne Gewähr</string>
@@ -321,6 +321,10 @@
     <string name="button_info_auth">Verifiziern</string>
     <string name="settings_summary_fade_time">Zeitspanne bis sich das Fenster schließt</string>
     <string name="back">Rückgängig</string>
+
+    <string name="error_snackbar">Es ist etwas schiefgelaufen, bitte starte die App erneut</string>
+    <string name="verification_success">Verifizierung abgeschlossen!</string>
+
     <string name="ZK" translatable="false"></string>
 
 </resources>
