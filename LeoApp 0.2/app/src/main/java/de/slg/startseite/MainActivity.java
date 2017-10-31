@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,7 +79,7 @@ public class MainActivity extends ActionLogActivity {
                 menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
         }
 
-        if(Utils.isVerified()) {
+        if (Utils.isVerified()) {
             menu.removeItem(R.id.action_verify);
         }
 

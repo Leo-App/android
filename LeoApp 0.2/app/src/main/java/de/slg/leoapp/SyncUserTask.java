@@ -104,7 +104,7 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
     }
 
     private void showSnackbarServerFailed() {
-        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, bitte starte die App erneut", Snackbar.LENGTH_LONG);
+        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), R.string.error_snackbar, Snackbar.LENGTH_LONG);
         snackbar.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
