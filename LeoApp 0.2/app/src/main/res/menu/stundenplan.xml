@@ -11,5 +11,10 @@
         android:id="@+id/action_picture"
         android:icon="@drawable/ic_image_white_24dp"
         android:title="@string/mache_bild"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_save_white_24dp"
+        android:title="@string/action_save"
+        app:showAsAction="never" />
 </menu>
