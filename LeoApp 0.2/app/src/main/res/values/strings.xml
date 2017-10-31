@@ -15,7 +15,7 @@
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="action_load">Load exams</string>
-    <string name="action_delete_all">Suprimer tous</string>
+    <string name="action_delete_all">Delete All</string>
     <string name="action_leave_chat">Leave chat</string>
     <string name="action_help">Help</string>
     <string name="action_request">Feature-Request</string>
@@ -329,7 +329,7 @@
     <string name="settings_title_test_timetable">Filter</string>
 
     <string name="settings_screen_slg_data">SLG Accessdata</string>
-    <string name="settings_screen_cg_data">Couven Accessdata</string>
+    <string name="settings_screen_cg_data">COU Accessdata</string>
     <string name="settings_screen_kkg_data">KKG Accessdata</string>
     <string name="settings_no_access_data">No access data needed</string>
 

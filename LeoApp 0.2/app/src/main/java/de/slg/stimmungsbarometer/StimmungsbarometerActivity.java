@@ -31,12 +31,12 @@ import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.ResponseCode;
 import de.slg.leoapp.Utils;
 import de.slg.leoview.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
-import de.slg.startseite.ResponseCode;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class StimmungsbarometerActivity extends ActionLogActivity {

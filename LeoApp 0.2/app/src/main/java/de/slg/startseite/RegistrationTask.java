@@ -15,6 +15,7 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.ResponseCode;
 import de.slg.leoapp.SyncUserTask;
 import de.slg.leoapp.Utils;
 
@@ -120,35 +121,35 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
     }
 
     private void showSnackbarServerFailed() {
-        final Snackbar cS = Snackbar.make(dialog.findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, versuche es zu einem späteren Zeitpunkt erneut", Snackbar.LENGTH_LONG);
-        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, versuche es zu einem späteren Zeitpunkt erneut", Snackbar.LENGTH_LONG);
+        snackbar.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cS.dismiss();
+                snackbar.dismiss();
             }
         });
-        cS.show();
+        snackbar.show();
     }
 
     private void showSnackbarAuthFailed() {
-        final Snackbar cS = Snackbar.make(dialog.findViewById(R.id.snackbar), "Benutzername und Passwort stimmen nicht überein", Snackbar.LENGTH_LONG);
-        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), "Benutzername und Passwort stimmen nicht überein", Snackbar.LENGTH_LONG);
+        snackbar.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cS.dismiss();
+                snackbar.dismiss();
             }
         });
-        cS.show();
+        snackbar.show();
     }
 
     private void showSnackbarNoConnection() {
-        final Snackbar cS = Snackbar.make(dialog.findViewById(R.id.snackbar), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
-        cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
+        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
+        snackbar.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cS.dismiss();
+                snackbar.dismiss();
             }
         });
-        cS.show();
+        snackbar.show();
     }
 }
