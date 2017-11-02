@@ -1,13 +1,21 @@
 package de.slg.stundenplan;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
@@ -28,6 +36,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.essensqr.EssensQRActivity;
@@ -42,6 +57,8 @@ import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 
 public class StundenplanActivity extends ActionLogActivity {
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
+    private StundenplanView view;
     private DrawerLayout        drawerLayout;
     private WochentagFragment[] fragments;
 
@@ -74,6 +91,8 @@ public class StundenplanActivity extends ActionLogActivity {
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
         } else if (item.getItemId() == R.id.action_picture) {
             startActivity(new Intent(getApplicationContext(), StundenplanBildActivity.class));
+        } else if (item.getItemId() == R.id.action_save) {
+            //irgendwie save image aufrufen...
         } else if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }
