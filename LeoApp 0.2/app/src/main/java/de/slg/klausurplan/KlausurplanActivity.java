@@ -61,7 +61,6 @@ public class KlausurplanActivity extends ActionLogActivity {
         setContentView(R.layout.activity_klausurplan);
         Utils.getController().registerKlausurplanActivity(this);
 
-        initFile();
         initList();
         initToolbar();
         initListView();
@@ -72,16 +71,6 @@ public class KlausurplanActivity extends ActionLogActivity {
         loescheAlteKlausuren(Utils.getController().getPreferences().getInt("pref_key_delete", -1));
         filternNachStufe(Utils.getUserStufe());
         refresh();
-    }
-
-    private void initFile() {
-        try {
-            File f = new File(getFilesDir().getPath() + "/klausuren.txt");
-            if (!f.exists())
-                f.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
