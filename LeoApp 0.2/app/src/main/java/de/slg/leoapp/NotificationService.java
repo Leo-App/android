@@ -199,7 +199,7 @@ public class NotificationService extends Service {
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(
-                                    openFileInput(getString(R.string.klausuren_filemane))));
+                                    openFileInput(getString(R.string.klausuren_filename))));
 
             String line;
             while ((line = reader.readLine()) != null) {

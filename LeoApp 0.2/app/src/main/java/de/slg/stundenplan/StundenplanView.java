@@ -11,6 +11,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
+import de.slg.leoapp.UtilsController;
 
 public class StundenplanView extends View {
     private final Canvas canvas;
@@ -56,12 +58,15 @@ public class StundenplanView extends View {
         //horizontal
         baseLineX = width / 20; //Entfernung vom Rand
         paddingX = width / 100;
-        baseline2X = baseLineX + 6 * paddingX;
-        abstandX = (width - baseline2X - baseLineX) / 10;
+        //baseline2X = baseLineX + 6 * paddingX;
+        //abstandX = (width - baseline2X - baseLineX) / 10;
+        abstandX = (width - baseLineX * 2) / 5;
         //vertikal
         baseLineY = height / 20; //Entfernung vom Rand unten
         paddingY = height / 100;
-        abstandY = (height - baseLineY * 2) / 5;
+        baseline2Y = baseLineY + 6 * paddingY;
+        //abstandY = (height - baseLineY * 2) / 5;
+        abstandY = (height - baseline2Y - baseLineY) / 10;
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(3);
         paint.setTextSize(2 * paddingY);
@@ -69,28 +74,27 @@ public class StundenplanView extends View {
         isInitialized = true;
     }
 
-    private void drawTimetable() { //todo und der rest auch noch...
+    private void drawTimetable() {
         Path p = new Path();
         //Rahmen (bleibt so)
         canvas.drawLine(baseLineX, baseLineY, width - baseLineX, baseLineY, paint); //Linie oben
         canvas.drawLine(baseLineX, height - baseLineY, width - baseLineX, height - baseLineY, paint); //Linie unten
         canvas.drawLine(baseLineX, baseLineY, baseLineX, height - baseLineY, paint); //Linie links
         canvas.drawLine(width - baseLineX, baseLineY, width - baseLineX, height - baseLineY, paint); //Linie rechts
+        canvas.drawLine(baseLineX, baseline2Y, width - baseLineX, baseline2Y, paint); //WochentagZeile
         //Spalten
-        canvas.drawText(getContext().getString(R.string.montag), baseLineY + paddingY, baseLineX + paddingX, paint);
-        //Das Problem ist die Textrichtung aber später....
-        canvas.drawLine(baseLineX, height - baseLineY - abstandY, width - baseLineX, height - baseLineY - abstandY, paint);
-        //canvas.drawText(getContext().getString(R.string.dienstag), baseLineY + abstandY + paddingY, baseLineX + paddingX, paint);
-        canvas.drawLine(baseLineX, height - baseLineY - abstandY * 2, width - baseLineX, height - baseLineY - abstandY * 2, paint);
-        //canvas.drawText(getContext().getString(R.string.mittwoch), baseLineY + abstandY * 2 + paddingY, baseLineX + paddingX, paint);
-        canvas.drawLine(baseLineX, height - baseLineY - abstandY * 3, width - baseLineX, height - baseLineY - abstandY * 3, paint);
-        //canvas.drawText(getContext().getString(R.string.donnerstag), baseLineY + abstandY * 3 + paddingY, baseLineX + paddingX, paint);
-        canvas.drawLine(baseLineX, height - baseLineY - abstandY * 4, width - baseLineX, height - baseLineY - abstandY * 4, paint);
-        //canvas.drawText(getContext().getString(R.string.freitag), baseLineY + abstandY * 4 + paddingY, baseLineX + paddingX, paint);
-        canvas.drawLine(baseline2X, baseLineY, baseline2X, height - baseLineY, paint); //WochentagZeile
-        /*Fach[][] gewaehlteFaecher = new Fach[5][];
+        canvas.drawLine(baseLineX + abstandX, baseLineY, baseLineX + abstandX, height - baseLineY, paint);
+        canvas.drawLine(baseLineX + abstandX * 2 , baseLineY, baseLineX + abstandX * 2, height - baseLineY, paint);
+        canvas.drawLine(baseLineX + abstandX * 3 , baseLineY, baseLineX + abstandX * 3, height - baseLineY, paint);
+        canvas.drawLine(baseLineX + abstandX * 4 , baseLineY, baseLineX + abstandX * 4, height - baseLineY, paint);
+        canvas.drawText(getContext().getString(R.string.montag), baseLineX + paddingX * 6, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.dienstag), baseLineX + abstandX + paddingX * 6, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.mittwoch), baseLineX + abstandX * 2 + paddingX * 6, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.donnerstag), baseLineX + abstandX * 3 + paddingX * 6, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.freitag), baseLineX + abstandX * 4 + paddingX * 6, baseline2Y - paddingY * 2, paint);
+        Fach[][] gewaehlteFaecher = new Fach[5][];
         for (int i = 0; i < gewaehlteFaecher.length; i++) {
-            gewaehlteFaecher[i] = Utils.getController().getStundplanDataBase().gewaehlteFaecherAnTag(i + 1);
+            gewaehlteFaecher[i] = de.slg.leoapp.Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(i + 1);
         }
         for (int i = 1; i < 10; i++) {
             int yValue = baseline2Y + (i - 1) * abstandY;
@@ -101,13 +105,13 @@ public class StundenplanView extends View {
                     String text;
                     if (f.getName().equals("") && !f.getNotiz().equals("")) {
                         text = f.getNotiz().split(" ")[0];
-                    } else {
-                        text = f.getName().split(" ")[0];
+                    }  else {
+                        text = f.getName();//.split(" ")[0];
                     }
-                    canvas.drawText(text, baseLineX + abstandX * j + paddingX, yValue + paddingY * 2, paint);
+                    canvas.drawText(text, baseLineX + abstandX * j + paddingX, yValue + paddingY * 5, paint);
                 }
             }
             canvas.drawLine(baseLineX, yValue + abstandY, width - baseLineX, yValue + abstandY, paint);
-        }*/
+        }
     }
 }

@@ -106,7 +106,7 @@
             android:theme="@style/MainActivitiesTheme" />
         <activity
             android:name="de.slg.stundenplan.StundenplanBildActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="landscape" />
         <activity
             android:name="de.slg.stundenplan.AuswahlActivity"
             android:screenOrientation="portrait" />

@@ -129,7 +129,7 @@
 
     <!-- Klausurplan -->
     <string name="title_activity">Exam</string>
-    <string name="klausuren_filemane" translatable="false">klausuren.txt</string>
+    <string name="klausuren_filename" translatable="false">klausuren.txt</string>
     <string name="subject">Subject</string>
     <string name="date">Date</string>
     <string name="date_format" translatable="false">DD.MM.YY</string>
