@@ -9,10 +9,9 @@ import android.view.View;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.ResponseCode;
@@ -33,7 +32,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
         String username = Utils.getUserDefaultName();
         String password = Utils.getController().getPreferences().getString("pref_key_general_password", "");
 
-        String  checksum = "C0E311B08040";
+        String  checksum = "";
         boolean teacher  = username.length() == 6;
 
         if (!Utils.checkNetwork()) {
@@ -46,10 +45,13 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 permission = 2;
             }
 
-            HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL("https://secureaccess.itac-school.de/slgweb/leoapp_php/verify.php")
+            //TODO!!!
+            //HttpsURLConnection connection = (HttpsURLConnection)
+            //new URL("https://secureaccess.itac-school.de/slgweb/leoapp_php/verify.php")
+            HttpURLConnection connection = (HttpURLConnection)
+                    new URL("http://moritz.liegmanns.de/leoapp_php/verify.php?name=" + username)
                             .openConnection();
-            connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
+            //connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
             int code = connection.getResponseCode();
             Log.d("code_register", String.valueOf(code));
