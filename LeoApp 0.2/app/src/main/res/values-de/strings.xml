@@ -173,7 +173,7 @@
     <string name="bili">Geschichte Bilingual</string>
     <string name="geschichte">Geschichte</string>
     <string name="geo">Erdkunde</string>
-    <string name="sowi">Sozial-Wissenschaften</string>
+    <string name="sowi">Sozialwissenschaften</string>
     <string name="pada">Pädagogik</string>
     <string name="reliKat">Katholische Religion</string>
     <string name="reliEv">Evangelische Religion</string>
@@ -211,7 +211,7 @@
     <string name="niederländisch">Niederländisch</string>
     <string name="PoWi">Politik</string>
     <string name="GeZK">Geschichte ZK</string>
-    <string name="SoWiZ">Sozial-Wissenschaften ZK</string>
+    <string name="SoWiZ">Sozialwissenschaften ZK</string>
     <string name="Diff">Differenzierung</string>
     <string name="yourTimeTable">Dein Stundenplan</string>
 
@@ -318,7 +318,7 @@
     <string name="settings_title_notification_all">Alle Benachrichtigungen erhalten</string>
     <string name="settings_title_notification_custom">Einige Benachrichtigungen erhalten</string>
     <string name="settings_title_notification_none">Keine Benachrichtigungen erhalten</string>
-    <string name="button_info_auth">Verifiziern</string>
+    <string name="button_info_auth">Verifizieren</string>
     <string name="settings_summary_fade_time">Zeitspanne bis sich das Fenster schließt</string>
     <string name="back">Rückgängig</string>
 

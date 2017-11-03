@@ -122,6 +122,7 @@
         android:layout_alignEnd="@+id/lehrerK_details"
         android:layout_alignRight="@+id/lehrerK_details"
         android:layout_below="@+id/notizFeld_details"
+        android:layout_marginTop="15dp"
         android:text="@string/speichern"
         android:textAllCaps="true" />
 
@@ -132,7 +133,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/buttonSav"
         android:layout_alignBottom="@+id/buttonSav"
-        android:layout_marginBottom="10dp"
         android:layout_toLeftOf="@+id/buttonSav"
         android:layout_toStartOf="@+id/buttonSav"
         android:text="@string/discard"
