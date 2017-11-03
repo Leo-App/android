@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -32,20 +33,21 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
         String username = Utils.getUserDefaultName();
         String password = Utils.getController().getPreferences().getString("pref_key_general_password", "");
 
-        String  result  = "";
-        boolean teacher = username.length() == 6;
+        String  checksum = "C0E311B08040";
+        boolean teacher  = username.length() == 6;
 
         if (!Utils.checkNetwork()) {
             return ResponseCode.NO_CONNECTION;
         }
 
         try {
-            String klasse = "N/A";
-            if (teacher)
-                klasse = "TEA";
+            int permission = 1;
+            if (teacher) {
+                permission = 2;
+            }
 
             HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "user/addUser.php?permission=" + (teacher ? 2 : 1) + "&klasse=" + klasse)
+                    new URL("https://secureaccess.itac-school.de/slgweb/leoapp_php/verify.php")
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
@@ -65,11 +67,24 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                if (!line.contains("<")) {
-                    result += line;
-                }
+                checksum += line;
             }
+            reader.close();
 
+            Log.d("RegistrationTask", checksum);
+
+            URLConnection connection2 =
+                    new URL(Utils.BASE_URL_PHP + "user/addUser.php?name=" + Utils.getUserDefaultName() + "&permission=" + permission + "&checksum=" + checksum)
+                            .openConnection();
+
+            reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    connection2
+                                            .getInputStream(), "UTF-8"));
+            String result = "";
+            while ((line = reader.readLine()) != null)
+                result += line;
             reader.close();
 
             Log.d("RegistrationTask", result);

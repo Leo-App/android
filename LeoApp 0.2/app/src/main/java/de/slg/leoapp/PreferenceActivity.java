@@ -207,7 +207,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 connectionPref.setEnabled(sharedPreferences.getBoolean(key, false));
                 break;
             case "pref_key_general_klasse":
-                new UpdateTaskGrade().execute();
                 String res = pref.getString(key, "N/A");
                 findPreference("pref_key_general_klasse").setSummary(res);
                 initNavigationView();

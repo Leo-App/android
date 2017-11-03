@@ -17,13 +17,13 @@ import de.slg.leoapp.Utils;
 
 /**
  * InfoButton
- *
+ * <p>
  * Decorator zu android.widget.Button, ergänzt entsprechende Buttons um eine Tooltip-Funktion mithilfe von {@link BottomSheetDialog BottomSheetDialogen}. Sollten benötigte
  * Button-Funktionen fehlen, bitte ergänzen.
  *
- * @since 0.5.7
- * @version 2017.2610
  * @author Gianni
+ * @version 2017.2610
+ * @since 0.5.7
  */
 @SuppressWarnings("unused")
 public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
@@ -31,7 +31,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
     private Button b;
 
     public InfoButton(Button b) {
-      this.b = b;
+        this.b = b;
     }
 
     /**
@@ -67,6 +67,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param listener siehe {@link Button}
      */
     public void addOnLayoutChangeListener(View.OnLayoutChangeListener listener) {
@@ -75,6 +76,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param listener siehe {@link Button}
      */
     public void removeOnLayoutChangeListener(View.OnLayoutChangeListener listener) {
@@ -83,6 +85,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param listener siehe {@link Button}
      */
     public void addOnAttachStateChangeListener(View.OnAttachStateChangeListener listener) {
@@ -91,6 +94,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param listener siehe {@link Button}
      */
     public void removeOnAttachStateChangeListener(View.OnAttachStateChangeListener listener) {
@@ -99,6 +103,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public View.OnFocusChangeListener getOnFocusChangeListener() {
@@ -107,6 +112,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param l siehe {@link Button}
      */
     public void setOnFocusChangeListener(View.OnFocusChangeListener l) {
@@ -124,6 +130,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean hasOnClickListeners() {
@@ -132,6 +139,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param l siehe {@link Button}
      */
     public void setOnLongClickListener(@Nullable View.OnLongClickListener l) {
@@ -140,6 +148,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean performClick() {
@@ -148,6 +157,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean callOnClick() {
@@ -156,6 +166,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean performLongClick() {
@@ -164,6 +175,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean showContextMenu() {
@@ -172,6 +184,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param l siehe {@link Button}
      */
     public void setOnKeyListener(View.OnKeyListener l) {
@@ -180,6 +193,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param l siehe {@link Button}
      */
     public void setOnTouchListener(View.OnTouchListener l) {
@@ -188,6 +202,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param l siehe {@link Button}
      */
     public void setOnGenericMotionListener(View.OnGenericMotionListener l) {
@@ -196,6 +211,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param l siehe {@link Button}
      */
     public void setOnHoverListener(View.OnHoverListener l) {
@@ -204,6 +220,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param l siehe {@link Button}
      */
     public void setOnDragListener(View.OnDragListener l) {
@@ -219,6 +236,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean hasFocus() {
@@ -227,6 +245,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean hasFocusable() {
@@ -235,6 +254,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param eventType siehe {@link Button}
      */
     public void sendAccessibilityEvent(int eventType) {
@@ -243,6 +263,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param event siehe {@link Button}
      */
     public void sendAccessibilityEventUnchecked(AccessibilityEvent event) {
@@ -251,6 +272,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean isFocused() {
@@ -259,6 +281,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public View findFocus() {
@@ -267,6 +290,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public int getVisibility() {
@@ -275,6 +299,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param visibility siehe {@link Button}
      */
     public void setVisibility(int visibility) {
@@ -283,6 +308,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean isEnabled() {
@@ -291,6 +317,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param enabled siehe {@link Button}
      */
     public void setEnabled(boolean enabled) {
@@ -299,6 +326,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param clickable siehe {@link Button}
      */
     public void setClickable(boolean clickable) {
@@ -307,6 +335,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean isLongClickable() {
@@ -315,6 +344,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param longClickable siehe {@link Button}
      */
     public void setLongClickable(boolean longClickable) {
@@ -323,6 +353,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean isPressed() {
@@ -331,6 +362,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param pressed siehe {@link Button}
      */
     public void setPressed(boolean pressed) {
@@ -339,6 +371,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean isSaveEnabled() {
@@ -347,6 +380,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean requestFocus() {
@@ -355,6 +389,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param direction siehe {@link Button}
      * @return siehe {@link Button}
      */
@@ -364,7 +399,8 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
-     * @param direction siehe {@link Button}
+     *
+     * @param direction             siehe {@link Button}
      * @param previouslyFocusedRect siehe {@link Button}
      * @return siehe {@link Button}
      */
@@ -374,6 +410,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public boolean requestFocusFromTouch() {
@@ -382,8 +419,9 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param keyCode siehe {@link Button}
-     * @param event siehe {@link Button}
+     * @param event   siehe {@link Button}
      * @return siehe {@link Button}
      */
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
@@ -406,6 +444,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public ViewParent getParent() {
@@ -414,6 +453,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public int getWidth() {
@@ -422,6 +462,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public int getHeight() {
@@ -430,7 +471,8 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
-     * @param who siehe {@link Button}
+     *
+     * @param who  siehe {@link Button}
      * @param what siehe {@link Button}
      * @param when siehe {@link Button}
      */
@@ -440,7 +482,8 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
-     * @param who siehe {@link Button}
+     *
+     * @param who  siehe {@link Button}
      * @param what siehe {@link Button}
      */
     public void unscheduleDrawable(@NonNull Drawable who, @NonNull Runnable what) {
@@ -449,6 +492,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public Object getTag() {
@@ -457,6 +501,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param tag siehe {@link Button}
      */
     public void setTag(Object tag) {
@@ -465,6 +510,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param key siehe {@link Button}
      * @return siehe {@link Button}
      */
@@ -474,6 +520,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param key siehe {@link Button}
      * @param tag siehe {@link Button}
      */
@@ -483,6 +530,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param text siehe {@link Button}
      */
     public void setText(CharSequence text) {
@@ -491,6 +539,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param text siehe {@link Button}
      */
     public void setTextKeepState(CharSequence text) {
@@ -499,6 +548,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param text siehe {@link Button}
      * @param type siehe {@link Button}
      */
@@ -508,9 +558,10 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
-     * @param text siehe {@link Button}
+     *
+     * @param text  siehe {@link Button}
      * @param start siehe {@link Button}
-     * @param len siehe {@link Button}
+     * @param len   siehe {@link Button}
      */
     public void setText(char[] text, int start, int len) {
         b.setText(text, start, len);
@@ -518,6 +569,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param text siehe {@link Button}
      * @param type siehe {@link Button}
      */
@@ -527,6 +579,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param resid siehe {@link Button}
      */
     public void setText(@StringRes int resid) {
@@ -535,8 +588,9 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param resid siehe {@link Button}
-     * @param type siehe {@link Button}
+     * @param type  siehe {@link Button}
      */
     public void setText(@StringRes int resid, TextView.BufferType type) {
         b.setText(resid, type);
@@ -544,6 +598,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param hint siehe {@link Button}
      */
     public void setHint(CharSequence hint) {
@@ -552,6 +607,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @return siehe {@link Button}
      */
     public CharSequence getHint() {
@@ -560,6 +616,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param resid siehe {@link Button}
      */
     public void setHint(@StringRes int resid) {
@@ -568,6 +625,7 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param drawable siehe {@link Button}
      */
     public void invalidateDrawable(@NonNull Drawable drawable) {
@@ -576,8 +634,9 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param keyCode siehe {@link Button}
-     * @param event siehe {@link Button}
+     * @param event   siehe {@link Button}
      * @return siehe {@link Button}
      */
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -586,9 +645,10 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
-     * @param keyCode siehe {@link Button}
+     *
+     * @param keyCode     siehe {@link Button}
      * @param repeatCount siehe {@link Button}
-     * @param event siehe {@link Button}
+     * @param event       siehe {@link Button}
      * @return siehe {@link Button}
      */
     public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
@@ -597,8 +657,9 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     /**
      * Delegiert von android.widget.Button
+     *
      * @param keyCode siehe {@link Button}
-     * @param event siehe {@link Button}
+     * @param event   siehe {@link Button}
      * @return siehe {@link Button}
      */
     public boolean onKeyUp(int keyCode, KeyEvent event) {

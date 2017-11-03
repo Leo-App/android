@@ -30,7 +30,6 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
-
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> implements RecyclerViewItemListener {
 
     final List<Card> cards;
@@ -185,7 +184,6 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                     }
                 };
                 break;
-
         }
     }
 
@@ -237,7 +235,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
     public void onBindViewHolder(final CardViewHolder holder, final int position) {
 
         cards.toIndex(position);
-        Card c = cards.getContent();
+        Card    c     = cards.getContent();
         boolean quick = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
         if (MainActivity.editing)
             holder.wrapper.setCardElevation(25);
@@ -254,7 +252,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 holder.icon.setColorFilter(null);
         }
 
-        if(!c.enabled) {
+        if (!c.enabled) {
             if (!quick) {
                 holder.title.setTextColor(Color.GRAY);
                 holder.imageButton.setColorFilter(Color.GRAY);
@@ -262,13 +260,9 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
             holder.icon.setColorFilter(Color.GRAY);
         }
 
-
         holder.button.setOnClickListener(c.buttonListener);
         holder.icon.setImageResource(c.icon);
-
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -284,13 +278,13 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
 
     class CardViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView title;
-        final ImageButton imageButton;
-        final ImageView icon;
+        final TextView       title;
+        final ImageButton    imageButton;
+        final ImageView      icon;
         final RelativeLayout content;
-        final CardView wrapper;
-        final Button btn;
-        final InfoButton button;
+        final CardView       wrapper;
+        final Button         btn;
+        final InfoButton     button;
 
         CardViewHolder(View itemView) {
             super(itemView);
@@ -303,5 +297,4 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
             button = new InfoButton(btn);
         }
     }
-
 }

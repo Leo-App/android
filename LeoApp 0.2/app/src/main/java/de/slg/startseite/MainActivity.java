@@ -156,8 +156,6 @@ public class MainActivity extends ActionLogActivity {
                 Intent myIntent = new Intent(MainActivity.this, IntroActivity.class);
                 MainActivity.this.startActivity(myIntent);
                 break;
-
-
         }
         return true;
     }
@@ -424,7 +422,6 @@ public class MainActivity extends ActionLogActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
 
     private void processIntent() {
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);

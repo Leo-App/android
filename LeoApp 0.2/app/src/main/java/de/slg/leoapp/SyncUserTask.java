@@ -12,19 +12,21 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
     private final AlertDialog dialog;
+    private final boolean     refresh;
 
     SyncUserTask() {
         this.dialog = null;
+        this.refresh = !Utils.isVerified();
     }
 
     public SyncUserTask(AlertDialog dialog) {
         this.dialog = dialog;
+        this.refresh = !Utils.isVerified();
     }
 
     @Override
@@ -36,13 +38,10 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
         try {
             StringBuilder builder = new StringBuilder();
 
-            String username = Utils.getUserDefaultName();
-            String password = Utils.getController().getPreferences().getString("pref_key_general_password", "");
-
-            HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "user/updateUser.php")
+            HttpURLConnection connection =
+                    (HttpURLConnection) new URL(Utils.BASE_URL_PHP + "user/updateUser.php?name=" + Utils.getUserDefaultName())
                             .openConnection();
-            connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
+
             Log.d("code_update", String.valueOf(connection.getResponseCode()));
             BufferedReader reader =
                     new BufferedReader(
@@ -84,7 +83,7 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
 
     @Override
     protected void onPostExecute(ResponseCode code) {
-        if (dialog != null) {
+        if (refresh) {
             switch (code) {
                 case NO_CONNECTION:
                     dialog.findViewById(R.id.progressBar1).setVisibility(View.GONE);

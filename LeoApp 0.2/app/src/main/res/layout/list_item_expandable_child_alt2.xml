@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp">
 
     <Button
+        android:id="@+id/button"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/vote_button"
-        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_alignParentRight="true"
-        android:id="@+id/button"/>
+        android:text="@string/vote_button" />
 
     <ImageButton
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_centerVertical="true"
-        android:background="@null"
         android:id="@+id/share"
-        android:layout_toLeftOf="@id/button"
-        app:srcCompat="@drawable/ic_share_white_24dp"
-        android:layout_marginRight="20dp"
-        android:tint="@color/colorPrimary"/>
-
-    <ImageButton
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:layout_toLeftOf="@id/button"
         android:background="@null"
+        android:tint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_share_white_24dp" />
+
+    <ImageButton
         android:id="@+id/delete"
-        android:layout_toLeftOf="@id/share"
-        app:srcCompat="@drawable/ic_delete_white_24dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@id/share"
+        android:background="@null"
+        android:tint="@android:color/holo_red_dark"
         android:visibility="gone"
-        android:tint="@android:color/holo_red_dark"/>
+        app:srcCompat="@drawable/ic_delete_white_24dp" />
 
 </RelativeLayout>

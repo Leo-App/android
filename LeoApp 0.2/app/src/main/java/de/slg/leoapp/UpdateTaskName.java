@@ -10,12 +10,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 
-import javax.net.ssl.HttpsURLConnection;
-
 public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
-    private final String             old;
+    private final String old;
 
     public UpdateTaskName(String oldUsername) {
         old = oldUsername;
@@ -30,10 +29,9 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
         try {
             int    id       = Utils.getUserID();
             String username = URLEncoder.encode(Utils.getUserName(), "UTF-8");
-            HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "user/updateUsername.php?key=5453&userid=" + id + "&username=" + username)
+            URLConnection connection =
+                    new URL(Utils.BASE_URL_PHP + "user/updateUsername.php?uid=" + id + "&uname=" + username)
                             .openConnection();
-            connection.setRequestProperty("Authorization", Utils.authorization);
 
             in = null;
             in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));

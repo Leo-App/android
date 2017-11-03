@@ -5,12 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 
 /**
  * ActionLogActivity
- *
+ * <p>
  * Für LeoApp-Activities angepasste Subklasse von AppCompatActivity. Loggt den Lifecycle der Activity, sodass der aktuelle Status abgerufen werden kann.
  *
- * @since 0.5.7
- * @version 2017.2610
  * @author Gianni
+ * @version 2017.2610
+ * @since 0.5.7
  */
 
 public abstract class ActionLogActivity extends AppCompatActivity {
@@ -49,5 +49,4 @@ public abstract class ActionLogActivity extends AppCompatActivity {
     public ActivityStatus getStatus() {
         return status;
     }
-
 }

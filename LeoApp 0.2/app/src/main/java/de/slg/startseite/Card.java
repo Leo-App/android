@@ -1,14 +1,16 @@
 package de.slg.startseite;
+
 import android.view.View;
+
 class Card {
     final CardType type;
-    String title;
-    String desc;
-    int    icon;
+    String               title;
+    String               desc;
+    int                  icon;
     View.OnClickListener buttonListener;
-    boolean enabled;
+    boolean              enabled;
 
-    Card( CardType type) {
+    Card(CardType type) {
         this.type = type;
     }
 

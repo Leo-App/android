@@ -9,11 +9,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.Utils;
@@ -38,10 +37,8 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
         try {
             listeMitHeruntergeladenenKlausuren = new List<>();
 
-            HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "klausurplan/aktuell.xml")
-                            .openConnection();
-            connection.setRequestProperty("Authorization", Utils.authorization);
+            URLConnection connection = new URL(Utils.BASE_URL_PHP + "klausurplan/aktuell.xml")
+                    .openConnection();
 
             FileOutputStream fileOutput  = context.openFileOutput("klausurplan.xml", Context.MODE_PRIVATE);
             InputStream      inputStream = connection.getInputStream();

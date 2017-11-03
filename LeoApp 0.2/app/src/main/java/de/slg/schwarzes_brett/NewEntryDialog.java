@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -20,7 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,7 +34,7 @@ import de.slg.leoapp.Utils;
 
 /**
  * Nachrichtendialog
- *
+ * <p>
  * Dieser Dialog stellt eine Möglichkeit dar, Schwarzes-Brett Nachrichten innerhalb der App zu verfassen.
  *
  * @version 2017.2410
@@ -40,7 +43,7 @@ import de.slg.leoapp.Utils;
 class NewEntryDialog extends AlertDialog {
 
     private DatePickerDialog datePickerDialog;
-    private Context c;
+    private Context          c;
 
     /**
      * Konstruktor.
@@ -59,22 +62,20 @@ class NewEntryDialog extends AlertDialog {
      */
     @Override
     public void onCreate(Bundle b) {
-
         super.onCreate(b);
         setContentView(R.layout.dialog_create_entry);
         initDatePicker();
         initSpinner();
         initTextViews();
         initButtons();
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
     private void initTextViews() {
-        final Button submit = (Button) findViewById(R.id.buttonSave);
-        final TextView t1 = (TextView) findViewById(R.id.title_edittext);
-        final TextView t2 = (TextView) findViewById(R.id.eingabeDatum);
-        final TextView t3 = (TextView) findViewById(R.id.content);
+        final Button   submit = (Button) findViewById(R.id.buttonSave);
+        final TextView t1     = (TextView) findViewById(R.id.title_edittext);
+        final TextView t2     = (TextView) findViewById(R.id.eingabeDatum);
+        final TextView t3     = (TextView) findViewById(R.id.content);
 
         TextWatcher listener = new TextWatcher() {
 
@@ -96,7 +97,6 @@ class NewEntryDialog extends AlertDialog {
         t1.addTextChangedListener(listener);
         t2.addTextChangedListener(listener);
         t3.addTextChangedListener(listener);
-
     }
 
     private void initButtons() {
@@ -113,7 +113,7 @@ class NewEntryDialog extends AlertDialog {
                 final TextView t1 = (TextView) findViewById(R.id.title_edittext);
                 final TextView t2 = (TextView) findViewById(R.id.eingabeDatum);
                 final TextView t3 = (TextView) findViewById(R.id.content);
-                Spinner s1 = (Spinner) findViewById(R.id.spinner2);
+                Spinner        s1 = (Spinner) findViewById(R.id.spinner2);
                 new sendEntryTask().execute(t1.getText().toString(), t2.getText().toString(), t3.getText().toString(), s1.getSelectedItem().toString());
             }
         });
@@ -121,7 +121,7 @@ class NewEntryDialog extends AlertDialog {
 
     private void initDatePicker() {
         ImageButton dateButton = (ImageButton) findViewById(R.id.imageButton);
-        TextView dateText = (TextView) findViewById(R.id.eingabeDatum);
+        TextView    dateText   = (TextView) findViewById(R.id.eingabeDatum);
         setDateTimeField(dateText);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -134,7 +134,7 @@ class NewEntryDialog extends AlertDialog {
     }
 
     private void setDateTimeField(final TextView t) {
-        final Calendar newCalendar = Calendar.getInstance();
+        final Calendar         newCalendar   = Calendar.getInstance();
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
         datePickerDialog = new DatePickerDialog(c, new DatePickerDialog.OnDateSetListener() {
 
@@ -143,7 +143,6 @@ class NewEntryDialog extends AlertDialog {
                 newDate.set(year, monthOfYear, dayOfMonth);
                 t.setText(dateFormatter.format(newDate.getTime()));
             }
-
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
@@ -154,25 +153,33 @@ class NewEntryDialog extends AlertDialog {
                 R.array.level, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_item);
         s.setAdapter(adapter);
-
     }
 
     /**
      * Nachrichten-Task
-     *
+     * <p>
      * Sendet neue Nachricht an Remote-Datenbank
      *
-     * @since 0.5.6
      * @version 2017.2410
+     * @since 0.5.6
      */
     private class sendEntryTask extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
-            if(!Utils.checkNetwork())
+            if (!Utils.checkNetwork())
                 return false;
             try {
-                URL updateURL = new URL(("http://moritz.liegmanns.de/schwarzes_brett/_php/ajax.php?to=" + params[3] + "&title=" + params[0] + "&content=" +params[1]+ "&date=" + params[2]).replace(" ", "%20"));
-                updateURL.openConnection().getInputStream();
+                URL updateURL = new URL((Utils.BASE_URL_PHP + "schwarzes_brett/_php/newEntry.php?to=" + params[3] + "&title=" + params[0] + "&content=" + params[1] + "&date=" + params[2]).replace(" ", "%20"));
+                Log.e("TAG", updateURL.toString());
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        updateURL
+                                                .openConnection()
+                                                .getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null)
+                    Log.e("TAG", line);
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;
@@ -182,7 +189,7 @@ class NewEntryDialog extends AlertDialog {
 
         @Override
         protected void onPostExecute(Boolean b) {
-            if(b) {
+            if (b) {
                 dismiss();
                 Toast.makeText(Utils.getContext(), "Gesendet", Toast.LENGTH_SHORT);
             } else {
@@ -197,7 +204,5 @@ class NewEntryDialog extends AlertDialog {
                 snack.show();
             }
         }
-
     }
-
 }

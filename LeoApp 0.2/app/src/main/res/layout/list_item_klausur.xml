@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -16,53 +17,54 @@
         android:textColor="@color/colorText"
         android:textSize="18sp" />
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
 
-        android:layout_below="@id/textViewWoche"
         android:layout_height="match_parent"
+        android:layout_below="@id/textViewWoche"
         android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="13dp"
-        android:textColor="@color/colorText"
-        android:paddingRight="13dp"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:textColor="@color/colorText"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/textViewKursInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorText"
-        android:textStyle="italic"
-        android:paddingLeft="13dp"
-        android:layout_below="@id/textView"
-        android:paddingRight="13dp"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/textViewKursInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:textColor="@color/colorText"
+            android:textSize="15sp"
+            android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/textViewStufe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:textColor="@color/colorText"
-        android:paddingLeft="13dp"
-        android:paddingRight="13dp"
-        android:textSize="22sp" />
+        <TextView
+            android:id="@+id/textViewStufe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:textColor="@color/colorText"
+            android:textSize="22sp" />
 
-    <TextView
-        android:id="@+id/textViewDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorText"
-        android:paddingLeft="13dp"
-        android:layout_below="@id/textViewKursInfo"
-        android:paddingRight="13dp"
-        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewKursInfo"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:textColor="@color/colorText"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 </RelativeLayout>

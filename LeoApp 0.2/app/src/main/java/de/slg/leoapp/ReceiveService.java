@@ -12,9 +12,9 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.net.URLConnection;
 
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
@@ -115,10 +115,9 @@ public class ReceiveService extends Service {
 
         private void getEntries() {
             try {
-                HttpsURLConnection connection = (HttpsURLConnection)
-                        new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
-                                .openConnection();
-                connection.setRequestProperty("Authorization", Utils.authorization);
+                URLConnection connection = new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
+                        .openConnection();
+
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
@@ -170,7 +169,7 @@ public class ReceiveService extends Service {
                     builder.append(line);
                 reader.close();
 
-                URL resultURL = new URL("http://moritz.liegmanns.de/survey/getSingleResult.php?user="+Utils.getUserID());
+                URL resultURL = new URL("http://moritz.liegmanns.de/survey/getSingleResult.php?user=" + Utils.getUserID());
                 reader =
                         new BufferedReader(
                                 new InputStreamReader(resultURL.openConnection().getInputStream(), "UTF-8"));
@@ -197,10 +196,10 @@ public class ReceiveService extends Service {
                                 Integer.parseInt(res[5])
                         ));
 
-                        for(int i = 6; i < res.length-1; i+=2) {
+                        for (int i = 6; i < res.length - 1; i += 2) {
                             dbh.insert(SQLiteConnector.TABLE_ANSWERS, null, db.getAnswerContentValues(
                                     Integer.parseInt(res[i]),
-                                    res[i+1],
+                                    res[i + 1],
                                     id,
                                     resultBuilder.toString().contains(res[i]) ? 1 : 0
                             ));
@@ -209,12 +208,9 @@ public class ReceiveService extends Service {
                 }
                 dbh.close();
                 db.close();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
 
         @Override
@@ -294,10 +290,9 @@ public class ReceiveService extends Service {
 
         private void assoziationen() {
             try {
-                HttpsURLConnection connection = (HttpsURLConnection)
-                        new URL(Utils.BASE_URL_PHP + "messenger/getAssoziationen.php?key=5453&userid=" + Utils.getUserID())
-                                .openConnection();
-                connection.setRequestProperty("Authorization", Utils.authorization);
+                URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/getAssoziationen.php?uid=" + Utils.getUserID())
+                        .openConnection();
+
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
@@ -340,16 +335,17 @@ public class ReceiveService extends Service {
     }
 
     private class SendMessages extends AsyncTask<Void, Void, Void> {
+        //TODO verschlüsseln
         @Override
         protected Void doInBackground(Void... params) {
             Message[] array = Utils.getController().getMessengerDatabase().getQueuedMessages();
             for (Message m : array) {
                 if (Utils.checkNetwork()) {
                     try {
-                        HttpsURLConnection connection = (HttpsURLConnection)
+                        HttpURLConnection connection = (HttpURLConnection)
                                 new URL(generateURL(m.mtext, m.cid))
                                         .openConnection();
-                        connection.setRequestProperty("Authorization", Utils.authorization);
+
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
@@ -369,7 +365,7 @@ public class ReceiveService extends Service {
         }
 
         private String generateURL(String message, int cid) {
-            return Utils.BASE_URL_PHP + "messenger/addMessage.php?key=5453&userid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&chatid=" + cid;
+            return Utils.BASE_URL_PHP + "messenger/addMessage.php?uid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&cid=" + cid;
         }
     }
 }

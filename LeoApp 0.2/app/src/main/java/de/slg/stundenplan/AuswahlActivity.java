@@ -25,8 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.net.URLConnection;
 
 import de.slg.leoapp.List;
 import de.slg.leoapp.PreferenceActivity;
@@ -182,10 +181,10 @@ public class AuswahlActivity extends ActionLogActivity {
             if (Utils.checkNetwork()) {
                 Log.i("FachImporter", "started");
                 try {
-                    HttpsURLConnection connection = (HttpsURLConnection)
+                    URLConnection connection =
                             new URL(Utils.BASE_URL_PHP + "stundenplan/aktuell.txt")
                                     .openConnection();
-                    connection.setRequestProperty("Authorization", Utils.authorization);
+
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(

@@ -82,7 +82,6 @@ class KlausurDialog extends AppCompatDialog {
                 dialog.show();
             }
         });
-
     }
 
     private void initSnackbarTitel() {

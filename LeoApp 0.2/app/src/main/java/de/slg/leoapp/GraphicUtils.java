@@ -6,13 +6,12 @@ import android.util.TypedValue;
 
 /**
  * GraphicUtils
- *
+ * <p>
  * Diese abstrakte Klasse ist das Grafik-Gegenstück zu {@link Utils} und bietet eine Ressource für Grafikmethoden, die aus dem gesamten Projekt erreichbar ist.
  *
  * @author Gianni
- * @since 0.0.1
  * @version 2017.2310
- *
+ * @since 0.0.1
  */
 public abstract class GraphicUtils {
 

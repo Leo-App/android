@@ -9,38 +9,32 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.StringRes;
 import android.util.Base64;
-import android.util.Log;
 
 /**
  * Utils
- *
+ * <p>
  * Diese Klasse stellt allgemeine Methoden zur Verfügung, die von überall aufrufbar sind. Grafik- und Layoutmethoden werden durch {@link GraphicUtils} ergänzt.
  *
+ * @author Moritz
  * @version 2017.2610
  * @since 0.0.1
- * @author Moritz
- *
  */
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
     /**
+     * Pfad zum Application-Server.
+     */
+    static final         String URL_TOMCAT   = "https://ucloud4schools.de/leoapp";
+    /**
      * Basisdomain zum erreichen des LeoApp-Servers.
      */
-    private static final String BASE_DOMAIN      = "https://secureaccess.itac-school.de/";
+    private static final String BASE_DOMAIN  = "http://moritz.liegmanns.de/";
     /**
      * Pfad zu den PHP-Skripts auf dem Leo-Server.
      */
-    public  static final String BASE_URL_PHP     = BASE_DOMAIN + "slgweb/leoapp_php/";
-    /**
-     * Pfad zum Application-Server.
-     */
-    public  static final String URL_TOMCAT       = BASE_DOMAIN + "leoapp/";
-
-    private static final String authorizationPre = "Basic ";
-    public  static final String authorization    = authorizationPre + "bGVvYXBwOmxlb2FwcA==";
+    public static final  String BASE_URL_PHP = BASE_DOMAIN + "leoapp_php/";
 
     /* Allgemeines */
-
     /**
      * {@link UtilsController} Objekt.
      */
@@ -201,9 +195,6 @@ public abstract class Utils {
      * @return Formatierte Verifizierungsdaten.
      */
     public static String toAuthFormat(String user, String pass) {
-        byte[] bytesEncoded = Base64.encode((user + ":" + pass).getBytes(), 0);
-        String auth         = authorizationPre + new String(bytesEncoded);
-        Log.d("TAG", auth);
-        return auth;
+        return "Basic " + new String(Base64.encode((user + ":" + pass).getBytes(), 0));
     }
 }

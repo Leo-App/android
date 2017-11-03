@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/auswahl_relative"
     android:layout_width="match_parent"
@@ -10,62 +11,62 @@
         android:id="@+id/stunde_wt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:text="08:00 - 08:45"
         android:textColor="@color/colorText"
-        android:textSize="18sp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/fach_wt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/raum_wt"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/raum_wt"
         android:text="Fach"
         android:textColor="@color/colorText"
-        android:textSize="20sp"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/raum_wt"
-        android:layout_alignStart="@+id/raum_wt" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/lehrer_wt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lehrer"
+        android:layout_below="@id/fach_wt"
         android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp"
         android:layout_toEndOf="@id/stunde_wt"
+        android:layout_toRightOf="@id/stunde_wt"
+        android:text="Lehrer"
         android:textColor="@color/colorText"
-        android:textSize="16sp"
-        android:layout_below="@id/fach_wt"
-        android:layout_toRightOf="@id/stunde_wt" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/raum_wt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Raum"
-        android:textColor="@color/colorText"
-        android:textSize="16sp"
+        android:layout_below="@+id/fach_wt"
         android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp"
-        android:layout_below="@+id/fach_wt"
-        android:layout_toRightOf="@+id/stunde_wt"
+        android:layout_marginTop="25dp"
         android:layout_toEndOf="@+id/stunde_wt"
-        android:layout_marginTop="25dp" />
+        android:layout_toRightOf="@+id/stunde_wt"
+        android:text="Raum"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/iconSchriftlich"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:visibility="gone"
-        android:tint="@color/colorInactive"
-        android:layout_centerVertical="true"
-        app:srcCompat="@drawable/ic_content_paste_white_24dp"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp" />
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:tint="@color/colorInactive"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_content_paste_white_24dp" />
 
 </RelativeLayout>

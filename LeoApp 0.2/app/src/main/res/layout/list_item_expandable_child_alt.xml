@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="25dp"
         android:tint="@color/colorPrimary"
-        app:srcCompat="@drawable/icon_calendar"/>
+        app:srcCompat="@drawable/icon_calendar" />
 
     <TextView
         android:id="@+id/textView"
@@ -27,6 +27,6 @@
         android:layout_toRightOf="@+id/imageViewIcon"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
 </RelativeLayout>

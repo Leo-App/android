@@ -25,13 +25,13 @@
                 android:background="@color/colorPrimary"
                 android:elevation="4dp"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <ListView
                 android:id="@+id/listViewKlausuren"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/toolbar"/>
+                android:layout_below="@+id/toolbar" />
 
             <ProgressBar
                 android:id="@+id/progressBar4"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -49,7 +49,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/layout_navigation_header"
-            app:menu="@menu/navigation"/>
+            app:menu="@menu/navigation" />
 
     </android.support.v4.widget.DrawerLayout>
 
@@ -65,6 +65,6 @@
         app:backgroundTint="@color/colorAccent"
         app:layout_anchor="@id/listViewKlausuren"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@drawable/ic_add_white_24dp"/>
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>
