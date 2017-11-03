@@ -59,7 +59,7 @@ public class ReceiveService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.e("ReceiveService", "ReceiveService removed");
-        Utils.getController().getMessengerDatabase().close();
+        Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
         super.onTaskRemoved(rootIntent);
     }

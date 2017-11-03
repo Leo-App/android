@@ -429,7 +429,7 @@ public class MainActivity extends ActionLogActivity {
     private void processIntent() {
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);
         if (notificationTarget != -1) {
-            Utils.getController().closeAll();
+            Utils.getController().closeActivities();
 
             switch (notificationTarget) {
                 case NotificationService.ID_ESSENSQR:

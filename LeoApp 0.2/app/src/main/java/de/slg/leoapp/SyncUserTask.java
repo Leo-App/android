@@ -2,6 +2,7 @@ package de.slg.leoapp;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -96,8 +97,15 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
                 case SUCCESS:
                     dialog.dismiss();
                     Toast.makeText(Utils.getContext(), "Verifizierung abgeschlossen!", Toast.LENGTH_SHORT).show();
-                    Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), Start.class)
-                            .putExtra("updateUser", false));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), Start.class)
+                                    .putExtra("updateUser", false)
+                                    .addCategory(Intent.CATEGORY_LAUNCHER)
+                                    .setAction(Intent.ACTION_MAIN));
+                        }
+                    }, 200);
                     break;
             }
         }

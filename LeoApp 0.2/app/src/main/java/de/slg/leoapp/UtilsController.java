@@ -23,12 +23,12 @@ import de.slg.stundenplan.StundenplanDB;
 
 /**
  * UtilsController
- *
+ * <p>
  * Verwaltet Activities, Services u.Ä.
  *
  * @author Moritz
- * @since 0.5.5
  * @version 2017.2610
+ * @since 0.5.5
  */
 public class UtilsController {
     private Context           context;
@@ -61,7 +61,8 @@ public class UtilsController {
     private DBConnection  dbConnection;
     private StundenplanDB stundenplanDB;
 
-    private ReceiveService receiveService;
+    private ReceiveService      receiveService;
+    private NotificationService notificationService;
 
     /**
      * Liefert ein Context-Objekt.
@@ -162,8 +163,9 @@ public class UtilsController {
             return klausurplanActivity;
         } else if (essensQRActivity.getStatus() == ActivityStatus.ACTIVE) {
             return essensQRActivity;
-        } else
+        } else {
             return null;
+        }
     }
 
     public void registerMessengerActivity(MessengerActivity activity) {
@@ -214,16 +216,15 @@ public class UtilsController {
         essensQRActivity = activity;
     }
 
-    public void registerPreferenceActivity(PreferenceActivity activity) {
+    void registerPreferenceActivity(PreferenceActivity activity) {
         preferenceActivity = activity;
     }
 
-    public void registerNotificationPreferenceActivity(NotificationPreferenceActivity activity) {
+    void registerNotificationPreferenceActivity(NotificationPreferenceActivity activity) {
         notificationPreferenceActivity = activity;
     }
 
     /**
-     *
      * @return Aktive Messenger-Activity, null wenn nicht aktiv.
      */
     public MessengerActivity getMessengerActivity() {
@@ -231,7 +232,6 @@ public class UtilsController {
     }
 
     /**
-     *
      * @return Aktive Chat-Activity, null wenn nicht aktiv.
      */
     public ChatActivity getChatActivity() {
@@ -239,7 +239,6 @@ public class UtilsController {
     }
 
     /**
-     *
      * @return Aktive Klausurplan-Activity, null wenn nicht aktiv.
      */
     public KlausurplanActivity getKlausurplanActivity() {
@@ -247,7 +246,6 @@ public class UtilsController {
     }
 
     /**
-     *
      * @return Aktive Main-Activity, null wenn nicht aktiv.
      */
     public MainActivity getMainActivity() {
@@ -255,15 +253,13 @@ public class UtilsController {
     }
 
     /**
-     *
      * @return Aktive SchwarzesBrett-Activity, null wenn nicht aktiv.
      */
-    public SchwarzesBrettActivity getSchwarzesBrettActivity() {
+    SchwarzesBrettActivity getSchwarzesBrettActivity() {
         return schwarzesBrettActivity;
     }
 
     /**
-     *
      * @return Aktive Stundenplan-Activity, null wenn nicht aktiv.
      */
     public StundenplanActivity getStundenplanActivity() {
@@ -271,15 +267,13 @@ public class UtilsController {
     }
 
     /**
-     *
      * @return Aktive StundenplanBild-Activity (Anzeige des Stundenplans im .bmp Format)
      */
-    public StundenplanBildActivity getStundenplanBildActivity() {
+    private StundenplanBildActivity getStundenplanBildActivity() {
         return stundenplanBildActivity;
     }
 
     /**
-     *
      * @return Aktive Auswahl-Activity (Auswahl der Fächer im Stundenplan)
      */
     public AuswahlActivity getAuswahlActivity() {
@@ -287,55 +281,48 @@ public class UtilsController {
     }
 
     /**
-     *
      * @return Aktive Stimmungsbarometer-Activity, null wenn nicht aktiv.
      */
-    public StimmungsbarometerActivity getStimmungsbarometerActivity() {
+    private StimmungsbarometerActivity getStimmungsbarometerActivity() {
         return stimmungsbarometerActivity;
     }
 
     /**
-     *
      * @return Aktive ChatEdit-Activity, null wenn nicht aktiv.
      */
-    public ChatEditActivity getChatEditActivity() {
+    private ChatEditActivity getChatEditActivity() {
         return chatEditActivity;
     }
 
     /**
-     *
      * @return Aktive Messenger-Activity, null wenn nicht aktiv.
      */
-    public AddGroupChatActivity getAddGroupChatActivity() {
+    private AddGroupChatActivity getAddGroupChatActivity() {
         return addGroupChatActivity;
     }
 
     /**
-     *
      * @return Aktive QR-Activity (Anzeige der Essensbons)
      */
-    public EssensQRActivity getEssensQRActivity() {
+    private EssensQRActivity getEssensQRActivity() {
         return essensQRActivity;
     }
 
     /**
-     *
      * @return Aktive Preference-Activity (Einstellungen)
      */
-    public PreferenceActivity getPreferenceActivity() {
+    PreferenceActivity getPreferenceActivity() {
         return preferenceActivity;
     }
 
     /**
-     *
      * @return Aktive BotificationPreference-Activity (Notification Einstellungen)
      */
-    public NotificationPreferenceActivity getNotificationPreferenceActivity() {
+    private NotificationPreferenceActivity getNotificationPreferenceActivity() {
         return notificationPreferenceActivity;
     }
 
     /**
-     *
      * @return Laufender Receive-Service, null wenn nicht aktiv.
      */
     public ReceiveService getReceiveService() {
@@ -347,11 +334,19 @@ public class UtilsController {
      *
      * @param service ReceiveService.
      */
-    public void registerReceiveService(ReceiveService service) {
+    void registerReceiveService(ReceiveService service) {
         receiveService = service;
     }
 
-    public void closeAll() {
+    void registerNotificationService(NotificationService service) {
+        notificationService = service;
+    }
+
+    private NotificationService getNotificationService() {
+        return notificationService;
+    }
+
+    public void closeActivities() {
         if (getChatEditActivity() != null) {
             getChatEditActivity().finish();
         }
@@ -394,7 +389,9 @@ public class UtilsController {
         if (getMainActivity() != null) {
             getMainActivity().finish();
         }
+    }
 
+    void closeDatabases() {
         if (dbConnection != null) {
             dbConnection.close();
             dbConnection = null;
@@ -402,6 +399,17 @@ public class UtilsController {
         if (stundenplanDB != null) {
             stundenplanDB.close();
             stundenplanDB = null;
+        }
+    }
+
+    void closeServices() {
+        if (getReceiveService() != null) {
+            getReceiveService().stopSelf();
+            receiveService = null;
+        }
+        if (getNotificationService() != null) {
+            getNotificationService().stopSelf();
+            notificationService = null;
         }
     }
 }
