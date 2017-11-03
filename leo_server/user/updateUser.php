@@ -7,10 +7,10 @@
 	if ($db->connect_error)
     	die("-connection failed: ".$db->connect_error);
 
-	$default = $_SERVER["REMOTE_USER"];
+	//erwartete GET-Werte: name
+	$default = $db->real_escape_string($_GET['name']);
 
 	$query = "SELECT * FROM Users WHERE udefaultname = '".$default."'";
-
 	$result = $db->query($query);
 	if ($result === false)
 		die("-error in query");

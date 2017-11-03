@@ -28,16 +28,16 @@ import de.slg.leoapp.Utils;
 
 class NewSurveyDialog extends AlertDialog {
 
-    private int stage = 0;
+    private int   stage   = 0;
     private int[] layouts = {R.layout.dialog_create_survey, R.layout.dialog_create_survey_content, R.layout.dialog_create_survey_answers, R.layout.dialog_create_survey_to};
     private Context c;
-    private View currentView;
+    private View    currentView;
 
-    private String title;
-    private String description;
+    private String   title;
+    private String   description;
     private String[] answers;
-    private boolean multiple;
-    private int to;
+    private boolean  multiple;
+    private int      to;
 
     NewSurveyDialog(@NonNull Context context) {
         super(context);
@@ -240,7 +240,6 @@ class NewSurveyDialog extends AlertDialog {
                 R.array.level, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_item);
         s.setAdapter(adapter);
-
     }
 
     private class SendSurveyTask extends AsyncTask<Void, Void, Boolean> {
@@ -252,11 +251,10 @@ class NewSurveyDialog extends AlertDialog {
             for (int i = 1; i < 5 && !answers[i].equals(""); i++)
                 answerString += "_;_" + answers[i];
 
-
-            BufferedReader in = null;
-            String result = "";
+            BufferedReader in     = null;
+            String         result = "";
             try {
-                URL interfaceDB = new URL(("http://www.moritz.liegmanns.de/survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
+                URL interfaceDB = new URL((Utils.BASE_URL_PHP + "survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
                 Log.wtf("LeoApp", interfaceDB.toString());
                 in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
                 String inputLine;
@@ -276,7 +274,6 @@ class NewSurveyDialog extends AlertDialog {
                         e.printStackTrace();
                         return false;
                     }
-
             }
             return !result.startsWith("-");
         }
@@ -297,9 +294,6 @@ class NewSurveyDialog extends AlertDialog {
                 });
                 snackbar.show();
             }
-
         }
-
     }
-
 }

@@ -2,7 +2,7 @@ package de.slg.leoview;
 
 /**
  * ActivityStatus
- *
+ * <p>
  * Gibt den Status einer Activity an.
  */
 

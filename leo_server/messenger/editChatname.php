@@ -1,7 +1,4 @@
 <?php
-
-	if ($_SERVER['REMOTE_USER'] != "leoapp")
-		die("-permission denied!");
 	
 	require_once('../dbconfig.php');
 
@@ -10,12 +7,12 @@
 	if ($db->connect_error)
     	die("-connection failed: ".$db->connect_error);
 
-	// mitgegebene Werte über get: chatname, chatid
+	// mitgegebene Werte über get: cname, cid
 
-	$chatname = $_GET['chatname'];
-	$chatid = $_GET['chatid'];
+	$cname = $_GET['cname'];
+	$cid = $_GET['cid'];
 
-	$query = "UPDATE Chats SET cname = '".$chatname."' WHERE cid = ".$chatid;
+	$query = "UPDATE Chats SET cname = '".$cname."' WHERE cid = ".$cid;
 
 	$result = $db->query($query);
 	if ($result === false)

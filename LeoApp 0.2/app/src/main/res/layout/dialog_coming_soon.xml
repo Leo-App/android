@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -7,30 +8,30 @@
         android:id="@+id/textViewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:textSize="20sp"
+        android:layout_marginTop="20dp"
         android:text="@string/coming_soon"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorPrimary" />
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewTitle"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:textSize="16sp"
-        android:text="@string/todo_description"/>
+        android:layout_marginTop="20dp"
+        android:text="@string/todo_description"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/buttonOK"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/textView"
-        android:layout_height="wrap_content"
         android:text="@string/button_confirm"
         android:textAllCaps="true" />
 

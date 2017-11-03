@@ -1,7 +1,4 @@
 <?php
-
-	if ($_SERVER['REMOTE_USER'] != "leoapp")
-		die("-permission denied!");
 	
 	require_once('../dbconfig.php');
 
@@ -10,11 +7,11 @@
 	if ($db->connect_error)
     	die("-connection failed: ".$db->connect_error);
 
-	// mitgegebene Wert über get: userid
+	// mitgegebene Wert über get: uid
 
-	$userid = $db->real_escape_string($_GET['userid']);
+	$uid = $db->real_escape_string($_GET['uid']);
 
-	$query = "SELECT cid, uid FROM Assoziation";
+	$query = "SELECT cid, uid FROM Assoziation a1 INNER JOIN Assoziation a2 ON a1.cid = a2.cid WHERE a1.uid = " + $uid;
 
 	$result = $db->query($query);
 	if ($result === false)

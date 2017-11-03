@@ -4,8 +4,7 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.net.URLConnection;
 
 import de.slg.leoapp.Utils;
 
@@ -17,10 +16,10 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
         for (Integer cur : params) {
             remote = cur;
             try {
-                HttpsURLConnection connection = (HttpsURLConnection)
-                        new URL(Utils.BASE_URL_PHP + "updateViewTracker.php?key=5453&remote=" + remote)
+                URLConnection connection =
+                        new URL(Utils.BASE_URL_PHP + "updateViewTracker.php?remote=" + remote)
                                 .openConnection();
-                connection.setRequestProperty("Authorization", Utils.authorization);
+
                 connection.getInputStream();
                 Utils.getController().getPreferences()
                         .edit()

@@ -13,36 +13,42 @@ import android.util.Log;
 
 /**
  * Utils
- *
+ * <p>
  * Diese Klasse stellt allgemeine Methoden zur Verfügung, die von überall aufrufbar sind. Grafik- und Layoutmethoden werden durch {@link GraphicUtils} ergänzt.
  *
+ * @author Moritz
  * @version 2017.2610
  * @since 0.0.1
- * @author Moritz
- *
  */
 @SuppressLint("StaticFieldLeak")
+@SuppressWarnings("WeakerAccess")
 public abstract class Utils {
+
 
     /**
      * Basisdomain zum erreichen des LeoApp-Servers.
      */
-    private static final String BASE_DOMAIN      = "https://secureaccess.itac-school.de/";
+    public static final String BASE_DOMAIN  = "http://moritz.liegmanns.de/";
 
     /**
-     * Pfad zu den PHP-Skripts auf dem Leo-Server.
+     * Basisdomain zum erreichen des LeoApp-Userservers.
      */
-    public  static final String BASE_URL_PHP     = BASE_DOMAIN + "slgweb/leoapp_php/";
+    public static final String BASE_DOMAIN_USERS  = "https://secureaccess.itac-school.de/";
 
     /**
      * Pfad zum Application-Server.
      */
-    public  static final String URL_TOMCAT       = BASE_DOMAIN + "leoapp/";
+    public static final String URL_TOMCAT   = "https://ucloud4schools.de/leoapp";
+
+    /**
+     * Pfad zu den PHP-Skripts auf dem Leo-Server.
+     */
+    public static final String BASE_URL_PHP = BASE_DOMAIN + "leoapp_php/";
 
     /**
      * Pfad zum WebDAV-Verzeichnis
      */
-    public  static final String URL_WEBDAV       = BASE_DOMAIN + "slg/hcwebdav";
+    public  static final String URL_WEBDAV       = BASE_DOMAIN_USERS + "slg/hcwebdav";
 
     private static final String authorizationPre = "Basic ";
 
@@ -52,7 +58,6 @@ public abstract class Utils {
     public  static final String authorization    = authorizationPre + "bGVvYXBwOmxlb2FwcA==";
 
     /* Allgemeines */
-
     /**
      * {@link UtilsController} Objekt.
      */
@@ -231,9 +236,6 @@ public abstract class Utils {
      * @return Formatierte Verifizierungsdaten.
      */
     public static String toAuthFormat(String user, String pass) {
-        byte[] bytesEncoded = Base64.encode((user + ":" + pass).getBytes(), 0);
-        String auth         = authorizationPre + new String(bytesEncoded);
-        Log.d("TAG", auth);
-        return auth;
+        return "Basic " + new String(Base64.encode((user + ":" + pass).getBytes(), 0));
     }
 }

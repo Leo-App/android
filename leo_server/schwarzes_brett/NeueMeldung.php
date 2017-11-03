@@ -1,5 +1,3 @@
-<?php
-?>
 <html>
 	<head >
 		<h1><font face="Showcard Gothic">Schwarzes Brett</font></h1>

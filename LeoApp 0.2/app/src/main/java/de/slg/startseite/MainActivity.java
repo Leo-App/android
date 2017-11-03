@@ -156,8 +156,6 @@ public class MainActivity extends ActionLogActivity {
                 Intent myIntent = new Intent(MainActivity.this, IntroActivity.class);
                 MainActivity.this.startActivity(myIntent);
                 break;
-
-
         }
         return true;
     }
@@ -425,11 +423,10 @@ public class MainActivity extends ActionLogActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
     private void processIntent() {
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);
         if (notificationTarget != -1) {
-            Utils.getController().closeAll();
+            Utils.getController().closeActivities();
 
             switch (notificationTarget) {
                 case NotificationService.ID_ESSENSQR:

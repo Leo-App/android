@@ -2,6 +2,7 @@ package de.slg.leoapp;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -11,19 +12,21 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
     private final AlertDialog dialog;
+    private final boolean     refresh;
 
     SyncUserTask() {
         this.dialog = null;
+        this.refresh = !Utils.isVerified();
     }
 
     public SyncUserTask(AlertDialog dialog) {
         this.dialog = dialog;
+        this.refresh = !Utils.isVerified();
     }
 
     @Override
@@ -35,13 +38,12 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
         try {
             StringBuilder builder = new StringBuilder();
 
-            String username = Utils.getUserDefaultName();
-            String password = Utils.getController().getPreferences().getString("pref_key_general_password", "");
-
-            HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "user/updateUser.php")
+            HttpURLConnection connection =
+                    (HttpURLConnection) new URL(Utils.BASE_URL_PHP + "user/updateUser.php?name=" + Utils.getUserDefaultName())
                             .openConnection();
-            connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
+
+//            connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
+
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(
@@ -82,7 +84,7 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
 
     @Override
     protected void onPostExecute(ResponseCode code) {
-        if (dialog != null) {
+        if (refresh) {
             switch (code) {
                 case NO_CONNECTION:
                     dialog.findViewById(R.id.progressBar1).setVisibility(View.GONE);
@@ -95,8 +97,15 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
                 case SUCCESS:
                     dialog.dismiss();
                     Toast.makeText(Utils.getContext(), "Verifizierung abgeschlossen!", Toast.LENGTH_SHORT).show();
-                    Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), Start.class)
-                            .putExtra("updateUser", false));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), Start.class)
+                                    .putExtra("updateUser", false)
+                                    .addCategory(Intent.CATEGORY_LAUNCHER)
+                                    .setAction(Intent.ACTION_MAIN));
+                        }
+                    }, 200);
                     break;
             }
         }

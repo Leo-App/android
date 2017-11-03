@@ -19,9 +19,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
@@ -293,10 +292,9 @@ public class ChatEditActivity extends ActionLogActivity {
         private void sendAssoziation(Assoziation assoziation) {
             if (assoziation != null) {
                 try {
-                    HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(generateURL(assoziation))
-                                    .openConnection();
-                    connection.setRequestProperty("Authorization", Utils.authorization);
+                    URLConnection connection = new URL(generateURL(assoziation))
+                            .openConnection();
+
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
@@ -312,7 +310,7 @@ public class ChatEditActivity extends ActionLogActivity {
         }
 
         private String generateURL(Assoziation assoziation) {
-            return Utils.BASE_URL_PHP + "messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+            return Utils.BASE_URL_PHP + "messenger/addAssoziation.php?uid=" + assoziation.uid + "&cid=" + assoziation.cid;
         }
 
         @Override
@@ -359,10 +357,9 @@ public class ChatEditActivity extends ActionLogActivity {
         private void removeAssoziation(Assoziation assoziation) {
             if (assoziation != null) {
                 try {
-                    HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(generateURL(assoziation))
-                                    .openConnection();
-                    connection.setRequestProperty("Authorization", Utils.authorization);
+                    URLConnection connection = new URL(generateURL(assoziation))
+                            .openConnection();
+
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
@@ -378,7 +375,7 @@ public class ChatEditActivity extends ActionLogActivity {
         }
 
         private String generateURL(Assoziation assoziation) {
-            return Utils.BASE_URL_PHP + "messenger/removeAssoziation.php?key=5453&chatid=" + assoziation.cid + "&userid=" + assoziation.uid;
+            return Utils.BASE_URL_PHP + "messenger/removeAssoziation.php?cid=" + assoziation.cid + "&uid=" + assoziation.uid;
         }
 
         @Override
@@ -418,10 +415,9 @@ public class ChatEditActivity extends ActionLogActivity {
         protected Void doInBackground(String... params) {
             if (Utils.checkNetwork())
                 try {
-                    HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(generateURL(params[0]))
-                                    .openConnection();
-                    connection.setRequestProperty("Authorization", Utils.authorization);
+                    URLConnection connection = new URL(generateURL(params[0]))
+                            .openConnection();
+
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
@@ -437,7 +433,7 @@ public class ChatEditActivity extends ActionLogActivity {
         }
 
         private String generateURL(String name) throws UnsupportedEncodingException {
-            return Utils.BASE_URL_PHP + "messenger/editChatname.php?key=5453&chatid=" + cid + "&chatname=" + URLEncoder.encode(name, "UTF-8");
+            return Utils.BASE_URL_PHP + "messenger/editChatname.php?cid=" + cid + "&cname=" + URLEncoder.encode(name, "UTF-8");
         }
 
         @Override

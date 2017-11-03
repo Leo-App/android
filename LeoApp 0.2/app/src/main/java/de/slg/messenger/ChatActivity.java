@@ -23,12 +23,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.GraphicUtils;
 import de.slg.leoapp.R;
@@ -398,10 +397,9 @@ public class ChatActivity extends ActionLogActivity {
                     return null;
                 if (Utils.checkNetwork()) {
                     try {
-                        HttpsURLConnection connection = (HttpsURLConnection)
-                                new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
-                                        .openConnection();
-                        connection.setRequestProperty("Authorization", Utils.authorization);
+                        URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
+                                .openConnection();
+
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
@@ -432,10 +430,9 @@ public class ChatActivity extends ActionLogActivity {
                     refreshUI(false, true);
 
                     try {
-                        HttpsURLConnection connection = (HttpsURLConnection)
-                                new URL(generateURL(params[0]))
-                                        .openConnection();
-                        connection.setRequestProperty("Authorization", Utils.authorization);
+                        URLConnection connection = new URL(generateURL(params[0]))
+                                .openConnection();
+
                         BufferedReader reader =
                                 new BufferedReader(
                                         new InputStreamReader(
@@ -457,7 +454,7 @@ public class ChatActivity extends ActionLogActivity {
             String key      = Verschluesseln.createKey(message);
             String vMessage = Verschluesseln.encrypt(message, key);
             String vKey     = Verschluesseln.encryptKey(key);
-            return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?key=5453&userid=" + Utils.getUserID() + "&message=" + vMessage + "&chatid=" + cid + "&vKey=" + vKey;
+            return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?&uid=" + Utils.getUserID() + "&message=" + vMessage + "&cid=" + cid + "&vKey=" + vKey;
         }
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="pref_key_general_settings"
@@ -13,7 +14,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:summary="@string/settings_summary_username"
-            android:title="@string/settings_title_username"/>
+            android:title="@string/settings_title_username" />
 
         <de.slg.startseite.ClassPickerPref
             android:enabled="true"

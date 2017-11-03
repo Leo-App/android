@@ -1,7 +1,4 @@
 <?php
-
-	if ($_SERVER['REMOTE_USER'] != "leoapp")
-		die("-permission denied!");
 	
 	require_once('../dbconfig.php');
 
@@ -10,11 +7,10 @@
 	if ($db->connect_error)
     	die("-connection failed: ".$db->connect_error);
 
-	// mitgegebene Werte über get: userid, chatid
+	// mitgegebene Werte über get: uid, cid
 
-	$chatid = $db->real_escape_string($_GET['chatid']);
-	$userid = $db->real_escape_string($_GET['userid']);
-	$date = date("Y-m-d H:i:s");
+	$cid = $db->real_escape_string($_GET['cid']);
+	$uid = $db->real_escape_string($_GET['uid']);
 
 	$query = "INSERT INTO Assoziation VALUES(".$chatid.", ".$userid.")";
 	$result = $db->query($query);

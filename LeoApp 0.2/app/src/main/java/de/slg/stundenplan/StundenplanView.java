@@ -11,8 +11,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
-import de.slg.leoapp.UtilsController;
 
 public class StundenplanView extends View {
     private final Canvas canvas;
@@ -84,9 +82,9 @@ public class StundenplanView extends View {
         canvas.drawLine(baseLineX, baseline2Y, width - baseLineX, baseline2Y, paint); //WochentagZeile
         //Spalten
         canvas.drawLine(baseLineX + abstandX, baseLineY, baseLineX + abstandX, height - baseLineY, paint);
-        canvas.drawLine(baseLineX + abstandX * 2 , baseLineY, baseLineX + abstandX * 2, height - baseLineY, paint);
-        canvas.drawLine(baseLineX + abstandX * 3 , baseLineY, baseLineX + abstandX * 3, height - baseLineY, paint);
-        canvas.drawLine(baseLineX + abstandX * 4 , baseLineY, baseLineX + abstandX * 4, height - baseLineY, paint);
+        canvas.drawLine(baseLineX + abstandX * 2, baseLineY, baseLineX + abstandX * 2, height - baseLineY, paint);
+        canvas.drawLine(baseLineX + abstandX * 3, baseLineY, baseLineX + abstandX * 3, height - baseLineY, paint);
+        canvas.drawLine(baseLineX + abstandX * 4, baseLineY, baseLineX + abstandX * 4, height - baseLineY, paint);
         canvas.drawText(getContext().getString(R.string.montag), baseLineX + paddingX * 6, baseline2Y - paddingY * 2, paint);
         canvas.drawText(getContext().getString(R.string.dienstag), baseLineX + abstandX + paddingX * 6, baseline2Y - paddingY * 2, paint);
         canvas.drawText(getContext().getString(R.string.mittwoch), baseLineX + abstandX * 2 + paddingX * 6, baseline2Y - paddingY * 2, paint);
@@ -105,7 +103,7 @@ public class StundenplanView extends View {
                     String text;
                     if (f.getName().equals("") && !f.getNotiz().equals("")) {
                         text = f.getNotiz().split(" ")[0];
-                    }  else {
+                    } else {
                         text = f.getName();//.split(" ")[0];
                     }
                     canvas.drawText(text, baseLineX + abstandX * j + paddingX, yValue + paddingY * 5, paint);

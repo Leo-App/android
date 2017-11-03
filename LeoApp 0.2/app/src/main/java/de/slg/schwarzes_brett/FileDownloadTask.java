@@ -18,7 +18,7 @@ class FileDownloadTask extends AsyncTask<String, Void, Void> {
         String filename = params[0].substring(params[0].lastIndexOf('/') + 1);
 
         DownloadManager         downloadManager = (DownloadManager) Utils.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
-        DownloadManager.Request request         = new DownloadManager.Request(location).addRequestHeader("Authorization", Utils.authorization);
+        DownloadManager.Request request         = new DownloadManager.Request(location);
 
         request.setTitle(filename);
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);

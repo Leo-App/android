@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="10dp">
-    
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="25dp"
-        android:paddingLeft="25dp"
-        android:textColor="@color/colorText"
         android:layout_centerVertical="true"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:textColor="@color/colorText"
         android:textSize="18sp"
         android:textStyle="normal|bold" />
 
     <ImageView
+        android:id="@+id/icon"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_alignParentRight="true"
-        android:tint="@color/colorPrimary"
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
-        android:id="@+id/icon"
-        app:srcCompat="@drawable/survey"/>
+        android:tint="@color/colorPrimary"
+        app:srcCompat="@drawable/survey" />
 
     <TextView
         android:id="@+id/textViewStufe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:textStyle="normal|bold"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/icon"
         android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
         />
 
 </RelativeLayout>

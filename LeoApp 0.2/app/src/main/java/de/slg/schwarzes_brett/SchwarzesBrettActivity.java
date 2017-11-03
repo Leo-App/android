@@ -62,16 +62,15 @@ import de.slg.stundenplan.StundenplanActivity;
 public class SchwarzesBrettActivity extends ActionLogActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
-    private static SQLiteConnector           sqLiteConnector;
-    private static SQLiteDatabase            sqLiteDatabase;
+    private static SQLiteConnector sqLiteConnector;
+    private static SQLiteDatabase  sqLiteDatabase;
 
-    private        List<String>              groupList;
-    private        List<String>              childList;
-    private        Map<String, List<String>> entriesMap;
-    private        DrawerLayout              drawerLayout;
+    private List<String>              groupList;
+    private List<String>              childList;
+    private Map<String, List<String>> entriesMap;
+    private DrawerLayout              drawerLayout;
 
     private int surveyBegin;
-
 
     private String rawLocation;
 
@@ -245,7 +244,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     }
 
     private void initButton() {
-        View button = findViewById(R.id.floatingActionButton);
+        View button  = findViewById(R.id.floatingActionButton);
         View button2 = findViewById(R.id.floatingActionButtonSurvey);
 
         if (Utils.getUserPermission() >= 2) {
@@ -268,7 +267,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
 
     private ArrayList<Integer> createViewList() {
         ArrayList<Integer> viewList = new ArrayList<>();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_VIEWS + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
+        Cursor             cursor   = sqLiteDatabase.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_VIEWS + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             viewList.add(cursor.getInt(0));
@@ -353,8 +352,8 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                     ((cursor.getInt(4) == 0) ? "false" : "true") + "_;_" + cursor.getString(0) + "_;_" + cursor.getInt(6), //Umfrage Metadaten
             };
 
-            Cursor cursorAnswers = sqLiteDatabase.query(SQLiteConnector.TABLE_ANSWERS, new String[]{SQLiteConnector.ANSWERS_INHALT, SQLiteConnector.ANSWERS_REMOTE_ID, SQLiteConnector.ANSWERS_SELECTED}, SQLiteConnector.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
-            ArrayList<String> answers = new ArrayList<>();
+            Cursor            cursorAnswers = sqLiteDatabase.query(SQLiteConnector.TABLE_ANSWERS, new String[]{SQLiteConnector.ANSWERS_INHALT, SQLiteConnector.ANSWERS_REMOTE_ID, SQLiteConnector.ANSWERS_SELECTED}, SQLiteConnector.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
+            ArrayList<String> answers       = new ArrayList<>();
 
             boolean voted = false;
 
@@ -405,12 +404,11 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     }
 
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
-        private final Map<String, List<String>> eintraege;
-        private final List<String> titel;
+        private final Map<String, List<String>>        eintraege;
+        private final List<String>                     titel;
         @Nullable
-        private ArrayList<Integer> views;
-        private HashMap<Integer, List<TextView>> checkboxes;
-
+        private       ArrayList<Integer>               views;
+        private       HashMap<Integer, List<TextView>> checkboxes;
 
         ExpandableListAdapter(Map<String, List<String>> eintraege, List<String> titel) {
             this.eintraege = eintraege;
@@ -467,9 +465,9 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                     if (Integer.parseInt(metadata[2]) == Utils.getUserID())
                         convertView.findViewById(R.id.delete).setVisibility(View.VISIBLE);
 
-                    final Button button = (Button) convertView.findViewById(R.id.button);
+                    final Button      button = (Button) convertView.findViewById(R.id.button);
                     final ImageButton delete = (ImageButton) convertView.findViewById(R.id.delete);
-                    final ImageButton share = (ImageButton) convertView.findViewById(R.id.share);
+                    final ImageButton share  = (ImageButton) convertView.findViewById(R.id.share);
 
                     delete.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -489,7 +487,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
 
                                 @Override
                                 public void onDismissed(Snackbar snackbar, int event) {
-                                    if(event == DISMISS_EVENT_TIMEOUT) {
+                                    if (event == DISMISS_EVENT_TIMEOUT) {
                                         new deleteTask().execute(Integer.parseInt(metadata[3]));
                                     } else {
                                         initExpandableListView();
@@ -502,7 +500,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                                 }
                             });
                             snackbar2.show();
-
                         }
                     });
 
@@ -532,7 +529,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                                 showResultDialog(Integer.parseInt(metadata[3]));
                             }
                         });
-
                     }
                 } else if (childPosition == 0) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_survey_meta, null);
@@ -546,8 +542,8 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                             R.layout.list_item_expandable_child_survey_multiple :
                             R.layout.list_item_expandable_child_survey_single, null);
 
-                    String option = eintraege.get(titel.get(groupPosition)).get(childPosition);
-                    final TextView t = (TextView) convertView.findViewById(R.id.checkBox);
+                    String         option = eintraege.get(titel.get(groupPosition)).get(childPosition);
+                    final TextView t      = (TextView) convertView.findViewById(R.id.checkBox);
 
                     t.setText(option.split("_;_")[0]);
                     t.setTag(Integer.parseInt(option.split("_;_")[1]));
@@ -572,9 +568,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                         checkboxes.put(groupPosition, (checkboxList = new ArrayList<>()));
 
                     checkboxList.add(t);
-
                 }
-
             } else {
 
                 if (isLastChild) {
@@ -666,7 +660,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         private class sendVoteTask extends AsyncTask<Integer, Void, ResponseCode> {
 
             private Button b;
-            private int id;
+            private int    id;
 
             sendVoteTask(Button b) {
                 this.b = b;
@@ -680,28 +674,27 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
 
                 id = params[1];
 
-                SQLiteConnector db = new SQLiteConnector(getApplicationContext());
-                SQLiteDatabase dbh = db.getWritableDatabase();
+                SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
+                SQLiteDatabase  dbh = db.getWritableDatabase();
 
                 dbh.execSQL("UPDATE " + SQLiteConnector.TABLE_ANSWERS + " SET " + SQLiteConnector.ANSWERS_SELECTED + " = 1 WHERE " + SQLiteConnector.ANSWERS_REMOTE_ID + " = " + params[0]);
 
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL("http://moritz.liegmanns.de/survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
+                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
 
                     StringBuilder builder = new StringBuilder();
-                    String line;
+                    String        line;
                     while ((line = reader.readLine()) != null)
                         builder.append(line);
                     reader.close();
 
                     if (builder.toString().startsWith("-"))
                         return ResponseCode.SERVER_ERROR;
-
                 } catch (IOException e) {
                     e.printStackTrace();
                     return ResponseCode.SERVER_ERROR;
@@ -746,7 +739,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                         break;
                 }
             }
-
         }
 
         private class deleteTask extends AsyncTask<Integer, Void, ResponseCode> {
@@ -757,29 +749,28 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                 if (!Utils.checkNetwork())
                     return ResponseCode.NO_CONNECTION;
 
-                SQLiteConnector db = new SQLiteConnector(getApplicationContext());
-                SQLiteDatabase dbh = db.getWritableDatabase();
+                SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
+                SQLiteDatabase  dbh = db.getWritableDatabase();
 
-                dbh.execSQL("DELETE FROM " + SQLiteConnector.TABLE_SURVEYS + " WHERE " + SQLiteConnector.SURVEYS_REMOTE_ID + " = "+params[0]);
-                dbh.execSQL("DELETE FROM " + SQLiteConnector.TABLE_ANSWERS + " WHERE " + SQLiteConnector.ANSWERS_SID + " = (SELECT "+SQLiteConnector.SURVEYS_ID+" FROM "+SQLiteConnector.TABLE_SURVEYS+" WHERE "+SQLiteConnector.SURVEYS_REMOTE_ID+" = "+params[0]+")");
+                dbh.execSQL("DELETE FROM " + SQLiteConnector.TABLE_SURVEYS + " WHERE " + SQLiteConnector.SURVEYS_REMOTE_ID + " = " + params[0]);
+                dbh.execSQL("DELETE FROM " + SQLiteConnector.TABLE_ANSWERS + " WHERE " + SQLiteConnector.ANSWERS_SID + " = (SELECT " + SQLiteConnector.SURVEYS_ID + " FROM " + SQLiteConnector.TABLE_SURVEYS + " WHERE " + SQLiteConnector.SURVEYS_REMOTE_ID + " = " + params[0] + ")");
 
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL("http://moritz.liegmanns.de/survey/deleteSurvey.php?survey=" + params[0]);
+                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/deleteSurvey.php?survey=" + params[0]);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
 
                     StringBuilder builder = new StringBuilder();
-                    String line;
+                    String        line;
                     while ((line = reader.readLine()) != null)
                         builder.append(line);
                     reader.close();
 
                     if (builder.toString().startsWith("-"))
                         return ResponseCode.SERVER_ERROR;
-
                 } catch (IOException e) {
                     e.printStackTrace();
                     return ResponseCode.SERVER_ERROR;
@@ -816,8 +807,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                         break;
                 }
             }
-
         }
-
     }
 }

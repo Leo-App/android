@@ -9,9 +9,9 @@ import android.view.View;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.net.URLConnection;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.ResponseCode;
@@ -32,22 +32,26 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
         String username = Utils.getUserDefaultName();
         String password = Utils.getController().getPreferences().getString("pref_key_general_password", "");
 
-        String  result  = "";
-        boolean teacher = username.length() == 6;
+        String  checksum = "";
+        boolean teacher  = username.length() == 6;
 
         if (!Utils.checkNetwork()) {
             return ResponseCode.NO_CONNECTION;
         }
 
         try {
-            String klasse = "N/A";
-            if (teacher)
-                klasse = "TEA";
+            int permission = 1;
+            if (teacher) {
+                permission = 2;
+            }
 
-            HttpsURLConnection connection = (HttpsURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "user/addUser.php?permission=" + (teacher ? 2 : 1) + "&klasse=" + klasse)
+            //TODO!!!
+            //HttpsURLConnection connection = (HttpsURLConnection)
+            //new URL("https://secureaccess.itac-school.de/slgweb/leoapp_php/verify.php")
+            HttpURLConnection connection = (HttpURLConnection)
+                    new URL("http://moritz.liegmanns.de/leoapp_php/verify.php?name=" + username)
                             .openConnection();
-            connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
+            //connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
             int code = connection.getResponseCode();
             Log.d("code_register", String.valueOf(code));
@@ -65,11 +69,24 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                if (!line.contains("<")) {
-                    result += line;
-                }
+                checksum += line;
             }
+            reader.close();
 
+            Log.d("RegistrationTask", checksum);
+
+            URLConnection connection2 =
+                    new URL(Utils.BASE_URL_PHP + "user/addUser.php?name=" + Utils.getUserDefaultName() + "&permission=" + permission + "&checksum=" + checksum)
+                            .openConnection();
+
+            reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    connection2
+                                            .getInputStream(), "UTF-8"));
+            String result = "";
+            while ((line = reader.readLine()) != null)
+                result += line;
             reader.close();
 
             Log.d("RegistrationTask", result);
@@ -111,8 +128,6 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                             .putBoolean("pref_key_notification_schedule", false)
                             .apply();
                 }
-
-                //                Toast.makeText(Utils.getContext(), "Dein Benutzer wurde erfogreich erstellt!", Toast.LENGTH_LONG).show();
 
                 new SyncUserTask(dialog).execute();
                 break;

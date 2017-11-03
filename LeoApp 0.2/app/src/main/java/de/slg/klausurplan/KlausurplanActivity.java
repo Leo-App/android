@@ -12,7 +12,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +24,6 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -48,12 +46,12 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class KlausurplanActivity extends ActionLogActivity {
-    private ListView lvKlausuren;
+    private ListView      lvKlausuren;
     private List<Klausur> klausurList;
-    private DrawerLayout drawerLayout;
-    private Snackbar snackbar;
+    private DrawerLayout  drawerLayout;
+    private Snackbar      snackbar;
     private KlausurDialog dialog;
-    private boolean confirmDelete;
+    private boolean       confirmDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -289,7 +287,7 @@ public class KlausurplanActivity extends ActionLogActivity {
 
     private int findeNächsteWoche() {
         Date heute = new Date();
-        int i = 0;
+        int  i     = 0;
         klausurList.toFirst();
         while (klausurList.hasAccess() && heute.after(klausurList.getContent().datum)) {
             klausurList.next();
@@ -345,7 +343,7 @@ public class KlausurplanActivity extends ActionLogActivity {
                             new InputStreamReader(
                                     openFileInput(getString(R.string.klausuren_filename))));
             StringBuilder builder = new StringBuilder();
-            String line;
+            String        line;
             while ((line = reader.readLine()) != null) {
                 builder.append(line).append('_');
             }

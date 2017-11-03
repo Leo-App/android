@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -23,8 +24,8 @@
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
         android:layout_below="@+id/textView"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:hint="@string/feature_request"
         android:inputType="textMultiLine|textCapSentences"
         android:textSize="15sp" />
@@ -35,9 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/buttonDialog2"
+        android:layout_marginBottom="5dp"
         android:layout_toLeftOf="@+id/buttonDialog2"
         android:layout_toStartOf="@+id/buttonDialog2"
-        android:layout_marginBottom="5dp"
         android:text="@string/cancel"
         android:textAllCaps="true" />
 
@@ -49,8 +50,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/feature_request_desc"
-        android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:enabled="false"
         android:text="@string/confirm"
         android:textAllCaps="true" />

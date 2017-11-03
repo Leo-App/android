@@ -26,31 +26,30 @@ import de.slg.leoapp.Utils;
 
 /**
  * Ergebnisdialog
- *
+ * <p>
  * Dieser Dialog wird zum Anzeigen der Umfrageergebnisse verwendet
  *
  * @author Gianni
  * @version 2017.2110
  * @since 0.5.6
- *
  */
 class ResultDialog extends AlertDialog {
 
-    private int         id;
-    private AsyncTask   asyncTask;
+    private int       id;
+    private AsyncTask asyncTask;
 
-    private TextView[]      answers;
-    private ProgressBar[]   progressBars;
-    private ProgressBar     load;
-    private Button          b1;
-    private TextView        t1;
-    private TextView        t2;
+    private TextView[]    answers;
+    private ProgressBar[] progressBars;
+    private ProgressBar   load;
+    private Button        b1;
+    private TextView      t1;
+    private TextView      t2;
 
     /**
      * Konstruktor.
      *
      * @param context Context-Objekt
-     * @param id Umfrage-ID, für die die Ergebnisse angezeigt werden sollen.
+     * @param id      Umfrage-ID, für die die Ergebnisse angezeigt werden sollen.
      */
     ResultDialog(@NonNull Context context, int id) {
         super(context);
@@ -105,26 +104,23 @@ class ResultDialog extends AlertDialog {
         });
 
         asyncTask = new SyncResults().execute();
-
     }
 
     @SuppressWarnings("unchecked")
     private void animateChanges(int amount, HashMap<String, Integer> answerMap, int target, int votes) {
         Map.Entry<String, Integer>[] entries = answerMap.entrySet().toArray(new Map.Entry[0]);
-        for(int i = 0; i < amount; i++) {
+        for (int i = 0; i < amount; i++) {
 
             answers[i].setText(entries[i].getKey());
             answers[i].setVisibility(View.VISIBLE);
             progressBars[i].setVisibility(View.VISIBLE);
             new ProgressBarAnimator(entries[i].getValue(), answers[i], progressBars[i]).setInterval(100).setIterations(entries[i].getValue()).execute();
-
         }
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) b1.getLayoutParams();
-        params.addRule(RelativeLayout.BELOW, answers[amount-1].getId());
+        params.addRule(RelativeLayout.BELOW, answers[amount - 1].getId());
         b1.setLayoutParams(params);
 
-        t2.setText(Utils.getContext().getString(R.string.statistics_result, votes, target, votes*100/target));
-
+        t2.setText(Utils.getContext().getString(R.string.statistics_result, votes, target, votes * 100 / target));
     }
 
     private void stopLoading() {
@@ -133,17 +129,17 @@ class ResultDialog extends AlertDialog {
 
     /**
      * ProgressBar-Animator
-     *
+     * <p>
      * Diese private Klasse animiert die Balkenanzeige der Abstimmungen im Ergebnisdialog.
      *
      * @author Gianni
-     * @since 0.5.6
      * @see ItemAnimator
+     * @since 0.5.6
      */
     private class ProgressBarAnimator extends ItemAnimator<ProgressBar> {
 
-        private int percentageValue;
-        private int addPerIteration;
+        private int      percentageValue;
+        private int      addPerIteration;
         private TextView percentageText;
 
         ProgressBarAnimator(int percentageValue, TextView percentageText, ProgressBar progressBar) {
@@ -155,7 +151,7 @@ class ResultDialog extends AlertDialog {
 
         @Override
         protected void doInIteration(ProgressBar view) {
-            view.setProgress(view.getProgress()+addPerIteration);
+            view.setProgress(view.getProgress() + addPerIteration);
         }
 
         @Override
@@ -167,7 +163,7 @@ class ResultDialog extends AlertDialog {
 
     /**
      * Ergebnissynchronisations-Task
-     *
+     * <p>
      * Diese private Klasse ruft die Ergebnisse der Umfrage mit der übergebenen ID ab. Dazu werden die Ergebnisse eines PHP Skripts abgerufen und ausgewertet.
      *
      * @author Gianni
@@ -175,28 +171,28 @@ class ResultDialog extends AlertDialog {
      */
     private class SyncResults extends AsyncTask<Void, Void, ResponseCode> {
 
-        private int amountAnswers;
-        private int target;
-        private int sumVotes;
+        private int                      amountAnswers;
+        private int                      target;
+        private int                      sumVotes;
         private HashMap<String, Integer> answerResults;
 
         @Override
         protected ResponseCode doInBackground(Void... params) {
             try {
-                if(!Utils.checkNetwork()) {
+                if (!Utils.checkNetwork()) {
                     return ResponseCode.NO_CONNECTION;
                 }
-                URL updateURL = new URL("http://www.moritz.liegmanns.de/survey/getAllResults.php?survey="+id);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
+                URL            updateURL = new URL(Utils.BASE_URL_PHP + "survey/getAllResults.php?survey=" + id);
+                BufferedReader reader    = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
 
-                String cur;
+                String        cur;
                 StringBuilder result = new StringBuilder();
-                while((cur = reader.readLine()) != null) {
+                while ((cur = reader.readLine()) != null) {
                     result.append(cur);
                 }
 
                 String resString = result.toString();
-                if(resString.contains("-ERR"))
+                if (resString.contains("-ERR"))
                     return ResponseCode.SERVER_ERROR;
 
                 target = Integer.parseInt(resString.split("_;;_")[0]);
@@ -210,7 +206,6 @@ class ResultDialog extends AlertDialog {
                     answerResults.put(s.split("_;_")[0], Integer.parseInt(s.split("_;_")[1]));
                     sumVotes += Integer.parseInt(s.split("_;_")[1]);
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -252,5 +247,4 @@ class ResultDialog extends AlertDialog {
             }
         }
     }
-
 }

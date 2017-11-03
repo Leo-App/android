@@ -8,8 +8,8 @@ import java.util.Iterator;
  *
  * @param <ContentType> Inhaltsdatentyp
  * @author Moritz
- * @since 0.0.1
  * @version 2017.2810
+ * @since 0.0.1
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class List<ContentType> implements Iterable<ContentType> {
@@ -155,7 +155,7 @@ public class List<ContentType> implements Iterable<ContentType> {
     /**
      * Tauscht zwei Listenelemente. Der Listenpointer steht danach auf firstIndex.
      *
-     * @param firstIndex Index des ersten zu vertauschenden Elements
+     * @param firstIndex  Index des ersten zu vertauschenden Elements
      * @param secondIndex Index des zweiten zu vertauschenden Elements
      */
     public void swap(int firstIndex, int secondIndex) {

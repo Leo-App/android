@@ -48,7 +48,7 @@ public abstract class Verschluesseln {
      * Entschlüsselt text mit key
      *
      * @param text Text, der entschlüsselt wird
-     * @param key Schlüssel zum entschlüsseln
+     * @param key  Schlüssel zum entschlüsseln
      * @return text mit key entschlüsselt
      */
     public static String decrypt(String text, String key) throws UnsupportedEncodingException {

@@ -19,9 +19,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.User;
@@ -207,10 +206,9 @@ public class AddGroupChatActivity extends ActionLogActivity {
 
         private void sendChat() {
             try {
-                HttpsURLConnection connection = (HttpsURLConnection)
-                        new URL(generateURL(cname))
-                                .openConnection();
-                connection.setRequestProperty("Authorization", Utils.authorization);
+                URLConnection connection = new URL(generateURL(cname))
+                        .openConnection();
+
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
@@ -232,10 +230,9 @@ public class AddGroupChatActivity extends ActionLogActivity {
         private void sendAssoziation(Assoziation assoziation) {
             if (assoziation != null)
                 try {
-                    HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(generateURL(assoziation))
-                                    .openConnection();
-                    connection.setRequestProperty("Authorization", Utils.authorization);
+                    URLConnection connection = new URL(generateURL(assoziation))
+                            .openConnection();
+
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(
@@ -250,11 +247,11 @@ public class AddGroupChatActivity extends ActionLogActivity {
         }
 
         private String generateURL(String cname) throws UnsupportedEncodingException {
-            return Utils.BASE_URL_PHP + "messenger/addChat.php?key=5453&chatname=" + URLEncoder.encode(cname, "UTF-8") + "&chattype=" + Chat.ChatType.GROUP.toString().toLowerCase();
+            return Utils.BASE_URL_PHP + "messenger/addChat.php?cname=" + URLEncoder.encode(cname, "UTF-8") + "&ctype=" + Chat.ChatType.GROUP.toString().toLowerCase();
         }
 
         private String generateURL(Assoziation assoziation) {
-            return Utils.BASE_URL_PHP + "messenger/addAssoziation.php?key=5453&userid=" + assoziation.uid + "&chatid=" + assoziation.cid;
+            return Utils.BASE_URL_PHP + "messenger/addAssoziation.php?uid=" + assoziation.uid + "&cid=" + assoziation.cid;
         }
 
         @Override

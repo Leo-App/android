@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/snackbar"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginEnd="20dp"
@@ -13,8 +15,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        app:srcCompat="@drawable/result_icon"
-        android:id="@+id/imageView2" />
+        app:srcCompat="@drawable/result_icon" />
 
     <TextView
         android:id="@+id/title_details"
@@ -26,225 +27,225 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView
+        android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:id="@+id/question"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="20dp"
         android:layout_alignLeft="@id/imageView2"
         android:layout_below="@id/imageView2"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/black"
+        android:textSize="17sp"
         />
 
     <TextView
+        android:id="@+id/votes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:id="@+id/votes"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="25dp"
         android:layout_alignLeft="@id/imageView2"
         android:layout_below="@id/question"
+        android:layout_marginTop="25dp"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
         />
 
     <TextView
+        android:id="@+id/answer1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:id="@+id/answer1"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="30dp"
         android:layout_alignLeft="@id/imageView2"
         android:layout_below="@id/votes"
+        android:layout_marginTop="30dp"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
         />
-    
+
     <ProgressBar
+        android:id="@+id/progressBar1"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:foregroundTint="@color/colorPrimary"
-        android:id="@+id/progressBar1"
-        android:layout_below="@+id/answer1"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/answer1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="5dp"
+        android:foregroundTint="@color/colorPrimary" />
 
     <TextView
+        android:id="@+id/percent1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:id="@+id/percent1"
         android:layout_alignBottom="@+id/progressBar1"
         android:layout_alignLeft="@+id/percent2"
-        android:layout_alignStart="@+id/percent2" />
+        android:layout_alignStart="@+id/percent2"
+        android:textSize="15sp" />
 
     <TextView
+        android:id="@+id/answer2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:id="@+id/answer2"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="35dp"
         android:layout_alignLeft="@id/imageView2"
         android:layout_below="@id/answer1"
+        android:layout_marginTop="35dp"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
         />
 
     <ProgressBar
+        android:id="@+id/progressBar2"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:id="@+id/progressBar2"
-        android:foregroundTint="@color/colorPrimary"
-        android:layout_below="@+id/answer2"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/answer2"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="5dp"
+        android:foregroundTint="@color/colorPrimary" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
         android:id="@+id/percent2"
-        android:layout_marginRight="23dp"
-        android:layout_marginEnd="23dp"
-        android:layout_alignBottom="@+id/progressBar2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:layout_alignBottom="@+id/progressBar2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:textSize="15sp" />
+
+    <TextView
         android:id="@+id/answer3"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@id/imageView2"
         android:layout_below="@id/answer2"
+        android:layout_marginTop="35dp"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
         />
 
     <ProgressBar
+        android:id="@+id/progressBar3"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:id="@+id/progressBar3"
-        android:foregroundTint="@color/colorPrimary"
-        android:layout_below="@+id/answer3"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/answer3"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="5dp"
+        android:foregroundTint="@color/colorPrimary" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
         android:id="@+id/percent3"
-        android:layout_marginRight="23dp"
-        android:layout_marginEnd="23dp"
-        android:layout_alignBottom="@+id/progressBar3"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:layout_alignBottom="@+id/progressBar3"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:textSize="15sp" />
+
+    <TextView
         android:id="@+id/answer4"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@id/imageView2"
         android:layout_below="@id/answer3"
+        android:layout_marginTop="35dp"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
         />
 
     <ProgressBar
+        android:id="@+id/progressBar4"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:id="@+id/progressBar4"
-        android:foregroundTint="@color/colorPrimary"
-        android:layout_below="@+id/answer4"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/answer4"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="5dp"
+        android:foregroundTint="@color/colorPrimary" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
         android:id="@+id/percent4"
-        android:layout_marginRight="23dp"
-        android:layout_marginEnd="23dp"
-        android:layout_alignBottom="@+id/progressBar4"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
+        android:layout_alignBottom="@+id/progressBar4"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:textSize="15sp" />
+
+    <TextView
         android:id="@+id/answer5"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@id/imageView2"
         android:layout_below="@id/answer4"
+        android:layout_marginTop="35dp"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
         />
 
     <ProgressBar
+        android:id="@+id/progressBar5"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:id="@+id/progressBar5"
-        android:foregroundTint="@color/colorPrimary"
-        android:layout_below="@+id/answer5"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/answer5"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="5dp"
+        android:foregroundTint="@color/colorPrimary" />
 
     <TextView
+        android:id="@+id/percent5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:id="@+id/percent5"
-        android:layout_marginRight="23dp"
-        android:layout_marginEnd="23dp"
         android:layout_alignBottom="@+id/progressBar5"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:textSize="15sp" />
 
     <Button
-        android:layout_width="wrap_content"
         android:id="@+id/buttonOK"
-        android:layout_height="wrap_content"
-        android:text="@string/button_confirm"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_below="@+id/progressBar5"
-        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="24dp" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/progressBar5"
+        android:layout_marginTop="24dp"
+        android:text="@string/button_confirm" />
 
     <ProgressBar
+        android:id="@+id/progressBarLoading"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyle"
-        android:id="@+id/progressBarLoading"
         android:layout_centerInParent="true" />
 
     <ImageView
+        android:id="@+id/imageViewError"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/imageViewError"
-        app:srcCompat="@drawable/ic_chart_bar"
+        android:layout_centerInParent="true"
         android:tint="@color/colorTextGreyed"
         android:visibility="gone"
-        android:layout_centerInParent="true" />
+        app:srcCompat="@drawable/ic_chart_bar" />
 
 </RelativeLayout>

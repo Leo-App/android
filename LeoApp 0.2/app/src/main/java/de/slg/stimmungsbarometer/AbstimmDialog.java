@@ -1,7 +1,6 @@
 package de.slg.stimmungsbarometer;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -13,13 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
@@ -167,18 +159,6 @@ public class AbstimmDialog extends AlertDialog {
         bad_mood.setEnabled(true);
     }
 
-    class Wahl {
-        final int    voteid;
-        final int    userid;
-        final String grund;
-
-        Wahl(int voteid, int userid, String grund) {
-            this.voteid = voteid;
-            this.userid = userid;
-            this.grund = grund;
-        }
-    }
-
     private class ListAdapterGrund extends ArrayAdapter<String> {
         private final Context  context;
         private final String[] gruende;
@@ -200,32 +180,6 @@ public class AbstimmDialog extends AlertDialog {
             grund.setText(gruende[position]);
 
             return v;
-        }
-    }
-
-    private class SendeDaten extends AsyncTask<Wahl, Void, Void> {
-        @Override
-        protected Void doInBackground(AbstimmDialog.Wahl... wahls) {
-            if (wahls[0] != null) {
-                try {
-                    AbstimmDialog.Wahl w = wahls[0];
-                    HttpsURLConnection connection = (HttpsURLConnection)
-                            new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/vote.php?key=5453&voteid=" + w.voteid + "&userid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
-                                    .openConnection();
-                    connection.setRequestProperty("Authorization", Utils.authorization);
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            connection
-                                                    .getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null)
-                        ;
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
         }
     }
 }

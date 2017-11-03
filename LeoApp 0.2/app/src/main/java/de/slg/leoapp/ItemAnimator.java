@@ -4,19 +4,18 @@ import android.view.View;
 
 /**
  * ItemAnimator
- *
+ * <p>
  * Mithilfe dieser Klasse lassen sich manuelle Layoutanimationen umsetzen, Subklassen implementieren die Methoden doInIteration() und doOnFinal()
  *
  * @author Gianni
  * @version 2017.2310
  * @since 0.5.6
- *
  */
 
 public abstract class ItemAnimator<ContentType extends View> {
 
-    private int iterations;
-    private int interval;
+    private int         iterations;
+    private int         interval;
     private ContentType view;
 
     public ItemAnimator(ContentType view) {
@@ -27,7 +26,6 @@ public abstract class ItemAnimator<ContentType extends View> {
      * Wird in jeder Iteration des ItemAnimators im Main-Thread ausgeführt und sorgt für Änderungen während der Animation.
      *
      * @param view Das View-Objekt, das animiert wird
-     *
      */
     protected abstract void doInIteration(ContentType view);
 
@@ -35,7 +33,6 @@ public abstract class ItemAnimator<ContentType extends View> {
      * Wird nach beendeter Animation im Main-Thread ausgeführt.
      *
      * @param view Das View-Objekt, das animiert wurde
-     *
      */
     protected abstract void doOnFinal(ContentType view);
 
@@ -43,14 +40,13 @@ public abstract class ItemAnimator<ContentType extends View> {
      * Startet die Animation mit den vorher gesetzten Parametern (siehe {@link #setInterval(int) setInterval} und {@link #setIterations(int) setIterations}). Wurden keine festgelegt, wird die Animation nicht gestartet.
      */
     public final void execute() {
-        if(interval+iterations < 0)
+        if (interval + iterations < 0)
             return;
 
         Thread t = new Thread(new RunThread());
         t.start();
 
         doOnFinal(view);
-
     }
 
     /**
@@ -77,7 +73,7 @@ public abstract class ItemAnimator<ContentType extends View> {
 
     /**
      * Animations-Thread
-     *
+     * <p>
      * Nach interval Millisekunden wird {@link #doInIteration(ContentType) doInIteration} aufgerufen. Der Thread läuft im Hintergrund.
      */
     private class RunThread implements Runnable {
@@ -94,7 +90,5 @@ public abstract class ItemAnimator<ContentType extends View> {
                 }
             }
         }
-
     }
-
 }
