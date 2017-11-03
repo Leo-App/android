@@ -42,7 +42,6 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
                     new URL(Utils.BASE_URL_PHP + "user/updateUser.php")
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
-            Log.d("code_update", String.valueOf(connection.getResponseCode()));
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(

@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 /**
  * Um einige Methoden erweiterte doppelt verkettete Liste. Die Liste besitzt einen Pointer, der beliebig verschoben werden- und somit die einzelnen Inhaltsobjekte
- * addressieren kann.
+ * adressieren kann.
  *
  * @param <ContentType> Inhaltsdatentyp
  * @author Moritz
@@ -38,6 +38,19 @@ public class List<ContentType> implements Iterable<ContentType> {
         current = null;
         length = 0;
         adapt(array);
+    }
+
+    /**
+     * Konstruktor. Erlaubt das direkte Füllen der Liste mit dem Inhalt einer {@link java.util.List} desselben Datentyps.
+     *
+     * @param list Neuer Listeninhalt
+     */
+    public List(java.util.List<ContentType> list) {
+        first = null;
+        last = null;
+        current = null;
+        length = 0;
+        concat(list);
     }
 
     /**
@@ -195,7 +208,7 @@ public class List<ContentType> implements Iterable<ContentType> {
     /**
      * Liefert das Objekt vor dem Aktuellen, ohne den Pointer zu verschieben.
      *
-     * @return Folgendes Listenobjekt.
+     * @return Vorheriges Listenobjekt.
      */
     public ContentType getPrevious() {
         if (hasAccess() && current.previous != null)
@@ -271,6 +284,19 @@ public class List<ContentType> implements Iterable<ContentType> {
                 last = newNode;
                 length++;
             }
+        }
+        return this;
+    }
+
+    /**
+     * Hängt eine native java.util Liste ans Ende der aktuellen Liste an ohne den Pointer zu verschieben.
+     *
+     * @param pList {@link java.util.List}, die angehängt werden soll.
+     * @return Instanz der geänderten Liste.
+     */
+    public List<ContentType> concat(java.util.List<ContentType> pList) {
+        for(ContentType t : pList) {
+            append(t);
         }
         return this;
     }

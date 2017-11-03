@@ -23,20 +23,32 @@ import android.util.Log;
  */
 @SuppressLint("StaticFieldLeak")
 public abstract class Utils {
+
     /**
      * Basisdomain zum erreichen des LeoApp-Servers.
      */
     private static final String BASE_DOMAIN      = "https://secureaccess.itac-school.de/";
+
     /**
      * Pfad zu den PHP-Skripts auf dem Leo-Server.
      */
     public  static final String BASE_URL_PHP     = BASE_DOMAIN + "slgweb/leoapp_php/";
+
     /**
      * Pfad zum Application-Server.
      */
     public  static final String URL_TOMCAT       = BASE_DOMAIN + "leoapp/";
 
+    /**
+     * Pfad zum WebDAV-Verzeichnis
+     */
+    public  static final String URL_WEBDAV       = BASE_DOMAIN + "slg/hcwebdav";
+
     private static final String authorizationPre = "Basic ";
+
+    /**
+     * Allgemeine Autorisierung für HTTP Basic Authentication
+     */
     public  static final String authorization    = authorizationPre + "bGVvYXBwOmxlb2FwcA==";
 
     /* Allgemeines */
@@ -115,6 +127,24 @@ public abstract class Utils {
      */
     public static String getString(@StringRes int id) {
         return getController().getContext().getString(id);
+    }
+
+    /**
+     * Gibt eine String Repräsentation des Parameters als Fehlermeldung in der Konsole aus.
+     *
+     * @param o Ausgabe im Android-Monitor
+     */
+    public static void logError(Object o) {
+        Log.wtf("LeoApp", o.toString());
+    }
+
+    /**
+     * Gibt eine String Repräsentation des Parameters als Debugmeldung in der Konsole aus.
+     *
+     * @param o Ausgabe im Android-Monitor
+     */
+    public static void logDebug(Object o) {
+        Log.d("LeoAppDebug", o.toString());
     }
 
     /* User */
