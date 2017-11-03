@@ -1,7 +1,4 @@
 <?php
-
-	if ($_SERVER['REMOTE_USER'] != "leoapp")
-		die("-permission denied!");
 	
 	require_once('../dbconfig.php');
 
@@ -10,11 +7,11 @@
 	if ($db->connect_error)
     	die("-connection failed: ".$db->connect_error);
 
-	//mitgegebene Werte über get: userid
+	//mitgegebene Werte über get: uid
 
-	$userid = $_GET['userid'];
+	$uid = $db->real_escape_string($_GET['uid']);
 
-	$queryIch = "SELECT DAY(vdate) as vday, MONTH(vdate) as vmonth, YEAR(vdate) as vyear, AVG(vid) as vvalue FROM Vote, Users WHERE Vote.uid = ".$userid." GROUP BY vdate ORDER BY vdate DESC";
+	$queryIch = "SELECT DAY(vdate) as vday, MONTH(vdate) as vmonth, YEAR(vdate) as vyear, AVG(vid) as vvalue FROM Vote, Users WHERE Vote.uid = ".$uid." GROUP BY vdate ORDER BY vdate DESC";
 
 	$result = $db->query($queryIch);
 	if ($result === false)

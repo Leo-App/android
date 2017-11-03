@@ -1,7 +1,4 @@
 <?php
-
-	if ($_SERVER['REMOTE_USER'] != "leoapp")
-		die("-permission denied!");
 	
 	require_once('../dbconfig.php');
 
@@ -11,8 +8,8 @@
     	die("-connection failed: ".$db->connect_error);
 
 	// mitgegebene Werte über get: userid, chatid
-	$userid = $db->real_escape_string($_GET['userid']);
-	$chatid = $db->real_escape_string($_GET['chatid']);
+	$uid = $db->real_escape_string($_GET['uid']);
+	$cid = $db->real_escape_string($_GET['cid']);
 	$message = $_GET['message'];
 	$vKey = $_GET['vKey'];
 	$key2 = "ABCD";
@@ -46,7 +43,7 @@
 	$message = $db->real_escape_string($message);
 
 	//nachricht wird gesendet
-	$query = "INSERT INTO Messages VALUES (null, '".$userid."', '".$message."', '".$chatid."', '".$date."')";
+	$query = "INSERT INTO Messages VALUES (null, '".$uid."', '".$message."', '".$cid."', '".$date."')";
 	$result = $db->query($query);
 	if ($result === false)
 		die("-error in query");

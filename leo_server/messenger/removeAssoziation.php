@@ -1,7 +1,4 @@
 <?php
-
-	if ($_SERVER['REMOTE_USER'] != "leoapp")
-		die("-permission denied!");
 	
 	require_once('../dbconfig.php');
 
@@ -10,11 +7,10 @@
 	if ($db->connect_error)
     	die("-connection failed: ".$db->connect_error);
 
-	// mitgegebene Wert über get: userid, chatid
+	// mitgegebene Wert über get: uid, cid
 
-	$userid = $db->real_escape_string($_GET['userid']);
-	$chatid = $db->real_escape_string($_GET['chatid']);
-	$date = date("Y-m-d H:i:s");
+	$uid = $db->real_escape_string($_GET['uid']);
+	$cid = $db->real_escape_string($_GET['cid']);
 
 	$query = "DELETE FROM Assoziation WHERE uid = ".$userid." AND cid = ".$chatid;
 

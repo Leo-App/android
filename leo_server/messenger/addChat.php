@@ -1,8 +1,5 @@
 <?php
 	
-	if ($_SERVER['REMOTE_USER'] != "leoapp")
-		die("-permission denied!");
-	
 	require_once('../dbconfig.php');
 
 	$db = new mysqli(dbhost, dbuser, dbpass, dbname);
@@ -10,67 +7,67 @@
 	if ($db->connect_error)
     	die("-connection failed: ".$db->connect_error);
 
-	// mitgegebene Werte über get: chatname, chattype
+	// mitgegebene Werte über get: cname, cype
 
-	$name = $db->real_escape_string($_GET['chatname']);
-	$type = $db->real_escape_string($_GET['chattype']);
-	$date = date("Y-m-d H:i:s");
+	$cname = $db->real_escape_string($_GET['cname']);
+	$ctype = $db->real_escape_string($_GET['cype']);
+	$cdate = date("Y-m-d H:i:s");
 
-	if($type == "private") {
-		$str1 = "";
-		$str2 = "";
-		$str = " - ";
+	if($ctype == "private") {
+		$id1 = "";
+		$id2 = "";
 		$i = 0;
-		for($x = 0; $x < strlen($name); $x++) {
-			$char = $name[$x];
+		for($x = 0; $x < strlen($cname); $x++) {
+			$char = $cname[$x];
 			if($i == 0) {
 				if($char == ' ' || $char == '-')
 					$i = 1;
 				else
-					$str1 = $str1.$char;
+					$id1 = $id1.$char;
 			} else if($i == 1) {
 				if($char != ' ' && $char != '-')
-					$str2 = $str2.$char;
+					$id2 = $id2.$char;
 			}
 		}
 		
-
-		$name1 = $str2 + $str + $str1;
-		$querytest = "SELECT cid FROM Chats WHERE cname = '".$name."' OR cname = '".$name1."'";
-		$resulttest = $db->query($querytest);
-		if($resulttest->num_rows != 0)
-			die($resulttest->fetch_assoc()['cid']);
+		$cname1 = $id2 + $str + $id1;
 		
-		$query = "INSERT INTO Chats VALUES (null, '".$name."', '".$type."', '".$date."')";
-
+		$query = "SELECT cid FROM Chats WHERE cname = '".$cname."' OR cname = '".$cname1."'";
 		$result = $db->query($query);
-		if ($result === false)
-			die("-error in query");
-		
-		$chatid = -1;
-		$chatidqres = $db->query("SELECT cid FROM Chats WHERE ccreate = '".$date."'");
-		if ($chatidqres !== false)
-			$chatid = $chatidqres->fetch_assoc()['cid'];
-		
-		if($chatid != -1) {
-			$query = "INSERT INTO Assoziation VALUES (".$chatid.", ".$str1.")";
+		if($result->num_rows != 0) {
+			$cid = $result->fetch_assoc()['cid'];
+		} else {
+			$query = "INSERT INTO Chats VALUES (null, '".$cname."', '".$ctype."', '".$cdate."')";
+			$result = $db->query($query);
+			if ($result === false)
+				die("-error in query");
+			
+			$cid = -1;
+			$result = $db->query("SELECT cid FROM Chats WHERE cname = '".$cname."' AND ctype = 'private'");
+			if ($result !== false)
+				$cid = $result->fetch_assoc()['cid'];
+		}
+			
+		if($cid != -1) {
+			$query = "INSERT INTO Assoziation VALUES (".$cid.", ".$id1.")";
 			$db->query($query);
-			$query = "INSERT INTO Assoziation VALUES (".$chatid.", ".$str2.")";
+			$query = "INSERT INTO Assoziation VALUES (".$cid.", ".$id2.")";
 			$db->query($query);
 		}
 		
-		echo $chatid;
+		echo $cid;
+		
 	} else {
-	
-		$query = "INSERT INTO Chats VALUES (null, '".$name."', '".$type."', '".$date."')";
+		$query = "INSERT INTO Chats VALUES (null, '".$cname."', '".$ctype."', '".$cdate."')";
 
 		$result = $db->query($query);
 		if ($result === false)
 			die("-error in query");
 
-		$chatidqres = $db->query("SELECT cid FROM Chats WHERE ccreate = '".$date."'");
-		if ($chatidqres !== false)
-			echo($chatidqres->fetch_assoc()['cid']);
+		$result = $db->query("SELECT cid FROM Chats WHERE ccreate = '".$date."'");
+		if ($result !== false) {
+			echo($result->fetch_assoc()['cid']);
+		}
 	}
 
 	$db->close();
