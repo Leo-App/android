@@ -86,9 +86,9 @@ public class StundenplanView extends View {
         canvas.drawLine(baseLineX + abstandX2 + abstandX * 2, baseLineY, baseLineX + abstandX2 + abstandX * 2, height - baseLineY, paint);
         canvas.drawLine(baseLineX + abstandX2 + abstandX * 3, baseLineY, baseLineX + abstandX2 + abstandX * 3, height - baseLineY, paint);
         canvas.drawLine(baseLineX + abstandX2 + abstandX * 4, baseLineY, baseLineX + abstandX2 + abstandX * 4, height - baseLineY, paint);
-        paint.setTextSize(24);
+        paint.setTextSize(width / 75);
         paint.setTypeface(Typeface.DEFAULT_BOLD);
-        canvas.drawText(getContext().getString(R.string.hour),baseLineX + paddingX * 4, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.hour), baseLineX + paddingX * 4, baseline2Y - paddingY * 2, paint);
         canvas.drawText(getContext().getString(R.string.montag), baseLineX + abstandX2 + paddingX * 5, baseline2Y - paddingY * 2, paint);
         canvas.drawText(getContext().getString(R.string.dienstag), baseLineX + abstandX2 + abstandX + paddingX * 5, baseline2Y - paddingY * 2, paint);
         canvas.drawText(getContext().getString(R.string.mittwoch), baseLineX + abstandX2 + abstandX * 2 + paddingX * 5, baseline2Y - paddingY * 2, paint);
@@ -115,10 +115,10 @@ public class StundenplanView extends View {
                 if (i - 1 < tag.length) {
                     Fach   f = tag[i - 1];
                     String text;
-                    if (f.getName().equals("") && !f.getNotiz().equals("")) {
+                    if ("".equals(f.getName()) && !"".equals(f.getNotiz()) && f.getNotiz() != null) {
                         text = f.getNotiz().split(" ")[0];
                     } else {
-                        text = f.getName();//.split(" ")[0];
+                        text = f.getName();
                     }
                     canvas.drawText(text, baseLineX + abstandX2 + abstandX * j + paddingX, yValue + paddingY * 5, paint);
                 }

@@ -29,6 +29,7 @@ public class ProfileActivity extends ActionLogActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
         initToolbar();
         initNavigationView();
         initProfil();
