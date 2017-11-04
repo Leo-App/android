@@ -78,6 +78,8 @@ public class StundenplanActivity extends ActionLogActivity {
             startActivity(new Intent(getApplicationContext(), StundenplanBildActivity.class));
         } else if (item.getItemId() == R.id.action_save) {
             //irgendwie save image aufrufen...
+        } else if (item.getItemId() == R.id.action_randstunde) {
+            new RandstundenDialog(this).show();
         } else if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }

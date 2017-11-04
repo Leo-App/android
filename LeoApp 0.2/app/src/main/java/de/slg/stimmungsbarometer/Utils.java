@@ -74,7 +74,7 @@ public abstract class Utils {
         return de.slg.leoapp.Utils.getController().getPreferences().getString("pref_key_general_last_vote", "00.00");
     }
 
-    public static void setLastVote(int vote) {
+    static void setLastVote(int vote) {
         de.slg.leoapp.Utils.getController().getPreferences().edit()
                 .putString("pref_key_general_last_vote", getCurrentDate())
                 .putInt("pref_key_general_vote_id", vote)
