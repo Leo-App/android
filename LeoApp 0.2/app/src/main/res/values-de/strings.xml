@@ -341,10 +341,11 @@
     <string name="add_teacher">Lehrerkürzel hinzufügen</string>
     <string name="title_survey_news">Umfragen</string>
     <string name="profil">Dein Profil</string>
-    <string name="g">gut</string>
-    <string name="m">mittel</string>
-    <string name="s">schlecht</string>
-    <string name="sg">sehr schlecht</string>
+    <string name="g">Gut</string>
+    <string name="m">Neutral</string>
+    <string name="s">Schlecht</string>
+    <string name="sg">Sehr gut</string>
+    <string name="ss">Sehr schlecht</string>
 
 
 </resources>

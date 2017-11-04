@@ -23,7 +23,7 @@
             tools:mainActivity=".MainActivity">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/actionBarUmfragen"
+                android:id="@+id/actionBarSchwarzesBrett"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentLeft="true"
@@ -39,8 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
-                android:layout_below="@+id/actionBarUmfragen"
-                android:animateLayoutChanges="true">
+                android:layout_below="@+id/actionBarSchwarzesBrett"
+                android:animateLayoutChanges="false">
 
             </ExpandableListView>
 
