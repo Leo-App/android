@@ -1,28 +1,28 @@
 package de.slg.leoapp;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import de.slg.essensqr.EssensQRActivity;
+import de.slg.leoview.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends ActionLogActivity {
     private DrawerLayout drawerLayout;
 
     @Override
@@ -34,37 +34,57 @@ public class ProfileActivity extends AppCompatActivity {
         initProfil();
     }
 
-    public void initProfil() {
-        TextView  nameProfil        = (TextView) findViewById(R.id.nameProfil);
-        TextView  defaultNameProfil = (TextView) findViewById(R.id.defaultName);
-        TextView  stufeProfil       = (TextView) findViewById(R.id.stufeProfil);
-        TextView  stimmungProfil    = (TextView) findViewById(R.id.stimmungProfil);
-        ImageView profilePic        = (ImageView) findViewById(R.id.profPic);
-        EditText  name              = (EditText) findViewById(R.id.eingabeName);
-
-        name.setText(Utils.getUserName());
-        defaultNameProfil.setText(Utils.getUserDefaultName());
-        stufeProfil.setText(Utils.getUserStufe());
-        stimmungProfil.setText(getMood());
-        nameProfil.setText(Utils.getUserName());
-        profilePic.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
+    @Override
+    public boolean onOptionsItemSelected(MenuItem mi) {
+        if (mi.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+        return true;
     }
 
-    private String getMood() {
-        int i = Utils.getController().getPreferences().getInt("pref_key_general_vote_id", 1);
-        switch (i) {
-            case 1:
-                return getString(R.string.sg);
-            case 2:
-                return getString(R.string.g);
-            case 3:
-                return getString(R.string.m);
-            case 4:
-                return getString(R.string.s);
-            case 5:
-                return getString(R.string.ss);
+    public void initProfil() {
+        TextView nameProfil        = (TextView) findViewById(R.id.nameProfil);
+        TextView defaultNameProfil = (TextView) findViewById(R.id.defaultName);
+        TextView stufeProfil       = (TextView) findViewById(R.id.stufeProfil);
+
+        nameProfil.setText(Utils.getUserName());
+        defaultNameProfil.setText(Utils.getUserDefaultName());
+        stufeProfil.setText(Utils.getUserStufe());
+
+        setzeProfilBild();
+    }
+
+    private void setzeProfilBild() {
+        final ImageView profilePic     = (ImageView) findViewById(R.id.profPic);
+        final TextView  stimmungProfil = (TextView) findViewById(R.id.stimmungProfil);
+        final int       res            = de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource();
+
+        profilePic.setImageResource(res);
+        switch (res) {
+            case R.drawable.ic_sentiment_very_satisfied_white_24px:
+                profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorVerySatisfied), PorterDuff.Mode.MULTIPLY);
+                stimmungProfil.setText(R.string.sg);
+                break;
+            case R.drawable.ic_sentiment_satisfied_white_24px:
+                profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorSatisfied), PorterDuff.Mode.MULTIPLY);
+                stimmungProfil.setText(R.string.g);
+                break;
+            case R.drawable.ic_sentiment_neutral_white_24px:
+                profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorNeutral), PorterDuff.Mode.MULTIPLY);
+                stimmungProfil.setText(R.string.m);
+                break;
+            case R.drawable.ic_sentiment_dissatisfied_white_24px:
+                profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorDissatisfied), PorterDuff.Mode.MULTIPLY);
+                stimmungProfil.setText(R.string.s);
+                break;
+            case R.drawable.ic_sentiment_very_dissatisfied_white_24px:
+                profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorBadMood), PorterDuff.Mode.MULTIPLY);
+                stimmungProfil.setText(R.string.ss);
+                break;
+            default:
+                profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
+                break;
         }
-        return "" + i;
     }
 
     private void initToolbar() {
@@ -75,14 +95,6 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
-        return true;
     }
 
     private void initNavigationView() {
