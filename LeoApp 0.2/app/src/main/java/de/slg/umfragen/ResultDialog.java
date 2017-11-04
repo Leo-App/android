@@ -1,5 +1,6 @@
 package de.slg.umfragen;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -25,6 +27,8 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.schwarzes_brett.ResponseCode;
 
+import static android.view.View.GONE;
+
 /**
  * Ergebnisdialog
  * <p>
@@ -40,6 +44,7 @@ class ResultDialog extends AlertDialog {
     private AsyncTask asyncTask;
 
     private TextView[]    answers;
+    private TextView[]    percentages;
     private ProgressBar[] progressBars;
     private ProgressBar   load;
     private Button        b1;
@@ -88,6 +93,13 @@ class ResultDialog extends AlertDialog {
         TextView op5 = (TextView) findViewById(R.id.answer5);
         answers = new TextView[]{op1, op2, op3, op4, op5};
 
+        TextView pe1 = (TextView) findViewById(R.id.percent1);
+        TextView pe2 = (TextView) findViewById(R.id.percent2);
+        TextView pe3 = (TextView) findViewById(R.id.percent3);
+        TextView pe4 = (TextView) findViewById(R.id.percent4);
+        TextView pe5 = (TextView) findViewById(R.id.percent5);
+        percentages = new TextView[]{pe1, pe2, pe3, pe4, pe5};
+
         for (TextView cur : answers)
             cur.setVisibility(View.INVISIBLE);
         for (ProgressBar cur : progressBars)
@@ -111,61 +123,33 @@ class ResultDialog extends AlertDialog {
     @SuppressWarnings("unchecked")
     private void animateChanges(int amount, HashMap<String, Integer> answerMap, int target, int votes) {
 
-        Utils.logError(amount);
-        Utils.logError(target);
-        Utils.logError(votes);
-
         Map.Entry<String, Integer>[] entries = answerMap.entrySet().toArray(new Map.Entry[0]);
         for (int i = 0; i < amount; i++) {
             answers[i].setText(entries[i].getKey());
-            Utils.logError(entries[i].getKey());
             answers[i].setVisibility(View.VISIBLE);
             progressBars[i].setVisibility(View.VISIBLE);
-            new ProgressBarAnimator(entries[i].getValue(), answers[i], progressBars[i]).setInterval(100).setIterations(entries[i].getValue()).execute();
+
+            ObjectAnimator animation = ObjectAnimator.ofInt(progressBars[i], "progress", entries[i].getValue() * 100 / votes);
+            animation.setDuration(1250);
+            animation.setInterpolator(new DecelerateInterpolator());
+            animation.start();
+
+            percentages[i].setText(String.valueOf(entries[i].getValue()));
+
         }
- /*       RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) b1.getLayoutParams();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) b1.getLayoutParams();
         params.addRule(RelativeLayout.BELOW, answers[amount - 1].getId());
-        b1.setLayoutParams(params); */
+        b1.setLayoutParams(params);
+
+        for(int i = amount; i < answers.length; i++) {
+            answers[i].setVisibility(GONE);
+        }
 
         t2.setText(Utils.getContext().getString(R.string.statistics_result, votes, target, votes * 100 / target));
     }
 
     private void stopLoading() {
         asyncTask.cancel(true);
-    }
-
-    /**
-     * ProgressBar-Animator
-     * <p>
-     * Diese private Klasse animiert die Balkenanzeige der Abstimmungen im Ergebnisdialog.
-     *
-     * @author Gianni
-     * @see ItemAnimator
-     * @since 0.5.6
-     */
-    private class ProgressBarAnimator extends ItemAnimator<ProgressBar> {
-
-        private int      percentageValue;
-        private int      addPerIteration;
-        private TextView percentageText;
-
-        ProgressBarAnimator(int percentageValue, TextView percentageText, ProgressBar progressBar) {
-            super(progressBar);
-            this.percentageValue = percentageValue;
-            this.percentageText = percentageText;
-            addPerIteration = 1;
-        }
-
-        @Override
-        protected void doInIteration(ProgressBar view) {
-            view.setProgress(view.getProgress() + addPerIteration);
-        }
-
-        @Override
-        protected void doOnFinal(ProgressBar view) {
-            percentageText.setText(String.valueOf(percentageValue));
-            percentageText.setVisibility(View.VISIBLE);
-        }
     }
 
     /**
@@ -229,7 +213,7 @@ class ResultDialog extends AlertDialog {
 
         @Override
         protected void onPostExecute(ResponseCode b) {
-            load.setVisibility(View.GONE);
+            load.setVisibility(GONE);
             switch (b) {
                 case NO_CONNECTION:
                     findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
