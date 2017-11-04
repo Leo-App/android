@@ -213,7 +213,7 @@
 
 
     <!-- Umfragen -->
-    <string name="meta_id_placeholder">"Umfragen-ID: #%1$s "</string>
+    <string name="meta_id_placeholder">"Umfrage-ID: #%1$s "</string>
     <string name="button_next">Weiter</string>
     <string name="result">Ergebnis</string>
     <string name="results">Ergebnisse</string>
