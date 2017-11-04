@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -20,12 +20,12 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/textView"
-        android:layout_below="@id/textView"
+        android:layout_alignLeft="@id/title"
+        android:layout_below="@id/title"
         android:layout_marginTop="13dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="@string/survey_new_answer"
+        android:text="@string/add_teacher"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary" />
 
@@ -34,13 +34,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/add1"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/title"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="13dp"
-        android:inputType="text"
-        android:visibility="gone"
-        />
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/add2"
@@ -54,7 +53,7 @@
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="@string/survey_new_answer"
+        android:text="@string/add_teacher"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary" />
 
@@ -68,9 +67,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
-        android:inputType="text"
-        android:visibility="gone"
-        />
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/add3"
@@ -84,7 +82,7 @@
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="@string/survey_new_answer"
+        android:text="@string/add_teacher"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary" />
 
@@ -98,9 +96,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
-        android:inputType="text"
-        android:visibility="gone"
-        />
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/add4"
@@ -114,7 +111,7 @@
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="@string/survey_new_answer"
+        android:text="@string/add_teacher"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary" />
 
@@ -128,9 +125,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
-        android:inputType="text"
-        android:visibility="gone"
-        />
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/add5"
@@ -144,7 +140,7 @@
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="@string/survey_new_answer"
+        android:text="@string/add_teacher"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary" />
 
@@ -158,9 +154,17 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
-        android:inputType="text"
-        android:visibility="gone"
-        />
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/title"
+        android:layout_below="@id/title"
+        android:layout_marginTop="13dp" />
 
     <Button
         android:id="@+id/buttonOK"
@@ -173,7 +177,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
-        android:text="@string/speichern"
+        android:text="@string/confirm"
         android:textAllCaps="true" />
 
 </RelativeLayout>
