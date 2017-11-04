@@ -61,8 +61,6 @@
     <string name="summary_info_schedule">Wähle deine belegten Kurse aus und dir wird ein automatischer Stundenplan generiert. Diesen kannst du natürlich noch anpassen.</string>
     <string name="summary_info_subst">Deine Vertretungen für heute und morgen</string>
 
-    <string name="card_title_weather">aktuelles Wetter</string>
-
     <string name="button_card_dismiss">Ausblenden</string>
     <string name="add_card">Karte hinzufügen</string>
     <string name="button_add">Hinzufügen</string>
@@ -105,9 +103,9 @@
     <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine Anmeldedaten in den Einstellungen</string>
     <string name="explain_desc_1">This is used to scan the QR-Foodmarks.</string>
     <string name="explain_title_2">Schritt 1</string>
-    <string name="explain_desc_2">Use the scan button below to start the camera and move the green box above the QR-code you intend on scanning and wait for the app to process the results.</string>
+    <string name="explain_desc_2">Klicke auf den \"Scannen\"-Button und halte den grün umrandeten Bereich über den zu scannenden QR-Code.</string>
     <string name="explain_title_3">Schritt 2</string>
-    <string name="explain_desc_3">After a successful scan you will get all necessary information: Mainly whether or not the code has already been used and which menu was ordered.</string>
+    <string name="explain_desc_3">War das Scannen erfolgreich, erhältst du alle wichtigen Informationen: dein bestelltes Menü und ob der QR-Code bereits eingelöst wurde, d. h. von diesem Gerät bereits gescannt wurde.</string>
     <string name="invalidId">User-ID ungültig</string>
     <string name="popup_code_not_valid">QR-Code ist ungültig oder auf diesem Gerät bereits eingelöst</string>
     <string name="notification_summary_notif">Du hast deine Bestellung noch nicht synchronisiert</string>
@@ -161,11 +159,11 @@
     <string name="stunden">Kurse auswählen</string>
     <string name="bearbeiten">Bearbeiten</string>
     <string name="speichern">Speichern</string>
-    <string name="mo">Mon</string>
-    <string name="di">Die</string>
-    <string name="mi">Mit</string>
-    <string name="don">Don</string>
-    <string name="fr">Fre</string>
+    <string name="mo">Mo</string>
+    <string name="di">Di</string>
+    <string name="mi">Mi</string>
+    <string name="don">Do</string>
+    <string name="fr">Fr</string>
     <string name="menu_stundenplan_name">Kurse bearbeiten</string>
     <string name="mathe">Mathematik</string>
     <string name="deutsch">Deutsch</string>
@@ -262,7 +260,7 @@
     <string name="settings_title_contact">Kontakt</string>
 
     <string name="settings_summary_customid">Gib deine lunch.leo-ac.de ID ein</string>
-    <string name="settings_title_pw">Passwort</string>
+
     <string name="settings_summary_pw">Gib dein lunch.leo-ac.de Passwort ein</string>
     <string name="settings_summary_sync">Beim App-Start synchronisieren</string>
     <string name="settings_title_fade">Automatisch ausblenden</string>
@@ -289,9 +287,8 @@
 
     <string name="settings_category_subst">Vertretungsplan</string>
     <string name="settings_summary_username_school">Gib deinen Schulbenutzernamen ein</string>
-    <string name="settings_title_username_school">Benutzername</string>
+
     <string name="settings_summary_password_school">Gib dein Schulpasswort ein</string>
-    <string name="settings_title_password_school">Passwort</string>
     <string name="settings_summary_notification_subst">Benachrichtigungen über Vertretung erhalten</string>
     <string name="settings_summary_network">Nur über WLAN aktualisieren</string>
     <string name="settings_title_network">nur WLAN</string>
@@ -328,17 +325,24 @@
     <string name="error_snackbar">Es ist etwas schiefgelaufen, bitte starte die App erneut</string>
     <string name="verification_success">Verifizierung abgeschlossen!</string>
 
-    <string name="ZK" translatable="false"></string>
-    <string name="jud">Jugend Debattiert</string>
+
     <string name="kochen">Kochen</string>
     <string name="näh">Nähen</string>
     <string name="sani">Sanitäter</string>
-    <string name="mint">Mint</string>
+    <string name="mint">MINT</string>
     <string name="band">Band</string>
     <string name="fb">Fußball</string>
     <string name="ten">Tennis</string>
     <string name="aq">Aquarium</string>
-    <string name="desc_coming_soon">In nächster Zeit werden neue Funktionen kommen, die deinen Schulalltag noch weiter verbessern und erleichtern werden.</string>
-    <string name="profil">Dein Profil</string>
+    <string name="action_help">Hilfe</string>
+    <string name="desc_coming_soon">In nächster Zeit werden neue Funktionen kommen, die deinen Schulalltag noch weiter verbessern werden.</string>
+    <string name="rt">Reiten</string>
+    <string name="rob">Roboter</string>
+    <string name="schach">Schach</string>
+    <string name="ztg">Schülerzeitung</string>
+    <string name="exp">Experimentieren</string>
+    <string name="klett">Klettern</string>
+
+
 
 </resources>

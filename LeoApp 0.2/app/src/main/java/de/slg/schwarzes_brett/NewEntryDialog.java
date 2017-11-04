@@ -110,11 +110,13 @@ class NewEntryDialog extends AlertDialog {
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final TextView t1 = (TextView) findViewById(R.id.title_edittext);
-                final TextView t2 = (TextView) findViewById(R.id.eingabeDatum);
-                final TextView t3 = (TextView) findViewById(R.id.content);
-                Spinner        s1 = (Spinner) findViewById(R.id.spinner2);
-                new sendEntryTask().execute(t1.getText().toString(), t2.getText().toString(), t3.getText().toString(), s1.getSelectedItem().toString());
+                final TextView title = (TextView) findViewById(R.id.title_edittext);
+
+                final TextView content = (TextView) findViewById(R.id.content);
+                final TextView date = (TextView) findViewById(R.id.eingabeDatum);
+                Spinner        spinner = (Spinner) findViewById(R.id.spinner2);
+                Log.e("NeuerEintrag", spinner.getSelectedItem().toString());
+                new sendEntryTask().execute(title.getText().toString(), content.getText().toString(), date.getText().toString(), spinner.getSelectedItem().toString());
             }
         });
     }

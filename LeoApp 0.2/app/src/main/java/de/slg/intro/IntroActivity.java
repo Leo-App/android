@@ -30,10 +30,7 @@ public class IntroActivity extends AppIntro {
         addSlide(AppIntroFragment.newInstance("Kommunikation verbessern", "Mit dem Messenger einfach deine Lehrer und Freunde kontaktieren, ohne deine Nummer preiszugeben", R.drawable.ic_intro_message3, ContextCompat.getColor(this, R.color.introSlide3))); /// und mit dem digitalen Schwarzen Brett immer auf dem neusten Stand bleiben.
         addSlide(AppIntroFragment.newInstance("Alles in einer App", "Dein Stundenplan und deine nächsten Klassenarbeiten sind nur noch zwei Klicks entfernt!", R.drawable.ic_intro_message4, ContextCompat.getColor(this, R.color.introSlide4)));
 
-        //setBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        //setSeparatorColor(ContextCompat.getColor(this, R.color.colorAccent));
 
-        // Hide Skip/Done button.
         showSkipButton(false);
         setProgressButtonEnabled(true);
     }

@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +93,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                             Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
-                Log.e("Test", c.buttonListener.toString());
+
                 break;
             case TUTORING:
                 cards.append(c = new Card(type));

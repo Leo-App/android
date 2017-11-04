@@ -74,7 +74,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                         " WHERE " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'" :
                         ""), null);
         cursor.moveToPosition(position);
-        if (cursor.getCount() < position)
+        if (cursor.getCount() <= position)
             return -1;
         int ret = cursor.getInt(0);
         cursor.close();
