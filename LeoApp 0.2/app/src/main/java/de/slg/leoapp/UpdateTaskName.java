@@ -63,7 +63,6 @@ class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
 
     @Override
     protected void onPostExecute(ReturnValues b) {
-        Utils.getController().getPreferenceActivity().hideProgressBar();
         switch (b) {
             case USERNAME_TAKEN:
                 resetName();
@@ -80,10 +79,10 @@ class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
             case SUCCESSFUL:
                 Toast t = Toast.makeText(Utils.getContext(), Utils.getString(R.string.settings_toast_username_success), Toast.LENGTH_LONG);
                 t.show();
+                Utils.getController().getProfileActivity().initProfil();
+                Utils.getController().getProfileActivity().initNavigationView();
                 break;
         }
-        Utils.getController().getPreferenceActivity().findPreference("pref_key_general_name").setSummary(Utils.getController().getPreferences().getString("pref_key_general_name", ""));
-        Utils.getController().getPreferenceActivity().setCurrentUsername(Utils.getController().getPreferences().getString("pref_key_general_name", ""));
     }
 
     private void resetName() {
