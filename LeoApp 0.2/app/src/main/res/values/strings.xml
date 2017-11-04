@@ -371,5 +371,6 @@
     <string name="m">Neutral</string>
     <string name="s">Schlecht</string>
     <string name="ss">Sehr schlecht</string>
+    <string name="beschreibungUmfrage">Erfahre die Meinungen deiner Mitschüler zu von dir gewählten Themen</string>
 
 </resources>

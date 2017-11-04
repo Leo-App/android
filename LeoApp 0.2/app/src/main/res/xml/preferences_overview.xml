@@ -6,31 +6,6 @@
         android:key="pref_key_general_settings"
         android:title="@string/settings_category_general">
 
-        <EditTextPreference
-            android:enabled="true"
-            android:hint="@string/settings_title_username"
-            android:key="pref_key_general_name"
-            android:maxEms="20"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:summary="@string/settings_summary_username"
-            android:title="@string/settings_title_username" />
-
-        <de.slg.startseite.ClassPickerPref
-            android:enabled="true"
-            android:key="pref_key_general_klasse"
-            android:summary="@string/settings_summary_level"
-            android:title="@string/settings_title_level" />
-
-        <EditTextPreference
-            android:enabled="true"
-            android:inputType="textCapCharacters"
-            android:key="pref_key_kuerzel_general"
-            android:maxLength="3"
-            android:maxLines="1"
-            android:summary="@string/settings_summary_username"
-            android:title="@string/settings_title_kuerzel" />
-
         <Preference
             android:key="pref_key_notifications"
             android:summary="@string/settings_title_notification"

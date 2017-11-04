@@ -48,6 +48,7 @@ import de.slg.messenger.MessengerActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
+import de.slg.umfragen.SurveyActivity;
 
 public class SchwarzesBrettActivity extends ActionLogActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
@@ -172,6 +173,9 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                         break;
                     case R.id.profile:
                         i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        break;
+                    case R.id.umfragen:
+                        i = new Intent(getApplicationContext(), SurveyActivity.class);
                         break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
