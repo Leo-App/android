@@ -18,7 +18,7 @@
     <string name="action_delete_all">Delete All</string>
     <string name="action_leave_chat">Leave chat</string>
     <string name="action_help">Help</string>
-    <string name="action_request">Feature-Request</string>
+    <string name="action_request" translatable="false">Feature-Request</string>
 
 
     <!-- Snackbar -->
@@ -41,7 +41,7 @@
     <string name="title_home">Home</string>
     <string name="title_foodmarks">Foodmarks</string>
     <string name="title_testplan">Exams</string>
-    <string name="title_messenger">Messenger</string>
+    <string name="title_messenger" translatable="false">Messenger</string>
     <string name="title_tutoring">Tutoring</string>
     <string name="title_news">Pin Board</string>
     <string name="title_survey">Moodsurvey</string>
@@ -63,7 +63,6 @@
     <string name="summary_info_subst">See your substitutions for today and tomorrow</string>
     <string name="summary_info_schedule">After choosing your lessons, a schedule will be generated which you can further customize</string>
 
-    <string name="card_title_weather">current weather</string>
     <string name="coming_soon" translatable="false">Coming soon!</string>
 
     <string name="button_card_dismiss">Dismiss</string>
@@ -94,7 +93,7 @@
     <string name="info_screen_first" translatable="false">VersionPlaceholder</string>
     <string name="info_screen_second">Developed in the informatics project course 2017 by students of the SLG</string>
     <string name="info_screen_third" translatable="false">St. Leonhard Gymnasium</string>
-    <string name="info_screen_fourth">No responsibility is accepted for the accuracy of any information</string>
+    <string name="info_screen_fourth">No responsibility is be taken for the accuracy of any information</string>
     <string name="info_screen_fifth">Developer</string>
 
 
@@ -107,13 +106,13 @@
     <string name="qr_display_title">Your order for today, the</string>
     <string name="qr_display_menu">Menu</string>
     <string name="dialog_desc_valid">Ordered menu:</string>
-    <string name="dialog_desc_valid_id">User-ID: </string>
+    <string name="dialog_desc_valid_id" translatable="false">User-ID: </string>
     <string name="qr_display_not_ordered">You have no order for today</string>
     <string name="qr_display_not_loggedin">You\'re not logged in, please check your user data</string>
     <string name="explain_title_1" translatable="false">Info</string>
     <string name="explain_desc_1">This is used to scan the QR-Foodmarks.</string>
     <string name="explain_title_2">Step 1</string>
-    <string name="explain_desc_2">Use the scan button below to start the camera and move the green box above the QR-code you intend on scanning and wait for the app to process the results.</string>
+    <string name="explain_desc_2">Use the scan button below to start the camera and move the green box above the QR-code you intend on scanning and wait for the app to process the result.</string>
     <string name="explain_title_3">Step 2</string>
     <string name="explain_desc_3">After a successful scan you will get all necessary information: Mainly whether or not the code has already been used and which menu was ordered.</string>
     <string name="invalidId">User-ID invalid</string>
@@ -171,11 +170,11 @@
     <string name="stunden">Choose Courses</string>
     <string name="bearbeiten">Edit</string>
     <string name="speichern">Save</string>
-    <string name="mo">Mon</string>
-    <string name="di">Tue</string>
-    <string name="mi">Wed</string>
-    <string name="don">Thu</string>
-    <string name="fr">Fri</string>
+    <string name="mo">Mo</string>
+    <string name="di">Tu</string>
+    <string name="mi">We</string>
+    <string name="don">Th</string>
+    <string name="fr">Fr</string>
     <string name="menu_stundenplan_name">Edit Courses</string>
     <string name="mathe">Mathematics</string>
     <string name="deutsch">German</string>
@@ -211,7 +210,7 @@
     <string name="mache_bild">Print</string>
     <string name="seconds">Seconds</string>
     <string name="vokal">Singing</string>
-    <string name="Förder">Foster course</string>
+    <string name="Förder">Intensified course</string>
     <string name="schwimmen">Swimming (Sport)</string>
     <string name="später">Later</string>
     <string name="free_hour">Free period</string>
@@ -219,7 +218,7 @@
     <string name="Weltlit" translatable="false">WLT</string>
     <string name="ZK" translatable="false">ZK</string>
     <string name="Projektk">Project course</string>
-    <string name="Vertiefung">Foster course</string>
+    <string name="Vertiefung">Intensified course</string>
     <string name="Soz">Social competences</string>
     <string name="lüz" translatable="false">LÜZ</string>
     <string name="ag">Club:</string>
@@ -247,11 +246,11 @@
     <string name="survey_description_content">Beschreibe dein Anliegen in einigen Worten.</string>
     <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
     <string name="survey_new_answer">Answer</string>
-    <string name="title_description_to">An wen ist deine Umfrage gerichtet?</string>
+    <string name="title_description_to">Who is the target audience for this survey?</string>
     <string name="title_survey_answers">Antwortmöglichkeiten</string>
     <string name="title_survey_content">Beschreibung (optional)</string>
     <string name="title_survey_title">Title</string>
-    <string name="title_survey_to">Addressat</string>
+    <string name="title_survey_to">Target audience</string>
     <string name="vote_button">Vote</string>
     <string name="back">Back</string>
 
@@ -282,7 +281,6 @@
 
     <string name="settings_title_customid" translatable="false">Customer ID</string>
     <string name="settings_summary_customid">Enter your lunch.leo-ac.de customer ID</string>
-    <string name="settings_title_pw">Password</string>
     <string name="settings_summary_pw">Enter your lunch.leo-ac.de password</string>
     <string name="settings_title_sync" translatable="false">Auto-Sync</string>
     <string name="settings_summary_sync">Synchronize data on app start</string>
@@ -312,9 +310,9 @@
 
     <string name="settings_category_subst">Substitutions</string>
     <string name="settings_summary_username_school">Enter the schools username</string>
-    <string name="settings_title_username_school">Username</string>
+
     <string name="settings_summary_password_school">Enter the schools password</string>
-    <string name="settings_title_password_school">Password</string>
+
     <string name="settings_summary_notification_subst">Should we inform you on substitutions?</string>
     <string name="settings_summary_network">Only synchronize data with active WiFi connection</string>
     <string name="settings_title_network">WiFi only</string>
@@ -346,5 +344,6 @@
     <string name="settings_title_notification_none">Do not receive any notifications</string>
     <string name="button_info_auth">Verify</string>
     <string name="error_snackbar">Something went wrong. Please restart the app</string>
+    <string name="verification_success">Verification succeeded</string>
 
 </resources>
