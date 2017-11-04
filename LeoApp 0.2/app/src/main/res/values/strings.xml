@@ -343,6 +343,7 @@
     <string name="settings_title_notification_none">Do not receive any notifications</string>
     <string name="button_info_auth">Verify</string>
     <string name="error_snackbar">Something went wrong. Please restart the app</string>
+    <string name="stundenanzeige">Stunden</string>
     <string name="ztg">School magazine</string>
     <string name="hip" translatable="false">Hip-Hop</string>
     <string name="jud" translatable="false">Jugend Debattiert</string>
@@ -370,6 +371,5 @@
     <string name="m">Mittel</string>
     <string name="s">Schlecht</string>
     <string name="ss">Sehr schlecht</string>
-
 
 </resources>
