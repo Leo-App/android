@@ -533,6 +533,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             values.put(FACH_ART, "FREI");
             values.put(FACH_LEHRER, "");
             values.put(FACH_KURZEL, "FREI");
+            values.put(FACH_KLASSE, "");
             int fid = (int) database.insert(TABLE_FACHER, null, values);
             values.clear();
             values.put(FACH_ID, fid);
