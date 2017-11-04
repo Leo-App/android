@@ -398,6 +398,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                         break;
                     case R.id.settings:
                         return true;
+                    case R.id.profile:
+                        i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();

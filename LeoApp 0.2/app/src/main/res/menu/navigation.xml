@@ -59,6 +59,10 @@
         android:id="@+id/nav1"
         android:checkableBehavior="single">
         <item
+            android:id="@+id/profile"
+            android:icon="@drawable/emoticon"
+            android:title="@string/profil" />
+        <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_settings_white_24dp"
             android:title="@string/title_settings" />
