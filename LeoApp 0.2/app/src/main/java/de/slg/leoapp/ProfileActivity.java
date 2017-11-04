@@ -1,15 +1,14 @@
 package de.slg.leoapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,13 +25,14 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class ProfileActivity extends AppCompatActivity {
-    private DrawerLayout  drawerLayout;
-    private TextView nameProfil;
-    private TextView defaultNameProfil;
-    private TextView stufeProfil;
-    private TextView stimmungProfil;
-    private ImageView profilePic;
-    private EditText name;
+
+    private DrawerLayout drawerLayout;
+    private TextView     nameProfil;
+    private TextView     defaultNameProfil;
+    private TextView     stufeProfil;
+    private TextView     stimmungProfil;
+    private ImageView    profilePic;
+    private EditText     name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +46,18 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void initProfil() {
         nameProfil = (TextView) findViewById(R.id.nameProfil);
-        defaultNameProfil = (TextView)  findViewById(R.id.defaultName);
+        defaultNameProfil = (TextView) findViewById(R.id.defaultName);
         stufeProfil = (TextView) findViewById(R.id.stufeProfil);
         stimmungProfil = (TextView) findViewById(R.id.stimmungProfil);
         profilePic = (ImageView) findViewById(R.id.profPic);
         name = (EditText) findViewById(R.id.eingabeName);
 
+
         name.setText(Utils.getUserName());
         defaultNameProfil.setText("Default Name: "+Utils.getUserDefaultName());
         stufeProfil.setText("Stufe: "+Utils.getUserStufe());
         stimmungProfil.setText("Stimmung: "+getMood());
+        nameProfil.setText("Name: " + Utils.getUserName());
         this.setzeProfilBild();
         //profilePic.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
@@ -63,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private void setzeProfilBild() {
-        int i = Utils.getController().getPreferences().getInt("pref_key_general_vote_id",1);
+        int i = Utils.getController().getPreferences().getInt("pref_key_general_vote_id", 1);
         switch (i) {
             case 1:
                 profilePic.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sentiment_very_dissatisfied_white_24px));
@@ -89,7 +91,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private String getMood() {
-        int i = Utils.getController().getPreferences().getInt("pref_key_general_vote_id",1);
+        int i = Utils.getController().getPreferences().getInt("pref_key_general_vote_id", 1);
         switch (i) {
             case 1:
                 return getString(R.string.sg);
@@ -102,7 +104,7 @@ public class ProfileActivity extends AppCompatActivity {
             case 5:
                 return getString(R.string.sg);
         }
-        return ""+i;
+        return "" + i;
     }
 
     private void initToolbar() {
@@ -184,6 +186,4 @@ public class ProfileActivity extends AppCompatActivity {
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
-
-
 }

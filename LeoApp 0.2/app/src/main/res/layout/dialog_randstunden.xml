@@ -1,45 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/snack"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:theme="@style/AlertDialog.AppCompat">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="Randstundenfinder"
+        android:text="@string/title_randstundenfinder"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/colorAccent" />
 
-    <ListView
-        android:id="@+id/listView"
+    <Button
+        android:id="@+id/add1"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/title"
+        android:layout_below="@id/title"
+        android:layout_marginTop="13dp"
+        android:drawableLeft="@drawable/ic_add_white_24dp"
+        android:drawableTint="@color/colorPrimary"
+        android:text="@string/add_teacher"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary" />
+
+    <EditText
+        android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonOK"
-        android:layout_below="@+id/textView"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="20dp" />
+        android:layout_alignLeft="@id/add1"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="13dp"
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/add2"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add1"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:drawableLeft="@drawable/ic_add_white_24dp"
+        android:drawableTint="@color/colorPrimary"
+        android:text="@string/add_teacher"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary" />
+
+    <EditText
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/add2"
+        android:layout_below="@+id/add1"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/add3"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add2"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:drawableLeft="@drawable/ic_add_white_24dp"
+        android:drawableTint="@color/colorPrimary"
+        android:text="@string/add_teacher"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary" />
+
+    <EditText
+        android:id="@+id/text3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/add3"
+        android:layout_below="@+id/add2"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/add4"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add3"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:drawableLeft="@drawable/ic_add_white_24dp"
+        android:drawableTint="@color/colorPrimary"
+        android:text="@string/add_teacher"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary" />
+
+    <EditText
+        android:id="@+id/text4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/add4"
+        android:layout_below="@+id/add3"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/add5"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add4"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:drawableLeft="@drawable/ic_add_white_24dp"
+        android:drawableTint="@color/colorPrimary"
+        android:text="@string/add_teacher"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary" />
+
+    <EditText
+        android:id="@+id/text5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/add5"
+        android:layout_below="@+id/add4"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/title"
+        android:layout_below="@id/title"
+        android:layout_marginTop="13dp" />
 
     <Button
         android:id="@+id/buttonOK"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/listView"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@id/listView"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/add5"
         android:layout_marginBottom="5dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
-        android:text="@string/speichern"
+        android:text="@string/confirm"
         android:textAllCaps="true" />
 
 </RelativeLayout>

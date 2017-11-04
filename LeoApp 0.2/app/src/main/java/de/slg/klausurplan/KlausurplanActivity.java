@@ -44,7 +44,6 @@ import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class KlausurplanActivity extends ActionLogActivity {

@@ -36,10 +36,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
-            android:text="TextView"
             android:layout_below="@+id/profPic"
             android:layout_alignLeft="@+id/profPic"
-            android:layout_alignStart="@+id/profPic" />
+            android:layout_alignStart="@+id/profPic"
+            android:text="TextView" />
 
         <EditText
             android:id="@+id/eingabeName"
