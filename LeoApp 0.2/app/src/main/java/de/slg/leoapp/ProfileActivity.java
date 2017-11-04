@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView stufeProfil;
     private TextView stimmungProfil;
     private ImageView profilePic;
+    private EditText name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         initToolbar();
         initNavigationView();
+        nameProfil.setText("Name: ");
         initProfil();
     }
 
@@ -46,14 +50,17 @@ public class ProfileActivity extends AppCompatActivity {
         stufeProfil = (TextView) findViewById(R.id.stufeProfil);
         stimmungProfil = (TextView) findViewById(R.id.stimmungProfil);
         profilePic = (ImageView) findViewById(R.id.profPic);
+        name = (EditText) findViewById(R.id.eingabeName);
 
-        nameProfil.setText("Name: "+Utils.getUserName());
+        name.setText(Utils.getUserName());
         defaultNameProfil.setText("Default Name: "+Utils.getUserDefaultName());
         stufeProfil.setText("Stufe: "+Utils.getUserStufe());
         stimmungProfil.setText("Stimmung: "+getMood());
         this.setzeProfilBild();
         //profilePic.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
+
+
 
     private void setzeProfilBild() {
         int i = Utils.getController().getPreferences().getInt("pref_key_general_vote_id",1);
@@ -93,7 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
             case 4:
                 return getString(R.string.s);
             case 5:
-                return getString(R.string.ss);
+                return getString(R.string.sg);
         }
         return ""+i;
     }
