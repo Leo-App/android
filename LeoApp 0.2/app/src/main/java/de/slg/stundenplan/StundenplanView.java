@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -17,7 +18,7 @@ public class StundenplanView extends View {
     private final Paint  paint;
     Bitmap bitmap;
     private boolean isInitialized;
-    private int     height, width, baseLineY, baseLineX, abstandX, abstandY, paddingX, paddingY, baseline2Y, baseline2X;
+    private int     height, width, baseLineY, baseLineX, abstandX, abstandY, paddingX, paddingY, baseline2Y, abstandX2;
 
     public StundenplanView(Context context) {
         super(context);
@@ -56,14 +57,12 @@ public class StundenplanView extends View {
         //horizontal
         baseLineX = width / 20; //Entfernung vom Rand
         paddingX = width / 100;
-        //baseline2X = baseLineX + 6 * paddingX;
-        //abstandX = (width - baseline2X - baseLineX) / 10;
-        abstandX = (width - baseLineX * 2) / 5;
+        abstandX2 = (width - baseLineX * 2) / 7;
+        abstandX = (width - abstandX2 - baseLineX * 2) / 5;
         //vertikal
         baseLineY = height / 20; //Entfernung vom Rand unten
         paddingY = height / 100;
         baseline2Y = baseLineY + 6 * paddingY;
-        //abstandY = (height - baseLineY * 2) / 5;
         abstandY = (height - baseline2Y - baseLineY) / 10;
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(3);
@@ -81,15 +80,30 @@ public class StundenplanView extends View {
         canvas.drawLine(width - baseLineX, baseLineY, width - baseLineX, height - baseLineY, paint); //Linie rechts
         canvas.drawLine(baseLineX, baseline2Y, width - baseLineX, baseline2Y, paint); //WochentagZeile
         //Spalten
-        canvas.drawLine(baseLineX + abstandX, baseLineY, baseLineX + abstandX, height - baseLineY, paint);
-        canvas.drawLine(baseLineX + abstandX * 2, baseLineY, baseLineX + abstandX * 2, height - baseLineY, paint);
-        canvas.drawLine(baseLineX + abstandX * 3, baseLineY, baseLineX + abstandX * 3, height - baseLineY, paint);
-        canvas.drawLine(baseLineX + abstandX * 4, baseLineY, baseLineX + abstandX * 4, height - baseLineY, paint);
-        canvas.drawText(getContext().getString(R.string.montag), baseLineX + paddingX * 6, baseline2Y - paddingY * 2, paint);
-        canvas.drawText(getContext().getString(R.string.dienstag), baseLineX + abstandX + paddingX * 6, baseline2Y - paddingY * 2, paint);
-        canvas.drawText(getContext().getString(R.string.mittwoch), baseLineX + abstandX * 2 + paddingX * 6, baseline2Y - paddingY * 2, paint);
-        canvas.drawText(getContext().getString(R.string.donnerstag), baseLineX + abstandX * 3 + paddingX * 6, baseline2Y - paddingY * 2, paint);
-        canvas.drawText(getContext().getString(R.string.freitag), baseLineX + abstandX * 4 + paddingX * 6, baseline2Y - paddingY * 2, paint);
+        canvas.drawLine(baseLineX + abstandX2, baseLineY, baseLineX + abstandX2, height - baseLineY, paint); //Stunden-Spalte
+
+        canvas.drawLine(baseLineX + abstandX2 + abstandX, baseLineY, baseLineX + abstandX2 + abstandX, height - baseLineY, paint);
+        canvas.drawLine(baseLineX + abstandX2 + abstandX * 2, baseLineY, baseLineX + abstandX2 + abstandX * 2, height - baseLineY, paint);
+        canvas.drawLine(baseLineX + abstandX2 + abstandX * 3, baseLineY, baseLineX + abstandX2 + abstandX * 3, height - baseLineY, paint);
+        canvas.drawLine(baseLineX + abstandX2 + abstandX * 4, baseLineY, baseLineX + abstandX2 + abstandX * 4, height - baseLineY, paint);
+        paint.setTextSize(24);
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        canvas.drawText(getContext().getString(R.string.hour),baseLineX + paddingX * 4, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.montag), baseLineX + abstandX2 + paddingX * 5, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.dienstag), baseLineX + abstandX2 + abstandX + paddingX * 5, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.mittwoch), baseLineX + abstandX2 + abstandX * 2 + paddingX * 5, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.donnerstag), baseLineX + abstandX2 + abstandX * 3 + paddingX * 5, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.freitag), baseLineX + abstandX2 + abstandX * 4 + paddingX * 5, baseline2Y - paddingY * 2, paint);
+        canvas.drawText("08:00 - 08:45", baseLineX + paddingX * 3, baseLineY + abstandY + paddingY * 3, paint);
+        canvas.drawText("08:50 - 09:35", baseLineX + paddingX * 3, baseLineY + abstandY * 2 + paddingY * 3, paint);
+        canvas.drawText("09:50 - 10:35", baseLineX + paddingX * 3, baseLineY + abstandY * 3 + paddingY * 3, paint);
+        canvas.drawText("10:40 - 11:25", baseLineX + paddingX * 3, baseLineY + abstandY * 4 + paddingY * 3, paint);
+        canvas.drawText("11:40 - 12:25", baseLineX + paddingX * 3, baseLineY + abstandY * 5 + paddingY * 3, paint);
+        canvas.drawText("12:30 - 13:15", baseLineX + paddingX * 3, baseLineY + abstandY * 6 + paddingY * 3, paint);
+        canvas.drawText("13:30 - 14:15", baseLineX + paddingX * 3, baseLineY + abstandY * 7 + paddingY * 3, paint);
+        canvas.drawText("14:20 - 15:05", baseLineX + paddingX * 3, baseLineY + abstandY * 8 + paddingY * 3, paint);
+        canvas.drawText("15:10 - 15:55", baseLineX + paddingX * 3, baseLineY + abstandY * 9 + paddingY * 3, paint);
+        canvas.drawText("16:00 - 16:45", baseLineX + paddingX * 3, baseLineY + abstandY * 10 + paddingY * 3, paint);
         Fach[][] gewaehlteFaecher = new Fach[5][];
         for (int i = 0; i < gewaehlteFaecher.length; i++) {
             gewaehlteFaecher[i] = de.slg.leoapp.Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(i + 1);
@@ -106,7 +120,7 @@ public class StundenplanView extends View {
                     } else {
                         text = f.getName();//.split(" ")[0];
                     }
-                    canvas.drawText(text, baseLineX + abstandX * j + paddingX, yValue + paddingY * 5, paint);
+                    canvas.drawText(text, baseLineX + abstandX2 + abstandX * j + paddingX, yValue + paddingY * 5, paint);
                 }
             }
             canvas.drawLine(baseLineX, yValue + abstandY, width - baseLineX, yValue + abstandY, paint);

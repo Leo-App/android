@@ -323,7 +323,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             case "S":
                 return context.getString(R.string.spanisch);
         }
-        return null;
+        return "";
     }
 
     private String fachnameAG(String teil) {
@@ -419,7 +419,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         }
         if (teil.matches("S[0-9]"))
             return context.getString(R.string.spanisch);
-        return null;
+        return "";
     }
 
     private String getFachart(String kuerzel) {
