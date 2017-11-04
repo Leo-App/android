@@ -332,5 +332,6 @@
     <string name="aq">Aquarium</string>
     <string name="action_help">Hilfe</string>
     <string name="action_request"></string>
+    <string name="desc_coming_soon">In nächster Zeit werden neue Funktionen kommen, die deinen Schulalltag noch weiter verbessern und erleichtern werden.</string>
 
 </resources>

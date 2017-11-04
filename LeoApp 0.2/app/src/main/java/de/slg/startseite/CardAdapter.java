@@ -173,7 +173,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
             case COMING_SOON:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.coming_soon);
-                c.desc = Utils.getString(R.string.coming_soon);
+                c.desc = Utils.getString(R.string.desc_coming_soon);
                 c.enabled = true;
                 c.icon = R.drawable.alert_decagram;
                 c.buttonListener = new View.OnClickListener() {
