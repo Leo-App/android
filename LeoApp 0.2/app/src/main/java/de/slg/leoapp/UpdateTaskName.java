@@ -13,10 +13,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
-public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
+class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     private final String old;
 
-    public UpdateTaskName(String oldUsername) {
+    UpdateTaskName(String oldUsername) {
         old = oldUsername;
     }
 

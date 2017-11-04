@@ -327,6 +327,42 @@ public class StundenplanDB extends SQLiteOpenHelper {
     }
 
     private String fachnameAG(String teil) {
+        switch (teil.toUpperCase()) {
+            case "RT":
+                return context.getString(R.string.rt);
+            case "KL":
+                return context.getString(R.string.klett); 
+            case "ROB":
+                return context.getString(R.string.rob);
+            case "AQ":
+                return context.getString(R.string.aq);
+            case "TS":
+                return context.getString(R.string.ten);
+            case "SP":
+                return context.getString(R.string.fb);
+            case "MU":
+                return context.getString(R.string.band);
+            case "MINT":
+                return context.getString(R.string.mint);
+            case "SCHA":
+                return context.getString(R.string.schach);
+            case "CH":
+                return context.getString(R.string.exp);
+            case "KU":
+                return context.getString(R.string.kunst); 
+            case "TA":
+                return context.getString(R.string.hip);
+            case "ZTG":
+                return context.getString(R.string.ztg);
+            case "SAN":
+                return context.getString(R.string.sani);
+            case "NÄ":
+                return context.getString(R.string.näh);
+            case "KO":
+                return context.getString(R.string.kochen);
+            case "JUD":
+                return context.getString(R.string.jud);
+        }
         return teil;
     }
 

@@ -44,7 +44,8 @@ public class Start extends Activity {
         if (getIntent().getBooleanExtra("updateUser", true) && Utils.isVerified())
             new SyncUserTask().execute();
 
-        new SyncGradeTask().execute();
+        if (Utils.isVerified())
+            new SyncGradeTask().execute();
 
         if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
             new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));

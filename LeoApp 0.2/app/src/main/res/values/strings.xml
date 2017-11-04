@@ -346,5 +346,12 @@
     <string name="settings_title_notification_none">Do not receive any notifications</string>
     <string name="button_info_auth">Verify</string>
     <string name="error_snackbar">Something went wrong. Please restart the app</string>
+    <string name="ztg">Schülerzeitung</string>
+    <string name="hip">Hip-Hop</string>
+    <string name="exp">Experimentieren</string>
+    <string name="schach">Schach</string>
+    <string name="rob">Roboter</string>
+    <string name="klett">Klettern</string>
+    <string name="rt">Reiten</string>
 
 </resources>
