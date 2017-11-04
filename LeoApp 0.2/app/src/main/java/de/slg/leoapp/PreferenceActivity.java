@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -256,31 +255,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         //Bis auf weiteres aus den Einstellungen entfernt
 /*        findPreference("pref_key_filterby_level").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
         findPreference("pref_key_filterby_schedule").setEnabled(pref.getBoolean("pref_key_filter_subst", false));  '*/
-        int permission = Utils.getUserPermission();
-        currentUsername = Utils.getUserName();
-
-        if (!Utils.getUserStufe().equals(""))
-            findPreference("pref_key_general_klasse").setSummary(Utils.getUserStufe());
-        else
-            findPreference("pref_key_general_klasse").setSummary("N/A");
-
-        findPreference("pref_key_general_name").setSummary(currentUsername);
-
-        if (!Utils.isVerified()) {
-            findPreference("pref_key_general_klasse").setEnabled(false);
-            findPreference("pref_key_general_name").setSummary("N/A");
-        }
-
-        PreferenceCategory general = (PreferenceCategory) findPreference("pref_key_general_settings");
-        if (permission == 2) {
-            general.removePreference(findPreference("pref_key_general_klasse"));
-            findPreference("pref_key_kuerzel_general").setSummary(pref.getString("pref_key_kuerzel_general", "N/A"));
-        } else {
-            general.removePreference(findPreference("pref_key_kuerzel_general"));
-        }
-
-        if (!Utils.isVerified())
-            findPreference("pref_key_general_name").setEnabled(false);
 
         findPreference("pref_key_version_app").setSummary(Utils.getAppVersionName());
 

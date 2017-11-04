@@ -15,7 +15,7 @@
         android:hint="@string/name_of_chat"
         android:inputType="textCapWords"
         android:maxLines="1"
-        android:textSize="15sp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/cancel"
