@@ -218,7 +218,7 @@
     <string name="result">Ergebnis</string>
     <string name="results">Ergebnisse</string>
     <string name="send_survey">Senden</string>
-    <string name="statistics_result">%1$d/%2$d Stimmen (%3$d Prozent)</string>
+    <string name="statistics_result">%1$d von %2$d Stimmen (%3$d Prozent)</string>
     <string name="survey">Umfrage: b</string>
     <string name="survey_checkbox_answers">Mehrere Möglichkeiten auswählbar</string>
     <string name="survey_deleted">Umfrage gelöscht</string>

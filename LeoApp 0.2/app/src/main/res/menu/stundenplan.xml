@@ -14,11 +14,6 @@
         android:title="@string/mache_bild"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_save"
-        android:icon="@drawable/ic_save_white_24dp"
-        android:title="@string/action_save"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_randstunde"
         android:icon="@drawable/ic_save_white_24dp"
         android:title="@string/title_randstundenfinder"

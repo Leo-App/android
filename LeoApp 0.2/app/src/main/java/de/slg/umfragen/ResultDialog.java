@@ -107,19 +107,25 @@ class ResultDialog extends AlertDialog {
         asyncTask = new SyncResults().execute();
     }
 
+    //TODO FIXEN!
     @SuppressWarnings("unchecked")
     private void animateChanges(int amount, HashMap<String, Integer> answerMap, int target, int votes) {
+
+        Utils.logError(amount);
+        Utils.logError(target);
+        Utils.logError(votes);
+
         Map.Entry<String, Integer>[] entries = answerMap.entrySet().toArray(new Map.Entry[0]);
         for (int i = 0; i < amount; i++) {
-
             answers[i].setText(entries[i].getKey());
+            Utils.logError(entries[i].getKey());
             answers[i].setVisibility(View.VISIBLE);
             progressBars[i].setVisibility(View.VISIBLE);
             new ProgressBarAnimator(entries[i].getValue(), answers[i], progressBars[i]).setInterval(100).setIterations(entries[i].getValue()).execute();
         }
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) b1.getLayoutParams();
+ /*       RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) b1.getLayoutParams();
         params.addRule(RelativeLayout.BELOW, answers[amount - 1].getId());
-        b1.setLayoutParams(params);
+        b1.setLayoutParams(params); */
 
         t2.setText(Utils.getContext().getString(R.string.statistics_result, votes, target, votes * 100 / target));
     }
@@ -175,6 +181,7 @@ class ResultDialog extends AlertDialog {
         private int                      amountAnswers;
         private int                      target;
         private int                      sumVotes;
+        private String                   title;
         private HashMap<String, Integer> answerResults;
 
         @Override
@@ -198,8 +205,12 @@ class ResultDialog extends AlertDialog {
                 if (resString.contains("-ERR"))
                     return ResponseCode.SERVER_ERROR;
 
-                target = Integer.parseInt(resString.split("_;;_")[0]);
-                String[] answers = resString.split("_;;_")[1].split("_next_");
+                String[] data = resString.split("_;;_");
+
+                target = Integer.parseInt(data[0]);
+                title = data[2];
+
+                String[] answers = data[1].split("_next_");
 
                 amountAnswers = answers.length;
                 answerResults = new HashMap<>();
@@ -245,10 +256,9 @@ class ResultDialog extends AlertDialog {
                     snackbar.show();
                     break;
                 case SUCCESS:
-                    for(Map.Entry<String, Integer> entry : answerResults.entrySet()) {
-                        Utils.logError(entry.getKey());
-                        Utils.logError(entry.getValue());
-                    }
+                    t1.setText(title);
+                    t1.setVisibility(View.VISIBLE);
+                    t2.setVisibility(View.VISIBLE);
                     animateChanges(amountAnswers, answerResults, target, sumVotes);
                     break;
             }
