@@ -353,6 +353,7 @@
     <string name="ten"></string>
     <string name="sani">Paramedic</string>
     <string name="kochen">Cooking</string>
+    <string name="rob">Robotics</string>
 
 
 </resources>

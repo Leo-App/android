@@ -50,7 +50,7 @@
             android:inputType="textPassword"
             android:key="pref_key_qr_pw"
             android:summary="@string/settings_summary_pw"
-            android:title="@string/settings_title_pw" />
+            android:title="@string/settings_title_password" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_mensa_mode"
