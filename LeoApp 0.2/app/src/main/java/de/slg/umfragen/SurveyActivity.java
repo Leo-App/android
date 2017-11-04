@@ -53,13 +53,12 @@ import de.slg.stundenplan.StundenplanActivity;
 
 public class SurveyActivity extends ActionLogActivity {
 
-    private DrawerLayout drawerLayout;
-    private static SQLiteConnector sqLiteConnector;
-    private static SQLiteDatabase sqLiteDatabase;
-
-    private List<String> groupList;
-    private List<String> childList;
-    private Map<String, List<String>> entriesMap;
+    private static SQLiteConnector           sqLiteConnector;
+    private static SQLiteDatabase            sqLiteDatabase;
+    private        DrawerLayout              drawerLayout;
+    private        List<String>              groupList;
+    private        List<String>              childList;
+    private        Map<String, List<String>> entriesMap;
 
     @Override
     public void onCreate(Bundle b) {

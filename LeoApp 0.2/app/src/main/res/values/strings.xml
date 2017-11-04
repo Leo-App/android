@@ -361,6 +361,8 @@
     <string name="mint">STEM</string>
     <string name="näh">Sewing</string>
     <string name="desc_coming_soon">In the near future, new features will be added.</string>
+    <string name="title_randstundenfinder">Randstundenfinder</string>
+    <string name="add_teacher">Lehrerkürzel hinzufügen</string>
 
 
 </resources>
