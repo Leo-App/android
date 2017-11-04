@@ -28,7 +28,7 @@ public abstract class Utils {
     /**
      * Basisdomain zum erreichen des LeoApp-Servers.
      */
-    public static final String BASE_DOMAIN  = "http://moritz.liegmanns.de/leoapp_php/";
+    public static final String BASE_DOMAIN  = "http://moritz.liegmanns.de/";
 
     /**
      * Basisdomain zum erreichen des LeoApp-Userservers.
