@@ -67,6 +67,9 @@ public class StundenplanActivity extends ActionLogActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stundenplan, menu);
+        if (Utils.getUserPermission() < 2) {
+            menu.findItem(R.id.action_randstunde).setVisible(false);
+        }
         return true;
     }
 
