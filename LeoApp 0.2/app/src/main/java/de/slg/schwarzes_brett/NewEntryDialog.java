@@ -25,8 +25,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import de.slg.leoapp.R;
@@ -114,9 +116,23 @@ class NewEntryDialog extends AlertDialog {
 
                 final TextView content = (TextView) findViewById(R.id.content);
                 final TextView date = (TextView) findViewById(R.id.eingabeDatum);
-                Spinner        spinner = (Spinner) findViewById(R.id.spinner2);
+
+                final String OLD_FORMAT = "dd-MM-yyyy";
+                final String NEW_FORMAT = "yyyy-MM-dd";
+                String newDate;
+                SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+                String dateString = date.getText().toString();
+                Date d = null;
+                try {
+                    d = sdf.parse(dateString);
+                } catch (ParseException e) {
+
+                }
+                sdf.applyPattern(NEW_FORMAT);
+                newDate = sdf.format(d);
+                Spinner spinner = (Spinner) findViewById(R.id.spinner2);
                 Log.e("NeuerEintrag", spinner.getSelectedItem().toString());
-                new sendEntryTask().execute(title.getText().toString(), content.getText().toString(), date.getText().toString(), spinner.getSelectedItem().toString());
+                new sendEntryTask().execute(title.getText().toString(), content.getText().toString(), newDate, spinner.getSelectedItem().toString());
             }
         });
     }

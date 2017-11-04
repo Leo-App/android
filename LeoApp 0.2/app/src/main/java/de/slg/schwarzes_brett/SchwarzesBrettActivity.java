@@ -410,8 +410,12 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                 if (views != null) {
                     TextView textViewViews = (TextView) convertView.findViewById(R.id.textViewViews);
                     textViewViews.setVisibility(View.VISIBLE);
+                    if(views.size() > groupPosition){
                     String viewString = views.get(groupPosition) > 999 ? "999+" : String.valueOf(views.get(groupPosition));
                     textViewViews.setText(viewString);
+                    }else {
+                        textViewViews.setText("0");
+                    }
                 } else {
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textViewStufe.getLayoutParams();
                     params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);

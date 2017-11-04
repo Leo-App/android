@@ -115,7 +115,7 @@
                 android:layout_alignStart="@+id/content"
                 android:layout_below="@+id/title_date"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@+id/imageButton"
                 android:ems="10"
                 android:inputType="date" />
