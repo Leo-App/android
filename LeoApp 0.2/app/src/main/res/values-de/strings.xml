@@ -333,5 +333,11 @@
     <string name="action_help">Hilfe</string>
     <string name="action_request"></string>
     <string name="desc_coming_soon">In nächster Zeit werden neue Funktionen kommen, die deinen Schulalltag noch weiter verbessern und erleichtern werden.</string>
+    <string name="rt">Reiten</string>
+    <string name="schach">Schach</string>
+    <string name="ztg">Schülerzeitung</string>
+    <string name="exp">Experimentieren</string>
+    <string name="klett">Klettern</string>
+    <string name="stundenanzeige"></string>
 
 </resources>
