@@ -320,19 +320,17 @@
     <string name="error_snackbar">Es ist etwas schiefgelaufen, bitte starte die App erneut</string>
     <string name="verification_success">Verifizierung abgeschlossen!</string>
 
-    <string name="ZK" translatable="false"></string>
-    <string name="jud">Jugend Debattiert</string>
+
     <string name="kochen">Kochen</string>
     <string name="näh">Nähen</string>
     <string name="sani">Sanitäter</string>
-    <string name="mint">Mint</string>
+    <string name="mint">MINT</string>
     <string name="band">Band</string>
     <string name="fb">Fußball</string>
     <string name="ten">Tennis</string>
     <string name="aq">Aquarium</string>
     <string name="action_help">Hilfe</string>
-    <string name="action_request"></string>
-    <string name="desc_coming_soon">In nächster Zeit werden neue Funktionen kommen, die deinen Schulalltag noch weiter verbessern und erleichtern werden.</string>
+    <string name="desc_coming_soon">In nächster Zeit werden neue Funktionen kommen, die deinen Schulalltag noch weiter verbessern werden.</string>
     <string name="rt">Reiten</string>
     <string name="rob">Roboter</string>
     <string name="schach">Schach</string>
@@ -340,6 +338,7 @@
     <string name="exp">Experimentieren</string>
     <string name="klett">Klettern</string>
     <string name="title_randstundenfinder">Randstundenfinder</string>
+
 
 
 </resources>

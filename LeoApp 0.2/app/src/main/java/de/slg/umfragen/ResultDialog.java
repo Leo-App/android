@@ -1,4 +1,4 @@
-package de.slg.schwarzes_brett;
+package de.slg.umfragen;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -23,6 +23,7 @@ import java.util.Map;
 import de.slg.leoapp.ItemAnimator;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
+import de.slg.schwarzes_brett.ResponseCode;
 
 /**
  * Ergebnisdialog

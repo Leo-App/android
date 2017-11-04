@@ -158,7 +158,7 @@ public class ReceiveService extends Service {
         private void getSurveys() {
 
             try {
-                URL updateURL = new URL(Utils.BASE_URL_PHP+"/survey/getSurveys.php");
+                URL updateURL = new URL(Utils.BASE_URL_PHP+"survey/getSurveys.php");
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
@@ -169,7 +169,7 @@ public class ReceiveService extends Service {
                     builder.append(line);
                 reader.close();
 
-                URL resultURL = new URL(Utils.BASE_URL_PHP+"/survey/getSingleResult.php?user=" + Utils.getUserID());
+                URL resultURL = new URL(Utils.BASE_URL_PHP+"survey/getSingleResult.php?user=" + Utils.getUserID());
                 reader =
                         new BufferedReader(
                                 new InputStreamReader(resultURL.openConnection().getInputStream(), "UTF-8"));

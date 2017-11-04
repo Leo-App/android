@@ -345,15 +345,22 @@
     <string name="error_snackbar">Something went wrong. Please restart the app</string>
     <string name="ztg">School magazine</string>
     <string name="hip" translatable="false">Hip-Hop</string>
+    <string name="jud" translatable="false">Jugend Debattiert</string>
     <string name="exp">Experimentation</string>
     <string name="schach">Chess</string>
     <string name="klett">Climbing</string>
     <string name="rt">Horseback riding</string>
     <string name="verification_success">Verification succeeded</string>
-    <string name="ten"></string>
+    <string name="ten">Tennis</string>
     <string name="sani">Paramedic</string>
     <string name="kochen">Cooking</string>
     <string name="rob">Robotics</string>
+    <string name="aq">Aquarium</string>
+    <string name="band">Band</string>
+    <string name="fb">Soccer</string>
+    <string name="mint">STEM</string>
+    <string name="näh">Sewing</string>
+    <string name="desc_coming_soon">In the near future, new features will be added.</string>
 
 
 </resources>
