@@ -29,6 +29,7 @@ public class ProfileActivity extends ActionLogActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
         initToolbar();
         initNavigationView();
         initProfil();
@@ -81,8 +82,9 @@ public class ProfileActivity extends ActionLogActivity {
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorBadMood), PorterDuff.Mode.MULTIPLY);
                 stimmungProfil.setText(R.string.ss);
                 break;
-            default:
+            case R.drawable.ic_account_circle_black_24dp:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
+                stimmungProfil.setText("N/A");
                 break;
         }
     }

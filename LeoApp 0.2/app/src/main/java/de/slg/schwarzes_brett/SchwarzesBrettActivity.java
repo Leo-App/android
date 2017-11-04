@@ -305,52 +305,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
             entriesMap.put(cursor.getString(1), childList);
         }
         cursor.close();
-
-        switch (stufe) {
-            case "":
-            case "TEA":
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, null, null, null, null, null);
-                break;
-            case "EF":
-            case "Q1":
-            case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
-                break;
-            default:
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
-                break;
-        }
-
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            groupList.add(cursor.getString(1));
-
-            String[] children;
-            children = new String[]{
-                    cursor.getString(2), //Beschreibung
-                    ((cursor.getInt(4) == 0) ? "false" : "true") + "_;_" + cursor.getString(0) + "_;_" + cursor.getInt(6), //Umfrage Metadaten
-            };
-
-            Cursor            cursorAnswers = sqLiteDatabase.query(SQLiteConnector.TABLE_ANSWERS, new String[]{SQLiteConnector.ANSWERS_INHALT, SQLiteConnector.ANSWERS_REMOTE_ID, SQLiteConnector.ANSWERS_SELECTED}, SQLiteConnector.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
-            ArrayList<String> answers       = new ArrayList<>();
-
-            boolean voted = false;
-
-            for (cursorAnswers.moveToFirst(); !cursorAnswers.isAfterLast(); cursorAnswers.moveToNext()) {
-                answers.add(cursorAnswers.getString(0) + "_;_" + cursorAnswers.getString(1) + "_;_" + cursorAnswers.getInt(2));
-                voted = voted || cursorAnswers.getInt(2) == 1;
-            }
-
-            children[1] += "_;_" + voted;
-
-            cursorAnswers.close();
-            loadChildren(children);
-            childList.addAll(answers);
-            childList.add("-");
-            childList.add("-");
-            entriesMap.put(cursor.getString(1), childList);
-        }
-
-        cursor.close();
     }
 
     private void loadChildren(String[] children) {

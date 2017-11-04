@@ -160,7 +160,7 @@
     <string name="don">Do</string>
     <string name="fr">Fr</string>
     <string name="menu_stundenplan_name">Kurse bearbeiten</string>
-    <string name="mathe">Mathematik</string>
+    <string name="mathe">Mathe</string>
     <string name="deutsch">Deutsch</string>
     <string name="latein">Latein</string>
     <string name="franze">Französisch</string>
@@ -169,7 +169,7 @@
     <string name="bili">Geschichte Bilingual</string>
     <string name="geschichte">Geschichte</string>
     <string name="geo">Erdkunde</string>
-    <string name="sowi">Sozialwissenschaften</string>
+    <string name="sowi">SoWi</string>
     <string name="pada">Pädagogik</string>
     <string name="reliKat">Katholische Religion</string>
     <string name="reliEv">Evangelische Religion</string>
