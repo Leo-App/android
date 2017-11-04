@@ -2,7 +2,6 @@ package de.slg.klausurplan;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -30,9 +29,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     KlausurenImportieren(Context context) {
         this.context = context;
         this.schriflich = Utils.getController().getStundenplanDatabase().gibSchriftlicheFaecherStrings();
-      //  for (String s : schriflich)
-       //     Log.e("schriftlich", s);
-        this.filtern = Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", false);
+        this.filtern = Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", true);
     }
 
     @Override
@@ -213,7 +210,6 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     }
 
     private boolean istImStundenplan(String klausur) {
-       // Log.e("klausur", klausur);
         if (filtern) {
             for (String s : schriflich) {
                 if (klausur.startsWith(s))

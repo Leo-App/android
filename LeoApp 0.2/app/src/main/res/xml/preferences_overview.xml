@@ -92,7 +92,7 @@
             android:title="@string/settings_title_testplan_time" />
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="pref_key_test_timetable_sync"
             android:summary="@string/settings_summary_filterby_schedule"
             android:title="@string/settings_title_test_timetable" />
