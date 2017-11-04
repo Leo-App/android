@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,8 +44,6 @@ import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 
 public class StundenplanActivity extends ActionLogActivity {
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
-    private StundenplanView     view;
     private DrawerLayout        drawerLayout;
     private WochentagFragment[] fragments;
 
@@ -68,6 +67,9 @@ public class StundenplanActivity extends ActionLogActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stundenplan, menu);
+        if (Utils.getUserPermission() < 2) {
+            menu.findItem(R.id.action_randstunde).setVisible(false);
+        }
         return true;
     }
 
@@ -79,6 +81,11 @@ public class StundenplanActivity extends ActionLogActivity {
             startActivity(new Intent(getApplicationContext(), StundenplanBildActivity.class));
         } else if (item.getItemId() == R.id.action_save) {
             //irgendwie save image aufrufen...
+        } else if (item.getItemId() == R.id.action_randstunde) {
+            AlertDialog dialog = new RandstundenDialog(this);
+            dialog.show();
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         } else if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }

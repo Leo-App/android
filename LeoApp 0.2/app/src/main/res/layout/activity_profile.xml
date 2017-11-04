@@ -35,11 +35,11 @@
             android:id="@+id/nameProfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:text="TextView"
-            android:layout_below="@+id/profPic"
             android:layout_alignLeft="@+id/profPic"
-            android:layout_alignStart="@+id/profPic" />
+            android:layout_alignStart="@+id/profPic"
+            android:layout_below="@+id/profPic"
+            android:layout_marginTop="56dp"
+            android:text="TextView" />
 
         <TextView
             android:id="@+id/defaultName"
