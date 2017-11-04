@@ -3,6 +3,7 @@ package de.slg.startseite;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
+import de.slg.umfragen.SurveyActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> implements RecyclerViewItemListener {
@@ -36,7 +38,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
     {
         cards = new List<>();
         String card_config = Utils.getController().getPreferences().getString("pref_key_card_config",
-                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;COMING_SOON");
+                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;COMING_SOON;"); //POLL hinzugefügt
         for (String card : card_config.split(";")) {
             if (card.length() > 0) {
                 CardType type = CardType.valueOf(card);
@@ -166,6 +168,22 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                     @Override
                     public void onClick(View v) {
                         Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), WrapperSubstitutionActivity.class));
+                    }
+                };
+                break;
+            case POLL: //Case hinzugefügt
+                cards.append(c = new Card(type));
+                c.title = Utils.getString(R.string.umfragen);
+                c.desc = Utils.getString(R.string.beschreibungUmfrage);
+                c.enabled = true;
+                c.icon = R.drawable.icon_survey;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Utils.isVerified())
+                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SurveyActivity.class));
+                        else
+                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
