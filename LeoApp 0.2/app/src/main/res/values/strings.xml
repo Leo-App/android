@@ -343,17 +343,7 @@
     <string name="settings_title_notification_none">Do not receive any notifications</string>
     <string name="button_info_auth">Verify</string>
     <string name="error_snackbar">Something went wrong. Please restart the app</string>
-<<<<<<< HEAD
-    <string name="ztg">Schülerzeitung</string>
-    <string name="hip">Hip-Hop</string>
-    <string name="exp">Experimentieren</string>
-    <string name="schach">Schach</string>
-    <string name="rob">Roboter</string>
-    <string name="klett">Klettern</string>
-    <string name="rt">Reiten</string>
     <string name="stundenanzeige">Stunden</string>
-    <string name="sg">sehr gut</string>
-=======
     <string name="ztg">School magazine</string>
     <string name="hip" translatable="false">Hip-Hop</string>
     <string name="jud" translatable="false">Jugend Debattiert</string>
@@ -381,7 +371,5 @@
     <string name="m">Mittel</string>
     <string name="s">Schlecht</string>
     <string name="ss">Sehr schlecht</string>
-
->>>>>>> a1d28a57004f8fc40e6a52b2646b6bee8c55ce67
 
 </resources>

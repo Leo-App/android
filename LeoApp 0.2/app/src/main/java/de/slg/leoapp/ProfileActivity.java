@@ -1,7 +1,6 @@
 package de.slg.leoapp;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,14 +23,7 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class ProfileActivity extends AppCompatActivity {
-
     private DrawerLayout drawerLayout;
-    private TextView     nameProfil;
-    private TextView     defaultNameProfil;
-    private TextView     stufeProfil;
-    private TextView     stimmungProfil;
-    private ImageView    profilePic;
-    private EditText     name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,54 +31,23 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         initToolbar();
         initNavigationView();
-        nameProfil.setText("Name: ");
         initProfil();
     }
 
     public void initProfil() {
-        nameProfil = (TextView) findViewById(R.id.nameProfil);
-        defaultNameProfil = (TextView) findViewById(R.id.defaultName);
-        stufeProfil = (TextView) findViewById(R.id.stufeProfil);
-        stimmungProfil = (TextView) findViewById(R.id.stimmungProfil);
-        profilePic = (ImageView) findViewById(R.id.profPic);
-        name = (EditText) findViewById(R.id.eingabeName);
-
+        TextView  nameProfil        = (TextView) findViewById(R.id.nameProfil);
+        TextView  defaultNameProfil = (TextView) findViewById(R.id.defaultName);
+        TextView  stufeProfil       = (TextView) findViewById(R.id.stufeProfil);
+        TextView  stimmungProfil    = (TextView) findViewById(R.id.stimmungProfil);
+        ImageView profilePic        = (ImageView) findViewById(R.id.profPic);
+        EditText  name              = (EditText) findViewById(R.id.eingabeName);
 
         name.setText(Utils.getUserName());
-        defaultNameProfil.setText("Default Name: "+Utils.getUserDefaultName());
-        stufeProfil.setText("Stufe: "+Utils.getUserStufe());
-        stimmungProfil.setText("Stimmung: "+getMood());
-        nameProfil.setText("Name: " + Utils.getUserName());
-        this.setzeProfilBild();
-        //profilePic.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
-    }
-
-
-
-    private void setzeProfilBild() {
-        int i = Utils.getController().getPreferences().getInt("pref_key_general_vote_id", 1);
-        switch (i) {
-            case 1:
-                profilePic.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sentiment_very_dissatisfied_white_24px));
-                profilePic.getDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
-                break;
-            case 2:
-                profilePic.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sentiment_satisfied_white_24px));
-                profilePic.getDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
-                break;
-            case 3:
-                profilePic.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sentiment_neutral_white_24px));
-                profilePic.getDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
-                break;
-            case 4:
-                profilePic.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sentiment_dissatisfied_white_24px));
-                profilePic.getDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
-                break;
-            case 5:
-                profilePic.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_sentiment_very_dissatisfied_white_24px));
-                profilePic.getDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
-                break;
-        }
+        defaultNameProfil.setText(Utils.getUserDefaultName());
+        stufeProfil.setText(Utils.getUserStufe());
+        stimmungProfil.setText(getMood());
+        nameProfil.setText(Utils.getUserName());
+        profilePic.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private String getMood() {
@@ -102,7 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
             case 4:
                 return getString(R.string.s);
             case 5:
-                return getString(R.string.sg);
+                return getString(R.string.ss);
         }
         return "" + i;
     }
