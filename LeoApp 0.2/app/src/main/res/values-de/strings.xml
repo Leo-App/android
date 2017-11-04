@@ -339,6 +339,8 @@
     <string name="klett">Klettern</string>
     <string name="title_randstundenfinder">Randstundenfinder</string>
     <string name="add_teacher">Lehrerkürzel hinzufügen</string>
+    <string name="title_survey_news">Umfragen</string>
+    <string name="profil">Dein Profil</string>
 
 
 </resources>
