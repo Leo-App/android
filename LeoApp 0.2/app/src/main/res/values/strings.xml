@@ -351,5 +351,6 @@
     <string name="klett">Klettern</string>
     <string name="rt">Reiten</string>
     <string name="verification_success">Verification succeeded</string>
+    <string name="stundenanzeige">Stunden</string>
 
 </resources>
