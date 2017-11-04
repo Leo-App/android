@@ -321,6 +321,15 @@
     <string name="verification_success">Verifizierung abgeschlossen!</string>
 
     <string name="ZK" translatable="false"></string>
+    <string name="jud">Jugend Debattiert</string>
+    <string name="kochen">Kochen</string>
+    <string name="näh">Nähen</string>
+    <string name="sani">Sanitäter</string>
+    <string name="mint">Mint</string>
+    <string name="band">Band</string>
+    <string name="fb">Fußball</string>
+    <string name="ten">Tennis</string>
+    <string name="aq">Aquarium</string>
     <string name="action_help">Hilfe</string>
     <string name="action_request"></string>
 

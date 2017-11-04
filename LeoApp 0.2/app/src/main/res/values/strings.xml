@@ -63,6 +63,7 @@
     <string name="summary_info_subst">See your substitutions for today and tomorrow</string>
     <string name="summary_info_schedule">After choosing your lessons, a schedule will be generated which you can further customize</string>
 
+    <string name="card_title_weather">current weather</string>
     <string name="coming_soon" translatable="false">Coming soon!</string>
 
     <string name="button_card_dismiss">Dismiss</string>
@@ -310,9 +311,7 @@
 
     <string name="settings_category_subst">Substitutions</string>
     <string name="settings_summary_username_school">Enter the schools username</string>
-
     <string name="settings_summary_password_school">Enter the schools password</string>
-
     <string name="settings_summary_notification_subst">Should we inform you on substitutions?</string>
     <string name="settings_summary_network">Only synchronize data with active WiFi connection</string>
     <string name="settings_title_network">WiFi only</string>
@@ -344,6 +343,13 @@
     <string name="settings_title_notification_none">Do not receive any notifications</string>
     <string name="button_info_auth">Verify</string>
     <string name="error_snackbar">Something went wrong. Please restart the app</string>
+    <string name="ztg">Schülerzeitung</string>
+    <string name="hip">Hip-Hop</string>
+    <string name="exp">Experimentieren</string>
+    <string name="schach">Schach</string>
+    <string name="rob">Roboter</string>
+    <string name="klett">Klettern</string>
+    <string name="rt">Reiten</string>
     <string name="verification_success">Verification succeeded</string>
 
 </resources>

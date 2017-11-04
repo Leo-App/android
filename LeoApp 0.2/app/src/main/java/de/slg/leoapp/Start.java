@@ -3,7 +3,6 @@ package de.slg.leoapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 
 import java.util.ArrayList;
 
@@ -16,32 +15,27 @@ public class Start extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Utils.getController().closeActivities();
-                Utils.getController().closeServices();
-                Utils.getController().closeDatabases();
+        Utils.getController().closeActivities();
+        Utils.getController().closeServices();
+        Utils.getController().closeDatabases();
 
-                Utils.getController().setContext(getApplicationContext());
+        Utils.getController().setContext(getApplicationContext());
 
-                runUpdateTasks();
-                startServices();
+        runUpdateTasks();
+        startServices();
 
-                final Intent main = new Intent(getApplicationContext(), MainActivity.class)
-                        .putExtra("show_dialog", de.slg.stimmungsbarometer.Utils.showVoteOnStartup());
+        final Intent main = new Intent(getApplicationContext(), MainActivity.class)
+                .putExtra("show_dialog", de.slg.stimmungsbarometer.Utils.showVoteOnStartup());
 
-                startActivity(main);
-                finish();
-            }
-        }, 1500);
+        startActivity(main);
+        finish();
     }
 
     private void runUpdateTasks() {
         ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.Utils.getCachedIDs();
         new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
 
-        if (getIntent().getBooleanExtra("updateUser", true) && Utils.isVerified())
+        if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true))
             new SyncUserTask().execute();
 
         if (Utils.isVerified())
@@ -53,7 +47,7 @@ public class Start extends Activity {
     }
 
     private void startServices() {
-        if (Utils.isVerified() && false) {
+        if (Utils.isVerified()) {
             startService(new Intent(getApplicationContext(), ReceiveService.class));
         }
         startService(new Intent(getApplicationContext(), NotificationService.class));
