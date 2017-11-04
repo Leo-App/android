@@ -12,9 +12,11 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
@@ -335,7 +337,6 @@ public class ReceiveService extends Service {
     }
 
     private class SendMessages extends AsyncTask<Void, Void, Void> {
-        //TODO verschlüsseln
         @Override
         protected Void doInBackground(Void... params) {
             Message[] array = Utils.getController().getMessengerDatabase().getQueuedMessages();
@@ -356,7 +357,7 @@ public class ReceiveService extends Service {
 
                         if (connection.getResponseCode() == 200)
                             Utils.getController().getMessengerDatabase().dequeueMessage(m.mid);
-                    } catch (Exception e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -364,8 +365,12 @@ public class ReceiveService extends Service {
             return null;
         }
 
-        private String generateURL(String message, int cid) {
-            return Utils.BASE_URL_PHP + "messenger/addMessage.php?uid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&cid=" + cid;
+        private String generateURL(String message, int cid) throws UnsupportedEncodingException {
+            message = URLEncoder.encode(message, "UTF-8");
+            String key      = Verschluesseln.createKey(message);
+            String vMessage = Verschluesseln.encrypt(message, key);
+            String vKey     = Verschluesseln.encryptKey(key);
+            return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?&uid=" + Utils.getUserID() + "&message=" + vMessage + "&cid=" + cid + "&vKey=" + vKey;
         }
     }
 }
