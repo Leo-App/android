@@ -38,6 +38,7 @@ import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stundenplan.StundenplanActivity;
+import de.slg.umfragen.SurveyActivity;
 
 public class StimmungsbarometerActivity extends ActionLogActivity {
     static         boolean            drawI;
@@ -214,6 +215,9 @@ public class StimmungsbarometerActivity extends ActionLogActivity {
                         break;
                     case R.id.profile:
                         i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        break;
+                    case R.id.umfragen:
+                        i = new Intent(getApplicationContext(), SurveyActivity.class);
                         break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);

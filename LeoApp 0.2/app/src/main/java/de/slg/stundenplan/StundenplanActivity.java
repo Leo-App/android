@@ -42,6 +42,7 @@ import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
+import de.slg.umfragen.SurveyActivity;
 
 public class StundenplanActivity extends ActionLogActivity {
     private DrawerLayout        drawerLayout;
@@ -134,6 +135,9 @@ public class StundenplanActivity extends ActionLogActivity {
                         break;
                     case R.id.profile:
                         i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        break;
+                    case R.id.umfragen:
+                        i = new Intent(getApplicationContext(), SurveyActivity.class);
                         break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
