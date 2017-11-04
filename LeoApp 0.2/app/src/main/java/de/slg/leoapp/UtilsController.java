@@ -56,6 +56,7 @@ public class UtilsController {
 
     private PreferenceActivity             preferenceActivity;
     private NotificationPreferenceActivity notificationPreferenceActivity;
+    private ProfileActivity                profileActivity;
 
     //Datenbankverwaltungen
     private DBConnection  dbConnection;
@@ -101,6 +102,8 @@ public class UtilsController {
             return preferenceActivity;
         } else if (notificationPreferenceActivity != null) {
             return notificationPreferenceActivity;
+        } else if (profileActivity != null) {
+            return profileActivity;
         }
         return null;
     }
@@ -163,6 +166,8 @@ public class UtilsController {
             return klausurplanActivity;
         } else if (essensQRActivity.getStatus() == ActivityStatus.ACTIVE) {
             return essensQRActivity;
+        } else if (profileActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return essensQRActivity;
         } else {
             return null;
         }
@@ -222,6 +227,10 @@ public class UtilsController {
 
     void registerNotificationPreferenceActivity(NotificationPreferenceActivity activity) {
         notificationPreferenceActivity = activity;
+    }
+
+    void registerProfileActivity(ProfileActivity activity) {
+        profileActivity = activity;
     }
 
     /**
@@ -316,10 +325,17 @@ public class UtilsController {
     }
 
     /**
-     * @return Aktive BotificationPreference-Activity (Notification Einstellungen)
+     * @return Aktive NotificationPreference-Activity (Notification Einstellungen)
      */
     private NotificationPreferenceActivity getNotificationPreferenceActivity() {
         return notificationPreferenceActivity;
+    }
+
+    /**
+     * @return Aktive Profil-Activity
+     */
+    ProfileActivity getProfileActivity() {
+        return profileActivity;
     }
 
     /**
@@ -385,6 +401,9 @@ public class UtilsController {
         }
         if (getPreferenceActivity() != null) {
             getPreferenceActivity().finish();
+        }
+        if (getProfileActivity() != null) {
+            getProfileActivity().finish();
         }
         if (getMainActivity() != null) {
             getMainActivity().finish();
