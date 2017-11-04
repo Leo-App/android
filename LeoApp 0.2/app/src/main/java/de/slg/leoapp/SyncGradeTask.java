@@ -3,16 +3,14 @@ package de.slg.leoapp;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
-
 
 class SyncGradeTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
-        if(!Utils.checkNetwork())
+        if (!Utils.checkNetwork())
             return null;
 
         String name = Utils.getUserDefaultName();
@@ -27,17 +25,16 @@ class SyncGradeTask extends AsyncTask<Void, Void, Void> {
         Utils.getController().getPreferences()
                 .edit()
                 .putString("pref_key_general_klasse", levelFile.split("%20")[0])
-        .apply();
+                .apply();
 
         try {
 
-            HttpsURLConnection connection = (HttpsURLConnection)
+            HttpURLConnection connection = (HttpURLConnection)
                     new URL(Utils.BASE_URL_PHP + "user/updateKlasse.php?uid=" + Utils.getUserID() + "&uklasse=" + grade)
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.authorization);
 
             connection.connect();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
