@@ -23,7 +23,7 @@
             tools:mainActivity=".MainActivity">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/actionBarSchwarzesBrett"
+                android:id="@+id/actionBarUmfragen"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentLeft="true"
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
-                android:layout_below="@+id/actionBarSchwarzesBrett"
+                android:layout_below="@+id/actionBarUmfragen"
                 android:animateLayoutChanges="true">
 
             </ExpandableListView>
@@ -48,7 +48,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/actionBarSchwarzesBrett"
+                android:layout_below="@id/actionBarUmfragen"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="Keine Einträge vorhanden"

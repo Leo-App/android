@@ -79,10 +79,10 @@ public class SurveyActivity extends ActionLogActivity {
     }
 
     private void initToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarSchwarzesBrett);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarUmfragen);
         myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(R.string.title_news);
+        getSupportActionBar().setTitle(R.string.title_survey_news);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

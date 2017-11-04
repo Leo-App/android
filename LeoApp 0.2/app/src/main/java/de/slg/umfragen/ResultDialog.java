@@ -186,6 +186,8 @@ class ResultDialog extends AlertDialog {
                 URL            updateURL = new URL(Utils.BASE_URL_PHP + "survey/getAllResults.php?survey=" + id);
                 BufferedReader reader    = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
 
+                Utils.logError(updateURL);
+
                 String        cur;
                 StringBuilder result = new StringBuilder();
                 while ((cur = reader.readLine()) != null) {
@@ -243,6 +245,10 @@ class ResultDialog extends AlertDialog {
                     snackbar.show();
                     break;
                 case SUCCESS:
+                    for(Map.Entry<String, Integer> entry : answerResults.entrySet()) {
+                        Utils.logError(entry.getKey());
+                        Utils.logError(entry.getValue());
+                    }
                     animateChanges(amountAnswers, answerResults, target, sumVotes);
                     break;
             }
