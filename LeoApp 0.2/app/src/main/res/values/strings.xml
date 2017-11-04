@@ -254,6 +254,7 @@
     <string name="title_survey_to">Target audience</string>
     <string name="vote_button">Vote</string>
     <string name="back">Back</string>
+    <string name="beschreibungUmfrage">Find out more about your classmates\' opinions on your chosen topics and take part in polls yourself.</string>
 
 
     <!-- Einstellungen -->
@@ -371,6 +372,5 @@
     <string name="m">Neutral</string>
     <string name="s">Schlecht</string>
     <string name="ss">Sehr schlecht</string>
-    <string name="beschreibungUmfrage">Erfahre die Meinungen deiner Mitschüler zu von dir gewählten Themen</string>
 
 </resources>

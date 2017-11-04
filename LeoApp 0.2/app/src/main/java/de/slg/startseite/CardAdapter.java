@@ -174,6 +174,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
             case POLL: //Case hinzugefügt
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.umfragen);
+                c.desc =
                 c.desc = Utils.getString(R.string.beschreibungUmfrage);
                 c.enabled = true;
                 c.icon = R.drawable.icon_survey;
