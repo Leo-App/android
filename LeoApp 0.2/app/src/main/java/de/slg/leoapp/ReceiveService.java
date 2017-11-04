@@ -32,7 +32,7 @@ public class ReceiveService extends Service {
         Utils.getController().registerReceiveService(this);
 
         running = true;
-        socketRunning = false;
+        socketRunning = true;
         receiveNews = false;
         idle = false;
 

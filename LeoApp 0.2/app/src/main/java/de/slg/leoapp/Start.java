@@ -53,7 +53,7 @@ public class Start extends Activity {
     }
 
     private void startServices() {
-        if (Utils.isVerified() && false) {
+        if (Utils.isVerified()) {
             startService(new Intent(getApplicationContext(), ReceiveService.class));
         }
         startService(new Intent(getApplicationContext(), NotificationService.class));
