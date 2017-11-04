@@ -30,8 +30,8 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     KlausurenImportieren(Context context) {
         this.context = context;
         this.schriflich = Utils.getController().getStundenplanDatabase().gibSchriftlicheFaecherStrings();
-        for (String s : schriflich)
-            Log.e("schriftlich", s);
+      //  for (String s : schriflich)
+       //     Log.e("schriftlich", s);
         this.filtern = Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", false);
     }
 
@@ -213,7 +213,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     }
 
     private boolean istImStundenplan(String klausur) {
-        Log.e("klausur", klausur);
+       // Log.e("klausur", klausur);
         if (filtern) {
             for (String s : schriflich) {
                 if (klausur.startsWith(s))

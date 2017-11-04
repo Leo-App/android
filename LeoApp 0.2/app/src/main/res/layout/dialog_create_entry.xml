@@ -115,7 +115,7 @@
                 android:layout_alignStart="@+id/content"
                 android:layout_below="@+id/title_date"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@+id/imageButton"
                 android:ems="10"
                 android:inputType="date" />
@@ -169,7 +169,7 @@
                 android:layout_alignEnd="@+id/imageButton"
                 android:layout_alignRight="@+id/imageButton"
                 android:layout_below="@+id/spinner2"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:enabled="false"
                 android:text="@string/speichern"
                 android:textAllCaps="true" />
