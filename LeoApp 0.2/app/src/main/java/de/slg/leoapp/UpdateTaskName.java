@@ -94,7 +94,7 @@ class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     }
 
     private void showSnackbar() {
-        final Snackbar cS = Snackbar.make(Utils.getController().getPreferenceActivity().getCoordinatorLayout(), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
+        final Snackbar cS = Snackbar.make(Utils.getController().getProfileActivity().getCoordinatorLayout(), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
         cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
@@ -106,7 +106,7 @@ class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     }
 
     private void showSnackbar2() {
-        final Snackbar cS = Snackbar.make(Utils.getController().getPreferenceActivity().getCoordinatorLayout(), R.string.settings_snackbar_username_taken, Snackbar.LENGTH_LONG);
+        final Snackbar cS = Snackbar.make(Utils.getController().getProfileActivity().getCoordinatorLayout(), R.string.settings_snackbar_username_taken, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
         cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override
@@ -118,7 +118,7 @@ class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     }
 
     private void showSnackbar3() {
-        final Snackbar cS = Snackbar.make(Utils.getController().getPreferenceActivity().getCoordinatorLayout(), R.string.error, Snackbar.LENGTH_LONG);
+        final Snackbar cS = Snackbar.make(Utils.getController().getProfileActivity().getCoordinatorLayout(), R.string.error, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
         cS.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
             @Override

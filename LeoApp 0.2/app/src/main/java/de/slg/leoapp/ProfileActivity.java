@@ -8,8 +8,13 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,8 +56,79 @@ public class ProfileActivity extends ActionLogActivity {
         nameProfil.setText(Utils.getUserName());
         defaultNameProfil.setText(Utils.getUserDefaultName());
         stufeProfil.setText(Utils.getUserStufe());
+        if (Utils.getUserPermission() == 2) {
+            TextView stufeTitel = (TextView) findViewById(R.id.textView12);
+            stufeTitel.setText("Kürzel");
+            stufeProfil.setText(Utils.getLehrerKuerzel());
+            findViewById(R.id.editKuerzel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final AlertDialog dialog = new AlertDialog.Builder(ProfileActivity.this).create();
+                    dialog.setContentView(R.layout.dialog_change_chatname);
+
+                    final EditText editText = (EditText) dialog.findViewById(R.id.etChatname);
+                    editText.setHint(R.string.settings_title_kuerzel);
+                    editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+
+                    dialog.findViewById(R.id.textView).setVisibility(View.GONE);
+
+                    dialog.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Utils.getController().getPreferences().edit()
+                                    .putString("pref_key_kuerzel_general", editText.getText().toString())
+                                    .apply();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                }
+            });
+        }
 
         setzeProfilBild();
+
+        findViewById(R.id.editName).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog dialog = new AlertDialog.Builder(ProfileActivity.this).create();
+                dialog.setContentView(R.layout.dialog_change_chatname);
+
+                final EditText editText = (EditText) dialog.findViewById(R.id.etChatname);
+                editText.setHint(R.string.settings_title_nickname);
+
+                dialog.findViewById(R.id.textView).setVisibility(View.GONE);
+
+                dialog.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UpdateTaskName task = new UpdateTaskName(Utils.getUserName());
+                        Utils.getController().getPreferences().edit()
+                                .putString("pref_key_general_name", editText.getText().toString())
+                                .apply();
+                        task.execute();
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            }
+        });
     }
 
     private void setzeProfilBild() {
@@ -159,5 +235,9 @@ public class ProfileActivity extends ActionLogActivity {
             grade.setText(Utils.getUserStufe());
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
+    }
+
+    View getCoordinatorLayout() {
+        return findViewById(R.id.coordinator);
     }
 }
