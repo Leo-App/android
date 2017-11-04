@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import de.slg.leoapp.ItemAnimator;
@@ -119,7 +120,6 @@ class ResultDialog extends AlertDialog {
         asyncTask = new SyncResults().execute();
     }
 
-    //TODO FIXEN!
     @SuppressWarnings("unchecked")
     private void animateChanges(int amount, HashMap<String, Integer> answerMap, int target, int votes) {
 
@@ -166,7 +166,7 @@ class ResultDialog extends AlertDialog {
         private int                      target;
         private int                      sumVotes;
         private String                   title;
-        private HashMap<String, Integer> answerResults;
+        private LinkedHashMap<String, Integer> answerResults;
 
         @Override
         protected ResponseCode doInBackground(Void... params) {
@@ -176,8 +176,6 @@ class ResultDialog extends AlertDialog {
                 }
                 URL            updateURL = new URL(Utils.BASE_URL_PHP + "survey/getAllResults.php?survey=" + id);
                 BufferedReader reader    = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
-
-                Utils.logError(updateURL);
 
                 String        cur;
                 StringBuilder result = new StringBuilder();
@@ -197,7 +195,7 @@ class ResultDialog extends AlertDialog {
                 String[] answers = data[1].split("_next_");
 
                 amountAnswers = answers.length;
-                answerResults = new HashMap<>();
+                answerResults = new LinkedHashMap<>();
                 sumVotes = 0;
 
                 for (String s : answers) {

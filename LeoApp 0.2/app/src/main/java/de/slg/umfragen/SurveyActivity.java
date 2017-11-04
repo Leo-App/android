@@ -258,12 +258,12 @@ public class SurveyActivity extends ActionLogActivity {
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
         private final Map<String, List<String>> eintraege;
         private final List<String> titel;
-        private HashMap<Integer, List<TextView>> checkboxes;
+        private LinkedHashMap<Integer, List<TextView>> checkboxes;
 
         ExpandableListAdapter(Map<String, List<String>> eintraege, List<String> titel) {
             this.eintraege = eintraege;
             this.titel = titel;
-            this.checkboxes = new HashMap<>();
+            this.checkboxes = new LinkedHashMap<>();
         }
 
         @SuppressLint("SetTextI18n")
@@ -332,7 +332,11 @@ public class SurveyActivity extends ActionLogActivity {
                 share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO share
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, Utils.getContext().getString(R.string.share_text, titel.get(groupPosition)));
+                        sendIntent.setType("text/plain");
+                        startActivity(Intent.createChooser(sendIntent, Utils.getString(R.string.share)));
                     }
                 });
 
