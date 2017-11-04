@@ -203,7 +203,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 int remoteID = getRemoteId(groupPosition);
-                if (!Utils.isVerified() || Utils.getUserPermission() != 1 || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
+                if (!Utils.isVerified() || Utils.getUserPermission() == 2 || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
                     return false;
                 String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
                 if (!cache.equals(""))

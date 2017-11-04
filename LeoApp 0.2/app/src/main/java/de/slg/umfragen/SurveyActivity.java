@@ -313,7 +313,7 @@ public class SurveyActivity extends ActionLogActivity {
                             @Override
                             public void onDismissed(Snackbar snackbar, int event) {
                                 if (event == DISMISS_EVENT_TIMEOUT) {
-                                    new ExpandableListAdapter.deleteTask().execute(Integer.parseInt(metadata[3]));
+                                    new ExpandableListAdapter.deleteTask().execute(Integer.parseInt(metadata[2]));
                                 } else {
                                     initExpandableListView();
                                 }
@@ -340,7 +340,7 @@ public class SurveyActivity extends ActionLogActivity {
                         @Override
                         public void onClick(View v) {
                             for (TextView textView : checkboxes.get(groupPosition)) {
-                                RadioButton rb = (RadioButton) textView;
+                                CompoundButton rb = (CompoundButton) textView;
                                 if (rb.isChecked())
                                     new ExpandableListAdapter.sendVoteTask(button).execute((Integer) rb.getTag());
                             }
@@ -351,7 +351,7 @@ public class SurveyActivity extends ActionLogActivity {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            showResultDialog(Integer.parseInt(metadata[3]));
+                            showResultDialog(Integer.parseInt(metadata[2]));
                         }
                     });
                 }
@@ -399,7 +399,7 @@ public class SurveyActivity extends ActionLogActivity {
         }
 
         private void showResultDialog(int id) {
-            new ResultDialog(Utils.getContext(), id).show();
+            new ResultDialog(SurveyActivity.this, id).show();
         }
 
         @Override
@@ -457,7 +457,7 @@ public class SurveyActivity extends ActionLogActivity {
                 if (!Utils.checkNetwork())
                     return ResponseCode.NO_CONNECTION;
 
-                id = params[1];
+                id = params[0];
 
                 SQLiteConnector db = new SQLiteConnector(getApplicationContext());
                 SQLiteDatabase dbh = db.getWritableDatabase();

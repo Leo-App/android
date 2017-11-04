@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Muss sortiert werden -->
+    <string name="title_survey_news">Umfragen</string>
+
     <string name="cancel">Abbrechen</string>
     <string name="error">Entschuldige, etwas ist schief gelaufen</string>
 
