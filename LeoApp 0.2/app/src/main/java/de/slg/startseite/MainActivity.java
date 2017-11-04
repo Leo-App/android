@@ -30,6 +30,7 @@ import de.slg.intro.IntroActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
+import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.leoview.ActionLogActivity;
@@ -38,6 +39,7 @@ import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.AbstimmDialog;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
+import de.slg.umfragen.SurveyActivity;
 
 public class MainActivity extends ActionLogActivity {
     public static boolean        editing;
@@ -261,8 +263,14 @@ public class MainActivity extends ActionLogActivity {
                         break;
                     case R.id.startseite:
                         return true;
+                    case R.id.umfragen:
+                        i = new Intent(getApplicationContext(), SurveyActivity.class);
+                        break;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
+                        break;
+                    case R.id.profile:
+                        i = new Intent(getApplicationContext(), ProfileActivity.class);
                         break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);

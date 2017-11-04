@@ -39,6 +39,7 @@ import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
+import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.leoview.ActionLogActivity;
@@ -168,6 +169,9 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
                         break;
+                    case R.id.profile:
+                        i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
@@ -203,7 +207,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 int remoteID = getRemoteId(groupPosition);
-                if (!Utils.isVerified() || Utils.getUserPermission() != 1 || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
+                if (!Utils.isVerified() || Utils.getUserPermission() == 2 || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
                     return false;
                 String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
                 if (!cache.equals(""))

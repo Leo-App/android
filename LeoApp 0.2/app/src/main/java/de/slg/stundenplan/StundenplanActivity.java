@@ -34,6 +34,7 @@ import java.util.concurrent.ExecutionException;
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
+import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.leoview.ActionLogActivity;
@@ -127,6 +128,9 @@ public class StundenplanActivity extends ActionLogActivity {
                         break;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
+                        break;
+                    case R.id.profile:
+                        i = new Intent(getApplicationContext(), ProfileActivity.class);
                         break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);

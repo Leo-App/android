@@ -1,5 +1,5 @@
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.slg.leoapp">
 
     <uses-feature android:name="android.hardware.camera" />
@@ -17,7 +17,6 @@
         android:roundIcon="@mipmap/leo_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <service
             android:name=".ReceiveService"
             android:description="@string/serviceDescription"
@@ -32,6 +31,7 @@
             android:theme="@style/StartTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,21 +45,17 @@
         <activity
             android:name=".TutorialActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="de.slg.startseite.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
-
         <activity
             android:name="de.slg.vertretung.WrapperSubstitutionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
-
         <activity
             android:name="de.slg.startseite.InfoActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="de.slg.messenger.MessengerActivity"
             android:screenOrientation="portrait"
@@ -73,12 +69,10 @@
         <activity
             android:name="de.slg.messenger.ChatEditActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="de.slg.essensqr.EssensQRActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
-
         <activity
             android:name="de.slg.stimmungsbarometer.StimmungsbarometerActivity"
             android:screenOrientation="portrait"
@@ -88,13 +82,10 @@
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme" />
-
-
         <activity
             android:name="de.slg.klausurplan.KlausurplanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
-
         <activity
             android:name="de.slg.schwarzes_brett.SchwarzesBrettActivity"
             android:screenOrientation="portrait"
@@ -110,7 +101,6 @@
         <activity
             android:name="de.slg.stundenplan.AuswahlActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="de.slg.nachhilfe.NachhilfeboerseActivity"
             android:screenOrientation="portrait"
@@ -121,10 +111,17 @@
         <activity
             android:name="de.slg.nachhilfe.Verwalten"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="de.slg.intro.IntroActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="de.slg.leoapp.ProfileActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.umfragen.SurveyActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
