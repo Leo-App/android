@@ -353,5 +353,6 @@
     <string name="rob">Roboter</string>
     <string name="klett">Klettern</string>
     <string name="rt">Reiten</string>
+    <string name="stundenanzeige">Stunden</string>
 
 </resources>
