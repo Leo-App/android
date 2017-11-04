@@ -88,7 +88,7 @@ public class StundenplanView extends View {
         canvas.drawLine(baseLineX + abstandX2 + abstandX * 4, baseLineY, baseLineX + abstandX2 + abstandX * 4, height - baseLineY, paint);
         paint.setTextSize(24);
         paint.setTypeface(Typeface.DEFAULT_BOLD);
-        canvas.drawText(getContext().getString(R.string.stundenanzeige),baseLineX + paddingX * 4, baseline2Y - paddingY * 2, paint);
+        canvas.drawText(getContext().getString(R.string.hour),baseLineX + paddingX * 4, baseline2Y - paddingY * 2, paint);
         canvas.drawText(getContext().getString(R.string.montag), baseLineX + abstandX2 + paddingX * 5, baseline2Y - paddingY * 2, paint);
         canvas.drawText(getContext().getString(R.string.dienstag), baseLineX + abstandX2 + abstandX + paddingX * 5, baseline2Y - paddingY * 2, paint);
         canvas.drawText(getContext().getString(R.string.mittwoch), baseLineX + abstandX2 + abstandX * 2 + paddingX * 5, baseline2Y - paddingY * 2, paint);

@@ -90,6 +90,7 @@
             android:name="de.slg.schwarzes_brett.SchwarzesBrettActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
+
         <activity
             android:name="de.slg.stundenplan.StundenplanActivity"
             android:screenOrientation="portrait"
@@ -116,6 +117,11 @@
         <activity
             android:name="de.slg.leoapp.ProfileActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="de.slg.umfragen.SurveyActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

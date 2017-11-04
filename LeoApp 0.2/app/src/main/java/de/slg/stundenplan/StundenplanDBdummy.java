@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
-public class StundenplanDB extends SQLiteOpenHelper {
+public class StundenplanDBdummy extends SQLiteOpenHelper {
     private static final String DATABASE_NAME       = "stundenplan";
     private static final String TABLE_FACHER        = "faecher";
     private static final String FACH_ID             = "fid";
@@ -29,7 +29,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
     private final SQLiteDatabase database;
     private final Context        context;
 
-    public StundenplanDB(Context context) {
+    public StundenplanDBdummy(Context context) {
         super(context, DATABASE_NAME, null, 4);
         database = getWritableDatabase();
         this.context = context;
@@ -331,7 +331,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             case "RT":
                 return context.getString(R.string.rt);
             case "KL":
-                return context.getString(R.string.klett); 
+                return context.getString(R.string.klett);
             case "ROB":
                 return context.getString(R.string.rob);
             case "AQ":
@@ -349,7 +349,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             case "CH":
                 return context.getString(R.string.exp);
             case "KU":
-                return context.getString(R.string.kunst); 
+                return context.getString(R.string.kunst);
             case "TA":
                 return context.getString(R.string.hip);
             case "ZTG":

@@ -24,13 +24,6 @@
             android:checked="false"
             android:icon="@drawable/ic_question_answer_white_24dp"
             android:title="@string/title_messenger" />
-        <!--
-        <item
-            android:id="@+id/nachhilfe"
-            android:checked="false"
-            android:icon="@drawable/ic_people_white_24dp"
-            android:title="@string/title_tutoring" />
-            -->
         <item
             android:id="@+id/newsboard"
             android:checked="false"
@@ -46,13 +39,11 @@
             android:checked="false"
             android:icon="@drawable/ic_event_white_24dp"
             android:title="@string/title_plan" />
-        <!--
         <item
-            android:id="@+id/vertretung"
+            android:id="@+id/umfragen"
             android:checked="false"
-            android:icon="@drawable/ic_account_switch"
-            android:title="@string/title_subst" />
-            -->
+            android:icon="@drawable/icon_survey"
+            android:title="@string/title_survey_news" />
     </group>
 
     <group

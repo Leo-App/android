@@ -38,7 +38,7 @@ public class Start extends Activity {
         if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true))
             new SyncUserTask().execute();
 
-        if (Utils.isVerified())
+        if (Utils.isVerified() && Utils.getUserPermission() != 2)
             new SyncGradeTask().execute();
 
         if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {

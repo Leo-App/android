@@ -8,12 +8,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -23,25 +21,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -71,8 +59,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     private Map<String, List<String>> entriesMap;
     private DrawerLayout              drawerLayout;
 
-    private int surveyBegin;
-
     private String rawLocation;
 
     private static int getRemoteId(int position) {
@@ -99,8 +85,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schwarzesbrett);
-
-        surveyBegin = 0;
 
         Utils.getController().registerSchwarzesBrettActivity(this);
 
@@ -222,10 +206,8 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if (groupPosition >= surveyBegin)
-                    return false;
                 int remoteID = getRemoteId(groupPosition);
-                if (!Utils.isVerified() || Utils.getUserPermission() != 1 || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
+                if (!Utils.isVerified() || Utils.getUserPermission() == 2 || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
                     return false;
                 String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
                 if (!cache.equals(""))
@@ -249,7 +231,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
 
     private void initButton() {
         View button  = findViewById(R.id.floatingActionButton);
-        View button2 = findViewById(R.id.floatingActionButtonSurvey);
 
         if (Utils.getUserPermission() >= 2) {
             button.setVisibility(View.VISIBLE);
@@ -260,13 +241,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                 }
             });
         }
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new NewSurveyDialog(SchwarzesBrettActivity.this).show();
-            }
-        });
     }
 
     private ArrayList<Integer> createViewList() {
@@ -328,7 +302,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
 
             loadChildren(children);
             entriesMap.put(cursor.getString(1), childList);
-            surveyBegin++;
         }
         cursor.close();
 
@@ -412,12 +385,10 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         private final List<String>                     titel;
         @Nullable
         private       ArrayList<Integer>               views;
-        private       HashMap<Integer, List<TextView>> checkboxes;
 
         ExpandableListAdapter(Map<String, List<String>> eintraege, List<String> titel) {
             this.eintraege = eintraege;
             this.titel = titel;
-            this.checkboxes = new HashMap<>();
         }
 
         ExpandableListAdapter(Map<String, List<String>> eintraege, List<String> titel, @Nullable ArrayList<Integer> views) {
@@ -430,13 +401,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-            if (groupPosition >= surveyBegin) {
-                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_alt, null);
-                TextView textView = (TextView) convertView.findViewById(R.id.textView);
-                textView.setText((String) getGroup(groupPosition));
-                TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
-                textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(1).split("_;_")[1]);
-            } else {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
                 TextView textView = (TextView) convertView.findViewById(R.id.textView);
                 textView.setText((String) getGroup(groupPosition));
@@ -452,128 +416,11 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                     params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                     textViewStufe.setLayoutParams(params);
                 }
-            }
             return convertView;
         }
 
         @Override
         public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-
-            if (groupPosition >= surveyBegin) {
-
-                final String[] metadata = eintraege.get(titel.get(groupPosition)).get(1).split("_;_");
-
-                if (isLastChild) {
-                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt2, null);
-
-                    if (Integer.parseInt(metadata[2]) == Utils.getUserID())
-                        convertView.findViewById(R.id.delete).setVisibility(View.VISIBLE);
-
-                    final Button      button = (Button) convertView.findViewById(R.id.button);
-                    final ImageButton delete = (ImageButton) convertView.findViewById(R.id.delete);
-                    final ImageButton share  = (ImageButton) convertView.findViewById(R.id.share);
-
-                    delete.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            eintraege.remove(titel.get(groupPosition));
-                            titel.remove(groupPosition);
-                            notifyDataSetChanged();
-                            final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.survey_deleted), Snackbar.LENGTH_SHORT);
-                            snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                            snackbar2.setAction(Utils.getContext().getString(R.string.snackbar_undo), new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    snackbar2.dismiss();
-                                }
-                            });
-                            snackbar2.addCallback(new Snackbar.Callback() {
-
-                                @Override
-                                public void onDismissed(Snackbar snackbar, int event) {
-                                    if (event == DISMISS_EVENT_TIMEOUT) {
-                                        new deleteTask().execute(Integer.parseInt(metadata[3]));
-                                    } else {
-                                        initExpandableListView();
-                                    }
-                                }
-
-                                @Override
-                                public void onShown(Snackbar snackbar) {
-
-                                }
-                            });
-                            snackbar2.show();
-                        }
-                    });
-
-                    share.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //TODO share
-                        }
-                    });
-
-                    if (!Boolean.parseBoolean(metadata[3])) {
-                        button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                for (TextView textView : checkboxes.get(groupPosition)) {
-                                    RadioButton rb = (RadioButton) textView;
-                                    if (rb.isChecked())
-                                        new sendVoteTask(button).execute((Integer) rb.getTag());
-                                }
-                            }
-                        });
-                    } else {
-                        button.setText(Utils.getString(R.string.result));
-                        button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showResultDialog(Integer.parseInt(metadata[3]));
-                            }
-                        });
-                    }
-                } else if (childPosition == 0) {
-                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_survey_meta, null);
-                    ((TextView) convertView.findViewById(R.id.metadata)).setText(getString(R.string.meta_id_placeholder, metadata[2]));
-                } else if (childPosition == 1) {
-                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
-                    ((TextView) convertView.findViewById(R.id.textView)).setText(eintraege.get(titel.get(groupPosition)).get(0));
-                } else {
-                    final boolean multiple = Boolean.parseBoolean(metadata[0]);
-                    convertView = getLayoutInflater().inflate(multiple ?
-                            R.layout.list_item_expandable_child_survey_multiple :
-                            R.layout.list_item_expandable_child_survey_single, null);
-
-                    String         option = eintraege.get(titel.get(groupPosition)).get(childPosition);
-                    final TextView t      = (TextView) convertView.findViewById(R.id.checkBox);
-
-                    t.setText(option.split("_;_")[0]);
-                    t.setTag(Integer.parseInt(option.split("_;_")[1]));
-                    ((CompoundButton) t).setChecked(option.split("_;_")[2].equals("1"));
-                    t.setEnabled(!Boolean.parseBoolean(metadata[3]));
-                    t.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!multiple) {
-                                for (TextView textView : checkboxes.get(groupPosition)) {
-                                    RadioButton rb = (RadioButton) textView;
-                                    if (!rb.equals(t))
-                                        rb.setChecked(false);
-                                }
-                            }
-                        }
-                    });
-
-                    List<TextView> checkboxList;
-
-                    if ((checkboxList = checkboxes.get(groupPosition)) == null)
-                        checkboxes.put(groupPosition, (checkboxList = new ArrayList<>()));
-
-                    checkboxList.add(t);
-                }
-            } else {
 
                 if (isLastChild) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
@@ -613,12 +460,8 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                     textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                     textView.setOnClickListener(listener);
                 }
-            }
-            return convertView;
-        }
 
-        private void showResultDialog(int id) {
-            new ResultDialog(Utils.getContext(), id).show();
+            return convertView;
         }
 
         @Override
@@ -661,156 +504,5 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
             return false;
         }
 
-        private class sendVoteTask extends AsyncTask<Integer, Void, ResponseCode> {
-
-            private Button b;
-            private int    id;
-
-            sendVoteTask(Button b) {
-                this.b = b;
-            }
-
-            @Override
-            protected ResponseCode doInBackground(Integer... params) {
-
-                if (!Utils.checkNetwork())
-                    return ResponseCode.NO_CONNECTION;
-
-                id = params[1];
-
-                SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
-                SQLiteDatabase  dbh = db.getWritableDatabase();
-
-                dbh.execSQL("UPDATE " + SQLiteConnector.TABLE_ANSWERS + " SET " + SQLiteConnector.ANSWERS_SELECTED + " = 1 WHERE " + SQLiteConnector.ANSWERS_REMOTE_ID + " = " + params[0]);
-
-                dbh.close();
-
-                try {
-                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
-
-                    StringBuilder builder = new StringBuilder();
-                    String        line;
-                    while ((line = reader.readLine()) != null)
-                        builder.append(line);
-                    reader.close();
-
-                    if (builder.toString().startsWith("-"))
-                        return ResponseCode.SERVER_ERROR;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return ResponseCode.SERVER_ERROR;
-                }
-                return ResponseCode.SUCCESS;
-            }
-
-            @Override
-            protected void onPostExecute(ResponseCode r) {
-                switch (r) {
-                    case NO_CONNECTION:
-                        final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_SHORT);
-                        snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar.setAction(Utils.getContext().getString(R.string.dismiss), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                            }
-                        });
-                        snackbar.show();
-                        break;
-                    case SERVER_ERROR:
-                        final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, versuche es später erneut", Snackbar.LENGTH_SHORT);
-                        snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar2.setAction(Utils.getContext().getString(R.string.dismiss), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar2.dismiss();
-                            }
-                        });
-                        snackbar2.show();
-                        break;
-                    case SUCCESS:
-                        b.setText(Utils.getString(R.string.result));
-                        b.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showResultDialog(id);
-                            }
-                        });
-                        Toast.makeText(Utils.getContext(), "Erfolgreich abgestimmt", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        }
-
-        private class deleteTask extends AsyncTask<Integer, Void, ResponseCode> {
-
-            @Override
-            protected ResponseCode doInBackground(Integer... params) {
-
-                if (!Utils.checkNetwork())
-                    return ResponseCode.NO_CONNECTION;
-
-                SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
-                SQLiteDatabase  dbh = db.getWritableDatabase();
-
-                dbh.execSQL("DELETE FROM " + SQLiteConnector.TABLE_SURVEYS + " WHERE " + SQLiteConnector.SURVEYS_REMOTE_ID + " = " + params[0]);
-                dbh.execSQL("DELETE FROM " + SQLiteConnector.TABLE_ANSWERS + " WHERE " + SQLiteConnector.ANSWERS_SID + " = (SELECT " + SQLiteConnector.SURVEYS_ID + " FROM " + SQLiteConnector.TABLE_SURVEYS + " WHERE " + SQLiteConnector.SURVEYS_REMOTE_ID + " = " + params[0] + ")");
-
-                dbh.close();
-
-                try {
-                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/deleteSurvey.php?survey=" + params[0]);
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
-
-                    StringBuilder builder = new StringBuilder();
-                    String        line;
-                    while ((line = reader.readLine()) != null)
-                        builder.append(line);
-                    reader.close();
-
-                    if (builder.toString().startsWith("-"))
-                        return ResponseCode.SERVER_ERROR;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return ResponseCode.SERVER_ERROR;
-                }
-                return ResponseCode.SUCCESS;
-            }
-
-            @Override
-            protected void onPostExecute(ResponseCode r) {
-                switch (r) {
-                    case NO_CONNECTION:
-                        final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_SHORT);
-                        snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar.setAction(Utils.getContext().getString(R.string.dismiss), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                            }
-                        });
-                        snackbar.show();
-                        break;
-                    case SERVER_ERROR:
-                        final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, versuche es später erneut", Snackbar.LENGTH_SHORT);
-                        snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar2.setAction(Utils.getContext().getString(R.string.dismiss), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar2.dismiss();
-                            }
-                        });
-                        snackbar2.show();
-                        break;
-                    case SUCCESS:
-                        break;
-                }
-            }
-        }
     }
 }
