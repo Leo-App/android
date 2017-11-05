@@ -20,6 +20,7 @@ import de.slg.stundenplan.AuswahlActivity;
 import de.slg.stundenplan.StundenplanActivity;
 import de.slg.stundenplan.StundenplanBildActivity;
 import de.slg.stundenplan.StundenplanDB;
+import de.slg.umfragen.SurveyActivity;
 
 /**
  * UtilsController
@@ -53,6 +54,8 @@ public class UtilsController {
     private KlausurplanActivity klausurplanActivity;
 
     private EssensQRActivity essensQRActivity;
+
+    private SurveyActivity surveyActivity;
 
     private PreferenceActivity             preferenceActivity;
     private NotificationPreferenceActivity notificationPreferenceActivity;
@@ -104,6 +107,8 @@ public class UtilsController {
             return notificationPreferenceActivity;
         } else if (profileActivity != null) {
             return profileActivity;
+        } else if (surveyActivity != null) {
+            return surveyActivity;
         }
         return null;
     }
@@ -167,7 +172,9 @@ public class UtilsController {
         } else if (essensQRActivity.getStatus() == ActivityStatus.ACTIVE) {
             return essensQRActivity;
         } else if (profileActivity.getStatus() == ActivityStatus.ACTIVE) {
-            return essensQRActivity;
+            return profileActivity;
+        } else if (surveyActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return surveyActivity;
         } else {
             return null;
         }
@@ -215,6 +222,10 @@ public class UtilsController {
 
     public void registerKlausurplanActivity(KlausurplanActivity activity) {
         klausurplanActivity = activity;
+    }
+
+    public void registerSurveyActivity(SurveyActivity activity) {
+        surveyActivity = activity;
     }
 
     public void registerEssensQRActivity(EssensQRActivity activity) {
@@ -331,6 +342,10 @@ public class UtilsController {
         return notificationPreferenceActivity;
     }
 
+    SurveyActivity getSurveyActivity() {
+        return surveyActivity;
+    }
+
     /**
      * @return Aktive Profil-Activity
      */
@@ -407,6 +422,9 @@ public class UtilsController {
         }
         if (getMainActivity() != null) {
             getMainActivity().finish();
+        }
+        if(getSurveyActivity() != null) {
+            getSurveyActivity().finish();
         }
     }
 

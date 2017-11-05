@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,12 +18,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.leoview.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
+import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.StundenplanActivity;
 
 public class ProfileActivity extends ActionLogActivity {
@@ -94,6 +98,33 @@ public class ProfileActivity extends ActionLogActivity {
             });
         }
 
+        if(Utils.getUserPermission()!=2 ) {
+            if(Utils.getUserStufe().equals("Q1") || Utils.getUserStufe().equals("Q2")) {
+                TextView lk1 = (TextView) findViewById(R.id.lk1);
+                TextView lk2 = (TextView) findViewById(R.id.lk2);
+
+                String[] lks = lkNamen();
+                String l1 = lks[0];
+                String l2 = "";
+                for(int i = 1; i < lks.length; i++) {
+                    if(!lks[i].equals(l1)) {
+                        l2 = lks[i];
+                        Log.e("LK2",lks[i]);
+                        break;
+                    }
+                }
+                lk1.setText(l1.split(" ")[0]);
+                lk2.setText(l2.split(" ")[0]);
+            } else {
+                findViewById(R.id.cardViewLK).setVisibility(View.GONE);
+            }
+
+        }
+
+        TextView umfrage = (TextView) findViewById(R.id.umfrageLaufend);
+
+
+
         setzeProfilBild();
 
         findViewById(R.id.editName).setOnClickListener(new View.OnClickListener() {
@@ -119,6 +150,27 @@ public class ProfileActivity extends ActionLogActivity {
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             }
         });
+    }
+
+    private String[] lkNamen() {
+        String[] lks  = new String[10];
+        int g = 0;
+
+        Fach[][] gewaehlteFaecher = new Fach[5][];
+        for (int i = 0; i < gewaehlteFaecher.length; i++) {
+            gewaehlteFaecher[i] = de.slg.leoapp.Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(i + 1);
+        }
+
+        for (int i = 0; i< gewaehlteFaecher.length; i++) {
+            Fach[] f = gewaehlteFaecher[i];
+            for (int a = 0; a < f.length; a++) {
+                if(f[a].getName().contains("LK")){
+                    lks[g]=f[a].getName();
+                    g++;
+                }
+            }
+        }
+        return lks;
     }
 
     private void setzeProfilBild() {
