@@ -48,7 +48,7 @@
     <string name="title_messenger" translatable="false">Messenger</string>
     <string name="title_tutoring">Tutoring</string>
     <string name="title_news">Pin Board</string>
-    <string name="title_survey">Moodsurvey</string>
+    <string name="title_survey">Mood</string>
     <string name="title_plan">Timetable</string>
     <string name="title_subst">Substitutions</string>
 
@@ -376,5 +376,14 @@
     <string name="m">Neutral</string>
     <string name="s">Schlecht</string>
     <string name="ss">Sehr schlecht</string>
+    <string name="intro5">Make long clicks buttons or cards to get additional information.</string>
+    <string name="intro4">Your timetable and your next exams are just two clicks away!</string>
+    <string name="intro3">Contact your teachers or friends with the messenger</string>
+    <string name="intro2">Show your digital foodmark to the canteen staff and get your food!</string>
+    <string name="intro1">This app was made to make your school day easier.</string>
+    <string name="intro2_title">Facilitate daily procedures</string>
+    <string name="intro3_title">Enhance communication</string>
+    <string name="intro4_title">Everything in one app</string>
+    <string name="intro5_title">Click!</string>
 
 </resources>

@@ -21,16 +21,16 @@ public class IntroActivity extends AppIntro {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Drawable d = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_chat_bubble_white_24dp);
-        d.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
-
-        addSlide(AppIntroFragment.newInstance("LeoApp", "Finde hier all die Dinge, die deinen Schulalltag leichter machen werden.", R.mipmap.leo_app_icon, ContextCompat.getColor(this, R.color.introSlide1)));
-        addSlide(AppIntroFragment.newInstance("Abläufe vereinfachen", "Zeige Deinen digitalen Essensbon einfach dem Mensapersonal und Du bekommst dein Essen!", R.drawable.ic_intro_image2, ContextCompat.getColor(this, R.color.introSlide2))); // oder nutze den Klausurplan, um dich über anstehende Arbeiten zu informieren
-
-        addSlide(AppIntroFragment.newInstance("Kommunikation verbessern", "Mit dem Messenger einfach deine Lehrer und Freunde kontaktieren, ohne deine Nummer preiszugeben", R.drawable.ic_intro_message3, ContextCompat.getColor(this, R.color.introSlide3))); /// und mit dem digitalen Schwarzen Brett immer auf dem neusten Stand bleiben.
-        addSlide(AppIntroFragment.newInstance("Alles in einer App", "Dein Stundenplan und deine nächsten Klassenarbeiten sind nur noch zwei Klicks entfernt!", R.drawable.ic_intro_message4, ContextCompat.getColor(this, R.color.introSlide4)));
 
 
+        addSlide(AppIntroFragment.newInstance(getString(R.string.app_name), getString(R.string.intro1), R.mipmap.leo_app_icon, ContextCompat.getColor(this, R.color.introSlide1)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro2_title), getString(R.string.intro2), R.drawable.ic_intro_image2, ContextCompat.getColor(this, R.color.introSlide2))); // oder nutze den Klausurplan, um dich über anstehende Arbeiten zu informieren
+
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro3_title), getString(R.string.intro3), R.drawable.ic_intro_message3, ContextCompat.getColor(this, R.color.introSlide3))); /// und mit dem digitalen Schwarzen Brett immer auf dem neusten Stand bleiben.
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro4_title), getString(R.string.intro4), R.drawable.ic_intro_message4, ContextCompat.getColor(this, R.color.introSlide4)));
+        addSlide(AppIntroFragment.newInstance(getString(R.string.intro5_title), getString(R.string.intro5), R.drawable.ic_intro5, ContextCompat.getColor(this, R.color.introSlide4)));
+
+        showStatusBar(false);
         showSkipButton(false);
         setProgressButtonEnabled(true);
     }
@@ -50,6 +50,6 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
         super.onSlideChanged(oldFragment, newFragment);
-        // Do something when the slide changes.
-    }
+
+        }
 }

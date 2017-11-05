@@ -25,9 +25,10 @@
     <color name="colorAlle">@color/colorPrimary</color>
 
 
-    <color name="introSlide1">#546e7a</color>
+    <color name="introSlide1">#2289c9</color>
     <color name="introSlide2">#5ba0d1</color>
     <color name="introSlide3">#0277bd</color>
-    <color name="introSlide4">#4664a7</color>
+    <color name="introSlide4">#84b6e2</color>
+    <color name="introSlide5">#237fb6</color>
 
 </resources>
