@@ -121,10 +121,6 @@ public class ProfileActivity extends ActionLogActivity {
 
         }
 
-        TextView umfrage = (TextView) findViewById(R.id.umfrageLaufend);
-
-
-
         setzeProfilBild();
 
         findViewById(R.id.editName).setOnClickListener(new View.OnClickListener() {
