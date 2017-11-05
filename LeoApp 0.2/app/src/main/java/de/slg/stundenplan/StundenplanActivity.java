@@ -83,7 +83,7 @@ public class StundenplanActivity extends ActionLogActivity {
         } else if (item.getItemId() == R.id.action_save) {
             //irgendwie save image aufrufen...
         } else if (item.getItemId() == R.id.action_randstunde) {
-            AlertDialog dialog = new RandstundenDialog(this);
+            AlertDialog dialog = new FinderDalog(this);
             dialog.show();
             dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
             dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
