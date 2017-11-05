@@ -188,10 +188,10 @@ public class SurveyActivity extends ActionLogActivity {
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnector.SURVEYS_REMOTE_ID + " = "+Utils.getUserID(), null, null, null, null);
                 break;
             default:
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnector.SURVEYS_REMOTE_ID + " = "+Utils.getUserID(), null, null, null, null);
                 break;
         }
 
