@@ -29,6 +29,7 @@ import de.slg.leoapp.Utils;
 public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
 
     private Button b;
+    private boolean tooltipEnabled;
 
     public InfoButton(Button b) {
         this.b = b;
@@ -43,6 +44,12 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
         return b.toString();
     }
 
+    /**
+     * Fügt einen Tooltip zu einem Button hinzu.
+     *
+     * @param residTitle Titel des Tooltips als Stringressource
+     * @param residContent Beschreibung des Tooltips als Stringressource
+     */
     public void addTooltip(@StringRes final int residTitle, @StringRes final int residContent) {
         b.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -54,6 +61,12 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
         });
     }
 
+    /**
+     * Fügt einen Tooltip zu einem Button hinzu.
+     *
+     * @param text Titel des Tooltips
+     * @param content Beschreibung des Tooltips
+     */
     public void addTooltip(final String text, final String content) {
         b.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -63,6 +76,24 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
                 return false;
             }
         });
+    }
+
+    /**
+     * Setzt, ob ein Tooltip angezeigt wird.
+     *
+     * @param enabled Tooltip anzeigen
+     */
+    public void setTooltipEnabled(boolean enabled) {
+        tooltipEnabled = enabled;
+    }
+
+    /**
+     * Gibt zurück, ob Tooltips zurzeit aktiviert sind.
+     *
+     * @return Tooltip aktiviert?
+     */
+    public boolean isTooltipEnabled() {
+        return tooltipEnabled;
     }
 
     /**

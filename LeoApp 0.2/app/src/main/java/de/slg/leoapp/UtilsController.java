@@ -20,6 +20,7 @@ import de.slg.stundenplan.AuswahlActivity;
 import de.slg.stundenplan.StundenplanActivity;
 import de.slg.stundenplan.StundenplanBildActivity;
 import de.slg.stundenplan.StundenplanDB;
+import de.slg.umfragen.SurveyActivity;
 
 /**
  * UtilsController
@@ -54,8 +55,11 @@ public class UtilsController {
 
     private EssensQRActivity essensQRActivity;
 
+    private SurveyActivity surveyActivity;
+
     private PreferenceActivity             preferenceActivity;
     private NotificationPreferenceActivity notificationPreferenceActivity;
+    private ProfileActivity                profileActivity;
 
     //Datenbankverwaltungen
     private DBConnection  dbConnection;
@@ -101,6 +105,10 @@ public class UtilsController {
             return preferenceActivity;
         } else if (notificationPreferenceActivity != null) {
             return notificationPreferenceActivity;
+        } else if (profileActivity != null) {
+            return profileActivity;
+        } else if (surveyActivity != null) {
+            return surveyActivity;
         }
         return null;
     }
@@ -163,6 +171,10 @@ public class UtilsController {
             return klausurplanActivity;
         } else if (essensQRActivity.getStatus() == ActivityStatus.ACTIVE) {
             return essensQRActivity;
+        } else if (profileActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return profileActivity;
+        } else if (surveyActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return surveyActivity;
         } else {
             return null;
         }
@@ -212,6 +224,10 @@ public class UtilsController {
         klausurplanActivity = activity;
     }
 
+    public void registerSurveyActivity(SurveyActivity activity) {
+        surveyActivity = activity;
+    }
+
     public void registerEssensQRActivity(EssensQRActivity activity) {
         essensQRActivity = activity;
     }
@@ -222,6 +238,10 @@ public class UtilsController {
 
     void registerNotificationPreferenceActivity(NotificationPreferenceActivity activity) {
         notificationPreferenceActivity = activity;
+    }
+
+    void registerProfileActivity(ProfileActivity activity) {
+        profileActivity = activity;
     }
 
     /**
@@ -316,10 +336,21 @@ public class UtilsController {
     }
 
     /**
-     * @return Aktive BotificationPreference-Activity (Notification Einstellungen)
+     * @return Aktive NotificationPreference-Activity (Notification Einstellungen)
      */
     private NotificationPreferenceActivity getNotificationPreferenceActivity() {
         return notificationPreferenceActivity;
+    }
+
+    SurveyActivity getSurveyActivity() {
+        return surveyActivity;
+    }
+
+    /**
+     * @return Aktive Profil-Activity
+     */
+    ProfileActivity getProfileActivity() {
+        return profileActivity;
     }
 
     /**
@@ -386,8 +417,14 @@ public class UtilsController {
         if (getPreferenceActivity() != null) {
             getPreferenceActivity().finish();
         }
+        if (getProfileActivity() != null) {
+            getProfileActivity().finish();
+        }
         if (getMainActivity() != null) {
             getMainActivity().finish();
+        }
+        if(getSurveyActivity() != null) {
+            getSurveyActivity().finish();
         }
     }
 

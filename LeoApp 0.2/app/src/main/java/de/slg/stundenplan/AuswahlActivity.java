@@ -214,7 +214,7 @@ public class AuswahlActivity extends ActionLogActivity {
                             if (!fach[3].equals(lastKurzel)) {
                                 lastID = Utils.getController().getStundenplanDatabase().insertFach(fach[3], fach[2], fach[1]);
                                 lastKurzel = fach[3];
-                                if (Utils.getUserPermission() == 2 && fach[2].equals(Utils.getLehrerKuerzel().toUpperCase())) {
+                                if (Utils.getUserPermission() == 2 && fach[2].toUpperCase().equals(Utils.getLehrerKuerzel().toUpperCase())) {
                                     Utils.getController().getStundenplanDatabase().waehleFach(lastID);
                                     Utils.getController().getStundenplanDatabase().setzeSchriftlich(true, lastID);
                                 }
@@ -225,6 +225,7 @@ public class AuswahlActivity extends ActionLogActivity {
                     reader.close();
                     Log.i("FachImporter", "done!");
                 } catch (IOException e) {
+                    Log.e("ACHTUNG","SHIT");
                     e.printStackTrace();
                 }
             }

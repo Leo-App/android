@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,6 +34,7 @@ import java.util.concurrent.ExecutionException;
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
+import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.leoview.ActionLogActivity;
@@ -40,10 +42,9 @@ import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
+import de.slg.umfragen.SurveyActivity;
 
 public class StundenplanActivity extends ActionLogActivity {
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
-    private StundenplanView     view;
     private DrawerLayout        drawerLayout;
     private WochentagFragment[] fragments;
 
@@ -67,6 +68,9 @@ public class StundenplanActivity extends ActionLogActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stundenplan, menu);
+        if (Utils.getUserPermission() < 2) {
+            menu.findItem(R.id.action_randstunde).setVisible(false);
+        }
         return true;
     }
 
@@ -78,6 +82,11 @@ public class StundenplanActivity extends ActionLogActivity {
             startActivity(new Intent(getApplicationContext(), StundenplanBildActivity.class));
         } else if (item.getItemId() == R.id.action_save) {
             //irgendwie save image aufrufen...
+        } else if (item.getItemId() == R.id.action_randstunde) {
+            AlertDialog dialog = new FinderDalog(this);
+            dialog.show();
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         } else if (item.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);
         }
@@ -123,6 +132,12 @@ public class StundenplanActivity extends ActionLogActivity {
                         break;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);
+                        break;
+                    case R.id.profile:
+                        i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        break;
+                    case R.id.umfragen:
+                        i = new Intent(getApplicationContext(), SurveyActivity.class);
                         break;
                     default:
                         i = new Intent(getApplicationContext(), MainActivity.class);

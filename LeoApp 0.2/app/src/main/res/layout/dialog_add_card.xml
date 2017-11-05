@@ -90,6 +90,19 @@
                 app:srcCompat="@drawable/ic_event_note_white_24px" />
 
             <ImageButton
+                android:id="@+id/imageButton8"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/smiley_background_bad_mood"
+                android:contentDescription="@string/textview_placeholder"
+                android:scaleType="fitCenter"
+                android:tag="POLL"
+                android:tint="@color/colorPrimary"
+                app:srcCompat="@drawable/icon_survey" />
+
+            <ImageButton
                 android:id="@+id/imageButton6"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -27,8 +28,6 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.leoview.ActionLogActivity;
 
-//import android.support.v7.widget.Toolbar;
-
 public class StundenplanBildActivity extends ActionLogActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
     private StundenplanView view;
@@ -40,6 +39,7 @@ public class StundenplanBildActivity extends ActionLogActivity {
         Utils.getController().registerStundenplanBildActivity(this);
         view = (StundenplanView) findViewById(R.id.image);
         //initToolbar();
+        initFabSAVE();
     }
 
     @Override
@@ -62,6 +62,16 @@ public class StundenplanBildActivity extends ActionLogActivity {
     public void finish() {
         super.finish();
         Utils.getController().registerStundenplanBildActivity(null);
+    }
+
+    public void initFabSAVE() {
+        FloatingActionButton fabSAVE = (FloatingActionButton) findViewById(R.id.fabSAVE);
+        fabSAVE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveImage();
+            }
+        });
     }
 
     @Override

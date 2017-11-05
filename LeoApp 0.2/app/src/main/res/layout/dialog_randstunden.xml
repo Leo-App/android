@@ -1,58 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/wrapper"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/title_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/title_survey_answers"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/title_details"
-        android:layout_alignLeft="@+id/title_details"
-        android:layout_alignRight="@+id/title_details"
-        android:layout_alignStart="@+id/title_details"
-        android:layout_below="@+id/title_details"
-        android:layout_marginTop="11dp"
-        android:text="@string/survey_description_answers" />
-
-    <CheckBox
-        android:id="@+id/multiple"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/description"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="@string/survey_checkbox_answers" />
+        android:text="@string/title_randstundenfinder"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/colorAccent" />
 
     <Button
-        android:id="@+id/new_answer"
+        android:id="@+id/add1"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
-        android:layout_below="@+id/multiple"
+        android:layout_alignLeft="@id/title"
+        android:layout_below="@id/title"
         android:layout_marginTop="13dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="@string/survey_new_answer"
+        android:text="@string/add_teacher"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary" />
 
@@ -60,28 +33,27 @@
         android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/new_answer"
-        android:layout_below="@+id/multiple"
+        android:layout_alignLeft="@id/add1"
+        android:layout_below="@+id/title"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="13dp"
-        android:inputType="text"
-        android:visibility="gone"
-        />
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/add2"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/new_answer"
+        android:layout_below="@+id/add1"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="@string/survey_new_answer"
+        android:text="@string/add_teacher"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary" />
 
@@ -89,29 +61,28 @@
         android:id="@+id/text2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/new_answer"
-        android:layout_below="@+id/new_answer"
+        android:layout_alignLeft="@id/add2"
+        android:layout_below="@+id/add1"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
-        android:inputType="text"
-        android:visibility="gone"
-        />
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/add3"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button"
+        android:layout_below="@+id/add2"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="@string/survey_new_answer"
+        android:text="@string/add_teacher"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary" />
 
@@ -119,29 +90,28 @@
         android:id="@+id/text3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/new_answer"
-        android:layout_below="@+id/button"
+        android:layout_alignLeft="@id/add3"
+        android:layout_below="@+id/add2"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
-        android:inputType="text"
-        android:visibility="gone"
-        />
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/add4"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button1"
+        android:layout_below="@+id/add3"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="@string/survey_new_answer"
+        android:text="@string/add_teacher"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary" />
 
@@ -149,29 +119,28 @@
         android:id="@+id/text4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/new_answer"
-        android:layout_below="@+id/button1"
+        android:layout_alignLeft="@id/add4"
+        android:layout_below="@+id/add3"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
-        android:inputType="text"
-        android:visibility="gone"
-        />
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/add5"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button2"
+        android:layout_below="@+id/add4"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="@string/survey_new_answer"
+        android:text="@string/add_teacher"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary" />
 
@@ -179,40 +148,36 @@
         android:id="@+id/text5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/new_answer"
-        android:layout_below="@+id/button2"
+        android:layout_alignLeft="@id/add5"
+        android:layout_below="@+id/add4"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
-        android:inputType="text"
-        android:visibility="gone"
-        />
+        android:inputType="textCapCharacters"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/title"
+        android:layout_below="@id/title"
+        android:layout_marginTop="13dp" />
 
     <Button
-        android:id="@+id/buttonExamSave"
+        android:id="@+id/buttonOK"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/button3"
-        android:layout_marginTop="20dp"
-        android:drawableRight="@drawable/ic_chevron_right_white_24dp"
-        android:drawableTint="@color/colorPrimary"
-        android:text="@string/button_next"
-        android:textAllCaps="true" />
-
-
-    <Button
-        android:id="@+id/buttonBack"
-        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/button3"
-        android:layout_marginTop="20dp"
-        android:drawableLeft="@drawable/ic_chevron_left_white_24dp"
-        android:drawableTint="@color/colorPrimary"
+        android:layout_below="@id/add5"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/confirm"
         android:textAllCaps="true" />
 
 </RelativeLayout>

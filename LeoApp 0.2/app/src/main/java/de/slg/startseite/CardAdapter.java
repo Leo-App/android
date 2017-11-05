@@ -3,10 +3,10 @@ package de.slg.startseite;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +28,7 @@ import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
+import de.slg.umfragen.SurveyActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> implements RecyclerViewItemListener {
@@ -37,7 +38,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
     {
         cards = new List<>();
         String card_config = Utils.getController().getPreferences().getString("pref_key_card_config",
-                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;COMING_SOON");
+                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;COMING_SOON;"); //POLL hinzugefügt
         for (String card : card_config.split(";")) {
             if (card.length() > 0) {
                 CardType type = CardType.valueOf(card);
@@ -94,7 +95,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                             Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
-                Log.e("Test", c.buttonListener.toString());
+
                 break;
             case TUTORING:
                 cards.append(c = new Card(type));
@@ -170,10 +171,26 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                     }
                 };
                 break;
+            case POLL: //Case hinzugefügt
+                cards.append(c = new Card(type));
+                c.title = Utils.getString(R.string.umfragen);
+                c.desc = Utils.getString(R.string.beschreibungUmfrage);
+                c.enabled = true;
+                c.icon = R.drawable.icon_survey;
+                c.buttonListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Utils.isVerified())
+                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SurveyActivity.class));
+                        else
+                            Utils.getController().getMainActivity().showVerificationDialog();
+                    }
+                };
+                break;
             case COMING_SOON:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.coming_soon);
-                c.desc = Utils.getString(R.string.coming_soon);
+                c.desc = Utils.getString(R.string.desc_coming_soon);
                 c.enabled = true;
                 c.icon = R.drawable.alert_decagram;
                 c.buttonListener = new View.OnClickListener() {
@@ -237,10 +254,13 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
         cards.toIndex(position);
         Card    c     = cards.getContent();
         boolean quick = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
-        if (MainActivity.editing)
-            holder.wrapper.setCardElevation(25);
-        else
+        if (MainActivity.editing) {
+            holder.wrapper.setCardElevation(20);
+            holder.button.setTooltipEnabled(false);
+        } else {
             holder.wrapper.setCardElevation(5);
+            holder.button.setTooltipEnabled(true);
+        }
 
         holder.button.addTooltip(c.title, c.desc);
 

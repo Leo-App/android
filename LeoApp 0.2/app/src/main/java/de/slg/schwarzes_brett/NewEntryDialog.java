@@ -25,8 +25,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import de.slg.leoapp.R;
@@ -110,11 +112,27 @@ class NewEntryDialog extends AlertDialog {
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final TextView t1 = (TextView) findViewById(R.id.title_edittext);
-                final TextView t2 = (TextView) findViewById(R.id.eingabeDatum);
-                final TextView t3 = (TextView) findViewById(R.id.content);
-                Spinner        s1 = (Spinner) findViewById(R.id.spinner2);
-                new sendEntryTask().execute(t1.getText().toString(), t2.getText().toString(), t3.getText().toString(), s1.getSelectedItem().toString());
+                final TextView title = (TextView) findViewById(R.id.title_edittext);
+
+                final TextView content = (TextView) findViewById(R.id.content);
+                final TextView date = (TextView) findViewById(R.id.eingabeDatum);
+
+                final String OLD_FORMAT = "dd-MM-yyyy";
+                final String NEW_FORMAT = "yyyy-MM-dd";
+                String newDate;
+                SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+                String dateString = date.getText().toString();
+                Date d = null;
+                try {
+                    d = sdf.parse(dateString);
+                } catch (ParseException e) {
+
+                }
+                sdf.applyPattern(NEW_FORMAT);
+                newDate = sdf.format(d);
+                Spinner spinner = (Spinner) findViewById(R.id.spinner2);
+                Log.e("NeuerEintrag", spinner.getSelectedItem().toString());
+                new sendEntryTask().execute(title.getText().toString(), content.getText().toString(), newDate, spinner.getSelectedItem().toString());
             }
         });
     }
@@ -169,7 +187,15 @@ class NewEntryDialog extends AlertDialog {
             if (!Utils.checkNetwork())
                 return false;
             try {
-                URL updateURL = new URL((Utils.BASE_URL_PHP + "schwarzes_brett/_php/newEntry.php?to=" + params[3] + "&title=" + params[0] + "&content=" + params[1] + "&date=" + params[2]).replace(" ", "%20"));
+                for(int i = 0; i < params.length; i++) {
+                    params[i] = params[i].replace("ä", "_ae_");
+                    params[i] = params[i].replace("ö", "_oe_");
+                    params[i] = params[i].replace("ü", "_ue_");
+                    params[i] = params[i].replace("Ä", "_Ae_");
+                    params[i] = params[i].replace("Ö", "_Oe_");
+                    params[i] = params[i].replace("Ü", "_Ue_");
+                }
+                URL updateURL = new URL((Utils.DOMAIN_DEV + "schwarzes_brett/_php/newEntry.php?to=" + params[3] + "&title=" + params[0] + "&content=" + params[1] + "&date=" + params[2]).replace(" ", "%20"));
                 Log.e("TAG", updateURL.toString());
                 BufferedReader reader =
                         new BufferedReader(

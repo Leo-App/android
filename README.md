@@ -32,5 +32,5 @@ http://webftp.all-inkl.com<br/>
 <br/>
 
 ### Datenbank
-Datenbankname/nutzer: d02566f2<br/>
+Datenbankname/nutzer: d02844bf<br/>
 Datenbank editieren: https://dd26132.kasserver.com/mysqladmin/kaslogin.php<br/>

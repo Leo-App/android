@@ -66,6 +66,7 @@ public class NotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Utils.getController().setContext(getApplicationContext());
+        Utils.getController().registerNotificationService(this);
 
         notificationManager = Utils.getNotificationManager();
 
@@ -88,6 +89,7 @@ public class NotificationService extends Service {
     @Override
     public void onDestroy() {
         running = false;
+        Utils.getController().registerNotificationService(null);
         Log.i("NotificationService", "Service stopped!");
     }
 

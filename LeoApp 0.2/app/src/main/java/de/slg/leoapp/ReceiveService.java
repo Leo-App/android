@@ -12,9 +12,11 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
@@ -32,7 +34,7 @@ public class ReceiveService extends Service {
         Utils.getController().registerReceiveService(this);
 
         running = true;
-        socketRunning = false;
+        socketRunning = true;
         receiveNews = false;
         idle = false;
 
@@ -115,7 +117,7 @@ public class ReceiveService extends Service {
 
         private void getEntries() {
             try {
-                URLConnection connection = new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
+                URLConnection connection = new URL(Utils.DOMAIN_DEV + "schwarzesBrett/meldungen.php")
                         .openConnection();
 
                 BufferedReader reader =
@@ -158,7 +160,7 @@ public class ReceiveService extends Service {
         private void getSurveys() {
 
             try {
-                URL updateURL = new URL("http://moritz.liegmanns.de/survey/getSurveys.php");
+                URL updateURL = new URL(Utils.BASE_URL_PHP+"survey/getSurveys.php");
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
@@ -169,7 +171,7 @@ public class ReceiveService extends Service {
                     builder.append(line);
                 reader.close();
 
-                URL resultURL = new URL("http://moritz.liegmanns.de/survey/getSingleResult.php?user=" + Utils.getUserID());
+                URL resultURL = new URL(Utils.BASE_URL_PHP+"survey/getSingleResult.php?user=" + Utils.getUserID());
                 reader =
                         new BufferedReader(
                                 new InputStreamReader(resultURL.openConnection().getInputStream(), "UTF-8"));
@@ -335,7 +337,6 @@ public class ReceiveService extends Service {
     }
 
     private class SendMessages extends AsyncTask<Void, Void, Void> {
-        //TODO verschlüsseln
         @Override
         protected Void doInBackground(Void... params) {
             Message[] array = Utils.getController().getMessengerDatabase().getQueuedMessages();
@@ -356,7 +357,7 @@ public class ReceiveService extends Service {
 
                         if (connection.getResponseCode() == 200)
                             Utils.getController().getMessengerDatabase().dequeueMessage(m.mid);
-                    } catch (Exception e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -364,8 +365,12 @@ public class ReceiveService extends Service {
             return null;
         }
 
-        private String generateURL(String message, int cid) {
-            return Utils.BASE_URL_PHP + "messenger/addMessage.php?uid=" + Utils.getUserID() + "&message=" + message.replace(" ", "%20").replace(System.getProperty("line.separator"), "%0A") + "&cid=" + cid;
+        private String generateURL(String message, int cid) throws UnsupportedEncodingException {
+            message = URLEncoder.encode(message, "UTF-8");
+            String key      = Verschluesseln.createKey(message);
+            String vMessage = Verschluesseln.encrypt(message, key);
+            String vKey     = Verschluesseln.encryptKey(key);
+            return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?&uid=" + Utils.getUserID() + "&message=" + vMessage + "&cid=" + cid + "&vKey=" + vKey;
         }
     }
 }

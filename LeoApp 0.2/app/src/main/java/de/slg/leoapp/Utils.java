@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.StringRes;
 import android.util.Base64;
+import android.util.Log;
 
 /**
  * Utils
@@ -20,19 +21,43 @@ import android.util.Base64;
  * @since 0.0.1
  */
 @SuppressLint("StaticFieldLeak")
+@SuppressWarnings("WeakerAccess")
 public abstract class Utils {
+
     /**
-     * Pfad zum Application-Server.
+     * Domain zum erreichen des Dev-Servers.
      */
-    static final         String URL_TOMCAT   = "https://ucloud4schools.de/leoapp";
+    public static final String DOMAIN_DEV = "http://moritz.liegmanns.de/leoapp_php/";
+
     /**
      * Basisdomain zum erreichen des LeoApp-Servers.
      */
-    private static final String BASE_DOMAIN  = "http://moritz.liegmanns.de/";
+    public static final String BASE_DOMAIN = "https://ucloud4schools.de/";
+
+    /**
+     * Basisdomain zum erreichen des LeoApp-Userservers.
+     */
+    public static final String BASE_DOMAIN_SCHOOL = "https://secureaccess.itac-school.de/";
+
+    /**
+     * Pfad zum Application-Server.
+     */
+    public static final String URL_TOMCAT = BASE_DOMAIN + "leoapp";
+
     /**
      * Pfad zu den PHP-Skripts auf dem Leo-Server.
      */
-    public static final  String BASE_URL_PHP = BASE_DOMAIN + "leoapp_php/";
+    public static final String BASE_URL_PHP = BASE_DOMAIN + "ext/slg/leoapp_php/";
+
+    /**
+     * Pfad zum WebDAV-Verzeichnis
+     */
+    public static final String URL_WEBDAV = BASE_DOMAIN_SCHOOL + "slg/hcwebdav";
+
+    /**
+     * Pfad zum PHP-Ordner auf dem Schulserver
+     */
+    public static final String URL_PHP_SCHOOL = BASE_DOMAIN_SCHOOL + "slgweb/leoapp_php/";
 
     /* Allgemeines */
     /**
@@ -109,6 +134,24 @@ public abstract class Utils {
      */
     public static String getString(@StringRes int id) {
         return getController().getContext().getString(id);
+    }
+
+    /**
+     * Gibt eine String Repräsentation des Parameters als Fehlermeldung in der Konsole aus.
+     *
+     * @param o Ausgabe im Android-Monitor
+     */
+    public static void logError(Object o) {
+        Log.wtf("LeoApp", o.toString());
+    }
+
+    /**
+     * Gibt eine String Repräsentation des Parameters als Debugmeldung in der Konsole aus.
+     *
+     * @param o Ausgabe im Android-Monitor
+     */
+    public static void logDebug(Object o) {
+        Log.d("LeoAppDebug", o.toString());
     }
 
     /* User */

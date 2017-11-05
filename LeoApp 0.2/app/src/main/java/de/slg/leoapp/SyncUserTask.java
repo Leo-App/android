@@ -5,15 +5,14 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
     private final AlertDialog dialog;
@@ -38,11 +37,9 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
         try {
             StringBuilder builder = new StringBuilder();
 
-            HttpURLConnection connection =
-                    (HttpURLConnection) new URL(Utils.BASE_URL_PHP + "user/updateUser.php?name=" + Utils.getUserDefaultName())
+            URLConnection connection = new URL(Utils.BASE_URL_PHP + "user/updateUser.php?name=" + Utils.getUserDefaultName())
                             .openConnection();
 
-            Log.d("code_update", String.valueOf(connection.getResponseCode()));
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(

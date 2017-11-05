@@ -18,16 +18,24 @@
         android:minHeight="200dp"
         android:padding="15dp">
 
+       <!-- <Button
+            android:id="@+id/buttonCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent" /> -->
+
         <ImageView
             android:id="@+id/info_card_icon"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:adjustViewBounds="false"
             android:tint="@color/colorGreyNormal"
-            card_view:srcCompat="@drawable/qrcode" />
+            card_view:srcCompat="@drawable/qrcode"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:id="@+id/info_title0"
@@ -42,13 +50,16 @@
             android:text="@string/textview_placeholder"
             android:textAppearance="@android:style/TextAppearance.Material.Large"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            />
 
         <ImageButton
             android:id="@+id/imageButton10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:visibility="gone"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
