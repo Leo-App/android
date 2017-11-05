@@ -7,17 +7,6 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:textColor="@color/colorText"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
-
     <ImageView
         android:id="@+id/icon"
         android:layout_width="22dp"
@@ -39,5 +28,17 @@
         android:textSize="18sp"
         android:textStyle="normal|bold"
         />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:layout_toLeftOf="@id/textViewStufe"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
 
 </RelativeLayout>

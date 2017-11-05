@@ -213,7 +213,6 @@
         android:layout_marginTop="20dp"
         android:drawableLeft="@drawable/ic_chevron_left_white_24dp"
         android:drawableTint="@color/colorPrimary"
-        android:text="fuq off"
         android:textAllCaps="true" />
 
 </RelativeLayout>
