@@ -7,12 +7,12 @@
 	if ($db->connect_error)
 		die("-ERR db");
 
-	$toArr = $_GET['to'];
-	
+	$adressat = $_GET['to'];
+
 	$url = 'null';
 
 
-	if($toArr == "")
+	if($adressat == "")
 		die("-ERR m");
 
 	if($adressat == "Sek1") {
@@ -20,7 +20,7 @@
 	} else if($adressat == "Sek2") {
 		$adressat = "Sek II";
 	} else if($adressat == "Alle") {
-		$adressat = "all";
+		$adressat = "Alle";
 	}
 
 	$heute = date("Y-m-d H:i:s");
@@ -31,7 +31,10 @@
 	if($titel==""||$inhalt==""||$ablaufdatum=="")
 		die("-ERR m");
 
-	$query = "INSERT INTO Einträge VALUES ('null', 'null', '".$adressat."', '".utf8_encode($titel)."', '".utf8_encode($inhalt)."', 'null' , '".$heute."', '".$ablaufdatum."')";
+	$query = "INSERT INTO EintrÃ¤ge VALUES ('null', 'null', '".$adressat."', '".utf8_encode($titel)."', '".utf8_encode($inhalt)."', 'null' , '".$heute."', '".$ablaufdatum."')";
+
+	echo $query;
+
 	$result = $db->query($query);
 	if ($result === false) {
 		echo $db->error;
