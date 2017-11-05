@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -24,7 +26,7 @@ import de.slg.messenger.Message;
 import de.slg.messenger.Verschluesseln;
 import de.slg.schwarzes_brett.SQLiteConnector;
 
-public class ReceiveService extends Service {
+public class ReceiveService extends Service implements WebSocketClient.MessageHandler {
     public  boolean receiveNews;
     private boolean running, socketRunning, idle;
 
@@ -34,7 +36,7 @@ public class ReceiveService extends Service {
         Utils.getController().registerReceiveService(this);
 
         running = true;
-        socketRunning = true;
+        socketRunning = false;
         receiveNews = false;
         idle = false;
 
@@ -70,6 +72,102 @@ public class ReceiveService extends Service {
         new QueueThread().start();
     }
 
+    @Override
+    public void handleMessage(String message) {
+        try {
+            String[] parts = message.substring(1, message.indexOf("_ next _")).split("_ ; _");
+
+            if (message.startsWith("m") && parts.length == 6) {
+                int    mid   = Integer.parseInt(parts[0]);
+                String mtext = Verschluesseln.decrypt(parts[1], Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                long   mdate = Long.parseLong(parts[3] + "000");
+                int    cid   = Integer.parseInt(parts[4]);
+                int    uid   = Integer.parseInt(parts[5]);
+
+                Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
+            } else if (message.startsWith("c") && parts.length == 3) {
+                int           cid   = Integer.parseInt(parts[0]);
+                String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
+
+                Utils.getController().getMessengerDatabase().insertChat(new Chat(cid, cname, ctype));
+            } else if (message.startsWith("u") && parts.length == 5) {
+                int    uid          = Integer.parseInt(parts[0]);
+                String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                String ustufe       = parts[2];
+                int    upermission  = Integer.parseInt(parts[3]);
+                String udefaultname = parts[4];
+
+                Utils.getController().getMessengerDatabase().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
+            } else if (message.startsWith("a")) {
+                assoziationen();
+            } else if (message.startsWith("-")) {
+                Log.e("SocketError", message);
+            }
+
+            if (Utils.getController().getMessengerActivity() != null)
+                Utils.getController().getMessengerActivity().notifyUpdate();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startSocket() {
+        try {
+            final WebSocketClient client = new WebSocketClient(new URI("ws://ucloud4schools.de:8080/leoapp/"));
+
+            socketRunning = true;
+
+            client.addMessageHandler(new WebSocketClient.MessageHandler() {
+                public void handleMessage(String message) {
+                    System.out.println(message);
+                }
+            });
+
+            client.sendMessage("uid=1008");
+            client.sendMessage("mdate=0");
+            client.sendMessage("request");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void assoziationen() {
+        try {
+            URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/getAssoziationen.php?uid=" + Utils.getUserID())
+                    .openConnection();
+
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    connection.getInputStream(), "UTF-8"));
+
+            StringBuilder builder = new StringBuilder();
+            String        l;
+            while ((l = reader.readLine()) != null) {
+                builder.append(l);
+            }
+            reader.close();
+
+            if (builder.toString().startsWith("-")) {
+                throw new IOException(builder.toString());
+            }
+
+            String[]          result = builder.toString().split(";");
+            List<Assoziation> list   = new List<>();
+            for (String s : result) {
+                String[] current = s.split(",");
+                if (current.length == 2) {
+                    list.append(new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1])));
+                }
+            }
+
+            Utils.getController().getMessengerDatabase().insertAssoziationen(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class ReceiveThread extends Thread {
         @Override
         public void run() {
@@ -79,7 +177,7 @@ public class ReceiveService extends Service {
                 try {
                     if (Utils.checkNetwork()) {
                         if (!socketRunning)
-                            new MessengerSocket().start();
+                            startSocket();
 
                         new ReceiveNews().execute();
                     }
@@ -221,109 +319,6 @@ public class ReceiveService extends Service {
                 Utils.getController().getSchwarzesBrettActivity().refreshUI();
 
             idle = false;
-        }
-    }
-
-    private class MessengerSocket extends Thread {
-        @Override
-        public void run() {
-            socketRunning = true;
-            try {
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        new URL(Utils.URL_TOMCAT + "?uid=" + Utils.getUserID() + "&mdate=" + Utils.getController().getMessengerDatabase().getLatestMessage())
-                                                .openConnection()
-                                                .getInputStream(), "UTF-8"));
-
-                StringBuilder builder = new StringBuilder();
-                for (String line = reader.readLine(); running && line != null; line = reader.readLine()) {
-                    builder.append(line)
-                            .append(System.getProperty("line.separator"));
-                    if (line.endsWith("_ next _")) {
-                        String   s     = builder.toString();
-                        String[] parts = s.substring(1, s.indexOf("_ next _")).split("_ ; _");
-
-                        if (s.startsWith("m") && parts.length == 6) {
-                            int    mid   = Integer.parseInt(parts[0]);
-                            String mtext = Verschluesseln.decrypt(parts[1], Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
-                            long   mdate = Long.parseLong(parts[3] + "000");
-                            int    cid   = Integer.parseInt(parts[4]);
-                            int    uid   = Integer.parseInt(parts[5]);
-
-                            Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
-                        } else if (s.startsWith("c") && parts.length == 3) {
-                            int           cid   = Integer.parseInt(parts[0]);
-                            String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
-                            Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
-
-                            Utils.getController().getMessengerDatabase().insertChat(new Chat(cid, cname, ctype));
-                        } else if (s.startsWith("u") && parts.length == 5) {
-                            int    uid          = Integer.parseInt(parts[0]);
-                            String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
-                            String ustufe       = parts[2];
-                            int    upermission  = Integer.parseInt(parts[3]);
-                            String udefaultname = parts[4];
-
-                            Utils.getController().getMessengerDatabase().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
-                        } else if (s.startsWith("a")) {
-                            assoziationen();
-                        } else if (s.startsWith("-")) {
-                            Log.e("SocketError", s);
-                        }
-
-                        builder.delete(0, builder.length());
-
-                        if (Utils.getController().getMessengerActivity() != null)
-                            Utils.getController().getMessengerActivity().notifyUpdate();
-                    }
-                }
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void interrupt() {
-            super.interrupt();
-            socketRunning = false;
-        }
-
-        private void assoziationen() {
-            try {
-                URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/getAssoziationen.php?uid=" + Utils.getUserID())
-                        .openConnection();
-
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        connection.getInputStream(), "UTF-8"));
-
-                StringBuilder builder = new StringBuilder();
-                String        l;
-                while ((l = reader.readLine()) != null) {
-                    builder.append(l);
-                }
-                reader.close();
-
-                if (builder.toString().startsWith("-")) {
-                    throw new IOException(builder.toString());
-                }
-
-                String[]          result = builder.toString().split(";");
-                List<Assoziation> list   = new List<>();
-                for (String s : result) {
-                    String[] current = s.split(",");
-                    if (current.length == 2) {
-                        list.append(new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1])));
-                    }
-                }
-
-                Utils.getController().getMessengerDatabase().insertAssoziationen(list);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
