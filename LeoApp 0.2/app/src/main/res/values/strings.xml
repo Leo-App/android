@@ -8,6 +8,10 @@
     <string name="cancel">Cancel</string>
     <string name="error">Sorry, something went wrong</string>
 
+    <string name="share">Share</string>
+
+    <string name="share_text" translatable="false">Stimme in der LeoApp Umfrage \"%1$s\" ab! &#9885; Installiere die LeoApp über den Playstore: http://app.leoapp-slg.de</string>
+
     <string name="drawer_placeholder_name">Username</string>
     <string name="drawer_placeholder_grade">Grade</string>
 

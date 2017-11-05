@@ -14,10 +14,10 @@ import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 
-class RandstundenDialog extends AlertDialog {
+class FinderDalog extends AlertDialog {
     private List<String> kürzel;
 
-    RandstundenDialog(Context context) {
+    FinderDalog(Context context) {
         super(context);
     }
 
@@ -118,6 +118,9 @@ class RandstundenDialog extends AlertDialog {
 
                     TextView t = (TextView) findViewById(R.id.textView);
                     t.setText(db.gibFreistundenZeiten());
+
+                    db.clear();
+                    db.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

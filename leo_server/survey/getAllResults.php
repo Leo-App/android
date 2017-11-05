@@ -10,7 +10,7 @@
   $survey = $db->real_escape_string($_GET['survey']);
   $to = $db->real_escape_string($_GET['to']);
 
-  $query = "SELECT COUNT(*) as count, r.answer as ans FROM Result r JOIN Answers a ON a.id=r.answer WHERE a.survey=".$survey." GROUP BY ans ORDER BY count DESC";
+  $query = "SELECT COUNT(r.user) as count, a.content as ans FROM Result r RIGHT JOIN Answers a ON a.id=r.answer WHERE a.survey=".$survey." GROUP BY ans ORDER BY count DESC";
   $result = $db->query($query);
 
   switch ($to) {
@@ -35,7 +35,7 @@
   }
   $result2 = $db->query($query);
 
-  if($result === false  || $result2 === false)
+  if($result === false || $result2 === false)
     die("-ERR");
 
     echo $result2->fetch_assoc()['c']."_;;_";
@@ -45,7 +45,15 @@
     echo $row['ans']."_;_".$row['count']."_next_";
 
   }
-	
+
+	$query = "SELECT title as t FROM Survey WHERE owner=".$survey;
+
+	$result3 = $db->query($query);
+	$array = $result3->fetch_assoc();
+
+
+	echo "_;;_".$array['t'];
+
 	$db->close();
 
 ?>

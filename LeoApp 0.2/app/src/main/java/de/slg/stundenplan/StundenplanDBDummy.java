@@ -98,4 +98,8 @@ class StundenplanDBDummy extends SQLiteOpenHelper {
                 return Utils.getString(R.string.montag);
         }
     }
+
+    void clear() {
+        database.delete(TABLE_STUNDEN, null, null);
+    }
 }

@@ -46,12 +46,10 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
             }
 
             //TODO!!!
-            //HttpsURLConnection connection = (HttpsURLConnection)
-            //new URL("https://secureaccess.itac-school.de/slgweb/leoapp_php/verify.php")
             HttpURLConnection connection = (HttpURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "verify.php?name=" + username)
+                    new URL(/*Utils.URL_PHP_SCHOOL*/Utils.BASE_URL_PHP + "verify.php?name=" + username)
                             .openConnection();
-            //connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
+            connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
             int code = connection.getResponseCode();
             Log.d("code_register", String.valueOf(code));

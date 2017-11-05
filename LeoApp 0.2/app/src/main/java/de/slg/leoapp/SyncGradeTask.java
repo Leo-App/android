@@ -32,7 +32,6 @@ class SyncGradeTask extends AsyncTask<Void, Void, Void> {
             HttpURLConnection connection = (HttpURLConnection)
                     new URL(Utils.BASE_URL_PHP + "user/updateKlasse.php?uid=" + Utils.getUserID() + "&uklasse=" + grade)
                             .openConnection();
-            connection.setRequestProperty("Authorization", Utils.authorization);
 
             connection.connect();
         } catch (IOException e) {

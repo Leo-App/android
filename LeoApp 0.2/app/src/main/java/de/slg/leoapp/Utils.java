@@ -28,34 +28,32 @@ public abstract class Utils {
     /**
      * Basisdomain zum erreichen des LeoApp-Servers.
      */
-    public static final String BASE_DOMAIN  = "http://moritz.liegmanns.de/";
+    public static final String BASE_DOMAIN = "https://ucloud4schools.de/";
 
     /**
      * Basisdomain zum erreichen des LeoApp-Userservers.
      */
-    public static final String BASE_DOMAIN_USERS  = "https://secureaccess.itac-school.de/";
+    public static final String BASE_DOMAIN_SCHOOL = "https://secureaccess.itac-school.de/";
 
     /**
      * Pfad zum Application-Server.
      */
-    public static final String URL_TOMCAT   = "https://ucloud4schools.de/leoapp";
+    public static final String URL_TOMCAT = BASE_DOMAIN + "leoapp";
 
     /**
      * Pfad zu den PHP-Skripts auf dem Leo-Server.
      */
-    public static final String BASE_URL_PHP = BASE_DOMAIN + "leoapp_php/";
+    public static final String BASE_URL_PHP = BASE_DOMAIN + "ext/slg/leoapp_php/";
 
     /**
      * Pfad zum WebDAV-Verzeichnis
      */
-    public  static final String URL_WEBDAV       = BASE_DOMAIN_USERS + "slg/hcwebdav";
-
-    private static final String authorizationPre = "Basic ";
+    public static final String URL_WEBDAV = BASE_DOMAIN_SCHOOL + "slg/hcwebdav";
 
     /**
-     * Allgemeine Autorisierung für HTTP Basic Authentication
+     * Pfad zum PHP-Ordner auf dem Schulserver
      */
-    public  static final String authorization    = authorizationPre + "bGVvYXBwOmxlb2FwcA==";
+    public static final String URL_PHP_SCHOOL = BASE_DOMAIN_SCHOOL + "slgweb/leoapp_php/";
 
     /* Allgemeines */
     /**

@@ -14,7 +14,7 @@ public abstract class Verschluesseln {
      * @param key  Schlüssel zum verschlüsseln
      * @return text mit key verschlüsselt
      */
-    static String encrypt(String text, String key) {
+    public static String encrypt(String text, String key) {
         StringBuilder builder = new StringBuilder();
         assert key.matches("[A-Z]*");
         for (int i = 0, skipped = 0; i < text.length(); i++) {
@@ -108,7 +108,7 @@ public abstract class Verschluesseln {
      * @param key Schlüssel, der verschlüsselt wird
      * @return key mit key2 verschlüsselt
      */
-    static String encryptKey(String key) {
+    public static String encryptKey(String key) {
         StringBuilder builder = new StringBuilder();
         assert key2.matches("[A-Z]*");
         for (int i = 0; i < key.length(); i++) {
@@ -128,7 +128,7 @@ public abstract class Verschluesseln {
      * @param text UTF-8 codierter Text
      * @return zufälliger Text aus Großbuchstaben
      */
-    static String createKey(String text) {
+    public static String createKey(String text) {
         int length = text.length();
         for (int i = 0; i < text.length(); i++)
             if (text.charAt(i) == '%')
