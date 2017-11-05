@@ -24,6 +24,10 @@ import android.util.Log;
 @SuppressWarnings("WeakerAccess")
 public abstract class Utils {
 
+    /**
+     * Domain zum erreichen des Dev-Servers.
+     */
+    public static final String DOMAIN_DEV = "http://moritz.liegmanns.de/leoapp_php/";
 
     /**
      * Basisdomain zum erreichen des LeoApp-Servers.

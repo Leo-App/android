@@ -187,6 +187,14 @@ class NewEntryDialog extends AlertDialog {
             if (!Utils.checkNetwork())
                 return false;
             try {
+                for(int i = 0; i < params.length; i++) {
+                    params[i] = params[i].replace("ä", "_ae_");
+                    params[i] = params[i].replace("ö", "_oe_");
+                    params[i] = params[i].replace("ü", "_ue_");
+                    params[i] = params[i].replace("Ä", "_Ae_");
+                    params[i] = params[i].replace("Ö", "_Oe_");
+                    params[i] = params[i].replace("Ü", "_Ue_");
+                }
                 URL updateURL = new URL((Utils.BASE_URL_PHP + "schwarzes_brett/_php/newEntry.php?to=" + params[3] + "&title=" + params[0] + "&content=" + params[1] + "&date=" + params[2]).replace(" ", "%20"));
                 Log.e("TAG", updateURL.toString());
                 BufferedReader reader =
