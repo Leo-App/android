@@ -50,7 +50,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/spinner2"
-        android:layout_marginRight="15dp"
         android:layout_marginTop="20dp"
         android:text="@string/send_survey"
         android:textAllCaps="true" />
