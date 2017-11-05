@@ -2,8 +2,10 @@ package de.slg.startseite;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -61,6 +63,8 @@ public class MainActivity extends ActionLogActivity {
         initToolbar();
         initFeatureCards();
         initNavigationView();
+        initAppIntro();
+
 
         if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
@@ -429,6 +433,29 @@ public class MainActivity extends ActionLogActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void initAppIntro() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                boolean isFirst = getPrefs.getBoolean("first", true);
+
+                if (isFirst) {
+                    final Intent i = new Intent(MainActivity.this, IntroActivity.class);
+                    runOnUiThread(new Runnable() {
+                        @Override public void run() {
+                            startActivity(i);
+                        }
+                    });
+                    SharedPreferences.Editor e = getPrefs.edit();
+                    e.putBoolean("first", false);
+                    e.apply();
+                }
+            }
+        });
+        t.start();
     }
 
     private void processIntent() {
