@@ -347,6 +347,8 @@
     <string name="sg">Sehr gut</string>
     <string name="ss">Sehr schlecht</string>
     <string name="umfragen">Umfragen</string>
+    <string name="stundenanzeige">Stunden</string>
+    <string name="beschreibungUmfrage">Erfahre die Meinungen deiner Mitschüler zu von dir gewählten Themen und nimm selbst an Umfragen teil.</string>
 
 
 </resources>

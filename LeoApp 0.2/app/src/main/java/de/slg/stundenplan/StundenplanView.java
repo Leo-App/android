@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Utils;
 
 public class StundenplanView extends View {
     private final Canvas canvas;
@@ -118,7 +119,11 @@ public class StundenplanView extends View {
                     if ("".equals(f.getName()) && !"".equals(f.getNotiz()) && f.getNotiz() != null) {
                         text = f.getNotiz().split(" ")[0];
                     } else {
-                        text = f.getName();
+                        if(Utils.getUserPermission()!=2) {
+                            text = f.getName();
+                        } else {
+                            text = f.getKuerzel();
+                        }
                     }
                     canvas.drawText(text, baseLineX + abstandX2 + abstandX * j + paddingX, yValue + paddingY * 5, paint);
                 }

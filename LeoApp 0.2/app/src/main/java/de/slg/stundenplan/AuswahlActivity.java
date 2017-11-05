@@ -225,6 +225,7 @@ public class AuswahlActivity extends ActionLogActivity {
                     reader.close();
                     Log.i("FachImporter", "done!");
                 } catch (IOException e) {
+                    Log.e("ACHTUNG","SHIT");
                     e.printStackTrace();
                 }
             }
