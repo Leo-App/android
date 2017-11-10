@@ -54,6 +54,11 @@ public class AuswahlActivity extends ActionLogActivity {
     }
 
     @Override
+    protected String getActivityTag() {
+        return "AuswahlActivity";
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.stundenplan_auswahl, this.menu);

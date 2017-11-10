@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1036542061452-90ai7raffuur042b4m2ngfalk3vvd7p1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.slg.leoapp",
+            "certificate_hash": "8c06d4119ae3db6b8d173ed2e834fe46c8c5d72a"
+          }
+        },
+        {
           "client_id": "1036542061452-fh0t3qd8k9floa4jrb89hvrtd44n1bu2.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036542061452-fh0t3qd8k9floa4jrb89hvrtd44n1bu2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

@@ -19,6 +19,14 @@ class SyncGradeTask extends AsyncTask<Void, Void, Void> {
         WebDAVConnector webDAVConnector = new WebDAVConnector(name, pw);
         webDAVConnector.changeDirectory("PrivatSchueler/Meine Gruppen");
 
+        if(webDAVConnector.getDirContent().isEmpty()) {
+            Utils.getController().getPreferences()
+                    .edit()
+                    .putString("pref_key_general_klasse", "TEA")
+                    .apply();
+            return null;
+        }
+
         String levelFile = webDAVConnector.getDirContent().getObjectAt(0);
         String grade     = levelFile.split("%20")[0];
 

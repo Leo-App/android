@@ -195,7 +195,7 @@ class NewEntryDialog extends AlertDialog {
                     params[i] = params[i].replace("Ö", "_Oe_");
                     params[i] = params[i].replace("Ü", "_Ue_");
                 }
-                URL updateURL = new URL((Utils.DOMAIN_DEV + "schwarzes_brett/_php/newEntry.php?to=" + params[3] + "&title=" + params[0] + "&content=" + params[1] + "&date=" + params[2]).replace(" ", "%20"));
+                URL updateURL = new URL((Utils.BASE_URL_PHP + "schwarzes_brett/_php/newEntry.php?to=" + params[3] + "&title=" + params[0] + "&content=" + params[1] + "&date=" + params[2]).replace(" ", "%20"));
                 Log.e("TAG", updateURL.toString());
                 BufferedReader reader =
                         new BufferedReader(

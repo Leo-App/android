@@ -78,6 +78,11 @@ public class SurveyActivity extends ActionLogActivity {
         initExpandableListView();
     }
 
+    @Override
+    protected String getActivityTag() {
+        return "SurveyActivity";
+    }
+
     private void initToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarUmfragen);
         myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));

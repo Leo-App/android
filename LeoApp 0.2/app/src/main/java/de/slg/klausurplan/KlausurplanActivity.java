@@ -74,6 +74,11 @@ public class KlausurplanActivity extends ActionLogActivity {
     }
 
     @Override
+    protected String getActivityTag() {
+        return "KlausurplanActivity";
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         snackbar.dismiss();
         if (mi.getItemId() == android.R.id.home) {

@@ -58,6 +58,11 @@ public class ChatEditActivity extends ActionLogActivity {
     }
 
     @Override
+    protected String getActivityTag() {
+        return "ChatEditActivity";
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.messenger_confirm_action, menu);
         confirm = menu.findItem(R.id.action_confirm);

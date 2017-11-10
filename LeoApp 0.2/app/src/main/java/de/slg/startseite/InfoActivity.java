@@ -35,6 +35,11 @@ public class InfoActivity extends ActionLogActivity {
     }
 
     @Override
+    protected String getActivityTag() {
+        return "InfoActivity";
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
         return true;

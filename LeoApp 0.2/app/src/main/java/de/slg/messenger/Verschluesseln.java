@@ -1,9 +1,12 @@
 package de.slg.messenger;
 
+import android.annotation.SuppressLint;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+@SuppressLint("Assert")
 public abstract class Verschluesseln {
     private static final String key2 = "ABCD";
 
@@ -11,7 +14,7 @@ public abstract class Verschluesseln {
      * Verschlüsselt text mit key
      *
      * @param text UTF-8 codierter Text, der verschlüsselt wird
-     * @param key  Schlüssel zum verschlüsseln
+     * @param key  Schlüssel zum Verschlüsseln
      * @return text mit key verschlüsselt
      */
     public static String encrypt(String text, String key) {
