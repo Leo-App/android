@@ -113,7 +113,7 @@
             android:name="de.slg.nachhilfe.Verwalten"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.leoview.IntroActivity"
+            android:name=".IntroActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="de.slg.leoapp.ProfileActivity"

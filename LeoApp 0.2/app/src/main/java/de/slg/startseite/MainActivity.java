@@ -36,7 +36,7 @@ import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.leoview.ActionLogActivity;
-import de.slg.leoview.IntroActivity;
+import de.slg.leoapp.IntroActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.AbstimmDialog;
