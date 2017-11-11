@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -114,7 +113,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
 
     private void startSocket() {
         try {
-            final WebSocketClient client = new WebSocketClient(new URI("ws://ucloud4schools.de:8080/leoapp/"));
+            final WebSocketClient client = new WebSocketClient(new URI("wss://ucloud4schools.de:8080/leoapp/"));
 
             socketRunning = true;
 
@@ -127,8 +126,8 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
             client.sendMessage("uid=1008");
             client.sendMessage("mdate=0");
             client.sendMessage("request");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
 
