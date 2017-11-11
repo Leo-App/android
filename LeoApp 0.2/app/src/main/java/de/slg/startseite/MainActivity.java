@@ -28,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import de.slg.essensqr.EssensQRActivity;
-import de.slg.intro.IntroActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.InformationDialog;
 import de.slg.leoapp.NotificationService;
@@ -37,6 +36,7 @@ import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.leoview.ActionLogActivity;
+import de.slg.leoview.IntroActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.AbstimmDialog;

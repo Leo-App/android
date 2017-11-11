@@ -7,10 +7,8 @@ import java.io.IOException;
 
 import okhttp3.Authenticator;
 import okhttp3.Credentials;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.Route;
 
@@ -28,7 +26,7 @@ import okhttp3.Route;
 public class WebDAVConnector {
 
     private OkHttpClient connection;
-    private String currentDirectory;
+    private String       currentDirectory;
 
     /**
      * Konstruktor.
@@ -64,10 +62,9 @@ public class WebDAVConnector {
         try {
 
             Request request = new Request.Builder()
-                    .url(Utils.URL_WEBDAV+currentDirectory)
+                    .url(Utils.URL_WEBDAV + currentDirectory)
                     .method("PROPFIND", null)
                     .build();
-
 
             List<String> files = new List<>();
 
@@ -79,14 +76,13 @@ public class WebDAVConnector {
                 if (newIndex > i) {
                     i = newIndex;
                     String toAppend = result.substring(i, result.indexOf('<', i));
-                    if(toAppend.contains("/D:href>")) //Temporärer Fix
+                    if (toAppend.contains("/D:href>")) //Temporärer Fix
                         continue;
                     files.append(toAppend);
                 }
             }
 
             return files;
-
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -111,5 +107,4 @@ public class WebDAVConnector {
             currentDirectory = name.startsWith("/") ? name : (currentDirectory + "/" + name);
         }
     }
-
 }
