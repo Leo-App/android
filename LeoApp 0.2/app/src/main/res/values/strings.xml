@@ -345,6 +345,14 @@
     <string name="dialog_qrfoodmarks">We are currently testing the new system with the mensa staff, so you can expect to be able to use this feature soon. You can of course
         already play around with it and test it yourself. Thank you for your patience :)
     </string>
+    <string name="dialog_comingsoon">
+        We are always working on a more stable and enjoyable app experience, but we already have some new ideas to implement! We plan on adding a teacher substitution planner,
+        a tutoring-board and a personal organizer. Of course we also read your suggestions, just let us know. Stay tuned!
+    </string>
+    <string name="dialog_betatest">
+        Thank you for helping us test our app. You can give us Feedback either over the Feature-Request option in the menu, via email to email@maildomain.de or, of course, personally.
+        If you need any additional information, don\'t hesitate to contact us. Have fun!
+    </string>
 
     <string name="settings_title_notification_all">Receive all notifications</string>
     <string name="settings_title_notification_custom">Receive some notifications</string>

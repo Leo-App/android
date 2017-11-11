@@ -36,10 +36,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/buttonOK"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:text="@string/confirm"
         android:layout_below="@id/textView10"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentRight="true"/>
+        android:layout_marginTop="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

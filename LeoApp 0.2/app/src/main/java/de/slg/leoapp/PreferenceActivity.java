@@ -342,6 +342,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.foodmarks).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.barometer).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.umfragen).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

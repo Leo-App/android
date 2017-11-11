@@ -19,9 +19,11 @@ import android.widget.TextView;
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.GraphicUtils;
+import de.slg.leoapp.InformationDialog;
 import de.slg.leoapp.List;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
+import de.slg.leoapp.UtilsController;
 import de.slg.leoview.InfoButton;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
@@ -32,6 +34,9 @@ import de.slg.vertretung.WrapperSubstitutionActivity;
 
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> implements RecyclerViewItemListener {
 
+    /**
+     * Liste aller in der MainActivity angezeigten Cards.
+     */
     final List<Card> cards;
 
     {
@@ -48,6 +53,11 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
         }
     }
 
+    /**
+     * Fügt eine Card mit dem Typ type zu {@link #cards} hinzu und setzt verschiedene Parameter.
+     *
+     * @param type
+     */
     void addToList(CardType type) {
         Card c;
         switch (type) {
@@ -190,14 +200,17 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new ComingSoonDialog(Utils.getController().getMainActivity()).show();
+                        new InformationDialog(Utils.getController().getActiveActivity()).setText(R.string.dialog_comingsoon).show();
                     }
                 };
                 break;
         }
     }
 
-    void updateCustomCards() {
+    /**
+     * Aktualisiert den Status aller Cards.
+     */
+    void updateCards() {
         int i = 0;
         for (cards.toFirst(); cards.hasAccess(); cards.next()) {
             if (cards.getContent() instanceof Card)

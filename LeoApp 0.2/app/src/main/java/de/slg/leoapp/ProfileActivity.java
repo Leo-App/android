@@ -221,11 +221,15 @@ public class ProfileActivity extends ActionLogActivity {
     void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
+
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.foodmarks).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.barometer).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.umfragen).setEnabled(Utils.isVerified());
+
         navigationView.getMenu().findItem(R.id.profile).setChecked(true);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 

@@ -30,6 +30,7 @@ import android.widget.Toast;
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.intro.IntroActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoapp.InformationDialog;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.ProfileActivity;
@@ -64,6 +65,8 @@ public class MainActivity extends ActionLogActivity {
         initFeatureCards();
         initNavigationView();
         initAppIntro();
+
+        initOptionalDialog();
 
 
         if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
@@ -212,7 +215,7 @@ public class MainActivity extends ActionLogActivity {
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
 
-        mAdapter.updateCustomCards();
+        mAdapter.updateCards();
 
         Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
         Utils.getNotificationManager().cancel(NotificationService.ID_STUNDENPLAN);
@@ -244,6 +247,9 @@ public class MainActivity extends ActionLogActivity {
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.foodmarks).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.barometer).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.umfragen).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
@@ -463,6 +469,10 @@ public class MainActivity extends ActionLogActivity {
         t.start();
     }
 
+    private void initOptionalDialog() {
+        new InformationDialog(this).setText(R.string.dialog_betatest).show();
+    }
+
     private void processIntent() {
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);
         if (notificationTarget != -1) {
@@ -516,8 +526,6 @@ public class MainActivity extends ActionLogActivity {
     void addCard(CardType t) {
         mAdapter.addToList(t);
         mAdapter.notifyDataSetChanged();
-
-        //TODO: Scroll to new Position
     }
 
     private void writeCardsToPreferences() {
