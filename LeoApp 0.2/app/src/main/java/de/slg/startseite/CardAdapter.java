@@ -36,8 +36,10 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
 
     {
         cards = new List<>();
+
         String card_config = Utils.getController().getPreferences().getString("pref_key_card_config",
-                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;COMING_SOON;"); //POLL hinzugefügt
+                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;COMING_SOON;");
+
         for (String card : card_config.split(";")) {
             if (card.length() > 0) {
                 CardType type = CardType.valueOf(card);
@@ -54,11 +56,14 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.title = Utils.getString(R.string.title_foodmarks);
                 c.desc = Utils.getString(R.string.summary_info_foodmark);
                 c.icon = R.drawable.qrcode;
-                c.enabled = true;
+                c.enabled = Utils.isVerified();
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensQRActivity.class));
+                        if (Utils.isVerified())
+                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensQRActivity.class));
+                        else
+                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
 
@@ -117,11 +122,14 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.title = Utils.getString(R.string.title_survey);
                 c.desc = Utils.getString(R.string.summary_info_survey);
                 c.icon = R.drawable.emoticon;
-                c.enabled = true;
+                c.enabled = Utils.isVerified();
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StimmungsbarometerActivity.class));
+                        if (Utils.isVerified())
+                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StimmungsbarometerActivity.class));
+                        else
+                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -145,12 +153,15 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_subst);
                 c.desc = Utils.getString(R.string.summary_info_subst);
-                c.enabled = true;
+                c.enabled = Utils.isVerified();
                 c.icon = R.drawable.ic_account_switch;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), WrapperSubstitutionActivity.class));
+                        if (Utils.isVerified())
+                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), WrapperSubstitutionActivity.class));
+                        else
+                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -158,7 +169,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.umfragen);
                 c.desc = Utils.getString(R.string.beschreibungUmfrage);
-                c.enabled = true;
+                c.enabled = Utils.isVerified();
                 c.icon = R.drawable.icon_survey;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
@@ -179,8 +190,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false))
-                            new ComingSoonDialog(Utils.getController().getMainActivity()).show();
+                        new ComingSoonDialog(Utils.getController().getMainActivity()).show();
                     }
                 };
                 break;
