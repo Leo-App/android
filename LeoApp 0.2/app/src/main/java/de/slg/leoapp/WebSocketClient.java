@@ -1,7 +1,8 @@
 package de.slg.leoapp;
 
-import javax.websocket.*;
 import java.net.URI;
+
+import javax.websocket.*;
 
 /**
  * ChatServer Client
@@ -9,7 +10,7 @@ import java.net.URI;
  * @author Jiji_Sasidharan
  */
 @ClientEndpoint
-public class WebSocketClient {
+class WebSocketClient {
 
     private Session userSession = null;
     private MessageHandler messageHandler;
@@ -50,7 +51,7 @@ public class WebSocketClient {
         this.userSession.getAsyncRemote().sendText(message);
     }
 
-    public interface MessageHandler {
+    interface MessageHandler {
         void handleMessage(String message);
     }
 }

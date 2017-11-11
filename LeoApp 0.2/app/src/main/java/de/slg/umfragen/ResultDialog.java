@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import de.slg.leoapp.ItemAnimator;
 import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.schwarzes_brett.ResponseCode;
@@ -174,7 +173,7 @@ class ResultDialog extends AlertDialog {
                 if (!Utils.checkNetwork()) {
                     return ResponseCode.NO_CONNECTION;
                 }
-                URL            updateURL = new URL(Utils.BASE_URL_PHP + "survey/getAllResults.php?survey=" + id);
+                URL            updateURL = new URL(Utils.DOMAIN_DEV + "survey/getAllResults.php?survey=" + id);
                 BufferedReader reader    = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
 
                 String        cur;

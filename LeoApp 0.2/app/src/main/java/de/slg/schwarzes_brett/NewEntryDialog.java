@@ -45,7 +45,6 @@ import de.slg.leoapp.Utils;
 class NewEntryDialog extends AlertDialog {
 
     private DatePickerDialog datePickerDialog;
-    private Context          c;
 
     /**
      * Konstruktor.
@@ -54,7 +53,6 @@ class NewEntryDialog extends AlertDialog {
      */
     NewEntryDialog(@NonNull Context context) {
         super(context);
-        c = context;
     }
 
     /**
@@ -154,7 +152,7 @@ class NewEntryDialog extends AlertDialog {
     private void setDateTimeField(final TextView t) {
         final Calendar         newCalendar   = Calendar.getInstance();
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
-        datePickerDialog = new DatePickerDialog(c, new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
