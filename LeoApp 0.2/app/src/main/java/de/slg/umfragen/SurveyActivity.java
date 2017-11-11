@@ -32,7 +32,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -477,7 +476,7 @@ public class SurveyActivity extends ActionLogActivity {
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
+                    URL updateURL = new URL(Utils.DOMAIN_DEV + "survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
@@ -553,7 +552,7 @@ public class SurveyActivity extends ActionLogActivity {
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/deleteSurvey.php?survey=" + params[0]);
+                    URL updateURL = new URL(Utils.DOMAIN_DEV + "survey/deleteSurvey.php?survey=" + params[0]);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));

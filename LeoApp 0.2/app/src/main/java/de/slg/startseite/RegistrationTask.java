@@ -47,7 +47,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
 
             //TODO!!!
             HttpURLConnection connection = (HttpURLConnection)
-                    new URL(/*Utils.URL_PHP_SCHOOL*/"http://moritz.liegmanns.de/leoapp_php/" + "verify.php?name=" + username)
+                    new URL(Utils.URL_PHP_SCHOOL + "verify.php")
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 

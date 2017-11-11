@@ -254,7 +254,7 @@ class NewSurveyDialog extends AlertDialog {
             BufferedReader in     = null;
             String         result = "";
             try {
-                URL interfaceDB = new URL((Utils.BASE_URL_PHP + "survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
+                URL interfaceDB = new URL((Utils.DOMAIN_DEV + "survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
                 Log.wtf("LeoApp", interfaceDB.toString());
                 in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
                 String inputLine;
