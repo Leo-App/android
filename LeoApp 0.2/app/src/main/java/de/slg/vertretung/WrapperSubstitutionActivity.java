@@ -47,6 +47,11 @@ public class WrapperSubstitutionActivity extends ActionLogActivity {
         initNavigationView();
     }
 
+    @Override
+    protected String getActivityTag() {
+        return "WrapperSubstitutionActivity";
+    }
+
     private void initTabs() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pagerS);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayoutS);

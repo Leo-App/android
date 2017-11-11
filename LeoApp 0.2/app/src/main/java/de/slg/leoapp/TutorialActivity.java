@@ -107,6 +107,11 @@ public class TutorialActivity extends ActionLogActivity {
         });
     }
 
+    @Override
+    protected String getActivityTag() {
+        return "TutorialActivity";
+    }
+
     private void nextCategory() {
         category++;
         if (category >= categories.length)

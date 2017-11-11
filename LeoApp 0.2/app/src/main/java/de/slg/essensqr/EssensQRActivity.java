@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.google.zxing.Result;
 
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoapp.InformationDialog;
 import de.slg.leoapp.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.ProfileActivity;
@@ -65,6 +66,9 @@ public class EssensQRActivity extends ActionLogActivity implements ZXingScannerV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrapper_qr);
+
+        new InformationDialog(this).setText(R.string.dialog_qrfoodmarks).show();
+
         Utils.getController().registerEssensQRActivity(this);
 
         runningScan = false;
@@ -76,7 +80,7 @@ public class EssensQRActivity extends ActionLogActivity implements ZXingScannerV
         mViewPager = (ViewPager) findViewById(R.id.pager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
-            private final QRFragment fragment1 = new QRFragment();
+            private final QRFragment   fragment1 = new QRFragment();
             private final ScanFragment fragment2 = new ScanFragment();
 
             @Override
@@ -129,6 +133,12 @@ public class EssensQRActivity extends ActionLogActivity implements ZXingScannerV
         } else
             mensaModeRunning = false;
     }
+
+    @Override
+    protected String getActivityTag() {
+        return "QRActivity";
+    }
+
 
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
@@ -253,7 +263,6 @@ public class EssensQRActivity extends ActionLogActivity implements ZXingScannerV
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d("LeoApp", "OnKeyDown");
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             if (runningScan) {
                 runningScan = false;

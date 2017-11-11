@@ -114,6 +114,11 @@ public class ChatActivity extends ActionLogActivity {
     }
 
     @Override
+    protected String getActivityTag() {
+        return "ChatActivity";
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1 && resultCode == 1) {
             getSupportActionBar().setTitle(data.getStringExtra("cname"));

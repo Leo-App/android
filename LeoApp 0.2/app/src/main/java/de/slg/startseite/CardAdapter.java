@@ -24,7 +24,6 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.Utils;
 import de.slg.leoview.InfoButton;
 import de.slg.messenger.MessengerActivity;
-import de.slg.nachhilfe.NachhilfeboerseActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
@@ -96,22 +95,6 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                     }
                 };
 
-                break;
-            case TUTORING:
-                cards.append(c = new Card(type));
-                c.title = Utils.getString(R.string.title_tutoring);
-                c.desc = Utils.getString(R.string.summary_info_tutoring);
-                c.enabled = Utils.isVerified();
-                c.icon = R.drawable.ic_people_white_24dp;
-                c.buttonListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (Utils.isVerified())
-                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), NachhilfeboerseActivity.class));
-                        else
-                            Utils.getController().getMainActivity().showVerificationDialog();
-                    }
-                };
                 break;
             case NEWS:
                 cards.append(c = new Card(type));

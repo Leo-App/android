@@ -73,6 +73,11 @@ public class StimmungsbarometerActivity extends ActionLogActivity {
     }
 
     @Override
+    protected String getActivityTag() {
+        return "StimmungsbarometerActivity";
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);

@@ -47,6 +47,11 @@ public class AbstimmActivity extends ActionLogActivity {
         initSendButton();
     }
 
+    @Override
+    protected String getActivityTag() {
+        return "AbstimmActivity";
+    }
+
     private void initSmileys() {
         very_satisfied = (ImageButton) findViewById(R.id.imageButtonVS);
         satisfied = (ImageButton) findViewById(R.id.imageButtonS);

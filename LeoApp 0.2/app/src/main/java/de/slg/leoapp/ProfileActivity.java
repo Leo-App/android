@@ -45,6 +45,11 @@ public class ProfileActivity extends ActionLogActivity {
     }
 
     @Override
+    protected String getActivityTag() {
+        return "ProfileActivity";
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == android.R.id.home) {
             drawerLayout.openDrawer(GravityCompat.START);

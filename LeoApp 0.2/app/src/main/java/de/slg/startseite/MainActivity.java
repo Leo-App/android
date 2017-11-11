@@ -74,6 +74,11 @@ public class MainActivity extends ActionLogActivity {
     }
 
     @Override
+    public String getActivityTag() {
+        return "MainActivity";
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (editing) {
             getMenuInflater().inflate(R.menu.startseite_edit, menu);

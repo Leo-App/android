@@ -119,6 +119,11 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     }
 
     @Override
+    protected String getActivityTag() {
+        return "SchwarzesBrettActivy";
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE &&
                 grantResults.length > 0 &&

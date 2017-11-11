@@ -43,6 +43,11 @@ public class StundenplanBildActivity extends ActionLogActivity {
     }
 
     @Override
+    protected String getActivityTag() {
+        return "StundenplanBildActivity";
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stundenplan_image, menu);
         return true;

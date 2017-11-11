@@ -342,6 +342,9 @@
     <string name="settings_summary_reasons_survey">Show reasons when choosing your mood</string>
 
     <string name="settings_title_kuerzel">Teacher abbreviation</string>
+    <string name="dialog_qrfoodmarks">We are currently testing the new system with the mensa staff, so you can expect to be able to use this feature soon. You can of course
+        already play around with it and test it yourself. Thank you for your patience :)
+    </string>
 
     <string name="settings_title_notification_all">Receive all notifications</string>
     <string name="settings_title_notification_custom">Receive some notifications</string>

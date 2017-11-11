@@ -87,6 +87,11 @@ public class MessengerActivity extends ActionLogActivity {
         sFragment.refreshUI();
     }
 
+    @Override
+    protected String getActivityTag() {
+        return "KlausurplanActivity";
+    }
+
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.actionBarOverview);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));

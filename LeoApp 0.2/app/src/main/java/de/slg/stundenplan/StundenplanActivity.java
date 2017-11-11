@@ -66,6 +66,11 @@ public class StundenplanActivity extends ActionLogActivity {
     }
 
     @Override
+    protected String getActivityTag() {
+        return "StundenplanActivity";
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stundenplan, menu);
         if (Utils.getUserPermission() < 2) {
