@@ -56,6 +56,7 @@
         android:layout_below="@id/votes"
         android:layout_marginTop="30dp"
         android:textColor="@android:color/black"
+        android:visibility="gone"
         android:textSize="15sp"
         />
 
@@ -70,6 +71,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
         android:foregroundTint="@color/colorPrimary" />
 
     <TextView
@@ -79,6 +81,7 @@
         android:layout_alignLeft="@+id/percent2"
         android:layout_alignStart="@+id/percent2"
         android:layout_alignBottom="@+id/progressBar1"
+        android:visibility="gone"
         android:textSize="15sp" />
 
     <TextView
@@ -89,6 +92,7 @@
         android:layout_below="@id/answer1"
         android:layout_marginTop="35dp"
         android:textColor="@android:color/black"
+        android:visibility="gone"
         android:textSize="15sp"
         />
 
@@ -103,6 +107,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
         android:foregroundTint="@color/colorPrimary" />
 
     <TextView
@@ -114,6 +119,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="23dp"
         android:layout_marginRight="23dp"
+        android:visibility="gone"
         android:textSize="15sp" />
 
 
@@ -126,6 +132,7 @@
         android:layout_marginTop="35dp"
         android:textColor="@android:color/black"
         android:textSize="15sp"
+        android:visibility="gone"
         />
 
     <ProgressBar
@@ -139,6 +146,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
         android:foregroundTint="@color/colorPrimary" />
 
     <TextView
@@ -150,6 +158,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="23dp"
         android:layout_marginRight="23dp"
+        android:visibility="gone"
         android:textSize="15sp" />
 
     <TextView
@@ -160,6 +169,7 @@
         android:layout_below="@id/answer3"
         android:layout_marginTop="35dp"
         android:textColor="@android:color/black"
+        android:visibility="gone"
         android:textSize="15sp"
         />
 
@@ -174,6 +184,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
         android:foregroundTint="@color/colorPrimary" />
 
     <TextView
@@ -185,6 +196,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="23dp"
         android:layout_marginRight="23dp"
+        android:visibility="gone"
         android:textSize="15sp" />
 
     <TextView
@@ -195,6 +207,7 @@
         android:layout_below="@id/answer4"
         android:layout_marginTop="35dp"
         android:textColor="@android:color/black"
+        android:visibility="gone"
         android:textSize="15sp"
         />
 
@@ -209,6 +222,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="60dp"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
         android:foregroundTint="@color/colorPrimary" />
 
     <TextView
@@ -220,6 +234,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="23dp"
         android:layout_marginRight="23dp"
+        android:visibility="gone"
         android:textSize="15sp" />
 
     <Button

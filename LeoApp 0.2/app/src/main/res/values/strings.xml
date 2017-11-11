@@ -10,7 +10,7 @@
 
     <string name="share">Share</string>
 
-    <string name="share_text" translatable="false">Stimme in der LeoApp Umfrage \"%1$s\" ab! &#9885; Installiere die LeoApp über den Playstore: http://app.leoapp-slg.de</string>
+    <string name="share_text" translatable="false">Stimme in der LeoApp Umfrage \"%1$d\" ab! &#9885; Installiere die LeoApp über den Playstore: http://app.leoapp-slg.de</string>
 
     <string name="drawer_placeholder_name">Username</string>
     <string name="drawer_placeholder_grade">Grade</string>
@@ -238,12 +238,12 @@
 
 
     <!-- Umfragen -->
-    <string name="meta_id_placeholder">Survey-ID: #%1$s </string>
+    <string name="meta_id_placeholder">Survey-ID: #%1$d </string>
     <string name="button_next">Next</string>
     <string name="result">Result</string>
     <string name="results">Results</string>
     <string name="send_survey">Send</string>
-    <string name="statistics_result">%1$d/%2$d Stimmen (%3$d Prozent)</string>
+    <string name="statistics_result">%1$d/%2$d Stimmen (%3$s Prozent)</string>
     <string name="survey">Umfrage: b</string>
     <string name="survey_checkbox_answers">Mehrere Möglichkeiten auswählbar</string>
     <string name="survey_deleted">Umfrage gelöscht</string>

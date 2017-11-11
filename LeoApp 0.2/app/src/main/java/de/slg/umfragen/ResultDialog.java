@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -101,9 +102,9 @@ class ResultDialog extends AlertDialog {
         percentages = new TextView[]{pe1, pe2, pe3, pe4, pe5};
 
         for (TextView cur : answers)
-            cur.setVisibility(View.INVISIBLE);
+            cur.setVisibility(View.GONE);
         for (ProgressBar cur : progressBars)
-            cur.setVisibility(View.INVISIBLE);
+            cur.setVisibility(View.GONE);
 
         t1.setVisibility(View.INVISIBLE);
         t2.setVisibility(View.INVISIBLE);
@@ -144,7 +145,10 @@ class ResultDialog extends AlertDialog {
             answers[i].setVisibility(GONE);
         }
 
-        t2.setText(Utils.getContext().getString(R.string.statistics_result, votes, target, votes * 100 / target));
+        double percentage = (double)votes * 100d / (double)target;
+        DecimalFormat df = new DecimalFormat("####0.00");
+
+        t2.setText(Utils.getContext().getString(R.string.statistics_result, votes, target, df.format(percentage)));
     }
 
     private void stopLoading() {
@@ -173,8 +177,11 @@ class ResultDialog extends AlertDialog {
                 if (!Utils.checkNetwork()) {
                     return ResponseCode.NO_CONNECTION;
                 }
+
                 URL            updateURL = new URL(Utils.DOMAIN_DEV + "survey/getAllResults.php?survey=" + id);
                 BufferedReader reader    = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
+
+                Utils.logError(updateURL);
 
                 String        cur;
                 StringBuilder result = new StringBuilder();

@@ -145,11 +145,6 @@ public class EssensQRActivity extends ActionLogActivity implements ZXingScannerV
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         navigationView.getMenu().findItem(R.id.foodmarks).setChecked(true);
 
-        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override

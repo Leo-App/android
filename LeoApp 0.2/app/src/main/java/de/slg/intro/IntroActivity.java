@@ -14,9 +14,15 @@ import com.github.paolorotolo.appintro.AppIntroFragment;
 import de.slg.leoapp.R;
 
 /**
- * Created by Mirko on 26.08.2017.
+ * IntroActivity.
+ *
+ * Diese Activity verschafft dem User bei erstmaligem Starten einen kurzen Überblick über die App. Kann bei Bedarf erweitert werden.
+ *
+ * @author Mirko
+ * @since 0.5.7
+ * @version 2017.1111
  */
-
+@SuppressWarnings("deprecation")
 public class IntroActivity extends AppIntro {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +56,5 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
         super.onSlideChanged(oldFragment, newFragment);
-
-        }
+    }
 }

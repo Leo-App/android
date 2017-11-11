@@ -213,12 +213,12 @@
 
 
     <!-- Umfragen -->
-    <string name="meta_id_placeholder">"Umfrage-ID: #%1$s "</string>
+    <string name="meta_id_placeholder">"Umfrage-ID: #%1$d "</string>
     <string name="button_next">Weiter</string>
     <string name="result">Ergebnis</string>
     <string name="results">Ergebnisse</string>
     <string name="send_survey">Senden</string>
-    <string name="statistics_result">%1$d von %2$d Stimmen (%3$d Prozent)</string>
+    <string name="statistics_result">%1$d von %2$d Stimmen (%3$s Prozent)</string>
     <string name="survey">Umfrage: </string>
     <string name="survey_checkbox_answers">Mehrere Möglichkeiten auswählbar</string>
     <string name="survey_deleted">Umfrage gelöscht</string>
@@ -315,7 +315,7 @@
     <string name="settings_title_notification_none">Keine Benachrichtigungen erhalten</string>
     <string name="button_info_auth">Verifizieren</string>
     <string name="settings_summary_fade_time">Zeitspanne bis sich das Fenster schließt</string>
-    <string name="back">Rückgängig</string>
+    <string name="back">Zurück</string>
 
     <string name="error_snackbar">Es ist etwas schiefgelaufen, bitte starte die App erneut</string>
     <string name="verification_success">Verifizierung abgeschlossen!</string>

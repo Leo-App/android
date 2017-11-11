@@ -9,7 +9,7 @@ package de.slg.leoapp;
  * @version 2017.2610
  * @since 0.0.1
  */
-public class User {
+public final class User {
     public final int    uid;
     public final String uname;
     public final String udefaultname;

@@ -44,6 +44,16 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 import de.slg.umfragen.SurveyActivity;
 
+/**
+ * MainActivity.
+ *
+ * "Startseite" der LeoApp, hier wird das Hauptmenü angezeigt. Zur Verfügung stehen zwei Layouts: Listen- und Schnellansicht (Für Programmlogik siehe {@link CardAdapter}).
+ * Zusätzlich wird Hintergrundlogik, wie das Weiterleiten von Notifications, das Anzeigen von Dialogen oder der Mensamode verwaltet.
+ *
+ * @author Gianni, Moritz
+ * @since 0.0.1
+ * @version 2017.1111
+ */
 public class MainActivity extends ActionLogActivity {
     public static boolean        editing;
     public        AbstimmDialog  abstimmDialog;
@@ -215,7 +225,7 @@ public class MainActivity extends ActionLogActivity {
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
 
-        mAdapter.updateCards();
+    //    mAdapter.updateCards();
 
         Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
         Utils.getNotificationManager().cancel(NotificationService.ID_STUNDENPLAN);
