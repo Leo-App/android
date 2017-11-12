@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
     private int remote;

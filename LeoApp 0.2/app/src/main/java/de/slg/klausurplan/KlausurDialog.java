@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 class KlausurDialog extends AppCompatDialog {
 

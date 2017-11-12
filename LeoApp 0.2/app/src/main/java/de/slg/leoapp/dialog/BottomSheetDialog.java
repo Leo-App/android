@@ -1,9 +1,11 @@
-package de.slg.leoapp;
+package de.slg.leoapp.dialog;
 
 import android.app.Dialog;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.View;
 import android.widget.TextView;
+
+import de.slg.leoapp.R;
 
 /**
  * BottomSheetDialog

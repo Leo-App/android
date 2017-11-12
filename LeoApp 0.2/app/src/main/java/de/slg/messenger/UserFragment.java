@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.User;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.User;
+import de.slg.leoapp.utility.Utils;
 
 public class UserFragment extends Fragment {
     public View         view;
@@ -39,7 +39,7 @@ public class UserFragment extends Fragment {
                 User clickedUser = userArray[position];
                 startActivity(new Intent(getContext(), ChatActivity.class)
                         .putExtra("uid", clickedUser.uid)
-                        .putExtra("cid", de.slg.leoapp.Utils.getController().getMessengerDatabase().getChatWith(clickedUser.uid))
+                        .putExtra("cid", Utils.getController().getMessengerDatabase().getChatWith(clickedUser.uid))
                         .putExtra("cname", clickedUser.uname)
                         .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
             }

@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoview.ActionLogActivity;
+import de.slg.leoapp.view.ActionLogActivity;
 
 public class InfoActivity extends ActionLogActivity {
     @Override

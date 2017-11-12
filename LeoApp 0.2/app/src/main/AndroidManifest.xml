@@ -19,11 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".ReceiveService"
+            android:name=".service.ReceiveService"
             android:description="@string/serviceDescription"
             android:exported="false" />
         <service
-            android:name=".NotificationService"
+            android:name=".service.NotificationService"
             android:exported="false" />
 
         <activity
@@ -42,9 +42,6 @@
             android:theme="@style/MainActivitiesTheme" />
         <activity
             android:name=".NotificationPreferenceActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".TutorialActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="de.slg.startseite.MainActivity"

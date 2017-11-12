@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.task;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -13,10 +13,14 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
-class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
+import de.slg.leoapp.R;
+import de.slg.leoapp.utility.ReturnValues;
+import de.slg.leoapp.utility.Utils;
+
+public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
     private final String old;
 
-    UpdateTaskName(String oldUsername) {
+    public UpdateTaskName(String oldUsername) {
         old = oldUsername;
     }
 

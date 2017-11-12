@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;

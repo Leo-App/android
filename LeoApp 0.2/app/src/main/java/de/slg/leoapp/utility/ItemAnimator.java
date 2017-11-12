@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.utility;
 
 import android.view.View;
 
@@ -12,6 +12,7 @@ import android.view.View;
  * @since 0.5.6
  */
 
+@SuppressWarnings("WeakerAccess")
 public abstract class ItemAnimator<ContentType extends View> {
 
     private int         iterations;

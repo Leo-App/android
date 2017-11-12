@@ -16,7 +16,7 @@ public abstract class Utils {
     public static boolean showVoteOnStartup() {
         if (getLastVote().equals(getCurrentDate()))
             return false;
-        boolean b = de.slg.leoapp.Utils.isVerified() && de.slg.leoapp.Utils.checkNetwork();
+        boolean b = de.slg.leoapp.utility.Utils.isVerified() && de.slg.leoapp.utility.Utils.checkNetwork();
         if (b) {
             AsyncTask<Void, Void, Boolean> t = new AsyncTask<Void, Void, Boolean>() {
                 private boolean b;
@@ -24,7 +24,7 @@ public abstract class Utils {
                 @Override
                 protected Boolean doInBackground(Void... params) {
                     try {
-                        URLConnection connection = new URL(de.slg.leoapp.Utils.BASE_URL_PHP + "stimmungsbarometer/voted.php?uid=" + de.slg.leoapp.Utils.getUserID())
+                        URLConnection connection = new URL(de.slg.leoapp.utility.Utils.BASE_URL_PHP + "stimmungsbarometer/voted.php?uid=" + de.slg.leoapp.utility.Utils.getUserID())
                                 .openConnection();
 
                         BufferedReader reader =
@@ -53,7 +53,7 @@ public abstract class Utils {
     }
 
     public static int getCurrentMoodRessource() {
-        int i = de.slg.leoapp.Utils.getController().getPreferences().getInt("pref_key_general_vote_id", -1);
+        int i = de.slg.leoapp.utility.Utils.getController().getPreferences().getInt("pref_key_general_vote_id", -1);
         switch (i) {
             case 1:
                 return R.drawable.ic_sentiment_very_satisfied_white_24px;
@@ -71,11 +71,11 @@ public abstract class Utils {
     }
 
     private static String getLastVote() {
-        return de.slg.leoapp.Utils.getController().getPreferences().getString("pref_key_general_last_vote", "00.00");
+        return de.slg.leoapp.utility.Utils.getController().getPreferences().getString("pref_key_general_last_vote", "00.00");
     }
 
     static void setLastVote(int vote) {
-        de.slg.leoapp.Utils.getController().getPreferences().edit()
+        de.slg.leoapp.utility.Utils.getController().getPreferences().edit()
                 .putString("pref_key_general_last_vote", getCurrentDate())
                 .putInt("pref_key_general_vote_id", vote)
                 .apply();

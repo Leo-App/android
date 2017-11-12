@@ -13,10 +13,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import de.slg.leoapp.NotificationService;
+import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
-import de.slg.leoview.ActionLogActivity;
+import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.view.ActionLogActivity;
 
 public class AbstimmActivity extends ActionLogActivity {
     private final String[] gruende           = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};

@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import de.slg.leoapp.List;
+import de.slg.leoapp.utility.List;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 class KlausurenAdapter extends ArrayAdapter<Klausur> {
 

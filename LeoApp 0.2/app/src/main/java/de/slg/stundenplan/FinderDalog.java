@@ -10,9 +10,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import de.slg.leoapp.List;
+import de.slg.leoapp.utility.List;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 class FinderDalog extends AlertDialog {
     private List<String> kürzel;

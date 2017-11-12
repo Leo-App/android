@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 import static android.view.View.VISIBLE;
 

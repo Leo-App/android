@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 public class AbstimmDialog extends AlertDialog {
     private final String[] gruende           = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};

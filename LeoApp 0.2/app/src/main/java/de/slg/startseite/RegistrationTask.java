@@ -14,9 +14,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.ResponseCode;
-import de.slg.leoapp.SyncUserTask;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.ResponseCode;
+import de.slg.leoapp.task.SyncUserTask;
+import de.slg.leoapp.utility.Utils;
 
 import static android.view.View.GONE;
 

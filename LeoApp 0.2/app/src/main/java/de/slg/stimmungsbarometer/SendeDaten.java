@@ -14,7 +14,7 @@ class SendeDaten extends AsyncTask<Wahl, Void, Void> {
         if (wahls[0] != null) {
             try {
                 Wahl w = wahls[0];
-                URLConnection connection = new URL(de.slg.leoapp.Utils.BASE_URL_PHP + "stimmungsbarometer/vote.php?vid=" + w.voteid + "&uid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
+                URLConnection connection = new URL(de.slg.leoapp.utility.Utils.BASE_URL_PHP + "stimmungsbarometer/vote.php?vid=" + w.voteid + "&uid=" + w.userid + "&grund=" + w.grund.replace(" ", "%20"))
                         .openConnection();
 
                 BufferedReader reader =

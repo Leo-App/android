@@ -23,9 +23,9 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.User;
-import de.slg.leoapp.Utils;
-import de.slg.leoview.ActionLogActivity;
+import de.slg.leoapp.utility.User;
+import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.view.ActionLogActivity;
 
 public class ChatEditActivity extends ActionLogActivity {
     private int    cid;

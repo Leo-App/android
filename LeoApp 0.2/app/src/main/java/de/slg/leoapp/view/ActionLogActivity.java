@@ -1,4 +1,4 @@
-package de.slg.leoview;
+package de.slg.leoapp.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import java.util.Date;
 @SuppressLint("SimpleDateFormat")
 public abstract class ActionLogActivity extends AppCompatActivity {
 
-    private ActivityStatus    status;
+    private ActivityStatus status;
 
     @Override
     protected void onCreate(Bundle b) {

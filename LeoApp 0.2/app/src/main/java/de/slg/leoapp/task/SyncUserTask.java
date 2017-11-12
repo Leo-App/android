@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.task;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,11 +14,16 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import de.slg.leoapp.R;
+import de.slg.leoapp.utility.ResponseCode;
+import de.slg.leoapp.Start;
+import de.slg.leoapp.utility.Utils;
+
 public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
     private final AlertDialog dialog;
     private final boolean     refresh;
 
-    SyncUserTask() {
+    public SyncUserTask() {
         this.dialog = null;
         this.refresh = !Utils.isVerified();
     }

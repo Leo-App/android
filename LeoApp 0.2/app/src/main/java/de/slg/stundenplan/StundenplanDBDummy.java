@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 class StundenplanDBDummy extends SQLiteOpenHelper {
     private static final String DATABASE_NAME  = "stundenplan_dummy";

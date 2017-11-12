@@ -1,4 +1,4 @@
-package de.slg.leoview;
+package de.slg.leoapp.view;
 
 /**
  * ActivityStatus

@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.utility;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

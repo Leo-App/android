@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 class DetailsDialog extends AlertDialog {
     private Fach fach;

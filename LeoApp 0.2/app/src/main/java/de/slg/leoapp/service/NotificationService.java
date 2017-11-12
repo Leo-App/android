@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -24,9 +24,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.essensqr.SQLiteHandler;
+import de.slg.leoapp.R;
+import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
-import de.slg.schwarzes_brett.SQLiteConnector;
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.AbstimmActivity;
 import de.slg.stundenplan.Fach;
@@ -304,7 +306,7 @@ public class NotificationService extends Service {
 
     private void schwarzesBrettNotification() {
         if (Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true)) {
-            SQLiteConnector db     = new SQLiteConnector(getApplicationContext());
+            SQLiteConnectorNews db     = new SQLiteConnectorNews(getApplicationContext());
             SQLiteDatabase  dbh    = db.getReadableDatabase();
             long            latest = db.getLatestDate(dbh);
             dbh.close();

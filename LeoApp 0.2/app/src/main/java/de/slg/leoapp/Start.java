@@ -6,6 +6,11 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import de.slg.leoapp.service.NotificationService;
+import de.slg.leoapp.service.ReceiveService;
+import de.slg.leoapp.task.SyncGradeTask;
+import de.slg.leoapp.task.SyncUserTask;
+import de.slg.leoapp.utility.Utils;
 import de.slg.schwarzes_brett.UpdateViewTrackerTask;
 import de.slg.startseite.MailSendTask;
 import de.slg.startseite.MainActivity;

@@ -8,10 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import de.slg.leoapp.List;
+import de.slg.leoapp.utility.List;
 import de.slg.leoapp.R;
-import de.slg.leoapp.User;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.User;
+import de.slg.leoapp.utility.Utils;
 
 import static de.slg.messenger.DBConnection.DBHelper.CHAT_DELETED;
 import static de.slg.messenger.DBConnection.DBHelper.CHAT_ID;

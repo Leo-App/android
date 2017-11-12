@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.utility;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;

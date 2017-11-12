@@ -29,10 +29,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import de.slg.leoapp.GraphicUtils;
+import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
-import de.slg.leoview.ActionLogActivity;
+import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.view.ActionLogActivity;
 
 public class ChatActivity extends ActionLogActivity {
     private int           cid;

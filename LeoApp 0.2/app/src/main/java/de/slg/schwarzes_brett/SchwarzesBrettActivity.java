@@ -38,12 +38,13 @@ import java.util.Map;
 
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.NotificationService;
+import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
-import de.slg.leoview.ActionLogActivity;
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
+import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
@@ -53,7 +54,7 @@ import de.slg.umfragen.SurveyActivity;
 public class SchwarzesBrettActivity extends ActionLogActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
-    private static SQLiteConnector sqLiteConnector;
+    private static SQLiteConnectorNews sqLiteConnector;
     private static SQLiteDatabase  sqLiteDatabase;
 
     private List<String>              groupList;
@@ -66,14 +67,14 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     private static int getRemoteId(int position) {
         //Maybe cache already transformed ids to avoid excessive RAM usage
         if (sqLiteConnector == null)
-            sqLiteConnector = new SQLiteConnector(Utils.getContext());
+            sqLiteConnector = new SQLiteConnectorNews(Utils.getContext());
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
         String stufe = Utils.getUserStufe();
         Cursor cursor = sqLiteDatabase.rawQuery(
-                "SELECT " + SQLiteConnector.EINTRAEGE_REMOTE_ID +
-                        " FROM " + SQLiteConnector.TABLE_EINTRAEGE + (!stufe.equals("") ?
-                        " WHERE " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "'" :
+                "SELECT " + SQLiteConnectorNews.EINTRAEGE_REMOTE_ID +
+                        " FROM " + SQLiteConnectorNews.TABLE_EINTRAEGE + (!stufe.equals("") ?
+                        " WHERE " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = '" + stufe + "'" :
                         ""), null);
         cursor.moveToPosition(position);
         if (cursor.getCount() <= position)
@@ -93,7 +94,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         receive();
 
         if (sqLiteConnector == null)
-            sqLiteConnector = new SQLiteConnector(Utils.getContext());
+            sqLiteConnector = new SQLiteConnectorNews(Utils.getContext());
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
@@ -255,7 +256,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
 
     private ArrayList<Integer> createViewList() {
         ArrayList<Integer> viewList = new ArrayList<>();
-        Cursor             cursor   = sqLiteDatabase.rawQuery("SELECT " + SQLiteConnector.EINTRAEGE_VIEWS + " FROM " + SQLiteConnector.TABLE_EINTRAEGE, null);
+        Cursor             cursor   = sqLiteDatabase.rawQuery("SELECT " + SQLiteConnectorNews.EINTRAEGE_VIEWS + " FROM " + SQLiteConnectorNews.TABLE_EINTRAEGE, null);
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             viewList.add(cursor.getInt(0));
@@ -272,15 +273,15 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         switch (stufe) {
             case "":
             case "TEA":
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, null, null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_EINTRAEGE, new String[]{SQLiteConnectorNews.EINTRAEGE_ADRESSAT, SQLiteConnectorNews.EINTRAEGE_TITEL, SQLiteConnectorNews.EINTRAEGE_INHALT, SQLiteConnectorNews.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorNews.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorNews.EINTRAEGE_ANHANG}, null, null, null, null, null);
                 break;
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_EINTRAEGE, new String[]{SQLiteConnectorNews.EINTRAEGE_ADRESSAT, SQLiteConnectorNews.EINTRAEGE_TITEL, SQLiteConnectorNews.EINTRAEGE_INHALT, SQLiteConnectorNews.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorNews.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorNews.EINTRAEGE_ANHANG}, SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
             default:
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_EINTRAEGE, new String[]{SQLiteConnector.EINTRAEGE_ADRESSAT, SQLiteConnector.EINTRAEGE_TITEL, SQLiteConnector.EINTRAEGE_INHALT, SQLiteConnector.EINTRAEGE_ERSTELLDATUM, SQLiteConnector.EINTRAEGE_ABLAUFDATUM, SQLiteConnector.EINTRAEGE_ANHANG}, SQLiteConnector.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_EINTRAEGE, new String[]{SQLiteConnectorNews.EINTRAEGE_ADRESSAT, SQLiteConnectorNews.EINTRAEGE_TITEL, SQLiteConnectorNews.EINTRAEGE_INHALT, SQLiteConnectorNews.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorNews.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorNews.EINTRAEGE_ANHANG}, SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
         }
 

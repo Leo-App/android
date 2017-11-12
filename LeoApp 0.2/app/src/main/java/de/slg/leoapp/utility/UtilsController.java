@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,8 +6,13 @@ import android.preference.PreferenceManager;
 
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoview.ActionLogActivity;
-import de.slg.leoview.ActivityStatus;
+import de.slg.leoapp.NotificationPreferenceActivity;
+import de.slg.leoapp.service.NotificationService;
+import de.slg.leoapp.PreferenceActivity;
+import de.slg.leoapp.ProfileActivity;
+import de.slg.leoapp.service.ReceiveService;
+import de.slg.leoapp.view.ActionLogActivity;
+import de.slg.leoapp.view.ActivityStatus;
 import de.slg.messenger.AddGroupChatActivity;
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.ChatEditActivity;
@@ -57,15 +62,15 @@ public class UtilsController {
 
     private SurveyActivity surveyActivity;
 
-    private PreferenceActivity             preferenceActivity;
+    private PreferenceActivity preferenceActivity;
     private NotificationPreferenceActivity notificationPreferenceActivity;
-    private ProfileActivity                profileActivity;
+    private ProfileActivity profileActivity;
 
     //Datenbankverwaltungen
     private DBConnection  dbConnection;
     private StundenplanDB stundenplanDB;
 
-    private ReceiveService      receiveService;
+    private ReceiveService receiveService;
     private NotificationService notificationService;
 
     /**
@@ -74,7 +79,7 @@ public class UtilsController {
      * @return Context-Objekt.
      * @see Utils#getContext()
      */
-    Context getContext() {
+    public Context getContext() {
         if (context != null) {
             return context;
         } else if (mainActivity != null) {
@@ -232,15 +237,15 @@ public class UtilsController {
         essensQRActivity = activity;
     }
 
-    void registerPreferenceActivity(PreferenceActivity activity) {
+    public void registerPreferenceActivity(PreferenceActivity activity) {
         preferenceActivity = activity;
     }
 
-    void registerNotificationPreferenceActivity(NotificationPreferenceActivity activity) {
+    public void registerNotificationPreferenceActivity(NotificationPreferenceActivity activity) {
         notificationPreferenceActivity = activity;
     }
 
-    void registerProfileActivity(ProfileActivity activity) {
+    public void registerProfileActivity(ProfileActivity activity) {
         profileActivity = activity;
     }
 
@@ -275,7 +280,7 @@ public class UtilsController {
     /**
      * @return Aktive SchwarzesBrett-Activity, null wenn nicht aktiv.
      */
-    SchwarzesBrettActivity getSchwarzesBrettActivity() {
+    public SchwarzesBrettActivity getSchwarzesBrettActivity() {
         return schwarzesBrettActivity;
     }
 
@@ -331,7 +336,7 @@ public class UtilsController {
     /**
      * @return Aktive Preference-Activity (Einstellungen)
      */
-    PreferenceActivity getPreferenceActivity() {
+    private PreferenceActivity getPreferenceActivity() {
         return preferenceActivity;
     }
 
@@ -342,14 +347,17 @@ public class UtilsController {
         return notificationPreferenceActivity;
     }
 
-    SurveyActivity getSurveyActivity() {
+    /**
+     * @return Aktive Profil-Activity
+     */
+    private SurveyActivity getSurveyActivity() {
         return surveyActivity;
     }
 
     /**
      * @return Aktive Profil-Activity
      */
-    ProfileActivity getProfileActivity() {
+    public ProfileActivity getProfileActivity() {
         return profileActivity;
     }
 
@@ -365,11 +373,11 @@ public class UtilsController {
      *
      * @param service ReceiveService.
      */
-    void registerReceiveService(ReceiveService service) {
+    public void registerReceiveService(ReceiveService service) {
         receiveService = service;
     }
 
-    void registerNotificationService(NotificationService service) {
+    public void registerNotificationService(NotificationService service) {
         notificationService = service;
     }
 
@@ -428,7 +436,7 @@ public class UtilsController {
         }
     }
 
-    void closeDatabases() {
+    public void closeDatabases() {
         if (dbConnection != null) {
             dbConnection.close();
             dbConnection = null;
@@ -439,7 +447,7 @@ public class UtilsController {
         }
     }
 
-    void closeServices() {
+    public void closeServices() {
         if (getReceiveService() != null) {
             getReceiveService().stopSelf();
             receiveService = null;

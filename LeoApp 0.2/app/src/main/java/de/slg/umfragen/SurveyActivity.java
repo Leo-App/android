@@ -39,11 +39,11 @@ import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
-import de.slg.leoview.ActionLogActivity;
+import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.ResponseCode;
-import de.slg.schwarzes_brett.SQLiteConnector;
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
@@ -61,7 +61,7 @@ import de.slg.stundenplan.StundenplanActivity;
  */
 public class SurveyActivity extends ActionLogActivity {
 
-    private static SQLiteConnector        sqLiteConnector;
+    private static SQLiteConnectorNews sqLiteConnector;
     private static SQLiteDatabase         sqLiteDatabase;
     private        DrawerLayout           drawerLayout;
     private        List<Integer>          groupList;
@@ -73,7 +73,7 @@ public class SurveyActivity extends ActionLogActivity {
         setContentView(R.layout.activity_umfragen);
 
         if (sqLiteConnector == null)
-            sqLiteConnector = new SQLiteConnector(Utils.getContext());
+            sqLiteConnector = new SQLiteConnectorNews(Utils.getContext());
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
@@ -195,22 +195,22 @@ public class SurveyActivity extends ActionLogActivity {
         switch (stufe) {
             case "":
             case "TEA":
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, null, null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_SURVEYS, new String[]{SQLiteConnectorNews.SURVEYS_ADRESSAT, SQLiteConnectorNews.SURVEYS_TITEL, SQLiteConnectorNews.SURVEYS_BESCHREIBUNG, SQLiteConnectorNews.SURVEYS_ABSENDER, SQLiteConnectorNews.SURVEYS_MULTIPLE, SQLiteConnectorNews.SURVEYS_ID, SQLiteConnectorNews.SURVEYS_REMOTE_ID}, null, null, null, null, null);
                 break;
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek II' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnector.SURVEYS_REMOTE_ID + " = "+Utils.getUserID(), null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_SURVEYS, new String[]{SQLiteConnectorNews.SURVEYS_ADRESSAT, SQLiteConnectorNews.SURVEYS_TITEL, SQLiteConnectorNews.SURVEYS_BESCHREIBUNG, SQLiteConnectorNews.SURVEYS_ABSENDER, SQLiteConnectorNews.SURVEYS_MULTIPLE, SQLiteConnectorNews.SURVEYS_ID, SQLiteConnectorNews.SURVEYS_REMOTE_ID}, SQLiteConnectorNews.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = "+Utils.getUserID(), null, null, null, null);
                 break;
             default:
-                cursor = sqLiteDatabase.query(SQLiteConnector.TABLE_SURVEYS, new String[]{SQLiteConnector.SURVEYS_ADRESSAT, SQLiteConnector.SURVEYS_TITEL, SQLiteConnector.SURVEYS_BESCHREIBUNG, SQLiteConnector.SURVEYS_ABSENDER, SQLiteConnector.SURVEYS_MULTIPLE, SQLiteConnector.SURVEYS_ID, SQLiteConnector.SURVEYS_REMOTE_ID}, SQLiteConnector.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnector.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnector.SURVEYS_REMOTE_ID + " = "+Utils.getUserID(), null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_SURVEYS, new String[]{SQLiteConnectorNews.SURVEYS_ADRESSAT, SQLiteConnectorNews.SURVEYS_TITEL, SQLiteConnectorNews.SURVEYS_BESCHREIBUNG, SQLiteConnectorNews.SURVEYS_ABSENDER, SQLiteConnectorNews.SURVEYS_MULTIPLE, SQLiteConnectorNews.SURVEYS_ID, SQLiteConnectorNews.SURVEYS_REMOTE_ID}, SQLiteConnectorNews.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = "+Utils.getUserID(), null, null, null, null);
                 break;
         }
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             groupList.add(cursor.getInt(6));
 
-            Cursor cursorAnswers = sqLiteDatabase.query(SQLiteConnector.TABLE_ANSWERS, new String[]{SQLiteConnector.ANSWERS_INHALT, SQLiteConnector.ANSWERS_REMOTE_ID, SQLiteConnector.ANSWERS_SELECTED}, SQLiteConnector.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
+            Cursor cursorAnswers = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_ANSWERS, new String[]{SQLiteConnectorNews.ANSWERS_INHALT, SQLiteConnectorNews.ANSWERS_REMOTE_ID, SQLiteConnectorNews.ANSWERS_SELECTED}, SQLiteConnectorNews.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
             ArrayList<String> answers = new ArrayList<>();
 
             boolean voted = false;
@@ -470,10 +470,10 @@ public class SurveyActivity extends ActionLogActivity {
                 id = params[0];
                 remoteid = params[1];
 
-                SQLiteConnector db = new SQLiteConnector(getApplicationContext());
+                SQLiteConnectorNews db = new SQLiteConnectorNews(getApplicationContext());
                 SQLiteDatabase dbh = db.getWritableDatabase();
 
-                dbh.execSQL("UPDATE " + SQLiteConnector.TABLE_ANSWERS + " SET " + SQLiteConnector.ANSWERS_SELECTED + " = 1 WHERE " + SQLiteConnector.ANSWERS_REMOTE_ID + " = " + id);
+                dbh.execSQL("UPDATE " + SQLiteConnectorNews.TABLE_ANSWERS + " SET " + SQLiteConnectorNews.ANSWERS_SELECTED + " = 1 WHERE " + SQLiteConnectorNews.ANSWERS_REMOTE_ID + " = " + id);
 
                 dbh.close();
 
@@ -545,11 +545,11 @@ public class SurveyActivity extends ActionLogActivity {
                 if (!Utils.checkNetwork())
                     return ResponseCode.NO_CONNECTION;
 
-                SQLiteConnector db = new SQLiteConnector(getApplicationContext());
+                SQLiteConnectorNews db = new SQLiteConnectorNews(getApplicationContext());
                 SQLiteDatabase dbh = db.getWritableDatabase();
 
-                dbh.execSQL("DELETE FROM " + SQLiteConnector.TABLE_SURVEYS + " WHERE " + SQLiteConnector.SURVEYS_REMOTE_ID + " = " + params[0]);
-                dbh.execSQL("DELETE FROM " + SQLiteConnector.TABLE_ANSWERS + " WHERE " + SQLiteConnector.ANSWERS_SID + " = (SELECT " + SQLiteConnector.SURVEYS_ID + " FROM " + SQLiteConnector.TABLE_SURVEYS + " WHERE " + SQLiteConnector.SURVEYS_REMOTE_ID + " = " + params[0] + ")");
+                dbh.execSQL("DELETE FROM " + SQLiteConnectorNews.TABLE_SURVEYS + " WHERE " + SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = " + params[0]);
+                dbh.execSQL("DELETE FROM " + SQLiteConnectorNews.TABLE_ANSWERS + " WHERE " + SQLiteConnectorNews.ANSWERS_SID + " = (SELECT " + SQLiteConnectorNews.SURVEYS_ID + " FROM " + SQLiteConnectorNews.TABLE_SURVEYS + " WHERE " + SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = " + params[0] + ")");
 
                 dbh.close();
 

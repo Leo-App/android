@@ -14,8 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import de.slg.leoapp.List;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.Utils;
 
 class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
 

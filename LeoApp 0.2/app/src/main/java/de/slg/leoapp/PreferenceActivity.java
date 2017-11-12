@@ -40,6 +40,8 @@ import java.security.NoSuchAlgorithmException;
 import de.slg.essensqr.Auth;
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.leoapp.task.UpdateTaskName;
+import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.InfoActivity;

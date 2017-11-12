@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 /**
  * Nachrichtendialog

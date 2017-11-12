@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.utility;
 
 import java.net.URI;
 
@@ -10,12 +10,12 @@ import javax.websocket.*;
  * @author Jiji_Sasidharan
  */
 @ClientEndpoint
-class WebSocketClient {
+public class WebSocketClient {
 
     private Session userSession = null;
     private MessageHandler messageHandler;
 
-    WebSocketClient(URI endpointURI) {
+    public WebSocketClient(URI endpointURI) {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpointURI);
@@ -43,15 +43,15 @@ class WebSocketClient {
         }
     }
 
-    void addMessageHandler(MessageHandler msgHandler) {
+    public void addMessageHandler(MessageHandler msgHandler) {
         this.messageHandler = msgHandler;
     }
 
-    void sendMessage(String message) {
+    public void sendMessage(String message) {
         this.userSession.getAsyncRemote().sendText(message);
     }
 
-    interface MessageHandler {
+    public interface MessageHandler {
         void handleMessage(String message);
     }
 }

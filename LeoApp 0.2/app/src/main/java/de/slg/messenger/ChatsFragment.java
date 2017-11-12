@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 public class ChatsFragment extends Fragment {
     public  RecyclerView             rvChats;
@@ -162,18 +162,18 @@ public class ChatsFragment extends Fragment {
                 buttonDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        de.slg.leoapp.Utils.getController().getMessengerDatabase().deleteChat(c.cid);
+                        Utils.getController().getMessengerDatabase().deleteChat(c.cid);
                         selected = -1;
                         previousPosition = -1;
-                        de.slg.leoapp.Utils.getController().getMessengerActivity().notifyUpdate();
+                        Utils.getController().getMessengerActivity().notifyUpdate();
                     }
                 });
                 buttonMute.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        de.slg.leoapp.Utils.getController().getMessengerDatabase().muteChat(c.cid, !c.cmute);
+                        Utils.getController().getMessengerDatabase().muteChat(c.cid, !c.cmute);
                         selected = -1;
-                        de.slg.leoapp.Utils.getController().getMessengerActivity().notifyUpdate();
+                        Utils.getController().getMessengerActivity().notifyUpdate();
                     }
                 });
             }

@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -19,11 +19,15 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.User;
+import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.WebSocketClient;
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
 import de.slg.messenger.Verschluesseln;
-import de.slg.schwarzes_brett.SQLiteConnector;
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 
 public class ReceiveService extends Service implements WebSocketClient.MessageHandler {
     public  boolean receiveNews;
@@ -227,15 +231,15 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                     builder.append(line)
                             .append(System.getProperty("line.separator"));
                 reader.close();
-                SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
+                SQLiteConnectorNews db  = new SQLiteConnectorNews(getApplicationContext());
                 SQLiteDatabase  dbh = db.getWritableDatabase();
-                dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnector.TABLE_EINTRAEGE + "'");
-                dbh.delete(SQLiteConnector.TABLE_EINTRAEGE, null, null);
+                dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnectorNews.TABLE_EINTRAEGE + "'");
+                dbh.delete(SQLiteConnectorNews.TABLE_EINTRAEGE, null, null);
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
                     String[] res = s.split(";");
                     if (res.length == 8) {
-                        dbh.insert(SQLiteConnector.TABLE_EINTRAEGE, null, db.getEntryContentValues(
+                        dbh.insert(SQLiteConnectorNews.TABLE_EINTRAEGE, null, db.getEntryContentValues(
                                 res[0],
                                 res[1],
                                 res[2],
@@ -278,15 +282,15 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                     resultBuilder.append(line);
                 reader.close();
 
-                SQLiteConnector db  = new SQLiteConnector(getApplicationContext());
+                SQLiteConnectorNews db  = new SQLiteConnectorNews(getApplicationContext());
                 SQLiteDatabase  dbh = db.getWritableDatabase();
-                dbh.delete(SQLiteConnector.TABLE_SURVEYS, null, null);
-                dbh.delete(SQLiteConnector.TABLE_ANSWERS, null, null);
+                dbh.delete(SQLiteConnectorNews.TABLE_SURVEYS, null, null);
+                dbh.delete(SQLiteConnectorNews.TABLE_ANSWERS, null, null);
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
                     String[] res = s.split("_;_");
                     if (res.length >= 6) {
-                        long id = dbh.insert(SQLiteConnector.TABLE_SURVEYS, null, db.getSurveyContentValues(
+                        long id = dbh.insert(SQLiteConnectorNews.TABLE_SURVEYS, null, db.getSurveyContentValues(
                                 res[1],
                                 res[3],
                                 res[2],
@@ -296,7 +300,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                         ));
 
                         for (int i = 6; i < res.length - 1; i += 2) {
-                            dbh.insert(SQLiteConnector.TABLE_ANSWERS, null, db.getAnswerContentValues(
+                            dbh.insert(SQLiteConnectorNews.TABLE_ANSWERS, null, db.getAnswerContentValues(
                                     Integer.parseInt(res[i]),
                                     res[i + 1],
                                     id,

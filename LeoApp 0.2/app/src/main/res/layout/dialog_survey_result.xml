@@ -81,7 +81,6 @@
         android:layout_alignLeft="@+id/percent2"
         android:layout_alignStart="@+id/percent2"
         android:layout_alignBottom="@+id/progressBar1"
-        android:visibility="gone"
         android:textSize="15sp" />
 
     <TextView
@@ -119,7 +118,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="23dp"
         android:layout_marginRight="23dp"
-        android:visibility="gone"
         android:textSize="15sp" />
 
 
@@ -158,7 +156,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="23dp"
         android:layout_marginRight="23dp"
-        android:visibility="gone"
         android:textSize="15sp" />
 
     <TextView
@@ -196,7 +193,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="23dp"
         android:layout_marginRight="23dp"
-        android:visibility="gone"
         android:textSize="15sp" />
 
     <TextView
@@ -234,7 +230,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginEnd="23dp"
         android:layout_marginRight="23dp"
-        android:visibility="gone"
         android:textSize="15sp" />
 
     <Button

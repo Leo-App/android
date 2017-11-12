@@ -1,8 +1,10 @@
-package de.slg.leoapp;
+package de.slg.leoapp.utility;
 
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+
+import de.slg.leoapp.utility.Utils;
 
 /**
  * GraphicUtils

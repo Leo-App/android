@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 public class StundenplanView extends View {
     private final Canvas canvas;
@@ -107,7 +107,7 @@ public class StundenplanView extends View {
         canvas.drawText("16:00 - 16:45", baseLineX + paddingX * 3, baseLineY + abstandY * 10 + paddingY * 3, paint);
         Fach[][] gewaehlteFaecher = new Fach[5][];
         for (int i = 0; i < gewaehlteFaecher.length; i++) {
-            gewaehlteFaecher[i] = de.slg.leoapp.Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(i + 1);
+            gewaehlteFaecher[i] = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(i + 1);
         }
         for (int i = 1; i < 10; i++) {
             int yValue = baseline2Y + (i - 1) * abstandY;

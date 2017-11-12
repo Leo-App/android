@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 class FeatureDialog extends AlertDialog {
     FeatureDialog(Context context) {

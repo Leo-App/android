@@ -18,10 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import de.slg.essensqr.EssensQRActivity;
-import de.slg.leoview.ActionLogActivity;
+import de.slg.leoapp.dialog.EditTextDialog;
+import de.slg.leoapp.task.UpdateTaskName;
+import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
@@ -86,7 +87,7 @@ public class ProfileActivity extends ActionLogActivity {
                                         @Override
                                         public void onClick(View v) {
                                             Utils.getController().getPreferences().edit()
-                                                    .putString("pref_key_kuerzel_general", dialog.editText.getText().toString())
+                                                    .putString("pref_key_kuerzel_general", dialog.getTextInput())
                                                     .apply();
                                             initProfil();
                                             initNavigationView();
@@ -98,7 +99,7 @@ public class ProfileActivity extends ActionLogActivity {
                     dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                     dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-                    dialog.editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+                    dialog.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
                 }
             });
         }
@@ -108,7 +109,7 @@ public class ProfileActivity extends ActionLogActivity {
                 TextView lk1 = (TextView) findViewById(R.id.lk1);
                 TextView lk2 = (TextView) findViewById(R.id.lk2);
 
-                String[] lks = lkNamen();
+                String[] lks = getLKs();
                 String l1 = lks[0];
                 String l2 = "";
                 for(int i = 1; i < lks.length; i++) {
@@ -139,7 +140,7 @@ public class ProfileActivity extends ActionLogActivity {
                                     public void onClick(View v) {
                                         UpdateTaskName task = new UpdateTaskName(Utils.getUserName());
                                         Utils.getController().getPreferences().edit()
-                                                .putString("pref_key_general_name", dialog.editText.getText().toString())
+                                                .putString("pref_key_general_name", dialog.getTextInput())
                                                 .apply();
                                         task.execute();
                                         dialog.dismiss();
@@ -153,20 +154,20 @@ public class ProfileActivity extends ActionLogActivity {
         });
     }
 
-    private String[] lkNamen() {
+    //TODO: Ineffizient AS FUCK
+    private String[] getLKs() {
         String[] lks  = new String[10];
         int g = 0;
 
-        Fach[][] gewaehlteFaecher = new Fach[5][];
-        for (int i = 0; i < gewaehlteFaecher.length; i++) {
-            gewaehlteFaecher[i] = de.slg.leoapp.Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(i + 1);
+        Fach[][] lessons = new Fach[5][];
+        for (int i = 0; i < lessons.length; i++) {
+            lessons[i] = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(i + 1);
         }
 
-        for (int i = 0; i< gewaehlteFaecher.length; i++) {
-            Fach[] f = gewaehlteFaecher[i];
-            for (int a = 0; a < f.length; a++) {
-                if(f[a].getName().contains("LK")){
-                    lks[g]=f[a].getName();
+        for (Fach[] f : lessons) {
+            for (Fach aF : f) {
+                if (aF.getName().contains("LK")) {
+                    lks[g] = aF.getName();
                     g++;
                 }
             }
@@ -203,7 +204,7 @@ public class ProfileActivity extends ActionLogActivity {
                 break;
             case R.drawable.ic_account_circle_black_24dp:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
-                stimmungProfil.setText("N/A");
+                stimmungProfil.setText("-");
                 break;
         }
     }
@@ -218,7 +219,7 @@ public class ProfileActivity extends ActionLogActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    void initNavigationView() {
+    public void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
 
@@ -284,7 +285,7 @@ public class ProfileActivity extends ActionLogActivity {
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
-    View getCoordinatorLayout() {
+    public View getCoordinatorLayout() {
         return findViewById(R.id.coordinator);
     }
 }

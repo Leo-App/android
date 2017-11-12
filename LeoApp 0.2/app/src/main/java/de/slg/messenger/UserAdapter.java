@@ -10,7 +10,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.User;
+import de.slg.leoapp.utility.User;
 
 class UserAdapter extends ArrayAdapter<User> {
     private final int            resId;

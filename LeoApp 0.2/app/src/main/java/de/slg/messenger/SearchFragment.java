@@ -19,7 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.User;
+import de.slg.leoapp.utility.User;
+import de.slg.leoapp.utility.Utils;
 
 import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
 import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
@@ -43,7 +44,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_search, container, false);
-            data = de.slg.leoapp.Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, USER_STUFE + ", " + name);
+            data = de.slg.leoapp.utility.Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, USER_STUFE + ", " + name);
             initRecyclerView();
             initSearch();
             initSort();
@@ -62,7 +63,7 @@ public class SearchFragment extends Fragment {
                     User clickedUser = (User) data[position];
                     startActivity(new Intent(getContext(), ChatActivity.class)
                             .putExtra("uid", clickedUser.uid)
-                            .putExtra("cid", de.slg.leoapp.Utils.getController().getMessengerDatabase().getChatWith(clickedUser.uid))
+                            .putExtra("cid", Utils.getController().getMessengerDatabase().getChatWith(clickedUser.uid))
                             .putExtra("cname", clickedUser.uname)
                             .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
                 } else {
@@ -211,7 +212,7 @@ public class SearchFragment extends Fragment {
                         orderUser += name;
                         if (nameDesc)
                             orderUser += " DESC";
-                        data = de.slg.leoapp.Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, orderUser);
+                        data = Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, orderUser);
                         rvSearch.swapAdapter(new HybridAdapter(getActivity().getLayoutInflater()), false);
                     }
                 }

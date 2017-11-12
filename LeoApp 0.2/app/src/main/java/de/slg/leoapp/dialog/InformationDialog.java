@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,6 +7,10 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
+
+import de.slg.leoapp.R;
+import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.UtilsController;
 
 /**
  * InformationDialog

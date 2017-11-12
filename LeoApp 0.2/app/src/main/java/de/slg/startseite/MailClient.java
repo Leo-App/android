@@ -10,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import de.slg.leoapp.List;
+import de.slg.leoapp.utility.List;
 
 class MailClient {
     private final String       fromEmail;

@@ -1,4 +1,4 @@
-package de.slg.leoapp;
+package de.slg.leoapp.task;
 
 import android.os.AsyncTask;
 
@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class SyncGradeTask extends AsyncTask<Void, Void, Void> {
+import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.WebDAVConnector;
+
+public class SyncGradeTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 

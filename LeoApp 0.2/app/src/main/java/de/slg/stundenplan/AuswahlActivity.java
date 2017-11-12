@@ -27,11 +27,11 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
-import de.slg.leoapp.List;
+import de.slg.leoapp.utility.List;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
-import de.slg.leoview.ActionLogActivity;
+import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.view.ActionLogActivity;
 
 public class AuswahlActivity extends ActionLogActivity {
     private Menu          menu;

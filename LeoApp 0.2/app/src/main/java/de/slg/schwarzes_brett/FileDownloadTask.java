@@ -8,7 +8,7 @@ import android.os.Build;
 import android.os.Environment;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 class FileDownloadTask extends AsyncTask<String, Void, Void> {
     @Override

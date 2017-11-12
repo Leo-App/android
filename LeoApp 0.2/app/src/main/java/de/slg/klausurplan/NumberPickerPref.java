@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 public class NumberPickerPref extends DialogPreference {
 

@@ -1,4 +1,4 @@
-package de.slg.leoview;
+package de.slg.leoapp.view;
 
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -12,8 +12,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 import android.widget.TextView;
 
-import de.slg.leoapp.BottomSheetDialog;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.dialog.BottomSheetDialog;
+import de.slg.leoapp.utility.Utils;
 
 /**
  * InfoButton

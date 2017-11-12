@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TimePicker;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 @SuppressWarnings("deprecation")
 public class TimePickerPreference extends DialogPreference {

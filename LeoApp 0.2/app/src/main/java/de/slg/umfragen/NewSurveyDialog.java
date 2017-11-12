@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Utils;
+import de.slg.leoapp.utility.Utils;
 
 class NewSurveyDialog extends AlertDialog {
 
