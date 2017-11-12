@@ -34,16 +34,6 @@
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-            <ExpandableListView
-                android:id="@+id/eintraege"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@+id/actionBarSchwarzesBrett"
-                android:animateLayoutChanges="false">
-
-            </ExpandableListView>
-
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
@@ -51,12 +41,28 @@
                 android:layout_below="@id/actionBarSchwarzesBrett"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="Keine Einträge vorhanden"
+                android:text="@string/no_entries"
                 android:textAlignment="center"
                 android:textColor="@color/colorText"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/refresh"
+                android:layout_width="match_parent"
+                android:layout_below="@id/actionBarSchwarzesBrett"
+                android:layout_height="match_parent">
+
+                <ExpandableListView
+                    android:id="@+id/eintraege"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true">
+
+                </ExpandableListView>
+
+            </android.support.v4.widget.SwipeRefreshLayout>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/floatingActionButton"

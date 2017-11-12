@@ -4,14 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,7 +65,7 @@ import de.slg.stundenplan.StundenplanActivity;
  */
 public class SurveyActivity extends ActionLogActivity {
 
-    private static SQLiteConnectorNews sqLiteConnector;
+    private static SQLiteConnectorNews    sqLiteConnector;
     private static SQLiteDatabase         sqLiteDatabase;
     private        DrawerLayout           drawerLayout;
     private        List<Integer>          groupList;
@@ -71,6 +75,8 @@ public class SurveyActivity extends ActionLogActivity {
     public void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_umfragen);
+
+        Utils.getController().registerSurveyActivity(this);
 
         if (sqLiteConnector == null)
             sqLiteConnector = new SQLiteConnectorNews(Utils.getContext());
@@ -83,6 +89,7 @@ public class SurveyActivity extends ActionLogActivity {
         initNavigationView();
         initButton();
         initExpandableListView();
+        initSwipeToRefresh();
     }
 
     @Override
@@ -184,6 +191,18 @@ public class SurveyActivity extends ActionLogActivity {
         });
     }
 
+    private void initSwipeToRefresh() {
+        final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new SyncSurveyTask(swipeLayout).execute();
+            }
+        });
+
+        swipeLayout.setColorSchemeColors(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
+    }
+
     private void createGroupList() {
         groupList = new ArrayList<>();
 
@@ -249,8 +268,7 @@ public class SurveyActivity extends ActionLogActivity {
     @Override
     public void finish() {
         super.finish();
-        // TODO: Durch registerSurveyActivity ersetzen
-        Utils.getController().registerSchwarzesBrettActivity(null);
+        Utils.getController().registerSurveyActivity(null);
     }
 
     private class ExpandableListAdapter extends BaseExpandableListAdapter {

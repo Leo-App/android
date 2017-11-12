@@ -14,8 +14,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -102,6 +104,8 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         initNavigationView();
         initButton();
         initExpandableListView();
+        initSwipeToRefresh();
+
     }
 
     @Override
@@ -131,6 +135,18 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             new FileDownloadTask().execute(rawLocation);
         }
+    }
+
+    private void initSwipeToRefresh() {
+        final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new SyncNewsTask(swipeLayout).execute();
+            }
+        });
+
+        swipeLayout.setColorSchemeColors(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
     }
 
     private void initToolbar() {

@@ -154,31 +154,31 @@ public class UtilsController {
     public ActionLogActivity getActiveActivity() {
         if (mainActivity.getStatus() == ActivityStatus.ACTIVE) {
             return mainActivity;
-        } else if (messengerActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (messengerActivity != null && messengerActivity.getStatus() == ActivityStatus.ACTIVE) {
             return messengerActivity;
-        } else if (chatActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (chatActivity != null && chatActivity.getStatus() == ActivityStatus.ACTIVE) {
             return chatActivity;
-        } else if (chatEditActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (chatEditActivity != null && chatEditActivity.getStatus() == ActivityStatus.ACTIVE) {
             return chatEditActivity;
-        } else if (addGroupChatActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (addGroupChatActivity != null && addGroupChatActivity.getStatus() == ActivityStatus.ACTIVE) {
             return addGroupChatActivity;
-        } else if (schwarzesBrettActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (schwarzesBrettActivity != null && schwarzesBrettActivity.getStatus() == ActivityStatus.ACTIVE) {
             return schwarzesBrettActivity;
-        } else if (stimmungsbarometerActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (stimmungsbarometerActivity != null && stimmungsbarometerActivity.getStatus() == ActivityStatus.ACTIVE) {
             return stimmungsbarometerActivity;
-        } else if (stundenplanActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (stundenplanActivity != null && stundenplanActivity.getStatus() == ActivityStatus.ACTIVE) {
             return stundenplanActivity;
-        } else if (stundenplanBildActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (stundenplanBildActivity != null && stundenplanBildActivity.getStatus() == ActivityStatus.ACTIVE) {
             return stundenplanBildActivity;
-        } else if (auswahlActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (auswahlActivity != null && auswahlActivity.getStatus() == ActivityStatus.ACTIVE) {
             return auswahlActivity;
-        } else if (klausurplanActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (klausurplanActivity != null && klausurplanActivity.getStatus() == ActivityStatus.ACTIVE) {
             return klausurplanActivity;
-        } else if (essensQRActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (essensQRActivity != null && essensQRActivity.getStatus() == ActivityStatus.ACTIVE) {
             return essensQRActivity;
-        } else if (profileActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (profileActivity != null && profileActivity.getStatus() == ActivityStatus.ACTIVE) {
             return profileActivity;
-        } else if (surveyActivity.getStatus() == ActivityStatus.ACTIVE) {
+        } else if (surveyActivity != null && surveyActivity.getStatus() == ActivityStatus.ACTIVE) {
             return surveyActivity;
         } else {
             return null;
@@ -350,7 +350,7 @@ public class UtilsController {
     /**
      * @return Aktive Profil-Activity
      */
-    private SurveyActivity getSurveyActivity() {
+    public SurveyActivity getSurveyActivity() {
         return surveyActivity;
     }
 

@@ -15,6 +15,9 @@
     <string name="drawer_placeholder_name">Username</string>
     <string name="drawer_placeholder_grade">Grade</string>
 
+    <string name="no_surveys">No surveys available</string>
+    <string name="no_entries">No entries</string>
+
     <!-- Action -->
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
