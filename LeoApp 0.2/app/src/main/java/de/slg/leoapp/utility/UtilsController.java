@@ -484,7 +484,7 @@ public class UtilsController {
     }
 
     /**
-     * Beendet alles Services.
+     * Beendet alle Services.
      */
     public void closeServices() {
         if (getReceiveService() != null) {
