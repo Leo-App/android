@@ -253,8 +253,7 @@ public class SurveyActivity extends ActionLogActivity {
     }
 
     private void receive() {
-        if (Utils.getController().getReceiveService() != null)
-            Utils.getController().getReceiveService().receiveNews = true;
+        new SyncSurveyTask(null).execute();
     }
 
     @Override

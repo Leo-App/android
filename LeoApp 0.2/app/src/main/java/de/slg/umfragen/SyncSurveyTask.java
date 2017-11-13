@@ -2,6 +2,8 @@ package de.slg.umfragen;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import java.io.BufferedReader;
@@ -26,7 +28,7 @@ class SyncSurveyTask extends AsyncTask<Void, Void, Void> {
 
     private SwipeRefreshLayout layout;
 
-    SyncSurveyTask(SwipeRefreshLayout layout) {
+    SyncSurveyTask(@Nullable SwipeRefreshLayout layout) {
         this.layout = layout;
     }
 
@@ -34,7 +36,6 @@ class SyncSurveyTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         if (Utils.checkNetwork()) {
             try {
-            //    Thread.sleep(2000);
                 URL updateURL = new URL(Utils.DOMAIN_DEV + "survey/getSurveys.php");
                 BufferedReader reader =
                         new BufferedReader(
@@ -94,8 +95,10 @@ class SyncSurveyTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void v) {
-        layout.setRefreshing(false);
-        Utils.getController().getSurveyActivity().refreshUI();
+        if(layout != null) {
+            layout.setRefreshing(false);
+            Utils.getController().getSurveyActivity().refreshUI();
+        }
     }
 
 }

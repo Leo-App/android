@@ -343,8 +343,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     }
 
     private void receive() {
-        if (Utils.getController().getReceiveService() != null)
-            Utils.getController().getReceiveService().receiveNews = true;
+        new SyncNewsTask(null).execute();
     }
 
     @Override
