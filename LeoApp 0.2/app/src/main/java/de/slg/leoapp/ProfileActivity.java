@@ -21,6 +21,7 @@ import android.widget.Toast;
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.leoapp.dialog.EditTextDialog;
 import de.slg.leoapp.task.UpdateTaskName;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
@@ -72,7 +73,7 @@ public class ProfileActivity extends ActionLogActivity {
         nameProfil.setText(Utils.getUserName());
         defaultNameProfil.setText(Utils.getUserDefaultName());
         stufeProfil.setText(Utils.getUserStufe());
-        if (Utils.getUserPermission() == 2) {
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
             TextView stufeTitel = (TextView) findViewById(R.id.textView12);
             stufeTitel.setText("Kürzel");
             stufeProfil.setText(Utils.getLehrerKuerzel());
@@ -104,18 +105,18 @@ public class ProfileActivity extends ActionLogActivity {
             });
         }
 
-        if(Utils.getUserPermission()!=2 ) {
-            if(Utils.getUserStufe().equals("Q1") || Utils.getUserStufe().equals("Q2")) {
+        if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
+            if (Utils.getUserStufe().equals("Q1") || Utils.getUserStufe().equals("Q2")) {
                 TextView lk1 = (TextView) findViewById(R.id.lk1);
                 TextView lk2 = (TextView) findViewById(R.id.lk2);
 
                 String[] lks = getLKs();
-                String l1 = lks[0];
-                String l2 = "";
-                for(int i = 1; i < lks.length; i++) {
-                    if(!lks[i].equals(l1)) {
+                String   l1  = lks[0];
+                String   l2  = "";
+                for (int i = 1; i < lks.length; i++) {
+                    if (!lks[i].equals(l1)) {
                         l2 = lks[i];
-                        Log.e("LK2",lks[i]);
+                        Log.e("LK2", lks[i]);
                         break;
                     }
                 }
@@ -124,7 +125,6 @@ public class ProfileActivity extends ActionLogActivity {
             } else {
                 findViewById(R.id.cardViewLK).setVisibility(View.GONE);
             }
-
         }
 
         setzeProfilBild();
@@ -156,8 +156,8 @@ public class ProfileActivity extends ActionLogActivity {
 
     //TODO: Ineffizient AS FUCK
     private String[] getLKs() {
-        String[] lks  = new String[10];
-        int g = 0;
+        String[] lks = new String[10];
+        int      g   = 0;
 
         Fach[][] lessons = new Fach[5][];
         for (int i = 0; i < lessons.length; i++) {
@@ -277,7 +277,7 @@ public class ProfileActivity extends ActionLogActivity {
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == 2)
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());

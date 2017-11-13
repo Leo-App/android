@@ -27,9 +27,10 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
-import de.slg.leoapp.utility.List;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 
@@ -219,7 +220,7 @@ public class AuswahlActivity extends ActionLogActivity {
                             if (!fach[3].equals(lastKurzel)) {
                                 lastID = Utils.getController().getStundenplanDatabase().insertFach(fach[3], fach[2], fach[1]);
                                 lastKurzel = fach[3];
-                                if (Utils.getUserPermission() == 2 && fach[2].toUpperCase().equals(Utils.getLehrerKuerzel().toUpperCase())) {
+                                if (Utils.getUserPermission() == User.PERMISSION_LEHRER && fach[2].toUpperCase().equals(Utils.getLehrerKuerzel().toUpperCase())) {
                                     Utils.getController().getStundenplanDatabase().waehleFach(lastID);
                                     Utils.getController().getStundenplanDatabase().setzeSchriftlich(true, lastID);
                                 }

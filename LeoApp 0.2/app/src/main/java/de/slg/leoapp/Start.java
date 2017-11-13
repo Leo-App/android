@@ -10,6 +10,7 @@ import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.task.SyncGradeTask;
 import de.slg.leoapp.task.SyncUserTask;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.schwarzes_brett.UpdateViewTrackerTask;
 import de.slg.startseite.MailSendTask;
@@ -43,7 +44,7 @@ public class Start extends Activity {
         if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true))
             new SyncUserTask().execute();
 
-        if (Utils.isVerified() && Utils.getUserPermission() != 2)
+        if (Utils.isVerified() && Utils.getUserPermission() != User.PERMISSION_LEHRER)
             new SyncGradeTask().execute();
 
         if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {

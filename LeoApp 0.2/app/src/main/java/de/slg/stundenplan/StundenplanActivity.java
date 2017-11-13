@@ -36,6 +36,7 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
@@ -54,7 +55,7 @@ public class StundenplanActivity extends ActionLogActivity {
         setContentView(R.layout.activity_wrapper_stundenplan);
         Utils.getController().registerStundenplanActivity(this);
         if (!Utils.getController().getStundenplanDatabase().hatGewaehlt()) {
-            if (Utils.getUserPermission() != 2) {
+            if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
                 startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
             } else {
                 new CreateLehrerStundenplan().execute();
@@ -73,7 +74,7 @@ public class StundenplanActivity extends ActionLogActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stundenplan, menu);
-        if (Utils.getUserPermission() < 2) {
+        if (Utils.getUserPermission() == User.PERMISSION_SCHUELER) {
             menu.findItem(R.id.action_randstunde).setVisible(false);
         }
         return true;
@@ -157,7 +158,7 @@ public class StundenplanActivity extends ActionLogActivity {
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == 2)
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
@@ -304,12 +305,12 @@ public class StundenplanActivity extends ActionLogActivity {
                         String[] sa = fachAd[position].getNotiz().split(" ");
                         tvFach.setText(sa[0]);
                     } else {
-                        if (Utils.getUserPermission() == 2)
+                        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
                             tvFach.setText(fachAd[position].getName() + ' ' + fachAd[position].getKuerzel());
                         else
                             tvFach.setText(fachAd[position].getName());
                     }
-                    if (Utils.getUserPermission() == 2) {
+                    if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
                         tvLehrer.setText(fachAd[position].getKlasse());
                     } else {
                         tvLehrer.setText(fachAd[position].getLehrer());

@@ -14,8 +14,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.task.SyncUserTask;
+import de.slg.leoapp.utility.ResponseCode;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 
 import static android.view.View.GONE;
@@ -117,7 +118,7 @@ class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
             case SUCCESS:
                 Utils.getController().getMainActivity().findViewById(R.id.card_view0).setVisibility(GONE);
 
-                if (Utils.getUserPermission() == 2) {
+                if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
                     Utils.getController().getPreferences()
                             .edit()
                             .putBoolean("pref_key_notification_test", false)
