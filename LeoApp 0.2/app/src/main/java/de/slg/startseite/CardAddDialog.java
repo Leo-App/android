@@ -10,6 +10,16 @@ import android.widget.ImageButton;
 
 import de.slg.leoapp.R;
 
+/**
+ * CardAddDialog.
+ * <p>
+ * Dialog zum Hinzufügen von Navigationselementen zur Startseite. Die ImageButtons entsprechen hier den Features (angepasster Tag), neue Buttons müssen also im
+ * XML mit Feature-Tag hinzugefügt werden.
+ *
+ * @author Gianni
+ * @since 0.5.4
+ * @version 2017.1311
+ */
 class CardAddDialog extends AlertDialog {
 
     private final MainActivity  mainActivity;

@@ -26,6 +26,13 @@ public class EditTextDialog extends AlertDialog {
 
     private View.OnClickListener action;
 
+    /**
+     * Konstruktur. Initialisiert den EditText-Dialog mit einem OnClickListener für den OK Button und einem Hint für das Textfeld.
+     *
+     * @param context Kontextobjekt (Aktive Activity)
+     * @param hint Hint für Textfeld
+     * @param action OnClickListener für den OK-Button
+     */
     public EditTextDialog(@NonNull Context context, @NonNull String hint, @NonNull View.OnClickListener action) {
         super(context);
         this.hint = hint;
@@ -50,10 +57,20 @@ public class EditTextDialog extends AlertDialog {
         findViewById(R.id.ok).setOnClickListener(action);
     }
 
+    /**
+     * Liefert den Inhalt des EditText Feldes als String.
+     *
+     * @return User-Eingabe
+     */
     public String getTextInput() {
         return editText.getText().toString();
     }
 
+    /**
+     * Setzt den InputType des EditText Feldes auf einen per Parameter übergebenen Wert.
+     *
+     * @param type Neuer InputType
+     */
     public void setInputType(int type) {
         editText.setInputType(type);
     }

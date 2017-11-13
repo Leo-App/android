@@ -31,6 +31,17 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.StundenplanActivity;
 
+/**
+ * ProfileActivity.
+ * <p>
+ * Diese Activity soll dem User einen Gesamtüberblick über sein Profil verschaffen. Angezeigt werden der Nickname (änderbar), optional ein Lehrerkürzel (änderbar), seine
+ * Stufe, ggf. die aktuelle Stufe, seine gewählte Stimmung (beziehungsweise in Zukunft Meinung zu laufender Langzeitumfrage), seine LKs und schließlich ggf. seine
+ * offene Umfrage. In Zukunft lässt sich hier auch die Funktionalität eines änderbaren Profilbilds implementieren.
+ *
+ * @author Luzia, Moritz
+ * @since 0.5.8
+ * @version 2017.1311
+ */
 public class ProfileActivity extends ActionLogActivity {
     private DrawerLayout   drawerLayout;
     private EditTextDialog dialog;

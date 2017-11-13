@@ -139,18 +139,34 @@ public class UtilsController {
         return preferences;
     }
 
+    /**
+     * Liefert die SQLite Datenbank des Messengers.
+     *
+     * @return Messenger-Datenbank
+     */
     public DBConnection getMessengerDatabase() {
         if (dbConnection == null)
             dbConnection = new DBConnection(getContext());
         return dbConnection;
     }
 
+    /**
+     * Liefert die SQLite Datenbank des Stundenplans.
+     *
+     * @return Stundenplan-Datenbank
+     */
     public StundenplanDB getStundenplanDatabase() {
         if (stundenplanDB == null)
             stundenplanDB = new StundenplanDB(getContext());
         return stundenplanDB;
     }
 
+    /**
+     * Liefert die aktive Activity zurück, null wenn keine aktiv ist.
+     *
+     * @return Aktive Activity
+     * @see #hasActiveActivity()
+     */
     public ActionLogActivity getActiveActivity() {
         if (mainActivity != null && mainActivity.getStatus() == ActivityStatus.ACTIVE) {
             return mainActivity;
@@ -185,6 +201,11 @@ public class UtilsController {
         }
     }
 
+    /**
+     * Liefert zurück, ob mindestens eine LeoApp-Activity auf dem Bildschirm angezeigt wird (Status = ACTIVE).
+     *
+     * @return Aktive Activity vorhanden?
+     */
     public boolean hasActiveActivity() {
         return getActiveActivity() == null;
     }
@@ -381,6 +402,11 @@ public class UtilsController {
         receiveService = service;
     }
 
+    /**
+     * Registriert neuen NotificationService.
+     *
+     * @param service ReceiveService.
+     */
     public void registerNotificationService(NotificationService service) {
         notificationService = service;
     }
@@ -389,6 +415,9 @@ public class UtilsController {
         return notificationService;
     }
 
+    /**
+     * Schließt alle Activities (Status = DESTROYED).
+     */
     public void closeActivities() {
         if (getChatEditActivity() != null) {
             getChatEditActivity().finish();
@@ -440,6 +469,9 @@ public class UtilsController {
         }
     }
 
+    /**
+     * Schließt offene SQLite-Datenbankverbindungen.
+     */
     public void closeDatabases() {
         if (dbConnection != null) {
             dbConnection.close();
@@ -451,6 +483,9 @@ public class UtilsController {
         }
     }
 
+    /**
+     * Beendet alles Services.
+     */
     public void closeServices() {
         if (getReceiveService() != null) {
             getReceiveService().stopSelf();
