@@ -152,7 +152,7 @@ public class UtilsController {
     }
 
     public ActionLogActivity getActiveActivity() {
-        if (mainActivity.getStatus() == ActivityStatus.ACTIVE) {
+        if (mainActivity != null && mainActivity.getStatus() == ActivityStatus.ACTIVE) {
             return mainActivity;
         } else if (messengerActivity != null && messengerActivity.getStatus() == ActivityStatus.ACTIVE) {
             return messengerActivity;
@@ -183,6 +183,10 @@ public class UtilsController {
         } else {
             return null;
         }
+    }
+
+    public boolean hasActiveActivity() {
+        return getActiveActivity() == null;
     }
 
     public void registerMessengerActivity(MessengerActivity activity) {

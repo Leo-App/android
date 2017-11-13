@@ -318,6 +318,10 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            if(!Utils.getController().hasActiveActivity())
+                return;
+
             if (Utils.getController().getActiveActivity().equals(Utils.getController().getSchwarzesBrettActivity()))
                 Utils.getController().getSchwarzesBrettActivity().refreshUI();
 
