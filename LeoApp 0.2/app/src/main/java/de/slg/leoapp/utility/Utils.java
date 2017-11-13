@@ -42,7 +42,7 @@ public abstract class Utils {
     /**
      * Pfad zum Application-Server.
      */
-    public static final String URL_TOMCAT = BASE_DOMAIN + "leoapp";
+    public static final String URL_TOMCAT = BASE_DOMAIN + "leoapp/";
 
     /**
      * Pfad zu den PHP-Skripts auf dem Leo-Server.

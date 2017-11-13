@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -43,11 +41,12 @@ import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.ResponseCode;
-import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
@@ -60,16 +59,16 @@ import de.slg.stundenplan.StundenplanActivity;
  * die Fragestellung, eine Beschreibung, RadioButtons/Checkboxes zum Abstimmen, ein Teilen- sowie (ggf.) Löschen-Button und einen Abstimmen- bzw. Ergebnis-Button.
  *
  * @author Gianni
- * @since 0.5.6
  * @version 2017.1111
+ * @since 0.5.6
  */
 public class SurveyActivity extends ActionLogActivity {
 
-    private static SQLiteConnectorNews    sqLiteConnector;
-    private static SQLiteDatabase         sqLiteDatabase;
-    private        DrawerLayout           drawerLayout;
-    private        List<Integer>          groupList;
-    private        Map<Integer, Survey>   entriesMap;
+    private static SQLiteConnectorNews  sqLiteConnector;
+    private static SQLiteDatabase       sqLiteDatabase;
+    private        DrawerLayout         drawerLayout;
+    private        List<Integer>        groupList;
+    private        Map<Integer, Survey> entriesMap;
 
     @Override
     public void onCreate(Bundle b) {
@@ -157,7 +156,7 @@ public class SurveyActivity extends ActionLogActivity {
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == 2)
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
@@ -219,18 +218,18 @@ public class SurveyActivity extends ActionLogActivity {
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_SURVEYS, new String[]{SQLiteConnectorNews.SURVEYS_ADRESSAT, SQLiteConnectorNews.SURVEYS_TITEL, SQLiteConnectorNews.SURVEYS_BESCHREIBUNG, SQLiteConnectorNews.SURVEYS_ABSENDER, SQLiteConnectorNews.SURVEYS_MULTIPLE, SQLiteConnectorNews.SURVEYS_ID, SQLiteConnectorNews.SURVEYS_REMOTE_ID}, SQLiteConnectorNews.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = "+Utils.getUserID(), null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_SURVEYS, new String[]{SQLiteConnectorNews.SURVEYS_ADRESSAT, SQLiteConnectorNews.SURVEYS_TITEL, SQLiteConnectorNews.SURVEYS_BESCHREIBUNG, SQLiteConnectorNews.SURVEYS_ABSENDER, SQLiteConnectorNews.SURVEYS_MULTIPLE, SQLiteConnectorNews.SURVEYS_ID, SQLiteConnectorNews.SURVEYS_REMOTE_ID}, SQLiteConnectorNews.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
                 break;
             default:
-                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_SURVEYS, new String[]{SQLiteConnectorNews.SURVEYS_ADRESSAT, SQLiteConnectorNews.SURVEYS_TITEL, SQLiteConnectorNews.SURVEYS_BESCHREIBUNG, SQLiteConnectorNews.SURVEYS_ABSENDER, SQLiteConnectorNews.SURVEYS_MULTIPLE, SQLiteConnectorNews.SURVEYS_ID, SQLiteConnectorNews.SURVEYS_REMOTE_ID}, SQLiteConnectorNews.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = "+Utils.getUserID(), null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_SURVEYS, new String[]{SQLiteConnectorNews.SURVEYS_ADRESSAT, SQLiteConnectorNews.SURVEYS_TITEL, SQLiteConnectorNews.SURVEYS_BESCHREIBUNG, SQLiteConnectorNews.SURVEYS_ABSENDER, SQLiteConnectorNews.SURVEYS_MULTIPLE, SQLiteConnectorNews.SURVEYS_ID, SQLiteConnectorNews.SURVEYS_REMOTE_ID}, SQLiteConnectorNews.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorNews.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
                 break;
         }
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             groupList.add(cursor.getInt(6));
 
-            Cursor cursorAnswers = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_ANSWERS, new String[]{SQLiteConnectorNews.ANSWERS_INHALT, SQLiteConnectorNews.ANSWERS_REMOTE_ID, SQLiteConnectorNews.ANSWERS_SELECTED}, SQLiteConnectorNews.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
-            ArrayList<String> answers = new ArrayList<>();
+            Cursor            cursorAnswers = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_ANSWERS, new String[]{SQLiteConnectorNews.ANSWERS_INHALT, SQLiteConnectorNews.ANSWERS_REMOTE_ID, SQLiteConnectorNews.ANSWERS_SELECTED}, SQLiteConnectorNews.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
+            ArrayList<String> answers       = new ArrayList<>();
 
             boolean voted = false;
 
@@ -305,9 +304,9 @@ public class SurveyActivity extends ActionLogActivity {
                 if (getSurvey(groupPosition).remoteId == Utils.getUserID())
                     convertView.findViewById(R.id.delete).setVisibility(View.VISIBLE);
 
-                final Button button = (Button) convertView.findViewById(R.id.button);
+                final Button      button = (Button) convertView.findViewById(R.id.button);
                 final ImageButton delete = (ImageButton) convertView.findViewById(R.id.delete);
-                final ImageButton share = (ImageButton) convertView.findViewById(R.id.share);
+                final ImageButton share  = (ImageButton) convertView.findViewById(R.id.share);
 
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -389,8 +388,8 @@ public class SurveyActivity extends ActionLogActivity {
                         R.layout.list_item_expandable_child_survey_multiple :
                         R.layout.list_item_expandable_child_survey_single, null);
 
-                String option = getSurvey(groupPosition).answers[childPosition-2];
-                final TextView t = (TextView) convertView.findViewById(R.id.checkBox);
+                String         option = getSurvey(groupPosition).answers[childPosition - 2];
+                final TextView t      = (TextView) convertView.findViewById(R.id.checkBox);
 
                 t.setText(option.split("_;_")[0]);
                 t.setTag(Integer.parseInt(option.split("_;_")[1]));
@@ -431,7 +430,7 @@ public class SurveyActivity extends ActionLogActivity {
 
         @Override
         public int getChildrenCount(int groupPosition) {
-            return getSurvey(groupPosition).getAnswerAmount()+3;
+            return getSurvey(groupPosition).getAnswerAmount() + 3;
         }
 
         @Override
@@ -471,8 +470,8 @@ public class SurveyActivity extends ActionLogActivity {
         private class sendVoteTask extends AsyncTask<Integer, Void, ResponseCode> {
 
             private Button b;
-            private int id;
-            private int remoteid;
+            private int    id;
+            private int    remoteid;
 
             sendVoteTask(Button b) {
                 this.b = b;
@@ -487,8 +486,8 @@ public class SurveyActivity extends ActionLogActivity {
                 id = params[0];
                 remoteid = params[1];
 
-                SQLiteConnectorNews db = new SQLiteConnectorNews(getApplicationContext());
-                SQLiteDatabase dbh = db.getWritableDatabase();
+                SQLiteConnectorNews db  = new SQLiteConnectorNews(getApplicationContext());
+                SQLiteDatabase      dbh = db.getWritableDatabase();
 
                 dbh.execSQL("UPDATE " + SQLiteConnectorNews.TABLE_ANSWERS + " SET " + SQLiteConnectorNews.ANSWERS_SELECTED + " = 1 WHERE " + SQLiteConnectorNews.ANSWERS_REMOTE_ID + " = " + id);
 
@@ -501,7 +500,7 @@ public class SurveyActivity extends ActionLogActivity {
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
 
                     StringBuilder builder = new StringBuilder();
-                    String line;
+                    String        line;
                     while ((line = reader.readLine()) != null)
                         builder.append(line);
                     reader.close();
@@ -562,8 +561,8 @@ public class SurveyActivity extends ActionLogActivity {
                 if (!Utils.checkNetwork())
                     return ResponseCode.NO_CONNECTION;
 
-                SQLiteConnectorNews db = new SQLiteConnectorNews(getApplicationContext());
-                SQLiteDatabase dbh = db.getWritableDatabase();
+                SQLiteConnectorNews db  = new SQLiteConnectorNews(getApplicationContext());
+                SQLiteDatabase      dbh = db.getWritableDatabase();
 
                 dbh.execSQL("DELETE FROM " + SQLiteConnectorNews.TABLE_SURVEYS + " WHERE " + SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = " + params[0]);
                 dbh.execSQL("DELETE FROM " + SQLiteConnectorNews.TABLE_ANSWERS + " WHERE " + SQLiteConnectorNews.ANSWERS_SID + " = (SELECT " + SQLiteConnectorNews.SURVEYS_ID + " FROM " + SQLiteConnectorNews.TABLE_SURVEYS + " WHERE " + SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = " + params[0] + ")");
@@ -577,7 +576,7 @@ public class SurveyActivity extends ActionLogActivity {
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
 
                     StringBuilder builder = new StringBuilder();
-                    String line;
+                    String        line;
                     while ((line = reader.readLine()) != null)
                         builder.append(line);
                     reader.close();
@@ -622,5 +621,4 @@ public class SurveyActivity extends ActionLogActivity {
             }
         }
     }
-
 }

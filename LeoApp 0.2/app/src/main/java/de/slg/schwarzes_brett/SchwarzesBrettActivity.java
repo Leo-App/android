@@ -40,11 +40,12 @@ import java.util.Map;
 
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.messenger.MessengerActivity;
@@ -212,7 +213,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == 2)
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
@@ -225,7 +226,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
 
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.eintraege);
 
-        ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() > 1
+        ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() != User.PERMISSION_UNVERIFIZIERT
                 ? new ExpandableListAdapter(entriesMap, groupList, createViewList())
                 : new ExpandableListAdapter(entriesMap, groupList);
         expandableListView.setAdapter(expandableListAdapter);
@@ -234,7 +235,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 int remoteID = getRemoteId(groupPosition);
-                if (!Utils.isVerified() || Utils.getUserPermission() == 2 || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
+                if (!Utils.isVerified() || Utils.getUserPermission() == User.PERMISSION_LEHRER || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
                     return false;
                 String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
                 if (!cache.equals(""))
@@ -259,7 +260,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     private void initButton() {
         View button  = findViewById(R.id.floatingActionButton);
 
-        if (Utils.getUserPermission() >= 2) {
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER || Utils.getUserPermission() == User.PERMISSION_ADMIN) {
             button.setVisibility(View.VISIBLE);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

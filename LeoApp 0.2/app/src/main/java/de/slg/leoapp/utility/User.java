@@ -10,6 +10,10 @@ package de.slg.leoapp.utility;
  * @since 0.0.1
  */
 public final class User {
+    public static final int PERMISSION_UNVERIFIZIERT = 0;
+    public static final int PERMISSION_SCHUELER      = 1;
+    public static final int PERMISSION_LEHRER        = 2;
+    public static final int PERMISSION_ADMIN         = 3;
     public final int    uid;
     public final String uname;
     public final String udefaultname;

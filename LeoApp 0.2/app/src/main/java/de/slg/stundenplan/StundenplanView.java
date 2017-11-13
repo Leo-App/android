@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 
 public class StundenplanView extends View {
@@ -119,7 +120,7 @@ public class StundenplanView extends View {
                     if ("".equals(f.getName()) && !"".equals(f.getNotiz()) && f.getNotiz() != null) {
                         text = f.getNotiz().split(" ")[0];
                     } else {
-                        if(Utils.getUserPermission()!=2) {
+                        if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
                             text = f.getName();
                         } else {
                             text = f.getKuerzel();

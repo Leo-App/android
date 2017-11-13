@@ -20,10 +20,11 @@ import android.widget.Toast;
 
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.service.NotificationService;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
@@ -182,7 +183,7 @@ public class MessengerActivity extends ActionLogActivity {
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == 2)
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
