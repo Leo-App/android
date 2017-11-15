@@ -40,7 +40,6 @@ import java.security.NoSuchAlgorithmException;
 import de.slg.essensqr.Auth;
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.task.UpdateTaskName;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.MessengerActivity;
@@ -51,12 +50,10 @@ import de.slg.stundenplan.StundenplanActivity;
 
 @SuppressWarnings("deprecation")
 public class PreferenceActivity extends android.preference.PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-
     private final static char[] hexArray = "0123456789abcdef".toCharArray();
-    private static String            currentUsername;
-    private        ProgressBar       progressBar;
-    private        SharedPreferences pref;
-    private        DrawerLayout      drawerLayout;
+    private ProgressBar       progressBar;
+    private SharedPreferences pref;
+    private DrawerLayout      drawerLayout;
 
     private AppCompatDelegate mDelegate; //Downwards compatibility
 
@@ -68,10 +65,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
         }
         return new String(hexChars);
-    }
-
-    public void setCurrentUsername(String newName) {
-        currentUsername = newName;
     }
 
     @Override
@@ -207,24 +200,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 connectionPref = findPreference("pref_key_qr_autofade_time");
                 connectionPref.setEnabled(sharedPreferences.getBoolean(key, false));
                 break;
-            case "pref_key_general_klasse":
-                String res = pref.getString(key, "N/A");
-                findPreference("pref_key_general_klasse").setSummary(res);
-                initNavigationView();
-                break;
-            case "pref_key_general_name":
-                showProgressBar();
-                UpdateTaskName task = new UpdateTaskName(currentUsername);
-                task.execute();
-                initNavigationView();
-                break;
-            case "pref_key_kuerzel_general":
-                pref.edit()
-                        .putString(key, pref.getString(key, "").toUpperCase())
-                        .apply();
-                findPreference(key).setSummary(pref.getString(key, ""));
-                initNavigationView();
-                break;
             case "pref_key_filter_subst":
                 findPreference("pref_key_filterby_level").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
                 findPreference("pref_key_filterby_schedule").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
@@ -253,10 +228,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         hideProgressBar();
-
-        //Bis auf weiteres aus den Einstellungen entfernt
-/*        findPreference("pref_key_filterby_level").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
-        findPreference("pref_key_filterby_schedule").setEnabled(pref.getBoolean("pref_key_filter_subst", false));  '*/
 
         findPreference("pref_key_version_app").setSummary(Utils.getAppVersionName());
 
@@ -458,14 +429,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     public void hideProgressBar() {
         findViewById(R.id.progressBar2).setVisibility(View.GONE);
-    }
-
-    private void showProgressBar() {
-        findViewById(R.id.progressBar2).setVisibility(View.VISIBLE);
-    }
-
-    public View getCoordinatorLayout() {
-        return findViewById(R.id.coords);
     }
 
     private AppCompatDelegate getDelegate() {
