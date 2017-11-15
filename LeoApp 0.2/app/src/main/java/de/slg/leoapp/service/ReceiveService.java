@@ -176,13 +176,18 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
         public void run() {
             Looper.prepare();
 
+            ReceiveNews receiveTask = new ReceiveNews();
+
             while (running) {
                 try {
                     if (Utils.checkNetwork()) {
                         if (!socketRunning)
                             startSocket();
 
-                        new ReceiveNews().execute();
+                        if(receiveTask.getStatus() != AsyncTask.Status.FINISHED)
+                            receiveTask = new ReceiveNews(); //Wenn Task nach 20 Minuten noch läuft (also nie) -> Garbage Collector
+
+                            receiveTask.execute();
                     }
 
                     sleep(60000*20);
