@@ -18,6 +18,8 @@
     <string name="no_surveys">No surveys available</string>
     <string name="no_entries">No entries</string>
 
+    <string name="info_devs" translatable="false">LeoApp Team</string>
+
     <!-- Action -->
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>

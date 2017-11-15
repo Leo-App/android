@@ -18,7 +18,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbarInfo"
         android:gravity="center">
 
         <TextView
@@ -50,6 +49,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="13dp"
             android:text="@string/info_screen_second"
+            android:textAlignment="center"
             android:textColor="@color/colorText"
             android:textSize="17sp" />
 
@@ -72,6 +72,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="13dp"
             android:text="@string/info_screen_fourth"
+            android:textAlignment="center"
             android:textColor="@color/colorText"
             android:textSize="17sp" />
 
