@@ -226,7 +226,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
 
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.eintraege);
 
-        ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() != User.PERMISSION_UNVERIFIZIERT
+        ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() > User.PERMISSION_SCHUELER
                 ? new ExpandableListAdapter(entriesMap, groupList, createViewList())
                 : new ExpandableListAdapter(entriesMap, groupList);
         expandableListView.setAdapter(expandableListAdapter);
