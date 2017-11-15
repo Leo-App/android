@@ -208,7 +208,7 @@ public class UtilsController {
      * @return Aktive Activity vorhanden?
      */
     public boolean hasActiveActivity() {
-        return getActiveActivity() == null;
+        return getActiveActivity() != null;
     }
 
     public void registerMessengerActivity(MessengerActivity activity) {
