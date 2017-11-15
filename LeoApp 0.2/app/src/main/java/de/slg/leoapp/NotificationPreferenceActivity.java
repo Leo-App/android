@@ -28,13 +28,10 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
         getDelegate().onCreate(savedInstanceState);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preference);
+        setContentView(R.layout.activity_preference_notification);
         Utils.getController().registerNotificationPreferenceActivity(this);
 
         addPreferencesFromResource(R.xml.preferences_notifications);
-
-        findViewById(R.id.progressBar2).setVisibility(View.GONE);
-        findViewById(R.id.navigationView).setVisibility(View.GONE);
 
         initToolbar();
         initPreferenceChanges();
