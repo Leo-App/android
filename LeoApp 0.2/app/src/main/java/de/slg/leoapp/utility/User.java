@@ -9,15 +9,36 @@ package de.slg.leoapp.utility;
  * @version 2017.2610
  * @since 0.0.1
  */
+@SuppressWarnings("unused")
 public final class User {
     public static final int PERMISSION_UNVERIFIZIERT = 0;
     public static final int PERMISSION_SCHUELER      = 1;
     public static final int PERMISSION_LEHRER        = 2;
     public static final int PERMISSION_ADMIN         = 3;
+
+    /**
+     * Eindeutige User-ID
+     */
     public final int    uid;
+
+    /**
+     * Änderbarer Benutzername
+     */
     public final String uname;
+
+    /**
+     * Benutzername des pädagogischen Netzwerks
+     */
     public final String udefaultname;
+
+    /**
+     * Aktuelle Stufe des Users
+     */
     public final String ustufe;
+
+    /**
+     * User Permission-Level
+     */
     public final int    upermission;
 
     /**

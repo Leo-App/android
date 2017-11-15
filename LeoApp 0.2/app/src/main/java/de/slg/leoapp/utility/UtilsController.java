@@ -114,7 +114,8 @@ public class UtilsController {
             return profileActivity;
         } else if (surveyActivity != null) {
             return surveyActivity;
-        }
+        } else if (receiveService != null)
+            return receiveService.getApplicationContext();
         return null;
     }
 

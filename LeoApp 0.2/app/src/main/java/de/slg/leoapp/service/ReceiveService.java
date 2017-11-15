@@ -185,12 +185,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                         new ReceiveNews().execute();
                     }
 
-                    while (idle) {
-                        sleep(1);
-                    }
-
-                    for (int i = 0; i < 2400 && running && !receiveNews; i++)
-                        sleep(25);
+                    sleep(60000*20);
 
                     receiveNews = false;
                 } catch (InterruptedException e) {
