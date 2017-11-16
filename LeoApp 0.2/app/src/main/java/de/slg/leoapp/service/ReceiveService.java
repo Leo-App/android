@@ -30,8 +30,8 @@ import de.slg.messenger.Message;
 import de.slg.messenger.Verschluesseln;
 
 public class ReceiveService extends Service implements WebSocketClient.MessageHandler {
-    public  boolean receiveNews;
-    private boolean running, socketRunning, idle;
+    private boolean running;
+    private boolean socketRunning;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -40,8 +40,6 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
 
         running = true;
         socketRunning = false;
-        receiveNews = false;
-        idle = false;
 
         new ReceiveThread().start();
         new QueueThread().start();
@@ -185,8 +183,6 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                     }
 
                     sleep(60000 * 20);
-
-                    receiveNews = false;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
@@ -196,11 +192,6 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
     }
 
     private class ReceiveNews extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            idle = true;
-        }
-
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
@@ -321,8 +312,6 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
 
             if (Utils.getController().getActiveActivity().equals(Utils.getController().getSurveyActivity()))
                 Utils.getController().getSurveyActivity().refreshUI();
-
-            idle = false;
         }
     }
 
@@ -350,8 +339,12 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                                 new BufferedReader(
                                         new InputStreamReader(
                                                 connection.getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null)
-                            ;
+                        String line;
+                        while ((line = reader.readLine()) != null)
+                            if (line.startsWith("-")) {
+                                reader.close();
+                                throw new IOException(line);
+                            }
                         reader.close();
 
                         if (connection.getResponseCode() == 200)
