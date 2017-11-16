@@ -364,7 +364,7 @@ public class SurveyActivity extends ActionLogActivity {
                             for (TextView textView : checkboxes.get(groupPosition)) {
                                 CompoundButton rb = (CompoundButton) textView;
                                 if (rb.isChecked())
-                                    new ExpandableListAdapter.sendVoteTask(button).execute((Integer) rb.getTag(), getSurvey(groupPosition).remoteId);
+                                    new SendVoteTask(button).execute((Integer) rb.getTag(), getSurvey(groupPosition).remoteId);
                             }
                         }
                     });
@@ -467,13 +467,13 @@ public class SurveyActivity extends ActionLogActivity {
             return umfragen.get(ids.get(groupPosition));
         }
 
-        private class sendVoteTask extends AsyncTask<Integer, Void, ResponseCode> {
+        private class SendVoteTask extends AsyncTask<Integer, Void, ResponseCode> {
 
             private Button b;
             private int    id;
             private int    remoteid;
 
-            sendVoteTask(Button b) {
+            SendVoteTask(Button b) {
                 this.b = b;
             }
 
@@ -548,6 +548,9 @@ public class SurveyActivity extends ActionLogActivity {
                             }
                         });
                         Toast.makeText(Utils.getContext(), "Erfolgreich abgestimmt", Toast.LENGTH_SHORT).show();
+                        //                        umfragen.get(remoteid).voted = true;
+                        //                        notifyDataSetChanged(); TODO für Gianni :D
+                        //                        nach erflogreichem abstimmen nicht mehr auswählbar
                         break;
                 }
             }
