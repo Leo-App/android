@@ -4,8 +4,6 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-import de.slg.leoapp.utility.Utils;
-
 /**
  * GraphicUtils
  * <p>

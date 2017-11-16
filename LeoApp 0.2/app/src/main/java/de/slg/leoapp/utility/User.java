@@ -19,7 +19,7 @@ public final class User {
     /**
      * Eindeutige User-ID
      */
-    public final int    uid;
+    public final int uid;
 
     /**
      * Änderbarer Benutzername
@@ -39,7 +39,7 @@ public final class User {
     /**
      * User Permission-Level
      */
-    public final int    upermission;
+    public final int upermission;
 
     /**
      * Konstruktor.

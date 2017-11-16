@@ -7,9 +7,9 @@ import android.preference.PreferenceManager;
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationPreferenceActivity;
-import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.ProfileActivity;
+import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.leoapp.view.ActivityStatus;
@@ -62,15 +62,15 @@ public class UtilsController {
 
     private SurveyActivity surveyActivity;
 
-    private PreferenceActivity preferenceActivity;
+    private PreferenceActivity             preferenceActivity;
     private NotificationPreferenceActivity notificationPreferenceActivity;
-    private ProfileActivity profileActivity;
+    private ProfileActivity                profileActivity;
 
     //Datenbankverwaltungen
     private DBConnection  dbConnection;
     private StundenplanDB stundenplanDB;
 
-    private ReceiveService receiveService;
+    private ReceiveService      receiveService;
     private NotificationService notificationService;
 
     /**
@@ -465,7 +465,7 @@ public class UtilsController {
         if (getMainActivity() != null) {
             getMainActivity().finish();
         }
-        if(getSurveyActivity() != null) {
+        if (getSurveyActivity() != null) {
             getSurveyActivity().finish();
         }
     }

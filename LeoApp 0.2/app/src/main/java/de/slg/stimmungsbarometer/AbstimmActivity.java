@@ -13,8 +13,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.R;
+import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 

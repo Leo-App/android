@@ -47,13 +47,13 @@ import de.slg.umfragen.SurveyActivity;
 
 /**
  * MainActivity.
- *
+ * <p>
  * "Startseite" der LeoApp, hier wird das Hauptmenü angezeigt. Zur Verfügung stehen zwei Layouts: Listen- und Schnellansicht (Für Programmlogik siehe {@link CardAdapter}).
  * Zusätzlich wird Hintergrundlogik, wie das Weiterleiten von Notifications, das Anzeigen von Dialogen oder der Mensamode verwaltet.
  *
  * @author Gianni, Moritz
- * @since 0.0.1
  * @version 2017.1111
+ * @since 0.0.1
  */
 public class MainActivity extends ActionLogActivity {
     public static boolean        editing;
@@ -78,7 +78,6 @@ public class MainActivity extends ActionLogActivity {
         initAppIntro();
 
         initOptionalDialog();
-
 
         if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
             startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
@@ -226,7 +225,7 @@ public class MainActivity extends ActionLogActivity {
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
 
-    //    mAdapter.updateCards();
+        //    mAdapter.updateCards();
 
         Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
         Utils.getNotificationManager().cancel(NotificationService.ID_STUNDENPLAN);
@@ -462,12 +461,13 @@ public class MainActivity extends ActionLogActivity {
             @Override
             public void run() {
                 SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                boolean isFirst = getPrefs.getBoolean("first", true);
+                boolean           isFirst  = getPrefs.getBoolean("first", true);
 
                 if (isFirst) {
                     final Intent i = new Intent(MainActivity.this, IntroActivity.class);
                     runOnUiThread(new Runnable() {
-                        @Override public void run() {
+                        @Override
+                        public void run() {
                             startActivity(i);
                         }
                     });

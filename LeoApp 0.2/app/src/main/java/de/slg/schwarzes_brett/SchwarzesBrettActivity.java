@@ -58,7 +58,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
     private static SQLiteConnectorNews sqLiteConnector;
-    private static SQLiteDatabase  sqLiteDatabase;
+    private static SQLiteDatabase      sqLiteDatabase;
 
     private List<String>              groupList;
     private List<String>              childList;
@@ -106,7 +106,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         initButton();
         initExpandableListView();
         initSwipeToRefresh();
-
     }
 
     @Override
@@ -258,7 +257,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     }
 
     private void initButton() {
-        View button  = findViewById(R.id.floatingActionButton);
+        View button = findViewById(R.id.floatingActionButton);
 
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER || Utils.getUserPermission() == User.PERMISSION_ADMIN) {
             button.setVisibility(View.VISIBLE);
@@ -362,10 +361,10 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     }
 
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
-        private final Map<String, List<String>>        eintraege;
-        private final List<String>                     titel;
+        private final Map<String, List<String>> eintraege;
+        private final List<String>              titel;
         @Nullable
-        private       ArrayList<Integer>               views;
+        private       ArrayList<Integer>        views;
 
         ExpandableListAdapter(Map<String, List<String>> eintraege, List<String> titel) {
             this.eintraege = eintraege;
@@ -382,69 +381,69 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
-                TextView textView = (TextView) convertView.findViewById(R.id.textView);
-                textView.setText((String) getGroup(groupPosition));
-                TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
-                textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
-                if (views != null) {
-                    TextView textViewViews = (TextView) convertView.findViewById(R.id.textViewViews);
-                    textViewViews.setVisibility(View.VISIBLE);
-                    if(views.size() > groupPosition){
+            convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
+            TextView textView = (TextView) convertView.findViewById(R.id.textView);
+            textView.setText((String) getGroup(groupPosition));
+            TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
+            textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
+            if (views != null) {
+                TextView textViewViews = (TextView) convertView.findViewById(R.id.textViewViews);
+                textViewViews.setVisibility(View.VISIBLE);
+                if (views.size() > groupPosition) {
                     String viewString = views.get(groupPosition) > 999 ? "999+" : String.valueOf(views.get(groupPosition));
                     textViewViews.setText(viewString);
-                    }else {
-                        textViewViews.setText("0");
-                    }
                 } else {
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textViewStufe.getLayoutParams();
-                    params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-                    textViewStufe.setLayoutParams(params);
+                    textViewViews.setText("0");
                 }
+            } else {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textViewStufe.getLayoutParams();
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                textViewStufe.setLayoutParams(params);
+            }
             return convertView;
         }
 
         @Override
         public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-                if (isLastChild) {
-                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
+            if (isLastChild) {
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
 
-                    final TextView textViewDate = (TextView) convertView.findViewById(R.id.textView);
-                    textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
-                } else if (childPosition == 0) {
-                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
+                final TextView textViewDate = (TextView) convertView.findViewById(R.id.textView);
+                textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
+            } else if (childPosition == 0) {
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
 
-                    final TextView textView = (TextView) convertView.findViewById(R.id.textView);
-                    textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
-                } else {
-                    convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
+                final TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
+            } else {
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
 
-                    final String location = eintraege.get(titel.get(groupPosition)).get(3);
+                final String location = eintraege.get(titel.get(groupPosition)).get(3);
 
-                    final View.OnClickListener listener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            rawLocation = location;
+                final View.OnClickListener listener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rawLocation = location;
 
-                            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(SchwarzesBrettActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-                            } else {
-                                new FileDownloadTask().execute(rawLocation);
-                            }
+                        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(SchwarzesBrettActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                        } else {
+                            new FileDownloadTask().execute(rawLocation);
                         }
-                    };
+                    }
+                };
 
-                    final ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewIcon);
-                    iv.setImageResource(R.drawable.ic_file_download_black_24dp);
-                    iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
-                    iv.setOnClickListener(listener);
+                final ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewIcon);
+                iv.setImageResource(R.drawable.ic_file_download_black_24dp);
+                iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
+                iv.setOnClickListener(listener);
 
-                    final TextView textView = (TextView) convertView.findViewById(R.id.textView);
-                    textView.setText(location.substring(location.lastIndexOf('/') + 1));
-                    textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    textView.setOnClickListener(listener);
-                }
+                final TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                textView.setText(location.substring(location.lastIndexOf('/') + 1));
+                textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                textView.setOnClickListener(listener);
+            }
 
             return convertView;
         }
@@ -488,6 +487,5 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         public boolean isChildSelectable(int groupPosition, int childPosition) {
             return false;
         }
-
     }
 }

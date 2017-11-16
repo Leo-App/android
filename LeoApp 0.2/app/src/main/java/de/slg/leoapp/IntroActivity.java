@@ -8,23 +8,20 @@ import android.support.v4.content.ContextCompat;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
-import de.slg.leoapp.R;
-
 /**
  * IntroActivity.
- *
+ * <p>
  * Diese Activity verschafft dem User bei erstmaligem Starten einen kurzen Überblick über die App. Kann bei Bedarf erweitert werden.
  *
  * @author Mirko
- * @since 0.5.7
  * @version 2017.1111
+ * @since 0.5.7
  */
 @SuppressWarnings("deprecation")
 public class IntroActivity extends AppIntro {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         addSlide(AppIntroFragment.newInstance(getString(R.string.app_name), getString(R.string.intro1), R.mipmap.leo_app_icon, ContextCompat.getColor(this, R.color.introSlide1)));
         addSlide(AppIntroFragment.newInstance(getString(R.string.intro2_title), getString(R.string.intro2), R.drawable.ic_intro_image2, ContextCompat.getColor(this, R.color.introSlide2))); // oder nutze den Klausurplan, um dich über anstehende Arbeiten zu informieren

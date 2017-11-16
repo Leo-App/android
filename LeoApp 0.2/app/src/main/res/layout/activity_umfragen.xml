@@ -51,8 +51,8 @@
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/refresh"
                 android:layout_width="match_parent"
-                android:layout_below="@id/actionBarUmfragen"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_below="@id/actionBarUmfragen">
 
                 <ExpandableListView
                     android:id="@+id/eintraege"

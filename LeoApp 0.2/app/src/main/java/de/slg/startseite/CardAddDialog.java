@@ -17,8 +17,8 @@ import de.slg.leoapp.R;
  * XML mit Feature-Tag hinzugefügt werden.
  *
  * @author Gianni
- * @since 0.5.4
  * @version 2017.1311
+ * @since 0.5.4
  */
 class CardAddDialog extends AlertDialog {
 

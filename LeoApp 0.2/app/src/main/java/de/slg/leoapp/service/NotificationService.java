@@ -25,10 +25,10 @@ import java.util.GregorianCalendar;
 
 import de.slg.essensqr.SQLiteHandler;
 import de.slg.leoapp.R;
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
-import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.AbstimmActivity;
 import de.slg.stundenplan.Fach;
@@ -307,8 +307,8 @@ public class NotificationService extends Service {
     private void schwarzesBrettNotification() {
         if (Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true)) {
             SQLiteConnectorNews db     = new SQLiteConnectorNews(getApplicationContext());
-            SQLiteDatabase  dbh    = db.getReadableDatabase();
-            long            latest = db.getLatestDate(dbh);
+            SQLiteDatabase      dbh    = db.getReadableDatabase();
+            long                latest = db.getLatestDate(dbh);
             dbh.close();
             db.close();
             if (latest > de.slg.schwarzes_brett.Utils.getLatestSchwarzesBrettDate()) {

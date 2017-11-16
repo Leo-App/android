@@ -22,7 +22,7 @@ public class SyncGradeTask extends AsyncTask<Void, Void, Void> {
         WebDAVConnector webDAVConnector = new WebDAVConnector(name, pw);
         webDAVConnector.changeDirectory("PrivatSchueler/Meine Gruppen");
 
-        if(webDAVConnector.getDirContent().isEmpty()) {
+        if (webDAVConnector.getDirContent().isEmpty()) {
             Utils.getController().getPreferences()
                     .edit()
                     .putString("pref_key_general_klasse", "TEA")

@@ -2,21 +2,13 @@ package de.slg.leoapp;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import de.slg.leoapp.R;
 import de.slg.leoapp.view.ActionLogActivity;
-import de.slg.leoapp.view.LeoAppFeatureActivity;
 
 public class InfoActivity extends ActionLogActivity {
     @Override

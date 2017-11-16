@@ -20,8 +20,8 @@ import de.slg.leoapp.utility.Utils;
  * Von {@link de.slg.leoapp.service.ReceiveService ReceiveService} unabhängiger Task zum aktualisieren des Schwarzes Bretts, macht ein instantanes Aktualisieren möglich.
  *
  * @author Gianni
- * @since 0.6.0
  * @version 2017.1211
+ * @since 0.6.0
  */
 
 class SyncNewsTask extends AsyncTask<Void, Void, Void> {
@@ -44,13 +44,13 @@ class SyncNewsTask extends AsyncTask<Void, Void, Void> {
                                 new InputStreamReader(
                                         connection.getInputStream(), "UTF-8"));
                 StringBuilder builder = new StringBuilder();
-                String line;
+                String        line;
                 while ((line = reader.readLine()) != null)
                     builder.append(line)
                             .append(System.getProperty("line.separator"));
                 reader.close();
-                SQLiteConnectorNews db = new SQLiteConnectorNews(Utils.getContext());
-                SQLiteDatabase dbh = db.getWritableDatabase();
+                SQLiteConnectorNews db  = new SQLiteConnectorNews(Utils.getContext());
+                SQLiteDatabase      dbh = db.getWritableDatabase();
                 dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnectorNews.TABLE_EINTRAEGE + "'");
                 dbh.delete(SQLiteConnectorNews.TABLE_EINTRAEGE, null, null);
                 String[] result = builder.toString().split("_next_");
@@ -81,10 +81,9 @@ class SyncNewsTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void v) {
-        if(layout != null) {
+        if (layout != null) {
             layout.setRefreshing(false);
             Utils.getController().getSchwarzesBrettActivity().refreshUI();
         }
     }
-
 }

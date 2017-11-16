@@ -135,18 +135,17 @@ class ResultDialog extends AlertDialog {
             animation.start();
 
             percentages[i].setText(String.valueOf(entries[i].getValue()));
-
         }
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) b1.getLayoutParams();
         params.addRule(RelativeLayout.BELOW, answers[amount - 1].getId());
         b1.setLayoutParams(params);
 
-        for(int i = amount; i < answers.length; i++) {
+        for (int i = amount; i < answers.length; i++) {
             answers[i].setVisibility(GONE);
         }
 
-        double percentage = (double)votes * 100d / (double)target;
-        DecimalFormat df = new DecimalFormat("####0.00");
+        double        percentage = (double) votes * 100d / (double) target;
+        DecimalFormat df         = new DecimalFormat("####0.00");
 
         t2.setText(Utils.getContext().getString(R.string.statistics_result, votes, target, df.format(percentage)));
     }
@@ -165,10 +164,10 @@ class ResultDialog extends AlertDialog {
      */
     private class SyncResults extends AsyncTask<Void, Void, ResponseCode> {
 
-        private int                      amountAnswers;
-        private int                      target;
-        private int                      sumVotes;
-        private String                   title;
+        private int                            amountAnswers;
+        private int                            target;
+        private int                            sumVotes;
+        private String                         title;
         private LinkedHashMap<String, Integer> answerResults;
 
         @Override

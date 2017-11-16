@@ -19,6 +19,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
@@ -27,7 +28,6 @@ import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
 import de.slg.messenger.Verschluesseln;
-import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 
 public class ReceiveService extends Service implements WebSocketClient.MessageHandler {
     public  boolean receiveNews;
@@ -184,7 +184,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                         new ReceiveNews().execute();
                     }
 
-                    sleep(60000*20);
+                    sleep(60000 * 20);
 
                     receiveNews = false;
                 } catch (InterruptedException e) {
@@ -226,7 +226,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                             .append(System.getProperty("line.separator"));
                 reader.close();
                 SQLiteConnectorNews db  = new SQLiteConnectorNews(getApplicationContext());
-                SQLiteDatabase  dbh = db.getWritableDatabase();
+                SQLiteDatabase      dbh = db.getWritableDatabase();
                 dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnectorNews.TABLE_EINTRAEGE + "'");
                 dbh.delete(SQLiteConnectorNews.TABLE_EINTRAEGE, null, null);
                 String[] result = builder.toString().split("_next_");
@@ -277,7 +277,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                 reader.close();
 
                 SQLiteConnectorNews db  = new SQLiteConnectorNews(getApplicationContext());
-                SQLiteDatabase  dbh = db.getWritableDatabase();
+                SQLiteDatabase      dbh = db.getWritableDatabase();
                 dbh.delete(SQLiteConnectorNews.TABLE_SURVEYS, null, null);
                 dbh.delete(SQLiteConnectorNews.TABLE_ANSWERS, null, null);
                 String[] result = builder.toString().split("_next_");
@@ -313,7 +313,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            if(!Utils.getController().hasActiveActivity())
+            if (!Utils.getController().hasActiveActivity())
                 return;
 
             if (Utils.getController().getActiveActivity().equals(Utils.getController().getSchwarzesBrettActivity()))

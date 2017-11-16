@@ -39,8 +39,8 @@ import de.slg.stundenplan.StundenplanActivity;
  * offene Umfrage. In Zukunft lässt sich hier auch die Funktionalität eines änderbaren Profilbilds implementieren.
  *
  * @author Luzia, Moritz
- * @since 0.5.8
  * @version 2017.1311
+ * @since 0.5.8
  */
 public class ProfileActivity extends ActionLogActivity {
     private DrawerLayout   drawerLayout;

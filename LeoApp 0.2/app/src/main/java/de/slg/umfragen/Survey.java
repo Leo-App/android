@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * Verwaltungsklasse für das Umfragefeature. POJO mit allen Informationen über eine Umfrage.
  *
  * @author Gianni
- * @since 0.5.9
  * @version 2017.1111
+ * @since 0.5.9
  */
 final class Survey {
 
@@ -22,19 +22,19 @@ final class Survey {
 
     final String[] answers;
     final boolean  multiple;
-    final boolean voted;
+    final boolean  voted;
 
     /**
      * Konstruktor. Instanziiert die Attribute der Umfrage mit den entsprechenden Parametern.
      *
-     * @param id Die lokale ID der Umfrage auf dem Endgerät
-     * @param remoteId Die globale ID der Umfrage
-     * @param title Der Titel der Umfrage
+     * @param id          Die lokale ID der Umfrage auf dem Endgerät
+     * @param remoteId    Die globale ID der Umfrage
+     * @param title       Der Titel der Umfrage
      * @param description Die Beschreibung der Umfrage
-     * @param multiple Checkboxen oder Radiobuttons?
-     * @param voted Hat der verifizierte User bereits abgestimmt?
-     * @param to Adressat der Umfrage
-     * @param answers Alle Antwortmöglichkeiten
+     * @param multiple    Checkboxen oder Radiobuttons?
+     * @param voted       Hat der verifizierte User bereits abgestimmt?
+     * @param to          Adressat der Umfrage
+     * @param answers     Alle Antwortmöglichkeiten
      */
     Survey(int id, int remoteId, String title, String description, boolean multiple, boolean voted, String to, ArrayList<String> answers) {
         this.id = id;
@@ -55,5 +55,4 @@ final class Survey {
     int getAnswerAmount() {
         return answers.length;
     }
-
 }
