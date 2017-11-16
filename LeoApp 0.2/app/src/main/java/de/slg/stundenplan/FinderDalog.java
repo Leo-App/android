@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 
 class FinderDalog extends AlertDialog {
@@ -32,18 +34,17 @@ class FinderDalog extends AlertDialog {
         final TextView t4 = (TextView) findViewById(R.id.text4);
         final TextView t5 = (TextView) findViewById(R.id.text5);
 
-        findViewById(R.id.add1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                findViewById(R.id.add1).setVisibility(View.INVISIBLE);
-                t1.setVisibility(View.VISIBLE);
-            }
-        });
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
+            t1.setText(Utils.getLehrerKuerzel());
+
         findViewById(R.id.add2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 findViewById(R.id.add2).setVisibility(View.INVISIBLE);
                 t2.setVisibility(View.VISIBLE);
+                InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                manager.showSoftInput(t2, InputMethodManager.SHOW_IMPLICIT);
+                t2.requestFocus();
             }
         });
         findViewById(R.id.add3).setOnClickListener(new View.OnClickListener() {
@@ -51,6 +52,9 @@ class FinderDalog extends AlertDialog {
             public void onClick(View v) {
                 findViewById(R.id.add3).setVisibility(View.INVISIBLE);
                 t3.setVisibility(View.VISIBLE);
+                InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                manager.showSoftInput(t3, InputMethodManager.SHOW_IMPLICIT);
+                t3.requestFocus();
             }
         });
         findViewById(R.id.add4).setOnClickListener(new View.OnClickListener() {
@@ -58,6 +62,9 @@ class FinderDalog extends AlertDialog {
             public void onClick(View v) {
                 findViewById(R.id.add4).setVisibility(View.INVISIBLE);
                 t4.setVisibility(View.VISIBLE);
+                InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                manager.showSoftInput(t4, InputMethodManager.SHOW_IMPLICIT);
+                t4.requestFocus();
             }
         });
         findViewById(R.id.add5).setOnClickListener(new View.OnClickListener() {
@@ -65,6 +72,9 @@ class FinderDalog extends AlertDialog {
             public void onClick(View v) {
                 findViewById(R.id.add5).setVisibility(View.INVISIBLE);
                 t5.setVisibility(View.VISIBLE);
+                InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                manager.showSoftInput(t5, InputMethodManager.SHOW_IMPLICIT);
+                t5.requestFocus();
             }
         });
 
@@ -74,19 +84,19 @@ class FinderDalog extends AlertDialog {
             public void onClick(View v) {
                 kürzel = new List<>();
                 if (t1.getText().length() > 0) {
-                    kürzel.append(t1.getText().toString());
+                    kürzel.append(t1.getText().toString().toUpperCase());
                 }
                 if (t2.getText().length() > 0) {
-                    kürzel.append(t2.getText().toString());
+                    kürzel.append(t2.getText().toString().toUpperCase());
                 }
                 if (t3.getText().length() > 0) {
-                    kürzel.append(t3.getText().toString());
+                    kürzel.append(t3.getText().toString().toUpperCase());
                 }
                 if (t4.getText().length() > 0) {
-                    kürzel.append(t4.getText().toString());
+                    kürzel.append(t4.getText().toString().toUpperCase());
                 }
                 if (t5.getText().length() > 0) {
-                    kürzel.append(t5.getText().toString());
+                    kürzel.append(t5.getText().toString().toUpperCase());
                 }
 
                 try {
@@ -104,7 +114,6 @@ class FinderDalog extends AlertDialog {
                     }
                     reader.close();
 
-                    findViewById(R.id.add1).setVisibility(View.GONE);
                     findViewById(R.id.add2).setVisibility(View.GONE);
                     findViewById(R.id.add3).setVisibility(View.GONE);
                     findViewById(R.id.add4).setVisibility(View.GONE);
