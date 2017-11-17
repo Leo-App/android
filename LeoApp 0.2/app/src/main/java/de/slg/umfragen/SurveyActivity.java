@@ -351,7 +351,7 @@ public class SurveyActivity extends ActionLogActivity {
                     public void onClick(View v) {
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, Utils.getContext().getString(R.string.share_text, ids.get(groupPosition)));
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, Utils.getContext().getString(R.string.share_text, getSurvey(groupPosition).title));
                         sendIntent.setType("text/plain");
                         startActivity(Intent.createChooser(sendIntent, Utils.getString(R.string.share)));
                     }

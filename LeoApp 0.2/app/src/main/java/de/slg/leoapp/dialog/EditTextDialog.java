@@ -12,7 +12,7 @@ import de.slg.leoapp.R;
 /**
  * EditTextDialog.
  * <p>
- * Einfacher Dialog mit Texteingabefeld
+ * Einfacher Dialog mit Texteingabefeld.
  *
  * @author Gianni, Moritz
  * @version 2017.1211
@@ -66,7 +66,7 @@ public class EditTextDialog extends AlertDialog {
     }
 
     /**
-     * Setzt den InputType des EditText Feldes auf einen per Parameter übergebenen Wert.
+     * Setzt den InputType des EditText-Feldes auf einen per Parameter übergebenen Wert.
      *
      * @param type Neuer InputType
      */
