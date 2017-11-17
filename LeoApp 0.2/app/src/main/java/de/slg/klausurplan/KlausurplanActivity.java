@@ -292,8 +292,7 @@ public class KlausurplanActivity extends ActionLogActivity {
 
     private long findeNächsteKlausur() {
         Date heute = new Date();
-        for (klausurList.toFirst(); klausurList.hasAccess() && heute.after(klausurList.getContent().datum); klausurList.next())
-            ;
+        for (klausurList.toFirst(); klausurList.hasAccess() && heute.after(klausurList.getContent().datum); klausurList.next());
         if (klausurList.hasAccess())
             return klausurList.getContent().datum.getTime();
         return -1;
@@ -307,7 +306,7 @@ public class KlausurplanActivity extends ActionLogActivity {
             klausurList.next();
             i++;
         }
-        while (klausurList.hasPrevious() && klausurList.getContent().istGleicheWoche(klausurList.getPrevious())) {
+        while (klausurList.hasPrevious() && klausurList.getContent().isSameWeek(klausurList.getPrevious())) {
             i--;
             klausurList.previous();
         }

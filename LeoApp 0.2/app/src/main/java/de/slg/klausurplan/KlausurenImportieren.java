@@ -24,7 +24,8 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     private final String[]       schriflich;
     private       BufferedReader reader;
     private       int            year, halbjahr;
-    private List<Klausur> listeMitHeruntergeladenenKlausuren;
+
+    private List<Klausur> examList;
 
     KlausurenImportieren(Context context) {
         this.context = context;
@@ -35,7 +36,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     @Override
     protected List<Klausur> doInBackground(Void... params) {
         try {
-            listeMitHeruntergeladenenKlausuren = new List<>();
+            examList = new List<>();
 
             URLConnection connection = new URL(Utils.BASE_URL_PHP + "klausurplan/aktuell.xml")
                     .openConnection();
@@ -58,7 +59,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             }
             reader.close();
 
-            return listeMitHeruntergeladenenKlausuren;
+            return examList;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,7 +119,7 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
             List<String> klausurenAusZeile = getKlausurStrings(c, stufe); //sucht in der zeile nach Klausuren
             for (klausurenAusZeile.toFirst(); klausurenAusZeile.hasAccess(); klausurenAusZeile.next())
                 if (datum != null && istImStundenplan(klausurenAusZeile.getContent().replace('_', ' ')))
-                    listeMitHeruntergeladenenKlausuren.append(new Klausur(klausurenAusZeile.getContent().replace('_', ' '), datum, null, null)); //neue Klausuren(in der Zeile enthaltenes Datum, gefundene Klausuren (Kürzel)) werden angehängt
+                    examList.append(new Klausur(klausurenAusZeile.getContent().replace('_', ' '), datum, null, null)); //neue Klausuren(in der Zeile enthaltenes Datum, gefundene Klausuren (Kürzel)) werden angehängt
         }
     }
 

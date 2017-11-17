@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 class Klausur {
 
@@ -44,9 +45,9 @@ class Klausur {
             return "";
 
         if (mitWochentag)
-            return new SimpleDateFormat("E").format(datum).substring(0, 2) + ", " + new SimpleDateFormat("dd.MM.yy").format(datum);
+            return new SimpleDateFormat("E", Locale.GERMANY).format(datum).substring(0, 2) + ", " + new SimpleDateFormat("dd.MM.yy", Locale.GERMANY).format(datum);
 
-        return new SimpleDateFormat("dd.MM.yy").format(datum);
+        return new SimpleDateFormat("dd.MM.yy", Locale.GERMANY).format(datum);
     }
 
     String getNotiz() {
@@ -113,14 +114,14 @@ class Klausur {
         return this.fach.endsWith("Q2");
     }
 
-    boolean istGleicheWoche(Klausur other) {
+    boolean isSameWeek(Klausur other) {
         Calendar calendar = new GregorianCalendar(), calendar1 = new GregorianCalendar();
         calendar.setTime(this.datum);
         calendar1.setTime(other.datum);
         return calendar.get(Calendar.YEAR) == calendar1.get(Calendar.YEAR) && calendar.get(Calendar.WEEK_OF_YEAR) == calendar1.get(Calendar.WEEK_OF_YEAR);
     }
 
-    String getWoche() {
-        return new SimpleDateFormat("'Woche' w").format(datum);
+    String getWeek() {
+        return new SimpleDateFormat("'Woche' w", Locale.GERMANY).format(datum);
     }
 }

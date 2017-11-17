@@ -39,10 +39,10 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
 
         Klausur current = klausuren.getObjectAt(position);
 
-        if (position == 0 || !current.istGleicheWoche(klausuren.getObjectAt(position - 1))) {
+        if (position == 0 || !current.isSameWeek(klausuren.getObjectAt(position - 1))) {
             TextView woche = (TextView) v.findViewById(R.id.textViewWoche);
             woche.setVisibility(View.VISIBLE);
-            woche.setText(current.getWoche());
+            woche.setText(current.getWeek());
         } else {
             v.findViewById(R.id.textViewWoche).setVisibility(View.GONE);
         }

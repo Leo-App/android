@@ -32,7 +32,7 @@ import de.slg.umfragen.SurveyActivity;
  * LeoAppFeatureActivity.
  * <p>
  * Abstrakte Subklasse von ActionLogActivity. Erweitert die Logging Funktionalität um Methoden zum Einrichten der Toolbar und des Navigationdrawers.
- * Dementsprechend sollte diese Klasse nur von Activities verwendet werden, bei denen ein Navigationdrawer sinnvoll/erwünscht ist. Bei de übrigen Activities muss dann
+ * Dementsprechend sollte diese Klasse nur von Activities verwendet werden, bei denen ein Navigationdrawer sinnvoll/erwünscht ist. Bei den übrigen Activities muss dann
  * natürlich die Toolbar eigens implementiert werden.
  *
  * @author Gianni
