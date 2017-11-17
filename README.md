@@ -1,36 +1,24 @@
 # leoapp-sources
 SourceCode Repository for the LeoApp 2017
 
-# TODO
+### Branches
 
-### Website
-<ul>
-  <li>Websitedesign Allgemein entwerfen</li>
-  <li>Website für Mobilgeräte anpassen</li>
-  <li>Implementieren</li>
-  <li>Texte entwerfen</li>
-  <li>FAQ</li>
-  <li>Showcase</li>
-</ul>
+#### master
+Die master Version der LeoApp muss:
 
-### Update-Plan
-<ul>
-  <li>Stimmungsbarometer weitere Statistiken</li>
-  <li>Essensbestellung in der App</li>
-  <li>Bilder im Messenger versenden</li>
-  <li>Vertretungsplan neu programmieren</li>
-</ul>
++ stable sein
++ *Immer* deploybar sein
++ Nach Möglichkeit vollständig dokumentiert sein
 
-### FTP
+#### development
+Wenn geplante Änderungen nicht minimal sind, bitte im development-Branch arbeiten und vollständig testen, bevor Pull requests erstellt werden. Außerdem sollte ggf. die Versionsnummer geändert werden.
+
+#### FTP Development-Server
 Server: w011e117.kasserver.com<br/>
 FTP-Benutzer: f00cb34f<br/>
-<br/>
-Ein guter FTP Client ist zum Beispiel <i>FileZilla</i>
-<br/>
-<b>Webftp</b><br/>
-http://webftp.all-inkl.com<br/>
+Webftp: http://webftp.all-inkl.com<br/>
 <br/>
 
-### Datenbank
+#### Development-Datenbank
 Datenbankname/nutzer: d02844bf<br/>
 Datenbank editieren: https://dd26132.kasserver.com/mysqladmin/kaslogin.php<br/>
