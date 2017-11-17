@@ -295,7 +295,7 @@ public class List<ContentType> implements Iterable<ContentType> {
      * @return Instanz der geänderten Liste.
      */
     public List<ContentType> concat(java.util.List<ContentType> pList) {
-        for(ContentType t : pList) {
+        for (ContentType t : pList) {
             append(t);
         }
         return this;

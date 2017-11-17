@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -161,6 +162,9 @@ class NewSurveyDialog extends AlertDialog {
                 public void onClick(View v) {
                     findViewById(R.id.new_answer).setVisibility(View.INVISIBLE);
                     findViewById(R.id.text1).setVisibility(View.VISIBLE);
+                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    manager.showSoftInput(findViewById(R.id.text1), InputMethodManager.SHOW_IMPLICIT);
+                    findViewById(R.id.text1).requestFocus();
                 }
             });
             findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
@@ -168,6 +172,9 @@ class NewSurveyDialog extends AlertDialog {
                 public void onClick(View v) {
                     findViewById(R.id.button).setVisibility(View.INVISIBLE);
                     findViewById(R.id.text2).setVisibility(View.VISIBLE);
+                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    manager.showSoftInput(findViewById(R.id.text2), InputMethodManager.SHOW_IMPLICIT);
+                    findViewById(R.id.text2).requestFocus();
                 }
             });
             findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
@@ -175,6 +182,9 @@ class NewSurveyDialog extends AlertDialog {
                 public void onClick(View v) {
                     findViewById(R.id.button1).setVisibility(View.INVISIBLE);
                     findViewById(R.id.text3).setVisibility(View.VISIBLE);
+                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    manager.showSoftInput(findViewById(R.id.text3), InputMethodManager.SHOW_IMPLICIT);
+                    findViewById(R.id.text3).requestFocus();
                 }
             });
             findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
@@ -182,6 +192,9 @@ class NewSurveyDialog extends AlertDialog {
                 public void onClick(View v) {
                     findViewById(R.id.button2).setVisibility(View.INVISIBLE);
                     findViewById(R.id.text4).setVisibility(View.VISIBLE);
+                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    manager.showSoftInput(findViewById(R.id.text4), InputMethodManager.SHOW_IMPLICIT);
+                    findViewById(R.id.text4).requestFocus();
                 }
             });
             findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
@@ -189,6 +202,9 @@ class NewSurveyDialog extends AlertDialog {
                 public void onClick(View v) {
                     findViewById(R.id.button3).setVisibility(View.INVISIBLE);
                     findViewById(R.id.text5).setVisibility(View.VISIBLE);
+                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    manager.showSoftInput(findViewById(R.id.text5), InputMethodManager.SHOW_IMPLICIT);
+                    findViewById(R.id.text5).requestFocus();
                 }
             });
         }

@@ -19,6 +19,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
@@ -27,11 +28,10 @@ import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
 import de.slg.messenger.Verschluesseln;
-import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 
 public class ReceiveService extends Service implements WebSocketClient.MessageHandler {
-    public  boolean receiveNews;
-    private boolean running, socketRunning, idle;
+    private boolean running;
+    private boolean socketRunning;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -40,8 +40,6 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
 
         running = true;
         socketRunning = false;
-        receiveNews = false;
-        idle = false;
 
         new ReceiveThread().start();
         new QueueThread().start();
@@ -184,9 +182,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                         new ReceiveNews().execute();
                     }
 
-                    sleep(60000*20);
-
-                    receiveNews = false;
+                    sleep(60000 * 20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
@@ -196,11 +192,6 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
     }
 
     private class ReceiveNews extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            idle = true;
-        }
-
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
@@ -226,7 +217,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                             .append(System.getProperty("line.separator"));
                 reader.close();
                 SQLiteConnectorNews db  = new SQLiteConnectorNews(getApplicationContext());
-                SQLiteDatabase  dbh = db.getWritableDatabase();
+                SQLiteDatabase      dbh = db.getWritableDatabase();
                 dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnectorNews.TABLE_EINTRAEGE + "'");
                 dbh.delete(SQLiteConnectorNews.TABLE_EINTRAEGE, null, null);
                 String[] result = builder.toString().split("_next_");
@@ -277,7 +268,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                 reader.close();
 
                 SQLiteConnectorNews db  = new SQLiteConnectorNews(getApplicationContext());
-                SQLiteDatabase  dbh = db.getWritableDatabase();
+                SQLiteDatabase      dbh = db.getWritableDatabase();
                 dbh.delete(SQLiteConnectorNews.TABLE_SURVEYS, null, null);
                 dbh.delete(SQLiteConnectorNews.TABLE_ANSWERS, null, null);
                 String[] result = builder.toString().split("_next_");
@@ -313,7 +304,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            if(!Utils.getController().hasActiveActivity())
+            if (!Utils.getController().hasActiveActivity())
                 return;
 
             if (Utils.getController().getActiveActivity().equals(Utils.getController().getSchwarzesBrettActivity()))
@@ -321,8 +312,6 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
 
             if (Utils.getController().getActiveActivity().equals(Utils.getController().getSurveyActivity()))
                 Utils.getController().getSurveyActivity().refreshUI();
-
-            idle = false;
         }
     }
 
@@ -350,8 +339,12 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                                 new BufferedReader(
                                         new InputStreamReader(
                                                 connection.getInputStream(), "UTF-8"));
-                        while (reader.readLine() != null)
-                            ;
+                        String line;
+                        while ((line = reader.readLine()) != null)
+                            if (line.startsWith("-")) {
+                                reader.close();
+                                throw new IOException(line);
+                            }
                         reader.close();
 
                         if (connection.getResponseCode() == 200)

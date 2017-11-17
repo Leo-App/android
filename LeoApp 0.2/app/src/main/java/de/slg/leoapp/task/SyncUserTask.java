@@ -15,8 +15,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.Start;
+import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.utility.Utils;
 
 public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
@@ -43,7 +43,7 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
             StringBuilder builder = new StringBuilder();
 
             URLConnection connection = new URL(Utils.BASE_URL_PHP + "user/updateUser.php?name=" + Utils.getUserDefaultName())
-                            .openConnection();
+                    .openConnection();
 
             BufferedReader reader =
                     new BufferedReader(

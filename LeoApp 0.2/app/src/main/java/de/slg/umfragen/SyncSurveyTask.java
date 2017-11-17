@@ -2,7 +2,6 @@ package de.slg.umfragen;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 
@@ -16,12 +15,12 @@ import de.slg.leoapp.utility.Utils;
 
 /**
  * SyncSurveyTask.
- *
+ * <p>
  * Von {@link de.slg.leoapp.service.ReceiveService ReceiveService} unabhängiger Task zum aktualisieren der Umfragen, macht ein instantanes Aktualisieren möglich.
  *
  * @author Gianni
- * @since 0.6.0
  * @version 2017.1211
+ * @since 0.6.0
  */
 
 class SyncSurveyTask extends AsyncTask<Void, Void, Void> {
@@ -58,7 +57,7 @@ class SyncSurveyTask extends AsyncTask<Void, Void, Void> {
                 reader.close();
 
                 SQLiteConnectorNews db  = new SQLiteConnectorNews(Utils.getContext());
-                SQLiteDatabase  dbh = db.getWritableDatabase();
+                SQLiteDatabase      dbh = db.getWritableDatabase();
                 dbh.delete(SQLiteConnectorNews.TABLE_SURVEYS, null, null);
                 dbh.delete(SQLiteConnectorNews.TABLE_ANSWERS, null, null);
                 String[] result = builder.toString().split("_next_");
@@ -95,10 +94,9 @@ class SyncSurveyTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void v) {
-        if(layout != null) {
+        if (layout != null) {
             layout.setRefreshing(false);
             Utils.getController().getSurveyActivity().refreshUI();
         }
     }
-
 }

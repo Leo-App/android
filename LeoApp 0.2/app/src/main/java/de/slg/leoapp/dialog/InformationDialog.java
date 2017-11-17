@@ -17,9 +17,9 @@ import de.slg.leoapp.utility.UtilsController;
  * <p>
  * Ein allgemeiner simpler Dialog zum Anzeigen von wichtigen Infomationen.
  *
- * @since 0.5.9
- * @version 2017.1011
  * @author Gianni
+ * @version 2017.1011
+ * @since 0.5.9
  */
 
 @SuppressWarnings("unused")
@@ -40,7 +40,7 @@ public final class InformationDialog extends AlertDialog {
      * Konstruktor. Instanziiert den Dialog mit übergebenem Text.
      *
      * @param context Beliebige laufende Activity, siehe {@link UtilsController#getActiveActivity()}
-     * @param text Dialogtext als Stringressource
+     * @param text    Dialogtext als Stringressource
      */
     public InformationDialog(@NonNull Context context, @StringRes int text) {
         super(context);
@@ -51,7 +51,7 @@ public final class InformationDialog extends AlertDialog {
      * Konstruktor. Instanziiert den Dialog mit übergebenem Text.
      *
      * @param context Beliebige laufende Activity, siehe {@link UtilsController#getActiveActivity()}
-     * @param text Dialogtext als String
+     * @param text    Dialogtext als String
      */
     public InformationDialog(@NonNull Context context, String text) {
         super(context);
@@ -75,7 +75,6 @@ public final class InformationDialog extends AlertDialog {
                 dismiss();
             }
         });
-
     }
 
     /**
@@ -88,5 +87,4 @@ public final class InformationDialog extends AlertDialog {
         this.text = Utils.getString(text);
         return this;
     }
-
 }

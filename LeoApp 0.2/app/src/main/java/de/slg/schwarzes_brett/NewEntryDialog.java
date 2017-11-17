@@ -113,14 +113,14 @@ class NewEntryDialog extends AlertDialog {
                 final TextView title = (TextView) findViewById(R.id.title_edittext);
 
                 final TextView content = (TextView) findViewById(R.id.content);
-                final TextView date = (TextView) findViewById(R.id.eingabeDatum);
+                final TextView date    = (TextView) findViewById(R.id.eingabeDatum);
 
-                final String OLD_FORMAT = "dd-MM-yyyy";
-                final String NEW_FORMAT = "yyyy-MM-dd";
-                String newDate;
-                SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-                String dateString = date.getText().toString();
-                Date d = null;
+                final String     OLD_FORMAT = "dd-MM-yyyy";
+                final String     NEW_FORMAT = "yyyy-MM-dd";
+                String           newDate;
+                SimpleDateFormat sdf        = new SimpleDateFormat(OLD_FORMAT);
+                String           dateString = date.getText().toString();
+                Date             d          = null;
                 try {
                     d = sdf.parse(dateString);
                 } catch (ParseException e) {
@@ -185,7 +185,7 @@ class NewEntryDialog extends AlertDialog {
             if (!Utils.checkNetwork())
                 return false;
             try {
-                for(int i = 0; i < params.length; i++) {
+                for (int i = 0; i < params.length; i++) {
                     params[i] = params[i].replace("ä", "_ae_");
                     params[i] = params[i].replace("ö", "_oe_");
                     params[i] = params[i].replace("ü", "_ue_");

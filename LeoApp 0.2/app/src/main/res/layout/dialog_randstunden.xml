@@ -15,43 +15,30 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/colorAccent" />
 
-    <Button
-        android:id="@+id/add1"
-        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/title"
-        android:layout_below="@id/title"
-        android:layout_marginTop="13dp"
-        android:drawableLeft="@drawable/ic_add_white_24dp"
-        android:drawableTint="@color/colorPrimary"
-        android:text="@string/add_teacher"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimary" />
-
     <EditText
         android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/add1"
-        android:layout_below="@+id/title"
-        android:layout_marginLeft="20dp"
+        android:layout_alignLeft="@id/title"
+        android:layout_alignStart="@id/title"
+        android:layout_below="@id/title"
+        android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="13dp"
-        android:inputType="textCapCharacters"
-        android:visibility="gone" />
+        android:inputType="textCapCharacters" />
 
     <Button
         android:id="@+id/add2"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/add1"
+        android:layout_below="@+id/text1"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
+        android:drawableStart="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
         android:text="@string/add_teacher"
         android:textAllCaps="true"
@@ -62,11 +49,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/add2"
-        android:layout_below="@+id/add1"
+        android:layout_alignStart="@id/add2"
+        android:layout_below="@+id/text1"
         android:layout_marginEnd="20dp"
-        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginStart="20dp"
         android:inputType="textCapCharacters"
         android:visibility="gone" />
 
@@ -81,6 +67,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
+        android:drawableStart="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
         android:text="@string/add_teacher"
         android:textAllCaps="true"
@@ -91,11 +78,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/add3"
+        android:layout_alignStart="@id/add3"
         android:layout_below="@+id/add2"
         android:layout_marginEnd="20dp"
-        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginStart="20dp"
         android:inputType="textCapCharacters"
         android:visibility="gone" />
 
@@ -110,6 +96,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
+        android:drawableStart="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
         android:text="@string/add_teacher"
         android:textAllCaps="true"
@@ -120,11 +107,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/add4"
+        android:layout_alignStart="@id/add4"
         android:layout_below="@+id/add3"
         android:layout_marginEnd="20dp"
-        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginStart="20dp"
         android:inputType="textCapCharacters"
         android:visibility="gone" />
 
@@ -139,6 +125,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:drawableLeft="@drawable/ic_add_white_24dp"
+        android:drawableStart="@drawable/ic_add_white_24dp"
         android:drawableTint="@color/colorPrimary"
         android:text="@string/add_teacher"
         android:textAllCaps="true"
@@ -149,11 +136,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/add5"
+        android:layout_alignStart="@id/add5"
         android:layout_below="@+id/add4"
         android:layout_marginEnd="20dp"
-        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginStart="20dp"
         android:inputType="textCapCharacters"
         android:visibility="gone" />
 
@@ -163,6 +149,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/title"
+        android:layout_alignStart="@id/title"
         android:layout_below="@id/title"
         android:layout_marginTop="13dp" />
 
@@ -175,6 +162,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/add5"
         android:layout_marginBottom="5dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
         android:text="@string/confirm"

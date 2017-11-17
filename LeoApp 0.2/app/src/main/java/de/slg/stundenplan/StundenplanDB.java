@@ -331,7 +331,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             case "RT":
                 return context.getString(R.string.rt);
             case "KL":
-                return context.getString(R.string.klett); 
+                return context.getString(R.string.klett);
             case "ROB":
                 return context.getString(R.string.rob);
             case "AQ":
@@ -349,7 +349,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
             case "CH":
                 return context.getString(R.string.exp);
             case "KU":
-                return context.getString(R.string.kunst); 
+                return context.getString(R.string.kunst);
             case "TA":
                 return context.getString(R.string.hip);
             case "ZTG":

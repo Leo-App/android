@@ -33,11 +33,10 @@ public abstract class ActionLogActivity extends AppCompatActivity {
         DateFormat format = new SimpleDateFormat("ddMMhhmmss");
 
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        Bundle bundle = new Bundle();
+        Bundle            bundle             = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getActivityTag());
         mFirebaseAnalytics.logEvent("ActivityStartEvent", bundle);
-
     }
 
     @Override

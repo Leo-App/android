@@ -36,15 +36,14 @@ import de.slg.umfragen.SurveyActivity;
  * natürlich die Toolbar eigens implementiert werden.
  *
  * @author Gianni
- * @since 0.6.0
  * @version 2017.1211
- *
+ * @since 0.6.0
  */
 
 public abstract class LeoAppFeatureActivity extends ActionLogActivity {
 
     private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
+    private DrawerLayout   drawerLayout;
 
     @Override
     protected void onCreate(Bundle b) {
@@ -58,35 +57,45 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
      *
      * @return id des DrawerLayouts, zB. R.id.drawer
      */
-    protected abstract @IdRes int getDrawerLayoutId();
+    protected abstract
+    @IdRes
+    int getDrawerLayoutId();
 
     /**
      * Soll die ID des NavigationViews zurückgeben.
      *
      * @return NavigationView-ID
      */
-    protected abstract @IdRes int getNavigationId();
+    protected abstract
+    @IdRes
+    int getNavigationId();
 
     /**
      * Soll die ID der Toolbar zurückgeben.
      *
      * @return Toolbar-ID
      */
-    protected abstract @IdRes int getToolbarId();
+    protected abstract
+    @IdRes
+    int getToolbarId();
 
     /**
      * Soll die String-Ressource des Titels der Toolbar zurückgeben.
      *
      * @return Text-ID, zb. R.string.title_main
      */
-    protected abstract @StringRes int getToolbarTextId();
+    protected abstract
+    @StringRes
+    int getToolbarTextId();
 
     /**
      * Soll die ID des gehighlighteten Items in der Navigation zurückgeben. In der Regel also die des aktuellen Features.
      *
      * @return Menü-ID, zB. R.id.startseite
      */
-    protected abstract @IdRes int getNavigationHighlightId();
+    protected abstract
+    @IdRes
+    int getNavigationHighlightId();
 
     /**
      * Liefert das NavigationView Objekt der aktuellen Activity. Erlaubt Zugriff von Subklassen auf den NavigationDrawer.
@@ -131,7 +140,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
 
-                if(menuItem.getItemId() == getNavigationHighlightId())
+                if (menuItem.getItemId() == getNavigationHighlightId())
                     return true;
 
                 Intent i;
@@ -203,5 +212,4 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
 }
