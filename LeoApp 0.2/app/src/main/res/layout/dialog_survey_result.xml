@@ -70,6 +70,8 @@
         android:layout_below="@+id/answer1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="60dp"
         android:layout_marginTop="5dp"
         android:visibility="gone"
         android:foregroundTint="@color/colorPrimary" />
@@ -217,6 +219,8 @@
         android:layout_below="@+id/answer5"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="60dp"
         android:layout_marginTop="5dp"
         android:visibility="gone"
         android:foregroundTint="@color/colorPrimary" />

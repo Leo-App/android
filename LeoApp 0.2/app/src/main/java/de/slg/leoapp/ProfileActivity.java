@@ -95,6 +95,7 @@ public class ProfileActivity extends ActionLogActivity {
                 public void onClick(View v) {
                     dialog =
                             new EditTextDialog(ProfileActivity.this,
+                                    getString(R.string.dialog_change_abbr),
                                     getString(R.string.settings_title_kuerzel),
                                     new View.OnClickListener() {
                                         @Override
@@ -113,6 +114,7 @@ public class ProfileActivity extends ActionLogActivity {
                     dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
                     dialog.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                    dialog.setTextInput(Utils.getLehrerKuerzel());
                 }
             });
         }
@@ -124,6 +126,7 @@ public class ProfileActivity extends ActionLogActivity {
             public void onClick(View v) {
                 dialog =
                         new EditTextDialog(ProfileActivity.this,
+                                getString(R.string.title_name_change),
                                 getString(R.string.settings_title_nickname),
                                 new View.OnClickListener() {
                                     @Override
@@ -142,6 +145,7 @@ public class ProfileActivity extends ActionLogActivity {
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
                 dialog.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                dialog.setTextInput(Utils.getUserName());
             }
         });
 

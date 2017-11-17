@@ -359,6 +359,8 @@
     <string name="intro4_title">Alles in einer App</string>
     <string name="intro5_title">Tipp!</string>
     <string name="share">Teilen</string>
+    <string name="title_name_change">Name ändern</string>
+    <string name="dialog_change_abbr">Lehrerkürzel ändern</string>
 
 
 </resources>

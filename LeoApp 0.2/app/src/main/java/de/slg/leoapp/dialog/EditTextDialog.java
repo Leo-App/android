@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import de.slg.leoapp.R;
 
@@ -22,6 +23,7 @@ public class EditTextDialog extends AlertDialog {
 
     private EditText editText;
     private String   hint;
+    private String   title;
 
     private View.OnClickListener action;
 
@@ -29,11 +31,13 @@ public class EditTextDialog extends AlertDialog {
      * Konstruktur. Initialisiert den EditText-Dialog mit einem OnClickListener für den OK Button und einem Hint für das Textfeld.
      *
      * @param context Kontextobjekt (Aktive Activity)
+     * @param title   Titel für Textfeld
      * @param hint    Hint für Textfeld
      * @param action  OnClickListener für den OK-Button
      */
-    public EditTextDialog(@NonNull Context context, @NonNull String hint, @NonNull View.OnClickListener action) {
+    public EditTextDialog(@NonNull Context context, @NonNull String title, @NonNull String hint, @NonNull View.OnClickListener action) {
         super(context);
+        this.title = title;
         this.hint = hint;
         this.action = action;
     }
@@ -45,6 +49,8 @@ public class EditTextDialog extends AlertDialog {
 
         editText = (EditText) findViewById(R.id.editText);
         editText.setHint(hint);
+
+        ((TextView) findViewById(R.id.titel)).setText(title);
 
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +72,15 @@ public class EditTextDialog extends AlertDialog {
     }
 
     /**
+     * Setzt den Inhalt des Textfeldes auf einen übergebenen Input.
+     *
+     * @param input Neuer Text
+     */
+    public void setTextInput(String input) {
+        editText.setText(input);
+    }
+
+    /**
      * Setzt den InputType des EditText-Feldes auf einen per Parameter übergebenen Wert.
      *
      * @param type Neuer InputType
@@ -73,4 +88,5 @@ public class EditTextDialog extends AlertDialog {
     public void setInputType(int type) {
         editText.setInputType(type);
     }
+
 }
