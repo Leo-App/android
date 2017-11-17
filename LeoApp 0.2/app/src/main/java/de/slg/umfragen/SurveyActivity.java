@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,11 +69,12 @@ public class SurveyActivity extends ActionLogActivity {
     private static SQLiteConnectorNews  sqLiteConnector;
     private static SQLiteDatabase       sqLiteDatabase;
     private        DrawerLayout         drawerLayout;
+    private        ExpandableListView   expandableListView;
     private        List<Integer>        groupList;
     private        Map<Integer, Survey> entriesMap;
 
     @Override
-    public void onCreate(Bundle b) {
+    public void onCreate(final Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_umfragen);
 
@@ -89,6 +92,20 @@ public class SurveyActivity extends ActionLogActivity {
         initButton();
         initExpandableListView();
         initSwipeToRefresh();
+
+        if(getIntent().getExtras() != null) {
+            int i = 0;
+            for(Map.Entry<Integer, Survey> entry : entriesMap.entrySet()) {
+                if(entry.getValue().remoteId == Utils.getUserID()) {
+                    expandableListView.expandGroup(i);
+                    break;
+                }
+                i++;
+            }
+
+        }
+
+
     }
 
     @Override
@@ -167,7 +184,7 @@ public class SurveyActivity extends ActionLogActivity {
     private void initExpandableListView() {
         createGroupList();
 
-        ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.eintraege);
+        expandableListView = (ExpandableListView) findViewById(R.id.eintraege);
 
         ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(entriesMap, groupList);
         expandableListView.setAdapter(expandableListAdapter);

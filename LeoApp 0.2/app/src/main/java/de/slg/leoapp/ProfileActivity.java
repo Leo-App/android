@@ -1,6 +1,8 @@
 package de.slg.leoapp;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import de.slg.essensqr.EssensQRActivity;
 import de.slg.leoapp.dialog.EditTextDialog;
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.task.UpdateTaskName;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
@@ -28,8 +30,8 @@ import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.Fach;
 import de.slg.stundenplan.StundenplanActivity;
+import de.slg.umfragen.SurveyActivity;
 
 /**
  * ProfileActivity.
@@ -80,16 +82,15 @@ public class ProfileActivity extends ActionLogActivity {
         TextView nameProfil        = (TextView) findViewById(R.id.nameProfil);
         TextView defaultNameProfil = (TextView) findViewById(R.id.defaultName);
         TextView stufeProfil       = (TextView) findViewById(R.id.stufeProfil);
+        TextView survey            = (TextView) findViewById(R.id.surveyActual);
 
         nameProfil.setText(Utils.getUserName());
         defaultNameProfil.setText(Utils.getUserDefaultName());
         stufeProfil.setText(Utils.getUserStufe());
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
-            TextView stufeTitel = (TextView) findViewById(R.id.textView12);
-            stufeTitel.setText("Kürzel");
-            stufeProfil.setText(Utils.getLehrerKuerzel());
-            findViewById(R.id.editKuerzel).setVisibility(View.VISIBLE);
-            findViewById(R.id.editKuerzel).setOnClickListener(new View.OnClickListener() {
+            stufeProfil.setText("-");
+            findViewById(R.id.card_viewTEA).setVisibility(View.VISIBLE);
+            findViewById(R.id.editTEA).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dialog =
@@ -111,36 +112,14 @@ public class ProfileActivity extends ActionLogActivity {
                     dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                     dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-                    dialog.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+                    dialog.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
                 }
             });
         }
 
-        if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
-            if (Utils.getUserStufe().equals("Q1") || Utils.getUserStufe().equals("Q2")) {
-                TextView lk1 = (TextView) findViewById(R.id.lk1);
-                TextView lk2 = (TextView) findViewById(R.id.lk2);
+        setProfilePicture();
 
-                String[] lks = getLKs();
-                String   l1  = lks[0];
-                String   l2  = "";
-                for (int i = 1; i < lks.length; i++) {
-                    if (!lks[i].equals(l1)) {
-                        l2 = lks[i];
-                        Log.e("LK2", lks[i]);
-                        break;
-                    }
-                }
-                lk1.setText(l1.split(" ")[0]);
-                lk2.setText(l2.split(" ")[0]);
-            } else {
-                findViewById(R.id.cardViewLK).setVisibility(View.GONE);
-            }
-        }
-
-        setzeProfilBild();
-
-        findViewById(R.id.editName).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.editProfil).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog =
@@ -161,61 +140,46 @@ public class ProfileActivity extends ActionLogActivity {
                 dialog.show();
                 dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+                dialog.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
             }
         });
-    }
 
-    //TODO: Ineffizient AS FUCK
-    private String[] getLKs() {
-        String[] lks = new String[10];
-        int      g   = 0;
-
-        Fach[][] lessons = new Fach[5][];
-        for (int i = 0; i < lessons.length; i++) {
-            lessons[i] = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(i + 1);
-        }
-
-        for (Fach[] f : lessons) {
-            for (Fach aF : f) {
-                if (aF.getName().contains("LK")) {
-                    lks[g] = aF.getName();
-                    g++;
-                }
+        survey.setText(getCurrentSurvey());
+        findViewById(R.id.toSurvey).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, SurveyActivity.class);
+                intent.putExtra("redirect", true);
+                startActivity(intent);
             }
-        }
-        return lks;
+        });
+
     }
 
-    private void setzeProfilBild() {
-        final ImageView profilePic     = (ImageView) findViewById(R.id.profPic);
-        final TextView  stimmungProfil = (TextView) findViewById(R.id.stimmungProfil);
+    private void setProfilePicture() {
+        final ImageView profilePic     = (ImageView) findViewById(R.id.profilePic);
         final int       res            = de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource();
 
         profilePic.setImageResource(res);
         switch (res) {
             case R.drawable.ic_sentiment_very_satisfied_white_24px:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorVerySatisfied), PorterDuff.Mode.MULTIPLY);
-                stimmungProfil.setText(R.string.sg);
                 break;
             case R.drawable.ic_sentiment_satisfied_white_24px:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorSatisfied), PorterDuff.Mode.MULTIPLY);
-                stimmungProfil.setText(R.string.g);
                 break;
             case R.drawable.ic_sentiment_neutral_white_24px:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorNeutral), PorterDuff.Mode.MULTIPLY);
-                stimmungProfil.setText(R.string.m);
                 break;
             case R.drawable.ic_sentiment_dissatisfied_white_24px:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorDissatisfied), PorterDuff.Mode.MULTIPLY);
-                stimmungProfil.setText(R.string.s);
                 break;
             case R.drawable.ic_sentiment_very_dissatisfied_white_24px:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorBadMood), PorterDuff.Mode.MULTIPLY);
-                stimmungProfil.setText(R.string.ss);
                 break;
             case R.drawable.ic_account_circle_black_24dp:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
-                stimmungProfil.setText("-");
                 break;
         }
     }
@@ -228,6 +192,23 @@ public class ProfileActivity extends ActionLogActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    private String getCurrentSurvey() {
+        SQLiteConnectorNews dbh = new SQLiteConnectorNews(getApplicationContext());
+        SQLiteDatabase      db  = dbh.getReadableDatabase();
+
+        Cursor c = db.query(SQLiteConnectorNews.TABLE_SURVEYS, new String[]{SQLiteConnectorNews.SURVEYS_TITEL}, SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
+
+        c.moveToFirst();
+        String returnS = c.getCount() == 0 ? "-" : c.getString(0);
+
+
+        c.close();
+        db.close();
+        dbh.close();
+
+        return returnS;
     }
 
     public void initNavigationView() {
@@ -299,4 +280,5 @@ public class ProfileActivity extends ActionLogActivity {
     public View getCoordinatorLayout() {
         return findViewById(R.id.coordinator);
     }
+
 }
