@@ -357,10 +357,11 @@ public class SurveyActivity extends ActionLogActivity {
                     }
                 });
 
-                if (!getSurvey(groupPosition).voted) {
+                if (!getSurvey(groupPosition).voted && !getSurvey(groupPosition).multiple) {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
                             for (TextView textView : checkboxes.get(groupPosition)) {
                                 CompoundButton rb = (CompoundButton) textView;
                                 if (rb.isChecked())
