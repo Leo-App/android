@@ -16,8 +16,7 @@ Wenn geplante Änderungen nicht minimal sind, bitte im development-Branch arbeit
 #### FTP Development-Server
 Server: w011e117.kasserver.com<br/>
 FTP-Benutzer: f00cb34f<br/>
-<b>Webftp</b><br/>
-http://webftp.all-inkl.com<br/>
+Webftp: http://webftp.all-inkl.com<br/>
 <br/>
 
 #### Development-Datenbank
