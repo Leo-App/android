@@ -274,7 +274,7 @@ public class SurveyActivity extends ActionLogActivity {
         private final Map<Integer, Survey> umfragen;
         private final List<Integer>        ids;
 
-        private LinkedHashMap<Integer, List<TextView>> checkboxes;
+        private LinkedHashMap<Integer, List<CompoundButton>> checkboxes;
 
         ExpandableListAdapter(Map<Integer, Survey> umfragen, List<Integer> ids) {
             this.umfragen = umfragen;
@@ -311,7 +311,6 @@ public class SurveyActivity extends ActionLogActivity {
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         final Survey toBeDeleted = getSurvey(groupPosition);
 
                         umfragen.remove(ids.get(groupPosition));
@@ -357,12 +356,11 @@ public class SurveyActivity extends ActionLogActivity {
                     }
                 });
 
-                if (!getSurvey(groupPosition).voted && !getSurvey(groupPosition).multiple) {
+                if (!getSurvey(groupPosition).voted) {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
-                            for (TextView textView : checkboxes.get(groupPosition)) {
+                            for (TextView textView : checkboxes.get(getSurvey(groupPosition).remoteId)) {
                                 CompoundButton rb = (CompoundButton) textView;
                                 if (rb.isChecked())
                                     new SendVoteTask(button).execute((Integer) rb.getTag(), getSurvey(groupPosition).remoteId);
@@ -389,18 +387,19 @@ public class SurveyActivity extends ActionLogActivity {
                         R.layout.list_item_expandable_child_survey_multiple :
                         R.layout.list_item_expandable_child_survey_single, null);
 
-                String         option = getSurvey(groupPosition).answers[childPosition - 2];
-                final TextView t      = (TextView) convertView.findViewById(R.id.checkBox);
+                String option = getSurvey(groupPosition).answers[childPosition - 2];
+
+                final CompoundButton t = (CompoundButton) convertView.findViewById(R.id.checkBox);
 
                 t.setText(option.split("_;_")[0]);
                 t.setTag(Integer.parseInt(option.split("_;_")[1]));
-                ((CompoundButton) t).setChecked(option.split("_;_")[2].equals("1"));
+                t.setChecked(option.split("_;_")[2].equals("1"));
                 t.setEnabled(!getSurvey(groupPosition).voted);
                 t.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (!getSurvey(groupPosition).voted) {
-                            for (TextView textView : checkboxes.get(groupPosition)) {
+                        if (!getSurvey(groupPosition).voted && !getSurvey(groupPosition).multiple) {
+                            for (TextView textView : checkboxes.get(getSurvey(groupPosition).remoteId)) {
                                 RadioButton rb = (RadioButton) textView;
                                 if (!rb.equals(t))
                                     rb.setChecked(false);
@@ -409,10 +408,10 @@ public class SurveyActivity extends ActionLogActivity {
                     }
                 });
 
-                List<TextView> checkboxList;
+                List<CompoundButton> checkboxList;
 
-                if ((checkboxList = checkboxes.get(groupPosition)) == null)
-                    checkboxes.put(groupPosition, (checkboxList = new ArrayList<>()));
+                if ((checkboxList = checkboxes.get(getSurvey(groupPosition).remoteId)) == null)
+                    checkboxes.put(getSurvey(groupPosition).remoteId, (checkboxList = new ArrayList<>()));
 
                 checkboxList.add(t);
             }
@@ -490,7 +489,9 @@ public class SurveyActivity extends ActionLogActivity {
                 SQLiteConnectorNews db  = new SQLiteConnectorNews(getApplicationContext());
                 SQLiteDatabase      dbh = db.getWritableDatabase();
 
-                dbh.execSQL("UPDATE " + SQLiteConnectorNews.TABLE_ANSWERS + " SET " + SQLiteConnectorNews.ANSWERS_SELECTED + " = 1 WHERE " + SQLiteConnectorNews.ANSWERS_REMOTE_ID + " = " + id);
+                dbh.execSQL("UPDATE " + SQLiteConnectorNews.TABLE_ANSWERS
+                        + " SET "     + SQLiteConnectorNews.ANSWERS_SELECTED + " = 1"
+                        + " WHERE "   + SQLiteConnectorNews.ANSWERS_REMOTE_ID + " = " + id);
 
                 dbh.close();
 
@@ -549,9 +550,11 @@ public class SurveyActivity extends ActionLogActivity {
                             }
                         });
                         Toast.makeText(Utils.getContext(), "Erfolgreich abgestimmt", Toast.LENGTH_SHORT).show();
-                        //                        umfragen.get(remoteid).voted = true;
-                        //                        notifyDataSetChanged(); TODO für Gianni :D
-                        //                        nach erflogreichem abstimmen nicht mehr auswählbar
+
+                        for (CompoundButton c : checkboxes.get(remoteid)) {
+                            c.setEnabled(false);
+                        }
+
                         break;
                 }
             }
