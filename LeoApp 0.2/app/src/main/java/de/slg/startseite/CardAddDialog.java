@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.utility.Utils;
 
 /**
  * CardAddDialog.
@@ -24,11 +25,13 @@ class CardAddDialog extends AlertDialog {
 
     private final MainActivity  mainActivity;
     private       ImageButton[] buttons;
-    private       CardType      type;
+    private       View[]        backgrounds;
+    private       int           checkedItems;
 
     CardAddDialog(@NonNull MainActivity mainActivity) {
         super(mainActivity);
         this.mainActivity = mainActivity;
+        checkedItems = 0;
     }
 
     @Override
@@ -39,34 +42,55 @@ class CardAddDialog extends AlertDialog {
                 (ImageButton) findViewById(R.id.imageButton1),
                 (ImageButton) findViewById(R.id.imageButton2),
                 (ImageButton) findViewById(R.id.imageButton3),
+                (ImageButton) findViewById(R.id.imageButton4),
                 (ImageButton) findViewById(R.id.imageButton5),
                 (ImageButton) findViewById(R.id.imageButton6),
                 (ImageButton) findViewById(R.id.imageButton7),
-                (ImageButton) findViewById(R.id.imageButton8),
-                (ImageButton) findViewById(R.id.imageButton9)
+                (ImageButton) findViewById(R.id.imageButton8)
         };
+
+        backgrounds = new View[]{
+                findViewById(R.id.highlight1),
+                findViewById(R.id.highlight2),
+                findViewById(R.id.highlight3),
+                findViewById(R.id.highlight4),
+                findViewById(R.id.highlight5),
+                findViewById(R.id.highlight6),
+                findViewById(R.id.highlight7),
+                findViewById(R.id.highlight8)
+        };
+
         initOptions();
         initSendButton();
     }
 
     private void initOptions() {
-        for (ImageButton b : buttons) {
-            final ImageButton copy = b;
+        for (int i = 0; i < buttons.length; i++) {
+            final ImageButton b  = buttons[i];
+            final View vb = backgrounds[i];
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    greyOut();
-                    copy.setColorFilter(ContextCompat.getColor(mainActivity, R.color.colorPrimary));
-                    findViewById(R.id.buttonDialog2).setEnabled(true);
-                    type = CardType.valueOf(String.valueOf(copy.getTag()));
+
+                    if(vb.getTag() != null) {
+                        checkedItems--;
+                        b.setColorFilter(ContextCompat.getColor(mainActivity, R.color.colorPrimary));
+                        vb.setVisibility(View.INVISIBLE);
+                        vb.setTag(null);
+                    } else {
+                        checkedItems++;
+                        b.setColorFilter(ContextCompat.getColor(mainActivity, android.R.color.white));
+                        vb.setVisibility(View.VISIBLE);
+                        vb.setTag(true);
+                    }
+
+                    if(checkedItems > 0)
+                        findViewById(R.id.buttonDialog2).setEnabled(true);
+                    else
+                        findViewById(R.id.buttonDialog2).setEnabled(false);
+
                 }
             });
-        }
-    }
-
-    private void greyOut() {
-        for (ImageButton b : buttons) {
-            b.setColorFilter(Color.GRAY);
         }
     }
 
@@ -80,7 +104,15 @@ class CardAddDialog extends AlertDialog {
         findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.addCard(type);
+                for (int i = 0; i < buttons.length; i++) {
+
+                    ImageButton b = buttons[i];
+                    View vb = backgrounds[i];
+
+                    if(vb.getTag() != null)
+                        mainActivity.addCard(CardType.valueOf(b.getTag().toString()));
+
+                }
                 dismiss();
             }
         });

@@ -60,7 +60,7 @@
     <string name="button_card_dismiss">Ausblenden</string>
     <string name="add_card">Karte hinzufügen</string>
     <string name="button_add">Hinzufügen</string>
-    <string name="selector_card">Karte hinzufügen</string>
+    <string name="selector_card">Karte(n) hinzufügen</string>
 
     <string name="button_info_try">Ausprobieren</string>
 
