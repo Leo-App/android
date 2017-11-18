@@ -32,7 +32,7 @@
 			$adressat = "Sek I";
 		} else if($adressat == "sek2") {
 			$adressat = "Sek II";
-		} else if($adArray == "all") {
+		} else if($adArray == "Alle") {
 			$adressat = "Alle";
 		}
 
@@ -41,16 +41,34 @@
 		$inhalt = $db->real_escape_string($_POST['content']);
 		$ablaufdatum = $db->real_escape_string($_POST['date']);
 
+		$titel = str_replace("_ae_", "ä", $titel);
+		$titel = str_replace("_oe_", "ö", $titel);
+		$titel = str_replace("_ue_", "ü", $titel);
+
+		$titel = str_replace("_Ae_", "Ä", $titel);
+		$titel = str_replace("_Oe_", "Ö", $titel);
+		$titel = str_replace("_Ue_", "Ü", $titel);
+
+		$inhalt = str_replace("_ae_", "ä", $inhalt);
+		$inhalt = str_replace("_oe_", "ö", $inhalt);
+		$inhalt = str_replace("_ue_", "ü", $inhalt);
+
+		$inhalt = str_replace("_Ae_", "Ä", $inhalt);
+		$inhalt = str_replace("_Oe_", "Ö", $inhalt);
+		$inhalt = str_replace("_Ue_", "Ü", $inhalt);
+
 		if($titel==""||$inhalt==""||$ablaufdatum=="")
 			die("-ERR m");
 
-		$query = "INSERT INTO Eintr�ge VALUES ('null', 'null', '".$adressat."', '".utf8_encode($titel)."', '".utf8_encode($inhalt)."', '".utf8_encode($url)."' , '".$heute."', '".$ablaufdatum."')";
+		$query = "INSERT INTO Einträge VALUES ('null', 'null', '".$adressat."', '".$titel."', '".$inhalt."', '".$url."' , '".$heute."', '".$ablaufdatum."')";
+
+
 		$result = $db->query($query);
 		if ($result === false) {
 			echo $db->error;
 			die("-ERR db");
 		}
-		
+
 		echo "+OK";
 	}
 

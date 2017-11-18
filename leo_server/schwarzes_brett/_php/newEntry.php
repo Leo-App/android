@@ -11,7 +11,6 @@
 
 	$url = 'null';
 
-
 	if($adressat == "")
 		die("-ERR m");
 

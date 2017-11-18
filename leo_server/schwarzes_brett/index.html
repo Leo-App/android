@@ -24,7 +24,7 @@
         <legend><span class="number">3</span>ADDRESSAT<span class="required">*</span></legend>
         <select id="to" class="select input" multiple>
           <optgroup label="Allgemein">
-            <option id="all" value="all">Alle</option>
+            <option id="all" value="Alle">Alle</option>
             <option id="sek1" value="sek1">Sek1</option>
             <option value="sek2">Sek2</option>
           </optgroup>
@@ -109,13 +109,26 @@
         var filename = "";
       }
 
+		  var title = $('#title').val().split('ä').join("_ae_");
+      title = title.split('ö').join("_oe_");
+      title = title.split('ü').join("_ue_");
+      title = title.split('Ä').join("_Ae_");
+      title = title.split('Ü').join("_Ue_");
+      title = title.split('Ö').join("_Oe_");
+
+      var content = $('#content').val().split('ä').join("_ae_");
+      content = content.split('ö').join("_oe_");
+      content = content.split('ü').join("_ue_");
+      content = content.split('Ä').join("_Ae_");
+      content = content.split('Ü').join("_Ue_");
+      content = content.split('Ö').join("_Oe_");
+
       $.ajax({
         url: '_php/ajax.php',
         type: 'POST',
-        encoding: "UTF-8",
         data: {
-          title: $('#title').val(),
-          content: $('#content').val(),
+          title: title,
+          content: content,
           to: $('#to').val(),
           date: $('#date').val(),
           addon: addon,
