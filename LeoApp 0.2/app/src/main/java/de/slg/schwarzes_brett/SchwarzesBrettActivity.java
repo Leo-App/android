@@ -77,26 +77,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
 
     private String rawLocation;
 
-    private static int getRemoteId(int position) {
-        //Maybe cache already transformed ids to avoid excessive RAM usage
-        if (sqLiteConnector == null)
-            sqLiteConnector = new SQLiteConnectorNews(Utils.getContext());
-        if (sqLiteDatabase == null)
-            sqLiteDatabase = sqLiteConnector.getReadableDatabase();
-        String stufe = Utils.getUserStufe();
-        Cursor cursor = sqLiteDatabase.rawQuery(
-                "SELECT " + SQLiteConnectorNews.EINTRAEGE_REMOTE_ID +
-                        " FROM " + SQLiteConnectorNews.TABLE_EINTRAEGE + (!stufe.equals("") ?
-                        " WHERE " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = '" + stufe + "'" :
-                        ""), null);
-        cursor.moveToPosition(position);
-        if (cursor.getCount() <= position)
-            return -1;
-        int ret = cursor.getInt(0);
-        cursor.close();
-        return ret;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +102,7 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     protected void onResume() {
         super.onResume();
         Utils.getNotificationManager().cancel(NotificationService.ID_NEWS);
+        receive();
     }
 
     @Override
@@ -134,8 +115,14 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        receive();
+    }
+
+    @Override
     protected String getActivityTag() {
-        return "SchwarzesBrettActivy";
+        return "SchwarzesBrettActivity";
     }
 
     @Override
@@ -145,6 +132,20 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             new FileDownloadTask().execute(rawLocation);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem mi) {
+        if (mi.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+        return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.getController().registerSchwarzesBrettActivity(null);
     }
 
     private void initSwipeToRefresh() {
@@ -230,6 +231,20 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
+    private void initButton() {
+        View button = findViewById(R.id.floatingActionButton);
+
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER || Utils.getUserPermission() == User.PERMISSION_ADMIN) {
+            button.setVisibility(View.VISIBLE);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new NewEntryDialog(SchwarzesBrettActivity.this).show();
+                }
+            });
+        }
+    }
+
     private void initExpandableListView() {
         createGroupList();
 
@@ -244,7 +259,8 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 int remoteID = getRemoteId(groupPosition);
-                if (!Utils.isVerified() || Utils.getUserPermission() == User.PERMISSION_LEHRER || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
+                Utils.logError(remoteID);
+                if (Utils.getUserPermission() == User.PERMISSION_LEHRER || de.slg.schwarzes_brett.Utils.messageAlreadySeen(remoteID))
                     return false;
                 String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
                 if (!cache.equals(""))
@@ -266,18 +282,36 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         }
     }
 
-    private void initButton() {
-        View button = findViewById(R.id.floatingActionButton);
+    private static int getRemoteId(int position) {
+        //Maybe cache already transformed ids to avoid excessive RAM usage
+        if (sqLiteConnector == null)
+            sqLiteConnector = new SQLiteConnectorNews(Utils.getContext());
+        if (sqLiteDatabase == null)
+            sqLiteDatabase = sqLiteConnector.getReadableDatabase();
+        String stufe = Utils.getUserStufe();
 
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER || Utils.getUserPermission() == User.PERMISSION_ADMIN) {
-            button.setVisibility(View.VISIBLE);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new NewEntryDialog(SchwarzesBrettActivity.this).show();
-                }
-            });
+        Cursor cursor;
+
+        switch (stufe) {
+            case "":
+            case "TEA":
+                return -1;
+            case "EF":
+            case "Q1":
+            case "Q2":
+                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_EINTRAEGE, new String[]{SQLiteConnectorNews.EINTRAEGE_REMOTE_ID}, SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                break;
+            default:
+                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_EINTRAEGE, new String[]{SQLiteConnectorNews.EINTRAEGE_REMOTE_ID, SQLiteConnectorNews.EINTRAEGE_TITEL, SQLiteConnectorNews.EINTRAEGE_INHALT, SQLiteConnectorNews.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorNews.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorNews.EINTRAEGE_ANHANG}, SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                break;
         }
+
+        cursor.moveToPosition(position);
+        if (cursor.getCount() <= position)
+            return -1;
+        int ret = cursor.getInt(0);
+        cursor.close();
+        return ret;
     }
 
     private ArrayList<Integer> createViewList() {
@@ -348,26 +382,12 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         Collections.addAll(childList, children);
     }
 
-    public void refreshUI() {
-        initExpandableListView();
-    }
-
     private void receive() {
         new SyncNewsTask(null).execute();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
-        return true;
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        Utils.getController().registerSchwarzesBrettActivity(null);
+    public void refreshUI() {
+        initExpandableListView();
     }
 
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
