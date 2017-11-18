@@ -259,7 +259,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
         Card    c     = cards.getContent();
         boolean quick = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
         if (MainActivity.editing) {
-            holder.wrapper.setCardElevation(20);
+            holder.wrapper.setCardElevation(15);
             holder.button.setTooltipEnabled(false);
         } else {
             holder.wrapper.setCardElevation(5);

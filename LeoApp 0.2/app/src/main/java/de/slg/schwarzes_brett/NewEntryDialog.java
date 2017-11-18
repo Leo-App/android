@@ -118,13 +118,13 @@ class NewEntryDialog extends AlertDialog {
                 final String     OLD_FORMAT = "dd-MM-yyyy";
                 final String     NEW_FORMAT = "yyyy-MM-dd";
                 String           newDate;
-                SimpleDateFormat sdf        = new SimpleDateFormat(OLD_FORMAT);
+                SimpleDateFormat sdf        = new SimpleDateFormat(OLD_FORMAT, Locale.GERMANY);
                 String           dateString = date.getText().toString();
                 Date             d          = null;
                 try {
                     d = sdf.parse(dateString);
                 } catch (ParseException e) {
-
+                    e.printStackTrace();
                 }
                 sdf.applyPattern(NEW_FORMAT);
                 newDate = sdf.format(d);
@@ -193,8 +193,8 @@ class NewEntryDialog extends AlertDialog {
                     params[i] = params[i].replace("Ö", "_Oe_");
                     params[i] = params[i].replace("Ü", "_Ue_");
                 }
-                URL updateURL = new URL((Utils.BASE_URL_PHP + "schwarzes_brett/_php/newEntry.php?to=" + params[3] + "&title=" + params[0] + "&content=" + params[1] + "&date=" + params[2]).replace(" ", "%20"));
-                Log.e("TAG", updateURL.toString());
+                URL updateURL = new URL((Utils.DOMAIN_DEV + "schwarzes_brett/_php/newEntry.php?to=" + params[3] + "&title=" + params[0] + "&content=" + params[1] + "&date=" + params[2]).replace(" ", "%20"));
+                Utils.logError(updateURL);
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(

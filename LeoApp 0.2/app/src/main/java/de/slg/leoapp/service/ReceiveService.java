@@ -203,7 +203,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
 
         private void getEntries() {
             try {
-                URLConnection connection = new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
+                URLConnection connection = new URL(Utils.DOMAIN_DEV + "schwarzesBrett/meldungen.php")
                         .openConnection();
 
                 BufferedReader reader =

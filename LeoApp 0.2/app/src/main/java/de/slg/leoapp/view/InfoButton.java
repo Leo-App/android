@@ -54,6 +54,9 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
         b.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if(!isTooltipEnabled())
+                    return true;
+
                 BottomSheetDialog dialog = new BottomSheetDialog();
                 dialog.setTitle(Utils.getString(residTitle)).setContent(Utils.getString(residContent)).show(Utils.getController().getActiveActivity().getSupportFragmentManager(), dialog.getTag());
                 return false;
@@ -71,6 +74,9 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
         b.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if(!isTooltipEnabled())
+                    return true;
+
                 BottomSheetDialog dialog = new BottomSheetDialog();
                 dialog.setTitle(text).setContent(content).show(Utils.getController().getActiveActivity().getSupportFragmentManager(), dialog.getTag());
                 return false;
