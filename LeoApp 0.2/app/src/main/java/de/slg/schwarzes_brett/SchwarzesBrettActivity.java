@@ -54,6 +54,16 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 import de.slg.umfragen.SurveyActivity;
 
+/**
+ * SchwarzesBrettActivity.
+ * <p>
+ * Anzeige des digitalen Schwarzen-Bretts, hier wird eine ausklappbare Liste mit allen Neuigkeiten, die entweder per Webinterface oder per App hinzugefügt wurden, angezeigt.
+ * Einzelne Einträge lassen sich für mehr Informationen aufklappen. Mit einem ausreichenden Permissionlevel wird ein FAB mit der Option, neue Einträge zu verfassen, angezeigt.
+ *
+ * @author Gianni, Kim, Moritz.
+ * @version 2017.1811
+ * @since 0.0.1
+ */
 public class SchwarzesBrettActivity extends ActionLogActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 

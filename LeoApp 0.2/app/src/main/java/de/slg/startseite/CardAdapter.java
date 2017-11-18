@@ -30,6 +30,15 @@ import de.slg.stundenplan.StundenplanActivity;
 import de.slg.umfragen.SurveyActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
+/**
+ * CardAdapter
+ * <p>
+ * Adapter für den RecyclerView der Startseiten-Navigation.
+ *
+ * @auhor Gianni
+ * @version 2017.1811
+ * @since 0.0.1
+ */
 class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> implements RecyclerViewItemListener {
 
     /**
@@ -54,7 +63,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
     /**
      * Fügt eine Card mit dem Typ type zu {@link #cards} hinzu und setzt verschiedene Parameter.
      *
-     * @param type
+     * @param type Feature, zu dem die Card führen soll. (Siehe {@link CardType})
      */
     void addToList(CardType type) {
         Card c;

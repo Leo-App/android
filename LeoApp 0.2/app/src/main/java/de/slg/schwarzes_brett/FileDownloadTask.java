@@ -10,6 +10,15 @@ import android.os.Environment;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 
+/**
+ * FileDownloadTask.
+ * <p>
+ * Lädt eine Datei vom Server herunter. Der Pfad zur Datei wird als Parameter übergeben.
+ *
+ * @author Gianni
+ * @since 0.5.0
+ * @version 2017.1811
+ */
 class FileDownloadTask extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {

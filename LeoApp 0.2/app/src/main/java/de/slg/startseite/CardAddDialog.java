@@ -28,6 +28,11 @@ class CardAddDialog extends AlertDialog {
     private       View[]        backgrounds;
     private       int           checkedItems;
 
+    /**
+     * Konstruktor.
+     *
+     * @param mainActivity MainActivity-Objekt.
+     */
     CardAddDialog(@NonNull MainActivity mainActivity) {
         super(mainActivity);
         this.mainActivity = mainActivity;

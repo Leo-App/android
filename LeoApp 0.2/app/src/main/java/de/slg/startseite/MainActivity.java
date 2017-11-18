@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import de.slg.leoapp.IntroActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.dialog.EditTextDialog;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.utility.User;
@@ -61,6 +63,8 @@ public class MainActivity extends ActionLogActivity {
     private       NavigationView navigationView;
     private       DrawerLayout   drawerLayout;
     private       CardAdapter    mAdapter;
+
+    private       EditTextDialog featureRequestDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,10 +170,20 @@ public class MainActivity extends ActionLogActivity {
                 break;
 
             case R.id.action_request:
-                FeatureDialog dialog = new FeatureDialog(MainActivity.this);
-                dialog.show();
-                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                featureRequestDialog = new EditTextDialog(this,
+                            getString(R.string.feature_request_title),
+                            getString(R.string.feature_request),
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String emailText = ((EditText) findViewById(R.id.feature_request_desc)).getText().toString();
+                                    new MailSendTask().execute(emailText);
+                                    featureRequestDialog.dismiss();
+                                    Toast.makeText(Utils.getContext(), Utils.getString(R.string.thank_you_feature), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                featureRequestDialog.show();
                 break;
 
             case R.id.action_settings:

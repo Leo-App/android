@@ -176,7 +176,7 @@ class NewEntryDialog extends AlertDialog {
      * <p>
      * Sendet neue Nachricht an Remote-Datenbank
      *
-     * @version 2017.2410
+     * @version 2017.2711
      * @since 0.5.6
      */
     private class sendEntryTask extends AsyncTask<String, Void, Boolean> {

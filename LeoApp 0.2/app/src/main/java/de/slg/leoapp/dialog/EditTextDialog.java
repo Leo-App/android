@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -58,8 +59,9 @@ public class EditTextDialog extends AlertDialog {
                 dismiss();
             }
         });
-
         findViewById(R.id.ok).setOnClickListener(action);
+
+        initWindowParams();
     }
 
     /**
@@ -87,6 +89,11 @@ public class EditTextDialog extends AlertDialog {
      */
     public void setInputType(int type) {
         editText.setInputType(type);
+    }
+
+    private void initWindowParams() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
 }

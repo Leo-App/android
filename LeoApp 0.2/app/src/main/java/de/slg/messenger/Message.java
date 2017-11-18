@@ -9,6 +9,15 @@ import java.util.Locale;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 
+/**
+ * Message.
+ * <p>
+ * Verwaltungsklasse für Messenger-Nachrichten.
+ *
+ * @author Moritz
+ * @version 2017.1811
+ * @since 0.5.0
+ */
 public class Message {
     public final  int     mid;
     public final  String  mtext;
@@ -21,9 +30,9 @@ public class Message {
     private final boolean sending;
 
     /**
-     * Für Nachrichten in der Warteschlange
+     * Konstruktor für Nachrichten in der Warteschlange. Setzt konstante Nachrichtendaten.
      *
-     * @param mid   relevant zum Löschen
+     * @param mid   ID der Nachricht, relevant zum Löschen
      * @param mtext Text der Nachricht
      * @param cid   ChatID
      */
@@ -40,7 +49,7 @@ public class Message {
     }
 
     /**
-     * Für neu gesendete Nachrichten
+     * Konstruktor für neu gesendete Nachrichten. Setzt den Nachrichtentext, Datum und die UserID des Absenders.
      *
      * @param mtext Text der Nachricht
      */
@@ -57,7 +66,7 @@ public class Message {
     }
 
     /**
-     * Standard Nachricht
+     * Konstruktor: Standard-Nachricht.
      *
      * @param mid   MessageID
      * @param mtext Text der Nachricht
@@ -78,7 +87,7 @@ public class Message {
     }
 
     /**
-     * Nachricht mit dem Namen des Absenders
+     * Konstruktor: Nachricht mit dem Namen des Absenders
      *
      * @param mid   MessageID
      * @param mtext Text der Nachricht
@@ -101,7 +110,7 @@ public class Message {
     }
 
     /**
-     * Für die Benachrichtigungen
+     * Konstruktor: Für die Benachrichtigungen
      *
      * @param mtext Text
      * @param cname Chatname
@@ -142,7 +151,7 @@ public class Message {
     }
 
     /**
-     * Liefert einen String, der abhängig vom aktuellen Datum das Datum der Nachricht repräsentiert
+     * Liefert einen String, der abhängig vom aktuellen Datum das Datum der Nachricht repräsentiert.
      *
      * @return Heute; Gestern, DD.MM, DD.MM.YY, Warteschlange
      */
