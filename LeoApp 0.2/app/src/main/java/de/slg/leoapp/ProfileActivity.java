@@ -149,7 +149,13 @@ public class ProfileActivity extends ActionLogActivity {
             }
         });
 
-        survey.setText(getCurrentSurvey());
+        String surveyTitle = getCurrentSurvey();
+        if(surveyTitle == null) {
+            findViewById(R.id.toSurvey).setVisibility(View.GONE);
+            surveyTitle = "-";
+        }
+
+        survey.setText(surveyTitle);
         findViewById(R.id.toSurvey).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,7 +211,7 @@ public class ProfileActivity extends ActionLogActivity {
         Cursor c = db.query(SQLiteConnectorNews.TABLE_SURVEYS, new String[]{SQLiteConnectorNews.SURVEYS_TITEL}, SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
 
         c.moveToFirst();
-        String returnS = c.getCount() == 0 ? "-" : c.getString(0);
+        String returnS = c.getCount() == 0 ? null : c.getString(0);
 
 
         c.close();
