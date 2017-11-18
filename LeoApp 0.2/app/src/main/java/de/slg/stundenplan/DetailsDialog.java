@@ -86,34 +86,4 @@ class DetailsDialog extends AlertDialog {
         }
     }
 
-
-
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.details, menu);
-        return super.onCreateOptionsMenu(menu);
-    }*/
-
-  /*  @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == R.id.action_det_speichern) {
-            String notiz = etNotiz.getText().toString();
-            if (!fach.getKuerzel().equals("FREI")) {
-                boolean b = cbSchrift.isChecked();
-                fach.setzeSchriftlich(b);
-                Utils.getStundenplanDatabase().setzeSchriftlich(b, fach.id);
-            }
-            fach.setzeNotiz(notiz);
-            Utils.getStundenplanDatabase().setzeNotiz(notiz, fach.id);
-        }
-        finish();
-        return true;
-    }*/
-
-/*    @Override
-    public void finish() {
-        super.finish();
-        if (fach.getNotiz().equals(""))
-            Utils.getStundenplanDatabase().deleteFreistunde(fach.getTag(), fach.getStunde());
-    }*/
 }
