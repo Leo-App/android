@@ -21,4 +21,4 @@ Webftp: http://webftp.all-inkl.com<br/>
 
 #### Development-Datenbank
 Datenbankname/nutzer: d02844bf<br/>
-Datenbank editieren: https://dd26132.kasserver.com/mysqladmin/kaslogin.php<br/>
+Datenbank editieren: https://dd33614.kasserver.com/mysqladmin/kaslogin.php<br/>
