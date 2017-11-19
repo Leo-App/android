@@ -406,7 +406,7 @@ public class KlausurplanActivity extends ActionLogActivity {
                 try {
                     List<Klausur> result = k.get();
                     for (result.toFirst(); result.hasAccess(); result.next())
-                        add(result.getContent(), false);//Klausuren werden aus der Ergebnisliste in die Klausurliste gefügt
+                        add(result.getContent(), false);
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }

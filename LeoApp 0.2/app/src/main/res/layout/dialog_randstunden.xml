@@ -12,8 +12,8 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
         android:text="@string/title_randstundenfinder"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textColor="@color/colorAccent" />
+        style="@style/TextAppearance.AppCompat.Title"
+         />
 
     <EditText
         android:id="@+id/text1"
