@@ -27,6 +27,7 @@ public class SQLiteConnectorNews extends SQLiteOpenHelper {
     public static final  String SURVEYS_BESCHREIBUNG   = "inhalt";
     public static final  String SURVEYS_ABSENDER       = "absender";
     public static final  String SURVEYS_REMOTE_ID      = "remoteid";
+    public static final  String SURVEYS_ERSTELLDATUM   = "erstelldatum";
     public static final  String SURVEYS_MULTIPLE       = "multiple";
 
     private static final String ANSWERS_ID             = "id";
@@ -38,7 +39,7 @@ public class SQLiteConnectorNews extends SQLiteOpenHelper {
     private static final String DATABASE_NAME          = "entries.db";
 
     public SQLiteConnectorNews(Context c) {
-        super(c, DATABASE_NAME, null, 4);
+        super(c, DATABASE_NAME, null, 5);
     }
 
     @Override
@@ -61,6 +62,7 @@ public class SQLiteConnectorNews extends SQLiteOpenHelper {
                 SURVEYS_ABSENDER + " TEXT NOT NULL, " +
                 SURVEYS_REMOTE_ID + " INTEGER NOT NULL, " +
                 SURVEYS_MULTIPLE + " TINYINT NOT NULL, " +
+                SURVEYS_ERSTELLDATUM + " TEXT NOT NULL, " +
                 SURVEYS_BESCHREIBUNG + " TEXT NOT NULL" +
                 ")");
         db.execSQL("CREATE TABLE " + TABLE_ANSWERS + " (" +
@@ -98,13 +100,14 @@ public class SQLiteConnectorNews extends SQLiteOpenHelper {
         return values;
     }
 
-    public ContentValues getSurveyContentValues(String titel, String adressat, String beschreibung, String absender, short multiple, int remoteId) {
+    public ContentValues getSurveyContentValues(String titel, String adressat, String beschreibung, String absender, short multiple, int remoteId, long erstelldatum) {
         ContentValues values = new ContentValues();
         values.put(SURVEYS_TITEL, titel);
         values.put(SURVEYS_ADRESSAT, adressat);
         values.put(SURVEYS_ABSENDER, absender);
         values.put(SURVEYS_BESCHREIBUNG, beschreibung);
         values.put(SURVEYS_MULTIPLE, multiple);
+        values.put(SURVEYS_ERSTELLDATUM, erstelldatum);
         values.put(SURVEYS_REMOTE_ID, remoteId);
         return values;
     }
@@ -118,7 +121,7 @@ public class SQLiteConnectorNews extends SQLiteOpenHelper {
         return values;
     }
 
-    public long getLatestDate(SQLiteDatabase db) {
+    public long getLatestEntryDate(SQLiteDatabase db) {
         Cursor cursor = db.query(TABLE_EINTRAEGE, new String[]{EINTRAEGE_ERSTELLDATUM}, null, null, null, null, EINTRAEGE_ERSTELLDATUM + " DESC");
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -130,5 +133,19 @@ public class SQLiteConnectorNews extends SQLiteOpenHelper {
             return 0;
         }
     }
+
+    public long getLatestSurveyDate(SQLiteDatabase db) {
+        Cursor cursor = db.query(TABLE_SURVEYS, new String[]{SURVEYS_ERSTELLDATUM}, null, null, null, null, SURVEYS_ERSTELLDATUM + " DESC");
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            long l = cursor.getLong(0);
+            cursor.close();
+            return l;
+        } else {
+            cursor.close();
+            return 0;
+        }
+    }
+
 }
 

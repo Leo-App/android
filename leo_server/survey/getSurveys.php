@@ -24,7 +24,7 @@
 		    if($res === false)
 		      die($db->error);
 
-		    echo $res->fetch_assoc()['uname']."_;_".$row['title']."_;_".$row['description']."_;_".$row['to']."_;_".$row['multiple']."_;_".$id;
+		    echo $res->fetch_assoc()['uname']."_;_".$row['title']."_;_".$row['description']."_;_".$row['to']."_;_".$row['multiple']."_;_".$id."_;_".UNIX_TIMESTAMP($row['createdate']);
 
 		    while ($ansArray = $answers->fetch_assoc()) {
 		        echo "_;_".$ansArray['id']."_;_".$ansArray['content'];

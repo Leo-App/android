@@ -274,17 +274,18 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
                     String[] res = s.split("_;_");
-                    if (res.length >= 6) {
+                    if (res.length >= 7) {
                         long id = dbh.insert(SQLiteConnectorNews.TABLE_SURVEYS, null, db.getSurveyContentValues(
                                 res[1],
                                 res[3],
                                 res[2],
                                 res[0],
                                 Short.parseShort(res[4]),
-                                Integer.parseInt(res[5])
+                                Integer.parseInt(res[5]),
+                                Long.parseLong(res[6]+ "000")
                         ));
 
-                        for (int i = 6; i < res.length - 1; i += 2) {
+                        for (int i = 7; i < res.length - 1; i += 2) {
                             dbh.insert(SQLiteConnectorNews.TABLE_ANSWERS, null, db.getAnswerContentValues(
                                     Integer.parseInt(res[i]),
                                     res[i + 1],

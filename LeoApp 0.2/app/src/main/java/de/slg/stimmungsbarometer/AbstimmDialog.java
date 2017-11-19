@@ -18,7 +18,6 @@ import de.slg.leoapp.utility.Utils;
 
 public class AbstimmDialog extends AlertDialog {
     private final String[] gruende           = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
-    private final int      userid            = Utils.getUserID();
     private       int      voteid            = 0;
     private       String   ausgewählterGrund = "";
     private View        confirm;
@@ -108,7 +107,7 @@ public class AbstimmDialog extends AlertDialog {
             @Override
             public void onClick(View view) {
                 if (confirm.isEnabled()) {
-                    new SendeDaten().execute(new Wahl(voteid, userid, ausgewählterGrund));
+                    new SendeDaten().execute(new Wahl(voteid, Utils.getUserID(), ausgewählterGrund));
                     de.slg.stimmungsbarometer.Utils.setLastVote(voteid);
                     dismiss();
                 }

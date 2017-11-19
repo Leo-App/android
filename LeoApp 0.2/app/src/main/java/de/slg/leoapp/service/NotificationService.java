@@ -22,11 +22,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import de.slg.essensqr.SQLiteHandler;
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.view.ActivityStatus;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
 import de.slg.startseite.MainActivity;
@@ -38,6 +40,7 @@ public class NotificationService extends Service {
     public static final int ID_KLAUSURPLAN = 777;
     public static final int ID_MESSENGER   = 5453;
     public static final int ID_NEWS        = 287;
+    public static final int ID_SURVEY      = 314;
     public static final int ID_BAROMETER   = 234;
     public static final int ID_STUNDENPLAN = 222;
     private static short hoursQR, minutesQR;
@@ -126,7 +129,7 @@ public class NotificationService extends Service {
 
         if (c.get(Calendar.HOUR_OF_DAY) == hoursSB && c.get(Calendar.MINUTE) == minutesSB) {
             if (!sentSB)
-                stimmungsbarometernotification();
+                stimmungsbarometerNotification();
             sentSB = true;
         } else {
             sentSB = false;
@@ -156,7 +159,7 @@ public class NotificationService extends Service {
         cursor.moveToFirst();
         String date = cursor.getString(cursor.getColumnIndex("date"));
         cursor.close();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
         try {
             Date dateD = df.parse(date);
             if (dateD.before(new Date()))
@@ -308,9 +311,11 @@ public class NotificationService extends Service {
         if (Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true)) {
             SQLiteConnectorNews db     = new SQLiteConnectorNews(getApplicationContext());
             SQLiteDatabase      dbh    = db.getReadableDatabase();
-            long                latest = db.getLatestDate(dbh);
+            long                latest = db.getLatestEntryDate(dbh);
+
             dbh.close();
             db.close();
+
             if (latest > de.slg.schwarzes_brett.Utils.getLatestSchwarzesBrettDate()) {
                 de.slg.schwarzes_brett.Utils.notifiedSchwarzesBrett(latest);
                 if (Utils.getController().getSchwarzesBrettActivity() == null) {
@@ -343,7 +348,48 @@ public class NotificationService extends Service {
         }
     }
 
-    private void stimmungsbarometernotification() {
+    private void surveyNotification() {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true)) {
+            SQLiteConnectorNews db     = new SQLiteConnectorNews(getApplicationContext());
+            SQLiteDatabase      dbh    = db.getReadableDatabase();
+            long                latest = db.getLatestSurveyDate(dbh);
+
+            dbh.close();
+            db.close();
+
+            if (latest > de.slg.umfragen.Utils.getLatestSurveyDate()) {
+                de.slg.umfragen.Utils.notifiedSurvey(latest);
+                if (Utils.getController().getSurveyActivity() == null || Utils.getController().getSurveyActivity().getStatus() != ActivityStatus.ACTIVE) {
+                    Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class)
+                            .putExtra("start_intent", ID_SURVEY);
+
+                    PendingIntent resultPendingIntent =
+                            PendingIntent.getActivity(
+                                    getApplicationContext(),
+                                    0,
+                                    resultIntent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT
+                            );
+
+                    Notification notification =
+                            new NotificationCompat.Builder(getApplicationContext())
+                                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                    .setLargeIcon(icon)
+                                    .setSmallIcon(R.drawable.icon_survey)
+                                    .setVibrate(new long[]{200})
+                                    .setAutoCancel(true)
+                                    .setContentTitle("Neue Umfrage")
+                                    .setContentText("Stimme in der neuesten Umfrage ab")
+                                    .setContentIntent(resultPendingIntent)
+                                    .build();
+
+                    notificationManager.notify(ID_SURVEY, notification);
+                }
+            }
+        }
+    }
+
+    private void stimmungsbarometerNotification() {
         if (Utils.getController().getPreferences().getBoolean("pref_key_notification_survey", false) && de.slg.stimmungsbarometer.Utils.showVoteOnStartup()) {
             Intent resultIntent = new Intent(getApplicationContext(), AbstimmActivity.class);
 
@@ -384,6 +430,7 @@ public class NotificationService extends Service {
                         }
                     }
                 }
+                builder.deleteCharAt(builder.length()-2);
 
                 if (builder.length() > 0) {
                     Notification notification =
@@ -429,6 +476,7 @@ public class NotificationService extends Service {
                     Utils.getController().setContext(getApplicationContext());
                 messengerNotification();
                 schwarzesBrettNotification();
+                surveyNotification();
                 timeCheck();
             }
         }

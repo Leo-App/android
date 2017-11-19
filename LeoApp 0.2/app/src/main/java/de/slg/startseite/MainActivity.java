@@ -37,6 +37,7 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.EditTextDialog;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.service.NotificationService;
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
@@ -69,6 +70,7 @@ public class MainActivity extends ActionLogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         processIntent();
+        deleteDatabase("entries.db");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startseite);
@@ -518,6 +520,10 @@ public class MainActivity extends ActionLogActivity {
 
                 case NotificationService.ID_NEWS:
                     startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
+                    break;
+
+                case NotificationService.ID_SURVEY:
+                    startActivity(new Intent(getApplicationContext(), SurveyActivity.class));
                     break;
             }
         }

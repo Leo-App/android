@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
@@ -49,7 +50,7 @@ public abstract class Utils {
     }
 
     private static String getCurrentDate() {
-        return new SimpleDateFormat("dd.MM").format(new Date());
+        return new SimpleDateFormat("dd.MM", Locale.GERMANY).format(new Date());
     }
 
     public static int getCurrentMoodRessource() {
