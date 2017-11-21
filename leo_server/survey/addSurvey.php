@@ -46,7 +46,7 @@
 			$to += 2;
 	}
 
-	$query = "INSERT INTO Survey VALUES (".$id.", '".$title."', '".$description."', '".$to."', ".$multiple.")";
+	$query = "INSERT INTO Survey VALUES (".$id.", '".$title."', '".$description."', '".$to."', '".$multiple."', '".date("Y-m-d H:i:s")."')";
 
 	$result = $db->query($query);
 
