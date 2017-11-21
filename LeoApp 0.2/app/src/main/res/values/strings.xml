@@ -7,6 +7,7 @@
     <string name="confirm" translatable="false">OK</string>
     <string name="cancel">Cancel</string>
     <string name="error">Sorry, something went wrong</string>
+    <string name="hours_settings_template">%1$s h</string>
 
     <string name="share">Share</string>
 

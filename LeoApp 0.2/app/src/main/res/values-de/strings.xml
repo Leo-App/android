@@ -3,6 +3,7 @@
 
     <string name="cancel">Abbrechen</string>
     <string name="error">Entschuldige, etwas ist schief gelaufen</string>
+    <string name="hours_settings_template">%1$s Uhr</string>
 
     <string name="drawer_placeholder_name">Benutzername</string>
     <string name="drawer_placeholder_grade">Stufe</string>
@@ -98,7 +99,7 @@
     <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine Anmeldedaten in den Einstellungen</string>
     <string name="explain_desc_1">Mit dieser Funktion lassen sich die QR-Codes der Essensbestellung überprüfen.</string>
     <string name="explain_title_2">Schritt 1</string>
-    <string name="explain_desc_2">Klicke auf den \\\"Scannen\\\"-Button und halte den grün umrandeten Bereich über den zu scannenden QR-Code.</string>
+    <string name="explain_desc_2">Klicke auf den \"Scannen\"-Button und halte den grün umrandeten Bereich über den zu scannenden QR-Code.</string>
     <string name="explain_title_3">Schritt 2</string>
     <string name="explain_desc_3">War das Scannen erfolgreich, erhältst du alle wichtigen Informationen: dein bestelltes Menü und ob der QR-Code bereits eingelöst, d. h. von diesem Gerät bereits gescannt, wurde.</string>
     <string name="invalidId">User-ID ungültig</string>

@@ -35,6 +35,8 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
 
         initToolbar();
         initPreferenceChanges();
+        initPreferenceSummaries();
+        
     }
 
     @Override
@@ -55,6 +57,26 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
             case "pref_key_notification_schedule":
                 Preference scheduletime = findPreference("pref_key_notification_time_schedule");
                 scheduletime.setEnabled(sharedPreferences.getBoolean(key, false));
+                break;
+            case "pref_key_notification_time_foodmarks":
+                qrtime = findPreference("pref_key_notification_time_foodmarks");
+                String value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_foodmarks", "-");
+                qrtime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                break;
+            case "pref_key_notification_time_test":
+                testtime = findPreference("pref_key_notification_time_test");
+                value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_test", "-");
+                testtime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                break;
+            case "pref_key_notification_time_survey":
+                surveytime = findPreference("pref_key_notification_time_survey");
+                value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_survey", "-");
+                surveytime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                break;
+            case "pref_key_notification_time_schedule":
+                scheduletime = findPreference("pref_key_notification_time_schedule");
+                value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_schedule", "-");
+                scheduletime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
                 break;
         }
         NotificationService.getTimes();
@@ -81,6 +103,40 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
         Preference scheduletime = findPreference("pref_key_notification_time_schedule");
         scheduletime.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_notification_schedule", false));
     }
+
+    private void initPreferenceSummaries() {
+        Preference qrtime = findPreference("pref_key_notification_time_foodmarks");
+        String value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_foodmarks", "-");
+        if(!value.equals("-"))
+            qrtime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+
+        Preference testtime = findPreference("pref_key_notification_time_test");
+        value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_test", "-");
+        if(!value.equals("-"))
+            testtime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+
+        Preference surveytime = findPreference("pref_key_notification_time_survey");
+        value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_survey", "-");
+        if(!value.equals("-"))
+            surveytime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+
+        Preference scheduletime = findPreference("pref_key_notification_time_schedule");
+        value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_schedule", "-");
+        if(!value.equals("-"))
+            scheduletime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+    }
+
+    private String toHourFormat(String s) {
+        String[] parts = s.split(":");
+
+        if(parts[0].length() != 2)
+            parts[0] = 0+parts[0];
+        if(parts[1].length() != 2)
+            parts[1] = 0+parts[1];
+
+        return parts[0]+":"+parts[1];
+    }
+
 
     private void initToolbar() {
         Toolbar actionBar = (Toolbar) findViewById(R.id.toolbarSettings);
