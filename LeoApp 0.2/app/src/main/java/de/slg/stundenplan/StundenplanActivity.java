@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.essensqr.EssensQRActivity;
@@ -45,9 +46,10 @@ import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.umfragen.SurveyActivity;
 
-public class StundenplanActivity extends ActionLogActivity {
+public class  StundenplanActivity extends ActionLogActivity {
     private DrawerLayout        drawerLayout;
     private WochentagFragment[] fragments;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,8 +213,15 @@ public class StundenplanActivity extends ActionLogActivity {
                 }
             }
         };
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viPager);
+        viewPager = (ViewPager) findViewById(R.id.viPager);
         viewPager.setAdapter(adapter);
+
+        int tagPosition = 1;
+        if(Calendar.DAY_OF_WEEK > 1 && Calendar.DAY_OF_WEEK < 7) {
+            tagPosition = Calendar.DAY_OF_WEEK-1;
+        }
+        viewPager.setCurrentItem(tagPosition);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
     }
