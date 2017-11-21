@@ -43,6 +43,7 @@ import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
@@ -106,6 +107,13 @@ public class SurveyActivity extends ActionLogActivity {
         }
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Utils.getNotificationManager().cancel(NotificationService.ID_SURVEY);
+        receive();
     }
 
     @Override
