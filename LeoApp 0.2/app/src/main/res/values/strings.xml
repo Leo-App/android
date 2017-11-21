@@ -289,7 +289,7 @@
     <string name="settings_title_version" translatable="false">Version</string>
     <string name="settings_summary_version" translatable="false">LeoApp v1.0.1</string>
     <string name="settings_title_contact">Contact</string>
-    <string name="settings_summary_contact" translatable="false">email\@maildomain.de</string>
+    <string name="settings_summary_contact" translatable="false">app\@leo-ac.de</string>
 
     <string name="settings_title_customid" translatable="false">Customer ID</string>
     <string name="settings_summary_customid">Enter your lunch.leo-ac.de customer ID</string>
@@ -356,7 +356,7 @@
         a tutoring-board and a personal organizer. Of course we also read your suggestions, just let us know. Stay tuned!
     </string>
     <string name="dialog_betatest">
-        Thank you for helping us test our app. You can give us Feedback either over the Feature-Request option in the menu, via email to email@maildomain.de or, of course, personally.
+        Thank you for helping us test our app. You can give us Feedback either over the Feature-Request option in the menu, via email to app@leo-ac.de or, of course, personally.
         If you need any additional information, don\'t hesitate to contact us. Have fun!
     </string>
 
@@ -393,7 +393,7 @@
     <string name="m">Neutral</string>
     <string name="s">Schlecht</string>
     <string name="ss">Sehr schlecht</string>
-    <string name="intro5">Make long clicks buttons or cards to get additional information.</string>
+    <string name="intro5">Hold feature buttons to get additional information.</string>
     <string name="intro4">Your timetable and your next exams are just two clicks away!</string>
     <string name="intro3">Contact your teachers or friends with the messenger</string>
     <string name="intro2">Show your digital foodmark to the canteen staff and get your food!</string>

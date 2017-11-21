@@ -269,7 +269,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             public boolean onPreferenceClick(Preference preference) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"email@maildomain.de"});
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@leo-ac.de"});
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
