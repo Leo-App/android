@@ -10,6 +10,9 @@
     <string name="hours_settings_template">%1$s h</string>
 
     <string name="share">Share</string>
+    <string name="umfragen">Surveys</string>
+
+    <string name="title_name_change">Change name</string>
 
     <string name="share_text" translatable="false">Stimme in der LeoApp Umfrage \"%1$s\" ab! &#9885; Installiere die LeoApp über den Playstore: http://app.leoapp-slg.de</string>
 
@@ -310,7 +313,7 @@
     <string name="settings_summary_notification_time">When should we remind you?</string>
 
     <string name="settings_summary_notification_test">Notify me on approaching exams</string>
-    <string name="settings_summary_notification_survey">Notify me if I haven\\\'nt voted yet</string>
+    <string name="settings_summary_notification_survey">Notify me if I haven\'nt voted yet</string>
     <string name="settings_summary_notification_schedule">Notify me about my lessons tomorrow</string>
     <string name="settings_summary_notification_news">Notify me about new entries</string>
 
@@ -359,6 +362,9 @@
         Thank you for helping us test our app. You can give us Feedback either over the Feature-Request option in the menu, via email to app@leo-ac.de or, of course, personally.
         If you need any additional information, don\'t hesitate to contact us. Have fun!
     </string>
+
+
+    <string name="dialog_change_abbr">Change teacher-abbreviation</string>
 
     <string name="settings_title_notification_all">Receive all notifications</string>
     <string name="settings_title_notification_custom">Receive some notifications</string>
