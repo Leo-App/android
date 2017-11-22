@@ -7,7 +7,7 @@
 	if ($db->connect_error)
 	  	die("-Connection failed: ".$db->connect_error);
 
-	$query = "SELECT title, description, 'to', multiple, owner, UNIX_TIMESTAMP(createdate) as createdate FROM Survey";
+	$query = "SELECT title, description, recipient, multiple, owner, UNIX_TIMESTAMP(createdate) as createdate FROM Survey";
 	$result = $db->query($query);
 
 	if ($result !== false) {
@@ -24,7 +24,7 @@
 		    if($res === false)
 		      die($db->error);
 
-		    echo $res->fetch_assoc()['uname']."_;_".$row['title']."_;_".$row['description']."_;_".$row['to']."_;_".$row['multiple']."_;_".$id."_;_".$row['createdate'];
+		    echo $res->fetch_assoc()['uname']."_;_".$row['title']."_;_".$row['description']."_;_".$row['recipient']."_;_".$row['multiple']."_;_".$id."_;_".$row['createdate'];
 
 		    while ($ansArray = $answers->fetch_assoc()) {
 		        echo "_;_".$ansArray['id']."_;_".$ansArray['content'];
