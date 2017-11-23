@@ -27,7 +27,6 @@ import de.slg.leoapp.utility.WebSocketClient;
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
-import de.slg.messenger.Verschluesseln;
 
 public class ReceiveService extends Service implements WebSocketClient.MessageHandler {
     private boolean running;
@@ -80,7 +79,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
 
             if (message.startsWith("m") && parts.length == 6) {
                 int    mid   = Integer.parseInt(parts[0]);
-                String mtext = Verschluesseln.decrypt(parts[1], Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                String mtext = de.slg.messenger.Utils.Verschluesseln.decrypt(parts[1], de.slg.messenger.Utils.Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
                 long   mdate = Long.parseLong(parts[3] + "000");
                 int    cid   = Integer.parseInt(parts[4]);
                 int    uid   = Integer.parseInt(parts[5]);
@@ -360,9 +359,9 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
 
         private String generateURL(String message, int cid) throws UnsupportedEncodingException {
             message = URLEncoder.encode(message, "UTF-8");
-            String key      = Verschluesseln.createKey(message);
-            String vMessage = Verschluesseln.encrypt(message, key);
-            String vKey     = Verschluesseln.encryptKey(key);
+            String key      = de.slg.messenger.Utils.Verschluesseln.createKey(message);
+            String vMessage = de.slg.messenger.Utils.Verschluesseln.encrypt(message, key);
+            String vKey     = de.slg.messenger.Utils.Verschluesseln.encryptKey(key);
             return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?&uid=" + Utils.getUserID() + "&message=" + vMessage + "&cid=" + cid + "&vKey=" + vKey;
         }
     }
