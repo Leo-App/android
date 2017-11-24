@@ -69,7 +69,6 @@ public class MainActivity extends ActionLogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         processIntent();
-        deleteDatabase("entries.db");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startseite);
@@ -239,8 +238,6 @@ public class MainActivity extends ActionLogActivity {
 
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
-
-        //    mAdapter.updateCards();
 
         Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
         Utils.getNotificationManager().cancel(NotificationService.ID_STUNDENPLAN);

@@ -131,6 +131,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
         navigationView.getMenu().findItem(R.id.foodmarks).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.barometer).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.umfragen).setEnabled(Utils.isVerified());
+        navigationView.getMenu().findItem(R.id.profile).setEnabled(Utils.isVerified());
 
         navigationView.setCheckedItem(getNavigationHighlightId());
 

@@ -80,7 +80,7 @@ public class EssensQRActivity extends ActionLogActivity implements ZXingScannerV
         mViewPager = (ViewPager) findViewById(R.id.pager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
-            private final QRFragment fragment1 = new QRFragment();
+            private final QRFragment   fragment1 = new QRFragment();
             private final ScanFragment fragment2 = new ScanFragment();
 
             @Override
