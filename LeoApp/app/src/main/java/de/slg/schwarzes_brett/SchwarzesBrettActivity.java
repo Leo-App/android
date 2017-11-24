@@ -48,6 +48,7 @@ import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
+import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
@@ -64,7 +65,7 @@ import de.slg.umfragen.SurveyActivity;
  * @version 2017.1811
  * @since 0.0.1
  */
-public class SchwarzesBrettActivity extends ActionLogActivity {
+public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
     private static SQLiteConnectorNews sqLiteConnector;
@@ -73,15 +74,12 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     private List<String>              groupList;
     private List<String>              childList;
     private Map<String, List<String>> entriesMap;
-    private DrawerLayout              drawerLayout;
 
     private String rawLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schwarzesbrett);
-
         Utils.getController().registerSchwarzesBrettActivity(this);
 
         receive();
@@ -91,11 +89,39 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
-        initToolbar();
-        initNavigationView();
         initButton();
         initExpandableListView();
         initSwipeToRefresh();
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_schwarzesbrett;
+    }
+
+    @Override
+    protected int getDrawerLayoutId() {
+        return R.id.drawer;
+    }
+
+    @Override
+    protected int getNavigationId() {
+        return R.id.navigationView;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return R.id.actionBarSchwarzesBrett;
+    }
+
+    @Override
+    protected int getToolbarTextId() {
+        return R.string.title_news;
+    }
+
+    @Override
+    protected int getNavigationHighlightId() {
+        return R.id.newsboard;
     }
 
     @Override
@@ -135,14 +161,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
-        return true;
-    }
-
-    @Override
     public void finish() {
         super.finish();
         Utils.getController().registerSchwarzesBrettActivity(null);
@@ -158,77 +176,6 @@ public class SchwarzesBrettActivity extends ActionLogActivity {
         });
 
         swipeLayout.setColorSchemeColors(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
-    }
-
-    private void initToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarSchwarzesBrett);
-        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(R.string.title_news);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.newsboard).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
-                        break;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), MessengerActivity.class);
-                        break;
-                    case R.id.newsboard:
-                        return true;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan:
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                        break;
-                    case R.id.startseite:
-                        i = null;
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-                    case R.id.profile:
-                        i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        break;
-                    case R.id.umfragen:
-                        i = new Intent(getApplicationContext(), SurveyActivity.class);
-                        break;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                if (i != null)
-                    startActivity(i);
-                finish();
-                return true;
-            }
-        });
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.getUserName());
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
-            grade.setText(Utils.getLehrerKuerzel());
-        else
-            grade.setText(Utils.getUserStufe());
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private void initButton() {
