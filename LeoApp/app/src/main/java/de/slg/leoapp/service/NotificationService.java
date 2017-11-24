@@ -422,6 +422,10 @@ public class NotificationService extends Service {
             StringBuilder builder = new StringBuilder();
             if (gibNaechstenWochentag() <= 5) {
                 Fach[] faecher = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(gibNaechstenWochentag());
+
+                if(faecher.length == 0)
+                    return;
+
                 for (int i = 0; i < faecher.length; i++) {
                     if (faecher[i].getName().length() > 0 && (i == 0 || !faecher[i].getName().equals(faecher[i - 1].getName()))) {
                         builder.append(faecher[i].getName());
