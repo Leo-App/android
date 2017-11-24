@@ -6,17 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +19,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,22 +32,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.slg.essensqr.EssensQRActivity;
-import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
-import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
-import de.slg.leoapp.view.ActionLogActivity;
-import de.slg.messenger.MessengerActivity;
+import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.schwarzes_brett.ResponseCode;
-import de.slg.schwarzes_brett.SchwarzesBrettActivity;
-import de.slg.startseite.MainActivity;
-import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.StundenplanActivity;
-
 /**
  * SurveyActivity.
  * <p>
@@ -65,11 +48,10 @@ import de.slg.stundenplan.StundenplanActivity;
  * @version 2017.1111
  * @since 0.5.6
  */
-public class SurveyActivity extends ActionLogActivity {
+public class SurveyActivity extends LeoAppFeatureActivity {
 
     private static SQLiteConnectorNews  sqLiteConnector;
     private static SQLiteDatabase       sqLiteDatabase;
-    private        DrawerLayout         drawerLayout;
     private        ExpandableListView   expandableListView;
     private        List<Integer>        groupList;
     private        Map<Integer, Survey> entriesMap;
@@ -77,7 +59,6 @@ public class SurveyActivity extends ActionLogActivity {
     @Override
     public void onCreate(final Bundle b) {
         super.onCreate(b);
-        setContentView(R.layout.activity_umfragen);
 
         Utils.getController().registerSurveyActivity(this);
 
@@ -88,8 +69,6 @@ public class SurveyActivity extends ActionLogActivity {
 
         receive();
 
-        initToolbar();
-        initNavigationView();
         initButton();
         initExpandableListView();
         initSwipeToRefresh();
@@ -110,6 +89,36 @@ public class SurveyActivity extends ActionLogActivity {
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_umfragen;
+    }
+
+    @Override
+    protected int getDrawerLayoutId() {
+        return R.id.drawer;
+    }
+
+    @Override
+    protected int getNavigationId() {
+        return R.id.navigationView;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return R.id.actionBarUmfragen;
+    }
+
+    @Override
+    protected int getToolbarTextId() {
+        return R.string.title_survey_news;
+    }
+
+    @Override
+    protected int getNavigationHighlightId() {
+        return R.id.umfragen;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         Utils.getNotificationManager().cancel(NotificationService.ID_SURVEY);
@@ -119,74 +128,6 @@ public class SurveyActivity extends ActionLogActivity {
     @Override
     protected String getActivityTag() {
         return "SurveyActivity";
-    }
-
-    private void initToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarUmfragen);
-        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(R.string.title_survey_news);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.umfragen).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
-                        break;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), MessengerActivity.class);
-                        break;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan:
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                        break;
-                    case R.id.startseite:
-                        i = null;
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-                    case R.id.umfragen:
-                        return true;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                if (i != null)
-                    startActivity(i);
-                finish();
-                return true;
-            }
-        });
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.getUserName());
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
-            grade.setText(Utils.getLehrerKuerzel());
-        else
-            grade.setText(Utils.getUserStufe());
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private void initExpandableListView() {
@@ -278,14 +219,6 @@ public class SurveyActivity extends ActionLogActivity {
 
     private void receive() {
         new SyncSurveyTask(null).execute();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
-        return true;
     }
 
     @Override
