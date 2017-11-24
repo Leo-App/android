@@ -456,9 +456,9 @@ public class ChatActivity extends ActionLogActivity {
 
         private String generateURL(String message) throws UnsupportedEncodingException {
             message = URLEncoder.encode(message, "UTF-8");
-            String key      = Verschluesseln.createKey(message);
-            String vMessage = Verschluesseln.encrypt(message, key);
-            String vKey     = Verschluesseln.encryptKey(key);
+            String key      = de.slg.messenger.Utils.Verschluesseln.createKey(message);
+            String vMessage = de.slg.messenger.Utils.Verschluesseln.encrypt(message, key);
+            String vKey     = de.slg.messenger.Utils.Verschluesseln.encryptKey(key);
             return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?&uid=" + Utils.getUserID() + "&message=" + vMessage + "&cid=" + cid + "&vKey=" + vKey;
         }
     }
