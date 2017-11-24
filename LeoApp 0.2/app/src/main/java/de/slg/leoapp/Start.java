@@ -13,7 +13,7 @@ import de.slg.leoapp.task.SyncUserTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.schwarzes_brett.UpdateViewTrackerTask;
-import de.slg.startseite.MailSendTask;
+import de.slg.leoapp.task.MailSendTask;
 import de.slg.startseite.MainActivity;
 
 public class Start extends Activity {

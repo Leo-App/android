@@ -1,4 +1,4 @@
-package de.slg.startseite;
+package de.slg.leoapp.utility;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
@@ -10,9 +10,16 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import de.slg.leoapp.utility.List;
-
-class MailClient {
+/**
+ * MailClient.
+ *
+ * Utility-Klasse zum Versenden von Emails über leoapp.noreply@gmail.com.
+ *
+ * @author Gianni
+ * @version 2017.2411
+ * @since 0.5.5
+ */
+public class MailClient {
     private final String       fromEmail;
     private final String       fromPassword;
     private final List<String> toEmailList;
@@ -23,10 +30,16 @@ class MailClient {
     private       Session     mailSession;
     private       MimeMessage emailMessage;
 
-    MailClient(String fromEmail, String fromPassword,
-               List<String> toEmailList, String emailSubject, String emailBody) {
-        this.fromEmail = fromEmail;
-        this.fromPassword = fromPassword;
+    /**
+     * Konstruktor. Initialisiert ein neues Email Objekt mit allen benötigten Parametern.
+     *
+     * @param toEmailList Liste aller Empfänger-Adressen
+     * @param emailSubject Email-Betreff
+     * @param emailBody Inhalt der Email
+     */
+    public MailClient(List<String> toEmailList, String emailSubject, String emailBody) {
+        this.fromEmail = "leoapp.noreply@gmail.com";
+        this.fromPassword = "pOQ2ydhjqzJHxbQioM0Z";
         this.toEmailList = toEmailList;
         this.emailSubject = emailSubject;
         this.emailBody = emailBody;
@@ -39,8 +52,13 @@ class MailClient {
         emailProperties.put("mail.smtp.starttls.enable", starttls);
     }
 
-    void createEmailMessage() throws
-            MessagingException, UnsupportedEncodingException {
+    /**
+     * Bereitet den Mailinhalt zum Senden vor.
+     *
+     * @throws MessagingException -
+     * @throws UnsupportedEncodingException -
+     */
+    public void createEmailMessage() throws MessagingException, UnsupportedEncodingException {
         mailSession = Session.getDefaultInstance(emailProperties, null);
         emailMessage = new MimeMessage(mailSession);
         emailMessage.setFrom(new InternetAddress(fromEmail, fromEmail));
@@ -52,7 +70,12 @@ class MailClient {
         emailMessage.setContent(emailBody, "text/html");
     }
 
-    void sendEmail() throws MessagingException {
+    /**
+     * Versendet die EMail.
+     *
+     * @throws MessagingException -
+     */
+    public void sendEmail() throws MessagingException {
         Transport transport = mailSession.getTransport("smtp");
         String    emailHost = "smtp.gmail.com";
         transport.connect(emailHost, fromEmail, fromPassword);

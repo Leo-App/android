@@ -1,4 +1,4 @@
-package de.slg.startseite;
+package de.slg.leoapp.task;
 
 import android.os.AsyncTask;
 
@@ -8,6 +8,7 @@ import javax.mail.MessagingException;
 
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.MailClient;
 
 public class MailSendTask extends AsyncTask<String, Void, Void> {
     @Override
@@ -30,7 +31,7 @@ public class MailSendTask extends AsyncTask<String, Void, Void> {
                     "<b>Version: </b>" + Utils.getAppVersionName() + "<br/><br/>" +
                     "<b>Request:</b><br/><br/><pre>" +
                     requestText + "</pre>";
-            MailClient mailClient = new MailClient("leoapp.noreply@gmail.com", "pOQ2ydhjqzJHxbQioM0Z", new List<String>().append("spitzer-webdesign@outlook.de").append("moritz@liegmanns.de"), "FeatureRequest - " + Utils.getUserName() + " - " + Utils.getUserStufe() + " - " + Utils.getAppVersionName(), emailBody);
+            MailClient mailClient = new MailClient(new List<String>().append("app@leo-ac.de"), "FeatureRequest - " + Utils.getUserName() + " - " + Utils.getUserStufe() + " - " + Utils.getAppVersionName(), emailBody);
             mailClient.createEmailMessage();
             mailClient.sendEmail();
         } catch (MessagingException | UnsupportedEncodingException e) {

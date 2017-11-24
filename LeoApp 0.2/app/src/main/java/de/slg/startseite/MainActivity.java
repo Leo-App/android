@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +36,7 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.EditTextDialog;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.service.NotificationService;
-import de.slg.leoapp.sqlite.SQLiteConnectorNews;
+import de.slg.leoapp.task.MailSendTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
@@ -178,7 +177,7 @@ public class MainActivity extends ActionLogActivity {
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    String emailText = ((EditText) findViewById(R.id.feature_request_desc)).getText().toString();
+                                    String emailText = featureRequestDialog.getTextInput();
                                     new MailSendTask().execute(emailText);
                                     featureRequestDialog.dismiss();
                                     Toast.makeText(Utils.getContext(), Utils.getString(R.string.thank_you_feature), Toast.LENGTH_SHORT).show();
