@@ -40,6 +40,7 @@ import de.slg.leoapp.task.MailSendTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
+import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.AbstimmDialog;
@@ -57,11 +58,9 @@ import de.slg.umfragen.SurveyActivity;
  * @version 2017.1111
  * @since 0.0.1
  */
-public class MainActivity extends ActionLogActivity {
+public class MainActivity extends LeoAppFeatureActivity {
     public static boolean        editing;
     public        AbstimmDialog  abstimmDialog;
-    private       NavigationView navigationView;
-    private       DrawerLayout   drawerLayout;
     private       CardAdapter    mAdapter;
 
     private       EditTextDialog featureRequestDialog;
@@ -69,18 +68,13 @@ public class MainActivity extends ActionLogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         processIntent();
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_startseite);
-        Utils.getController().registerMainActivity(this);
 
+        Utils.getController().registerMainActivity(this);
         Utils.getController().setContext(getApplicationContext());
 
-        initToolbar();
         initFeatureCards();
-        initNavigationView();
         initAppIntro();
-
         initOptionalDialog();
 
         if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
@@ -88,6 +82,37 @@ public class MainActivity extends ActionLogActivity {
         } else {
             EssensQRActivity.mensaModeRunning = false;
         }
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_startseite;
+    }
+
+
+    @Override
+    protected int getDrawerLayoutId() {
+        return R.id.drawer;
+    }
+
+    @Override
+    protected int getNavigationId() {
+        return R.id.navigationView;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return R.id.toolbar;
+    }
+
+    @Override
+    protected int getToolbarTextId() {
+        return R.string.title_home;
+    }
+
+    @Override
+    protected int getNavigationHighlightId() {
+        return R.id.startseite;
     }
 
     @Override
@@ -122,7 +147,7 @@ public class MainActivity extends ActionLogActivity {
                 if (editing)
                     onBackPressed();
                 else
-                    drawerLayout.openDrawer(GravityCompat.START);
+                    getDrawerLayout().openDrawer(GravityCompat.START);
                 break;
 
             case R.id.action_appedit:
@@ -221,22 +246,22 @@ public class MainActivity extends ActionLogActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        navigationView.getMenu().findItem(R.id.startseite).setChecked(true);
+        getNavigationView().getMenu().findItem(R.id.startseite).setChecked(true);
 
         if (abstimmDialog != null) {
             abstimmDialog.show();
         }
 
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+        TextView username = (TextView) getNavigationView().getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
 
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
+        TextView grade = (TextView) getNavigationView().getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
 
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+        ImageView mood = (ImageView) getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
 
         Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
@@ -259,77 +284,6 @@ public class MainActivity extends ActionLogActivity {
             abstimmDialog.dismiss();
         }
         super.finish();
-    }
-
-    private void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
-
-        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.foodmarks).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.barometer).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.umfragen).setEnabled(Utils.isVerified());
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
-                        break;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), MessengerActivity.class);
-                        break;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan:
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                        break;
-                    case R.id.startseite:
-                        return true;
-                    case R.id.umfragen:
-                        i = new Intent(getApplicationContext(), SurveyActivity.class);
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-                    case R.id.profile:
-                        i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        break;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                if (i != null)
-                    startActivity(i);
-                return true;
-            }
-        });
-
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.getUserName());
-
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
-            grade.setText(Utils.getLehrerKuerzel());
-        else
-            grade.setText(Utils.getUserStufe());
-
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private void initFeatureCards() {
@@ -458,16 +412,6 @@ public class MainActivity extends ActionLogActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        toolbar.setTitle(getString(R.string.title_home));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
     private void initAppIntro() {
         Thread t = new Thread(new Runnable() {
             @Override
@@ -529,7 +473,7 @@ public class MainActivity extends ActionLogActivity {
             abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+                    ImageView mood = (ImageView) getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
                     mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
                     new Handler().postDelayed(new Runnable() {
                         @Override
