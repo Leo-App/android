@@ -1,7 +1,5 @@
 package de.slg.messenger;
 
-import android.annotation.SuppressLint;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -18,7 +16,6 @@ public abstract class Utils {
         currentlyDisplayedChatId = cid;
     }
 
-    @SuppressLint("Assert")
     public abstract static class Verschluesseln {
         private static final String key2 = "ABCD";
 
