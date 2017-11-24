@@ -62,7 +62,6 @@ public class MainActivity extends LeoAppFeatureActivity {
     public static boolean        editing;
     public        AbstimmDialog  abstimmDialog;
     private       CardAdapter    mAdapter;
-
     private       EditTextDialog featureRequestDialog;
 
     @Override

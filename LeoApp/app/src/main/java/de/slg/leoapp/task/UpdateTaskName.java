@@ -84,7 +84,7 @@ public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
                 Toast t = Toast.makeText(Utils.getContext(), Utils.getString(R.string.settings_toast_username_success), Toast.LENGTH_LONG);
                 t.show();
                 Utils.getController().getProfileActivity().initProfil();
-                Utils.getController().getProfileActivity().initNavigationView();
+                Utils.getController().getProfileActivity().initNavigationDrawer();
                 break;
         }
     }

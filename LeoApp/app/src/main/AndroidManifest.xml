@@ -100,25 +100,17 @@
             android:name="de.slg.stundenplan.AuswahlActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.nachhilfe.NachhilfeboerseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MainActivitiesTheme" />
-        <activity
-            android:name="de.slg.nachhilfe.Hinzufuegen"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="de.slg.nachhilfe.Verwalten"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".IntroActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="de.slg.leoapp.ProfileActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
 
         <activity
             android:name="de.slg.umfragen.SurveyActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
 
     </application>
 

@@ -5,32 +5,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import de.slg.essensqr.EssensQRActivity;
 import de.slg.leoapp.dialog.EditTextDialog;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.task.UpdateTaskName;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
-import de.slg.leoapp.view.ActionLogActivity;
-import de.slg.messenger.MessengerActivity;
-import de.slg.schwarzes_brett.SchwarzesBrettActivity;
-import de.slg.startseite.MainActivity;
-import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.StundenplanActivity;
+import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.umfragen.SurveyActivity;
 
 /**
@@ -44,19 +30,44 @@ import de.slg.umfragen.SurveyActivity;
  * @version 2017.1311
  * @since 0.5.8
  */
-public class ProfileActivity extends ActionLogActivity {
-    private DrawerLayout   drawerLayout;
+public class ProfileActivity extends LeoAppFeatureActivity {
     private EditTextDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
         Utils.getController().registerProfileActivity(this);
-
-        initToolbar();
-        initNavigationView();
         initProfil();
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_profile;
+    }
+
+    @Override
+    protected int getDrawerLayoutId() {
+        return R.id.drawer;
+    }
+
+    @Override
+    protected int getNavigationId() {
+        return R.id.navigationView;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return R.id.toolbar;
+    }
+
+    @Override
+    protected int getToolbarTextId() {
+        return R.string.profil;
+    }
+
+    @Override
+    protected int getNavigationHighlightId() {
+        return R.id.profile;
     }
 
     @Override
@@ -65,17 +76,14 @@ public class ProfileActivity extends ActionLogActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
-        return true;
-    }
-
-    @Override
     public void finish() {
         super.finish();
         Utils.getController().registerProfileActivity(null);
+    }
+
+    @Override
+    public void initNavigationDrawer() {
+        super.initNavigationDrawer();
     }
 
     public void initProfil() {
@@ -104,7 +112,7 @@ public class ProfileActivity extends ActionLogActivity {
                                                     .putString("pref_key_kuerzel_general", dialog.getTextInput())
                                                     .apply();
                                             initProfil();
-                                            initNavigationView();
+                                            initNavigationDrawer();
                                             dialog.dismiss();
                                         }
                                     });
@@ -190,16 +198,6 @@ public class ProfileActivity extends ActionLogActivity {
         }
     }
 
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        toolbar.setTitle(R.string.profil);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
     private String getCurrentSurvey() {
         SQLiteConnectorNews dbh = new SQLiteConnectorNews(getApplicationContext());
         SQLiteDatabase      db  = dbh.getReadableDatabase();
@@ -215,72 +213,6 @@ public class ProfileActivity extends ActionLogActivity {
         dbh.close();
 
         return returnS;
-    }
-
-    public void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-
-        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.foodmarks).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.barometer).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.umfragen).setEnabled(Utils.isVerified());
-
-        navigationView.getMenu().findItem(R.id.profile).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
-                        break;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), MessengerActivity.class);
-                        break;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan:
-                        return true;
-                    case R.id.startseite:
-                        i = null;
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-                    case R.id.profile:
-                        return true;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                if (i != null)
-                    startActivity(i);
-                finish();
-                return true;
-            }
-        });
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.getUserName());
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
-            grade.setText(Utils.getLehrerKuerzel());
-        else
-            grade.setText(Utils.getUserStufe());
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     public View getCoordinatorLayout() {
