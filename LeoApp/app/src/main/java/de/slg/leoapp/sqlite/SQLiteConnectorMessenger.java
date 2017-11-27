@@ -1,4 +1,4 @@
-package de.slg.messenger;
+package de.slg.leoapp.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,37 +12,40 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
+import de.slg.messenger.Assoziation;
+import de.slg.messenger.Chat;
+import de.slg.messenger.Message;
 
-import static de.slg.messenger.DBConnection.DBHelper.CHAT_DELETED;
-import static de.slg.messenger.DBConnection.DBHelper.CHAT_ID;
-import static de.slg.messenger.DBConnection.DBHelper.CHAT_MUTE;
-import static de.slg.messenger.DBConnection.DBHelper.CHAT_NAME;
-import static de.slg.messenger.DBConnection.DBHelper.CHAT_TYPE;
-import static de.slg.messenger.DBConnection.DBHelper.MESSAGE_DATE;
-import static de.slg.messenger.DBConnection.DBHelper.MESSAGE_DELETED;
-import static de.slg.messenger.DBConnection.DBHelper.MESSAGE_ID;
-import static de.slg.messenger.DBConnection.DBHelper.MESSAGE_READ;
-import static de.slg.messenger.DBConnection.DBHelper.MESSAGE_TEXT;
-import static de.slg.messenger.DBConnection.DBHelper.TABLE_ASSOZIATION;
-import static de.slg.messenger.DBConnection.DBHelper.TABLE_CHATS;
-import static de.slg.messenger.DBConnection.DBHelper.TABLE_MESSAGES;
-import static de.slg.messenger.DBConnection.DBHelper.TABLE_MESSAGES_QUEUED;
-import static de.slg.messenger.DBConnection.DBHelper.TABLE_USERS;
-import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
-import static de.slg.messenger.DBConnection.DBHelper.USER_ID;
-import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
-import static de.slg.messenger.DBConnection.DBHelper.USER_PERMISSION;
-import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
-import static de.slg.messenger.DBConnection.DBHelper.version;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_DELETED;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_ID;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_MUTE;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_NAME;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_TYPE;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.MESSAGE_DATE;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.MESSAGE_DELETED;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.MESSAGE_ID;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.MESSAGE_READ;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.MESSAGE_TEXT;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.TABLE_ASSOZIATION;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.TABLE_CHATS;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.TABLE_MESSAGES;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.TABLE_MESSAGES_QUEUED;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.TABLE_USERS;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_DEFAULTNAME;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_ID;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_NAME;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_PERMISSION;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_STUFE;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.version;
 
 /**
  * Jede Methode tut das, was der Name sagt!
  */
-public class DBConnection {
+public class SQLiteConnectorMessenger {
     private final SQLiteDatabase database;
     private final DBHelper       helper;
 
-    public DBConnection(Context context) {
+    public SQLiteConnectorMessenger(Context context) {
         helper = new DBHelper(context);
         database = helper.getWritableDatabase();
     }
@@ -72,7 +75,7 @@ public class DBConnection {
         }
     }
 
-    Message[] getMessagesFromChat(int cid) {
+    public Message[] getMessagesFromChat(int cid) {
         String[]      columns   = {MESSAGE_ID, MESSAGE_TEXT, MESSAGE_DATE, USER_ID, MESSAGE_READ};
         String        selection = CHAT_ID + " = " + cid + " AND " + MESSAGE_DELETED + " = 0";
         Cursor        cursor    = query(TABLE_MESSAGES, columns, selection, MESSAGE_DATE);
@@ -160,13 +163,13 @@ public class DBConnection {
         return notificationString;
     }
 
-    void setMessagesRead(int cid) {
+    public void setMessagesRead(int cid) {
         ContentValues values = new ContentValues();
         values.put(MESSAGE_READ, 1);
         update(TABLE_MESSAGES, values, CHAT_ID + " = " + cid);
     }
 
-    void enqueueMessage(String mtext, int cid) {
+    public void enqueueMessage(String mtext, int cid) {
         ContentValues values = new ContentValues();
         values.put(MESSAGE_TEXT, mtext);
         values.put(CHAT_ID, cid);
@@ -204,13 +207,13 @@ public class DBConnection {
         return b;
     }
 
-    void deleteMessage(int mid) {
+    public void deleteMessage(int mid) {
         ContentValues values = new ContentValues();
         values.put(MESSAGE_DELETED, 1);
         update(TABLE_MESSAGES, values, MESSAGE_ID + " = " + mid);
     }
 
-    void deleteQueuedMessage(int mid) {
+    public void deleteQueuedMessage(int mid) {
         delete(TABLE_MESSAGES_QUEUED, MESSAGE_ID + " = " + mid);
     }
 
@@ -246,7 +249,7 @@ public class DBConnection {
         }
     }
 
-    User[] getUsers() {
+    public User[] getUsers() {
         String[] columns   = {USER_ID, USER_NAME, USER_STUFE, USER_PERMISSION, USER_DEFAULTNAME};
         String   selection = USER_ID + " != " + Utils.getUserID();
         Cursor   cursor    = query(TABLE_USERS, columns, selection, USER_STUFE + ", " + USER_DEFAULTNAME);
@@ -298,7 +301,7 @@ public class DBConnection {
         }
     }
 
-    Chat[] getChats() {
+    public Chat[] getChats() {
         String query = "SELECT c." +    //Index
                 CHAT_ID + ", c." +      // 0
                 CHAT_NAME + ", c." +    // 1
@@ -357,7 +360,7 @@ public class DBConnection {
         return chats;
     }
 
-    int getChatWith(int uid) {
+    public int getChatWith(int uid) {
         String cname1 = uid + " - " + Utils.getUserID(), cname2 = Utils.getUserID() + " - " + uid;
         Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_ID}, '(' + CHAT_NAME + " = '" + cname1 + "' OR " + CHAT_NAME + " = '" + cname2 + "') AND " + CHAT_TYPE + " = '" + Chat.ChatType.PRIVATE.toString() + "'", null);
         cursor.moveToFirst();
@@ -377,7 +380,7 @@ public class DBConnection {
         return b;
     }
 
-    void deleteChat(int cid) {
+    public void deleteChat(int cid) {
         ContentValues values = new ContentValues();
         values.put(CHAT_DELETED, 1);
         update(TABLE_CHATS, values, CHAT_ID + " = " + cid);
@@ -393,13 +396,13 @@ public class DBConnection {
         update(TABLE_CHATS, values, CHAT_ID + " = " + cid);
     }
 
-    void muteChat(int cid, boolean mute) {
+    public void muteChat(int cid, boolean mute) {
         ContentValues values = new ContentValues();
         values.put(CHAT_MUTE, mute ? 1 : 0);
         update(TABLE_CHATS, values, CHAT_ID + " = " + cid);
     }
 
-    boolean isMute(int cid) {
+    public boolean isMute(int cid) {
         Cursor cursor = query(TABLE_CHATS, new String[]{CHAT_MUTE}, CHAT_ID + " = " + cid, null);
         cursor.moveToFirst();
         boolean b = cursor.getCount() > 0 && cursor.getInt(0) == 1;
@@ -418,7 +421,7 @@ public class DBConnection {
     }
 
     //Suchen
-    Object[] getSuchergebnisse(String suchbegriff, boolean chatsFirst, String orderUsers) {
+    public Object[] getSuchergebnisse(String suchbegriff, boolean chatsFirst, String orderUsers) {
         Cursor   cursorChats = query(TABLE_CHATS, new String[]{CHAT_ID, CHAT_NAME, CHAT_MUTE}, CHAT_TYPE + " = '" + Chat.ChatType.GROUP.toString() + "' AND " + CHAT_NAME + " LIKE '%" + suchbegriff + "%'", DBHelper.CHAT_NAME);
         Cursor   cursorUsers = query(TABLE_USERS, new String[]{USER_ID, USER_NAME, USER_DEFAULTNAME, USER_STUFE}, USER_ID + " != " + Utils.getUserID() + " AND " + USER_NAME + " LIKE '%" + suchbegriff + "%' OR " + USER_DEFAULTNAME + " LIKE '%" + suchbegriff + "%'", orderUsers);
         Chat[]   chats       = new Chat[cursorChats.getCount()];
@@ -445,7 +448,7 @@ public class DBConnection {
     }
 
     //Assoziation
-    void insertAssoziation(Assoziation a) {
+    public void insertAssoziation(Assoziation a) {
         if (a != null) {
             ContentValues values = new ContentValues();
             values.put(CHAT_ID, a.cid);
@@ -477,7 +480,7 @@ public class DBConnection {
         }
     }
 
-    boolean userInChat(int uid, int cid) {
+    public boolean userInChat(int uid, int cid) {
         String[] columns   = {USER_ID};
         String   selection = CHAT_ID + " = " + cid + " AND " + USER_ID + " = " + uid;
         Cursor   cursor    = query(TABLE_ASSOZIATION, columns, selection, null);
@@ -486,11 +489,11 @@ public class DBConnection {
         return b;
     }
 
-    void removeUserFormChat(int uid, int cid) {
+    public void removeUserFormChat(int uid, int cid) {
         delete(TABLE_ASSOZIATION, USER_ID + " = " + uid + " AND " + CHAT_ID + " = " + cid);
     }
 
-    User[] getUsersInChat(int cid) {
+    public User[] getUsersInChat(int cid) {
         String     table     = TABLE_ASSOZIATION + ", " + TABLE_USERS;
         String[]   columns   = {TABLE_USERS + "." + USER_ID, USER_NAME, USER_STUFE, USER_PERMISSION, USER_DEFAULTNAME};
         String     selection = CHAT_ID + " = " + cid + " AND " + TABLE_USERS + "." + USER_ID + " = " + TABLE_ASSOZIATION + "." + USER_ID;
@@ -504,7 +507,7 @@ public class DBConnection {
         return list.fill(new User[list.size()]);
     }
 
-    User[] getUsersNotInChat(int cid) {
+    public User[] getUsersNotInChat(int cid) {
         String query = "SELECT u." + USER_ID + ", u." + USER_NAME + ", u." + USER_STUFE + ", u." + USER_PERMISSION + ", u." + USER_DEFAULTNAME + " FROM " + TABLE_USERS + " u LEFT JOIN " + TABLE_ASSOZIATION + " a ON u." + USER_ID + " = a." + USER_ID + " AND a." + CHAT_ID + " = " + cid + " WHERE a." + USER_ID + " IS NULL";
         Log.i("SQL", query);
         Cursor cursor = rawQuery(query);
@@ -542,7 +545,7 @@ public class DBConnection {
         helper.onUpgrade(database, -1, version);
     }
 
-    class DBHelper extends SQLiteOpenHelper {
+    public class DBHelper extends SQLiteOpenHelper {
         static final String DATABASE_NAME = "messenger";
 
         static final String TABLE_MESSAGES  = "messages";
@@ -563,10 +566,10 @@ public class DBConnection {
 
         static final String TABLE_USERS      = "users";
         static final String USER_ID          = "uid";
-        static final String USER_NAME        = "uname";
-        static final String USER_STUFE       = "ustufe";
+        public static final String USER_NAME        = "uname";
+        public static final String USER_STUFE       = "ustufe";
         static final String USER_PERMISSION  = "upermission";
-        static final String USER_DEFAULTNAME = "udefaultname";
+        public static final String USER_DEFAULTNAME = "udefaultname";
 
         static final String TABLE_MESSAGES_QUEUED = "messages_unsend";
 

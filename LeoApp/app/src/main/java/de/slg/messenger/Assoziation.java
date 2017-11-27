@@ -1,8 +1,8 @@
 package de.slg.messenger;
 
 public class Assoziation {
-    final int cid;
-    final int uid;
+    public final int cid;
+    public final int uid;
 
     public Assoziation(int cid, int uid) {
         this.cid = cid;

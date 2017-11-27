@@ -22,9 +22,9 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 
-import static de.slg.messenger.DBConnection.DBHelper.USER_DEFAULTNAME;
-import static de.slg.messenger.DBConnection.DBHelper.USER_NAME;
-import static de.slg.messenger.DBConnection.DBHelper.USER_STUFE;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_DEFAULTNAME;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_NAME;
+import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_STUFE;
 
 public class SearchFragment extends Fragment {
     public View         view;

@@ -16,7 +16,7 @@ import de.slg.leoapp.view.ActivityStatus;
 import de.slg.messenger.AddGroupChatActivity;
 import de.slg.messenger.ChatActivity;
 import de.slg.messenger.ChatEditActivity;
-import de.slg.messenger.DBConnection;
+import de.slg.leoapp.sqlite.SQLiteConnectorMessenger;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
@@ -67,8 +67,8 @@ public class UtilsController {
     private ProfileActivity                profileActivity;
 
     //Datenbankverwaltungen
-    private DBConnection  dbConnection;
-    private StundenplanDB stundenplanDB;
+    private SQLiteConnectorMessenger SQLiteConnectorMessenger;
+    private StundenplanDB            stundenplanDB;
 
     private ReceiveService      receiveService;
     private NotificationService notificationService;
@@ -145,10 +145,10 @@ public class UtilsController {
      *
      * @return Messenger-Datenbank
      */
-    public DBConnection getMessengerDatabase() {
-        if (dbConnection == null)
-            dbConnection = new DBConnection(getContext());
-        return dbConnection;
+    public SQLiteConnectorMessenger getMessengerDatabase() {
+        if (SQLiteConnectorMessenger == null)
+            SQLiteConnectorMessenger = new SQLiteConnectorMessenger(getContext());
+        return SQLiteConnectorMessenger;
     }
 
     /**
@@ -474,9 +474,9 @@ public class UtilsController {
      * Schließt offene SQLite-Datenbankverbindungen.
      */
     public void closeDatabases() {
-        if (dbConnection != null) {
-            dbConnection.close();
-            dbConnection = null;
+        if (SQLiteConnectorMessenger != null) {
+            SQLiteConnectorMessenger.close();
+            SQLiteConnectorMessenger = null;
         }
         if (stundenplanDB != null) {
             stundenplanDB.close();
