@@ -1,5 +1,6 @@
 package de.slg.leoapp.dialog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,7 +33,7 @@ public final class InformationDialog extends AlertDialog {
      *
      * @param context Beliebige laufende Activity, siehe {@link UtilsController#getActiveActivity()}
      */
-    public InformationDialog(@NonNull Context context) {
+    public InformationDialog(@NonNull Activity context) {
         super(context);
     }
 
@@ -42,7 +43,7 @@ public final class InformationDialog extends AlertDialog {
      * @param context Beliebige laufende Activity, siehe {@link UtilsController#getActiveActivity()}
      * @param text    Dialogtext als Stringressource
      */
-    public InformationDialog(@NonNull Context context, @StringRes int text) {
+    public InformationDialog(@NonNull Activity context, @StringRes int text) {
         super(context);
         this.text = Utils.getString(text);
     }
@@ -53,7 +54,7 @@ public final class InformationDialog extends AlertDialog {
      * @param context Beliebige laufende Activity, siehe {@link UtilsController#getActiveActivity()}
      * @param text    Dialogtext als String
      */
-    public InformationDialog(@NonNull Context context, String text) {
+    public InformationDialog(@NonNull Activity context, String text) {
         super(context);
         this.text = text;
     }
