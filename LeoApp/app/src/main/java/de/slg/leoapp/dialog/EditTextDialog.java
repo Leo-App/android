@@ -1,5 +1,6 @@
 package de.slg.leoapp.dialog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,7 +37,7 @@ public class EditTextDialog extends AlertDialog {
      * @param hint    Hint für Textfeld
      * @param action  OnClickListener für den OK-Button
      */
-    public EditTextDialog(@NonNull Context context, @NonNull String title, @NonNull String hint, @NonNull View.OnClickListener action) {
+    public EditTextDialog(@NonNull Activity context, @NonNull String title, @NonNull String hint, @NonNull View.OnClickListener action) {
         super(context);
         this.title = title;
         this.hint = hint;

@@ -57,9 +57,11 @@ class NewSurveyDialog extends AlertDialog {
         switch (stage) {
             case 0:
                 ((EditText) findViewById(R.id.content)).setText(title);
+                findViewById(R.id.content).requestFocus();
                 break;
             case 1:
                 ((EditText) findViewById(R.id.content)).setText(description);
+                findViewById(R.id.content).requestFocus();
                 break;
             case 2:
                 if (answers == null)

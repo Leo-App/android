@@ -1,5 +1,6 @@
 package de.slg.messenger;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +24,7 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
@@ -50,6 +52,10 @@ public class MessengerActivity extends ActionLogActivity {
         initToolbar();
         initNavigationView();
         initTabs();
+
+        Dialog dialog = new InformationDialog(this, "Dieser Teil der Anwendung ist noch in Arbeit!");
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     @Override

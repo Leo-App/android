@@ -24,8 +24,8 @@ public class Message {
     public final  int     cid;
     public final  String  cname;
     public final  String  uname;
-    final         Date    mdate;
-    final         int     uid;
+    public final  Date    mdate;
+    public final  int     uid;
     final         boolean mread;
     private final boolean sending;
 
@@ -36,7 +36,7 @@ public class Message {
      * @param mtext Text der Nachricht
      * @param cid   ChatID
      */
-    Message(int mid, String mtext, int cid) {
+    public Message(int mid, String mtext, int cid) {
         this.mid = mid;
         this.mtext = mtext;
         this.mdate = null;
@@ -97,7 +97,7 @@ public class Message {
      * @param mread Nachricht bereits vom Empfänger gesehen
      * @param uname Name des Absenders
      */
-    Message(int mid, String mtext, long mdate, int cid, int uid, boolean mread, String uname) {
+    public Message(int mid, String mtext, long mdate, int cid, int uid, boolean mread, String uname) {
         this.mid = mid;
         this.mtext = mtext;
         this.mdate = new Date(mdate);
@@ -116,7 +116,7 @@ public class Message {
      * @param cname Chatname
      * @param uname Benutzername des Absenders
      */
-    Message(String mtext, int cid, String cname, String uname) {
+    public Message(String mtext, int cid, String cname, String uname) {
         this.mid = 0;
         this.mtext = mtext;
         this.mdate = null;

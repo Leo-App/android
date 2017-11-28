@@ -169,10 +169,9 @@ public class ChatActivity extends ActionLogActivity {
         };
 
         rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
-        rvMessages.setVisibility(View.INVISIBLE);
-        rvMessages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        rvMessages.setLayoutManager(layoutManager);
         refreshUI(true, true);
-        rvMessages.setVisibility(View.VISIBLE);
     }
 
     private void initToolbar() {

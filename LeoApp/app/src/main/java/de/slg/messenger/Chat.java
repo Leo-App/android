@@ -1,11 +1,11 @@
 package de.slg.messenger;
 
 public class Chat {
-    final int      cid;
-    final String   cname;
-    final ChatType ctype;
-    final boolean  cmute;
-    final Message  m;
+    public final int      cid;
+    public final String   cname;
+    public final ChatType ctype;
+    final        boolean  cmute;
+    final        Message  m;
 
     public Chat(int cid, String cname, ChatType ctype) {
         this.cid = cid;
@@ -15,7 +15,7 @@ public class Chat {
         this.m = null;
     }
 
-    Chat(int cid, String cname, ChatType ctype, boolean cmute) {
+    public Chat(int cid, String cname, ChatType ctype, boolean cmute) {
         this.cid = cid;
         this.cname = cname;
         this.ctype = ctype;
@@ -23,7 +23,7 @@ public class Chat {
         this.m = null;
     }
 
-    Chat(int cid, String cname, ChatType ctype, boolean cmute, Message m) {
+    public Chat(int cid, String cname, ChatType ctype, boolean cmute, Message m) {
         this.cid = cid;
         this.cname = cname;
         this.ctype = ctype;
