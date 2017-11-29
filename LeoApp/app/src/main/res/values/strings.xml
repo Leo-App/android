@@ -31,7 +31,7 @@
     <string name="action_delete_all">Delete All</string>
     <string name="action_leave_chat">Leave chat</string>
     <string name="action_help">Help</string>
-    <string name="action_request" translatable="false">Feature-Request</string>
+    <string name="action_request" translatable="false">Bugreport</string>
 
 
     <!-- Snackbar -->
@@ -359,7 +359,7 @@
         a tutoring-board and a personal organizer. Of course we also read your suggestions, just let us know. Stay tuned!
     </string>
     <string name="dialog_betatest">
-        Thank you for helping us test our app. You can give us Feedback either over the Feature-Request option in the menu, via email to app@leo-ac.de or, of course, personally.
+        Thank you for helping us test our app. You can give us Feedback either over the Bugreport option in the menu, via email to app@leo-ac.de or, of course, personally.
         If you need any additional information, don\'t hesitate to contact us. Have fun!
     </string>
 
