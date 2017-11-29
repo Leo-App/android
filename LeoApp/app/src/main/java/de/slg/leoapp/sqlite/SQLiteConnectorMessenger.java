@@ -39,7 +39,7 @@ import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_STUFE;
 import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.version;
 
 /**
- * Jede Methode tut das, was der Name sagt!
+ * Jede Methode tut das, was der Name sagt! Aufschlussreiches Javadoc!
  */
 public class SQLiteConnectorMessenger {
     private final SQLiteDatabase database;

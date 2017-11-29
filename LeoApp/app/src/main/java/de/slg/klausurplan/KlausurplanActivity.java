@@ -41,6 +41,7 @@ import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
+import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
@@ -48,10 +49,9 @@ import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
 import de.slg.umfragen.SurveyActivity;
 
-public class KlausurplanActivity extends ActionLogActivity {
+public class KlausurplanActivity extends LeoAppFeatureActivity {
     private ListView      lvKlausuren;
     private List<Klausur> klausurList;
-    private DrawerLayout  drawerLayout;
     private Snackbar      snackbar;
     private KlausurDialog dialog;
     private boolean       confirmDelete;
@@ -59,19 +59,46 @@ public class KlausurplanActivity extends ActionLogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_klausurplan);
         Utils.getController().registerKlausurplanActivity(this);
 
         initList();
-        initToolbar();
         initListView();
-        initNavigationView();
         initAddButton();
         initSnackbar();
 
         loescheAlteKlausuren(Utils.getController().getPreferences().getInt("pref_key_delete", -1));
         filternNachStufe(Utils.getUserStufe());
         refresh();
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_klausurplan;
+    }
+
+    @Override
+    protected int getDrawerLayoutId() {
+        return R.id.drawer;
+    }
+
+    @Override
+    protected int getNavigationId() {
+        return R.id.navigationView;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return R.id.toolbar;
+    }
+
+    @Override
+    protected int getToolbarTextId() {
+        return R.string.title_testplan;
+    }
+
+    @Override
+    protected int getNavigationHighlightId() {
+        return R.id.klausurplan;
     }
 
     @Override
@@ -82,11 +109,11 @@ public class KlausurplanActivity extends ActionLogActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         snackbar.dismiss();
-        if (mi.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        } else if (mi.getItemId() == R.id.action_load) {
+        super.onOptionsItemSelected(mi);
+        if (mi.getItemId() == R.id.action_load) {
             ladeKlausuren();
-        } else if (mi.getItemId() == R.id.action_delete) {
+        }
+        if (mi.getItemId() == R.id.action_delete) {
             confirmDelete = true;
             this.löscheAlleKlausuren();
             snackbar.show();
@@ -120,81 +147,6 @@ public class KlausurplanActivity extends ActionLogActivity {
 
     private void löscheAlleKlausuren() {
         lvKlausuren.setAdapter(new KlausurenAdapter(getApplicationContext(), new List<Klausur>(), -1));
-    }
-
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        toolbar.setTitle(R.string.title_testplan);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
-    private void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.klausurplan).setChecked(true);
-        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
-                        break;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), MessengerActivity.class);
-                        break;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan:
-                        return true;
-                    case R.id.startseite:
-                        i = null;
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-                    case R.id.profile:
-                        i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        break;
-                    case R.id.umfragen:
-                        i = new Intent(getApplicationContext(), SurveyActivity.class);
-                        break;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                if (i != null)
-                    startActivity(i);
-                finish();
-                return true;
-            }
-        });
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.getUserName());
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
-            grade.setText(Utils.getLehrerKuerzel());
-        else
-            grade.setText(Utils.getUserStufe());
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
     }
 
     private void initListView() {

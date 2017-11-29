@@ -41,6 +41,7 @@ import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
+import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
@@ -50,7 +51,7 @@ import de.slg.umfragen.SurveyActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
-public class EssensQRActivity extends ActionLogActivity implements ZXingScannerView.ResultHandler {
+public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScannerView.ResultHandler {
     public static SharedPreferences sharedPref;
     public static SQLiteHandler     sqlh;
     public static Button            scan;
@@ -60,22 +61,16 @@ public class EssensQRActivity extends ActionLogActivity implements ZXingScannerV
     private ViewPager            mViewPager;
     private FragmentPagerAdapter adapt;
     private boolean              runningScan;
-    private DrawerLayout         drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wrapper_qr);
-
         new InformationDialog(this).setText(R.string.dialog_qrfoodmarks).show();
 
         Utils.getController().registerEssensQRActivity(this);
 
         runningScan = false;
         runningSync = false;
-
-        initToolbar();
-        initNavigationView();
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -135,83 +130,38 @@ public class EssensQRActivity extends ActionLogActivity implements ZXingScannerV
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_wrapper_qr;
+    }
+
+    @Override
+    protected int getDrawerLayoutId() {
+        return R.id.drawer;
+    }
+
+    @Override
+    protected int getNavigationId() {
+        return R.id.navigationView;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return R.id.toolbar;
+    }
+
+    @Override
+    protected int getToolbarTextId() {
+        return R.string.toolbar_title;
+    }
+
+    @Override
+    protected int getNavigationHighlightId() {
+        return R.id.foodmarks;
+    }
+
+    @Override
     protected String getActivityTag() {
         return "QRActivity";
-    }
-
-    private void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.foodmarks).setChecked(true);
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        return true;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), MessengerActivity.class);
-                        break;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan:
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                        break;
-                    case R.id.startseite:
-                        i = null;
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-                    case R.id.profile:
-                        i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        break;
-                    case R.id.umfragen:
-                        i = new Intent(getApplicationContext(), SurveyActivity.class);
-                        break;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                if (i != null)
-                    startActivity(i);
-                finish();
-                return true;
-            }
-        });
-
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.getUserName());
-
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
-            grade.setText(Utils.getLehrerKuerzel());
-        else
-            grade.setText(Utils.getUserStufe());
-
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
-    }
-
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.toolbar_title));
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void scan() {
@@ -245,12 +195,10 @@ public class EssensQRActivity extends ActionLogActivity implements ZXingScannerV
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.action_refresh) {
             ((QRFragment) adapt.getItem(0)).synchronize(false);
             mViewPager.setCurrentItem(0);
-        } else if (item.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-            SQLitePrinter.printDatabase(getApplicationContext());
         }
         return true;
     }
