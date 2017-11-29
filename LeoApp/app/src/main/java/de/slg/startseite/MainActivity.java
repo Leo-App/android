@@ -88,7 +88,6 @@ public class MainActivity extends LeoAppFeatureActivity {
         return R.layout.activity_startseite;
     }
 
-
     @Override
     protected int getDrawerLayoutId() {
         return R.id.drawer;
@@ -485,19 +484,6 @@ public class MainActivity extends LeoAppFeatureActivity {
         }
     }
 
-    void showVerificationDialog() {
-        VerificationDialog dialog = new VerificationDialog(this);
-        dialog.show();
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        dialog.setCancelable(false);
-    }
-
-    void addCard(CardType t) {
-        mAdapter.addToList(t);
-        mAdapter.notifyDataSetChanged();
-    }
-
     private void writeCardsToPreferences() {
         StringBuilder b = new StringBuilder("");
         if (mAdapter.cards.size() > 0) {
@@ -514,5 +500,18 @@ public class MainActivity extends LeoAppFeatureActivity {
                 .edit()
                 .putString("pref_key_card_config", b.toString())
                 .apply();
+    }
+
+    void showVerificationDialog() {
+        VerificationDialog dialog = new VerificationDialog(this);
+        dialog.show();
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        dialog.setCancelable(false);
+    }
+
+    void addCard(CardType t) {
+        mAdapter.addToList(t);
+        mAdapter.notifyDataSetChanged();
     }
 }

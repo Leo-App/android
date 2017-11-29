@@ -33,7 +33,7 @@ import static android.view.View.GONE;
 /**
  * Ergebnisdialog
  * <p>
- * Dieser Dialog wird zum Anzeigen der Umfrageergebnisse verwendet
+ * Dieser Dialog wird zum Anzeigen der Umfrageergebnisse verwendet.
  *
  * @author Gianni
  * @version 2017.2110
