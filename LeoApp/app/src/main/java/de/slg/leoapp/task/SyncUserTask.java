@@ -101,12 +101,13 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            Utils.getController().closeActivities();
                             Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), Start.class)
                                     .putExtra("updateUser", false)
                                     .addCategory(Intent.CATEGORY_LAUNCHER)
                                     .setAction(Intent.ACTION_MAIN));
                         }
-                    }, 200);
+                    }, 50);
                     break;
             }
         }
