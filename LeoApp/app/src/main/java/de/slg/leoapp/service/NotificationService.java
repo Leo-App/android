@@ -486,7 +486,7 @@ public class NotificationService extends Service {
             while (running) {
                 if (Utils.getContext() == null)
                     Utils.getController().setContext(getApplicationContext());
-                messengerNotification();
+   //             messengerNotification();
                 schwarzesBrettNotification();
                 surveyNotification();
                 timeCheck();
