@@ -309,9 +309,13 @@ public class NotificationService extends Service {
 
     private void schwarzesBrettNotification() {
         if (Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true)) {
-            SQLiteConnectorNews db     = new SQLiteConnectorNews(getApplicationContext());
-            SQLiteDatabase      dbh    = db.getReadableDatabase();
-            long                latest = db.getLatestEntryDate(dbh);
+            SQLiteConnectorNews db = new SQLiteConnectorNews(getApplicationContext());
+
+            if(!db.getDatabaseAvailable())
+                return;
+
+            SQLiteDatabase dbh    = db.getReadableDatabase();
+            long           latest = db.getLatestEntryDate(dbh);
 
             dbh.close();
             db.close();
@@ -350,9 +354,13 @@ public class NotificationService extends Service {
 
     private void surveyNotification() {
         if (Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true)) {
-            SQLiteConnectorNews db     = new SQLiteConnectorNews(getApplicationContext());
-            SQLiteDatabase      dbh    = db.getReadableDatabase();
-            long                latest = db.getLatestSurveyDate(dbh);
+            SQLiteConnectorNews db = new SQLiteConnectorNews(getApplicationContext());
+
+            if(!db.getDatabaseAvailable())
+                return;
+
+            SQLiteDatabase dbh    = db.getReadableDatabase();
+            long           latest = db.getLatestSurveyDate(dbh);
 
             dbh.close();
             db.close();

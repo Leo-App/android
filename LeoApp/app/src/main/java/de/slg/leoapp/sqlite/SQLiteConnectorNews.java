@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.io.File;
+
+import de.slg.leoapp.utility.Utils;
+
 public class SQLiteConnectorNews extends SQLiteOpenHelper {
     public static final  String TABLE_EINTRAEGE        = "Eintraege";
     public static final  String TABLE_SURVEYS          = "Umfragen";
@@ -145,6 +149,11 @@ public class SQLiteConnectorNews extends SQLiteOpenHelper {
             cursor.close();
             return 0;
         }
+    }
+
+    public boolean getDatabaseAvailable() {
+        File dbFile = Utils.getContext().getDatabasePath(DATABASE_NAME);
+        return dbFile.exists();
     }
 
 }
