@@ -19,12 +19,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.Utils;
@@ -50,6 +52,13 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         loescheAlteKlausuren(Utils.getController().getPreferences().getInt("pref_key_delete", -1));
         filternNachStufe(Utils.getUserStufe());
         refresh();
+
+        SQLiteConnectorKlausurplan connectorKlausurplan = new SQLiteConnectorKlausurplan(getApplicationContext());
+        try {
+            connectorKlausurplan.getKlausuren();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

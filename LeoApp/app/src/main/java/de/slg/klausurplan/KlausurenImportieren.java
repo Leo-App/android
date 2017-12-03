@@ -10,10 +10,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
+import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.Utils;
 
@@ -25,12 +28,15 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
     private       BufferedReader reader;
     private       int            year, halbjahr;
 
+    private SQLiteConnectorKlausurplan database;
+
     private List<Klausur> examList;
 
     KlausurenImportieren(Context context) {
         this.context = context;
         this.schriflich = Utils.getController().getStundenplanDatabase().gibSchriftlicheFaecherStrings();
         this.filtern = Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", true);
+        this.database = new SQLiteConnectorKlausurplan(context);
     }
 
     @Override
@@ -49,6 +55,8 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
                 fileOutput.write(buffer, 0, bufferLength);
             }
             fileOutput.close();
+
+            database.deleteAllDownloaded();
 
             reader = new BufferedReader(new InputStreamReader(context.openFileInput("klausurplan.xml")));
             year = getYear();
@@ -117,6 +125,10 @@ class KlausurenImportieren extends AsyncTask<Void, Void, List<Klausur>> {
                 //Log.e("AV GK", c);
             }
             List<String> klausurenAusZeile = getKlausurStrings(c, stufe); //sucht in der zeile nach Klausuren
+            for (String k : klausurenAusZeile) {
+                k = k.replace('_', ' ');
+                database.insert(k, stufe, datum, istImStundenplan(k), true);
+            }
             for (klausurenAusZeile.toFirst(); klausurenAusZeile.hasAccess(); klausurenAusZeile.next())
                 if (datum != null && istImStundenplan(klausurenAusZeile.getContent().replace('_', ' ')))
                     examList.append(new Klausur(klausurenAusZeile.getContent().replace('_', ' '), datum, null, null)); //neue Klausuren(in der Zeile enthaltenes Datum, gefundene Klausuren (Kürzel)) werden angehängt
