@@ -6,16 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,21 +26,17 @@ import de.slg.essensqr.EssensQRActivity;
 import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.IntroActivity;
 import de.slg.leoapp.PreferenceActivity;
-import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.EditTextDialog;
 import de.slg.leoapp.dialog.InformationDialog;
-import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.task.MailSendTask;
+import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
-import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.messenger.MessengerActivity;
 import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.stimmungsbarometer.AbstimmDialog;
-import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.StundenplanActivity;
 import de.slg.umfragen.SurveyActivity;
 
 /**
@@ -262,8 +253,8 @@ public class MainActivity extends LeoAppFeatureActivity {
         ImageView mood = (ImageView) getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
 
-        Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
-        Utils.getNotificationManager().cancel(NotificationService.ID_STUNDENPLAN);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_BAROMETER);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_STUNDENPLAN);
     }
 
     @Override
@@ -444,23 +435,23 @@ public class MainActivity extends LeoAppFeatureActivity {
             Utils.getController().closeActivities();
 
             switch (notificationTarget) {
-                case NotificationService.ID_ESSENSQR:
+                case NotificationHandler.ID_ESSENSQR:
                     startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
                     break;
 
-                case NotificationService.ID_KLAUSURPLAN:
+                case NotificationHandler.ID_KLAUSURPLAN:
                     startActivity(new Intent(getApplicationContext(), KlausurplanActivity.class));
                     break;
 
-                case NotificationService.ID_MESSENGER:
+                case NotificationHandler.ID_MESSENGER:
                     startActivity(new Intent(getApplicationContext(), MessengerActivity.class));
                     break;
 
-                case NotificationService.ID_NEWS:
+                case NotificationHandler.ID_NEWS:
                     startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
                     break;
 
-                case NotificationService.ID_SURVEY:
+                case NotificationHandler.ID_SURVEY:
                     startActivity(new Intent(getApplicationContext(), SurveyActivity.class));
                     break;
             }

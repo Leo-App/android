@@ -50,7 +50,6 @@ import de.slg.umfragen.SurveyActivity;
 public class StundenplanActivity extends ActionLogActivity {
     private DrawerLayout        drawerLayout;
     private WochentagFragment[] fragments;
-    private ViewPager           viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +213,7 @@ public class StundenplanActivity extends ActionLogActivity {
                 }
             }
         };
-        viewPager = (ViewPager) findViewById(R.id.viPager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viPager);
         viewPager.setAdapter(adapter);
 
         int dayOfWeek = new GregorianCalendar().get(Calendar.DAY_OF_WEEK);

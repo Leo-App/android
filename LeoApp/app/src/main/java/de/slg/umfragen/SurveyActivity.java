@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -33,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
+import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.schwarzes_brett.ResponseCode;
@@ -121,7 +119,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.getNotificationManager().cancel(NotificationService.ID_SURVEY);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_SURVEY);
         receive();
     }
 

@@ -1,5 +1,6 @@
 package de.slg.leoapp.utility;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -9,7 +10,6 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.NotificationPreferenceActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.ProfileActivity;
-import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.leoapp.view.ActivityStatus;
@@ -70,8 +70,11 @@ public class UtilsController {
     private SQLiteConnectorMessenger SQLiteConnectorMessenger;
     private StundenplanDB            stundenplanDB;
 
-    private ReceiveService      receiveService;
-    private NotificationService notificationService;
+    private ReceiveService receiveService;
+    private PendingIntent  foodmarkReference;
+    private PendingIntent  timetableReference;
+    private PendingIntent  klausurplanReference;
+    private PendingIntent  stimmungsbarometerReference;
 
     /**
      * Liefert ein Context-Objekt.
@@ -403,17 +406,36 @@ public class UtilsController {
         receiveService = service;
     }
 
-    /**
-     * Registriert neuen NotificationService.
-     *
-     * @param service ReceiveService.
-     */
-    public void registerNotificationService(NotificationService service) {
-        notificationService = service;
+    public void registerFoodmarkNotificationReference(PendingIntent reference) {
+        foodmarkReference = reference;
     }
 
-    private NotificationService getNotificationService() {
-        return notificationService;
+    public void registerKlausurplanNotificationReference(PendingIntent reference) {
+        klausurplanReference = reference;
+    }
+
+    public void registerTimetableNotificationReference(PendingIntent reference) {
+        timetableReference = reference;
+    }
+
+    public void registerStimmungsbarometerNotificationReference(PendingIntent reference) {
+        stimmungsbarometerReference = reference;
+    }
+
+    public PendingIntent getStimmungsbarometerReference() {
+        return stimmungsbarometerReference;
+    }
+
+    public PendingIntent getFoodmarkReference() {
+        return foodmarkReference;
+    }
+
+    public PendingIntent getTimetableReference() {
+        return timetableReference;
+    }
+
+    public PendingIntent getKlausurplanReference() {
+        return klausurplanReference;
     }
 
     /**
@@ -491,10 +513,6 @@ public class UtilsController {
         if (getReceiveService() != null) {
             getReceiveService().stopSelf();
             receiveService = null;
-        }
-        if (getNotificationService() != null) {
-            getNotificationService().stopSelf();
-            notificationService = null;
         }
     }
 }

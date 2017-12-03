@@ -5,49 +5,30 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.zxing.Result;
 
-import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.PreferenceActivity;
-import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;
-import de.slg.leoapp.service.NotificationService;
-import de.slg.leoapp.utility.User;
+import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.Utils;
-import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
-import de.slg.messenger.MessengerActivity;
-import de.slg.schwarzes_brett.SchwarzesBrettActivity;
-import de.slg.startseite.MainActivity;
-import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.StundenplanActivity;
-import de.slg.umfragen.SurveyActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
@@ -184,7 +165,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.getNotificationManager().cancel(NotificationService.ID_ESSENSQR);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_ESSENSQR);
     }
 
     @Override

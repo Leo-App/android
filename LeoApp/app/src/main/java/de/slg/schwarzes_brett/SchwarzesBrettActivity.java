@@ -2,7 +2,6 @@ package de.slg.schwarzes_brett;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,15 +10,10 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -27,7 +21,6 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,22 +31,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import de.slg.essensqr.EssensQRActivity;
-import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.PreferenceActivity;
-import de.slg.leoapp.ProfileActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
+import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
-import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
-import de.slg.messenger.MessengerActivity;
-import de.slg.startseite.MainActivity;
-import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.StundenplanActivity;
-import de.slg.umfragen.SurveyActivity;
 
 /**
  * SchwarzesBrettActivity.
@@ -127,7 +110,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.getNotificationManager().cancel(NotificationService.ID_NEWS);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_NEWS);
         receive();
     }
 

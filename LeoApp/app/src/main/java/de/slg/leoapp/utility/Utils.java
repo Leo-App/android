@@ -11,6 +11,9 @@ import android.support.annotation.StringRes;
 import android.util.Base64;
 import android.util.Log;
 
+import de.slg.leoapp.notification.NotificationTime;
+import de.slg.leoapp.notification.NotificationType;
+
 /**
  * Utils
  * <p>
@@ -240,4 +243,36 @@ public abstract class Utils {
     public static String toAuthFormat(String user, String pass) {
         return "Basic " + new String(Base64.encode((user + ":" + pass).getBytes(), 0));
     }
+
+    /**
+     * Liefert die Uhrzeit, zu der eine bestimmte Notification gesendet wird.
+     *
+     * @param type Typ der Notification
+     * @return Uhrzeit zu spezifizierter Notification
+     */
+    public static NotificationTime getNotificationTime(NotificationType type) {
+        String time;
+        String[] parts;
+        switch (type) {
+            case FOODMARKS:
+                time  = Utils.getController().getPreferences().getString("pref_key_notification_time_foodmarks", "00:00");
+                parts = time.split(":");
+                return new NotificationTime(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+            case TIMETABLE:
+                time  = Utils.getController().getPreferences().getString("pref_key_notification_time_schedule", "00:00");
+                parts = time.split(":");
+                return new NotificationTime(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+            case KLAUSUR:
+                time  = Utils.getController().getPreferences().getString("pref_key_notification_time_test", "00:00");
+                parts = time.split(":");
+                return new NotificationTime(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+            case MOOD:
+                time  = Utils.getController().getPreferences().getString("pref_key_notification_time_survey", "00:00");
+                parts = time.split(":");
+                return new NotificationTime(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+            default:
+                return new NotificationTime(0, 0);
+        }
+    }
+
 }

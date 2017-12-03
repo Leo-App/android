@@ -24,6 +24,10 @@
 
     <string name="info_devs" translatable="false">LeoApp Team</string>
 
+    <string name="none">None</string>
+
+    <string name="notification_test_content">You have a test tomorrow!</string>
+
     <!-- Action -->
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
@@ -294,7 +298,7 @@
     <string name="settings_title_contact">Contact</string>
     <string name="settings_summary_contact" translatable="false">app\@leo-ac.de</string>
 
-    <string name="settings_title_customid" translatable="false">Customer ID</string>
+    <string name="settings_title_customid">Customer ID</string>
     <string name="settings_summary_customid">Enter your lunch.leo-ac.de customer ID</string>
     <string name="settings_summary_pw">Enter your lunch.leo-ac.de password</string>
     <string name="settings_title_sync" translatable="false">Auto-Sync</string>

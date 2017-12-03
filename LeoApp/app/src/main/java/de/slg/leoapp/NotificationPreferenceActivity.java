@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import de.slg.leoapp.service.NotificationService;
 import de.slg.leoapp.utility.Utils;
 
 @SuppressWarnings("deprecation")
@@ -79,7 +78,7 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
                 scheduletime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
                 break;
         }
-        NotificationService.getTimes();
+        Start.initNotificationServices();
     }
 
     @Override

@@ -266,8 +266,11 @@ class NewSurveyDialog extends AlertDialog {
 
             String answerString = answers[0];
 
-            for (int i = 1; i < 5 && !answers[i].equals(""); i++)
+            for (int i = 1; i < 5; i++) {
+                if(answers[i].equals(""))
+                    continue;
                 answerString += "_;_" + answers[i];
+            }
 
             BufferedReader in     = null;
             String         result = "";

@@ -21,6 +21,7 @@ import java.net.URLEncoder;
 
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.List;
+import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.WebSocketClient;
@@ -196,6 +197,8 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
             if (Utils.checkNetwork()) {
                 getEntries();
                 getSurveys();
+                new NotificationHandler.NewsNotification().send();
+                new NotificationHandler.SurveyNotification().send();
             }
             return null;
         }

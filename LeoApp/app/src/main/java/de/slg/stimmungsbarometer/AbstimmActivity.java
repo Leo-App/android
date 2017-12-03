@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.service.NotificationService;
+import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 
@@ -38,7 +38,7 @@ public class AbstimmActivity extends ActionLogActivity {
 
         Utils.getController().setContext(getApplicationContext());
 
-        Utils.getNotificationManager().cancel(NotificationService.ID_BAROMETER);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_BAROMETER);
         if (Utils.getController().getMainActivity() != null && Utils.getController().getMainActivity().abstimmDialog != null)
             Utils.getController().getMainActivity().abstimmDialog.dismiss();
 

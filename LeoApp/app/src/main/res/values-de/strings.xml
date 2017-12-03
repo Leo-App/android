@@ -21,6 +21,11 @@
         Danke für deine Geduld :)
     </string>
 
+    <string name="none">Keine</string>
+
+    <string name="settings_title_customid">Kundennummer</string>
+    <string name="notification_test_content">Du schreibst morgen eine Klausur!</string>
+
     <!-- Action -->
     <string name="action_save">Speichern</string>
     <string name="action_delete">Löschen</string>
