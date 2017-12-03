@@ -97,7 +97,7 @@
         android:layout_alignStart="@+id/eingabeDatum"
         android:layout_below="@+id/eingabeDatum"
         android:layout_marginTop="20dp"
-        android:text="@string/note"
+        android:text="@string/notizen"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorText" />
 
