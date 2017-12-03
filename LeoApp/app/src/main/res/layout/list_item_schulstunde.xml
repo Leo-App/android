@@ -67,6 +67,6 @@
         android:layout_marginRight="5dp"
         android:tint="@color/colorInactive"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_content_paste_white_24dp" />
+        app:srcCompat="@drawable/icon_klausurplan" />
 
 </RelativeLayout>

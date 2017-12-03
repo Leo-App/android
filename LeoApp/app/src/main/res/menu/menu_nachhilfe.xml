@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/Action3"
-        android:icon="@drawable/ic_content_paste_white_24dp"
+        android:icon="@drawable/icon_klausurplan"
         android:title="Item"
         app:showAsAction="ifRoom" />
     <item

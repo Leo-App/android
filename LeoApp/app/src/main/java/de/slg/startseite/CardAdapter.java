@@ -35,7 +35,7 @@ import de.slg.vertretung.WrapperSubstitutionActivity;
  * <p>
  * Adapter für den RecyclerView der Startseiten-Navigation.
  *
- * @auhor Gianni
+ * @author Gianni
  * @version 2017.1811
  * @since 0.0.1
  */
@@ -90,7 +90,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.title = Utils.getString(R.string.title_testplan);
                 c.desc = Utils.getString(R.string.summary_info_testplan);
                 c.enabled = Utils.isVerified();
-                c.icon = R.drawable.content_paste;
+                c.icon = R.drawable.icon_klausurplan;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

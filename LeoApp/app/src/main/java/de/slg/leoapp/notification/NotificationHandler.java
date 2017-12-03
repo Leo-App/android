@@ -123,7 +123,7 @@ public class NotificationHandler {
             notification = new NotificationCompat.Builder(context)
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setLargeIcon(getNotificationIcon())
-                            .setSmallIcon(R.drawable.ic_content_paste_white_24dp)
+                            .setSmallIcon(R.drawable.icon_klausurplan)
                             .setVibrate(new long[]{200})
                             .setContentTitle(Utils.getString(R.string.title_testplan))
                             .setAutoCancel(true)

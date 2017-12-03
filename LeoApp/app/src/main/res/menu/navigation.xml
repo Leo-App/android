@@ -17,7 +17,7 @@
         <item
             android:id="@+id/klausurplan"
             android:checked="false"
-            android:icon="@drawable/ic_content_paste_white_24dp"
+            android:icon="@drawable/icon_klausurplan"
             android:title="@string/title_testplan" />
         <item
             android:id="@+id/messenger"
