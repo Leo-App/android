@@ -1,5 +1,6 @@
 package de.slg.klausurplan;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import de.slg.leoapp.utility.Utils;
 
 class KlausurDialog extends AppCompatDialog {
 
-    static  Klausur  currentKlausur;
+    private Klausur  currentKlausur;
     private EditText eingabeFach;
     private EditText eingabeDatum;
     private EditText eingabeNotiz;
@@ -30,10 +31,9 @@ class KlausurDialog extends AppCompatDialog {
     private Snackbar snackbarDate;
     private Snackbar snackbarTitle;
 
-    private int DATE_DIALOG_ID = 0;
-
-    KlausurDialog(@NonNull Context context) {
+    KlausurDialog(@NonNull Activity context, Klausur klausur) {
         super(context);
+        currentKlausur = klausur;
     }
 
     @Override

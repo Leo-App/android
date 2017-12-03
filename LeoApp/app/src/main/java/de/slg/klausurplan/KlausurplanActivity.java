@@ -145,8 +145,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         lvKlausuren.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                KlausurDialog.currentKlausur = klausurList.getObjectAt(position);
-                dialog = new KlausurDialog(KlausurplanActivity.this);
+                dialog = new KlausurDialog(KlausurplanActivity.this, klausurList.getObjectAt(position));
                 dialog.show();
                 dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -189,8 +188,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
             @Override
             public void onClick(View v) {
                 snackbar.dismiss();
-                KlausurDialog.currentKlausur = new Klausur("", null, "", "");
-                KlausurDialog klausurDialog = new KlausurDialog(KlausurplanActivity.this);
+                KlausurDialog klausurDialog = new KlausurDialog(KlausurplanActivity.this, new Klausur("", null, "", ""));
                 klausurDialog.show();
 
                 klausurDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
