@@ -1,127 +1,42 @@
 package de.slg.klausurplan;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
-class Klausur {
+public class Klausur {
+    static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
 
-    private final String note;
-    Date datum;
-    private String fach;
-    private String notiz;
+    private final int    id;
+    private final String titel;
+    private final Date   datum;
+    private final String notiz;
 
-    Klausur(String fach, Date datum, String notiz, String note) {
-        if (fach == null)
-            fach = "";
-        this.fach = fach;
-
+    public Klausur(int id, String titel, Date datum, String notiz) {
+        this.id = id;
+        this.titel = titel;
         this.datum = datum;
-
-        if (notiz == null || notiz.equals("null"))
-            notiz = "";
         this.notiz = notiz;
-
-        if (note == null || note.equals("null"))
-            note = "";
-        this.note = note;
     }
 
-    public String getFach() {
-        if (fach == null)
-            return "";
-        return fach;
+    String getTitel() {
+        return titel;
     }
 
-    public void setFach(String fach) {
-        if (fach != null)
-            this.fach = fach;
-    }
-
-    String getDatum(boolean mitWochentag) {
-        if (datum == null)
-            return "";
-
-        if (mitWochentag)
-            return new SimpleDateFormat("E", Locale.GERMANY).format(datum).substring(0, 2) + ", " + new SimpleDateFormat("dd.MM.yy", Locale.GERMANY).format(datum);
-
-        return new SimpleDateFormat("dd.MM.yy", Locale.GERMANY).format(datum);
+    Date getDatum() {
+        return datum;
     }
 
     String getNotiz() {
-        if (notiz == null)
-            return "";
         return notiz;
     }
 
-    void setNotiz(String notiz) {
-        if (notiz == null)
-            notiz = "";
-        this.notiz = notiz;
-    }
-
-    void setDatum(Date datum) {
-        if (datum != null)
-            this.datum = datum;
+    int getId() {
+        return id;
     }
 
     @Override
     public String toString() {
-        return fach + System.getProperty("line.separator") + getDatum(true);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof Klausur) {
-            Klausur k = (Klausur) o;
-            return k.getFach().equals(getFach()) && k.getDatum(false).equals(getDatum(false));
-        }
-        return false;
-    } //true, wenn Fach und Datum übereinstimmen
-
-    boolean after(Klausur klausur) {
-        return klausur != null && datum != null && klausur.datum != null && datum.getTime() > klausur.datum.getTime();
-    } //wenn das Datum der Klausur später ist als das der anderen
-
-    String getWriterString() {
-        if (getFach().equals("") || getDatum(false).equals(""))
-            return null;
-        String ergebnis = "";
-        ergebnis += fach + ";";
-        ergebnis += datum.getTime() + ";";
-        if (notiz != null && !notiz.equals(""))
-            ergebnis += notiz + ";";
-        else
-            ergebnis += "null;";
-        if (note != null && !note.equals(""))
-            ergebnis += note;
-        else
-            ergebnis += "null";
-        return ergebnis;
-    }
-
-    boolean istEFKlausur() {
-        return this.fach.endsWith("EF");
-    }
-
-    boolean istQ1Klausur() {
-        return this.fach.endsWith("Q1");
-    }
-
-    boolean istQ2Klausur() {
-        return this.fach.endsWith("Q2");
-    }
-
-    boolean isSameWeek(Klausur other) {
-        Calendar calendar = new GregorianCalendar(), calendar1 = new GregorianCalendar();
-        calendar.setTime(this.datum);
-        calendar1.setTime(other.datum);
-        return calendar.get(Calendar.YEAR) == calendar1.get(Calendar.YEAR) && calendar.get(Calendar.WEEK_OF_YEAR) == calendar1.get(Calendar.WEEK_OF_YEAR);
-    }
-
-    String getWeek() {
-        return new SimpleDateFormat("'Woche' w", Locale.GERMANY).format(datum);
+        return getId() + "," + getTitel() + ',' + dateFormat.format(getDatum()) + ',' + getNotiz();
     }
 }

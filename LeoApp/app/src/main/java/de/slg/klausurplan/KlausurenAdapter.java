@@ -9,25 +9,27 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import de.slg.leoapp.R;
-import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.Utils;
 
 class KlausurenAdapter extends ArrayAdapter<Klausur> {
-
     private final Context        context;
     private final int            resId;
-    private final List<Klausur>  klausuren;
+    private final Klausur[]      klausuren;
     private final LayoutInflater layoutInflater;
     private final long           markieren;
 
-    KlausurenAdapter(Context context, List<Klausur> objects, long markieren) {
-        super(context, R.layout.list_item_klausur, objects.fill(new Klausur[objects.size()]));
+    KlausurenAdapter(Context context, Klausur[] objects, long markieren) {
+        super(context, R.layout.list_item_klausur, objects);
         this.context = context;
-        resId = R.layout.list_item_klausur;
+        this.resId = R.layout.list_item_klausur;
         this.markieren = markieren / 1000;
-        klausuren = objects;
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.klausuren = objects;
+        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @NonNull
@@ -37,17 +39,17 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
             v = layoutInflater.inflate(resId, null);
         }
 
-        Klausur current = klausuren.getObjectAt(position);
+        Klausur current = klausuren[position];
 
-        if (position == 0 || !current.isSameWeek(klausuren.getObjectAt(position - 1))) {
+        if (position == 0 || !isSameWeek(klausuren[position - 1].getDatum(), current.getDatum())) {
             TextView woche = (TextView) v.findViewById(R.id.textViewWoche);
             woche.setVisibility(View.VISIBLE);
-            woche.setText(current.getWeek());
+            woche.setText(getWeek(current.getDatum()));
         } else {
             v.findViewById(R.id.textViewWoche).setVisibility(View.GONE);
         }
 
-        String[]       parts    = current.getFach().split(" ");
+        String[]       parts    = current.getTitel().split(" ");
         final TextView fach     = (TextView) v.findViewById(R.id.textView);
         final TextView kursinfo = (TextView) v.findViewById(R.id.textViewKursInfo);
         final TextView stufe    = (TextView) v.findViewById(R.id.textViewStufe);
@@ -62,15 +64,15 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
             kursinfo.setVisibility(View.VISIBLE);
             kursinfo.setText(getFinalText(parts[1]) + " " + parts[2]);
             stufe.setText(parts[3]);
-            datum.setText(current.getDatum(true));
+            datum.setText(Klausur.dateFormat.format(current.getDatum()));
         } else {
-            fach.setText(current.getFach());
+            fach.setText(current.getTitel());
             kursinfo.setVisibility(View.GONE);
-            datum.setText(current.getDatum(true));
+            datum.setText(Klausur.dateFormat.format(current.getDatum()));
             stufe.setText("-");
         }
 
-        if (current.datum.getTime() / 1000 == markieren) {
+        if (current.getDatum().getTime() / 1000 == markieren) {
             fach.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
         } else {
             fach.setTextColor(ContextCompat.getColor(context, android.R.color.black));
@@ -89,5 +91,18 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
                 parts[1].matches("[LG][0-9]?") && // Kurs
                 parts[2].matches("[A-ZÄÖÜ]{3}") && // Lehrer-Kürzel
                 parts[3].matches(".?[0-9F]");
+    }
+
+    static boolean isSameWeek(Date d1, Date d2) {
+        Calendar c1 = new GregorianCalendar(), c2 = new GregorianCalendar();
+        c1.setTime(d1);
+        c2.setTime(d2);
+        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.WEEK_OF_YEAR) == c2.get(Calendar.WEEK_OF_YEAR);
+    }
+
+    private String getWeek(Date d) {
+        Calendar c = new GregorianCalendar();
+        c.setTime(d);
+        return Utils.getString(R.string.week) + ' ' + c.get(Calendar.WEEK_OF_YEAR);
     }
 }

@@ -222,4 +222,10 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
         }
         return true;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(getNavigationHighlightId());
+    }
 }

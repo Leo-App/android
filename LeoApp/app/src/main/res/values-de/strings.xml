@@ -30,7 +30,7 @@
     <string name="action_save">Speichern</string>
     <string name="action_delete">Löschen</string>
     <string name="action_load">Klausurplan herunterladen</string>
-    <string name="action_delete_all">Alle löschen</string>
+    <string name="action_delete_all">Heruntergeladene Klausuren löschen</string>
     <string name="action_leave_chat">Chat verlassen</string>
 
 

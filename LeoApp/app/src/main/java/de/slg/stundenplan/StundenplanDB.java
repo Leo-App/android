@@ -596,7 +596,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
         String[] columns   = {FACH_KURZEL, FACH_LEHRER};
         String   selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_GEWAHLT + "." + FACH_ID + " AND " + GEWAHLT_SCHRIFTLICH + " = 1";
         Cursor   cursor    = database.query(table, columns, selection, null, null, null, null);
-        String[] faecher   = null;
+        String[] faecher   = new String[0];
         if (cursor.getCount() > 0) {
             faecher = new String[cursor.getCount()];
             String stufe = Utils.getUserStufe();
