@@ -20,7 +20,7 @@ android {
             debuggable false
         }
         debug {
-            debuggable false
+            debuggable true
         }
     }
 }
