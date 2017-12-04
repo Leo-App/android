@@ -33,9 +33,9 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     private static final String KLAUSUR_IN_STUNDENPLAN  = "in_stundenplan";
     private static final String KLAUSUR_HERUNTERGELADEN = "heruntergeladen";
 
-    public static final String WHERE_ONLY_CREATED = KLAUSUR_HERUNTERGELADEN + " = 0";
+    public static final String WHERE_ONLY_CREATED   = KLAUSUR_HERUNTERGELADEN + " = 0";
     public static final String WHERE_ONLY_TIMETABLE = KLAUSUR_HERUNTERGELADEN + " = 0 OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
-    public static final String WHERE_ONLY_GRADE = KLAUSUR_HERUNTERGELADEN + " = 0 OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
+    public static final String WHERE_ONLY_GRADE     = KLAUSUR_HERUNTERGELADEN + " = 0 OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
 
     public SQLiteConnectorKlausurplan(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -93,7 +93,7 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     public void updateStundenplan(String fach, boolean schriftlich) {
         ContentValues values = new ContentValues();
         values.put(KLAUSUR_IN_STUNDENPLAN, schriftlich);
-        database.update(TABLE_KLAUSUREN, values, KLAUSUR_TITEL + " LIKE '" + "%'", null);
+        database.update(TABLE_KLAUSUREN, values, KLAUSUR_TITEL + " LIKE '" + fach + "%'", null);
     }
 
     public Klausur[] getKlausuren(String where) {
