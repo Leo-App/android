@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
+import android.text.Layout;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
@@ -85,6 +87,8 @@ class DetailsDialog extends AlertDialog {
             findViewById(R.id.raum_details).setVisibility(View.GONE);
             findViewById(R.id.lehrer_details).setVisibility(View.GONE);
             tvZeit.setText(Utils.getController().getStundenplanDatabase().gibZeit(fach.getTag(), fach.getStunde()));
+//            etNotiz.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE|InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+//            etNotiz.setLines(5);;
             etNotiz.setText(fach.getNotiz());
         }
     }

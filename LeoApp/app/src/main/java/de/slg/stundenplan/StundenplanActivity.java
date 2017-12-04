@@ -88,8 +88,6 @@ public class StundenplanActivity extends ActionLogActivity {
             startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
         } else if (item.getItemId() == R.id.action_picture) {
             startActivity(new Intent(getApplicationContext(), StundenplanBildActivity.class));
-        } else if (item.getItemId() == R.id.action_save) {
-            //irgendwie save image aufrufen...
         } else if (item.getItemId() == R.id.action_randstunde) {
             AlertDialog dialog = new FinderDalog(this);
             dialog.show();
@@ -307,10 +305,14 @@ public class StundenplanActivity extends ActionLogActivity {
                 TextView tvLehrer = (TextView) v.findViewById(R.id.lehrer_wt);
                 TextView tvRaum   = (TextView) v.findViewById(R.id.raum_wt);
                 TextView tvStunde = (TextView) v.findViewById(R.id.stunde_wt);
+                TextView tvNotiz  = (TextView) v.findViewById(R.id.notiz);
                 if (fachAd[position] != null) {
                     if (fachAd[position].getName() != null && fachAd[position].getNotiz() != null && fachAd[position].getName().equals("") && !fachAd[position].getNotiz().equals("")) {
-                        String[] sa = fachAd[position].getNotiz().split(" ");
-                        tvFach.setText(sa[0]);
+                        tvNotiz.setText(fachAd[position].getNotiz());
+                        tvFach.setVisibility(View.INVISIBLE);
+                        tvLehrer.setVisibility(View.INVISIBLE);
+                        tvRaum.setVisibility(View.INVISIBLE);
+                        tvNotiz.setVisibility(View.VISIBLE);
                     } else {
                         if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
                             tvFach.setText(fachAd[position].getName() + ' ' + fachAd[position].getKuerzel());
