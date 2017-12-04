@@ -27,6 +27,7 @@ public abstract class Utils {
                     try {
                         URLConnection connection = new URL(de.slg.leoapp.utility.Utils.BASE_URL_PHP + "stimmungsbarometer/voted.php?uid=" + de.slg.leoapp.utility.Utils.getUserID())
                                 .openConnection();
+                        connection.setConnectTimeout(2000);
 
                         BufferedReader reader =
                                 new BufferedReader(
