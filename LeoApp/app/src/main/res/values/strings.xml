@@ -32,7 +32,7 @@
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="action_load">Load exams</string>
-    <string name="action_delete_all">Delete All</string>
+    <string name="action_delete_all">Delete downloaded</string>
     <string name="action_leave_chat">Leave chat</string>
     <string name="action_help">Help</string>
     <string name="action_request" translatable="false">Bugreport</string>

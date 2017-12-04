@@ -1,5 +1,6 @@
 package de.slg.klausurplan;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -18,11 +18,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
+import de.slg.leoapp.utility.*;
 
 class KlausurDialog extends AppCompatDialog {
 
-    static  Klausur  currentKlausur;
+    private Klausur  currentKlausur;
     private EditText eingabeFach;
     private EditText eingabeDatum;
     private EditText eingabeNotiz;
@@ -30,10 +31,9 @@ class KlausurDialog extends AppCompatDialog {
     private Snackbar snackbarDate;
     private Snackbar snackbarTitle;
 
-    private int DATE_DIALOG_ID = 0;
-
-    KlausurDialog(@NonNull Context context) {
+    KlausurDialog(@NonNull Activity context, @NonNull Klausur klausur) {
         super(context);
+        currentKlausur = klausur;
     }
 
     @Override
@@ -42,14 +42,14 @@ class KlausurDialog extends AppCompatDialog {
         setContentView(R.layout.dialog_klausur);
 
         initEditTexts();
-        initButtons();
         initSnackbarTitel();
         initSnackbarDatum();
 
+        findViewById(R.id.buttonExamDel).setEnabled(currentKlausur.getId() != 0);
         findViewById(R.id.buttonExamDel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                klausurLöschen();
+                delete();
                 dismiss();
             }
         });
@@ -64,12 +64,13 @@ class KlausurDialog extends AppCompatDialog {
                     } else if (eingabeDatum.getText().length() < 8 || !istDatumFormat(eingabeDatum.getText().toString())) {
                         snackbarDate.show();
                     } else {
-                        klausurSpeichern();
+                        save();
                         dismiss();
                     }
                 }
             }
         });
+
         findViewById(R.id.calendarPickerButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,40 +107,30 @@ class KlausurDialog extends AppCompatDialog {
         });
     }
 
-    private void initButtons() {
-        if (!currentKlausur.getFach().equals("")) {
-            Button buttonDel = (Button) findViewById(R.id.buttonExamDel);
-            buttonDel.setEnabled(true);
-        }
-    }
-
     private void initEditTexts() {
         eingabeFach = (EditText) findViewById(R.id.eingabeFach);
         eingabeDatum = (EditText) findViewById(R.id.eingabeDatum);
         eingabeNotiz = (EditText) findViewById(R.id.eingabeNotiz);
-        if (currentKlausur != null) {
-            eingabeFach.setText(currentKlausur.getFach());
-            eingabeDatum.setText(currentKlausur.getDatum(false));
-            eingabeNotiz.setText(currentKlausur.getNotiz());
-        }
+
+        eingabeFach.setText(currentKlausur.getTitel());
+        eingabeDatum.setText(Klausur.dateFormat.format(currentKlausur.getDatum()));
+        eingabeNotiz.setText(currentKlausur.getNotiz());
     }
 
-    private void klausurSpeichern() {
-        currentKlausur.setDatum(getDate(eingabeDatum.getText().toString()));
-        currentKlausur.setNotiz(eingabeNotiz.getText().toString());
-        if (currentKlausur.getFach().equals("")) {
-            currentKlausur.setFach(eingabeFach.getText().toString());
-            Utils.getController().getKlausurplanActivity().add(currentKlausur, true);
+    private void save() {
+        SQLiteConnectorKlausurplan database = new SQLiteConnectorKlausurplan(getContext());
+        if (currentKlausur.getId() != 0) {
+            database.setTitel(currentKlausur.getId(), eingabeFach.getText().toString());
+            database.setDatum(currentKlausur.getId(), getDate(eingabeDatum.getText().toString()));
+            database.setNotiz(currentKlausur.getId(), eingabeNotiz.getText().toString());
         } else {
-            Utils.getController().getKlausurplanActivity().remove(currentKlausur);
-            currentKlausur.setFach(eingabeFach.getText().toString());
-            Utils.getController().getKlausurplanActivity().add(currentKlausur, true);
+            database.insert(eingabeFach.getText().toString(), "", getDate(eingabeDatum.getText().toString()), eingabeNotiz.getText().toString(), false, false);
         }
     }
 
-    private void klausurLöschen() {
-        if (!currentKlausur.getFach().equals(""))
-            Utils.getController().getKlausurplanActivity().remove(currentKlausur);
+    private void delete() {
+        SQLiteConnectorKlausurplan database = new SQLiteConnectorKlausurplan(getContext());
+        database.delete(currentKlausur.getId());
     }
 
     private boolean istDatumFormat(String s) {
@@ -172,8 +163,7 @@ class KlausurDialog extends AppCompatDialog {
         return null;
     }
 
-    class mDateSetListener implements DatePickerDialog.OnDateSetListener {
-
+    private class mDateSetListener implements DatePickerDialog.OnDateSetListener {
         @Override
         public void onDateSet(DatePicker view, int yearL, int monthL, int dayL) {
             String dayS = String.valueOf(dayL);

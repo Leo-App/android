@@ -12,6 +12,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -31,11 +32,12 @@ import java.util.List;
 import java.util.Map;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.notification.NotificationHandler;
+import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.schwarzes_brett.ResponseCode;
+
 /**
  * SurveyActivity.
  * <p>
@@ -53,6 +55,8 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     private        ExpandableListView   expandableListView;
     private        List<Integer>        groupList;
     private        Map<Integer, Survey> entriesMap;
+    private        View                 button2;
+    private int previousVisibleItem = 0;
 
     @Override
     public void onCreate(final Bundle b) {
@@ -71,19 +75,16 @@ public class SurveyActivity extends LeoAppFeatureActivity {
         initExpandableListView();
         initSwipeToRefresh();
 
-        if(getIntent().getExtras() != null) {
+        if (getIntent().getExtras() != null) {
             int i = 0;
-            for(Map.Entry<Integer, Survey> entry : entriesMap.entrySet()) {
-                if(entry.getValue().remoteId == Utils.getUserID()) {
+            for (Map.Entry<Integer, Survey> entry : entriesMap.entrySet()) {
+                if (entry.getValue().remoteId == Utils.getUserID()) {
                     expandableListView.expandGroup(i);
                     break;
                 }
                 i++;
             }
-
         }
-
-
     }
 
     @Override
@@ -136,6 +137,25 @@ public class SurveyActivity extends LeoAppFeatureActivity {
         ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(entriesMap, groupList);
         expandableListView.setAdapter(expandableListAdapter);
 
+        expandableListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem != previousVisibleItem) {
+                    if (firstVisibleItem < previousVisibleItem) {
+                        button2.setVisibility(View.VISIBLE);
+                    } else {
+                        button2.setVisibility(View.INVISIBLE);
+                    }
+                    previousVisibleItem = firstVisibleItem;
+                }
+            }
+        });
+
         if (groupList.size() == 0) {
             findViewById(R.id.textView6).setVisibility(View.VISIBLE);
         } else {
@@ -144,7 +164,8 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     }
 
     private void initButton() {
-        View button2 = findViewById(R.id.floatingActionButtonSurvey);
+
+        button2 = findViewById(R.id.floatingActionButtonSurvey);
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -446,8 +467,8 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 SQLiteDatabase      dbh = db.getWritableDatabase();
 
                 dbh.execSQL("UPDATE " + SQLiteConnectorNews.TABLE_ANSWERS
-                        + " SET "     + SQLiteConnectorNews.ANSWERS_SELECTED + " = 1"
-                        + " WHERE "   + SQLiteConnectorNews.ANSWERS_REMOTE_ID + " = " + id);
+                        + " SET " + SQLiteConnectorNews.ANSWERS_SELECTED + " = 1"
+                        + " WHERE " + SQLiteConnectorNews.ANSWERS_REMOTE_ID + " = " + id);
 
                 dbh.close();
 

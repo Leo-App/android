@@ -30,7 +30,7 @@
     <string name="action_save">Speichern</string>
     <string name="action_delete">Löschen</string>
     <string name="action_load">Klausurplan herunterladen</string>
-    <string name="action_delete_all">Alle löschen</string>
+    <string name="action_delete_all">Heruntergeladene Klausuren löschen</string>
     <string name="action_leave_chat">Chat verlassen</string>
 
 
@@ -356,7 +356,7 @@
     <string name="ztg">Schülerzeitung</string>
     <string name="exp">Experimentieren</string>
     <string name="klett">Klettern</string>
-    <string name="title_randstundenfinder">Randstundenfinder</string>
+    <string name="title_randstundenfinder">Freistundenfinder</string>
     <string name="add_teacher">Lehrerkürzel hinzufügen</string>
     <string name="title_survey_news">Umfragen</string>
     <string name="profil">Dein Profil</string>

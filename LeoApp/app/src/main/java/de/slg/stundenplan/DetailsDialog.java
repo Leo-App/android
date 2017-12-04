@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.utility.Utils;
 
 class DetailsDialog extends AlertDialog {
@@ -52,6 +53,8 @@ class DetailsDialog extends AlertDialog {
                     boolean b = cbSchrift.isChecked();
                     fach.setzeSchriftlich(b);
                     Utils.getController().getStundenplanDatabase().setzeSchriftlich(b, fach.id);
+                    SQLiteConnectorKlausurplan klausurplan = new SQLiteConnectorKlausurplan(getContext());
+                    klausurplan.updateStundenplan(fach.getKlausurString(), b);
                 }
                 fach.setzeNotiz(notiz);
                 Utils.getController().getStundenplanDatabase().setzeNotiz(notiz, fach.id, fach.getTag(), fach.getStunde());
