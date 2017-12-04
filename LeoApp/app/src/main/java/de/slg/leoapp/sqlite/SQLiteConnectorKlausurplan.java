@@ -90,6 +90,12 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
         database.update(TABLE_KLAUSUREN, values, KLAUSUR_ID + " = " + id, null);
     }
 
+    public void updateStundenplan(String fach, boolean schriftlich) {
+        ContentValues values = new ContentValues();
+        values.put(KLAUSUR_IN_STUNDENPLAN, schriftlich);
+        database.update(TABLE_KLAUSUREN, values, KLAUSUR_TITEL + " LIKE '" + "%'", null);
+    }
+
     public Klausur[] getKlausuren(String where) {
         Cursor    cursor    = database.query(TABLE_KLAUSUREN, new String[]{KLAUSUR_ID, KLAUSUR_TITEL, KLAUSUR_DATUM, KLAUSUR_NOTIZ}, where, null, null, null, KLAUSUR_DATUM);
         Klausur[] klausuren = new Klausur[cursor.getCount()];

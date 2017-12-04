@@ -99,4 +99,15 @@ public class Fach {
     String getKlasse() {
         return klasse;
     }
+
+    String getKlausurString() {
+        String teil1 = kuerzel.substring(0, 2);
+        String teil2 = kuerzel.substring(2, 4);
+        if (teil1.charAt(1) != ' ')
+            teil1 += ' ';
+        if (teil2.charAt(0) == 'L')
+            teil2 = "L";
+        String erg = teil1 + teil2 + " " + lehrer + " " + klasse;
+        return erg;
+    }
 }

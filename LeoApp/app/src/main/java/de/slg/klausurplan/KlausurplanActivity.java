@@ -123,6 +123,8 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         Utils.getController().registerKlausurplanActivity(null);
         if (dialog != null)
             dialog.dismiss();
+        if (database != null)
+            database.close();
     }
 
     private void ladeKlausuren() {
