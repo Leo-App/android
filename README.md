@@ -21,6 +21,7 @@ Wenn geplante Änderungen nicht minimal sind, bitte im development-Branch arbeit
 - Umfragefeature in vielen Aspekten verbessert
 - Anzeigefehler bei Stundenplannotizen behoben
 - Stundenplannotification überarbeitet
+- Diverse Bugs behoben
 
 #### FTP Development-Server
 Server: w011e117.kasserver.com<br/>
