@@ -22,7 +22,8 @@ final class Survey {
 
     final String[] answers;
     final boolean  multiple;
-    final boolean  voted;
+
+    boolean  voted;
 
     /**
      * Konstruktor. Instanziiert die Attribute der Umfrage mit den entsprechenden Parametern.
