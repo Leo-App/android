@@ -20,6 +20,7 @@ Wenn geplante Änderungen nicht minimal sind, bitte im development-Branch arbeit
 - Klausurplan vollständig überarbeitet
 - Umfragefeature in vielen Aspekten verbessert
 - Anzeigefehler bei Stundenplannotizen behoben
+- Stundenplannotification überarbeitet
 
 #### FTP Development-Server
 Server: w011e117.kasserver.com<br/>
