@@ -81,6 +81,7 @@ public class ReceiveService extends Service {
     }
 
     private void startSocket() {
+        Log.e("TAG", Utils.URL_TOMCAT);
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Utils.URL_TOMCAT)
