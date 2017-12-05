@@ -63,6 +63,8 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_NEWS);
         Utils.getController().registerSchwarzesBrettActivity(this);
 
         receive();
