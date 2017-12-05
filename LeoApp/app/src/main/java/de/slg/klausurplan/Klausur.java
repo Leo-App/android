@@ -34,9 +34,4 @@ public class Klausur {
     int getId() {
         return id;
     }
-
-    @Override
-    public String toString() {
-        return getId() + "," + getTitel() + ',' + dateFormat.format(getDatum()) + ',' + getNotiz();
-    }
 }
