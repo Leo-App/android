@@ -81,9 +81,10 @@ public class ReceiveService extends Service {
     }
 
     private void startSocket() {
+        Log.e("TAG", Utils.URL_TOMCAT);
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("wss://ucloud4schools.de:8080/leoapp/")
+                .url(Utils.URL_TOMCAT)
                 //.url("ws://192.168.0.103:8080/leoapp/")
                 .build();
         Listener listener = new Listener();
@@ -94,7 +95,7 @@ public class ReceiveService extends Service {
         socket.send("request");
     }
 
-    void assoziationen() {
+    private void assoziationen() {
         try {
             URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/getAssoziationen.php?uid=" + Utils.getUserID())
                     .openConnection();

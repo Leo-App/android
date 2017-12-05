@@ -45,7 +45,7 @@ public abstract class Utils {
     /**
      * Pfad zum Application-Server.
      */
-    public static final String URL_TOMCAT = BASE_DOMAIN + "leoapp/";
+    public static final String URL_TOMCAT = "ws" + BASE_DOMAIN.substring(4, BASE_DOMAIN.length() - 1) + ":8080/leoapp/";
 
     /**
      * Pfad zu den PHP-Skripts auf dem Leo-Server.
@@ -251,23 +251,23 @@ public abstract class Utils {
      * @return Uhrzeit zu spezifizierter Notification
      */
     public static NotificationTime getNotificationTime(NotificationType type) {
-        String time;
+        String   time;
         String[] parts;
         switch (type) {
             case FOODMARKS:
-                time  = Utils.getController().getPreferences().getString("pref_key_notification_time_foodmarks", "00:00");
+                time = Utils.getController().getPreferences().getString("pref_key_notification_time_foodmarks", "00:00");
                 parts = time.split(":");
                 return new NotificationTime(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
             case TIMETABLE:
-                time  = Utils.getController().getPreferences().getString("pref_key_notification_time_schedule", "00:00");
+                time = Utils.getController().getPreferences().getString("pref_key_notification_time_schedule", "00:00");
                 parts = time.split(":");
                 return new NotificationTime(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
             case KLAUSUR:
-                time  = Utils.getController().getPreferences().getString("pref_key_notification_time_test", "00:00");
+                time = Utils.getController().getPreferences().getString("pref_key_notification_time_test", "00:00");
                 parts = time.split(":");
                 return new NotificationTime(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
             case MOOD:
-                time  = Utils.getController().getPreferences().getString("pref_key_notification_time_survey", "00:00");
+                time = Utils.getController().getPreferences().getString("pref_key_notification_time_survey", "00:00");
                 parts = time.split(":");
                 return new NotificationTime(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
             default:

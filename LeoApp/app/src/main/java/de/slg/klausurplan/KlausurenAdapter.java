@@ -41,10 +41,10 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
 
         Klausur current = klausuren[position];
 
-        if (position == 0 || !isSameWeek(klausuren[position - 1].getDatum(), current.getDatum())) {
+        if (position == 0 || !de.slg.klausurplan.Utils.isSameWeek(klausuren[position - 1].getDatum(), current.getDatum())) {
             TextView woche = (TextView) v.findViewById(R.id.textViewWoche);
             woche.setVisibility(View.VISIBLE);
-            woche.setText(getWeek(current.getDatum()));
+            woche.setText(de.slg.klausurplan.Utils.getWeek(current.getDatum()));
         } else {
             v.findViewById(R.id.textViewWoche).setVisibility(View.GONE);
         }
@@ -91,18 +91,5 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
                 parts[1].matches("[LG][0-9]?") && // Kurs
                 parts[2].matches("[A-ZÄÖÜ]{3}") && // Lehrer-Kürzel
                 parts[3].matches(".?[0-9F]");
-    }
-
-    static boolean isSameWeek(Date d1, Date d2) {
-        Calendar c1 = new GregorianCalendar(), c2 = new GregorianCalendar();
-        c1.setTime(d1);
-        c2.setTime(d2);
-        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.WEEK_OF_YEAR) == c2.get(Calendar.WEEK_OF_YEAR);
-    }
-
-    private String getWeek(Date d) {
-        Calendar c = new GregorianCalendar();
-        c.setTime(d);
-        return Utils.getString(R.string.week) + ' ' + c.get(Calendar.WEEK_OF_YEAR);
     }
 }

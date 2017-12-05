@@ -95,12 +95,12 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         snackbar.dismiss();
         super.onOptionsItemSelected(mi);
         if (mi.getItemId() == R.id.action_load) {
-            ladeKlausuren();
+            new Importer().execute();
         }
         if (mi.getItemId() == R.id.action_delete) {
             confirmDelete = true;
             snackbar.show();
-            listView.setAdapter(new KlausurenAdapter(getApplicationContext(), database.getKlausuren(SQLiteConnectorKlausurplan.WHERE_ONLY_CREATED), findeNächsteKlausur()));
+            listView.setAdapter(new KlausurenAdapter(getApplicationContext(), database.getKlausuren(SQLiteConnectorKlausurplan.WHERE_ONLY_CREATED), de.slg.klausurplan.Utils.findeNächsteKlausur(klausuren)));
         }
         return true;
     }
@@ -125,10 +125,6 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
             dialog.dismiss();
         if (database != null)
             database.close();
-    }
-
-    private void ladeKlausuren() {
-        new Importer().execute();
     }
 
     private void initListView() {
@@ -200,9 +196,9 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
     private void refresh() {
         refreshArray();
-        listView.setAdapter(new KlausurenAdapter(getApplicationContext(), klausuren, findeNächsteKlausur()));
+        listView.setAdapter(new KlausurenAdapter(getApplicationContext(), klausuren, de.slg.klausurplan.Utils.findeNächsteKlausur(klausuren)));
 
-        listView.setSelection(findeNächsteWoche());
+        listView.setSelection(de.slg.klausurplan.Utils.findeNächsteWoche(klausuren));
     }
 
     private void refreshArray() {
@@ -211,24 +207,6 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         } else {
             klausuren = database.getKlausuren(SQLiteConnectorKlausurplan.WHERE_ONLY_GRADE);
         }
-    }
-
-    private long findeNächsteKlausur() {
-        Date heute = new Date();
-        for (Klausur aKlausuren : klausuren) {
-            if (!heute.after(aKlausuren.getDatum()))
-                return aKlausuren.getDatum().getTime();
-        }
-        return -1;
-    }
-
-    private int findeNächsteWoche() {
-        Date heute = new Date();
-        for (int i = 0; i < klausuren.length; i++) {
-            if (KlausurenAdapter.isSameWeek(heute, klausuren[i].getDatum()))
-                return i;
-        }
-        return 0;
     }
 
     private class Importer extends AsyncTask<Void, Void, Void> {

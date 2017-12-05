@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -61,7 +62,7 @@ class KlausurDialog extends AppCompatDialog {
                 if (currentKlausur != null) {
                     if (eingabeFach.getText().length() == 0) {
                         snackbarTitle.show();
-                    } else if (eingabeDatum.getText().length() < 8 || !istDatumFormat(eingabeDatum.getText().toString())) {
+                    } else if (eingabeDatum.getText().length() < 8 || getDate(eingabeDatum.getText().toString()) == null) {
                         snackbarDate.show();
                     } else {
                         save();
@@ -133,32 +134,13 @@ class KlausurDialog extends AppCompatDialog {
         database.delete(currentKlausur.getId());
     }
 
-    private boolean istDatumFormat(String s) {
-        String[] parts = s.replace('.', '_').split("_");
-        if (parts.length != 3)
-            return false;
-        int day, month;
-        try {
-            day = Integer.parseInt(parts[0]);
-            month = Integer.parseInt(parts[1]) - 1;
-            Integer.parseInt(parts[2]);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return !(month < 1 || day < 1 || day > 31 || month > 12);
-    }
-
     private Date getDate(String s) {
-        if (istDatumFormat(s)) {
-            String[] parts = s.replace('.', '_').split("_");
-            if (parts.length == 3) {
-                int      day   = Integer.parseInt(parts[0]);
-                int      month = Integer.parseInt(parts[1]) - 1;
-                int      year  = 2000 + Integer.parseInt(parts[2]);
-                Calendar c     = new GregorianCalendar();
-                c.set(year, month, day, 0, 0, 0);
-                return c.getTime();
-            }
+        if (!s.matches("[0-9]{2}.[0-9]{2}.[0-9]{2}"))
+            return null;
+        try {
+            return Klausur.dateFormat.parse(s.substring(0, 6) + "20" + s.substring(6));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return null;
     }

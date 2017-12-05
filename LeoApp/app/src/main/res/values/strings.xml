@@ -415,5 +415,6 @@
     <string name="intro3_title">Enhance communication</string>
     <string name="intro4_title">Everything in one app</string>
     <string name="intro5_title">Click!</string>
+    <string name="createCourse">Create new Course</string>
 
 </resources>

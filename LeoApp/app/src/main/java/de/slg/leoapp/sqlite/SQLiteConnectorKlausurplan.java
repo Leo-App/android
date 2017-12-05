@@ -104,8 +104,6 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
             klausuren[i] = new Klausur(cursor.getInt(0), cursor.getString(1), parse(cursor.getString(2)), cursor.getString(3));
         }
         cursor.close();
-        for (Klausur k : klausuren)
-            Log.d("TAG", k.toString());
         return klausuren;
     }
 
