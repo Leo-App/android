@@ -28,6 +28,9 @@
 
     <string name="notification_test_content">You have a test tomorrow!</string>
 
+
+    <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
+
     <!-- Action -->
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>

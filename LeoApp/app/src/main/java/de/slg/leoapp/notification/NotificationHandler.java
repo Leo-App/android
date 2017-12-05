@@ -334,7 +334,7 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true)
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_survey_students", true)
                     && hasUnreadNews()
                     && (Utils.getController().getSurveyActivity() == null
                     || Utils.getController().getSurveyActivity().getStatus() != ActivityStatus.ACTIVE);
