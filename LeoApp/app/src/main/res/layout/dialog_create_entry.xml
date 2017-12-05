@@ -132,7 +132,7 @@
                 android:background="@android:color/transparent"
                 android:tint="@android:color/black"
                 android:visibility="visible"
-                app:srcCompat="@drawable/ic_event_note_white_24dp" />
+                app:srcCompat="@drawable/icon_news" />
 
             <TextView
                 android:id="@+id/title_to"

@@ -7,11 +7,11 @@
 	if ($db->connect_error)
     	die("-connection failed: ".$db->connect_error);
 
-	// mitgegebene Wert über get: uid
+	// mitgegebene Wert Ã¼ber get: uid
 
 	$uid = $db->real_escape_string($_GET['uid']);
 
-	$query = "SELECT cid, uid FROM Assoziation a1 INNER JOIN Assoziation a2 ON a1.cid = a2.cid WHERE a1.uid = " + $uid;
+	$query = "SELECT a2.cid, a2.uid FROM Assoziation a1 INNER JOIN Assoziation a2 ON a1.cid = a2.cid WHERE a1.uid = " + $uid;
 
 	$result = $db->query($query);
 	if ($result === false)
