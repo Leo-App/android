@@ -28,6 +28,9 @@
 
     <string name="notification_test_content">You have a test tomorrow!</string>
 
+    <string name="dialog_changelog">
+        TODO!!!
+    </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
 
@@ -107,6 +110,7 @@
     <string name="discard">Discard</string>
     <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>
 
+    <string name="changelog">Changelog</string>
 
     <!-- Info -->
     <string name="toolbar_name_info">About</string>

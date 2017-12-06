@@ -1,5 +1,6 @@
 package de.slg.leoapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
+
+import de.slg.leoapp.utility.Utils;
 
 /**
  * IntroActivity.
@@ -33,6 +36,16 @@ public class IntroActivity extends AppIntro {
         showStatusBar(false);
         showSkipButton(false);
         setProgressButtonEnabled(true);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+
+        Utils.getController().getPreferences()
+                .edit()
+                .putString("previousVersion", Utils.getAppVersionName())
+                .apply();
     }
 
     @Override

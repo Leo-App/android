@@ -21,6 +21,10 @@
         Danke für deine Geduld :)
     </string>
 
+    <string name="dialog_changelog">
+        TODO!!!
+    </string>
+
     <string name="none">Keine</string>
 
     <string name="settings_title_customid">Kundennummer</string>
@@ -98,6 +102,8 @@
     <string name="cards_quick">Schnellzugriffe</string>
     <string name="discard">Ausblenden</string>
     <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>
+
+    <string name="changelog">Changelog</string>
 
 
     <!-- Info -->

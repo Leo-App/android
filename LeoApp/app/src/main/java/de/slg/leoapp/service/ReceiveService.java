@@ -70,7 +70,7 @@ public class ReceiveService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.e("ReceiveService", "ReceiveService removed");
-        socket.close(12, "Service stopped");
+        socket.close(1000, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
         super.onTaskRemoved(rootIntent);

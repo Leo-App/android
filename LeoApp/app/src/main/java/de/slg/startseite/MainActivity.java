@@ -3,6 +3,8 @@ package de.slg.startseite;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -402,27 +404,12 @@ public class MainActivity extends LeoAppFeatureActivity {
     }
 
     private void initAppIntro() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                boolean           isFirst  = getPrefs.getBoolean("first", true);
-
-                if (isFirst) {
-                    final Intent i = new Intent(MainActivity.this, IntroActivity.class);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(i);
-                        }
-                    });
-                    SharedPreferences.Editor e = getPrefs.edit();
-                    e.putBoolean("first", false);
-                    e.apply();
-                }
-            }
-        });
-        t.start();
+        String prevVersion = Utils.getController().getPreferences().getString("previousVersion", "");
+        if (prevVersion.equals("")) {
+            startActivity(new Intent(MainActivity.this, IntroActivity.class));
+        } else if (!prevVersion.equals(Utils.getAppVersionName())) {
+            new ChangelogDialog(this).show();
+        }
     }
 
     private void initOptionalDialog() {
