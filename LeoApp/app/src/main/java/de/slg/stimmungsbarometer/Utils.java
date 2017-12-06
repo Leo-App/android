@@ -1,53 +1,14 @@
 package de.slg.stimmungsbarometer;
 
-import android.os.AsyncTask;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
 
 public abstract class Utils {
     public static boolean showVoteOnStartup() {
-        if (getLastVote().equals(getCurrentDate()))
-            return false;
-        boolean b = de.slg.leoapp.utility.Utils.isVerified() && de.slg.leoapp.utility.Utils.checkNetwork();
-        if (b) {
-            AsyncTask<Void, Void, Boolean> t = new AsyncTask<Void, Void, Boolean>() {
-                private boolean b;
-
-                @Override
-                protected Boolean doInBackground(Void... params) {
-                    try {
-                        URLConnection connection = new URL(de.slg.leoapp.utility.Utils.BASE_URL_PHP + "stimmungsbarometer/voted.php?uid=" + de.slg.leoapp.utility.Utils.getUserID())
-                                .openConnection();
-                        connection.setConnectTimeout(2000);
-
-                        BufferedReader reader =
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                connection.getInputStream(), "UTF-8"));
-                        b = !Boolean.parseBoolean(reader.readLine());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return b;
-                }
-            };
-            t.execute();
-            try {
-                return t.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
+        return !getLastVote().equals(getCurrentDate());
     }
 
     private static String getCurrentDate() {
@@ -76,7 +37,7 @@ public abstract class Utils {
         return de.slg.leoapp.utility.Utils.getController().getPreferences().getString("pref_key_general_last_vote", "00.00");
     }
 
-    static void setLastVote(int vote) {
+    public static void setLastVote(int vote) {
         de.slg.leoapp.utility.Utils.getController().getPreferences().edit()
                 .putString("pref_key_general_last_vote", getCurrentDate())
                 .putInt("pref_key_general_vote_id", vote)

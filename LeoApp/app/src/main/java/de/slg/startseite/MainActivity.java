@@ -443,23 +443,6 @@ public class MainActivity extends LeoAppFeatureActivity {
                     break;
             }
         }
-
-        if (getIntent().getBooleanExtra("show_dialog", false)) {
-            abstimmDialog = new AbstimmDialog(this);
-            abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    ImageView mood = (ImageView) getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
-                    mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            abstimmDialog = null;
-                        }
-                    }, 100);
-                }
-            });
-        }
     }
 
     private void writeCardsToPreferences() {
@@ -491,5 +474,27 @@ public class MainActivity extends LeoAppFeatureActivity {
     void addCard(CardType t) {
         mAdapter.addToList(t);
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void notifyVote() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                abstimmDialog = new AbstimmDialog(MainActivity.this);
+                abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        ImageView mood = (ImageView) getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
+                        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                abstimmDialog = null;
+                            }
+                        }, 100);
+                    }
+                });
+            }
+        });
     }
 }

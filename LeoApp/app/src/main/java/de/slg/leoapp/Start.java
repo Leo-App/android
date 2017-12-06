@@ -16,6 +16,7 @@ import de.slg.leoapp.task.SyncGradeTask;
 import de.slg.leoapp.task.SyncUserTask;
 import de.slg.leoapp.notification.NotificationTime;
 import de.slg.leoapp.notification.NotificationType;
+import de.slg.leoapp.task.SyncVoteTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.schwarzes_brett.UpdateViewTrackerTask;
@@ -37,16 +38,23 @@ public class Start extends Activity {
         runUpdateTasks();
         startServices();
 
-        final Intent main = new Intent(getApplicationContext(), MainActivity.class)
-                .putExtra("show_dialog", de.slg.stimmungsbarometer.Utils.showVoteOnStartup());
+        final Intent main = new Intent(getApplicationContext(), MainActivity.class);
 
         startActivity(main);
         finish();
     }
 
     private void runUpdateTasks() {
+        if (!Utils.checkNetwork()) {
+            return;
+        }
+
         ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.Utils.getCachedIDs();
         new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
+
+        if (Utils.isVerified() && de.slg.stimmungsbarometer.Utils.showVoteOnStartup()) {
+            new SyncVoteTask().execute();
+        }
 
         if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true)) {
             new SyncUserTask().execute();
