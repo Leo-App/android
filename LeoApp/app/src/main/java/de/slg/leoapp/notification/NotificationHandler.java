@@ -44,8 +44,6 @@ public class NotificationHandler {
     public static final int ID_BAROMETER   = 234;
     public static final int ID_STUNDENPLAN = 222;
 
-    public static final String PERIODIC_NOTIFICATION_TAG = "NOTFEA";
-
     private static NotificationManager notificationManager;
     private static Bitmap icon;
 
@@ -250,7 +248,7 @@ public class NotificationHandler {
             notification = new NotificationCompat.Builder(context)
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setLargeIcon(getNotificationIcon())
-                            .setSmallIcon(R.drawable.ic_event_note_white_24dp)
+                            .setSmallIcon(R.drawable.icon_news)
                             .setVibrate(new long[]{200})
                             .setAutoCancel(true)
                             .setContentTitle("Neue Einträge")
@@ -336,7 +334,7 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true)
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_survey_students", true)
                     && hasUnreadNews()
                     && (Utils.getController().getSurveyActivity() == null
                     || Utils.getController().getSurveyActivity().getStatus() != ActivityStatus.ACTIVE);
@@ -422,13 +420,18 @@ public class NotificationHandler {
         }
 
         private void create() {
+
+            String msg = getNotificationText();
+
             notification = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.drawable.ic_event_white_24dp)
                     .setVibrate(new long[]{200})
                     .setContentTitle("Deine Stunden morgen:")
-                    .setContentText(getNotificationText())
+                    .setContentText(msg)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(msg))
                     .setAutoCancel(true)
                     .build();
         }
@@ -458,7 +461,6 @@ public class NotificationHandler {
                         }
                     }
                 }
-                builder.deleteCharAt(builder.length() - 2);
 
                 return builder.toString();
         }

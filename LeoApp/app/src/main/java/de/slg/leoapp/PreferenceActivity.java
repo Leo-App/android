@@ -47,6 +47,7 @@ import de.slg.schwarzes_brett.SchwarzesBrettActivity;
 import de.slg.startseite.MainActivity;
 import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanActivity;
+import de.slg.umfragen.SurveyActivity;
 
 @SuppressWarnings("deprecation")
 public class PreferenceActivity extends android.preference.PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -320,9 +321,11 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         navigationView.getMenu().findItem(R.id.umfragen).setEnabled(Utils.isVerified());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
+
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
@@ -344,7 +347,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                         i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                         break;
                     case R.id.startseite:
-                        i = null;
+                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        break;
+                    case R.id.umfragen:
+                        i = new Intent(getApplicationContext(), SurveyActivity.class);
                         break;
                     case R.id.settings:
                         return true;
@@ -357,7 +363,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 }
                 if (i != null)
                     startActivity(i);
-                finish();
                 return true;
             }
         });

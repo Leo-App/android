@@ -177,33 +177,7 @@ public abstract class NotificationServiceWrapper {
         }
 
         private void checkKlausurplanNotification() {
-            try {
-                Calendar tomorrow = new GregorianCalendar();
-                tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        openFileInput(getString(R.string.klausuren_filename))));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] current = line.split(";");
-                    if (current.length == 4) {
-                        Calendar c = new GregorianCalendar();
-                        c.setTime(new Date(Long.parseLong(current[1])));
-                        if (c.get(Calendar.DAY_OF_MONTH) == tomorrow.get(Calendar.DAY_OF_MONTH) && c.get(Calendar.YEAR) == tomorrow.get(Calendar.YEAR) && c.get(Calendar.MONTH) == tomorrow.get(Calendar.MONTH)) {
-                            new NotificationHandler.KlausurplanNotification().send();
-                        }
-                        if (c.getTime().after(tomorrow.getTime())) {
-                            break;
-                        }
-                    }
-                }
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
     }

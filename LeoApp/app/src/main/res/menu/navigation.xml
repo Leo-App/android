@@ -27,7 +27,7 @@
         <item
             android:id="@+id/newsboard"
             android:checked="false"
-            android:icon="@drawable/ic_event_note_white_24dp"
+            android:icon="@drawable/icon_news"
             android:title="@string/title_news" />
         <item
             android:id="@+id/barometer"

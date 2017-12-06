@@ -15,7 +15,10 @@
   $query = "DELETE FROM Answers WHERE survey = ".$survey;
   $result2 = $db->query($query);
 
-  if($result === false || $result2 === false)
+  $query = "DELETE FROM Result WHERE answer IN (SELECT id FROM Answers WHERE survey = ".$survey.")";
+  $result3 = $db->query($query);
+
+  if($result === false || $result2 === false || $result3 === false)
     die("-ERR");
 
   echo "+OK";

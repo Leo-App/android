@@ -161,6 +161,7 @@ class ResultDialog extends AlertDialog {
      *
      * @author Gianni
      * @since 0.5.6
+     * @version 2017.0512
      */
     private class SyncResults extends AsyncTask<Void, Void, ResponseCode> {
 
@@ -196,16 +197,15 @@ class ResultDialog extends AlertDialog {
 
                 target = Integer.parseInt(data[0]);
                 title = data[2];
+                sumVotes = Integer.parseInt(data[3]);
 
                 String[] answers = data[1].split("_next_");
 
                 amountAnswers = answers.length;
                 answerResults = new LinkedHashMap<>();
-                sumVotes = 0;
 
                 for (String s : answers) {
                     answerResults.put(s.split("_;_")[0], Integer.parseInt(s.split("_;_")[1]));
-                    sumVotes += Integer.parseInt(s.split("_;_")[1]);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

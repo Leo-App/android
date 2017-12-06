@@ -62,6 +62,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     public void onCreate(final Bundle b) {
         super.onCreate(b);
 
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_SURVEY);
         Utils.getController().registerSurveyActivity(this);
 
         if (sqLiteConnector == null)
@@ -340,7 +341,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                             for (TextView textView : checkboxes.get(getSurvey(groupPosition).remoteId)) {
                                 CompoundButton rb = (CompoundButton) textView;
                                 if (rb.isChecked())
-                                    new SendVoteTask(button).execute((Integer) rb.getTag(), getSurvey(groupPosition).remoteId);
+                                    new SendVoteTask(button, getSurvey(groupPosition)).execute((Integer) rb.getTag(), getSurvey(groupPosition).remoteId);
                             }
                         }
                     });
@@ -447,11 +448,13 @@ public class SurveyActivity extends LeoAppFeatureActivity {
         private class SendVoteTask extends AsyncTask<Integer, Void, ResponseCode> {
 
             private Button b;
+            private Survey s;
             private int    id;
             private int    remoteid;
 
-            SendVoteTask(Button b) {
+            SendVoteTask(Button b, Survey s) {
                 this.b = b;
+                this.s = s;
             }
 
             @Override
@@ -530,6 +533,15 @@ public class SurveyActivity extends LeoAppFeatureActivity {
 
                         for (CompoundButton c : checkboxes.get(remoteid)) {
                             c.setEnabled(false);
+                        }
+
+                        s.voted = true;
+
+                        for(int i = 0; i < s.answers.length; i++) {
+                            String cur = s.answers[i];
+                            String[] parts = cur.split("_;_");
+                            if(Integer.parseInt(parts[1]) == id)
+                                s.answers[i] = parts[0]+"_;_"+parts[1]+"_;_"+1;
                         }
 
                         break;

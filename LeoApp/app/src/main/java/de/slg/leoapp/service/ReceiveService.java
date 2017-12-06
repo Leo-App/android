@@ -14,24 +14,28 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.List;
-import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
-import de.slg.leoapp.utility.WebSocketClient;
 import de.slg.messenger.Assoziation;
 import de.slg.messenger.Chat;
 import de.slg.messenger.Message;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
 
-public class ReceiveService extends Service implements WebSocketClient.MessageHandler {
-    private boolean running;
-    private boolean socketRunning;
+public class ReceiveService extends Service {
+    private boolean      running;
+    private boolean      socketRunning;
+    private WebSocket    socket;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -57,6 +61,8 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
     @Override
     public void onDestroy() {
         running = false;
+        socket.close(12, "Service stopped");
+        Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
         Log.i("ReceiveService", "Service stopped!");
     }
@@ -64,6 +70,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.e("ReceiveService", "ReceiveService removed");
+        socket.close(12, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
         super.onTaskRemoved(rootIntent);
@@ -73,64 +80,19 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
         new QueueThread().start();
     }
 
-    @Override
-    public void handleMessage(String message) {
-        try {
-            String[] parts = message.substring(1, message.indexOf("_ next _")).split("_ ; _");
-
-            if (message.startsWith("m") && parts.length == 6) {
-                int    mid   = Integer.parseInt(parts[0]);
-                String mtext = de.slg.messenger.Utils.Verschluesseln.decrypt(parts[1], de.slg.messenger.Utils.Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
-                long   mdate = Long.parseLong(parts[3] + "000");
-                int    cid   = Integer.parseInt(parts[4]);
-                int    uid   = Integer.parseInt(parts[5]);
-
-                Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
-            } else if (message.startsWith("c") && parts.length == 3) {
-                int           cid   = Integer.parseInt(parts[0]);
-                String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
-                Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
-
-                Utils.getController().getMessengerDatabase().insertChat(new Chat(cid, cname, ctype));
-            } else if (message.startsWith("u") && parts.length == 5) {
-                int    uid          = Integer.parseInt(parts[0]);
-                String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
-                String ustufe       = parts[2];
-                int    upermission  = Integer.parseInt(parts[3]);
-                String udefaultname = parts[4];
-
-                Utils.getController().getMessengerDatabase().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
-            } else if (message.startsWith("a")) {
-                assoziationen();
-            } else if (message.startsWith("-")) {
-                Log.e("SocketError", message);
-            }
-
-            if (Utils.getController().getMessengerActivity() != null)
-                Utils.getController().getMessengerActivity().notifyUpdate();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void startSocket() {
-        try {
-            final WebSocketClient client = new WebSocketClient(new URI("wss://ucloud4schools.de:8080/leoapp/"));
+        Log.e("TAG", Utils.URL_TOMCAT);
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(Utils.URL_TOMCAT)
+                //.url("ws://192.168.0.103:8080/leoapp/")
+                .build();
+        Listener listener = new Listener();
+        socket = client.newWebSocket(request, listener);
 
-            socketRunning = true;
-
-            client.addMessageHandler(new WebSocketClient.MessageHandler() {
-                public void handleMessage(String message) {
-                    System.out.println(message);
-                }
-            });
-
-            client.sendMessage("uid=1008");
-            client.sendMessage("mdate=0");
-            client.sendMessage("request");
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
+        socket.send("uid=1008");
+        socket.send("mdate=0");
+        socket.send("request");
     }
 
     private void assoziationen() {
@@ -284,7 +246,7 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
                                 res[0],
                                 Short.parseShort(res[4]),
                                 Integer.parseInt(res[5]),
-                                Long.parseLong(res[6]+ "000")
+                                Long.parseLong(res[6] + "000")
                         ));
 
                         for (int i = 7; i < res.length - 1; i += 2) {
@@ -366,6 +328,70 @@ public class ReceiveService extends Service implements WebSocketClient.MessageHa
             String vMessage = de.slg.messenger.Utils.Verschluesseln.encrypt(message, key);
             String vKey     = de.slg.messenger.Utils.Verschluesseln.encryptKey(key);
             return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?&uid=" + Utils.getUserID() + "&message=" + vMessage + "&cid=" + cid + "&vKey=" + vKey;
+        }
+    }
+
+    private class Listener extends WebSocketListener {
+        @Override
+        public void onOpen(WebSocket webSocket, Response response) {
+            socketRunning = true;
+        }
+
+        @Override
+        public void onMessage(WebSocket webSocket, String text) {
+            try {
+                String[] parts;
+                if (text.contains("_ next _")) {
+                    parts = text.substring(1, text.indexOf("_ next _")).split("_ ; _");
+                } else {
+                    parts = new String[0];
+                }
+
+                if (text.startsWith("+")) {
+                    Log.e("Socket", text);
+                } else if (text.startsWith("m") && parts.length == 6) {
+                    int    mid   = Integer.parseInt(parts[0]);
+                    String mtext = de.slg.messenger.Utils.Verschluesseln.decrypt(parts[1], de.slg.messenger.Utils.Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                    long   mdate = Long.parseLong(parts[3] + "000");
+                    int    cid   = Integer.parseInt(parts[4]);
+                    int    uid   = Integer.parseInt(parts[5]);
+
+                    Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
+                } else if (text.startsWith("c") && parts.length == 3) {
+                    int           cid   = Integer.parseInt(parts[0]);
+                    String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                    Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
+
+                    Utils.getController().getMessengerDatabase().insertChat(new Chat(cid, cname, ctype));
+                } else if (text.startsWith("u") && parts.length == 5) {
+                    int    uid          = Integer.parseInt(parts[0]);
+                    String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                    String ustufe       = parts[2];
+                    int    upermission  = Integer.parseInt(parts[3]);
+                    String udefaultname = parts[4];
+
+                    Utils.getController().getMessengerDatabase().insertUser(new User(uid, uname, ustufe, upermission, udefaultname));
+                } else if (text.startsWith("a")) {
+                    assoziationen();
+                } else if (text.startsWith("-")) {
+                    Log.e("SocketError", text);
+                }
+
+                if (Utils.getController().getMessengerActivity() != null)
+                    Utils.getController().getMessengerActivity().notifyUpdate();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onClosed(WebSocket webSocket, int code, String reason) {
+            socketRunning = false;
+        }
+
+        @Override
+        public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+            Log.e("SocketError", Log.getStackTraceString(t));
         }
     }
 }

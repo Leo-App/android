@@ -87,7 +87,7 @@
                     android:scaleType="fitCenter"
                     android:tag="TESTPLAN"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/content_paste" />
+                    app:srcCompat="@drawable/icon_klausurplan" />
 
             </RelativeLayout>
 

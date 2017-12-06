@@ -26,6 +26,8 @@
     <string name="settings_title_customid">Kundennummer</string>
     <string name="notification_test_content">Du schreibst morgen eine Klausur!</string>
 
+    <string name="settings_summary_notification_survey_students">Benachrichtigungen bei neuen Umfragen erhalten</string>
+
     <!-- Action -->
     <string name="action_save">Speichern</string>
     <string name="action_delete">Löschen</string>
@@ -229,6 +231,7 @@
     <string name="SoWiZ">Sozialwissenschaften ZK</string>
     <string name="Diff">Differenzierung</string>
     <string name="yourTimeTable">Dein Stundenplan</string>
+    <string name="createCourse">Neuen Kurs hinzufügen</string>
 
 
     <!-- Umfragen -->
