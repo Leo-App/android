@@ -55,6 +55,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     private ProgressBar       progressBar;
     private SharedPreferences pref;
     private DrawerLayout      drawerLayout;
+    private NavigationView    navigationView;
 
     private AppCompatDelegate mDelegate; //Downwards compatibility
 
@@ -89,6 +90,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     public void onResume() {
         super.onResume();
         initNotificationPreference();
+        navigationView.setCheckedItem(R.id.settings);
     }
 
     private void initNotificationPreference() {
@@ -309,8 +311,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.settings).setChecked(true);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
 
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());

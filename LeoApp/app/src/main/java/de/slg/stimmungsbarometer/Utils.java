@@ -7,8 +7,12 @@ import java.util.Locale;
 import de.slg.leoapp.R;
 
 public abstract class Utils {
-    public static boolean showVoteOnStartup() {
-        return !getLastVote().equals(getCurrentDate());
+    public static boolean syncVote() {
+        return !getLastVoteDate().equals(getCurrentDate());
+    }
+
+    public static boolean hasVoted() {
+        return !syncVote() && getLastVote() != 0;
     }
 
     private static String getCurrentDate() {
@@ -16,8 +20,7 @@ public abstract class Utils {
     }
 
     public static int getCurrentMoodRessource() {
-        int i = de.slg.leoapp.utility.Utils.getController().getPreferences().getInt("pref_key_general_vote_id", -1);
-        switch (i) {
+        switch (getLastVote()) {
             case 1:
                 return R.drawable.ic_sentiment_very_satisfied_white_24px;
             case 2:
@@ -33,8 +36,12 @@ public abstract class Utils {
         }
     }
 
-    private static String getLastVote() {
+    private static String getLastVoteDate() {
         return de.slg.leoapp.utility.Utils.getController().getPreferences().getString("pref_key_general_last_vote", "00.00");
+    }
+
+    public static int getLastVote() {
+        return de.slg.leoapp.utility.Utils.getController().getPreferences().getInt("pref_key_general_vote_id", -1);
     }
 
     public static void setLastVote(int vote) {

@@ -12,25 +12,26 @@ import de.slg.leoapp.utility.Utils;
 public class SyncVoteTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
-        try {
-            URLConnection connection = new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/voted.php?uid=" + de.slg.leoapp.utility.Utils.getUserID())
-                    .openConnection();
+        if (de.slg.stimmungsbarometer.Utils.syncVote()) {
+            try {
+                URLConnection connection = new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/voted.php?uid=" + Utils.getUserID())
+                        .openConnection();
 
-            BufferedReader reader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream(), "UTF-8"));
-            de.slg.stimmungsbarometer.Utils.setLastVote(Integer.parseInt(reader.readLine()));
-            reader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        connection.getInputStream(), "UTF-8"));
+                de.slg.stimmungsbarometer.Utils.setLastVote(Integer.parseInt(reader.readLine()));
+                reader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (!de.slg.stimmungsbarometer.Utils.hasVoted()) {
+            while (Utils.getController().getMainActivity() == null || Utils.getController().getActiveActivity() != Utils.getController().getMainActivity())
+                ;
+            Utils.getController().getMainActivity().notifyVote();
         }
         return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        if (de.slg.stimmungsbarometer.Utils.showVoteOnStartup())
-            Utils.getController().getMainActivity().notifyVote();
     }
 }

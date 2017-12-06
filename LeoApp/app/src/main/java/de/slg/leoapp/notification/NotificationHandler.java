@@ -401,7 +401,7 @@ public class NotificationHandler {
 
         private boolean isActive() {
             return Utils.getController().getPreferences().getBoolean("pref_key_notification_survey", false)
-                    && de.slg.stimmungsbarometer.Utils.showVoteOnStartup();
+                    && de.slg.stimmungsbarometer.Utils.syncVote();
         }
 
     }

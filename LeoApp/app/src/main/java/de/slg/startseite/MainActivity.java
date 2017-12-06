@@ -2,12 +2,8 @@ package de.slg.startseite;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -66,7 +62,7 @@ public class MainActivity extends LeoAppFeatureActivity {
         Utils.getController().setContext(getApplicationContext());
 
         initFeatureCards();
-        initAppIntro();
+        initIntroduction();
         initOptionalDialog();
 
         if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
@@ -403,7 +399,7 @@ public class MainActivity extends LeoAppFeatureActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void initAppIntro() {
+    private void initIntroduction() {
         String prevVersion = Utils.getController().getPreferences().getString("previousVersion", "");
         if (prevVersion.equals("")) {
             startActivity(new Intent(MainActivity.this, IntroActivity.class));
@@ -494,6 +490,7 @@ public class MainActivity extends LeoAppFeatureActivity {
                         }, 100);
                     }
                 });
+                abstimmDialog.show();
             }
         });
     }

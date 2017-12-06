@@ -52,7 +52,7 @@ public class Start extends Activity {
         ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.Utils.getCachedIDs();
         new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
 
-        if (Utils.isVerified() && de.slg.stimmungsbarometer.Utils.showVoteOnStartup()) {
+        if (Utils.isVerified()) {
             new SyncVoteTask().execute();
         }
 
