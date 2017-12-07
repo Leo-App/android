@@ -20,6 +20,7 @@ import de.slg.leoapp.utility.Utils;
  */
 
 public class ChangelogDialog extends AppCompatDialog {
+
     public ChangelogDialog(Activity context) {
         super(context);
     }
