@@ -36,12 +36,14 @@ public class Start extends Activity {
 
         Utils.getController().setContext(getApplicationContext());
 
+        //Vorübergehend
         SharedPreferences preferences = Utils.getController().getPreferences();
         if (!preferences.getString("first", "").equals("") && preferences.getString("previousVersion", "").equals("")) {
             preferences.edit()
                     .putString("previousVersion", "beta-0.6.8")
                     .apply();
         }
+        //TODO ab Version 0.7.0 entfernen!!!
 
         runUpdateTasks();
         startServices();
