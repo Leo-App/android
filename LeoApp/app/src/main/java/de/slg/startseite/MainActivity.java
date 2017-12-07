@@ -25,6 +25,7 @@ import de.slg.klausurplan.KlausurplanActivity;
 import de.slg.leoapp.IntroActivity;
 import de.slg.leoapp.PreferenceActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.dialog.ChangelogDialog;
 import de.slg.leoapp.dialog.EditTextDialog;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.task.MailSendTask;

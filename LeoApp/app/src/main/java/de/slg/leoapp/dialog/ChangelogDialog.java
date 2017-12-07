@@ -1,4 +1,4 @@
-package de.slg.startseite;
+package de.slg.leoapp.dialog;
 
 import android.app.Activity;
 import android.content.DialogInterface;
