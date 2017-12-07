@@ -2,10 +2,8 @@ package de.slg.startseite;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -64,7 +62,7 @@ public class MainActivity extends LeoAppFeatureActivity {
         Utils.getController().setContext(getApplicationContext());
 
         initFeatureCards();
-        initAppIntro();
+        initIntroduction();
         initOptionalDialog();
 
         if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
@@ -401,28 +399,13 @@ public class MainActivity extends LeoAppFeatureActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void initAppIntro() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                boolean           isFirst  = getPrefs.getBoolean("first", true);
-
-                if (isFirst) {
-                    final Intent i = new Intent(MainActivity.this, IntroActivity.class);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(i);
-                        }
-                    });
-                    SharedPreferences.Editor e = getPrefs.edit();
-                    e.putBoolean("first", false);
-                    e.apply();
-                }
-            }
-        });
-        t.start();
+    private void initIntroduction() {
+        String prevVersion = Utils.getController().getPreferences().getString("previousVersion", "");
+        if (prevVersion.equals("")) {
+            startActivity(new Intent(MainActivity.this, IntroActivity.class));
+        } else if (!prevVersion.equals(Utils.getAppVersionName())) {
+            new ChangelogDialog(this).show();
+        }
     }
 
     private void initOptionalDialog() {
@@ -456,23 +439,6 @@ public class MainActivity extends LeoAppFeatureActivity {
                     break;
             }
         }
-
-        if (getIntent().getBooleanExtra("show_dialog", false)) {
-            abstimmDialog = new AbstimmDialog(this);
-            abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    ImageView mood = (ImageView) getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
-                    mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            abstimmDialog = null;
-                        }
-                    }, 100);
-                }
-            });
-        }
     }
 
     private void writeCardsToPreferences() {
@@ -504,5 +470,28 @@ public class MainActivity extends LeoAppFeatureActivity {
     void addCard(CardType t) {
         mAdapter.addToList(t);
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void notifyVote() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                abstimmDialog = new AbstimmDialog(MainActivity.this);
+                abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        ImageView mood = (ImageView) getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
+                        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                abstimmDialog = null;
+                            }
+                        }, 100);
+                    }
+                });
+                abstimmDialog.show();
+            }
+        });
     }
 }

@@ -5,21 +5,23 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import de.slg.leoapp.service.NotificationServiceWrapper;
-import de.slg.leoapp.service.ReceiveService;
-import de.slg.leoapp.task.SyncGradeTask;
-import de.slg.leoapp.task.SyncUserTask;
 import de.slg.leoapp.notification.NotificationTime;
 import de.slg.leoapp.notification.NotificationType;
+import de.slg.leoapp.service.NotificationServiceWrapper;
+import de.slg.leoapp.service.ReceiveService;
+import de.slg.leoapp.task.MailSendTask;
+import de.slg.leoapp.task.SyncGradeTask;
+import de.slg.leoapp.task.SyncUserTask;
+import de.slg.leoapp.task.SyncVoteTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.schwarzes_brett.UpdateViewTrackerTask;
-import de.slg.leoapp.task.MailSendTask;
 import de.slg.startseite.MainActivity;
 
 public class Start extends Activity {
@@ -34,25 +36,43 @@ public class Start extends Activity {
 
         Utils.getController().setContext(getApplicationContext());
 
+        //Vorübergehend
+        SharedPreferences preferences = Utils.getController().getPreferences();
+        if (!preferences.getString("first", "").equals("") && preferences.getString("previousVersion", "").equals("")) {
+            preferences.edit()
+                    .putString("previousVersion", "beta-0.6.8")
+                    .apply();
+        }
+        //TODO ab Version 0.7.0 entfernen!!!
+
         runUpdateTasks();
         startServices();
 
-        final Intent main = new Intent(getApplicationContext(), MainActivity.class)
-                .putExtra("show_dialog", de.slg.stimmungsbarometer.Utils.showVoteOnStartup());
+        final Intent main = new Intent(getApplicationContext(), MainActivity.class);
 
         startActivity(main);
         finish();
     }
 
     private void runUpdateTasks() {
+        if (!Utils.checkNetwork()) {
+            return;
+        }
+
         ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.Utils.getCachedIDs();
         new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
 
-        if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true))
-            new SyncUserTask().execute();
+        if (Utils.isVerified()) {
+            new SyncVoteTask().execute();
+        }
 
-        if (Utils.isVerified() && Utils.getUserPermission() != User.PERMISSION_LEHRER)
+        if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true)) {
+            new SyncUserTask().execute();
+        }
+
+        if (Utils.isVerified() && Utils.getUserPermission() != User.PERMISSION_LEHRER) {
             new SyncGradeTask().execute();
+        }
 
         if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
             new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
@@ -157,5 +177,4 @@ public class Start extends Activity {
                 Utils.getController().getTimetableReference()
         );
     }
-
 }

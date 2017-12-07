@@ -28,7 +28,6 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 
 class NewSurveyDialog extends AlertDialog {
-
     private int   stage   = 0;
     private int[] layouts = {R.layout.dialog_create_survey, R.layout.dialog_create_survey_content, R.layout.dialog_create_survey_answers, R.layout.dialog_create_survey_to};
     private Context c;
@@ -172,41 +171,57 @@ class NewSurveyDialog extends AlertDialog {
             findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    findViewById(R.id.button).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.text2).setVisibility(View.VISIBLE);
-                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    manager.showSoftInput(findViewById(R.id.text2), InputMethodManager.SHOW_IMPLICIT);
-                    findViewById(R.id.text2).requestFocus();
+                    if (findViewById(R.id.text1).getVisibility() == View.VISIBLE) {
+                        findViewById(R.id.button).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.text2).setVisibility(View.VISIBLE);
+                        InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        manager.showSoftInput(findViewById(R.id.text2), InputMethodManager.SHOW_IMPLICIT);
+                        findViewById(R.id.text2).requestFocus();
+                    } else {
+                        findViewById(R.id.new_answer).callOnClick();
+                    }
                 }
             });
             findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    findViewById(R.id.button1).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.text3).setVisibility(View.VISIBLE);
-                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    manager.showSoftInput(findViewById(R.id.text3), InputMethodManager.SHOW_IMPLICIT);
-                    findViewById(R.id.text3).requestFocus();
+                    if (findViewById(R.id.text2).getVisibility() == View.VISIBLE) {
+                        findViewById(R.id.button1).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.text3).setVisibility(View.VISIBLE);
+                        InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        manager.showSoftInput(findViewById(R.id.text3), InputMethodManager.SHOW_IMPLICIT);
+                        findViewById(R.id.text3).requestFocus();
+                    } else {
+                        findViewById(R.id.button).callOnClick();
+                    }
                 }
             });
             findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    findViewById(R.id.button2).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.text4).setVisibility(View.VISIBLE);
-                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    manager.showSoftInput(findViewById(R.id.text4), InputMethodManager.SHOW_IMPLICIT);
-                    findViewById(R.id.text4).requestFocus();
+                    if (findViewById(R.id.text3).getVisibility() == View.VISIBLE) {
+                        findViewById(R.id.button2).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.text4).setVisibility(View.VISIBLE);
+                        InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        manager.showSoftInput(findViewById(R.id.text4), InputMethodManager.SHOW_IMPLICIT);
+                        findViewById(R.id.text4).requestFocus();
+                    } else {
+                        findViewById(R.id.button1).callOnClick();
+                    }
                 }
             });
             findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    findViewById(R.id.button3).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.text5).setVisibility(View.VISIBLE);
-                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    manager.showSoftInput(findViewById(R.id.text5), InputMethodManager.SHOW_IMPLICIT);
-                    findViewById(R.id.text5).requestFocus();
+                    if (findViewById(R.id.text4).getVisibility() == View.VISIBLE) {
+                        findViewById(R.id.button3).setVisibility(View.INVISIBLE);
+                        findViewById(R.id.text5).setVisibility(View.VISIBLE);
+                        InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        manager.showSoftInput(findViewById(R.id.text5), InputMethodManager.SHOW_IMPLICIT);
+                        findViewById(R.id.text5).requestFocus();
+                    } else {
+                        findViewById(R.id.button2).callOnClick();
+                    }
                 }
             });
         }

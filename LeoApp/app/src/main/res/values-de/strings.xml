@@ -21,6 +21,20 @@
         Danke für deine Geduld :)
     </string>
 
+    <string name="dialog_changelog">
+        Performance
+        • Akkuverbrauch reduziert
+        • Startgeschwindigkeit (vor allem bei schlechter Internetverbindung) erhöht
+        Design
+        • "Umfrage hinzufügen"-Button verschwindet beim herunterscrollen
+        • Stundenplan zeigt längere Notizen an in Freistunden
+        Funktionalität
+        • Klausurplan filtert nach Stundenplan, ohne dass der Plan neu geladen werden muss
+        • Klausurplan "löscht" nur noch heruntergeladene Klausuren
+        • Klausurplan löscht keine Klausuren mehr, sondern blendet diese nur aus
+        • Changelog hinzugefügt
+    </string>
+
     <string name="none">Keine</string>
 
     <string name="settings_title_customid">Kundennummer</string>

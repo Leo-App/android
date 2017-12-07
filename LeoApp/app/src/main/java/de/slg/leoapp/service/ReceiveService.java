@@ -61,7 +61,7 @@ public class ReceiveService extends Service {
     @Override
     public void onDestroy() {
         running = false;
-        socket.close(12, "Service stopped");
+        socket.close(1000, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
         Log.i("ReceiveService", "Service stopped!");
@@ -70,7 +70,7 @@ public class ReceiveService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.e("ReceiveService", "ReceiveService removed");
-        socket.close(12, "Service stopped");
+        socket.close(1000, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
         super.onTaskRemoved(rootIntent);
@@ -81,7 +81,6 @@ public class ReceiveService extends Service {
     }
 
     private void startSocket() {
-        Log.e("TAG", Utils.URL_TOMCAT);
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Utils.URL_TOMCAT)

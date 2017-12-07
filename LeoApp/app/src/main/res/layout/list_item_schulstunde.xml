@@ -22,39 +22,56 @@
         android:id="@+id/fach_wt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/raum_wt"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/raum_wt"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@id/stunde_wt"
+        android:layout_toRightOf="@id/stunde_wt"
         android:text="Fach"
         android:textColor="@color/colorText"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        />
 
     <TextView
         android:id="@+id/lehrer_wt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/fach_wt"
+        android:layout_alignStart="@id/fach_wt"
         android:layout_below="@id/fach_wt"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:layout_toEndOf="@id/stunde_wt"
-        android:layout_toRightOf="@id/stunde_wt"
         android:text="Lehrer"
         android:textColor="@color/colorText"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        />
 
     <TextView
         android:id="@+id/raum_wt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fach_wt"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_toEndOf="@+id/stunde_wt"
-        android:layout_toRightOf="@+id/stunde_wt"
+        android:layout_alignLeft="@id/fach_wt"
+        android:layout_alignStart="@id/fach_wt"
+        android:layout_below="@id/lehrer_wt"
         android:text="Raum"
         android:textColor="@color/colorText"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/notiz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/raum_wt"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@id/stunde_wt"
+        android:layout_toRightOf="@id/stunde_wt"
+        android:ellipsize="end"
+        android:text="Notiz"
+        android:lines="3"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/iconSchriftlich"
