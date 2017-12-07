@@ -143,7 +143,7 @@
                     android:scaleType="fitCenter"
                     android:tag="NEWS"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_event_note_white_24px" />
+                    app:srcCompat="@drawable/ic_pin" />
 
             </RelativeLayout>
 

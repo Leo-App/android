@@ -248,7 +248,7 @@ public class NotificationHandler {
             notification = new NotificationCompat.Builder(context)
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             .setLargeIcon(getNotificationIcon())
-                            .setSmallIcon(R.drawable.icon_news)
+                            .setSmallIcon(R.drawable.ic_pin)
                             .setVibrate(new long[]{200})
                             .setAutoCancel(true)
                             .setContentTitle("Neue Einträge")

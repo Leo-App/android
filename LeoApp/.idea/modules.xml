@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LeoApp.iml" filepath="$PROJECT_DIR$/LeoApp.iml" />
+      <module fileurl="file://D:\A\GIT\leoapp-sources\LeoApp\LeoApp.iml" filepath="D:\A\GIT\leoapp-sources\LeoApp\LeoApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\A\GIT\leoapp-sources\LeoApp\app\app.iml" filepath="D:\A\GIT\leoapp-sources\LeoApp\app\app.iml" />
     </modules>
   </component>
 </project>
