@@ -12,5 +12,6 @@ package de.slg.leoapp.sync;
 
 public interface Synchronizer {
     void init();
+
     boolean run();
 }

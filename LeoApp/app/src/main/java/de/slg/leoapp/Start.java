@@ -25,7 +25,6 @@ import de.slg.schwarzes_brett.UpdateViewTrackerTask;
 import de.slg.startseite.MainActivity;
 
 public class Start extends Activity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

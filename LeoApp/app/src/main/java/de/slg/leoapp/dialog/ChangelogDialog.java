@@ -18,8 +18,8 @@ import de.slg.leoapp.utility.Utils;
  * @since 0.6.9
  * @version 2017.0712
  */
-public class ChangelogDialog extends AppCompatDialog {
 
+public class ChangelogDialog extends AppCompatDialog {
     public ChangelogDialog(Activity context) {
         super(context);
     }
@@ -46,5 +46,4 @@ public class ChangelogDialog extends AppCompatDialog {
             }
         });
     }
-
 }
