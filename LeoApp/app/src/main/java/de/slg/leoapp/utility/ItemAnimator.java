@@ -12,7 +12,7 @@ import android.view.View;
  * @since 0.5.6
  */
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class ItemAnimator<ContentType extends View> {
 
     private int         iterations;

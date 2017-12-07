@@ -1,5 +1,6 @@
 package de.slg.leoapp.utility;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -71,6 +72,8 @@ public class UtilsController {
     private StundenplanDB            stundenplanDB;
 
     private ReceiveService receiveService;
+    private AlarmManager   alarmManager;
+
     private PendingIntent  foodmarkReference;
     private PendingIntent  timetableReference;
     private PendingIntent  klausurplanReference;
@@ -406,6 +409,10 @@ public class UtilsController {
         receiveService = service;
     }
 
+    public void registerAlarmManager(AlarmManager alarmManager) {
+        this.alarmManager = alarmManager;
+    }
+
     public void registerFoodmarkNotificationReference(PendingIntent reference) {
         foodmarkReference = reference;
     }
@@ -436,6 +443,10 @@ public class UtilsController {
 
     public PendingIntent getKlausurplanReference() {
         return klausurplanReference;
+    }
+
+    public AlarmManager getAlarmManager() {
+        return alarmManager;
     }
 
     /**

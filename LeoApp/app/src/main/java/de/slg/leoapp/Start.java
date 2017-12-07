@@ -8,6 +8,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -140,53 +141,70 @@ public class Start extends Activity {
 
         NotificationTime time;
 
-        time = Utils.getNotificationTime(NotificationType.FOODMARKS);
-
-        calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-        calendar.set(Calendar.MINUTE, time.minutes);
-
         AlarmManager am = (AlarmManager) Utils.getContext().getSystemService(Context.ALARM_SERVICE);
-        am.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
-                Utils.getController().getFoodmarkReference()
-        );
+        Utils.getController().registerAlarmManager(am);
 
-        time = Utils.getNotificationTime(NotificationType.KLAUSUR);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            time = Utils.getNotificationTime(NotificationType.FOODMARKS);
+            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+            calendar.set(Calendar.MINUTE, time.minutes);
 
-        calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-        calendar.set(Calendar.MINUTE, time.minutes);
+            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Utils.getController().getFoodmarkReference());
 
-        am.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
-                Utils.getController().getKlausurplanReference()
-        );
+            time = Utils.getNotificationTime(NotificationType.KLAUSUR);
+            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+            calendar.set(Calendar.MINUTE, time.minutes);
+            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Utils.getController().getKlausurplanReference());
 
-        time = Utils.getNotificationTime(NotificationType.MOOD);
+            time = Utils.getNotificationTime(NotificationType.MOOD);
+            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+            calendar.set(Calendar.MINUTE, time.minutes);
+            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Utils.getController().getStimmungsbarometerReference());
 
-        calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-        calendar.set(Calendar.MINUTE, time.minutes);
+            time = Utils.getNotificationTime(NotificationType.TIMETABLE);
+            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+            calendar.set(Calendar.MINUTE, time.minutes);
+            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Utils.getController().getTimetableReference());
+        } else {
+            time = Utils.getNotificationTime(NotificationType.FOODMARKS);
+            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+            calendar.set(Calendar.MINUTE, time.minutes);
+            am.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    Utils.getController().getFoodmarkReference()
+            );
 
-        am.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
-                Utils.getController().getStimmungsbarometerReference()
-        );
+            time = Utils.getNotificationTime(NotificationType.KLAUSUR);
+            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+            calendar.set(Calendar.MINUTE, time.minutes);
+            am.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    Utils.getController().getKlausurplanReference()
+            );
 
-        time = Utils.getNotificationTime(NotificationType.TIMETABLE);
+            time = Utils.getNotificationTime(NotificationType.MOOD);
+            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+            calendar.set(Calendar.MINUTE, time.minutes);
+            am.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    Utils.getController().getStimmungsbarometerReference()
+            );
 
-        calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-        calendar.set(Calendar.MINUTE, time.minutes);
-
-        am.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
-                Utils.getController().getTimetableReference()
-        );
+            time = Utils.getNotificationTime(NotificationType.TIMETABLE);
+            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+            calendar.set(Calendar.MINUTE, time.minutes);
+            am.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    Utils.getController().getTimetableReference()
+            );
+        }
     }
 }
