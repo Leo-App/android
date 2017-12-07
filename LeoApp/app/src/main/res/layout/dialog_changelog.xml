@@ -13,9 +13,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
         android:tint="@android:color/darker_gray"
         app:srcCompat="@drawable/ic_info_outline_white_24dp" />
 
@@ -38,23 +38,25 @@
         android:id="@+id/changelog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dialog_changelog"
-        android:textAlignment="gravity"
-        android:layout_below="@id/title"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginStart="2dp"
         android:layout_alignLeft="@id/title"
-        android:layout_alignStart="@id/title" />
+        android:layout_alignStart="@id/title"
+        android:layout_below="@id/title"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/dialog_changelog"
+        android:textAlignment="gravity" />
 
     <Button
         android:id="@+id/buttonOK"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/confirm"
-        android:layout_below="@id/changelog"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@id/changelog"
+        android:text="@string/confirm" />
 
 </RelativeLayout>

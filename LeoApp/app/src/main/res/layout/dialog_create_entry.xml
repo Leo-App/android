@@ -132,7 +132,7 @@
                 android:background="@android:color/transparent"
                 android:tint="@android:color/black"
                 android:visibility="visible"
-                app:srcCompat="@drawable/icon_news" />
+                app:srcCompat="@drawable/ic_pin" />
 
             <TextView
                 android:id="@+id/title_to"

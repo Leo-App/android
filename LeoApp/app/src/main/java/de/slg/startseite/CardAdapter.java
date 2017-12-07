@@ -123,7 +123,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
                 c.title = Utils.getString(R.string.title_news);
                 c.desc = Utils.getString(R.string.summary_info_news);
                 c.enabled = Utils.isVerified();
-                c.icon = R.drawable.ic_event_note_white_24px;
+                c.icon = R.drawable.ic_pin;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

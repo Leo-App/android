@@ -10,7 +10,6 @@ package de.slg.leoapp.sync;
  * @version 2017.0712
  */
 public interface Synchronizer {
-
     /**
      * Startet den eigentlichen Synchronisationsvorgang. Gibt bei Erfolg true zurück.
      *

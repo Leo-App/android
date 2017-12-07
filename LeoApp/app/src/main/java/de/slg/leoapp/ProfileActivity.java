@@ -30,6 +30,7 @@ import de.slg.umfragen.SurveyActivity;
  * @version 2017.1311
  * @since 0.5.8
  */
+
 public class ProfileActivity extends LeoAppFeatureActivity {
     private EditTextDialog dialog;
 
