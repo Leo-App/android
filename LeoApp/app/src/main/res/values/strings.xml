@@ -39,6 +39,7 @@
         • Exams show newly added exams in the timetable immediately
         • Exams only "deletes" downloaded exams
         • Exams doesn't delete any exams, but hides them
+        • Added Changelog
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>

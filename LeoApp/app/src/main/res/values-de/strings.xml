@@ -32,6 +32,7 @@
         • Klausurplan filtert nach Stundenplan, ohne dass der Plan neu geladen werden muss
         • Klausurplan "löscht" nur noch heruntergeladene Klausuren
         • Klausurplan löscht keine Klausuren mehr, sondern blendet diese nur aus
+        • Changelog hinzugefügt
     </string>
 
     <string name="none">Keine</string>

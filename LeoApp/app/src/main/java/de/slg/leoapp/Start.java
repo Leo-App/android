@@ -5,22 +5,23 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import de.slg.leoapp.service.NotificationServiceWrapper;
-import de.slg.leoapp.service.ReceiveService;
-import de.slg.leoapp.task.SyncGradeTask;
-import de.slg.leoapp.task.SyncUserTask;
 import de.slg.leoapp.notification.NotificationTime;
 import de.slg.leoapp.notification.NotificationType;
+import de.slg.leoapp.service.NotificationServiceWrapper;
+import de.slg.leoapp.service.ReceiveService;
+import de.slg.leoapp.task.MailSendTask;
+import de.slg.leoapp.task.SyncGradeTask;
+import de.slg.leoapp.task.SyncUserTask;
 import de.slg.leoapp.task.SyncVoteTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.schwarzes_brett.UpdateViewTrackerTask;
-import de.slg.leoapp.task.MailSendTask;
 import de.slg.startseite.MainActivity;
 
 public class Start extends Activity {
@@ -34,6 +35,13 @@ public class Start extends Activity {
         Utils.getController().closeDatabases();
 
         Utils.getController().setContext(getApplicationContext());
+
+        SharedPreferences preferences = Utils.getController().getPreferences();
+        if (!preferences.getString("first", "").equals("") && preferences.getString("previousVersion", "").equals("")) {
+            preferences.edit()
+                    .putString("previousVersion", "beta-0.6.8")
+                    .apply();
+        }
 
         runUpdateTasks();
         startServices();
