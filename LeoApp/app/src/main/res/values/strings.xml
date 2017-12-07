@@ -29,7 +29,16 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        TODO!!!
+        Performance
+        • Reduced Energy consumption
+        • Increased speed at startup (especially with bad internet connection)
+        Design
+        • "Add Survey"-Button hides when scrolling down
+        • Timetable shows longer notes in free lessons
+        Functions
+        • Exams show newly added exams in the timetable immediately
+        • Exams only "deletes" downloaded exams
+        • Exams doesn't delete any exams, but hides them
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
@@ -110,7 +119,7 @@
     <string name="discard">Discard</string>
     <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>
 
-    <string name="changelog">Changelog</string>
+    <string name="changelog" translatable="false">Changelog</string>
 
     <!-- Info -->
     <string name="toolbar_name_info">About</string>
