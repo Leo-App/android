@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 
+import de.slg.leoapp.sync.Synchronizer;
+
 /**
  * ReceiveSyncAdapter.
  *
@@ -18,6 +20,8 @@ import android.os.Bundle;
  */
 
 public class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
+
+    Synchronizer[] synchronizers;
 
     public ReceiveSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);

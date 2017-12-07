@@ -1,7 +1,7 @@
 package de.slg.leoapp.sync;
 
 /**
- * SyncManager.
+ * Synchronizer.
  *
  * Interface für Klassen, die Synchronisationsvorgänge verwalten.
  *
@@ -10,7 +10,7 @@ package de.slg.leoapp.sync;
  * @version 2017.0512
  */
 
-public interface SyncManager {
+public interface Synchronizer {
     void init();
     boolean run();
 }

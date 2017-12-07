@@ -10,7 +10,7 @@ package de.slg.leoapp.sync;
  * @version 2017.0512
  */
 
-public class NewsSynchronizer implements SyncManager {
+public class NewsSynchronizer implements Synchronizer {
     @Override
     public void init() {
 

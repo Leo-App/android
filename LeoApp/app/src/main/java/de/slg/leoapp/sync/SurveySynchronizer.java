@@ -10,7 +10,7 @@ package de.slg.leoapp.sync;
  * @version 2017.0512
  */
 
-public class SurveySynchronizer implements SyncManager {
+public class SurveySynchronizer implements Synchronizer {
     @Override
     public void init() {
 
