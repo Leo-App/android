@@ -28,7 +28,6 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 
 class NewSurveyDialog extends AlertDialog {
-
     private int   stage   = 0;
     private int[] layouts = {R.layout.dialog_create_survey, R.layout.dialog_create_survey_content, R.layout.dialog_create_survey_answers, R.layout.dialog_create_survey_to};
     private Context c;
