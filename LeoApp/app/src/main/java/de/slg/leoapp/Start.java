@@ -1,8 +1,10 @@
 package de.slg.leoapp;
 
+import android.accounts.Account;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,9 +40,10 @@ public class Start extends Activity {
 
         //Vorübergehend
         SharedPreferences preferences = Utils.getController().getPreferences();
-        if (!preferences.getString("first", "").equals("") && preferences.getString("previousVersion", "").equals("")) {
+        if (!preferences.getBoolean("first", true) && preferences.getString("previousVersion", "").equals("")) {
             preferences.edit()
                     .putString("previousVersion", "beta-0.6.8")
+                    .putBoolean("first", false)
                     .apply();
         }
         //TODO ab Version 0.7.0 entfernen!!!
@@ -84,7 +87,16 @@ public class Start extends Activity {
             startService(new Intent(getApplicationContext(), ReceiveService.class));
             initServiceIntents();
             initNotificationServices();
+            initSyncAdapter();
         }
+    }
+
+    private void initSyncAdapter() {
+        ContentResolver.addPeriodicSync(
+                new Account("default_account", "default_account"),
+                "de.slg.leoapp.provider",
+                Bundle.EMPTY,
+                60*20);
     }
 
     private void initServiceIntents() {

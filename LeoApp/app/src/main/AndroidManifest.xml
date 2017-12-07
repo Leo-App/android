@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 
     <application
         android:allowBackup="true"
@@ -19,6 +22,23 @@
         android:roundIcon="@mipmap/leo_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <provider
+            android:name="de.slg.leoapp.service.StubProvider"
+            android:authorities="de.slg.leoapp.provider"
+            android:exported="false"
+            android:syncable="true"/>
+
+        <service
+            android:name="de.slg.leoapp.service.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/syncauthenticator" />
+        </service>
+
         <service
             android:name=".service.ReceiveService"
             android:description="@string/serviceDescription"
