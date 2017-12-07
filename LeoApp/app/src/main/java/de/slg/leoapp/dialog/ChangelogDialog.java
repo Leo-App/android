@@ -9,7 +9,17 @@ import android.view.View;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 
+/**
+ * ChangelogDialog.
+ * <p>
+ * Dialog zum Anzeigen von Änderungen in neuen Versionen.
+ *
+ * @author Moritz
+ * @since 0.6.9
+ * @version 2017.0712
+ */
 public class ChangelogDialog extends AppCompatDialog {
+
     public ChangelogDialog(Activity context) {
         super(context);
     }
@@ -36,4 +46,5 @@ public class ChangelogDialog extends AppCompatDialog {
             }
         });
     }
+
 }

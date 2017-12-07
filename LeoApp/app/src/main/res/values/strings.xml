@@ -29,17 +29,17 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        Performance
-        • Reduced Energy consumption
-        • Increased speed at startup (especially with bad internet connection)
-        Design
-        • "Add Survey"-Button hides when scrolling down
-        • Timetable shows longer notes in free lessons
-        Functions
-        • Exams show newly added exams in the timetable immediately
-        • Exams only "deletes" downloaded exams
-        • Exams doesn\'t delete any exams, but hides them
-        • Added Changelog
+        Performance \n \n
+        • Reduced Energy consumption \n
+        • Increased speed at startup (especially with bad internet connection) \n \n
+        Design \n \n
+        • "Add Survey"-Button hides when scrolling down \n
+        • Timetable shows longer notes in free lessons \n \n
+        Functions \n \n
+        • Exams show newly added exams in the timetable immediately \n
+        • Exams only "deletes" downloaded exams \n
+        • Exams doesn\'t delete any exams, but hides them \n
+        • Added Changelog \n
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
