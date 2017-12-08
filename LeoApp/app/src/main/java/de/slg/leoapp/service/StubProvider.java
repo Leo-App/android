@@ -49,7 +49,7 @@ public class StubProvider extends ContentProvider {
     }
 
     public int update(
-            Uri uri,
+            @NonNull Uri uri,
             ContentValues values,
             String selection,
             String[] selectionArgs) {

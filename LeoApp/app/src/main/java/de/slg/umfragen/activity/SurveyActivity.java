@@ -55,12 +55,13 @@ import de.slg.umfragen.utility.Survey;
  */
 public class SurveyActivity extends LeoAppFeatureActivity {
 
-    private static SQLiteConnectorNews  sqLiteConnector;
-    private static SQLiteDatabase       sqLiteDatabase;
-    private        ExpandableListView   expandableListView;
-    private        List<Integer>        groupList;
-    private        Map<Integer, Survey> entriesMap;
-    private        View                 button2;
+    private static SQLiteConnectorSurvey sqLiteConnector;
+    private static SQLiteDatabase        sqLiteDatabase;
+    private        ExpandableListView    expandableListView;
+    private        List<Integer>         groupList;
+    private        Map<Integer, Survey>  entriesMap;
+    private        View                  button2;
+
     private int previousVisibleItem = 0;
 
     @Override
@@ -71,7 +72,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
         Utils.getController().registerSurveyActivity(this);
 
         if (sqLiteConnector == null)
-            sqLiteConnector = new SQLiteConnectorNews(Utils.getContext());
+            sqLiteConnector = new SQLiteConnectorSurvey(Utils.getContext());
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
