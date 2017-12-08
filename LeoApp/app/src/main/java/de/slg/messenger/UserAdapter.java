@@ -12,13 +12,13 @@ import android.widget.TextView;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.User;
 
-class UserAdapter extends ArrayAdapter<User> {
+public class UserAdapter extends ArrayAdapter<User> {
     private final int            resId;
     private final User[]         users;
     private final LayoutInflater inflater;
     private final View[]         views;
 
-    UserAdapter(Context context, User[] users) {
+    public UserAdapter(Context context, User[] users) {
         super(context, R.layout.list_item_user, users);
         this.resId = R.layout.list_item_user;
         this.users = users;
@@ -46,7 +46,7 @@ class UserAdapter extends ArrayAdapter<User> {
      *
      * @return Anzahl der ausgewählten Benutzer
      */
-    int selectCount() {
+    public int selectCount() {
         int count = 0;
         for (int i = 0; i < users.length; i++) {
             if (views[i] != null && ((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked())
@@ -60,7 +60,7 @@ class UserAdapter extends ArrayAdapter<User> {
      *
      * @return {@link User}-Array
      */
-    User[] getSelected() {
+    public User[] getSelected() {
         User[] result = new User[selectCount()];
         int    i1     = 0;
         for (int i = 0; i < result.length; i++, i1++) {

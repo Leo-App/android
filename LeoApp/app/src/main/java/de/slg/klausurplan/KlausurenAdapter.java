@@ -9,21 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
+import de.slg.klausurplan.utility.Klausur;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 
-class KlausurenAdapter extends ArrayAdapter<Klausur> {
+public class KlausurenAdapter extends ArrayAdapter<Klausur> {
     private final Context        context;
     private final int            resId;
     private final Klausur[]      klausuren;
     private final LayoutInflater layoutInflater;
     private final long           markieren;
 
-    KlausurenAdapter(Context context, Klausur[] objects, long markieren) {
+    public KlausurenAdapter(Context context, Klausur[] objects, long markieren) {
         super(context, R.layout.list_item_klausur, objects);
         this.context = context;
         this.resId = R.layout.list_item_klausur;
@@ -41,10 +38,10 @@ class KlausurenAdapter extends ArrayAdapter<Klausur> {
 
         Klausur current = klausuren[position];
 
-        if (position == 0 || !de.slg.klausurplan.Utils.isSameWeek(klausuren[position - 1].getDatum(), current.getDatum())) {
+        if (position == 0 || !de.slg.klausurplan.utility.Utils.isSameWeek(klausuren[position - 1].getDatum(), current.getDatum())) {
             TextView woche = (TextView) v.findViewById(R.id.textViewWoche);
             woche.setVisibility(View.VISIBLE);
-            woche.setText(de.slg.klausurplan.Utils.getWeek(current.getDatum()));
+            woche.setText(de.slg.klausurplan.utility.Utils.getWeek(current.getDatum()));
         } else {
             v.findViewById(R.id.textViewWoche).setVisibility(View.GONE);
         }

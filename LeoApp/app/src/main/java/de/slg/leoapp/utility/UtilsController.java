@@ -6,27 +6,27 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import de.slg.essensqr.EssensQRActivity;
-import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.NotificationPreferenceActivity;
-import de.slg.leoapp.PreferenceActivity;
-import de.slg.leoapp.ProfileActivity;
+import de.slg.essensqr.activity.EssensQRActivity;
+import de.slg.klausurplan.activity.KlausurplanActivity;
+import de.slg.leoapp.activity.NotificationPreferenceActivity;
+import de.slg.leoapp.activity.PreferenceActivity;
+import de.slg.leoapp.activity.ProfileActivity;
 import de.slg.leoapp.service.ReceiveService;
+import de.slg.leoapp.sqlite.SQLiteConnectorMessenger;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.leoapp.view.ActivityStatus;
-import de.slg.messenger.AddGroupChatActivity;
-import de.slg.messenger.ChatActivity;
-import de.slg.messenger.ChatEditActivity;
-import de.slg.leoapp.sqlite.SQLiteConnectorMessenger;
-import de.slg.messenger.MessengerActivity;
-import de.slg.schwarzes_brett.SchwarzesBrettActivity;
-import de.slg.startseite.MainActivity;
-import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.AuswahlActivity;
-import de.slg.stundenplan.StundenplanActivity;
-import de.slg.stundenplan.StundenplanBildActivity;
+import de.slg.messenger.activity.AddGroupChatActivity;
+import de.slg.messenger.activity.ChatActivity;
+import de.slg.messenger.activity.ChatEditActivity;
+import de.slg.messenger.activity.MessengerActivity;
+import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
+import de.slg.startseite.activity.MainActivity;
+import de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity;
 import de.slg.stundenplan.StundenplanDB;
-import de.slg.umfragen.SurveyActivity;
+import de.slg.stundenplan.activity.AuswahlActivity;
+import de.slg.stundenplan.activity.StundenplanActivity;
+import de.slg.stundenplan.activity.StundenplanBildActivity;
+import de.slg.umfragen.activity.SurveyActivity;
 
 /**
  * UtilsController

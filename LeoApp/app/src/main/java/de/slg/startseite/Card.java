@@ -6,9 +6,9 @@ import android.view.View;
  *
  *
  */
-class Card {
+public class Card {
 
-    final CardType type;
+    public final CardType type;
 
     String  title;
     String  desc;

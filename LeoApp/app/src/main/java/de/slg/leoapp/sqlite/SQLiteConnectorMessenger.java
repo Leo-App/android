@@ -12,9 +12,9 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
-import de.slg.messenger.Assoziation;
-import de.slg.messenger.Chat;
-import de.slg.messenger.Message;
+import de.slg.messenger.utility.Assoziation;
+import de.slg.messenger.utility.Chat;
+import de.slg.messenger.utility.Message;
 
 import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_DELETED;
 import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_ID;
@@ -64,7 +64,7 @@ public class SQLiteConnectorMessenger {
             values.put(MESSAGE_DATE, m.mdate.getTime());
             values.put(CHAT_ID, m.cid);
             values.put(USER_ID, m.uid);
-            values.put(MESSAGE_READ, m.uid == Utils.getUserID() || m.cid == de.slg.messenger.Utils.currentlyDisplayedChat() ? 1 : 0);
+            values.put(MESSAGE_READ, m.uid == Utils.getUserID() || m.cid == de.slg.messenger.utility.Utils.currentlyDisplayedChat() ? 1 : 0);
             values.put(MESSAGE_DELETED, 0);
             insert(TABLE_MESSAGES, values);
             if (m.uid == Utils.getUserID()) {
@@ -111,7 +111,7 @@ public class SQLiteConnectorMessenger {
         String selection = MESSAGE_READ + " = 0 AND " +
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
-                CHAT_MUTE + " = 0 AND " + TABLE_MESSAGES + "." + CHAT_ID + " != " + de.slg.messenger.Utils.currentlyDisplayedChat();
+                CHAT_MUTE + " = 0 AND " + TABLE_MESSAGES + "." + CHAT_ID + " != " + de.slg.messenger.utility.Utils.currentlyDisplayedChat();
         Cursor    cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE);
         Message[] array  = new Message[cursor.getCount()];
         cursor.moveToFirst();
@@ -123,7 +123,7 @@ public class SQLiteConnectorMessenger {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_READ + " = 0 AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + de.slg.messenger.Utils.currentlyDisplayedChat(), null);
+        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_READ + " = 0 AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + de.slg.messenger.utility.Utils.currentlyDisplayedChat(), null);
         boolean b      = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -136,7 +136,7 @@ public class SQLiteConnectorMessenger {
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
                 CHAT_MUTE + " = 0 AND " +
-                TABLE_MESSAGES + "." + CHAT_ID + " != " + de.slg.messenger.Utils.currentlyDisplayedChat();
+                TABLE_MESSAGES + "." + CHAT_ID + " != " + de.slg.messenger.utility.Utils.currentlyDisplayedChat();
         Cursor cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID);
         cursor.moveToFirst();
 
@@ -546,31 +546,26 @@ public class SQLiteConnectorMessenger {
     }
 
     public class DBHelper extends SQLiteOpenHelper {
-        static final String DATABASE_NAME = "messenger";
-
-        static final String TABLE_MESSAGES  = "messages";
-        static final String MESSAGE_ID      = "mid";
-        static final String MESSAGE_TEXT    = "mtext";
-        static final String MESSAGE_DATE    = "mdate";
-        static final String MESSAGE_READ    = "mgelesen";
-        static final String MESSAGE_DELETED = "mdeleted";
-
-        static final String TABLE_CHATS  = "chats";
-        static final String CHAT_ID      = "cid";
+        public static final String USER_NAME        = "uname";
+        public static final String USER_STUFE       = "ustufe";
+        public static final String USER_DEFAULTNAME = "udefaultname";
+        static final        String DATABASE_NAME    = "messenger";
+        static final        String TABLE_MESSAGES   = "messages";
+        static final        String MESSAGE_ID       = "mid";
+        static final        String MESSAGE_TEXT     = "mtext";
+        static final        String MESSAGE_DATE     = "mdate";
+        static final        String MESSAGE_READ     = "mgelesen";
+        static final        String MESSAGE_DELETED  = "mdeleted";
+        static final        String TABLE_CHATS      = "chats";
+        static final        String CHAT_ID          = "cid";
         static final String CHAT_NAME    = "cname";
         static final String CHAT_TYPE    = "ctype";
         static final String CHAT_DELETED = "cdeleted";
         static final String CHAT_MUTE    = "cmute";
-
         static final String TABLE_ASSOZIATION = "assoziation";
-
         static final String TABLE_USERS      = "users";
         static final String USER_ID          = "uid";
-        public static final String USER_NAME        = "uname";
-        public static final String USER_STUFE       = "ustufe";
         static final String USER_PERMISSION  = "upermission";
-        public static final String USER_DEFAULTNAME = "udefaultname";
-
         static final String TABLE_MESSAGES_QUEUED = "messages_unsend";
 
         static final int version = 4;

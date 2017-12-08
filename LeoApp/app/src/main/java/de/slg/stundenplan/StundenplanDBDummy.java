@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 
-class StundenplanDBDummy extends SQLiteOpenHelper {
+public class StundenplanDBDummy extends SQLiteOpenHelper {
     private static final String DATABASE_NAME  = "stundenplan_dummy";
     private static final String TABLE_STUNDEN  = "stunden";
     private static final String STUNDEN_TAG    = "stag";
@@ -17,7 +17,7 @@ class StundenplanDBDummy extends SQLiteOpenHelper {
 
     private final SQLiteDatabase database;
 
-    StundenplanDBDummy(Context context) {
+    public StundenplanDBDummy(Context context) {
         super(context, DATABASE_NAME, null, 4);
         database = getWritableDatabase();
     }
@@ -37,7 +37,7 @@ class StundenplanDBDummy extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void insertStunde(int tag, int stunde) {
+    public void insertStunde(int tag, int stunde) {
         String selection = STUNDEN_TAG + " = " + tag + " AND " + STUNDEN_STUNDE + " = " + stunde;
         Cursor cursor    = database.query(TABLE_STUNDEN, new String[]{STUNDEN_STUNDE}, selection, null, null, null, null);
         if (cursor.getCount() == 0) {
@@ -49,7 +49,7 @@ class StundenplanDBDummy extends SQLiteOpenHelper {
         cursor.close();
     }
 
-    String gibFreistundenZeiten() {
+    public String gibFreistundenZeiten() {
         StringBuilder builder = new StringBuilder();
         Cursor        cursor  = database.query(TABLE_STUNDEN, new String[]{STUNDEN_TAG, STUNDEN_STUNDE}, null, null, null, null, STUNDEN_TAG + ", " + STUNDEN_STUNDE);
         boolean[][]   woche   = new boolean[5][10];
@@ -99,7 +99,7 @@ class StundenplanDBDummy extends SQLiteOpenHelper {
         }
     }
 
-    void clear() {
+    public void clear() {
         database.delete(TABLE_STUNDEN, null, null);
     }
 }
