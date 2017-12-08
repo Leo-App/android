@@ -14,6 +14,7 @@ import android.widget.TextView;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.EditTextDialog;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
+import de.slg.leoapp.sqlite.SQLiteConnectorSurvey;
 import de.slg.leoapp.task.UpdateTaskName;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
@@ -201,10 +202,10 @@ public class ProfileActivity extends LeoAppFeatureActivity {
     }
 
     private String getCurrentSurvey() {
-        SQLiteConnectorNews dbh = new SQLiteConnectorNews(getApplicationContext());
-        SQLiteDatabase      db  = dbh.getReadableDatabase();
+        SQLiteConnectorSurvey dbh = new SQLiteConnectorSurvey(getApplicationContext());
+        SQLiteDatabase        db  = dbh.getReadableDatabase();
 
-        Cursor c = db.query(SQLiteConnectorNews.TABLE_SURVEYS, new String[]{SQLiteConnectorNews.SURVEYS_TITEL}, SQLiteConnectorNews.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
+        Cursor c = db.query(SQLiteConnectorSurvey.TABLE_SURVEYS, new String[]{SQLiteConnectorSurvey.SURVEYS_TITEL}, SQLiteConnectorSurvey.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
 
         c.moveToFirst();
         String returnS = c.getCount() == 0 ? null : c.getString(0);

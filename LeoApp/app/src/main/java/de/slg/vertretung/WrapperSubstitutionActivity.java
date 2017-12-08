@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import de.slg.essensqr.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.PreferenceActivity;

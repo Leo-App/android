@@ -1,14 +1,13 @@
-package de.slg.essensqr;
+package de.slg.leoapp.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
-public class SQLiteHandler extends SQLiteOpenHelper {
+public class SQLiteConnectorFoodmarks extends SQLiteOpenHelper {
 
-    private static final int    DATABASE_VERSION        = 1;
-    private static final String DATABASE_NAME           = "savebase.db";
+    private static final String DATABASE_NAME           = "foodmarks.db";
     private static final String SQL_CREATE_TABLE_ORDERS = "CREATE TABLE IF NOT EXISTS "
             + OrderEntry.TABLE_NAME + " ("
             + OrderEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
@@ -32,8 +31,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + OrderEntry.TABLE_NAME + ", " + ScanEntry.TABLE_NAME + ", " + StatisticsEntry.TABLE_NAME;
 
-    public SQLiteHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public SQLiteConnectorFoodmarks(Context context) {
+        super(context, DATABASE_NAME, null, 2);
     }
 
     @Override

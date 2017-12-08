@@ -1,4 +1,4 @@
-package de.slg.essensqr;
+package de.slg.essensbons;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -1,4 +1,4 @@
-package de.slg.essensqr.task;
+package de.slg.essensbons.task;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -31,11 +31,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.slg.essensqr.SQLiteHandler;
-import de.slg.essensqr.activity.EssensQRActivity;
-import de.slg.essensqr.activity.fragment.QRFragment;
-import de.slg.essensqr.utility.MCrypt;
-import de.slg.essensqr.utility.Order;
+import de.slg.leoapp.sqlite.SQLiteConnectorFoodmarks;
+import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.fragment.QRFragment;
+import de.slg.essensbons.utility.MCrypt;
+import de.slg.essensbons.utility.Order;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 
@@ -150,16 +150,16 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
     private Order getRecentEntry() {
         SQLiteDatabase db = EssensQRActivity.sqlh.getReadableDatabase();
         String[] projection = {
-                SQLiteHandler.OrderEntry.COLUMN_NAME_DATE,
-                SQLiteHandler.OrderEntry.COLUMN_NAME_MENU,
-                SQLiteHandler.OrderEntry.COLUMN_NAME_DESCR,
+                SQLiteConnectorFoodmarks.OrderEntry.COLUMN_NAME_DATE,
+                SQLiteConnectorFoodmarks.OrderEntry.COLUMN_NAME_MENU,
+                SQLiteConnectorFoodmarks.OrderEntry.COLUMN_NAME_DESCR,
         };
         DateFormat dateFormat    = new SimpleDateFormat("yyyy-MM-dd");
         Date       date          = new Date();
-        String     selection     = SQLiteHandler.OrderEntry.COLUMN_NAME_DATE + " = ?";
+        String     selection     = SQLiteConnectorFoodmarks.OrderEntry.COLUMN_NAME_DATE + " = ?";
         String[]   selectionArgs = {dateFormat.format(date)};
         Cursor cursor = db.query(
-                SQLiteHandler.OrderEntry.TABLE_NAME,
+                SQLiteConnectorFoodmarks.OrderEntry.TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
@@ -170,8 +170,8 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         if (cursor.getCount() <= 0)
             return null;
         cursor.moveToNext();
-        String desc = String.valueOf(cursor.getString(cursor.getColumnIndex(SQLiteHandler.OrderEntry.COLUMN_NAME_DESCR)));
-        String s    = String.valueOf(cursor.getShort(cursor.getColumnIndex(SQLiteHandler.OrderEntry.COLUMN_NAME_MENU)));
+        String desc = String.valueOf(cursor.getString(cursor.getColumnIndex(SQLiteConnectorFoodmarks.OrderEntry.COLUMN_NAME_DESCR)));
+        String s    = String.valueOf(cursor.getShort(cursor.getColumnIndex(SQLiteConnectorFoodmarks.OrderEntry.COLUMN_NAME_MENU)));
         Order  o    = new Order(date, Short.parseShort(s), desc);
         cursor.close();
         return o;
@@ -232,11 +232,11 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
                 e.printStackTrace();
             }
             Log.d("LeoApp", "Date " + s.split("_seperator_")[0]);
-            values.put(SQLiteHandler.OrderEntry.COLUMN_NAME_DATE, s.split("_seperator_")[0]);
-            values.put(SQLiteHandler.OrderEntry.COLUMN_NAME_MENU, s.split("_seperator_")[1]);
-            values.put(SQLiteHandler.OrderEntry.COLUMN_NAME_DESCR, s.split("_seperator_")[2]);
+            values.put(SQLiteConnectorFoodmarks.OrderEntry.COLUMN_NAME_DATE, s.split("_seperator_")[0]);
+            values.put(SQLiteConnectorFoodmarks.OrderEntry.COLUMN_NAME_MENU, s.split("_seperator_")[1]);
+            values.put(SQLiteConnectorFoodmarks.OrderEntry.COLUMN_NAME_DESCR, s.split("_seperator_")[2]);
             try {
-                db.insert(SQLiteHandler.OrderEntry.TABLE_NAME, null, values);
+                db.insert(SQLiteConnectorFoodmarks.OrderEntry.TABLE_NAME, null, values);
             } catch (Exception e) {
                 Log.e("LeoApp", "Failed UNIQUE");
             }
@@ -253,7 +253,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         c.moveToFirst();
         if (c.getCount() == 0)
             return;
-        db.execSQL("INSERT INTO " + SQLiteHandler.StatisticsEntry.TABLE_NAME
+        db.execSQL("INSERT INTO " + SQLiteConnectorFoodmarks.StatisticsEntry.TABLE_NAME
                 + " (SYNCDATE, AMOUNT, LASTORDER) VALUES ('" + df.format(new Date()) + "', " + amount + ", " + c.getInt(c.getColumnIndex("ID")) + ")");
         c.close();
         db.close();

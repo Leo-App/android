@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import de.slg.essensqr.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;

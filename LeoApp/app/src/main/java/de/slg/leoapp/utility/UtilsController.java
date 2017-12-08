@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import de.slg.essensqr.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.activity.NotificationPreferenceActivity;
 import de.slg.leoapp.activity.PreferenceActivity;

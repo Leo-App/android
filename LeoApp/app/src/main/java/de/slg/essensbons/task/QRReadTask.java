@@ -1,4 +1,4 @@
-package de.slg.essensqr.task;
+package de.slg.essensbons.task;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -15,8 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import de.slg.essensqr.SQLiteHandler;
-import de.slg.essensqr.activity.EssensQRActivity;
+import de.slg.leoapp.sqlite.SQLiteConnectorFoodmarks;
+import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.leoapp.R;
 
 public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
@@ -38,12 +38,12 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
             orderedMenu = Integer.parseInt(String.valueOf(params[0].charAt(7)));
             SQLiteDatabase db = EssensQRActivity.sqlh.getReadableDatabase();
             String[] projection = {
-                    SQLiteHandler.ScanEntry.COLUMN_NAME_DATE,
+                    SQLiteConnectorFoodmarks.ScanEntry.COLUMN_NAME_DATE,
             };
-            String   selection     = SQLiteHandler.ScanEntry.COLUMN_NAME_DATE + " = ? AND " + SQLiteHandler.ScanEntry.COLUMN_NAME_CUSTOMERID + " = ?";
+            String   selection     = SQLiteConnectorFoodmarks.ScanEntry.COLUMN_NAME_DATE + " = ? AND " + SQLiteConnectorFoodmarks.ScanEntry.COLUMN_NAME_CUSTOMERID + " = ?";
             String[] selectionArgs = {"2" + year + "-" + month + "-" + day, parts[0]};
             Cursor cursor = db.query(
-                    SQLiteHandler.ScanEntry.TABLE_NAME,
+                    SQLiteConnectorFoodmarks.ScanEntry.TABLE_NAME,
                     projection,
                     selection,
                     selectionArgs,
@@ -55,9 +55,9 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
                 cursor.close();
                 db = EssensQRActivity.sqlh.getWritableDatabase();
                 ContentValues values = new ContentValues();
-                values.put(SQLiteHandler.ScanEntry.COLUMN_NAME_CUSTOMERID, params[0].split("-")[0]);
-                values.put(SQLiteHandler.ScanEntry.COLUMN_NAME_DATE, "2" + year + "-" + month + "-" + day);
-                db.insert(SQLiteHandler.ScanEntry.TABLE_NAME, null, values);
+                values.put(SQLiteConnectorFoodmarks.ScanEntry.COLUMN_NAME_CUSTOMERID, params[0].split("-")[0]);
+                values.put(SQLiteConnectorFoodmarks.ScanEntry.COLUMN_NAME_DATE, "2" + year + "-" + month + "-" + day);
+                db.insert(SQLiteConnectorFoodmarks.ScanEntry.TABLE_NAME, null, values);
                 return true;
             } else {
                 cursor.close();

@@ -1,4 +1,4 @@
-package de.slg.essensqr;
+package de.slg.essensbons;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,7 +15,7 @@ import android.widget.NumberPicker;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 
-public class NumberPickerPref extends DialogPreference {
+public class NumberPickerPreference extends DialogPreference {
     private static final int     MAX_VALUE           = 10;
     private static final int     MIN_VALUE           = 2;
     private static final boolean WRAP_SELECTOR_WHEEL = true;
@@ -23,11 +23,11 @@ public class NumberPickerPref extends DialogPreference {
     private NumberPicker picker;
     private int          value;
 
-    public NumberPickerPref(Context context, AttributeSet attrs) {
+    public NumberPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public NumberPickerPref(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NumberPickerPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

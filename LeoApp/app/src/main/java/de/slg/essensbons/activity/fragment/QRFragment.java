@@ -1,4 +1,4 @@
-package de.slg.essensqr.activity.fragment;
+package de.slg.essensbons.activity.fragment;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -16,8 +16,8 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.slg.essensqr.activity.EssensQRActivity;
-import de.slg.essensqr.task.QRWriteTask;
+import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.task.QRWriteTask;
 import de.slg.leoapp.R;
 
 public class QRFragment extends Fragment {

@@ -37,8 +37,8 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import de.slg.essensqr.activity.EssensQRActivity;
-import de.slg.essensqr.utility.Auth;
+import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.utility.Auth;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.User;

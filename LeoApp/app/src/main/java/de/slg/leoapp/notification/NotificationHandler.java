@@ -16,6 +16,7 @@ import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
+import de.slg.leoapp.sqlite.SQLiteConnectorSurvey;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActivityStatus;
 import de.slg.messenger.utility.Chat;
@@ -56,6 +57,7 @@ public class NotificationHandler {
     private static void initNotificationManager() {
         notificationManager = (NotificationManager) Utils.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
+
     public static class FoodmarkNotification {
 
         private Context      context;
@@ -101,6 +103,7 @@ public class NotificationHandler {
             return Utils.getController().getPreferences().getBoolean("pref_key_notification_essensqr", true);
         }
     }
+
     public static class KlausurplanNotification {
 
         private Context      context;
@@ -147,6 +150,7 @@ public class NotificationHandler {
             return Utils.getController().getPreferences().getBoolean("pref_key_notification_test", true);
         }
     }
+
     public static class MessengerNotification {
 
         private static int          unreadMessages;
@@ -223,6 +227,7 @@ public class NotificationHandler {
                     && unreadMessages != getUnreadMessages().length;
         }
     }
+
     public static class NewsNotification {
 
         private static long         latest;
@@ -291,6 +296,7 @@ public class NotificationHandler {
         }
 
     }
+
     public static class SurveyNotification {
 
         private static long         latest;
@@ -343,7 +349,7 @@ public class NotificationHandler {
         }
 
         private boolean hasUnreadNews() {
-            SQLiteConnectorNews db = new SQLiteConnectorNews(context);
+            SQLiteConnectorSurvey db = new SQLiteConnectorSurvey(context);
 
             if(!db.getDatabaseAvailable())
                 return false;
@@ -359,6 +365,7 @@ public class NotificationHandler {
         }
 
     }
+
     public static class StimmungsbarometerNotification {
 
         private Context      context;
@@ -406,6 +413,7 @@ public class NotificationHandler {
         }
 
     }
+
     public static class TimetableNotification {
 
         private Context      context;
