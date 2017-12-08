@@ -8,15 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -25,14 +21,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
+import de.slg.messenger.MessageAdapter;
 import de.slg.messenger.utility.Chat;
 import de.slg.messenger.utility.Message;
 
@@ -252,7 +245,7 @@ public class ChatActivity extends ActionLogActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                rvMessages.swapAdapter(new MessageAdapter(), false);
+                rvMessages.swapAdapter(new MessageAdapter(getApplicationContext(), messagesArray, clickListener, longClickListener, selected, ctype), false);
                 if (scroll)
                     rvMessages.scrollToPosition(messagesArray.length - 1);
             }
@@ -284,111 +277,6 @@ public class ChatActivity extends ActionLogActivity {
         refreshUI(true, true);
     }
 
-    private class MessageAdapter extends RecyclerView.Adapter {
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder();
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            Message current = messagesArray[position];
-
-            final View         v           = holder.itemView;
-            final TextView     datum       = (TextView) v.findViewById(R.id.textViewDate);
-            final TextView     nachricht   = (TextView) v.findViewById(R.id.nachricht);
-            final TextView     absender    = (TextView) v.findViewById(R.id.absender);
-            final TextView     uhrzeit     = (TextView) v.findViewById(R.id.datum);
-            final LinearLayout layout      = (LinearLayout) v.findViewById(R.id.chatbubblewrapper);
-            final View         chatbubble  = v.findViewById(R.id.chatbubble);
-            final View         progressbar = v.findViewById(R.id.progressBar);
-
-            nachricht.setText(current.mtext);
-            absender.setText(current.uname);
-            uhrzeit.setText(current.getTime());
-            datum.setText(current.getDate());
-
-            final boolean mine = current.uid == Utils.getUserID();
-            if (mine) {
-                layout.setGravity(Gravity.RIGHT);
-                absender.setVisibility(View.GONE);
-                nachricht.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
-                uhrzeit.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
-            } else {
-                layout.setGravity(Gravity.LEFT);
-                nachricht.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
-                uhrzeit.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_dark));
-                if (ctype == Chat.ChatType.PRIVATE) {
-                    absender.setVisibility(View.GONE);
-                } else {
-                    absender.setVisibility(View.VISIBLE);
-                }
-            }
-            chatbubble.setEnabled(mine);
-
-            final boolean send = uhrzeit.getText().toString().equals("");
-            if (send) {
-                uhrzeit.setVisibility(View.GONE);
-                progressbar.setVisibility(View.VISIBLE);
-            } else {
-                uhrzeit.setVisibility(View.VISIBLE);
-                progressbar.setVisibility(View.GONE);
-            }
-
-            final boolean first = position == 0 || !gleicherTag(current.mdate, messagesArray[position - 1].mdate);
-            if (first) {
-                datum.setVisibility(View.VISIBLE);
-                layout.setPadding((int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3), (int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3));
-            } else {
-                datum.setVisibility(View.GONE);
-                if (current.uid == messagesArray[position - 1].uid) {
-                    absender.setVisibility(View.GONE);
-                    layout.setPadding((int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(0), (int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3));
-                } else {
-                    layout.setPadding((int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3), (int) GraphicUtils.dpToPx(6), (int) GraphicUtils.dpToPx(3));
-                }
-            }
-
-            if (selected[position]) {
-                v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
-            } else {
-                v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
-            }
-
-            if (current.mread && (position == 0 || !messagesArray[position - 1].mread)) {
-                v.findViewById(R.id.linearLayout1).setVisibility(View.VISIBLE);
-            } else {
-                v.findViewById(R.id.linearLayout1).setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return messagesArray.length;
-        }
-
-        private boolean gleicherTag(Date pDate1, Date pDate2) {
-            Calendar c1 = new GregorianCalendar(), c2 = new GregorianCalendar();
-            c1.setTime(pDate1);
-            c2.setTime(pDate2);
-            return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH);
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            ViewHolder() {
-                super(getLayoutInflater().inflate(R.layout.list_item_message, null));
-
-                TextView nachricht = (TextView) itemView.findViewById(R.id.nachricht);
-                nachricht.setMaxWidth(GraphicUtils.getDisplayWidth() * 2 / 3);
-                TextView absender = (TextView) itemView.findViewById(R.id.absender);
-                absender.setMaxWidth(GraphicUtils.getDisplayWidth() * 2 / 3);
-
-                itemView.setOnLongClickListener(longClickListener);
-                itemView.setOnClickListener(clickListener);
-            }
-        }
-    }
-
     private class SendMessage extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute() {
@@ -410,12 +298,12 @@ public class ChatActivity extends ActionLogActivity {
                                 new BufferedReader(
                                         new InputStreamReader(
                                                 connection.getInputStream(), "UTF-8"));
-                        String erg = "";
-                        String l;
+                        StringBuilder builder = new StringBuilder();
+                        String        l;
                         while ((l = reader.readLine()) != null)
-                            erg += l;
+                            builder.append(l);
                         reader.close();
-                        cid = Integer.parseInt(erg);
+                        cid = Integer.parseInt(builder.toString());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

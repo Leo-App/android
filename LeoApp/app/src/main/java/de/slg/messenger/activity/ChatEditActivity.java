@@ -15,19 +15,14 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.messenger.UserAdapter;
-import de.slg.messenger.utility.Assoziation;
+import de.slg.messenger.task.AddUser;
+import de.slg.messenger.task.RemoveUser;
+import de.slg.messenger.task.SendChatname;
 
 public class ChatEditActivity extends ActionLogActivity {
     private int    cid;
@@ -44,6 +39,10 @@ public class ChatEditActivity extends ActionLogActivity {
 
     private View add, remove;
     private Switch notifications;
+
+    private boolean nameRunning;
+    private boolean addRunning;
+    private boolean removeRunning;
 
     @Override
     protected void onCreate(Bundle savedInstancesState) {
@@ -247,11 +246,11 @@ public class ChatEditActivity extends ActionLogActivity {
     }
 
     private void removeUsers(User... users) {
-        new RemoveUser().execute(users);
+        new RemoveUser(this, cid).execute(users);
     }
 
     private void addUsers(User... users) {
-        new AddUser().execute(users);
+        new AddUser(this, cid).execute(users);
     }
 
     private void showDialogChatname() {
@@ -271,7 +270,7 @@ public class ChatEditActivity extends ActionLogActivity {
         v.findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new SendChatname().execute(textView.getText().toString());
+                new SendChatname(ChatEditActivity.this, cid).execute(textView.getText().toString());
                 dialog.dismiss();
             }
         });
@@ -281,172 +280,58 @@ public class ChatEditActivity extends ActionLogActivity {
         dialog.show();
     }
 
-    private class AddUser extends AsyncTask<User, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            confirm.setVisible(false);
-            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-        }
+    public void notifyTaskStarted(AsyncTask task) {
+        confirm.setVisible(false);
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
 
-        @Override
-        protected Void doInBackground(User... params) {
-            for (User u : params) {
-                sendAssoziation(new Assoziation(cid, u.uid));
-            }
-            return null;
-        }
-
-        private void sendAssoziation(Assoziation assoziation) {
-            if (assoziation != null) {
-                try {
-                    URLConnection connection = new URL(generateURL(assoziation))
-                            .openConnection();
-
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            connection.getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null)
-                        ;
-                    reader.close();
-                    Utils.getController().getMessengerDatabase().insertAssoziation(assoziation);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        private String generateURL(Assoziation assoziation) {
-            return Utils.BASE_URL_PHP + "messenger/addAssoziation.php?uid=" + assoziation.uid + "&cid=" + assoziation.cid;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            usersInChat = Utils.getController().getMessengerDatabase().getUsersInChat(cid);
-            usersNotInChat = Utils.getController().getMessengerDatabase().getUsersNotInChat(cid);
-            uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
-            uRemove = new UserAdapter(getApplicationContext(), usersInChat);
-
-            fillContainer(usersInChat);
-
-            if (usersNotInChat.length == 0) {
-                add.setVisibility(View.GONE);
-            } else {
-                add.setVisibility(View.VISIBLE);
-            }
-
-            if (usersInChat.length == 0) {
-                remove.setVisibility(View.GONE);
-            } else {
-                remove.setVisibility(View.VISIBLE);
-            }
-
-            scrollView.setVisibility(View.VISIBLE);
-
-            findViewById(R.id.progressBar).setVisibility(View.GONE);
+        if (task.getClass() == AddUser.class) {
+            addRunning = true;
+        } else if (task.getClass() == RemoveUser.class) {
+            removeRunning = true;
+        } else if (task.getClass() == SendChatname.class) {
+            nameRunning = true;
         }
     }
 
-    private class RemoveUser extends AsyncTask<User, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            confirm.setVisible(false);
-            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+    public void notifyTaskDone(AsyncTask task) {
+        if (task.getClass() == AddUser.class) {
+            addRunning = false;
+        } else if (task.getClass() == RemoveUser.class) {
+            removeRunning = false;
+        } else if (task.getClass() == SendChatname.class) {
+            nameRunning = false;
         }
 
-        @Override
-        protected Void doInBackground(User... params) {
-            for (User u : params)
-                removeAssoziation(new Assoziation(cid, u.uid));
-            return null;
+        usersInChat = Utils.getController().getMessengerDatabase().getUsersInChat(cid);
+        usersNotInChat = Utils.getController().getMessengerDatabase().getUsersNotInChat(cid);
+        uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
+        uRemove = new UserAdapter(getApplicationContext(), usersInChat);
+
+        fillContainer(usersInChat);
+
+        if (usersNotInChat.length == 0) {
+            add.setVisibility(View.GONE);
+        } else {
+            add.setVisibility(View.VISIBLE);
         }
 
-        private void removeAssoziation(Assoziation assoziation) {
-            if (assoziation != null) {
-                try {
-                    URLConnection connection = new URL(generateURL(assoziation))
-                            .openConnection();
-
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            connection.getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null)
-                        ;
-                    reader.close();
-                    Utils.getController().getMessengerDatabase().removeUserFormChat(assoziation.uid, assoziation.cid);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        if (usersInChat.length == 0) {
+            remove.setVisibility(View.GONE);
+        } else {
+            remove.setVisibility(View.VISIBLE);
         }
 
-        private String generateURL(Assoziation assoziation) {
-            return Utils.BASE_URL_PHP + "messenger/removeAssoziation.php?cid=" + assoziation.cid + "&uid=" + assoziation.uid;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            usersInChat = Utils.getController().getMessengerDatabase().getUsersInChat(cid);
-            usersNotInChat = Utils.getController().getMessengerDatabase().getUsersNotInChat(cid);
-            uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
-            uRemove = new UserAdapter(getApplicationContext(), usersInChat);
-
-            fillContainer(usersInChat);
-
-            if (usersNotInChat.length == 0) {
-                add.setVisibility(View.GONE);
-            } else {
-                add.setVisibility(View.VISIBLE);
-            }
-
-            if (usersInChat.length == 0) {
-                remove.setVisibility(View.GONE);
-            } else {
-                remove.setVisibility(View.VISIBLE);
-            }
-
+        if (!addRunning && !removeRunning)
             scrollView.setVisibility(View.VISIBLE);
 
+        if (!addRunning && !removeRunning && !nameRunning)
             findViewById(R.id.progressBar).setVisibility(View.GONE);
-        }
-    }
 
-    private class SendChatname extends AsyncTask<String, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            if (Utils.checkNetwork())
-                try {
-                    URLConnection connection = new URL(generateURL(params[0]))
-                            .openConnection();
-
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            connection.getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null)
-                        ;
-                    reader.close();
-                    cname = params[0];
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            return null;
-        }
-
-        private String generateURL(String name) throws UnsupportedEncodingException {
-            return Utils.BASE_URL_PHP + "messenger/editChatname.php?cid=" + cid + "&cname=" + URLEncoder.encode(name, "UTF-8");
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            findViewById(R.id.progressBar).setVisibility(View.GONE);
+        if (!nameRunning)
             getSupportActionBar().setTitle(cname);
-        }
+    }
+
+    public void setCname(String cname) {
+        this.cname = cname;
     }
 }

@@ -85,6 +85,4 @@ public class SQLiteConnectorNews extends SQLiteOpenHelper {
         File dbFile = Utils.getContext().getDatabasePath(DATABASE_NAME);
         return dbFile.exists();
     }
-
 }
-
