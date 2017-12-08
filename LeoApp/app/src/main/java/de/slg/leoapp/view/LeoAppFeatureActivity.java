@@ -216,6 +216,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
     }
 
     @Override
+    @CallSuper
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == android.R.id.home) {
             getDrawerLayout().openDrawer(GravityCompat.START);
@@ -224,6 +225,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
     }
 
     @Override
+    @CallSuper
     protected void onResume() {
         super.onResume();
         navigationView.setCheckedItem(getNavigationHighlightId());

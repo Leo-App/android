@@ -3,43 +3,24 @@ package de.slg.messenger.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import de.slg.essensqr.activity.EssensQRActivity;
-import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.activity.PreferenceActivity;
-import de.slg.leoapp.activity.ProfileActivity;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.notification.NotificationHandler;
-import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
-import de.slg.leoapp.view.ActionLogActivity;
+import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.messenger.activity.fragment.ChatsFragment;
 import de.slg.messenger.activity.fragment.SearchFragment;
 import de.slg.messenger.activity.fragment.UserFragment;
-import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
-import de.slg.startseite.activity.MainActivity;
-import de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity;
-import de.slg.stundenplan.activity.StundenplanActivity;
-import de.slg.umfragen.activity.SurveyActivity;
 
-public class MessengerActivity extends ActionLogActivity {
-    private DrawerLayout   drawerLayout;
+public class MessengerActivity extends LeoAppFeatureActivity {
     private ChatsFragment  cFragment;
     private UserFragment   uFragment;
     private SearchFragment sFragment;
@@ -47,18 +28,45 @@ public class MessengerActivity extends ActionLogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wrapper_messenger);
         Utils.getController().registerMessengerActivity(this);
 
         Utils.getController().getMessengerDatabase();
 
-        initToolbar();
-        initNavigationView();
         initTabs();
 
         Dialog dialog = new InformationDialog(this, "Dieser Teil der Anwendung ist noch in Arbeit!");
         dialog.setCancelable(false);
         dialog.show();
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_wrapper_messenger;
+    }
+
+    @Override
+    protected int getDrawerLayoutId() {
+        return R.id.drawer;
+    }
+
+    @Override
+    protected int getNavigationId() {
+        return R.id.navigationView;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return R.id.actionBarOverview;
+    }
+
+    @Override
+    protected int getToolbarTextId() {
+        return R.string.title_messenger;
+    }
+
+    @Override
+    protected int getNavigationHighlightId() {
+        return R.id.messenger;
     }
 
     @Override
@@ -69,9 +77,8 @@ public class MessengerActivity extends ActionLogActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        } else if (item.getItemId() == R.id.action_add) {
+        super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_add) {
             if (Utils.checkNetwork()) {
                 startActivity(new Intent(getApplicationContext(), AddGroupChatActivity.class));
             } else {
@@ -99,17 +106,7 @@ public class MessengerActivity extends ActionLogActivity {
 
     @Override
     protected String getActivityTag() {
-        return "KlausurplanActivity";
-    }
-
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.actionBarOverview);
-        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        toolbar.setTitle(R.string.title_messenger);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        return "MessengerActivity";
     }
 
     private void initTabs() {
@@ -138,66 +135,6 @@ public class MessengerActivity extends ActionLogActivity {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_question_answer_white_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_person_white_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_search_white_24dp);
-    }
-
-    private void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.messenger).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
-                        break;
-                    case R.id.messenger:
-                        return true;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan:
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                        break;
-                    case R.id.startseite:
-                        i = null;
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-                    case R.id.profile:
-                        i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        break;
-                    case R.id.umfragen:
-                        i = new Intent(getApplicationContext(), SurveyActivity.class);
-                        break;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                if (i != null)
-                    startActivity(i);
-                finish();
-                return true;
-            }
-        });
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.getUserName());
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
-            grade.setText(Utils.getLehrerKuerzel());
-        else
-            grade.setText(Utils.getUserStufe());
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
     }
 
     /**
