@@ -20,18 +20,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import de.slg.essensqr.EssensQRActivity;
-import de.slg.klausurplan.KlausurplanActivity;
-import de.slg.leoapp.PreferenceActivity;
-import de.slg.leoapp.ProfileActivity;
+import de.slg.essensqr.activity.EssensQRActivity;
+import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.activity.PreferenceActivity;
+import de.slg.leoapp.activity.ProfileActivity;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
-import de.slg.messenger.MessengerActivity;
-import de.slg.schwarzes_brett.SchwarzesBrettActivity;
-import de.slg.startseite.MainActivity;
-import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.StundenplanActivity;
+import de.slg.messenger.activity.MessengerActivity;
+import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
+import de.slg.startseite.activity.MainActivity;
+import de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity;
+import de.slg.stundenplan.activity.StundenplanActivity;
 
 public class WrapperSubstitutionActivity extends ActionLogActivity {
 
@@ -151,7 +151,7 @@ public class WrapperSubstitutionActivity extends ActionLogActivity {
         TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
         ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.Utils.getCurrentMoodRessource());
+        mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
     }
 
     private String getTabString(boolean today) {

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,16 +13,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import de.slg.klausurplan.Klausur;
+import de.slg.klausurplan.utility.Klausur;
 import de.slg.leoapp.utility.Utils;
 
 public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
-    private final SQLiteDatabase database;
-
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
-
     private static final String DATABASE_NAME = "klausurplan";
-
     private static final String TABLE_KLAUSUREN         = "klausuren";
     private static final String KLAUSUR_ID              = "id";
     private static final String KLAUSUR_TITEL           = "title";
@@ -32,14 +27,20 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     private static final String KLAUSUR_NOTIZ           = "notiz";
     private static final String KLAUSUR_IN_STUNDENPLAN  = "in_stundenplan";
     private static final String KLAUSUR_HERUNTERGELADEN = "heruntergeladen";
-
     public static final String WHERE_ONLY_CREATED   = KLAUSUR_HERUNTERGELADEN + " = 0";
     public static final String WHERE_ONLY_TIMETABLE = KLAUSUR_HERUNTERGELADEN + " = 0 OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
     public static final String WHERE_ONLY_GRADE     = KLAUSUR_HERUNTERGELADEN + " = 0 OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
+    private final SQLiteDatabase database;
 
     public SQLiteConnectorKlausurplan(Context context) {
         super(context, DATABASE_NAME, null, 1);
         database = getWritableDatabase();
+    }
+
+    private static String getMinDate() {
+        Calendar calendar = new GregorianCalendar();
+        calendar.add(Calendar.MONTH, -Utils.getController().getPreferences().getInt("pref_key_delete", 12));
+        return dateFormat.format(calendar.getTime());
     }
 
     @Override
@@ -113,12 +114,6 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
 
     public void delete(long id) {
         database.delete(TABLE_KLAUSUREN, KLAUSUR_ID + " = " + id, null);
-    }
-
-    private static String getMinDate() {
-        Calendar calendar = new GregorianCalendar();
-        calendar.add(Calendar.MONTH, -Utils.getController().getPreferences().getInt("pref_key_delete", 12));
-        return dateFormat.format(calendar.getTime());
     }
 
     private Date parse(String date) {

@@ -18,11 +18,11 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorNews;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActivityStatus;
-import de.slg.messenger.Chat;
-import de.slg.messenger.Message;
-import de.slg.startseite.MainActivity;
-import de.slg.stimmungsbarometer.AbstimmActivity;
-import de.slg.stundenplan.Fach;
+import de.slg.messenger.utility.Chat;
+import de.slg.messenger.utility.Message;
+import de.slg.startseite.activity.MainActivity;
+import de.slg.stimmungsbarometer.activity.AbstimmActivity;
+import de.slg.stundenplan.utility.Fach;
 
 /**
  * NotificationHandler.
@@ -47,6 +47,15 @@ public class NotificationHandler {
     private static NotificationManager notificationManager;
     private static Bitmap icon;
 
+    private static Bitmap getNotificationIcon() {
+        if (icon == null)
+            icon = BitmapFactory.decodeResource(Utils.getContext().getResources(), R.mipmap.notification_leo);
+        return icon;
+    }
+
+    private static void initNotificationManager() {
+        notificationManager = (NotificationManager) Utils.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+    }
     public static class FoodmarkNotification {
 
         private Context      context;
@@ -92,7 +101,6 @@ public class NotificationHandler {
             return Utils.getController().getPreferences().getBoolean("pref_key_notification_essensqr", true);
         }
     }
-
     public static class KlausurplanNotification {
 
         private Context      context;
@@ -139,13 +147,11 @@ public class NotificationHandler {
             return Utils.getController().getPreferences().getBoolean("pref_key_notification_test", true);
         }
     }
-
     public static class MessengerNotification {
 
-        private Context      context;
-        private Notification notification;
-
-        private static int unreadMessages;
+        private static int          unreadMessages;
+        private        Context      context;
+        private        Notification notification;
 
         public MessengerNotification() {
             this.context = Utils.getContext();
@@ -217,13 +223,11 @@ public class NotificationHandler {
                     && unreadMessages != getUnreadMessages().length;
         }
     }
-
     public static class NewsNotification {
 
-        private Context      context;
-        private Notification notification;
-
-        private static long  latest;
+        private static long         latest;
+        private        Context      context;
+        private        Notification notification;
 
         public NewsNotification() {
             this.context = Utils.getContext();
@@ -258,7 +262,7 @@ public class NotificationHandler {
         }
 
         public void send() {
-            de.slg.schwarzes_brett.Utils.notifiedSchwarzesBrett(latest);
+            de.slg.schwarzes_brett.utility.Utils.notifiedSchwarzesBrett(latest);
             if(isActive())
                 notificationManager.notify(ID_NEWS, notification);
         }
@@ -282,18 +286,16 @@ public class NotificationHandler {
             dbh.close();
             db.close();
 
-            return latest > de.slg.schwarzes_brett.Utils.getLatestSchwarzesBrettDate();
+            return latest > de.slg.schwarzes_brett.utility.Utils.getLatestSchwarzesBrettDate();
 
         }
 
     }
-
     public static class SurveyNotification {
 
-        private Context      context;
-        private Notification notification;
-
-        private static long  latest;
+        private static long         latest;
+        private        Context      context;
+        private        Notification notification;
 
         public SurveyNotification() {
             this.context = Utils.getContext();
@@ -328,7 +330,7 @@ public class NotificationHandler {
         }
 
         public void send() {
-            de.slg.umfragen.Utils.notifiedSurvey(latest);
+            de.slg.umfragen.utility.Utils.notifiedSurvey(latest);
             if(isActive())
                 notificationManager.notify(ID_SURVEY, notification);
         }
@@ -352,12 +354,11 @@ public class NotificationHandler {
             dbh.close();
             db.close();
 
-            return latest > de.slg.umfragen.Utils.getLatestSurveyDate();
+            return latest > de.slg.umfragen.utility.Utils.getLatestSurveyDate();
 
         }
 
     }
-
     public static class StimmungsbarometerNotification {
 
         private Context      context;
@@ -401,11 +402,10 @@ public class NotificationHandler {
 
         private boolean isActive() {
             return Utils.getController().getPreferences().getBoolean("pref_key_notification_survey", false)
-                    && de.slg.stimmungsbarometer.Utils.syncVote();
+                    && de.slg.stimmungsbarometer.utility.Utils.syncVote();
         }
 
     }
-
     public static class TimetableNotification {
 
         private Context      context;
@@ -482,15 +482,5 @@ public class NotificationHandler {
             return 6;
         }
 
-    }
-
-    private static Bitmap getNotificationIcon() {
-        if(icon == null)
-            icon = BitmapFactory.decodeResource(Utils.getContext().getResources(), R.mipmap.notification_leo);
-        return icon;
-    }
-
-    private static void initNotificationManager() {
-        notificationManager = (NotificationManager) Utils.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 }

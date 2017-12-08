@@ -54,11 +54,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    static class ScanEntry implements BaseColumns {
-        static final String TABLE_NAME;
-        static final String COLUMN_NAME_ID;
-        static final String COLUMN_NAME_CUSTOMERID;
-        static final String COLUMN_NAME_DATE;
+    public static class ScanEntry implements BaseColumns {
+        public static final String TABLE_NAME;
+        public static final String COLUMN_NAME_CUSTOMERID;
+        public static final String COLUMN_NAME_DATE;
+        static final        String COLUMN_NAME_ID;
 
         static {
             TABLE_NAME = "SCANS";
@@ -68,12 +68,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         }
     }
 
-    static class OrderEntry implements BaseColumns {
-        static final String TABLE_NAME;
-        static final String COLUMN_NAME_ID;
-        static final String COLUMN_NAME_DATE;
-        static final String COLUMN_NAME_MENU;
-        static final String COLUMN_NAME_DESCR;
+    public static class OrderEntry implements BaseColumns {
+        public static final String TABLE_NAME;
+        public static final String COLUMN_NAME_DATE;
+        public static final String COLUMN_NAME_MENU;
+        public static final String COLUMN_NAME_DESCR;
+        static final        String COLUMN_NAME_ID;
 
         static {
             TABLE_NAME = "USERORDERS";
@@ -84,12 +84,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         }
     }
 
-    static class StatisticsEntry implements BaseColumns {
-        static final String TABLE_NAME;
-        static final String COLUMN_NAME_ID;
-        static final String COLUMN_NAME_SYNCDATE;
-        static final String COLUMN_NAME_AMOUNT;
-        static final String COLUMN_NAME_LASTORDER;
+    public static class StatisticsEntry implements BaseColumns {
+        public static final String TABLE_NAME;
+        static final        String COLUMN_NAME_ID;
+        static final        String COLUMN_NAME_SYNCDATE;
+        static final        String COLUMN_NAME_AMOUNT;
+        static final        String COLUMN_NAME_LASTORDER;
 
         static {
             TABLE_NAME = "STATISTICS";

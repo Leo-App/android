@@ -24,116 +24,10 @@ import de.slg.leoapp.task.SyncUserTask;
 import de.slg.leoapp.task.SyncVoteTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
-import de.slg.schwarzes_brett.UpdateViewTrackerTask;
-import de.slg.startseite.MainActivity;
+import de.slg.schwarzes_brett.task.UpdateViewTrackerTask;
+import de.slg.startseite.activity.MainActivity;
 
 public class Start extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Utils.getController().closeActivities();
-        Utils.getController().closeServices();
-        Utils.getController().closeDatabases();
-
-        Utils.getController().setContext(getApplicationContext());
-
-        //Vorübergehend
-        SharedPreferences preferences = Utils.getController().getPreferences();
-        if (!preferences.getBoolean("first", true) && preferences.getString("previousVersion", "").equals("")) {
-            preferences.edit()
-                    .putString("previousVersion", "beta-0.6.8")
-                    .putBoolean("first", false)
-                    .apply();
-        }
-        //TODO ab Version 0.7.0 entfernen!!!
-
-        runUpdateTasks();
-        startServices();
-
-        final Intent main = new Intent(getApplicationContext(), MainActivity.class);
-
-        startActivity(main);
-        finish();
-    }
-
-    private void runUpdateTasks() {
-        if (!Utils.checkNetwork()) {
-            return;
-        }
-
-        ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.Utils.getCachedIDs();
-        new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
-
-        if (Utils.isVerified()) {
-            new SyncVoteTask().execute();
-        }
-
-        if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true)) {
-            new SyncUserTask().execute();
-        }
-
-        if (Utils.isVerified() && Utils.getUserPermission() != User.PERMISSION_LEHRER) {
-            new SyncGradeTask().execute();
-        }
-
-        if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
-            new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
-        }
-    }
-
-    private void startServices() {
-        if (Utils.isVerified()) {
-            startService(new Intent(getApplicationContext(), ReceiveService.class));
-            initServiceIntents();
-            initNotificationServices();
-            initSyncAdapter();
-        }
-    }
-
-    private void initSyncAdapter() {
-        ContentResolver.addPeriodicSync(
-                new Account("default_account", "default_account"),
-                "de.slg.leoapp.provider",
-                Bundle.EMPTY,
-                60*20);
-    }
-
-    private void initServiceIntents() {
-        PendingIntent piFoodmarks = PendingIntent.getService(
-                Utils.getContext(),
-                0,
-                new Intent(Utils.getContext(), NotificationServiceWrapper.FoodmarkService.class),
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        PendingIntent piTimetable = PendingIntent.getService(
-                Utils.getContext(),
-                1,
-                new Intent(Utils.getContext(), NotificationServiceWrapper.TimetableService.class),
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        PendingIntent piKlausurplan = PendingIntent.getService(
-                Utils.getContext(),
-                2,
-                new Intent(Utils.getContext(), NotificationServiceWrapper.KlausurplanService.class),
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        PendingIntent piStimmungsbarometer = PendingIntent.getService(
-                Utils.getContext(),
-                3,
-                new Intent(Utils.getContext(), NotificationServiceWrapper.StimmungsbarometerService.class),
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        Utils.getController().registerFoodmarkNotificationReference(piFoodmarks);
-        Utils.getController().registerTimetableNotificationReference(piTimetable);
-        Utils.getController().registerKlausurplanNotificationReference(piKlausurplan);
-        Utils.getController().registerStimmungsbarometerNotificationReference(piStimmungsbarometer);
-    }
-
     public static void initNotificationServices() {
 
         Calendar calendar = Calendar.getInstance();
@@ -205,5 +99,111 @@ public class Start extends Activity {
                     Utils.getController().getTimetableReference()
             );
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Utils.getController().closeActivities();
+        Utils.getController().closeServices();
+        Utils.getController().closeDatabases();
+
+        Utils.getController().setContext(getApplicationContext());
+
+        //Vorübergehend
+        SharedPreferences preferences = Utils.getController().getPreferences();
+        if (!preferences.getBoolean("first", true) && preferences.getString("previousVersion", "").equals("")) {
+            preferences.edit()
+                    .putString("previousVersion", "beta-0.6.8")
+                    .putBoolean("first", false)
+                    .apply();
+        }
+        //TODO ab Version 0.7.0 entfernen!!!
+
+        runUpdateTasks();
+        startServices();
+
+        final Intent main = new Intent(getApplicationContext(), MainActivity.class);
+
+        startActivity(main);
+        finish();
+    }
+
+    private void runUpdateTasks() {
+        if (!Utils.checkNetwork()) {
+            return;
+        }
+
+        ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.utility.Utils.getCachedIDs();
+        new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
+
+        if (Utils.isVerified()) {
+            new SyncVoteTask().execute();
+        }
+
+        if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true)) {
+            new SyncUserTask().execute();
+        }
+
+        if (Utils.isVerified() && Utils.getUserPermission() != User.PERMISSION_LEHRER) {
+            new SyncGradeTask().execute();
+        }
+
+        if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
+            new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
+        }
+    }
+
+    private void startServices() {
+        if (Utils.isVerified()) {
+            startService(new Intent(getApplicationContext(), ReceiveService.class));
+            initServiceIntents();
+            initNotificationServices();
+            initSyncAdapter();
+        }
+    }
+
+    private void initSyncAdapter() {
+        ContentResolver.addPeriodicSync(
+                new Account("default_account", "default_account"),
+                "de.slg.leoapp.provider",
+                Bundle.EMPTY,
+                60*20);
+    }
+
+    private void initServiceIntents() {
+        PendingIntent piFoodmarks = PendingIntent.getService(
+                Utils.getContext(),
+                0,
+                new Intent(Utils.getContext(), NotificationServiceWrapper.FoodmarkService.class),
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        PendingIntent piTimetable = PendingIntent.getService(
+                Utils.getContext(),
+                1,
+                new Intent(Utils.getContext(), NotificationServiceWrapper.TimetableService.class),
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        PendingIntent piKlausurplan = PendingIntent.getService(
+                Utils.getContext(),
+                2,
+                new Intent(Utils.getContext(), NotificationServiceWrapper.KlausurplanService.class),
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        PendingIntent piStimmungsbarometer = PendingIntent.getService(
+                Utils.getContext(),
+                3,
+                new Intent(Utils.getContext(), NotificationServiceWrapper.StimmungsbarometerService.class),
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        Utils.getController().registerFoodmarkNotificationReference(piFoodmarks);
+        Utils.getController().registerTimetableNotificationReference(piTimetable);
+        Utils.getController().registerKlausurplanNotificationReference(piKlausurplan);
+        Utils.getController().registerStimmungsbarometerNotificationReference(piStimmungsbarometer);
     }
 }

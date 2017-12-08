@@ -15,19 +15,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import de.slg.essensqr.EssensQRActivity;
-import de.slg.klausurplan.KlausurplanActivity;
+import de.slg.essensqr.activity.EssensQRActivity;
+import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.InfoButton;
-import de.slg.messenger.MessengerActivity;
-import de.slg.schwarzes_brett.SchwarzesBrettActivity;
-import de.slg.stimmungsbarometer.StimmungsbarometerActivity;
-import de.slg.stundenplan.StundenplanActivity;
-import de.slg.umfragen.SurveyActivity;
+import de.slg.messenger.activity.MessengerActivity;
+import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
+import de.slg.startseite.activity.MainActivity;
+import de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity;
+import de.slg.stundenplan.activity.StundenplanActivity;
+import de.slg.umfragen.activity.SurveyActivity;
 import de.slg.vertretung.WrapperSubstitutionActivity;
 
 /**
@@ -39,12 +40,12 @@ import de.slg.vertretung.WrapperSubstitutionActivity;
  * @version 2017.1811
  * @since 0.0.1
  */
-class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> implements RecyclerViewItemListener {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> implements RecyclerViewItemListener {
 
     /**
      * Liste aller in der MainActivity angezeigten Cards.
      */
-    final List<Card> cards;
+    public final List<Card> cards;
 
     {
         cards = new List<>();
@@ -65,7 +66,7 @@ class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> imple
      *
      * @param type Feature, zu dem die Card führen soll. (Siehe {@link CardType})
      */
-    void addToList(CardType type) {
+    public void addToList(CardType type) {
         Card c;
         switch (type) {
             case FOODMARKS:

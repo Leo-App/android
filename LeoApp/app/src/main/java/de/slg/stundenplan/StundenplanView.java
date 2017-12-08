@@ -14,13 +14,14 @@ import android.view.View;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
+import de.slg.stundenplan.utility.Fach;
 
 public class StundenplanView extends View {
-    private final Canvas canvas;
-    private final Paint  paint;
-    Bitmap bitmap;
-    private boolean isInitialized;
-    private int     height, width, baseLineY, baseLineX, abstandX, abstandY, paddingX, paddingY, baseline2Y, abstandX2;
+    private final Canvas  canvas;
+    private final Paint   paint;
+    public        Bitmap  bitmap;
+    private       boolean isInitialized;
+    private       int     height, width, baseLineY, baseLineX, abstandX, abstandY, paddingX, paddingY, baseline2Y, abstandX2;
 
     public StundenplanView(Context context) {
         super(context);

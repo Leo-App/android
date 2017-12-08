@@ -70,14 +70,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PreferenceActivity"
+            android:name=".activity.PreferenceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name=".NotificationPreferenceActivity"
+            android:name=".activity.NotificationPreferenceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.startseite.MainActivity"
+            android:name="de.slg.startseite.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
@@ -85,63 +85,63 @@
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name=".InfoActivity"
+            android:name=".activity.InfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.messenger.MessengerActivity"
+            android:name="de.slg.messenger.activity.MessengerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.messenger.ChatActivity"
+            android:name="de.slg.messenger.activity.ChatActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.messenger.AddGroupChatActivity"
+            android:name="de.slg.messenger.activity.AddGroupChatActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.messenger.ChatEditActivity"
+            android:name="de.slg.messenger.activity.ChatEditActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.essensqr.EssensQRActivity"
+            android:name="de.slg.essensqr.activity.EssensQRActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.stimmungsbarometer.StimmungsbarometerActivity"
+            android:name="de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.stimmungsbarometer.AbstimmActivity"
+            android:name="de.slg.stimmungsbarometer.activity.AbstimmActivity"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme" />
         <activity
-            android:name="de.slg.klausurplan.KlausurplanActivity"
+            android:name="de.slg.klausurplan.activity.KlausurplanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.schwarzes_brett.SchwarzesBrettActivity"
+            android:name="de.slg.schwarzes_brett.activity.SchwarzesBrettActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 
         <activity
-            android:name="de.slg.stundenplan.StundenplanActivity"
+            android:name="de.slg.stundenplan.activity.StundenplanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.stundenplan.StundenplanBildActivity"
+            android:name="de.slg.stundenplan.activity.StundenplanBildActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="de.slg.stundenplan.AuswahlActivity"
+            android:name="de.slg.stundenplan.activity.AuswahlActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".IntroActivity"
+            android:name=".activity.IntroActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.leoapp.ProfileActivity"
+            android:name="de.slg.leoapp.activity.ProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 
         <activity
-            android:name="de.slg.umfragen.SurveyActivity"
+            android:name="de.slg.umfragen.activity.SurveyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 
