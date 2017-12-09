@@ -246,7 +246,7 @@ public class NotificationHandler {
 
         private void create() {
             Intent resultIntent = new Intent(context, MainActivity.class)
-                    .putExtra("start_intent", ID_NEWS);
+                    .putExtra("start_intent2", ID_NEWS);
 
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
@@ -270,6 +270,7 @@ public class NotificationHandler {
 
         public void send() {
             de.slg.schwarzes_brett.utility.Utils.notifiedSchwarzesBrett(latest);
+            Utils.logError(ID_NEWS);
             if (isActive())
                 notificationManager.notify(ID_NEWS, notification);
         }

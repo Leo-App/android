@@ -133,7 +133,7 @@ public class MainActivity extends LeoAppFeatureActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (editing)
@@ -419,6 +419,8 @@ public class MainActivity extends LeoAppFeatureActivity {
 
     private void processIntent() {
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);
+        Utils.logError("Target1:"+notificationTarget);
+        Utils.logError("Target2:"+getIntent().getIntExtra("start_intent2", -1));
         if (notificationTarget != -1) {
             Utils.getController().closeActivities();
 
