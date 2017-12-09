@@ -48,6 +48,9 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         super.onCreate(savedInstanceState);
         Utils.getController().registerKlausurplanActivity(this);
 
+        if (!databaseExists())
+            new Importer().execute();
+
         database = new SQLiteConnectorKlausurplan(getApplicationContext());
         refreshArray();
 
@@ -212,6 +215,14 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         }
     }
 
+    private boolean databaseExists() {
+        for (String s : databaseList()) {
+            if (s.equals(SQLiteConnectorKlausurplan.DATABASE_NAME))
+                return true;
+        }
+        return false;
+    }
+
     private class Importer extends AsyncTask<Void, Void, Void> {
         private final boolean        filtern;
         private final String[]       schriflich;
@@ -225,7 +236,8 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
         @Override
         protected void onPreExecute() {
-            snackbar.dismiss();
+            if (snackbar != null)
+                snackbar.dismiss();
             findViewById(R.id.progressBar4).setVisibility(View.VISIBLE);
         }
 
