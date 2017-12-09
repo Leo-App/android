@@ -19,6 +19,7 @@ import android.support.annotation.Nullable;
 public class AuthenticatorService extends Service {
 
     private StubAuthenticator syncAuthenticator;
+
     @Override
     public void onCreate() {
         syncAuthenticator = new StubAuthenticator(this);

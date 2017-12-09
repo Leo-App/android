@@ -1,6 +1,7 @@
 package de.slg.leoapp;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -26,6 +27,8 @@ import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.schwarzes_brett.task.UpdateViewTrackerTask;
 import de.slg.startseite.activity.MainActivity;
+
+import static android.provider.Settings.AUTHORITY;
 
 public class Start extends Activity {
     public static void initNotificationServices() {
@@ -165,11 +168,35 @@ public class Start extends Activity {
     }
 
     private void initSyncAdapter() {
+        Utils.logError("STARTED");
         ContentResolver.addPeriodicSync(
-                new Account("default_account", "default_account"),
-                "de.slg.leoapp.provider",
+                createSyncAccount(),
+                "de.slg.leoapp",
                 Bundle.EMPTY,
-                60*20);
+                10);
+    }
+
+    private Account createSyncAccount() {
+        AccountManager am = AccountManager.get(this);
+        Account[] accounts;
+
+        try {
+            accounts = am.getAccountsByType("de.slg.leoapp");
+        } catch (SecurityException e) {
+            accounts = new Account[]{};
+        }
+        if (accounts.length > 0) {
+            return accounts[0];
+        }
+        Account newAccount = new Account("default_account", "de.slg.leoapp");
+        if (am.addAccountExplicitly(newAccount, "pass1", null)) {
+            ContentResolver.setIsSyncable(newAccount, "de.slg.leoapp", 1);
+            ContentResolver.setSyncAutomatically(newAccount, "de.slg.leoapp", true);
+        } else {
+            newAccount = null;
+        }
+
+        return newAccount;
     }
 
     private void initServiceIntents() {

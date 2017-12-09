@@ -33,7 +33,7 @@ import java.util.Date;
 
 import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.essensbons.activity.fragment.QRFragment;
-import de.slg.essensbons.utility.MCrypt;
+import de.slg.essensbons.utility.EncryptionManager;
 import de.slg.essensbons.utility.Order;
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
@@ -203,9 +203,9 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
                     e.printStackTrace();
                 }
         }
-        MCrypt mCrypt = new MCrypt();
+        EncryptionManager encryptionManager = new EncryptionManager();
         try {
-            result = new String(mCrypt.decrypt(result));
+            result = new String(encryptionManager.decrypt(result));
         } catch (Exception e) {
             e.printStackTrace();
         }

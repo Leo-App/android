@@ -18,10 +18,12 @@ import android.support.annotation.Nullable;
 public class ReceiveSyncService extends Service {
 
     private static ReceiveSyncAdapter syncAdapter;
+    private static final String TAG = "SyncService";
     private static final Object syncLock = new Object();
 
     @Override
     public void onCreate() {
+        super.onCreate();
         synchronized (syncLock) {
             if (syncAdapter == null) {
                 syncAdapter = new ReceiveSyncAdapter(getApplicationContext(), true);

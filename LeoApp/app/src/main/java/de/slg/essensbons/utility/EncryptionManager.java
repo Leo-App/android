@@ -7,13 +7,13 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public class MCrypt {
+public class EncryptionManager {
 
     private final IvParameterSpec ivspec;
     private final SecretKeySpec   keyspec;
     private       Cipher          cipher;
 
-    public MCrypt() {
+    public EncryptionManager() {
         String iv = "15p60peADF4tT8u8";
         ivspec = new IvParameterSpec(iv.getBytes());
         String secretKey = "jHsj1C4XyXpEh7L9m0cVTLPgLU5QfXvh";

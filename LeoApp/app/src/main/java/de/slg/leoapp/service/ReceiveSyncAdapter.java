@@ -10,6 +10,7 @@ import android.os.Bundle;
 import de.slg.leoapp.sync.NewsSynchronizer;
 import de.slg.leoapp.sync.SurveySynchronizer;
 import de.slg.leoapp.sync.Synchronizer;
+import de.slg.leoapp.utility.Utils;
 
 /**
  * ReceiveSyncAdapter.
@@ -24,9 +25,11 @@ import de.slg.leoapp.sync.Synchronizer;
 class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private Synchronizer[] synchronizers;
+    private static final String TAG = ReceiveSyncAdapter.class.getSimpleName();
 
     {
         synchronizers = new Synchronizer[]{new NewsSynchronizer(), new SurveySynchronizer()};
+        Utils.logError("INSTANCE INITIALIZER");
     }
 
     ReceiveSyncAdapter(Context context, boolean autoInitialize) {
@@ -39,6 +42,7 @@ class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+        Utils.logError("SYNC STARTED");
         for(Synchronizer s : synchronizers)
             if(s.run())
                 s.postUpdate();

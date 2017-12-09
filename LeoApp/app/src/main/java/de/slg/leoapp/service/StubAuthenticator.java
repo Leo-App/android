@@ -19,7 +19,7 @@ import android.os.Bundle;
  */
 public class StubAuthenticator extends AbstractAccountAuthenticator {
 
-    public StubAuthenticator(Context context) {
+    StubAuthenticator(Context context) {
         super(context);
     }
 
@@ -65,7 +65,8 @@ public class StubAuthenticator extends AbstractAccountAuthenticator {
     public Bundle updateCredentials(
             AccountAuthenticatorResponse r,
             Account account,
-            String s, Bundle bundle) throws NetworkErrorException {
+            String s,
+            Bundle bundle) throws NetworkErrorException {
         throw new UnsupportedOperationException();
     }
 
