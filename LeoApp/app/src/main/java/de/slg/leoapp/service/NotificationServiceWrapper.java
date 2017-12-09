@@ -33,10 +33,9 @@ import de.slg.leoapp.utility.UtilsController;
  * @since 0.6.7
  * @version 2017.0312
  */
+
 public abstract class NotificationServiceWrapper {
-
     public static class TimetableService extends Service {
-
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
             Utils.getController().setContext(getApplicationContext());
@@ -73,11 +72,9 @@ public abstract class NotificationServiceWrapper {
                 c.getAlarmManager().setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), c.getTimetableReference());
             }
         }
-
     }
 
     public static class StimmungsbarometerService extends Service {
-
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
             Utils.getController().setContext(getApplicationContext());
@@ -114,11 +111,9 @@ public abstract class NotificationServiceWrapper {
                 c.getAlarmManager().setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), c.getStimmungsbarometerReference());
             }
         }
-
     }
 
     public static class FoodmarkService extends Service {
-
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
             Utils.getController().setContext(getApplicationContext());
@@ -193,11 +188,9 @@ public abstract class NotificationServiceWrapper {
                 e.printStackTrace();
             }
         }
-
     }
 
     public static class KlausurplanService extends Service {
-
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
             Utils.getController().setContext(getApplicationContext());
@@ -208,7 +201,7 @@ public abstract class NotificationServiceWrapper {
             calendar.setTime(d);
 
             if(calendar.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
-                sendNotificationIfNecessary();
+                new NotificationHandler.KlausurplanNotification().send();
 
             Log.i("NotificationService", "Service (re)started!");
             return START_NOT_STICKY;
@@ -239,11 +232,5 @@ public abstract class NotificationServiceWrapper {
                 c.getAlarmManager().setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), c.getKlausurplanReference());
             }
         }
-
-        private void sendNotificationIfNecessary() {
-            //TODO
-        }
-
     }
-
 }
