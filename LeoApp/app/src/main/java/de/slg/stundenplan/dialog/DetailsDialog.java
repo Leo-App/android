@@ -39,12 +39,6 @@ public class DetailsDialog extends AlertDialog {
         etNotiz = (EditText) findViewById(R.id.notizFeld_details);
         cbSchrift = (CheckBox) findViewById(R.id.checkBox_schriftlich);
         title = (TextView) findViewById(R.id.title_details);
-        findViewById(R.id.buttonDis).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
         findViewById(R.id.buttonSav).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,8 +80,6 @@ public class DetailsDialog extends AlertDialog {
             findViewById(R.id.raum_details).setVisibility(View.GONE);
             findViewById(R.id.lehrer_details).setVisibility(View.GONE);
             tvZeit.setText(Utils.getController().getStundenplanDatabase().gibZeit(fach.getTag(), fach.getStunde()));
-//            etNotiz.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE|InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-//            etNotiz.setLines(5);;
             etNotiz.setText(fach.getNotiz());
         }
     }

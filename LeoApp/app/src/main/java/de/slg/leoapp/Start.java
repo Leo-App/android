@@ -19,6 +19,7 @@ import de.slg.leoapp.notification.NotificationTime;
 import de.slg.leoapp.notification.NotificationType;
 import de.slg.leoapp.service.NotificationServiceWrapper;
 import de.slg.leoapp.service.ReceiveService;
+import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.task.MailSendTask;
 import de.slg.leoapp.task.SyncGradeTask;
 import de.slg.leoapp.task.SyncUserTask;
@@ -27,8 +28,6 @@ import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.schwarzes_brett.task.UpdateViewTrackerTask;
 import de.slg.startseite.activity.MainActivity;
-
-import static android.provider.Settings.AUTHORITY;
 
 public class Start extends Activity {
     public static void initNotificationServices() {
@@ -114,6 +113,8 @@ public class Start extends Activity {
 
         Utils.getController().setContext(getApplicationContext());
 
+        deleteDatabase(SQLiteConnectorKlausurplan.DATABASE_NAME);
+
         //Vorübergehend
         SharedPreferences preferences = Utils.getController().getPreferences();
         if (!preferences.getBoolean("first", true) && preferences.getString("previousVersion", "").equals("")) {
@@ -134,27 +135,25 @@ public class Start extends Activity {
     }
 
     private void runUpdateTasks() {
-        if (!Utils.checkNetwork()) {
-            return;
-        }
+        if (Utils.checkNetwork()) {
+            ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.utility.Utils.getCachedIDs();
+            new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
 
-        ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.utility.Utils.getCachedIDs();
-        new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
+            if (Utils.isVerified()) {
+                new SyncVoteTask().execute();
+            }
 
-        if (Utils.isVerified()) {
-            new SyncVoteTask().execute();
-        }
+            if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true)) {
+                new SyncUserTask().execute();
+            }
 
-        if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true)) {
-            new SyncUserTask().execute();
-        }
+            if (Utils.isVerified() && Utils.getUserPermission() != User.PERMISSION_LEHRER) {
+                new SyncGradeTask().execute();
+            }
 
-        if (Utils.isVerified() && Utils.getUserPermission() != User.PERMISSION_LEHRER) {
-            new SyncGradeTask().execute();
-        }
-
-        if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
-            new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
+            if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
+                new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
+            }
         }
     }
 

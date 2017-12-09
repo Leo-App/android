@@ -12,9 +12,6 @@ import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.activity.ChatEditActivity;
 import de.slg.messenger.utility.Assoziation;
 
-/**
- * Created by Moritz on 08.12.2017.
- */
 public class AddUser extends AsyncTask<User, Void, Void> {
     private final int              cid;
     private       ChatEditActivity chatEditActivity;

@@ -109,10 +109,10 @@
         android:layout_alignLeft="@+id/notes"
         android:layout_alignStart="@+id/notes"
         android:layout_below="@+id/notes"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
         android:layout_toLeftOf="@id/lehrerK_details"
         android:layout_toStartOf="@+id/lehrerK_details"
-        android:layout_marginRight="5dp"
-        android:layout_marginEnd="5dp"
         android:inputType="textCapSentences"
         android:textColor="@color/colorText" />
 
@@ -124,21 +124,9 @@
         android:layout_alignEnd="@+id/lehrerK_details"
         android:layout_alignRight="@+id/lehrerK_details"
         android:layout_below="@+id/notizFeld_details"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
         android:text="@string/speichern"
-        android:textAllCaps="true" />
-
-    <Button
-        android:id="@+id/buttonDis"
-        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/buttonSav"
-        android:layout_alignBottom="@+id/buttonSav"
-        android:layout_toLeftOf="@+id/buttonSav"
-        android:layout_toStartOf="@+id/buttonSav"
-        android:text="@string/discard"
         android:textAllCaps="true" />
 
     <TextView

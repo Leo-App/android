@@ -17,8 +17,8 @@ import de.slg.klausurplan.utility.Klausur;
 import de.slg.leoapp.utility.Utils;
 
 public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
+    public static final  String           DATABASE_NAME           = "klausurplan";
     private static final SimpleDateFormat dateFormat              = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
-    private static final String           DATABASE_NAME           = "klausurplan";
     private static final String           TABLE_KLAUSUREN         = "klausuren";
     private static final String           KLAUSUR_ID              = "id";
     private static final String           KLAUSUR_TITEL           = "title";
