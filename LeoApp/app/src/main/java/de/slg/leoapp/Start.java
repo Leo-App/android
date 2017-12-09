@@ -165,11 +165,16 @@ public class Start extends Activity {
     }
 
     private void initSyncAdapter() {
-        ContentResolver.addPeriodicSync(
+ /*       ContentResolver.addPeriodicSync(
                 new Account("default_account", "default_account"),
                 "de.slg.leoapp.provider",
                 Bundle.EMPTY,
-                60*20);
+                60*20); */
+        ContentResolver.addPeriodicSync(
+                new Account("default_account", "default_account"),
+                "de.slg.leoapp.service.StubProvider",
+                Bundle.EMPTY,
+                10);
     }
 
     private void initServiceIntents() {

@@ -38,7 +38,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import de.slg.essensbons.activity.EssensQRActivity;
-import de.slg.essensbons.utility.Auth;
+import de.slg.essensbons.utility.Authenticator;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.User;
@@ -445,9 +445,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         return mDelegate;
     }
 
-    private class PreferenceTask extends AsyncTask<Void, Void, Auth> {
+    private class PreferenceTask extends AsyncTask<Void, Void, Authenticator> {
         @Override
-        protected Auth doInBackground(Void... params) {
+        protected Authenticator doInBackground(Void... params) {
             if (hasActiveInternetConnection()) {
                 String pw = getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_pw", "");
                 try {
@@ -464,11 +464,11 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                     while ((inputLine = in.readLine()) != null) {
                         if (inputLine.contains("true")) {
                             Log.d("LeoApp", "valid");
-                            return Auth.VALID;
+                            return Authenticator.VALID;
                         }
                         if (inputLine.contains("false")) {
                             Log.d("LeoApp", "invalid");
-                            return Auth.NOT_VALID;
+                            return Authenticator.NOT_VALID;
                         }
                     }
                     in.close();
@@ -476,8 +476,8 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                     e.printStackTrace();
                 }
             } else
-                return Auth.NO_CONNECTION;
-            return Auth.NOT_VALID;
+                return Authenticator.NO_CONNECTION;
+            return Authenticator.NOT_VALID;
         }
 
         boolean hasActiveInternetConnection() {
@@ -494,7 +494,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         }
 
         @Override
-        public void onPostExecute(Auth result) {
+        public void onPostExecute(Authenticator result) {
             progressBar.setVisibility(View.INVISIBLE);
             switch (result) {
                 case VALID:

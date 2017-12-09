@@ -21,9 +21,9 @@ import de.slg.essensbons.task.QRWriteTask;
 import de.slg.leoapp.R;
 
 public class QRFragment extends Fragment {
-    private View      rootView;
-    private ImageView iv1, iv2;
-    private TextView t2, t3;
+    private View        rootView;
+    private ImageView   iv1, iv2;
+    private TextView    t2, t3;
     private ProgressBar spinner;
 
     @Override
@@ -56,9 +56,6 @@ public class QRFragment extends Fragment {
     }
 
     public void synchronize(boolean start) {
-        Log.d("LeoApp", "syncFIRSTCALLED");
-        Log.d("LeoApp", "OnStart: " + String.valueOf(start));
-
         if (EssensQRActivity.runningSync)
             return;
 

@@ -168,6 +168,7 @@ public class ProfileActivity extends LeoAppFeatureActivity {
                 Intent intent = new Intent(ProfileActivity.this, SurveyActivity.class);
                 intent.putExtra("redirect", true);
                 startActivity(intent);
+                finish();
             }
         });
 
