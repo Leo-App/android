@@ -103,7 +103,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         if (mi.getItemId() == R.id.action_delete) {
             confirmDelete = true;
             snackbar.show();
-            listView.setAdapter(new KlausurenAdapter(getApplicationContext(), database.getKlausuren(SQLiteConnectorKlausurplan.WHERE_ONLY_CREATED), de.slg.klausurplan.utility.Utils.findeNächsteKlausur(klausuren)));
+            listView.setAdapter(new KlausurenAdapter(getApplicationContext(), database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_CREATED), de.slg.klausurplan.utility.Utils.findeNächsteKlausur(klausuren)));
         }
         return true;
     }
@@ -167,7 +167,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
                 super.onDismissed(snackbar, event);
                 if (confirmDelete) {
                     database.deleteAllDownloaded();
-                    klausuren = database.getKlausuren(SQLiteConnectorKlausurplan.WHERE_ONLY_TIMETABLE);
+                    klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_TIMETABLE);
                 } else {
                     refresh();
                 }
@@ -206,9 +206,9 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
     private void refreshArray() {
         if (Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", true)) {
-            klausuren = database.getKlausuren(SQLiteConnectorKlausurplan.WHERE_ONLY_TIMETABLE);
+            klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_TIMETABLE);
         } else {
-            klausuren = database.getKlausuren(SQLiteConnectorKlausurplan.WHERE_ONLY_GRADE);
+            klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_GRADE);
         }
     }
 
