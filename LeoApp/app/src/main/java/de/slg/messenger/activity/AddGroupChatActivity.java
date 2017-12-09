@@ -1,7 +1,5 @@
 package de.slg.messenger.activity;
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -14,20 +12,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
-import de.slg.messenger.utility.Assoziation;
-import de.slg.messenger.utility.Chat;
+import de.slg.messenger.task.CreateChat;
 
 public class AddGroupChatActivity extends ActionLogActivity {
     private final User[] users = Utils.getController().getMessengerDatabase().getUsers();
@@ -70,7 +59,8 @@ public class AddGroupChatActivity extends ActionLogActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_confirm) {
-            new CreateChat().execute();
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+            new CreateChat(this, etChatname.getText().toString()).execute(getSelected());
         } else if (item.getItemId() == android.R.id.home) {
             finish();
         }
@@ -81,6 +71,24 @@ public class AddGroupChatActivity extends ActionLogActivity {
     public void finish() {
         super.finish();
         Utils.getController().registerAddGroupChatActivity(null);
+    }
+
+    private Integer[] getSelected() {
+        int n = 0;
+        for (boolean b : selection) {
+            if (b) {
+                n++;
+            }
+        }
+        Integer[] selected = new Integer[n];
+        n = 0;
+        for (int i = 0; i < users.length; i++) {
+            if (selection[i]) {
+                selected[n] = users[i].uid;
+                n++;
+            }
+        }
+        return selected;
     }
 
     private void initToolbar() {
@@ -181,95 +189,6 @@ public class AddGroupChatActivity extends ActionLogActivity {
             } else {
                 container.getChildAt(i).setVisibility(View.GONE);
             }
-        }
-    }
-
-    private class CreateChat extends AsyncTask<Void, Void, Void> {
-        private int    cid;
-        private String cname;
-
-        @Override
-        protected void onPreExecute() {
-            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-
-            cid = -1;
-            cname = etChatname.getText().toString();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            sendChat();
-
-            if (cid != -1) {
-                sendAssoziation(new Assoziation(cid, Utils.getUserID()));
-                for (int i = 0; i < users.length; i++) {
-                    if (selection[i])
-                        sendAssoziation(new Assoziation(cid, users[i].uid));
-                }
-            }
-
-            return null;
-        }
-
-        private void sendChat() {
-            try {
-                URLConnection connection = new URL(generateURL(cname))
-                        .openConnection();
-
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        connection.getInputStream(), "UTF-8"));
-                StringBuilder builder = new StringBuilder();
-                String        l;
-                while ((l = reader.readLine()) != null)
-                    builder.append(l);
-                reader.close();
-
-                cid = Integer.parseInt(builder.toString());
-
-                Utils.getController().getMessengerDatabase().insertChat(new Chat(cid, cname, Chat.ChatType.GROUP));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void sendAssoziation(Assoziation assoziation) {
-            if (assoziation != null)
-                try {
-                    URLConnection connection = new URL(generateURL(assoziation))
-                            .openConnection();
-
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            connection.getInputStream(), "UTF-8"));
-                    while (reader.readLine() != null)
-                        ;
-                    reader.close();
-                    Utils.getController().getMessengerDatabase().insertAssoziation(assoziation);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
-
-        private String generateURL(String cname) throws UnsupportedEncodingException {
-            return Utils.BASE_URL_PHP + "messenger/addChat.php?cname=" + URLEncoder.encode(cname, "UTF-8") + "&ctype=" + Chat.ChatType.GROUP.toString().toLowerCase();
-        }
-
-        private String generateURL(Assoziation assoziation) {
-            return Utils.BASE_URL_PHP + "messenger/addAssoziation.php?uid=" + assoziation.uid + "&cid=" + assoziation.cid;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            findViewById(R.id.progressBar).setVisibility(View.GONE);
-
-            startActivity(new Intent(getApplicationContext(), ChatActivity.class)
-                    .putExtra("cid", cid)
-                    .putExtra("cname", cname)
-                    .putExtra("ctype", Chat.ChatType.GROUP.toString()));
-            finish();
         }
     }
 }
