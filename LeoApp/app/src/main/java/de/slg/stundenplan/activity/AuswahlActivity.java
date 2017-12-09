@@ -29,17 +29,17 @@ import java.net.URLConnection;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.PreferenceActivity;
+import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
-import de.slg.stundenplan.StundenplanDB;
 import de.slg.stundenplan.utility.Fach;
 
 public class AuswahlActivity extends ActionLogActivity {
-    private Menu          menu;
-    private KursAdapter   adapter;
-    private StundenplanDB db;
+    private Menu                       menu;
+    private KursAdapter                adapter;
+    private SQLiteConnectorStundenplan db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,12 +251,12 @@ public class AuswahlActivity extends ActionLogActivity {
     }
 
     private class KursAdapter extends ArrayAdapter<Fach> {
-        final         Fach[]        fachArray;
-        final         List<String>  ausgewaehlteFaecher;
-        final         boolean[][]   ausgewaehlteStunden;
-        private final View[]        views;
-        private final CheckBox[]    cbs;
-        private final StundenplanDB db;
+        final         Fach[]                     fachArray;
+        final         List<String>               ausgewaehlteFaecher;
+        final         boolean[][]                ausgewaehlteStunden;
+        private final View[]                     views;
+        private final CheckBox[]                 cbs;
+        private final SQLiteConnectorStundenplan db;
 
         KursAdapter(Context context, Fach[] array) {
             super(context, R.layout.list_item_kurs, array);

@@ -13,6 +13,7 @@ import de.slg.leoapp.activity.PreferenceActivity;
 import de.slg.leoapp.activity.ProfileActivity;
 import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.sqlite.SQLiteConnectorMessenger;
+import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.leoapp.view.ActivityStatus;
 import de.slg.messenger.activity.AddGroupChatActivity;
@@ -22,7 +23,6 @@ import de.slg.messenger.activity.MessengerActivity;
 import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
 import de.slg.startseite.activity.MainActivity;
 import de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity;
-import de.slg.stundenplan.StundenplanDB;
 import de.slg.stundenplan.activity.AuswahlActivity;
 import de.slg.stundenplan.activity.StundenplanActivity;
 import de.slg.stundenplan.activity.StundenplanBildActivity;
@@ -68,8 +68,8 @@ public class UtilsController {
     private ProfileActivity                profileActivity;
 
     //Datenbankverwaltungen
-    private SQLiteConnectorMessenger SQLiteConnectorMessenger;
-    private StundenplanDB            stundenplanDB;
+    private SQLiteConnectorMessenger   SQLiteConnectorMessenger;
+    private SQLiteConnectorStundenplan SQLiteConnectorStundenplan;
 
     private ReceiveService receiveService;
     private AlarmManager   alarmManager;
@@ -162,10 +162,10 @@ public class UtilsController {
      *
      * @return Stundenplan-Datenbank
      */
-    public StundenplanDB getStundenplanDatabase() {
-        if (stundenplanDB == null)
-            stundenplanDB = new StundenplanDB(getContext());
-        return stundenplanDB;
+    public SQLiteConnectorStundenplan getStundenplanDatabase() {
+        if (SQLiteConnectorStundenplan == null)
+            SQLiteConnectorStundenplan = new SQLiteConnectorStundenplan(getContext());
+        return SQLiteConnectorStundenplan;
     }
 
     /**
@@ -511,9 +511,9 @@ public class UtilsController {
             SQLiteConnectorMessenger.close();
             SQLiteConnectorMessenger = null;
         }
-        if (stundenplanDB != null) {
-            stundenplanDB.close();
-            stundenplanDB = null;
+        if (SQLiteConnectorStundenplan != null) {
+            SQLiteConnectorStundenplan.close();
+            SQLiteConnectorStundenplan = null;
         }
     }
 

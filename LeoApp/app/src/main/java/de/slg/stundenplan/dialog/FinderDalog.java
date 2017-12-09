@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.sqlite.SQLiteConnectorStundenplanFinder;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
-import de.slg.stundenplan.StundenplanDBDummy;
 
 public class FinderDalog extends AlertDialog {
     private List<String> kürzel;
@@ -129,7 +129,7 @@ public class FinderDalog extends AlertDialog {
                 }
 
                 try {
-                    StundenplanDBDummy db = new StundenplanDBDummy(getContext());
+                    SQLiteConnectorStundenplanFinder db = new SQLiteConnectorStundenplanFinder(getContext());
 
                     BufferedReader reader =
                             new BufferedReader(

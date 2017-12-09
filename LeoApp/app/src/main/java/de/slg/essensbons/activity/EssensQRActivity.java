@@ -24,22 +24,22 @@ import android.widget.Button;
 
 import com.google.zxing.Result;
 
-import de.slg.leoapp.sqlite.SQLiteConnectorFoodmarks;
 import de.slg.essensbons.activity.fragment.QRFragment;
 import de.slg.essensbons.activity.fragment.ScanFragment;
 import de.slg.essensbons.task.QRReadTask;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.notification.NotificationHandler;
+import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
 public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScannerView.ResultHandler {
-    public static SharedPreferences sharedPref;
-    public static SQLiteConnectorFoodmarks sqlh;
-    public static Button            scan;
+    public static SharedPreferences         sharedPref;
+    public static SQLiteConnectorEssensbons sqlh;
+    public static Button                    scan;
     public static boolean runningSync, mensaModeRunning = false;
     private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
     public  ZXingScannerView     scV;
@@ -89,7 +89,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
 
-        sqlh = new SQLiteConnectorFoodmarks(getApplicationContext());
+        sqlh = new SQLiteConnectorEssensbons(getApplicationContext());
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         final Handler handler = new Handler();

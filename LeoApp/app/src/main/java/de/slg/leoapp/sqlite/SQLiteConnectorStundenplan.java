@@ -1,4 +1,4 @@
-package de.slg.stundenplan;
+package de.slg.leoapp.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +10,7 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 import de.slg.stundenplan.utility.Fach;
 
-public class StundenplanDB extends SQLiteOpenHelper {
+public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     private static final String DATABASE_NAME       = "stundenplan";
     private static final String TABLE_FACHER        = "faecher";
     private static final String FACH_ID             = "fid";
@@ -30,7 +30,7 @@ public class StundenplanDB extends SQLiteOpenHelper {
     private final SQLiteDatabase database;
     private final Context        context;
 
-    public StundenplanDB(Context context) {
+    public SQLiteConnectorStundenplan(Context context) {
         super(context, DATABASE_NAME, null, 4);
         database = getWritableDatabase();
         this.context = context;

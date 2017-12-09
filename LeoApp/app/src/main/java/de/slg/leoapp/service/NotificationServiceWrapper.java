@@ -17,10 +17,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import de.slg.leoapp.sqlite.SQLiteConnectorFoodmarks;
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.notification.NotificationTime;
 import de.slg.leoapp.notification.NotificationType;
+import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.UtilsController;
 
@@ -164,9 +164,9 @@ public abstract class NotificationServiceWrapper {
         private void sendNotificationIfNecessary() {
             if (!Utils.getController().getPreferences().getBoolean("pref_key_status_loggedin", false))
                 return;
-            SQLiteConnectorFoodmarks db     = new SQLiteConnectorFoodmarks(this);
-            SQLiteDatabase dbw    = db.getReadableDatabase();
-            Cursor cursor = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
+            SQLiteConnectorEssensbons db     = new SQLiteConnectorEssensbons(this);
+            SQLiteDatabase            dbw    = db.getReadableDatabase();
+            Cursor                    cursor = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
             if (cursor.getCount() == 0) {
                 cursor.close();
                 new NotificationHandler.FoodmarkNotification().send();

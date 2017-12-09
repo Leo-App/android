@@ -10,29 +10,27 @@ import java.io.File;
 
 import de.slg.leoapp.utility.Utils;
 
-public class SQLiteConnectorSurvey extends SQLiteOpenHelper {
+public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
 
     public static final  String TABLE_SURVEYS          = "Umfragen";
     public static final  String TABLE_ANSWERS          = "Antworten";
 
-    public static final  String SURVEYS_ID             = "id";
-    public static final  String SURVEYS_TITEL          = "titel";
-    public static final  String SURVEYS_ADRESSAT       = "adressat";
-    public static final  String SURVEYS_BESCHREIBUNG   = "inhalt";
-    public static final  String SURVEYS_ABSENDER       = "absender";
-    public static final  String SURVEYS_REMOTE_ID      = "remoteid";
-    public static final  String SURVEYS_ERSTELLDATUM   = "erstelldatum";
-    public static final  String SURVEYS_MULTIPLE       = "multiple";
+    public static final  String SURVEYS_ID           = "id";
+    public static final  String SURVEYS_TITEL        = "titel";
+    public static final  String SURVEYS_ADRESSAT     = "adressat";
+    public static final  String SURVEYS_BESCHREIBUNG = "inhalt";
+    public static final  String SURVEYS_ABSENDER     = "absender";
+    public static final  String SURVEYS_REMOTE_ID    = "remoteid";
+    public static final  String SURVEYS_ERSTELLDATUM = "erstelldatum";
+    public static final  String SURVEYS_MULTIPLE     = "multiple";
+    public static final  String ANSWERS_SID          = "umfrageid";
+    public static final  String ANSWERS_INHALT       = "inhalt";
+    public static final  String ANSWERS_REMOTE_ID    = "remoteid";
+    public static final  String ANSWERS_SELECTED     = "gewaehlt";
+    private static final String ANSWERS_ID           = "id";
+    private static final String DATABASE_NAME        = "surveys.db";
 
-    private static final String ANSWERS_ID             = "id";
-    public static final  String ANSWERS_SID            = "umfrageid";
-    public static final  String ANSWERS_INHALT         = "inhalt";
-    public static final  String ANSWERS_REMOTE_ID      = "remoteid";
-    public static final  String ANSWERS_SELECTED       = "gewaehlt";
-
-    private static final String DATABASE_NAME          = "surveys.db";
-
-    public SQLiteConnectorSurvey(Context c) {
+    public SQLiteConnectorUmfragen(Context c) {
         super(c, DATABASE_NAME, null, 1);
     }
 

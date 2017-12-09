@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import de.slg.leoapp.sqlite.SQLiteConnectorNews;
+import de.slg.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
 import de.slg.leoapp.utility.Utils;
 
 /**
@@ -49,15 +49,15 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
                     builder.append(line)
                             .append(System.getProperty("line.separator"));
                 reader.close();
-                SQLiteConnectorNews db  = new SQLiteConnectorNews(Utils.getContext());
-                SQLiteDatabase      dbh = db.getWritableDatabase();
-                dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnectorNews.TABLE_EINTRAEGE + "'");
-                dbh.delete(SQLiteConnectorNews.TABLE_EINTRAEGE, null, null);
+                SQLiteConnectorSchwarzesBrett db  = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
+                SQLiteDatabase                dbh = db.getWritableDatabase();
+                dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE + "'");
+                dbh.delete(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, null, null);
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
                     String[] res = s.split(";");
                     if (res.length == 8) {
-                        dbh.insert(SQLiteConnectorNews.TABLE_EINTRAEGE, null, db.getEntryContentValues(
+                        dbh.insert(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, null, db.getEntryContentValues(
                                 res[0],
                                 res[1],
                                 res[2],

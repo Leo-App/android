@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import de.slg.leoapp.notification.NotificationHandler;
-import de.slg.leoapp.sqlite.SQLiteConnectorSurvey;
+import de.slg.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slg.leoapp.utility.Utils;
 
 /**
@@ -51,16 +51,16 @@ public class SurveySynchronizer implements Synchronizer {
                 resultBuilder.append(line);
             reader.close();
 
-            SQLiteConnectorSurvey db = new SQLiteConnectorSurvey(Utils.getContext());
-            SQLiteDatabase dbh       = db.getWritableDatabase();
+            SQLiteConnectorUmfragen db  = new SQLiteConnectorUmfragen(Utils.getContext());
+            SQLiteDatabase          dbh = db.getWritableDatabase();
 
-            dbh.delete(SQLiteConnectorSurvey.TABLE_SURVEYS, null, null);
-            dbh.delete(SQLiteConnectorSurvey.TABLE_ANSWERS, null, null);
+            dbh.delete(SQLiteConnectorUmfragen.TABLE_SURVEYS, null, null);
+            dbh.delete(SQLiteConnectorUmfragen.TABLE_ANSWERS, null, null);
             String[] result = builder.toString().split("_next_");
             for (String s : result) {
                 String[] res = s.split("_;_");
                 if (res.length >= 7) {
-                    long id = dbh.insert(SQLiteConnectorSurvey.TABLE_SURVEYS, null, db.getSurveyContentValues(
+                    long id = dbh.insert(SQLiteConnectorUmfragen.TABLE_SURVEYS, null, db.getSurveyContentValues(
                             res[1],
                             res[3],
                             res[2],
@@ -71,7 +71,7 @@ public class SurveySynchronizer implements Synchronizer {
                     ));
 
                     for (int i = 7; i < res.length - 1; i += 2) {
-                        dbh.insert(SQLiteConnectorSurvey.TABLE_ANSWERS, null, db.getAnswerContentValues(
+                        dbh.insert(SQLiteConnectorUmfragen.TABLE_ANSWERS, null, db.getAnswerContentValues(
                                 Integer.parseInt(res[i]),
                                 res[i + 1],
                                 id,

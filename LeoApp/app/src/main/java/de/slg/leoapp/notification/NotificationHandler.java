@@ -15,8 +15,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.sqlite.SQLiteConnectorNews;
-import de.slg.leoapp.sqlite.SQLiteConnectorSurvey;
+import de.slg.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
+import de.slg.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActivityStatus;
 import de.slg.messenger.utility.Chat;
@@ -280,7 +280,7 @@ public class NotificationHandler {
         }
 
         private boolean hasUnreadNews() {
-            SQLiteConnectorNews db = new SQLiteConnectorNews(Utils.getContext());
+            SQLiteConnectorSchwarzesBrett db = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
 
             if(!db.getDatabaseAvailable())
                 return false;
@@ -349,7 +349,7 @@ public class NotificationHandler {
         }
 
         private boolean hasUnreadNews() {
-            SQLiteConnectorSurvey db = new SQLiteConnectorSurvey(context);
+            SQLiteConnectorUmfragen db = new SQLiteConnectorUmfragen(context);
 
             if(!db.getDatabaseAvailable())
                 return false;

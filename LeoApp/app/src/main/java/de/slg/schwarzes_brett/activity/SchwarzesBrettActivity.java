@@ -33,7 +33,7 @@ import java.util.Map;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.notification.NotificationHandler;
-import de.slg.leoapp.sqlite.SQLiteConnectorNews;
+import de.slg.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
@@ -55,8 +55,8 @@ import de.slg.schwarzes_brett.task.UpdateViewTrackerTask;
 public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
-    private static SQLiteConnectorNews sqLiteConnector;
-    private static SQLiteDatabase      sqLiteDatabase;
+    private static SQLiteConnectorSchwarzesBrett sqLiteConnector;
+    private static SQLiteDatabase                sqLiteDatabase;
 
     private List<String>              groupList;
     private List<String>              childList;
@@ -67,7 +67,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
     private static int getRemoteId(int position) {
         //Maybe cache already transformed ids to avoid excessive RAM usage
         if (sqLiteConnector == null)
-            sqLiteConnector = new SQLiteConnectorNews(Utils.getContext());
+            sqLiteConnector = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
         String stufe = Utils.getUserStufe();
@@ -81,10 +81,10 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_EINTRAEGE, new String[]{SQLiteConnectorNews.EINTRAEGE_REMOTE_ID}, SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID}, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
             default:
-                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_EINTRAEGE, new String[]{SQLiteConnectorNews.EINTRAEGE_REMOTE_ID, SQLiteConnectorNews.EINTRAEGE_TITEL, SQLiteConnectorNews.EINTRAEGE_INHALT, SQLiteConnectorNews.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorNews.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorNews.EINTRAEGE_ANHANG}, SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID, SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL, SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG}, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
         }
 
@@ -106,7 +106,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
         receive();
 
         if (sqLiteConnector == null)
-            sqLiteConnector = new SQLiteConnectorNews(Utils.getContext());
+            sqLiteConnector = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
@@ -252,7 +252,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
 
     private ArrayList<Integer> createViewList() {
         ArrayList<Integer> viewList = new ArrayList<>();
-        Cursor             cursor   = sqLiteDatabase.rawQuery("SELECT " + SQLiteConnectorNews.EINTRAEGE_VIEWS + " FROM " + SQLiteConnectorNews.TABLE_EINTRAEGE, null);
+        Cursor             cursor   = sqLiteDatabase.rawQuery("SELECT " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS + " FROM " + SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, null);
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             viewList.add(cursor.getInt(0));
@@ -269,15 +269,15 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
         switch (stufe) {
             case "":
             case "TEA":
-                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_EINTRAEGE, new String[]{SQLiteConnectorNews.EINTRAEGE_ADRESSAT, SQLiteConnectorNews.EINTRAEGE_TITEL, SQLiteConnectorNews.EINTRAEGE_INHALT, SQLiteConnectorNews.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorNews.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorNews.EINTRAEGE_ANHANG}, null, null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL, SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG}, null, null, null, null, null);
                 break;
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_EINTRAEGE, new String[]{SQLiteConnectorNews.EINTRAEGE_ADRESSAT, SQLiteConnectorNews.EINTRAEGE_TITEL, SQLiteConnectorNews.EINTRAEGE_INHALT, SQLiteConnectorNews.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorNews.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorNews.EINTRAEGE_ANHANG}, SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL, SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG}, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
             default:
-                cursor = sqLiteDatabase.query(SQLiteConnectorNews.TABLE_EINTRAEGE, new String[]{SQLiteConnectorNews.EINTRAEGE_ADRESSAT, SQLiteConnectorNews.EINTRAEGE_TITEL, SQLiteConnectorNews.EINTRAEGE_INHALT, SQLiteConnectorNews.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorNews.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorNews.EINTRAEGE_ANHANG}, SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorNews.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL, SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG}, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
                 break;
         }
 
