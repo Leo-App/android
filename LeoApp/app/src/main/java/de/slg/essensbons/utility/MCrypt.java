@@ -1,4 +1,4 @@
-package de.slg.essensqr.utility;
+package de.slg.essensbons.utility;
 
 import java.security.NoSuchAlgorithmException;
 

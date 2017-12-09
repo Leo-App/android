@@ -1,4 +1,4 @@
-package de.slg.essensqr.activity.fragment;
+package de.slg.essensbons.activity.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import de.slg.essensqr.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.leoapp.R;
 
 public class ScanFragment extends Fragment {

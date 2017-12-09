@@ -20,7 +20,7 @@ import de.slg.leoapp.sync.Synchronizer;
  * @since 0.6.8
  * @version 2017.0712
  */
-
+@SuppressWarnings("unused")
 class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private Synchronizer[] synchronizers;
@@ -39,9 +39,9 @@ class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        for(Synchronizer s : synchronizers) {
+        for(Synchronizer s : synchronizers)
             if(s.run())
                 s.postUpdate();
-        }
+
     }
 }

@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import de.slg.essensqr.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;
@@ -289,7 +289,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         if (!c.enabled) {
             if (!quick) {
                 holder.title.setTextColor(Color.GRAY);
-                holder.imageButton.setColorFilter(Color.GRAY);
             }
             holder.icon.setColorFilter(Color.GRAY);
         }
@@ -313,7 +312,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     class CardViewHolder extends RecyclerView.ViewHolder {
 
         final TextView       title;
-        final ImageButton    imageButton;
         final ImageView      icon;
         final RelativeLayout content;
         final CardView       wrapper;
@@ -327,7 +325,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             icon = (ImageView) itemView.findViewById(R.id.info_card_icon);
             wrapper = (CardView) itemView.findViewById(R.id.card_preset);
             btn = (Button) itemView.findViewById(R.id.buttonCard);
-            imageButton = (ImageButton) itemView.findViewById(R.id.imageButton10);
             button = new InfoButton(btn);
         }
     }
