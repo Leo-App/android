@@ -24,13 +24,13 @@ public class StubProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(@NonNull Uri uri) {
+    public String getType(Uri uri) {
         return null;
     }
 
     @Override
     public Cursor query(
-            @NonNull Uri uri,
+            Uri uri,
             String[] projection,
             String selection,
             String[] selectionArgs,
@@ -39,17 +39,17 @@ public class StubProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(@NonNull Uri uri, ContentValues values) {
+    public Uri insert(Uri uri, ContentValues values) {
         return null;
     }
 
     @Override
-    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
         return 0;
     }
 
     public int update(
-            @NonNull Uri uri,
+            Uri uri,
             ContentValues values,
             String selection,
             String[] selectionArgs) {
