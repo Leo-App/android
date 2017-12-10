@@ -129,7 +129,7 @@ public class NewEntryDialog extends AlertDialog {
                 sdf.applyPattern(NEW_FORMAT);
                 newDate = sdf.format(d);
                 Spinner spinner = (Spinner) findViewById(R.id.spinner2);
-                Log.e("NeuerEintrag", spinner.getSelectedItem().toString());
+                Utils.logError(spinner.getSelectedItem().toString());
                 new sendEntryTask().execute(title.getText().toString(), content.getText().toString(), newDate, spinner.getSelectedItem().toString());
             }
         });
@@ -203,7 +203,7 @@ public class NewEntryDialog extends AlertDialog {
                                                 .getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null)
-                    Log.e("TAG", line);
+                    Utils.logError(line);
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;

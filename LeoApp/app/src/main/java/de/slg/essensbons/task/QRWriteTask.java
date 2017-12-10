@@ -183,7 +183,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         try {
             URL interfaceDB = new URL(Utils.BASE_URL_PHP + "essenqr/qr_database.php?id=" + EssensQRActivity.sharedPref.getString("pref_key_qr_id", "00000")
                     + "&auth=2SnDS7GBdHf5sd");
-            Log.d("LeoApp", interfaceDB.toString());
+            Utils.logDebug(interfaceDB.toString());
             in = null;
             in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
             String inputLine;
@@ -231,14 +231,14 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Log.d("LeoApp", "Date " + s.split("_seperator_")[0]);
+            Utils.logDebug("Date " + s.split("_seperator_")[0]);
             values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_DATE, s.split("_seperator_")[0]);
             values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_MENU, s.split("_seperator_")[1]);
             values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_DESCR, s.split("_seperator_")[2]);
             try {
                 db.insert(SQLiteConnectorEssensbons.OrderEntry.TABLE_NAME, null, values);
             } catch (Exception e) {
-                Log.e("LeoApp", "Failed UNIQUE");
+                Utils.logDebug("Failed UNIQUE");
             }
         }
         db.close();
@@ -248,7 +248,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             db.close();
             return;
         }
-        Log.d("LeoApp", dateString);
+        Utils.logDebug(dateString);
         Cursor c = db.rawQuery("SELECT ID FROM USERORDERS WHERE DATEU = ?", new String[]{dateString});
         c.moveToFirst();
         if (c.getCount() == 0)

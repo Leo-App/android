@@ -43,7 +43,7 @@ public abstract class NotificationServiceWrapper {
 
             new NotificationHandler.TimetableNotification().send();
 
-            Log.i("NotificationService", "Service (re)started!");
+            Utils.logDebug("Service (re)started!");
             return START_NOT_STICKY;
         }
 
@@ -55,7 +55,7 @@ public abstract class NotificationServiceWrapper {
 
         @Override
         public void onDestroy() {
-            Log.i("NotificationService", "Service stopped!");
+            Utils.logDebug("Service stopped!");
         }
 
         private void reschedule() {
@@ -82,7 +82,7 @@ public abstract class NotificationServiceWrapper {
 
             new NotificationHandler.StimmungsbarometerNotification().send();
 
-            Log.i("NotificationService", "Service (re)started!");
+            Utils.logDebug("Service (re)started!");
             return START_NOT_STICKY;
         }
 
@@ -94,7 +94,7 @@ public abstract class NotificationServiceWrapper {
 
         @Override
         public void onDestroy() {
-            Log.i("NotificationService", "Service stopped!");
+            Utils.logDebug("Service stopped!");
         }
 
         private void reschedule() {
@@ -126,7 +126,7 @@ public abstract class NotificationServiceWrapper {
             if(calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
                 sendNotificationIfNecessary();
 
-            Log.i("NotificationService", "Service (re)started!");
+            Utils.logDebug("Service (re)started!");
             return START_NOT_STICKY;
         }
 
@@ -138,7 +138,7 @@ public abstract class NotificationServiceWrapper {
 
         @Override
         public void onDestroy() {
-            Log.i("NotificationService", "Service stopped!");
+            Utils.logDebug("Service stopped!");
         }
 
         private void reschedule() {
@@ -203,7 +203,7 @@ public abstract class NotificationServiceWrapper {
             if(calendar.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
                 new NotificationHandler.KlausurplanNotification().send();
 
-            Log.i("NotificationService", "Service (re)started!");
+            Utils.logDebug("Service (re)started!");
             return START_NOT_STICKY;
         }
 
@@ -215,7 +215,7 @@ public abstract class NotificationServiceWrapper {
 
         @Override
         public void onDestroy() {
-            Log.i("NotificationService", "Service stopped!");
+            Utils.logDebug("Service stopped!");
         }
 
         private void reschedule() {

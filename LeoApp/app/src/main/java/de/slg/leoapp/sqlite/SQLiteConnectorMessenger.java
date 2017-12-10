@@ -509,7 +509,7 @@ public class SQLiteConnectorMessenger {
 
     public User[] getUsersNotInChat(int cid) {
         String query = "SELECT u." + USER_ID + ", u." + USER_NAME + ", u." + USER_STUFE + ", u." + USER_PERMISSION + ", u." + USER_DEFAULTNAME + " FROM " + TABLE_USERS + " u LEFT JOIN " + TABLE_ASSOZIATION + " a ON u." + USER_ID + " = a." + USER_ID + " AND a." + CHAT_ID + " = " + cid + " WHERE a." + USER_ID + " IS NULL";
-        Log.i("SQL", query);
+        Utils.logDebug(query);
         Cursor cursor = rawQuery(query);
         User[] users  = new User[cursor.getCount()];
         int    i      = 0;
@@ -576,7 +576,7 @@ public class SQLiteConnectorMessenger {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            Log.i("DBHelper", "Datenbank wird erstellt");
+            Utils.logDebug("Datenbank wird erstellt");
             try {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " (" +
                         MESSAGE_ID + " INTEGER PRIMARY KEY, " +

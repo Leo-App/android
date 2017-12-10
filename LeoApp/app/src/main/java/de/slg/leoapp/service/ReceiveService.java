@@ -45,7 +45,7 @@ public class ReceiveService extends Service {
         new ReceiveThread().start();
         new QueueThread().start();
 
-        Log.i("ReceiveService", "Service (re)started!");
+        Utils.logError("Service (re)started!");
         return START_STICKY;
     }
 
@@ -61,12 +61,12 @@ public class ReceiveService extends Service {
         socket.close(1000, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
-        Log.i("ReceiveService", "Service stopped!");
+        Utils.logError("Service stopped!");
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        Log.e("ReceiveService", "ReceiveService removed");
+        Utils.logError("ReceiveService removed");
         socket.close(1000, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
@@ -216,7 +216,7 @@ public class ReceiveService extends Service {
                 }
 
                 if (text.startsWith("+")) {
-                    Log.e("Socket", text);
+                    Utils.logDebug(text);
                 } else if (text.startsWith("m") && parts.length == 6) {
                     int    mid   = Integer.parseInt(parts[0]);
                     String mtext = de.slg.messenger.utility.Utils.Verschluesseln.decrypt(parts[1], de.slg.messenger.utility.Utils.Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
@@ -242,7 +242,7 @@ public class ReceiveService extends Service {
                 } else if (text.startsWith("a")) {
                     assoziationen();
                 } else if (text.startsWith("-")) {
-                    Log.e("SocketError", text);
+                    Utils.logError(text);
                 }
 
                 if (Utils.getController().getMessengerActivity() != null)
@@ -259,7 +259,7 @@ public class ReceiveService extends Service {
 
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-            Log.e("SocketError", Log.getStackTraceString(t));
+            Utils.logError(Log.getStackTraceString(t));
         }
     }
 }
