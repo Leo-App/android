@@ -74,13 +74,17 @@ public class NotificationHandler {
         private void create() {
             Intent resultIntent = new Intent(context, MainActivity.class)
                     .putExtra("start_intent", ID_ESSENSQR);
+
+            resultIntent.setAction(String.valueOf(System.currentTimeMillis()));
+
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
                             Utils.getContext(),
                             0,
                             resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                            PendingIntent.FLAG_ONE_SHOT
                     );
+
 
             notification = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -120,12 +124,14 @@ public class NotificationHandler {
             Intent resultIntent = new Intent(context, MainActivity.class)
                     .putExtra("start_intent", ID_KLAUSURPLAN);
 
+            resultIntent.setAction(String.valueOf(System.currentTimeMillis()));
+
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
                             context,
                             0,
                             resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                            PendingIntent.FLAG_ONE_SHOT
                     );
 
             notification = new NotificationCompat.Builder(context)
@@ -173,12 +179,14 @@ public class NotificationHandler {
             Intent resultIntent = new Intent(context, MainActivity.class)
                     .putExtra("start_intent", ID_MESSENGER);
 
+            resultIntent.setAction(String.valueOf(System.currentTimeMillis()));
+
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
                             context,
                             0,
                             resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                            PendingIntent.FLAG_ONE_SHOT
                     );
 
             notification = new NotificationCompat.Builder(context)
@@ -248,12 +256,14 @@ public class NotificationHandler {
             Intent resultIntent = new Intent(context, MainActivity.class)
                     .putExtra("start_intent", ID_NEWS);
 
+            resultIntent.setAction(String.valueOf(System.currentTimeMillis()));
+
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
                             context,
                             0,
                             resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                            PendingIntent.FLAG_ONE_SHOT
                     );
 
             notification = new NotificationCompat.Builder(context)
@@ -270,7 +280,6 @@ public class NotificationHandler {
 
         public void send() {
             de.slg.schwarzes_brett.utility.Utils.notifiedSchwarzesBrett(latest);
-            Utils.logError(ID_NEWS);
             if (isActive())
                 notificationManager.notify(ID_NEWS, notification);
         }
@@ -315,12 +324,14 @@ public class NotificationHandler {
             Intent resultIntent = new Intent(context, MainActivity.class)
                     .putExtra("start_intent", ID_SURVEY);
 
+            resultIntent.setAction(String.valueOf(System.currentTimeMillis()));
+
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
                             context,
                             0,
                             resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                            PendingIntent.FLAG_ONE_SHOT
                     );
 
             notification = new NotificationCompat.Builder(context)
@@ -379,12 +390,14 @@ public class NotificationHandler {
         private void create() {
             Intent resultIntent = new Intent(context, AbstimmActivity.class);
 
+            resultIntent.setAction(String.valueOf(System.currentTimeMillis()));
+
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
                             context,
                             0,
                             resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                            PendingIntent.FLAG_ONE_SHOT
                     );
 
             notification = new NotificationCompat.Builder(context)
