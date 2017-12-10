@@ -19,7 +19,6 @@ import de.slg.leoapp.notification.NotificationTime;
 import de.slg.leoapp.notification.NotificationType;
 import de.slg.leoapp.service.NotificationServiceWrapper;
 import de.slg.leoapp.service.ReceiveService;
-import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.task.MailSendTask;
 import de.slg.leoapp.task.SyncGradeTask;
 import de.slg.leoapp.task.SyncUserTask;
@@ -113,8 +112,6 @@ public class Start extends Activity {
 
         Utils.getController().setContext(getApplicationContext());
 
-        deleteDatabase(SQLiteConnectorKlausurplan.DATABASE_NAME);
-
         //Vorübergehend
         SharedPreferences preferences = Utils.getController().getPreferences();
         if (!preferences.getBoolean("first", true) && preferences.getString("previousVersion", "").equals("")) {
@@ -132,6 +129,9 @@ public class Start extends Activity {
 
         startActivity(main);
         finish();
+
+        //new NotificationHandler.NewsNotification().send();
+        //new NotificationHandler.SurveyNotification().send();
     }
 
     private void runUpdateTasks() {
@@ -167,7 +167,7 @@ public class Start extends Activity {
     }
 
     private void initSyncAdapter() {
-        Utils.logError("STARTED");
+        Utils.logDebug("STARTED");
         ContentResolver.addPeriodicSync(
                 createSyncAccount(),
                 "de.slg.leoapp",
@@ -182,7 +182,7 @@ public class Start extends Activity {
         try {
             accounts = am.getAccountsByType("de.slg.leoapp");
         } catch (SecurityException e) {
-            accounts = new Account[]{};
+            accounts = new Account[0];
         }
         if (accounts.length > 0) {
             return accounts[0];

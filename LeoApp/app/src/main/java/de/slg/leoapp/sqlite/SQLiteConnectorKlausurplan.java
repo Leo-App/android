@@ -28,8 +28,8 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     private static final String           KLAUSUR_IN_STUNDENPLAN  = "in_stundenplan";
     private static final String           KLAUSUR_HERUNTERGELADEN = "heruntergeladen";
     public static final  String           WHERE_ONLY_CREATED      = KLAUSUR_HERUNTERGELADEN + " = 0";
-    public static final  String           WHERE_ONLY_TIMETABLE    = KLAUSUR_HERUNTERGELADEN + " = 0 OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
-    public static final  String           WHERE_ONLY_GRADE        = KLAUSUR_HERUNTERGELADEN + " = 0 OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
+    public static final  String           WHERE_ONLY_TIMETABLE    = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
+    public static final  String           WHERE_ONLY_GRADE        = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
     private final SQLiteDatabase database;
 
     public SQLiteConnectorKlausurplan(Context context) {
@@ -60,6 +60,12 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_KLAUSUREN);
         onCreate(db);
+    }
+
+    @Override
+    public synchronized void close() {
+        super.close();
+        database.close();
     }
 
     public long insert(String titel, String stufe, Date datum, String notiz, boolean inStundenplan, boolean heruntergeladen) {
@@ -98,6 +104,7 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     }
 
     public Klausur[] getExams(String where) {
+        Utils.logDebug(where);
         Cursor    cursor    = database.query(TABLE_KLAUSUREN, new String[]{KLAUSUR_ID, KLAUSUR_TITEL, KLAUSUR_DATUM, KLAUSUR_NOTIZ}, where, null, null, null, KLAUSUR_DATUM);
         Klausur[] klausuren = new Klausur[cursor.getCount()];
         int       i         = 0;

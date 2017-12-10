@@ -145,7 +145,11 @@ public abstract class Utils {
      * @param o Ausgabe im Android-Monitor
      */
     public static void logError(Object o) {
-        Log.wtf("LeoApp", o.toString());
+        if (o != null) {
+            Log.wtf("LeoApp", o.toString());
+        } else {
+            Log.wtf("LeoApp", "null");
+        }
     }
 
     /**
@@ -154,7 +158,11 @@ public abstract class Utils {
      * @param o Ausgabe im Android-Monitor
      */
     public static void logDebug(Object o) {
-        Log.d("LeoAppDebug", o.toString());
+        if (o != null) {
+            Log.d("LeoAppDebug", o.toString());
+        } else {
+            Log.d("LeoAppDebug", "null");
+        }
     }
 
     /* User */
@@ -274,5 +282,4 @@ public abstract class Utils {
                 return new NotificationTime(0, 0);
         }
     }
-
 }

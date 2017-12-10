@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.stundenplan.utility.Fach;
 
@@ -109,10 +110,18 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     public void waehleFach(long fid) {
-        ContentValues values = new ContentValues();
+        ContentValues values          = new ContentValues();
+        boolean       mussSchriftlich = mussSchriftlich(fid) || Utils.getUserPermission() == User.PERMISSION_LEHRER;
         values.put(FACH_ID, fid);
-        values.put(GEWAHLT_SCHRIFTLICH, mussSchriftlich(fid) ? 1 : 0);
+        values.put(GEWAHLT_SCHRIFTLICH, mussSchriftlich);
         database.insert(TABLE_GEWAHLT, null, values);
+        if (mussSchriftlich) {
+            if (de.slg.klausurplan.utility.Utils.databaseExists(context)) {
+                SQLiteConnectorKlausurplan klausurplan = new SQLiteConnectorKlausurplan(context);
+                klausurplan.updateStundenplan(getFachKurzel(fid), true);
+                klausurplan.close();
+            }
+        }
     }
 
     public void setzeNotiz(String notiz, int fid, int tag, int stunde) {
@@ -210,6 +219,25 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         }
         cursor.close();
         return f;
+    }
+
+    private String getFachKurzel(long fid) {
+        Cursor cursor = database.query(TABLE_FACHER, new String[]{FACH_KURZEL, FACH_LEHRER}, FACH_ID + " = " + fid, null, null, null, null);
+        String s      = null;
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            String kurzel = cursor.getString(0);
+            String lehrer = cursor.getString(1);
+            String teil1   = kurzel.substring(0, 2);
+            String teil2   = kurzel.substring(2, 4);
+            if (teil1.charAt(1) != ' ')
+                teil1 += ' ';
+            if (teil2.charAt(0) == 'L')
+                teil2 = "L";
+            s = teil1 + teil2 + " " + lehrer + " " + Utils.getUserStufe();
+        }
+        cursor.close();
+        return s;
     }
 
     private String getFachname(String kuerzel) {

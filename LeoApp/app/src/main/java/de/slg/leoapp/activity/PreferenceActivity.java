@@ -456,18 +456,18 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                     byte[]         enc      = md.digest(contents);
                     BufferedReader in;
                     String         md5      = bytesToHex(enc);
-                    Log.d("LeoApp", md5);
+                    Utils.logDebug(md5);
                     URL interfaceDB = new URL(Utils.BASE_URL_PHP + "essenqr/qr_checkval.php?id=" + pref.getString("pref_key_qr_id", "00000") + "&auth=RW6SlQ&pw=" + md5);
-                    Log.d("LeoApp", interfaceDB.toString());
+                    Utils.logDebug(interfaceDB.toString());
                     in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
                     String inputLine;
                     while ((inputLine = in.readLine()) != null) {
                         if (inputLine.contains("true")) {
-                            Log.d("LeoApp", "valid");
+                            Utils.logDebug("valid");
                             return Authenticator.VALID;
                         }
                         if (inputLine.contains("false")) {
-                            Log.d("LeoApp", "invalid");
+                            Utils.logDebug("invalid");
                             return Authenticator.NOT_VALID;
                         }
                     }

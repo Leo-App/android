@@ -1,10 +1,13 @@
 package de.slg.klausurplan.utility;
 
+import android.content.Context;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 
 /**
  * Utils.
@@ -46,5 +49,13 @@ public abstract class Utils {
         c1.setTime(d1);
         c2.setTime(d2);
         return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.WEEK_OF_YEAR) == c2.get(Calendar.WEEK_OF_YEAR);
+    }
+
+    public static boolean databaseExists(Context context) {
+        for (String s : context.databaseList()) {
+            if (s.equals(SQLiteConnectorKlausurplan.DATABASE_NAME))
+                return true;
+        }
+        return false;
     }
 }

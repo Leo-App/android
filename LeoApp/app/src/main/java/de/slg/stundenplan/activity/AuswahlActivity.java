@@ -29,6 +29,7 @@ import java.net.URLConnection;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.PreferenceActivity;
+import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.User;
@@ -116,7 +117,7 @@ public class AuswahlActivity extends ActionLogActivity {
                     Fach     f       = adapter.fachArray[position];
                     double[] stunden = db.gibStunden(f.id);
                     for (double d : stunden) {
-                        Log.e("TAG", String.valueOf(d));
+                        Utils.logError(String.valueOf(d));
                         adapter.ausgewaehlteStunden[(int) (d - 1)][(int) (d * 10 % 10 - 1)] = checked;
                     }
                     if (checked)
@@ -187,7 +188,7 @@ public class AuswahlActivity extends ActionLogActivity {
         @Override
         protected Void doInBackground(Void... params) {
             if (Utils.checkNetwork()) {
-                Log.i("FachImporter", "started");
+                Utils.logDebug("started");
                 try {
                     URLConnection connection =
                             new URL(Utils.BASE_URL_PHP + "stundenplan/aktuell.txt")
@@ -224,16 +225,14 @@ public class AuswahlActivity extends ActionLogActivity {
                                 lastKurzel = fach[3];
                                 if (Utils.getUserPermission() == User.PERMISSION_LEHRER && fach[2].toUpperCase().equals(Utils.getLehrerKuerzel().toUpperCase())) {
                                     Utils.getController().getStundenplanDatabase().waehleFach(lastID);
-                                    Utils.getController().getStundenplanDatabase().setzeSchriftlich(true, lastID);
                                 }
                             }
                             Utils.getController().getStundenplanDatabase().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]), fach[4]);
                         }
                     }
                     reader.close();
-                    Log.i("FachImporter", "done!");
+                    Utils.logDebug("done!");
                 } catch (IOException e) {
-                    Log.e("ACHTUNG", "SHIT");
                     e.printStackTrace();
                 }
             }

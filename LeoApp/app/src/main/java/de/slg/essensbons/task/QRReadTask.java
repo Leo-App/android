@@ -18,6 +18,7 @@ import android.widget.TextView;
 import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
+import de.slg.leoapp.utility.Utils;
 
 public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
 
@@ -70,19 +71,19 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
     private boolean checkValid(String s) {
         String[] parts = s.split("-");
 
-        Log.d("LeoApp", "passed no test yet");
+        Utils.logDebug("passed no test yet");
 
         if (parts.length != 4)
             return false;
-        Log.d("LeoApp", "passed module test");
+        Utils.logDebug("passed module test");
 
         if (parts[1].length() != 2 || parts[1].charAt(0) != 'M' || (parts[1].charAt(1) != '1' && parts[1].charAt(1) != '2'))
             return false;
-        Log.d("LeoApp", "passed menu-format test");
+        Utils.logDebug("passed menu-format test");
 
         if (parts[2].length() != 7)
             return false;
-        Log.d("LeoApp", "passed date size test");
+        Utils.logDebug("passed date size test");
 
         try {
             int day   = Integer.parseInt(parts[2].substring(0, 2));
@@ -94,10 +95,10 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         } catch (NumberFormatException e) {
             return false;
         }
-        Log.d("LeoApp", "passed logic date test");
+        Utils.logDebug("passed logic date test");
 
         String subsum = "" + parts[2].substring(0, 2) + "" + parts[2].substring(4);
-        Log.d("LeoApp", subsum);
+        Utils.logDebug(subsum);
 
         try {
             int menu       = Integer.parseInt(String.valueOf(parts[1].charAt(1)));
@@ -109,7 +110,7 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         } catch (NumberFormatException e) {
             return false;
         }
-        Log.d("LeoApp", "passed checksum test");
+        Utils.logDebug("passed checksum test");
 
         return true;
     }

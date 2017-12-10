@@ -333,7 +333,7 @@ public class ChatActivity extends ActionLogActivity {
                                                 connection.getInputStream(), "UTF-8"));
                         String line;
                         while ((line = reader.readLine()) != null)
-                            Log.e("TAG", line);
+                            Utils.logError(line);
                         reader.close();
                     } catch (Exception e) {
                         e.printStackTrace();

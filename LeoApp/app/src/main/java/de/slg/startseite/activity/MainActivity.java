@@ -256,7 +256,7 @@ public class MainActivity extends LeoAppFeatureActivity {
         ImageView mood = (ImageView) getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
 
-        Utils.getNotificationManager().cancel(NotificationHandler.ID_BAROMETER);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_STIMMUNGSBAROMETER);
         Utils.getNotificationManager().cancel(NotificationHandler.ID_STUNDENPLAN);
     }
 
@@ -418,12 +418,20 @@ public class MainActivity extends LeoAppFeatureActivity {
     }
 
     private void processIntent() {
-        int notificationTarget = getIntent().getIntExtra("start_intent", -1);
-        if (notificationTarget != -1) {
+        if (getIntent().getExtras() != null) {
+            Bundle extras = getIntent().getExtras();
+            for (String key : extras.keySet()) {
+                Utils.logError(key + " = " + extras.get(key).toString());
+            }
+        }
+
+        if (getIntent().hasExtra("start_intent")) {
             Utils.getController().closeActivities();
 
+            int notificationTarget = getIntent().getIntExtra("start_intent", -1);
+
             switch (notificationTarget) {
-                case NotificationHandler.ID_ESSENSQR:
+                case NotificationHandler.ID_ESSENSBONS:
                     startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
                     break;
 
@@ -435,12 +443,12 @@ public class MainActivity extends LeoAppFeatureActivity {
                     startActivity(new Intent(getApplicationContext(), MessengerActivity.class));
                     break;
 
-                case NotificationHandler.ID_NEWS:
-                    startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
+                case NotificationHandler.ID_UMFRAGEN:
+                    startActivity(new Intent(getApplicationContext(), SurveyActivity.class));
                     break;
 
-                case NotificationHandler.ID_SURVEY:
-                    startActivity(new Intent(getApplicationContext(), SurveyActivity.class));
+                case NotificationHandler.ID_SCHWARZES_BRETT:
+                    startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
                     break;
             }
         }

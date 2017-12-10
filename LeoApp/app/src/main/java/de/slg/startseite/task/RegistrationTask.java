@@ -53,7 +53,7 @@ public class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
             int code = connection.getResponseCode();
-            Log.d("code_register", String.valueOf(code));
+            Utils.logDebug(code);
 
             if (code != 200) {
                 if (code == 401)
@@ -72,7 +72,7 @@ public class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
             }
             reader.close();
 
-            Log.d("RegistrationTask", checksum);
+            Utils.logDebug(checksum);
 
             URLConnection connection2 =
                     new URL(Utils.BASE_URL_PHP + "user/addUser.php?name=" + Utils.getUserDefaultName() + "&permission=" + permission + "&checksum=" + checksum)
@@ -88,7 +88,7 @@ public class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 result += line;
             reader.close();
 
-            Log.d("RegistrationTask", result);
+            Utils.logDebug(result);
 
             if (result.startsWith("+")) {
                 return ResponseCode.SUCCESS;

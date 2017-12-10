@@ -48,7 +48,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         super.onCreate(savedInstanceState);
         Utils.getController().registerKlausurplanActivity(this);
 
-        if (!databaseExists())
+        if (!de.slg.klausurplan.utility.Utils.databaseExists(this))
             new Importer().execute();
 
         database = new SQLiteConnectorKlausurplan(getApplicationContext());
@@ -170,7 +170,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
                 super.onDismissed(snackbar, event);
                 if (confirmDelete) {
                     database.deleteAllDownloaded();
-                    klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_TIMETABLE);
+                    refreshArray();
                 } else {
                     refresh();
                 }
@@ -208,30 +208,20 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
     }
 
     private void refreshArray() {
-        if (Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", true)) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", true) && Utils.getController().getStundenplanDatabase().hatGewaehlt()) {
             klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_TIMETABLE);
         } else {
             klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_GRADE);
         }
     }
 
-    private boolean databaseExists() {
-        for (String s : databaseList()) {
-            if (s.equals(SQLiteConnectorKlausurplan.DATABASE_NAME))
-                return true;
-        }
-        return false;
-    }
-
     private class Importer extends AsyncTask<Void, Void, Void> {
-        private final boolean        filtern;
         private final String[]       schriflich;
         private       BufferedReader reader;
         private       int            year, halbjahr;
 
         private Importer() {
             this.schriflich = Utils.getController().getStundenplanDatabase().gibSchriftlicheFaecherStrings();
-            this.filtern = Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", true);
         }
 
         @Override
@@ -424,14 +414,11 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         }
 
         private boolean istImStundenplan(String klausur) {
-            if (filtern) {
-                for (String s : schriflich) {
-                    if (klausur.startsWith(s))
-                        return true;
-                }
-                return false;
+            for (String s : schriflich) {
+                if (klausur.startsWith(s))
+                    return true;
             }
-            return true;
+            return false;
         }
     }
 }

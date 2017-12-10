@@ -169,7 +169,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.getNotificationManager().cancel(NotificationHandler.ID_ESSENSQR);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_ESSENSBONS);
     }
 
     @Override

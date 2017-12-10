@@ -68,7 +68,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     public void onCreate(final Bundle b) {
         super.onCreate(b);
 
-        Utils.getNotificationManager().cancel(NotificationHandler.ID_SURVEY);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_UMFRAGEN);
         Utils.getController().registerSurveyActivity(this);
 
         if (sqLiteConnector == null)
@@ -127,7 +127,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.getNotificationManager().cancel(NotificationHandler.ID_SURVEY);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_UMFRAGEN);
         receive();
     }
 

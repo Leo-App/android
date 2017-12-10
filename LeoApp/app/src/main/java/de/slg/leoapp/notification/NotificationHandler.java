@@ -38,13 +38,13 @@ import de.slg.stundenplan.utility.Fach;
  */
 
 public class NotificationHandler {
-    public static final int ID_ESSENSQR    = 101;
-    public static final int ID_KLAUSURPLAN = 777;
-    public static final int ID_MESSENGER   = 5453;
-    public static final int ID_NEWS        = 287;
-    public static final int ID_SURVEY      = 314;
-    public static final int ID_BAROMETER   = 234;
-    public static final int ID_STUNDENPLAN = 222;
+    public static final int ID_ESSENSBONS         = 101;
+    public static final int ID_KLAUSURPLAN        = 777;
+    public static final int ID_MESSENGER          = 5453;
+    public static final int ID_SCHWARZES_BRETT    = 287;
+    public static final int ID_UMFRAGEN           = 314;
+    public static final int ID_STIMMUNGSBAROMETER = 234;
+    public static final int ID_STUNDENPLAN        = 222;
 
     private static NotificationManager notificationManager;
     private static Bitmap              icon;
@@ -59,11 +59,11 @@ public class NotificationHandler {
         notificationManager = (NotificationManager) Utils.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    public static class FoodmarkNotification {
+    public static class EssensbonsNotification {
         private Context      context;
         private Notification notification;
 
-        public FoodmarkNotification() {
+        public EssensbonsNotification() {
             this.context = Utils.getContext();
             create();
 
@@ -73,7 +73,7 @@ public class NotificationHandler {
 
         private void create() {
             Intent resultIntent = new Intent(context, MainActivity.class)
-                    .putExtra("start_intent", ID_ESSENSQR);
+                    .putExtra("start_intent", ID_ESSENSBONS);
 
             resultIntent.setAction(String.valueOf(System.currentTimeMillis()));
 
@@ -100,7 +100,7 @@ public class NotificationHandler {
 
         public void send() {
             if (isActive())
-                notificationManager.notify(ID_ESSENSQR, notification);
+                notificationManager.notify(ID_ESSENSBONS, notification);
         }
 
         private boolean isActive() {
@@ -131,8 +131,8 @@ public class NotificationHandler {
                             context,
                             0,
                             resultIntent,
-                            PendingIntent.FLAG_ONE_SHOT
-                    );
+                            PendingIntent.FLAG_ONE_SHOT);
+
 
             notification = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -163,9 +163,9 @@ public class NotificationHandler {
     }
 
     public static class MessengerNotification {
-        private static int          unreadMessages;
-        private        Context      context;
-        private        Notification notification;
+        private int          unreadMessages;
+        private Context      context;
+        private Notification notification;
 
         public MessengerNotification() {
             this.context = Utils.getContext();
@@ -239,12 +239,12 @@ public class NotificationHandler {
         }
     }
 
-    public static class NewsNotification {
-        private static long         latest;
-        private        Context      context;
-        private        Notification notification;
+    public static class SchwarzesBrettNotification {
+        private long         latest;
+        private Context      context;
+        private Notification notification;
 
-        public NewsNotification() {
+        public SchwarzesBrettNotification() {
             this.context = Utils.getContext();
             create();
 
@@ -254,7 +254,7 @@ public class NotificationHandler {
 
         private void create() {
             Intent resultIntent = new Intent(context, MainActivity.class)
-                    .putExtra("start_intent", ID_NEWS);
+                    .putExtra("start_intent", ID_SCHWARZES_BRETT);
 
             resultIntent.setAction(String.valueOf(System.currentTimeMillis()));
 
@@ -263,8 +263,7 @@ public class NotificationHandler {
                             context,
                             0,
                             resultIntent,
-                            PendingIntent.FLAG_ONE_SHOT
-                    );
+                            PendingIntent.FLAG_ONE_SHOT);
 
             notification = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -281,7 +280,7 @@ public class NotificationHandler {
         public void send() {
             de.slg.schwarzes_brett.utility.Utils.notifiedSchwarzesBrett(latest);
             if (isActive())
-                notificationManager.notify(ID_NEWS, notification);
+                notificationManager.notify(ID_SCHWARZES_BRETT, notification);
         }
 
         private boolean isActive() {
@@ -307,12 +306,12 @@ public class NotificationHandler {
         }
     }
 
-    public static class SurveyNotification {
-        private static long         latest;
-        private        Context      context;
-        private        Notification notification;
+    public static class UmfrageNotification {
+        private long         latest;
+        private Context      context;
+        private Notification notification;
 
-        public SurveyNotification() {
+        public UmfrageNotification() {
             this.context = Utils.getContext();
             create();
 
@@ -322,7 +321,7 @@ public class NotificationHandler {
 
         private void create() {
             Intent resultIntent = new Intent(context, MainActivity.class)
-                    .putExtra("start_intent", ID_SURVEY);
+                    .putExtra("start_intent", ID_UMFRAGEN);
 
             resultIntent.setAction(String.valueOf(System.currentTimeMillis()));
 
@@ -349,7 +348,7 @@ public class NotificationHandler {
         public void send() {
             de.slg.umfragen.utility.Utils.notifiedSurvey(latest);
             if (isActive())
-                notificationManager.notify(ID_SURVEY, notification);
+                notificationManager.notify(ID_UMFRAGEN, notification);
         }
 
         private boolean isActive() {
@@ -414,7 +413,7 @@ public class NotificationHandler {
 
         public void send() {
             if (isActive())
-                notificationManager.notify(ID_BAROMETER, notification);
+                notificationManager.notify(ID_STIMMUNGSBAROMETER, notification);
         }
 
         private boolean isActive() {
@@ -423,11 +422,11 @@ public class NotificationHandler {
         }
     }
 
-    public static class TimetableNotification {
+    public static class StundenplanNotification {
         private Context      context;
-        private Notification notification;
+        private Notification notificationStundenplan;
 
-        public TimetableNotification() {
+        public StundenplanNotification() {
             this.context = Utils.getContext();
             create();
 
@@ -438,7 +437,7 @@ public class NotificationHandler {
         private void create() {
             String msg = getNotificationText();
 
-            notification = new NotificationCompat.Builder(context)
+            notificationStundenplan = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.drawable.ic_event_white_24dp)
@@ -453,11 +452,11 @@ public class NotificationHandler {
 
         public void send() {
             if (isActive())
-                notificationManager.notify(ID_STUNDENPLAN, notification);
+                notificationManager.notify(ID_STUNDENPLAN, notificationStundenplan);
         }
 
         private boolean isActive() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_schedule", true) &&
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_schedule", false) &&
                     getNextDayOfWeek() <= 5;
         }
 
