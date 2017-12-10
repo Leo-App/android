@@ -246,7 +246,7 @@ public class NotificationHandler {
 
         private void create() {
             Intent resultIntent = new Intent(context, MainActivity.class)
-                    .putExtra("start_intent2", ID_NEWS);
+                    .putExtra("start_intent", ID_NEWS);
 
             PendingIntent resultPendingIntent =
                     PendingIntent.getActivity(
