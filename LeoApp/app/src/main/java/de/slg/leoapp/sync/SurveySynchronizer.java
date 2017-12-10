@@ -22,10 +22,8 @@ import de.slg.leoapp.utility.Utils;
  */
 
 public class SurveySynchronizer implements Synchronizer {
-
     @Override
     public boolean run() {
-
         if(!Utils.checkNetwork())
             return false;
 
@@ -94,5 +92,4 @@ public class SurveySynchronizer implements Synchronizer {
     public void postUpdate() {
         new NotificationHandler.SurveyNotification().send();
     }
-
 }

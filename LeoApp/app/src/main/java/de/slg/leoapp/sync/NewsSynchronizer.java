@@ -23,10 +23,8 @@ import de.slg.leoapp.utility.Utils;
  */
 
 public class NewsSynchronizer implements Synchronizer {
-
     @Override
     public boolean run() {
-
         if(!Utils.checkNetwork())
             return false;
 
@@ -79,5 +77,4 @@ public class NewsSynchronizer implements Synchronizer {
     public void postUpdate() {
         new NotificationHandler.NewsNotification().send();
     }
-
 }

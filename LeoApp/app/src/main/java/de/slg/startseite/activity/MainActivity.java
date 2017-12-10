@@ -418,9 +418,17 @@ public class MainActivity extends LeoAppFeatureActivity {
     }
 
     private void processIntent() {
-        int notificationTarget = getIntent().getIntExtra("start_intent", -1);
-        if (notificationTarget != -1) {
+        if (getIntent().getExtras() != null) {
+            Bundle extras = getIntent().getExtras();
+            for (String key : extras.keySet()) {
+                Utils.logError(key + " = " + extras.get(key).toString());
+            }
+        }
+
+        if (getIntent().hasExtra("start_intent")) {
             Utils.getController().closeActivities();
+
+            int notificationTarget = getIntent().getIntExtra("start_intent", -1);
 
             switch (notificationTarget) {
                 case NotificationHandler.ID_ESSENSQR:
@@ -435,12 +443,12 @@ public class MainActivity extends LeoAppFeatureActivity {
                     startActivity(new Intent(getApplicationContext(), MessengerActivity.class));
                     break;
 
-                case NotificationHandler.ID_NEWS:
-                    startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
-                    break;
-
                 case NotificationHandler.ID_SURVEY:
                     startActivity(new Intent(getApplicationContext(), SurveyActivity.class));
+                    break;
+
+                case NotificationHandler.ID_NEWS:
+                    startActivity(new Intent(getApplicationContext(), SchwarzesBrettActivity.class));
                     break;
             }
         }

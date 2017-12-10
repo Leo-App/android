@@ -61,7 +61,7 @@ public class NotificationHandler {
 
     public static class FoodmarkNotification {
         private Context      context;
-        private Notification notification;
+        private Notification notificationEssensbons;
 
         public FoodmarkNotification() {
             this.context = Utils.getContext();
@@ -72,17 +72,18 @@ public class NotificationHandler {
         }
 
         private void create() {
-            Intent resultIntent = new Intent(context, MainActivity.class)
+            Intent resultIntentEssensbons = new Intent(context, MainActivity.class)
                     .putExtra("start_intent", ID_ESSENSQR);
-            PendingIntent resultPendingIntent =
+
+            PendingIntent resultPendingIntentEssensbons =
                     PendingIntent.getActivity(
                             Utils.getContext(),
                             0,
-                            resultIntent,
+                            resultIntentEssensbons,
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notificationEssensbons = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.drawable.qrcode)
@@ -90,13 +91,13 @@ public class NotificationHandler {
                     .setContentTitle(Utils.getString(R.string.app_name))
                     .setAutoCancel(true)
                     .setContentText(Utils.getString(R.string.notification_summary_notif))
-                    .setContentIntent(resultPendingIntent)
+                    .setContentIntent(resultPendingIntentEssensbons)
                     .build();
         }
 
         public void send() {
             if (isActive())
-                notificationManager.notify(ID_ESSENSQR, notification);
+                notificationManager.notify(ID_ESSENSQR, notificationEssensbons);
         }
 
         private boolean isActive() {
@@ -106,7 +107,7 @@ public class NotificationHandler {
 
     public static class KlausurplanNotification {
         private Context      context;
-        private Notification notification;
+        private Notification notificationKlausurplan;
 
         public KlausurplanNotification() {
             this.context = Utils.getContext();
@@ -117,18 +118,18 @@ public class NotificationHandler {
         }
 
         private void create() {
-            Intent resultIntent = new Intent(context, MainActivity.class)
+            Intent resultIntentKlausurplan = new Intent(context, MainActivity.class)
                     .putExtra("start_intent", ID_KLAUSURPLAN);
 
-            PendingIntent resultPendingIntent =
+            PendingIntent resultPendingIntentKlausurplan =
                     PendingIntent.getActivity(
                             context,
                             0,
-                            resultIntent,
+                            resultIntentKlausurplan,
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notificationKlausurplan = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.drawable.icon_klausurplan)
@@ -136,13 +137,13 @@ public class NotificationHandler {
                     .setContentTitle(Utils.getString(R.string.title_testplan))
                     .setAutoCancel(true)
                     .setContentText(Utils.getString(R.string.notification_test_content))
-                    .setContentIntent(resultPendingIntent)
+                    .setContentIntent(resultPendingIntentKlausurplan)
                     .build();
         }
 
         public void send() {
             if (isActive())
-                notificationManager.notify(ID_KLAUSURPLAN, notification);
+                notificationManager.notify(ID_KLAUSURPLAN, notificationKlausurplan);
         }
 
         private boolean isActive() {
@@ -157,9 +158,9 @@ public class NotificationHandler {
     }
 
     public static class MessengerNotification {
-        private static int          unreadMessages;
-        private        Context      context;
-        private        Notification notification;
+        private int          unreadMessages;
+        private Context      context;
+        private Notification notification;
 
         public MessengerNotification() {
             this.context = Utils.getContext();
@@ -232,9 +233,9 @@ public class NotificationHandler {
     }
 
     public static class NewsNotification {
-        private static long         latest;
-        private        Context      context;
-        private        Notification notification;
+        private long         latest;
+        private Context      context;
+        private Notification notificationSchwarzesBrett;
 
         public NewsNotification() {
             this.context = Utils.getContext();
@@ -245,18 +246,18 @@ public class NotificationHandler {
         }
 
         private void create() {
-            Intent resultIntent = new Intent(context, MainActivity.class)
+            Intent resultIntentSchwarzesBrett = new Intent(context, MainActivity.class)
                     .putExtra("start_intent", ID_NEWS);
 
-            PendingIntent resultPendingIntent =
+            PendingIntent resultPendingIntentSchwarzesBrett =
                     PendingIntent.getActivity(
                             context,
                             0,
-                            resultIntent,
+                            resultIntentSchwarzesBrett,
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notificationSchwarzesBrett = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.drawable.ic_pin)
@@ -264,7 +265,7 @@ public class NotificationHandler {
                     .setAutoCancel(true)
                     .setContentTitle("Neue Einträge")
                     .setContentText("Es gibt Neuigkeiten am Schwarzen Brett")
-                    .setContentIntent(resultPendingIntent)
+                    .setContentIntent(resultPendingIntentSchwarzesBrett)
                     .build();
         }
 
@@ -272,7 +273,7 @@ public class NotificationHandler {
             de.slg.schwarzes_brett.utility.Utils.notifiedSchwarzesBrett(latest);
             Utils.logError(ID_NEWS);
             if (isActive())
-                notificationManager.notify(ID_NEWS, notification);
+                notificationManager.notify(ID_NEWS, notificationSchwarzesBrett);
         }
 
         private boolean isActive() {
@@ -299,9 +300,9 @@ public class NotificationHandler {
     }
 
     public static class SurveyNotification {
-        private static long         latest;
-        private        Context      context;
-        private        Notification notification;
+        private long         latest;
+        private Context      context;
+        private Notification notificationUmfragen;
 
         public SurveyNotification() {
             this.context = Utils.getContext();
@@ -312,18 +313,18 @@ public class NotificationHandler {
         }
 
         private void create() {
-            Intent resultIntent = new Intent(context, MainActivity.class)
+            Intent resultIntentUmfragen = new Intent(context, MainActivity.class)
                     .putExtra("start_intent", ID_SURVEY);
 
-            PendingIntent resultPendingIntent =
+            PendingIntent resultPendingIntentUmfragen =
                     PendingIntent.getActivity(
                             context,
                             0,
-                            resultIntent,
+                            resultIntentUmfragen,
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notificationUmfragen = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.drawable.icon_survey)
@@ -331,14 +332,14 @@ public class NotificationHandler {
                     .setAutoCancel(true)
                     .setContentTitle("Neue Umfrage")
                     .setContentText("Stimme in der neuesten Umfrage ab")
-                    .setContentIntent(resultPendingIntent)
+                    .setContentIntent(resultPendingIntentUmfragen)
                     .build();
         }
 
         public void send() {
             de.slg.umfragen.utility.Utils.notifiedSurvey(latest);
             if (isActive())
-                notificationManager.notify(ID_SURVEY, notification);
+                notificationManager.notify(ID_SURVEY, notificationUmfragen);
         }
 
         private boolean isActive() {
@@ -366,7 +367,7 @@ public class NotificationHandler {
 
     public static class StimmungsbarometerNotification {
         private Context      context;
-        private Notification notification;
+        private Notification notificationStimmungsbarometer;
 
         public StimmungsbarometerNotification() {
             this.context = Utils.getContext();
@@ -377,17 +378,17 @@ public class NotificationHandler {
         }
 
         private void create() {
-            Intent resultIntent = new Intent(context, AbstimmActivity.class);
+            Intent resultIntentStimmungsbarometer = new Intent(context, AbstimmActivity.class);
 
-            PendingIntent resultPendingIntent =
+            PendingIntent resultPendingIntentStimmungsbarometer =
                     PendingIntent.getActivity(
                             context,
                             0,
-                            resultIntent,
+                            resultIntentStimmungsbarometer,
                             PendingIntent.FLAG_UPDATE_CURRENT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notificationStimmungsbarometer = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.drawable.ic_insert_emoticon_white_24dp)
@@ -395,13 +396,13 @@ public class NotificationHandler {
                     .setContentTitle("Du hast noch nicht abgestimmt!")
                     .setContentText("Jetzt abstimmen")
                     .setAutoCancel(true)
-                    .setContentIntent(resultPendingIntent)
+                    .setContentIntent(resultPendingIntentStimmungsbarometer)
                     .build();
         }
 
         public void send() {
             if (isActive())
-                notificationManager.notify(ID_BAROMETER, notification);
+                notificationManager.notify(ID_BAROMETER, notificationStimmungsbarometer);
         }
 
         private boolean isActive() {
@@ -412,7 +413,7 @@ public class NotificationHandler {
 
     public static class TimetableNotification {
         private Context      context;
-        private Notification notification;
+        private Notification notificationStundenplan;
 
         public TimetableNotification() {
             this.context = Utils.getContext();
@@ -425,7 +426,7 @@ public class NotificationHandler {
         private void create() {
             String msg = getNotificationText();
 
-            notification = new NotificationCompat.Builder(context)
+            notificationStundenplan = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.drawable.ic_event_white_24dp)
@@ -440,11 +441,11 @@ public class NotificationHandler {
 
         public void send() {
             if (isActive())
-                notificationManager.notify(ID_STUNDENPLAN, notification);
+                notificationManager.notify(ID_STUNDENPLAN, notificationStundenplan);
         }
 
         private boolean isActive() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_schedule", true) &&
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_schedule", false) &&
                     getNextDayOfWeek() <= 5;
         }
 
