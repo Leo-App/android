@@ -419,8 +419,6 @@ public class MainActivity extends LeoAppFeatureActivity {
 
     private void processIntent() {
         int notificationTarget = getIntent().getIntExtra("start_intent", -1);
-        Utils.logError("Target1:"+notificationTarget);
-        Utils.logError("Target2:"+getIntent().getIntExtra("start_intent2", -1));
         if (notificationTarget != -1) {
             Utils.getController().closeActivities();
 
