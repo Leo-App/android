@@ -9,20 +9,16 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.notification.NotificationTime;
 import de.slg.leoapp.notification.NotificationType;
 import de.slg.leoapp.service.NotificationServiceWrapper;
 import de.slg.leoapp.service.ReceiveService;
-import de.slg.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
-import de.slg.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slg.leoapp.task.MailSendTask;
 import de.slg.leoapp.task.SyncGradeTask;
 import de.slg.leoapp.task.SyncUserTask;

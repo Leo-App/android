@@ -40,7 +40,7 @@ public class AbstimmActivity extends ActionLogActivity {
 
         Utils.getController().setContext(getApplicationContext());
 
-        Utils.getNotificationManager().cancel(NotificationHandler.ID_BAROMETER);
+        Utils.getNotificationManager().cancel(NotificationHandler.ID_STIMMUNGSBAROMETER);
         if (Utils.getController().getMainActivity() != null && Utils.getController().getMainActivity().abstimmDialog != null)
             Utils.getController().getMainActivity().abstimmDialog.dismiss();
 

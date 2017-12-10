@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,7 +40,7 @@ public abstract class NotificationServiceWrapper {
             Utils.getController().setContext(getApplicationContext());
             reschedule();
 
-            new NotificationHandler.TimetableNotification().send();
+            new NotificationHandler.StundenplanNotification().send();
 
             Utils.logDebug("Service (re)started!");
             return START_NOT_STICKY;
@@ -164,7 +163,7 @@ public abstract class NotificationServiceWrapper {
             Cursor                    cursor = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
             if (cursor.getCount() == 0) {
                 cursor.close();
-                new NotificationHandler.FoodmarkNotification().send();
+                new NotificationHandler.EssensbonsNotification().send();
                 return;
             }
             cursor.moveToFirst();
@@ -173,7 +172,7 @@ public abstract class NotificationServiceWrapper {
             cursor = dbw.rawQuery("SELECT o.DATEU as date FROM USERORDERS o JOIN STATISTICS s ON s.LASTORDER = o.ID WHERE s.ID = " + maxid, null);
             if (cursor.getCount() == 0) {
                 cursor.close();
-                new NotificationHandler.FoodmarkNotification().send();
+                new NotificationHandler.EssensbonsNotification().send();
                 return;
             }
             cursor.moveToFirst();
@@ -183,7 +182,7 @@ public abstract class NotificationServiceWrapper {
             try {
                 Date dateD = df.parse(date);
                 if (dateD.before(new Date()))
-                    new NotificationHandler.FoodmarkNotification().send();
+                    new NotificationHandler.EssensbonsNotification().send();
             } catch (ParseException e) {
                 e.printStackTrace();
             }

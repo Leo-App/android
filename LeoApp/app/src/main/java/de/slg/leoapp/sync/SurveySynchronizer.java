@@ -90,6 +90,6 @@ public class SurveySynchronizer implements Synchronizer {
 
     @Override
     public void postUpdate() {
-        new NotificationHandler.SurveyNotification().send();
+        new NotificationHandler.UmfrageNotification().send();
     }
 }

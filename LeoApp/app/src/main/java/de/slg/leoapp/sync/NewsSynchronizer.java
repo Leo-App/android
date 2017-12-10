@@ -75,6 +75,6 @@ public class NewsSynchronizer implements Synchronizer {
 
     @Override
     public void postUpdate() {
-        new NotificationHandler.NewsNotification().send();
+        new NotificationHandler.SchwarzesBrettNotification().send();
     }
 }

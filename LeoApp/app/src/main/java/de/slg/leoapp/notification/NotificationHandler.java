@@ -38,13 +38,13 @@ import de.slg.stundenplan.utility.Fach;
  */
 
 public class NotificationHandler {
-    public static final int ID_ESSENSQR    = 101;
-    public static final int ID_KLAUSURPLAN = 777;
-    public static final int ID_MESSENGER   = 5453;
-    public static final int ID_NEWS        = 287;
-    public static final int ID_SURVEY      = 314;
-    public static final int ID_BAROMETER   = 234;
-    public static final int ID_STUNDENPLAN = 222;
+    public static final int ID_ESSENSBONS         = 101;
+    public static final int ID_KLAUSURPLAN        = 777;
+    public static final int ID_MESSENGER          = 5453;
+    public static final int ID_SCHWARZES_BRETT    = 287;
+    public static final int ID_UMFRAGEN           = 314;
+    public static final int ID_STIMMUNGSBAROMETER = 234;
+    public static final int ID_STUNDENPLAN        = 222;
 
     private static NotificationManager notificationManager;
     private static Bitmap              icon;
@@ -59,11 +59,11 @@ public class NotificationHandler {
         notificationManager = (NotificationManager) Utils.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    public static class FoodmarkNotification {
+    public static class EssensbonsNotification {
         private Context      context;
         private Notification notificationEssensbons;
 
-        public FoodmarkNotification() {
+        public EssensbonsNotification() {
             this.context = Utils.getContext();
             create();
 
@@ -73,7 +73,7 @@ public class NotificationHandler {
 
         private void create() {
             Intent resultIntentEssensbons = new Intent(context, MainActivity.class)
-                    .putExtra("start_intent", ID_ESSENSQR);
+                    .putExtra("start_intent", ID_ESSENSBONS);
 
             PendingIntent resultPendingIntentEssensbons =
                     PendingIntent.getActivity(
@@ -97,7 +97,7 @@ public class NotificationHandler {
 
         public void send() {
             if (isActive())
-                notificationManager.notify(ID_ESSENSQR, notificationEssensbons);
+                notificationManager.notify(ID_ESSENSBONS, notificationEssensbons);
         }
 
         private boolean isActive() {
@@ -232,12 +232,12 @@ public class NotificationHandler {
         }
     }
 
-    public static class NewsNotification {
+    public static class SchwarzesBrettNotification {
         private long         latest;
         private Context      context;
         private Notification notificationSchwarzesBrett;
 
-        public NewsNotification() {
+        public SchwarzesBrettNotification() {
             this.context = Utils.getContext();
             create();
 
@@ -247,7 +247,7 @@ public class NotificationHandler {
 
         private void create() {
             Intent resultIntentSchwarzesBrett = new Intent(context, MainActivity.class)
-                    .putExtra("start_intent", ID_NEWS);
+                    .putExtra("start_intent", ID_SCHWARZES_BRETT);
 
             PendingIntent resultPendingIntentSchwarzesBrett =
                     PendingIntent.getActivity(
@@ -271,9 +271,9 @@ public class NotificationHandler {
 
         public void send() {
             de.slg.schwarzes_brett.utility.Utils.notifiedSchwarzesBrett(latest);
-            Utils.logError(ID_NEWS);
+            Utils.logError(ID_SCHWARZES_BRETT);
             if (isActive())
-                notificationManager.notify(ID_NEWS, notificationSchwarzesBrett);
+                notificationManager.notify(ID_SCHWARZES_BRETT, notificationSchwarzesBrett);
         }
 
         private boolean isActive() {
@@ -299,12 +299,12 @@ public class NotificationHandler {
         }
     }
 
-    public static class SurveyNotification {
+    public static class UmfrageNotification {
         private long         latest;
         private Context      context;
         private Notification notificationUmfragen;
 
-        public SurveyNotification() {
+        public UmfrageNotification() {
             this.context = Utils.getContext();
             create();
 
@@ -314,7 +314,7 @@ public class NotificationHandler {
 
         private void create() {
             Intent resultIntentUmfragen = new Intent(context, MainActivity.class)
-                    .putExtra("start_intent", ID_SURVEY);
+                    .putExtra("start_intent", ID_UMFRAGEN);
 
             PendingIntent resultPendingIntentUmfragen =
                     PendingIntent.getActivity(
@@ -339,7 +339,7 @@ public class NotificationHandler {
         public void send() {
             de.slg.umfragen.utility.Utils.notifiedSurvey(latest);
             if (isActive())
-                notificationManager.notify(ID_SURVEY, notificationUmfragen);
+                notificationManager.notify(ID_UMFRAGEN, notificationUmfragen);
         }
 
         private boolean isActive() {
@@ -402,7 +402,7 @@ public class NotificationHandler {
 
         public void send() {
             if (isActive())
-                notificationManager.notify(ID_BAROMETER, notificationStimmungsbarometer);
+                notificationManager.notify(ID_STIMMUNGSBAROMETER, notificationStimmungsbarometer);
         }
 
         private boolean isActive() {
@@ -411,11 +411,11 @@ public class NotificationHandler {
         }
     }
 
-    public static class TimetableNotification {
+    public static class StundenplanNotification {
         private Context      context;
         private Notification notificationStundenplan;
 
-        public TimetableNotification() {
+        public StundenplanNotification() {
             this.context = Utils.getContext();
             create();
 
