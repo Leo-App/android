@@ -85,7 +85,6 @@ public class NotificationHandler {
                             PendingIntent.FLAG_ONE_SHOT
                     );
 
-
             notification = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
@@ -132,7 +131,6 @@ public class NotificationHandler {
                             0,
                             resultIntent,
                             PendingIntent.FLAG_ONE_SHOT);
-
 
             notification = new NotificationCompat.Builder(context)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -240,9 +238,9 @@ public class NotificationHandler {
     }
 
     public static class SchwarzesBrettNotification {
-        private long         latest;
-        private Context      context;
-        private Notification notification;
+        private static long         latest;
+        private        Context      context;
+        private        Notification notification;
 
         public SchwarzesBrettNotification() {
             this.context = Utils.getContext();
@@ -307,9 +305,9 @@ public class NotificationHandler {
     }
 
     public static class UmfrageNotification {
-        private long         latest;
-        private Context      context;
-        private Notification notification;
+        private static long         latest;
+        private        Context      context;
+        private        Notification notification;
 
         public UmfrageNotification() {
             this.context = Utils.getContext();
