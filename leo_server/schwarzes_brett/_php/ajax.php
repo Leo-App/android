@@ -49,6 +49,8 @@
 		$titel = str_replace("_Oe_", "Ö", $titel);
 		$titel = str_replace("_Ue_", "Ü", $titel);
 
+		$titel = str_replace("_ss_", "ß", $titel);
+
 		$inhalt = str_replace("_ae_", "ä", $inhalt);
 		$inhalt = str_replace("_oe_", "ö", $inhalt);
 		$inhalt = str_replace("_ue_", "ü", $inhalt);
@@ -56,6 +58,8 @@
 		$inhalt = str_replace("_Ae_", "Ä", $inhalt);
 		$inhalt = str_replace("_Oe_", "Ö", $inhalt);
 		$inhalt = str_replace("_Ue_", "Ü", $inhalt);
+
+		$inhalt = str_replace("_ss_", "ß", $inhalt);
 
 		if($titel==""||$inhalt==""||$ablaufdatum=="")
 			die("-ERR m");
