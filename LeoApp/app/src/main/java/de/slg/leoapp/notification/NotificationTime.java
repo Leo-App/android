@@ -11,8 +11,8 @@ package de.slg.leoapp.notification;
  */
 @SuppressWarnings("WeakerAccess")
 public final class NotificationTime {
-    public int hours;
-    public int minutes;
+    public final int hours;
+    public final int minutes;
 
     public NotificationTime(int hours, int minutes) {
         this.hours = hours;

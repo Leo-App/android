@@ -474,6 +474,9 @@ public class NotificationHandler {
                 }
             }
 
+            if(builder.charAt(builder.length()-3) == ',')
+                builder.deleteCharAt(builder.length()-3);
+
             return builder.toString();
         }
 
