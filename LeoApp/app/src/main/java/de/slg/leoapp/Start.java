@@ -30,8 +30,8 @@ import de.slg.schwarzes_brett.task.UpdateViewTrackerTask;
 import de.slg.startseite.activity.MainActivity;
 
 public class Start extends Activity {
-    public static void initNotificationServices() {
 
+    public static void initNotificationServices() {
         Calendar calendar = Calendar.getInstance();
 
         NotificationTime time;
@@ -180,7 +180,6 @@ public class Start extends Activity {
     }
 
     private void initSyncAdapter() {
-        Utils.logDebug("STARTED");
         ContentResolver.addPeriodicSync(
                 createSyncAccount(),
                 "de.slg.leoapp",

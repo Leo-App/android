@@ -152,7 +152,7 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            if (Utils.getController().getPreferences().getBoolean("pref_key_notification_test", true)) {
+            if (Utils.getController().getPreferences().getBoolean("pref_key_notification_test", true) && de.slg.klausurplan.utility.Utils.databaseExists(context)) {
                 SQLiteConnectorKlausurplan db = new SQLiteConnectorKlausurplan(context);
                 Klausur                    k  = db.getNextExam();
                 db.close();
