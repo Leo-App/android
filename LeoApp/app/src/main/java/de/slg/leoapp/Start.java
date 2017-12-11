@@ -19,6 +19,7 @@ import de.slg.leoapp.notification.NotificationTime;
 import de.slg.leoapp.notification.NotificationType;
 import de.slg.leoapp.service.NotificationServiceWrapper;
 import de.slg.leoapp.service.ReceiveService;
+import de.slg.leoapp.task.DownloadFilesTask;
 import de.slg.leoapp.task.MailSendTask;
 import de.slg.leoapp.task.SyncGradeTask;
 import de.slg.leoapp.task.SyncUserTask;
@@ -129,9 +130,6 @@ public class Start extends Activity {
 
         startActivity(main);
         finish();
-
-        //new NotificationHandler.NewsNotification().send();
-        //new NotificationHandler.SurveyNotification().send();
     }
 
     private void runUpdateTasks() {
@@ -143,18 +141,33 @@ public class Start extends Activity {
                 new SyncVoteTask().execute();
             }
 
-            if (Utils.isVerified() && getIntent().getBooleanExtra("updateUser", true)) {
+            if (Utils.isVerified() && Utils.getUserPermission() != User.PERMISSION_LEHRER) {
+                new SyncGradeTask().execute();
+            }
+
+            if (Utils.isVerified() && !getIntent().getBooleanExtra("restart", false)) {
                 new SyncUserTask().execute();
             }
 
-            if (Utils.isVerified() && Utils.getUserPermission() != User.PERMISSION_LEHRER) {
-                new SyncGradeTask().execute();
+            if (!filesExist()) {
+                new DownloadFilesTask().execute();
             }
 
             if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
                 new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
             }
         }
+    }
+
+    private boolean filesExist() {
+        boolean k = false, s = false;
+        for (String f : fileList()) {
+            if (f.equals("klausurplan.xml"))
+                k = true;
+            if (f.equals("stundenplan.txt"))
+                s = true;
+        }
+        return k && s;
     }
 
     private void startServices() {

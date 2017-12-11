@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,16 +19,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.PreferenceActivity;
-import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.User;
@@ -187,54 +181,35 @@ public class AuswahlActivity extends ActionLogActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (Utils.checkNetwork()) {
-                Utils.logDebug("started");
-                try {
-                    URLConnection connection =
-                            new URL(Utils.BASE_URL_PHP + "stundenplan/aktuell.txt")
-                                    .openConnection();
+            try {
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                Utils.getContext()
+                                        .openFileInput(
+                                                "stundenplan.txt"
+                                        )
+                        )
+                );
 
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            connection.getInputStream()));
-                    BufferedWriter writer =
-                            new BufferedWriter(
-                                    new OutputStreamWriter(
-                                            Utils.getContext().openFileOutput(
-                                                    "stundenplan.txt",
-                                                    Context.MODE_PRIVATE)));
-                    for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                        writer.write(line.replace("L�Z", "LÜZ").replace("CH�", "CHÜ").replace("BI�", "BIÜ"));
-                        writer.newLine();
-                    }
-                    reader.close();
-                    writer.close();
-
-                    reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            Utils.getContext().openFileInput("stundenplan.txt")));
-                    String lastKurzel = "";
-                    long   lastID     = -1;
-                    for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                        String[] fach = line.replace("\"", "").split(",");
-                        if (fach[1].replace("0", "").startsWith(Utils.getUserStufe())) {
-                            if (!fach[3].equals(lastKurzel)) {
-                                lastID = Utils.getController().getStundenplanDatabase().insertFach(fach[3], fach[2], fach[1]);
-                                lastKurzel = fach[3];
-                                if (Utils.getUserPermission() == User.PERMISSION_LEHRER && fach[2].toUpperCase().equals(Utils.getLehrerKuerzel().toUpperCase())) {
-                                    Utils.getController().getStundenplanDatabase().waehleFach(lastID);
-                                }
+                String lastKurzel = "";
+                long   lastID     = -1;
+                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                    String[] fach = line.replace("\"", "").split(",");
+                    if (fach[1].replace("0", "").startsWith(Utils.getUserStufe())) {
+                        if (!fach[3].equals(lastKurzel)) {
+                            lastID = Utils.getController().getStundenplanDatabase().insertFach(fach[3], fach[2], fach[1]);
+                            lastKurzel = fach[3];
+                            if (Utils.getUserPermission() == User.PERMISSION_LEHRER && fach[2].toUpperCase().equals(Utils.getLehrerKuerzel().toUpperCase())) {
+                                Utils.getController().getStundenplanDatabase().waehleFach(lastID);
                             }
-                            Utils.getController().getStundenplanDatabase().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]), fach[4]);
                         }
+                        Utils.getController().getStundenplanDatabase().insertStunde(lastID, Integer.parseInt(fach[5]), Integer.parseInt(fach[6]), fach[4]);
                     }
-                    reader.close();
-                    Utils.logDebug("done!");
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             return null;
         }

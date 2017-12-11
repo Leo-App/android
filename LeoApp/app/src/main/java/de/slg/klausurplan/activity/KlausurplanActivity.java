@@ -1,6 +1,5 @@
 package de.slg.klausurplan.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,12 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -234,18 +229,6 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                URLConnection connection = new URL(Utils.BASE_URL_PHP + "klausurplan/aktuell.xml")
-                        .openConnection();
-
-                FileOutputStream fileOutput  = getApplicationContext().openFileOutput("klausurplan.xml", Context.MODE_PRIVATE);
-                InputStream      inputStream = connection.getInputStream();
-                byte[]           buffer      = new byte[1024];
-                int              bufferLength;
-                while ((bufferLength = inputStream.read(buffer)) > 0) {
-                    fileOutput.write(buffer, 0, bufferLength);
-                }
-                fileOutput.close();
-
                 database.deleteAllDownloaded();
 
                 reader = new BufferedReader(new InputStreamReader(getApplicationContext().openFileInput("klausurplan.xml")));
@@ -256,7 +239,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
                         tabelle(reader.readLine());
                 }
                 reader.close();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;

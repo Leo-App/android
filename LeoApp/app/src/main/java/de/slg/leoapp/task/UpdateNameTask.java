@@ -17,10 +17,10 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.utility.ReturnValues;
 import de.slg.leoapp.utility.Utils;
 
-public class UpdateTaskName extends AsyncTask<String, Void, ReturnValues> {
+public class UpdateNameTask extends AsyncTask<String, Void, ReturnValues> {
     private final String old;
 
-    public UpdateTaskName(String oldUsername) {
+    public UpdateNameTask(String oldUsername) {
         old = oldUsername;
     }
 

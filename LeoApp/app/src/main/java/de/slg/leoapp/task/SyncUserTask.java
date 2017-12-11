@@ -103,7 +103,7 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
                         public void run() {
                             Utils.getController().closeActivities();
                             Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), Start.class)
-                                    .putExtra("updateUser", false)
+                                    .putExtra("restart", true)
                                     .addCategory(Intent.CATEGORY_LAUNCHER)
                                     .setAction(Intent.ACTION_MAIN));
                         }

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.EditTextDialog;
 import de.slg.leoapp.sqlite.SQLiteConnectorUmfragen;
-import de.slg.leoapp.task.UpdateTaskName;
+import de.slg.leoapp.task.UpdateNameTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
@@ -139,7 +139,7 @@ public class ProfileActivity extends LeoAppFeatureActivity {
                                 new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        UpdateTaskName task = new UpdateTaskName(Utils.getUserName());
+                                        UpdateNameTask task = new UpdateNameTask(Utils.getUserName());
                                         Utils.getController().getPreferences().edit()
                                                 .putString("pref_key_general_name", dialog.getTextInput())
                                                 .apply();
