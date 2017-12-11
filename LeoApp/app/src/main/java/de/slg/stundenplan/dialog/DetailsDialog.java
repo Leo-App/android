@@ -48,9 +48,6 @@ public class DetailsDialog extends AlertDialog {
                     boolean b = cbSchrift.isChecked();
                     fach.setzeSchriftlich(b);
                     Utils.getController().getStundenplanDatabase().setzeSchriftlich(b, fach.id);
-                    SQLiteConnectorKlausurplan klausurplan = new SQLiteConnectorKlausurplan(getContext());
-                    klausurplan.updateStundenplan(fach.getKlausurString(), b);
-                    klausurplan.close();
                 }
                 fach.setzeNotiz(notiz);
                 Utils.getController().getStundenplanDatabase().setzeNotiz(notiz, fach.id, fach.getTag(), fach.getStunde());

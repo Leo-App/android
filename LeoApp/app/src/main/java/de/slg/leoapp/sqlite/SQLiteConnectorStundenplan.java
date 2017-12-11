@@ -111,17 +111,9 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
 
     public void waehleFach(long fid) {
         ContentValues values          = new ContentValues();
-        boolean       mussSchriftlich = mussSchriftlich(fid) || Utils.getUserPermission() == User.PERMISSION_LEHRER;
         values.put(FACH_ID, fid);
-        values.put(GEWAHLT_SCHRIFTLICH, mussSchriftlich);
+        values.put(GEWAHLT_SCHRIFTLICH, false);
         database.insert(TABLE_GEWAHLT, null, values);
-        if (mussSchriftlich) {
-            if (de.slg.klausurplan.utility.Utils.databaseExists(context)) {
-                SQLiteConnectorKlausurplan klausurplan = new SQLiteConnectorKlausurplan(context);
-                klausurplan.updateStundenplan(getFachKurzel(fid), true);
-                klausurplan.close();
-            }
-        }
     }
 
     public void setzeNotiz(String notiz, int fid, int tag, int stunde) {
@@ -134,6 +126,9 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(GEWAHLT_SCHRIFTLICH, schriftlich ? 1 : 0);
         database.update(TABLE_GEWAHLT, values, FACH_ID + " = " + fid, null);
+        SQLiteConnectorKlausurplan klausurplan = new SQLiteConnectorKlausurplan(context);
+        klausurplan.updateStundenplan(getFachKurzel(fid), schriftlich);
+        klausurplan.close();
     }
 
     public void loescheWahlen() {
@@ -144,7 +139,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         String   table     = TABLE_FACHER + ", " + TABLE_STUNDEN;
         String[] columns   = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_KLASSE, STUNDE_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
         String   selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_ART + " != 'FREI'";
-        Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_ART + " DESC, " + STUNDEN_TAG + ", " + STUNDEN_STUNDE);
+        Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, STUNDEN_TAG + ", " + STUNDEN_STUNDE);
         Fach[]   faecher   = new Fach[cursor.getCount()];
         int      i         = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
@@ -593,6 +588,8 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     public boolean mussSchriftlich(long fid) {
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
+            return true;
         Cursor cursor = database.query(TABLE_FACHER, new String[]{FACH_ART, FACH_NAME}, FACH_ID + " = " + fid, null, null, null, null);
         cursor.moveToFirst();
         boolean b = cursor.getCount() > 0 && (cursor.getString(0).equals("LK") || cursor.getString(1).equals(Utils.getString(R.string.deutsch)) || cursor.getString(1).equals(Utils.getString(R.string.mathe)));

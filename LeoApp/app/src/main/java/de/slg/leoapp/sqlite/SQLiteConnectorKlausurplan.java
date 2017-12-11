@@ -116,7 +116,7 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     }
 
     public Klausur getNextExam() {
-        Cursor  cursor = database.query(TABLE_KLAUSUREN, new String[]{KLAUSUR_ID, KLAUSUR_TITEL, KLAUSUR_DATUM, KLAUSUR_NOTIZ}, KLAUSUR_DATUM + " > '" + getDate() + "'", null, null, null, KLAUSUR_DATUM, "1");
+        Cursor  cursor = database.query(TABLE_KLAUSUREN, new String[]{KLAUSUR_ID, KLAUSUR_TITEL, KLAUSUR_DATUM, KLAUSUR_NOTIZ}, KLAUSUR_DATUM + " = '" + getDate() + "'", null, null, null, KLAUSUR_DATUM, "1");
         Klausur k      = null;
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -146,7 +146,7 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     private String getDate() {
         Calendar calendar = new GregorianCalendar();
         if (calendar.get(Calendar.HOUR_OF_DAY) >= 15) {
-            calendar.add(Calendar.DAY_OF_MONTH, -1);
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
         return dateFormat.format(calendar.getTime());
     }

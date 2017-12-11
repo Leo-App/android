@@ -72,6 +72,8 @@ public class AuswahlActivity extends ActionLogActivity {
             db.loescheWahlen();
             for (int id : adapter.gibMarkierteIds()) {
                 db.waehleFach(id);
+                if (db.mussSchriftlich(id))
+                    db.setzeSchriftlich(true, id);
             }
         }
         finish();

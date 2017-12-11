@@ -107,7 +107,6 @@ public class Fach {
             teil1 += ' ';
         if (teil2.charAt(0) == 'L')
             teil2 = "L";
-        String erg = teil1 + teil2 + " " + lehrer + " " + klasse;
-        return erg;
+        return teil1 + teil2 + " " + lehrer + " " + klasse;
     }
 }
