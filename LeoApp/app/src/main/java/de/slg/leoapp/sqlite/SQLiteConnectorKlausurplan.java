@@ -24,12 +24,14 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     private static final String           KLAUSUR_TITEL           = "title";
     private static final String           KLAUSUR_STUFE           = "stufe";
     private static final String           KLAUSUR_DATUM           = "datum";
-    public static final  String           WHERE_ONLY_GRADE        = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
     private static final String           KLAUSUR_NOTIZ           = "notiz";
     private static final String           KLAUSUR_IN_STUNDENPLAN  = "in_stundenplan";
-    public static final  String           WHERE_ONLY_TIMETABLE    = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
     private static final String           KLAUSUR_HERUNTERGELADEN = "heruntergeladen";
-    public static final  String           WHERE_ONLY_CREATED      = KLAUSUR_HERUNTERGELADEN + " = 0";
+
+    public static final String WHERE_ONLY_CREATED   = KLAUSUR_HERUNTERGELADEN + " = 0";
+    public static final String WHERE_ONLY_GRADE     = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
+    public static final String WHERE_ONLY_TIMETABLE = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
+
     private final SQLiteDatabase database;
 
     public SQLiteConnectorKlausurplan(Context context) {
@@ -97,7 +99,7 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
         database.update(TABLE_KLAUSUREN, values, KLAUSUR_ID + " = " + id, null);
     }
 
-    public void updateStundenplan(String fach, boolean schriftlich) {
+    void updateStundenplan(String fach, boolean schriftlich) {
         ContentValues values = new ContentValues();
         values.put(KLAUSUR_IN_STUNDENPLAN, schriftlich);
         database.update(TABLE_KLAUSUREN, values, KLAUSUR_TITEL + " LIKE '" + fach + "%'", null);
