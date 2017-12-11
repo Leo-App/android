@@ -111,7 +111,6 @@ public class AuswahlActivity extends ActionLogActivity {
                     Fach     f       = adapter.fachArray[position];
                     double[] stunden = db.gibStunden(f.id);
                     for (double d : stunden) {
-                        Utils.logError(String.valueOf(d));
                         adapter.ausgewaehlteStunden[(int) (d - 1)][(int) (d * 10 % 10 - 1)] = checked;
                     }
                     if (checked)

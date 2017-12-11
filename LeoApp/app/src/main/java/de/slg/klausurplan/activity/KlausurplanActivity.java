@@ -267,11 +267,10 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
         private void zeile(String s) {
             String datesubstring = s.substring(0, s.indexOf(";")).replaceAll("\\s", ""); // erster Teil vor dem Simikolon enthält das Datum Bsp: 20.03.; ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
-            //Log.e("date", datesubstring);
             if (!datesubstring.endsWith("."))
-                datesubstring += '.'; //Log.e("date", datesubstring); //fehlende Punkte am Ende werden ergänzt
-            Date     datum = getDate(datesubstring + year); //if(datum!=null) Log.e("date",datum.toString() );  Datum wird geparst
-            String   rest  = s.substring(s.indexOf(";") + 1); //Log.e("zeile", rest); //Bsp (2) D G2 SNE (27), D G3 POR (27), E G2 DRE (26), M G3 ENS (27);  ; ;
+                datesubstring += '.'; //fehlende Punkte am Ende werden ergänzt
+            Date     datum = getDate(datesubstring + year); //Datum wird geparst
+            String   rest  = s.substring(s.indexOf(";") + 1); //Bsp (2) D G2 SNE (27), D G3 POR (27), E G2 DRE (26), M G3 ENS (27);  ; ;
             String[] split = rest.split(";");
             for (int i = 0; i < split.length; i++) {
                 String stufe = "", c = split[i];
@@ -286,20 +285,17 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
                         stufe = "Q2";
                         break;
                 }
-                //Log.e("zeile", c); //Bsp für i = 0 (2) D G2 SNE (27), D G3 POR (27), E G2 DRE (26), M G3 ENS (27)                5.-6.
+                //Bsp für i = 0 (2) D G2 SNE (27), D G3 POR (27), E G2 DRE (26), M G3 ENS (27)                5.-6.
                 if (c.startsWith("LK") || c.startsWith("GK")) { //Bsp:   ;GK I: E GK 2  GOM (17), L G1 SUL(1), M G1 REI (23), PH G1 MUL (8), SW G1 SLI (5)    1.-2 ; ;
                     c = c.substring(c.indexOf(':') + 1); //GK/LK entfernen
-                    //Log.e("GK/LK", c);
                 } else if (c.startsWith("Abiturvorklausur LK")) { //Abiturvorklausur LK II(Dauer: 4,25 Zeitstunden + 30 Minuten Auswahlzeit in den Sprachen und Gesellschaftswissenschaften) L4: E RUS (23), F KRE (8), M VOG (19), PA HSR (11)L2: GE KKG (2), PH KKG (6), KU KKG (4)L6: BI COU (2), D COU (5), GE COU (4), SW COU (2)        1.-6. Stunde (der Unterricht in der 7. und 8. Stunde entfällt)  Elternsprechtag: 16 Uhr;
                     if (c.contains("wissenschaften)")) {
                         c = c.substring(c.indexOf("wissenschaften)") + 15); //Text entfernen:  L4: E RUS (23), F KRE (8), M VOG (19), PA HSR (11)L2: GE KKG (2), PH KKG (6), KU KKG (4)L6: BI COU (2), D COU (5), GE COU (4), SW COU (2)        1.-6. Stunde (der Unterricht in der 7. und 8. Stunde entfällt)  Elternsprechtag: 16 Uhr;
                         c = c.substring(c.indexOf(":") + 1); // nach dem ersten Doppelpunkt: E RUS (23), F KRE (8), M VOG (19), PA HSR (11)L2: GE KKG (2), PH KKG (6), KU KKG (4)L6: BI COU (2), D COU (5), GE COU (4), SW COU (2)        1.-6. Stunde (der Unterricht in der 7. und 8. Stunde entfällt)  Elternsprechtag: 16 Uhr;
                         c = c.substring(0, c.indexOf(":") - 2);//vor dem nächsten Doppelpunkt trennen(KOOP-Klausuren):  E RUS (23), F KRE (8), M VOG (19), PA HSR (11)L2: GE KKG (2), PH KKG (6), KU KKG (4)
-                        // Log.e("AV LK", c);
                     }
                 } else if (c.startsWith("Abiturklausur GK")) { //Abiturvorklausur GK(Dauer: 3 Zeitstunden + 30 Minuten Auswahlzeit in den Sprachen und Gesellschaftswissenschaften) BI G1 WEI (3), BI G2 VOS (3), BI G3  KIN (4), D G1 SLT (3), D G3 RDZ (1), E G1 WHS (6), E G3 LAN (5), EK G1 HEU (7), GE G1 STL (4), GE G2 STL (3), GEF G1 NIE (2), IF G1 ENS (3), KR G2  KIR (1), M G1 KPS (14), M G2 NIR (12), PA G1 SLT (2), PH G2 KPS (2), SW G1 SLI (3), SW G2  HEU (5)                                                            1.-4. Stunde(danach ist regulärer Unterricht);
                     c = c.substring(c.indexOf("wissenschaften)") + 15); //BI G1 WEI (3), BI G2 VOS (3), BI G3  KIN (4), D G1 SLT (3), D G3 RDZ (1), E G1 WHS (6), E G3 LAN (5), EK G1 HEU (7), GE G1 STL (4), GE G2 STL (3), GEF G1 NIE (2), IF G1 ENS (3), KR G2  KIR (1), M G1 KPS (14), M G2 NIR (12), PA G1 SLT (2), PH G2 KPS (2), SW G1 SLI (3), SW G2  HEU (5)     1.-4. Stunde(danach ist regulärer Unterricht);
-                    //Log.e("AV GK", c);
                 }
                 List<String> klausurenAusZeile = getKlausurStrings(c, stufe); //sucht in der zeile nach Klausuren
                 for (String k : klausurenAusZeile) {
@@ -327,7 +323,6 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
                         klausur += " " + stufe; // Stufe anhängen
                         list.append(klausur); //GE_G3_HUC EF
                     }
-                    //Log.e("Tag", ""+istLK);
                     if (c.length() >= 9 && istLK) {// etwas zu viel, um mehr Leerzeichen zuzulassen (es gibt jedoch keine kürzeren LK Klausuren, da kürzestes Format: F_LLL__1_)
                         String klausur = c.substring(0, 9);
                         while (klausur.length() > 5 && (klausur.charAt(klausur.length() - 1) == '_' || (klausur.charAt(klausur.length() - 1) > 47 && klausur.charAt(klausur.length() - 1) < 58)))
@@ -336,7 +331,6 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
                         String teil1 = klausur.substring(0, klausur.indexOf("_"));
                         String teil2 = klausur.substring(klausur.indexOf("_"), klausur.length());
                         klausur = teil1 + " L" + teil2;// L dazwischen einfügen
-                        //Log.e("LK", klausur);
                         list.append(klausur);
                     }
                     if (istKOOPLK) {
@@ -346,7 +340,6 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
                         if (c.contains("_"))
                             c = c.substring(0, c.indexOf("_"));
                         c = c + ' ' + schule;
-                        //                    Log.e("KOOPLK", c);
                         list.append(c);
                     }
                 }
@@ -381,16 +374,16 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
             return 2017;
         }
 
-        private Date getDate(String s) { //Log.e("date", s);
-            String[] parts = s.replace('.', '_').split("_"); //for(int i = 0; i< parts.size; i++) Log.e("date", parts[i]);
+        private Date getDate(String s) {
+            String[] parts = s.replace('.', '_').split("_");
             if (parts.length == 3) {
-                int day   = Integer.parseInt(parts[0]); //Log.e("date", ""+day);
-                int month = Integer.parseInt(parts[1]);// Log.e("date", ""+month);
-                int year  = Integer.parseInt(parts[2]);// Log.e("date", ""+year);
+                int day   = Integer.parseInt(parts[0]);
+                int month = Integer.parseInt(parts[1]);
+                int year  = Integer.parseInt(parts[2]);
                 if (halbjahr == 1 && month < 4)
                     year++;
                 Calendar c = new GregorianCalendar();
-                c.set(year, month - 1, day, 0, 0, 0);//Log.e("date", c.getTime().toString());
+                c.set(year, month - 1, day, 0, 0, 0);
                 return c.getTime();
             }
             return null;

@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;

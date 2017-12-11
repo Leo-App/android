@@ -268,7 +268,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
                     }
                     tvRaum.setText(fachAd[position].getRaum());
                     tvStunde.setText(fachAd[position].getStundenName());
-                    if (fachAd[position].getSchriftlich()) {
+                    if (fachAd[position].getSchriftlich() && Utils.getUserPermission() != User.PERMISSION_LEHRER) {
                         v.findViewById(R.id.iconSchriftlich).setVisibility(View.VISIBLE);
                     }
                 }

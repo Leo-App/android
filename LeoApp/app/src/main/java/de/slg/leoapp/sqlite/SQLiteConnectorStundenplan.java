@@ -144,7 +144,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         String   table     = TABLE_FACHER + ", " + TABLE_STUNDEN;
         String[] columns   = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_KLASSE, STUNDE_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
         String   selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_ART + " != 'FREI'";
-        Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_ART + " DESC, " + TABLE_FACHER + "." + FACH_ID);
+        Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_ART + " DESC, " + STUNDEN_TAG + ", " + STUNDEN_STUNDE);
         Fach[]   faecher   = new Fach[cursor.getCount()];
         int      i         = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
@@ -228,8 +228,8 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
             cursor.moveToFirst();
             String kurzel = cursor.getString(0);
             String lehrer = cursor.getString(1);
-            String teil1   = kurzel.substring(0, 2);
-            String teil2   = kurzel.substring(2, 4);
+            String teil1  = kurzel.substring(0, 2);
+            String teil2  = kurzel.substring(2, 4);
             if (teil1.charAt(1) != ' ')
                 teil1 += ' ';
             if (teil2.charAt(0) == 'L')
