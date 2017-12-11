@@ -192,6 +192,7 @@ public class NewEntryDialog extends AlertDialog {
                     params[i] = params[i].replace("Ä", "_Ae_");
                     params[i] = params[i].replace("Ö", "_Oe_");
                     params[i] = params[i].replace("Ü", "_Ue_");
+                    params[i] = params[i].replace("ß", "_ss_");
                 }
                 URL updateURL = new URL((Utils.DOMAIN_DEV + "schwarzes_brett/_php/newEntry.php?to=" + params[3] + "&title=" + params[0] + "&content=" + params[1] + "&date=" + params[2]).replace(" ", "%20"));
                 Utils.logError(updateURL);
@@ -215,7 +216,7 @@ public class NewEntryDialog extends AlertDialog {
         protected void onPostExecute(Boolean b) {
             if (b) {
                 dismiss();
-                Toast.makeText(Utils.getContext(), "Gesendet", Toast.LENGTH_SHORT);
+                Toast.makeText(Utils.getContext(), "Gesendet", Toast.LENGTH_SHORT).show();
             } else {
                 final Snackbar snack = Snackbar.make(findViewById(R.id.dialog_entry), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
                 snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
