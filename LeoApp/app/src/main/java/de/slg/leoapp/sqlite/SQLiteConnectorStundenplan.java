@@ -13,19 +13,23 @@ import de.slg.stundenplan.utility.Fach;
 
 public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     private static final String DATABASE_NAME       = "stundenplan";
-    private static final String TABLE_FACHER        = "faecher";
+
+    private static final String TABLE_FACHER  = "faecher";
+    private static final String TABLE_STUNDEN = "stunden";
+    private static final String TABLE_GEWAHLT = "gewaehlt";
+
     private static final String FACH_ID             = "fid";
     private static final String FACH_NAME           = "fname";
     private static final String FACH_KURZEL         = "fkurz";
     private static final String FACH_LEHRER         = "flehrer";
     private static final String FACH_KLASSE         = "fklasse";
     private static final String FACH_ART            = "fart";
-    private static final String TABLE_STUNDEN       = "stunden";
+
     private static final String STUNDEN_TAG         = "stag";
     private static final String STUNDEN_STUNDE      = "sstunde";
     private static final String STUNDE_RAUM         = "sraum";
     private static final String STUNDE_NOTIZ        = "snotiz";
-    private static final String TABLE_GEWAHLT       = "gewaehlt";
+
     private static final String GEWAHLT_SCHRIFTLICH = "gschriftlich";
 
     private final SQLiteDatabase database;
@@ -139,7 +143,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         String   table     = TABLE_FACHER + ", " + TABLE_STUNDEN;
         String[] columns   = {TABLE_FACHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_KLASSE, STUNDE_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
         String   selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_ART + " != 'FREI'";
-        Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, STUNDEN_TAG + ", " + STUNDEN_STUNDE);
+        Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_NAME);
         Fach[]   faecher   = new Fach[cursor.getCount()];
         int      i         = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
@@ -446,18 +450,6 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return "";
     }
 
-    private String getFachart(String kuerzel) {
-        if (kuerzel.contains("VTF"))
-            return "VTF";
-        if (kuerzel.matches("[A-Za-zÄÖÜäöü]{1,3}[ ]?L[0-9]"))
-            return "LK";
-        if (kuerzel.charAt(kuerzel.length() - 2) == 'P')
-            return "PK";
-        if (kuerzel.substring(0, kuerzel.length() - 1).endsWith("ZG"))
-            return "ZK";
-        return "GK";
-    }
-
     public String gibZeiten(Fach f) {
         String condition, table;
         if (f.id == 0) {
@@ -569,21 +561,6 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
             values.put(FACH_ID, fid);
             values.put(GEWAHLT_SCHRIFTLICH, 0);
             database.insert(TABLE_GEWAHLT, null, values);
-        }
-    }
-
-    void deleteFreistunde(int tag, int stunde) {
-        String table     = TABLE_FACHER + ", " + TABLE_STUNDEN;
-        String selection = TABLE_FACHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + STUNDEN_STUNDE + " = " + stunde + " AND " + STUNDEN_TAG + " = " + tag;
-        Cursor cursor    = database.query(table, new String[]{TABLE_FACHER + "." + FACH_ID, FACH_ART}, selection, null, null, null, null);
-        cursor.moveToFirst();
-        if (cursor.getCount() > 0 && cursor.getString(1).equals("FREI")) {
-            int fid = cursor.getInt(0);
-            database.delete(TABLE_FACHER, FACH_ID + " = " + fid, null);
-            database.delete(TABLE_STUNDEN, FACH_ID + " = " + fid, null);
-            database.delete(TABLE_GEWAHLT, FACH_ID + " = " + fid, null);
-        } else {
-            cursor.close();
         }
     }
 

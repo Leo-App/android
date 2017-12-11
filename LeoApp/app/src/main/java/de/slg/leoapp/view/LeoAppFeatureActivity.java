@@ -181,8 +181,10 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                 }
-                if (i != null)
+                if (i != null) {
                     startActivity(i);
+                    finish();
+                }
                 return true;
             }
         });

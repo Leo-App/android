@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -17,6 +16,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
@@ -30,8 +30,6 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 public class ReceiveService extends Service {
-    private boolean      running;
-    private boolean      socketRunning;
     private WebSocket    socket;
 
     @Override
@@ -39,11 +37,9 @@ public class ReceiveService extends Service {
         Utils.getController().setContext(getApplicationContext());
         Utils.getController().registerReceiveService(this);
 
-        running = true;
-        socketRunning = false;
-
-        new ReceiveThread().start();
         new QueueThread().start();
+
+        startSocket();
 
         Utils.logError("Service (re)started!");
         return START_STICKY;
@@ -57,7 +53,6 @@ public class ReceiveService extends Service {
 
     @Override
     public void onDestroy() {
-        running = false;
         socket.close(1000, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
@@ -127,27 +122,6 @@ public class ReceiveService extends Service {
         }
     }
 
-    private class ReceiveThread extends Thread {
-        @Override
-        public void run() {
-            Looper.prepare();
-
-            while (running) {
-                try {
-                    if (Utils.checkNetwork()) {
-                        if (!socketRunning)
-                            startSocket();
-                    }
-
-                    sleep(60000 * 20);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    break;
-                }
-            }
-        }
-    }
-
     private class QueueThread extends Thread {
         @Override
         public void run() {
@@ -202,7 +176,7 @@ public class ReceiveService extends Service {
     private class Listener extends WebSocketListener {
         @Override
         public void onOpen(WebSocket webSocket, Response response) {
-            socketRunning = true;
+
         }
 
         @Override
@@ -225,6 +199,7 @@ public class ReceiveService extends Service {
                     int    uid   = Integer.parseInt(parts[5]);
 
                     Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
+                    new NotificationHandler.MessengerNotification().send();
                 } else if (text.startsWith("c") && parts.length == 3) {
                     int           cid   = Integer.parseInt(parts[0]);
                     String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
@@ -254,7 +229,7 @@ public class ReceiveService extends Service {
 
         @Override
         public void onClosed(WebSocket webSocket, int code, String reason) {
-            socketRunning = false;
+            startSocket();
         }
 
         @Override

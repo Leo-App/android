@@ -3,7 +3,6 @@ package de.slg.stundenplan.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.concurrent.ExecutionException;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.User;
@@ -32,6 +30,7 @@ import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.stundenplan.dialog.DetailsDialog;
 import de.slg.stundenplan.dialog.FinderDalog;
+import de.slg.stundenplan.task.FachImporter;
 import de.slg.stundenplan.utility.Fach;
 
 public class StundenplanActivity extends LeoAppFeatureActivity {
@@ -46,7 +45,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
             if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
                 startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
             } else {
-                new CreateLehrerStundenplan().execute();
+                new FachImporter().execute();
             }
         }
         initTabs();
@@ -164,7 +163,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void refreshUI() {
+    public void refreshUI() {
         for (WochentagFragment f : fragments)
             f.refreshUI();
     }
@@ -212,10 +211,16 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
         }
 
         private void refreshUI() {
-            if (listView != null) {
-                fachArray = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(tag);
-                listView.setAdapter(new StundenAdapter(getContext(), fachArray));
-            }
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (listView != null) {
+                        fachArray = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(tag);
+                        listView.setAdapter(new StundenAdapter(getContext(), fachArray));
+                    }
+                }
+            });
+
         }
 
         void setTag(int tag) {
@@ -226,13 +231,11 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
     private static class StundenAdapter extends ArrayAdapter<Fach> {
         private final Context cont;
         private final Fach[]  fachAd;
-        private final View[]  viAd;
 
         StundenAdapter(Context pCont, Fach[] pFach) {
             super(pCont, R.layout.list_item_schulstunde, pFach);
             cont = pCont;
             fachAd = pFach;
-            viAd = new View[pFach.length];
         }
 
         @NonNull
@@ -273,35 +276,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
                     }
                 }
             }
-            viAd[position] = v;
             return v;
-        }
-    }
-
-    private class CreateLehrerStundenplan extends AsyncTask<Void, Void, Void> {
-        private AuswahlActivity.FachImporter importer;
-
-        @Override
-        protected void onPreExecute() {
-            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-            importer = new AuswahlActivity.FachImporter();
-            importer.execute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                importer.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            findViewById(R.id.progressBar).setVisibility(View.GONE);
-            refreshUI();
         }
     }
 }

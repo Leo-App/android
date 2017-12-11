@@ -43,11 +43,12 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         super.onCreate(savedInstanceState);
         Utils.getController().registerKlausurplanActivity(this);
 
-        if (!de.slg.klausurplan.utility.Utils.databaseExists(this))
+        if (!de.slg.klausurplan.utility.Utils.databaseExists(getApplicationContext())) {
+            database = new SQLiteConnectorKlausurplan(getApplicationContext());
             new Importer().execute();
-
-        database = new SQLiteConnectorKlausurplan(getApplicationContext());
-        refreshArray();
+        } else {
+            database = new SQLiteConnectorKlausurplan(getApplicationContext());
+        }
 
         initListView();
         initAddButton();
@@ -96,6 +97,8 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         snackbar.dismiss();
         super.onOptionsItemSelected(mi);
         if (mi.getItemId() == R.id.action_load) {
+            if (snackbar.isShown())
+                snackbar.dismiss();
             new Importer().execute();
         }
         if (mi.getItemId() == R.id.action_delete) {
@@ -134,6 +137,9 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
                 dialog = new KlausurDialog(KlausurplanActivity.this, klausuren[position]);
                 dialog.show();
                 dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
@@ -221,8 +227,6 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
         @Override
         protected void onPreExecute() {
-            if (snackbar != null)
-                snackbar.dismiss();
             findViewById(R.id.progressBar4).setVisibility(View.VISIBLE);
         }
 

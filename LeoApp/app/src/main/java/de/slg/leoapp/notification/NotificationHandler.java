@@ -161,7 +161,6 @@ public class NotificationHandler {
     }
 
     public static class MessengerNotification {
-        private int          unreadMessages;
         private Context      context;
         private Notification notification;
 
@@ -220,8 +219,6 @@ public class NotificationHandler {
                 style.addLine(line);
             }
 
-            unreadMessages = getUnreadMessages().length;
-
             return style;
         }
 
@@ -232,8 +229,7 @@ public class NotificationHandler {
         private boolean isActive() {
             return Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true)
                     && Utils.getController().getMessengerActivity() == null
-                    && Utils.getController().getMessengerDatabase().hasUnreadMessages()
-                    && unreadMessages != getUnreadMessages().length;
+                    && Utils.getController().getMessengerDatabase().hasUnreadMessages();
         }
     }
 
