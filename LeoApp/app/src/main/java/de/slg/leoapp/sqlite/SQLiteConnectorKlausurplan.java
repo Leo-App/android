@@ -28,9 +28,11 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     private static final String           KLAUSUR_IN_STUNDENPLAN  = "in_stundenplan";
     private static final String           KLAUSUR_HERUNTERGELADEN = "heruntergeladen";
 
-    public static final String WHERE_ONLY_CREATED   = KLAUSUR_HERUNTERGELADEN + " = 0";
-    public static final String WHERE_ONLY_GRADE     = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
-    public static final String WHERE_ONLY_TIMETABLE = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
+    public static final String WHERE_ONLY_CREATED    = KLAUSUR_HERUNTERGELADEN + " = 0";
+    public static final String WHERE_ALL             = WHERE_ONLY_CREATED + " OR " + KLAUSUR_DATUM + " > '" + getMinDate() + "'";
+    public static final String WHERE_ONLY_GRADE      = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
+    public static final String WHERE_GRADE_TIMETABLE = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
+    public static final String WHERE_ONLY_TIMETABLE  = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
 
     private final SQLiteDatabase database;
 

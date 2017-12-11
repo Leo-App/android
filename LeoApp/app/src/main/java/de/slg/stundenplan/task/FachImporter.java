@@ -59,8 +59,7 @@ public class FachImporter extends AsyncTask<Void, Void, Void> {
         if (Utils.getController().getAuswahlActivity() != null) {
             Utils.getController().getAuswahlActivity().initDB();
             Utils.getController().getAuswahlActivity().initListView();
-        }
-        if (Utils.getController().getStundenplanActivity() != null) {
+        } else {
             Utils.getController().getStundenplanActivity().refreshUI();
         }
         Utils.getController().getActiveActivity().findViewById(R.id.progressBar).setVisibility(View.GONE);

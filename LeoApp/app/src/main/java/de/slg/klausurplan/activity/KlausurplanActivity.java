@@ -27,6 +27,7 @@ import de.slg.leoapp.R;
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 
@@ -210,9 +211,15 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
     private void refreshArray() {
         if (Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", true) && Utils.getController().getStundenplanDatabase().hatGewaehlt()) {
-            klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_TIMETABLE);
+            if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
+                klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_TIMETABLE);
+            else
+                klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_GRADE_TIMETABLE);
         } else {
-            klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_GRADE);
+            if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
+                klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ALL);
+            else
+                klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_GRADE);
         }
     }
 

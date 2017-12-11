@@ -211,16 +211,10 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
         }
 
         private void refreshUI() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (listView != null) {
-                        fachArray = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(tag);
-                        listView.setAdapter(new StundenAdapter(getContext(), fachArray));
-                    }
-                }
-            });
-
+            if (listView != null) {
+                fachArray = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(tag);
+                listView.setAdapter(new StundenAdapter(getContext(), fachArray));
+            }
         }
 
         void setTag(int tag) {
