@@ -31,6 +31,7 @@ public class ChangelogDialog extends BottomSheetDialogFragment {
     public void setupDialog(final Dialog dialog, int style) {
         super.setupDialog(dialog, style);
         View contentView = View.inflate(getContext(), R.layout.dialog_changelog, null);
+        ((TextView) contentView.findViewById(R.id.version_textview)).setText(Utils.getAppVersionName());
         dialog.setContentView(contentView);
     }
 

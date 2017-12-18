@@ -22,18 +22,8 @@
     </string>
 
     <string name="dialog_changelog">
-        Performance \n \n
-        • Akkuverbrauch erheblich reduziert \n
-        • Startgeschwindigkeit (vor allem bei schlechter Internetverbindung) erhöht \n \n
-        Design \n \n
-        • "Umfrage hinzufügen"-Button verschwindet beim herunterscrollen \n
-        • Stundenplan zeigt längere Notizen an in Freistunden \n
-        • Neue Icons \n \n
-        Funktionalität \n \n
-        • Klausurplan filtert nach Stundenplan, ohne dass der Plan neu geladen werden muss \n
-        • Klausurplan "löscht" nur noch heruntergeladene Klausuren \n
-        • Klausurplan löscht keine Klausuren mehr, sondern blendet diese nur aus \n
-        • Changelog hinzugefügt \n
+        Allgemeines:\n\n
+        - Changelog-Dialog überarbeitet
     </string>
 
     <string name="none">Keine</string>
