@@ -409,7 +409,8 @@ public class MainActivity extends LeoAppFeatureActivity {
         if (prevVersion.equals("")) {
             startActivity(new Intent(MainActivity.this, IntroActivity.class));
         } else if (!prevVersion.equals(Utils.getAppVersionName())) {
-            new ChangelogDialog(this).show();
+            ChangelogDialog dialog = new ChangelogDialog();
+            dialog.show(Utils.getController().getActiveActivity().getSupportFragmentManager(), dialog.getTag());
         }
     }
 
