@@ -5,6 +5,8 @@
     <string name="error">Entschuldige, etwas ist schief gelaufen</string>
     <string name="hours_settings_template">%1$s Uhr</string>
 
+    <string name="nolessons">Kein Unterricht :)</string>
+
     <string name="drawer_placeholder_name">Benutzername</string>
     <string name="drawer_placeholder_grade">Stufe</string>
 
@@ -22,8 +24,7 @@
     </string>
 
     <string name="dialog_changelog">
-        Allgemeines:\n\n
-        - Changelog-Dialog überarbeitet
+        - Changelog-Dialog überarbeitet \n
     </string>
 
     <string name="none">Keine</string>

@@ -178,6 +178,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
         public View onCreateView(LayoutInflater layIn, ViewGroup container, Bundle savedInstanceState) {
             if (root == null) {
                 root = layIn.inflate(R.layout.fragment_wochentag, container, false);
+
                 listView = (ListView) root.findViewById(R.id.listW);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -213,8 +214,14 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
         private void refreshUI() {
             if (listView != null) {
                 fachArray = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(tag);
+                if(fachArray.length == 0)
+                    root.findViewById(R.id.nolessons).setVisibility(View.VISIBLE);
+                else
+                    root.findViewById(R.id.nolessons).setVisibility(View.GONE);
+
                 listView.setAdapter(new StundenAdapter(getContext(), fachArray));
-            }
+            } else
+                root.findViewById(R.id.nolessons).setVisibility(View.VISIBLE);
         }
 
         void setTag(int tag) {
@@ -228,7 +235,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
 
         StundenAdapter(Context pCont, Fach[] pFach) {
             super(pCont, R.layout.list_item_schulstunde, pFach);
-            cont = pCont;
+            cont   = pCont;
             fachAd = pFach;
         }
 
@@ -240,11 +247,13 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
                     LayoutInflater layoutInflater = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     v = layoutInflater.inflate(R.layout.list_item_schulstunde, null);
                 }
+
                 TextView tvFach   = (TextView) v.findViewById(R.id.fach_wt);
                 TextView tvLehrer = (TextView) v.findViewById(R.id.lehrer_wt);
                 TextView tvRaum   = (TextView) v.findViewById(R.id.raum_wt);
                 TextView tvStunde = (TextView) v.findViewById(R.id.stunde_wt);
                 TextView tvNotiz  = (TextView) v.findViewById(R.id.notiz);
+
                 if (fachAd[position] != null) {
                     if (fachAd[position].getName() != null && fachAd[position].getNotiz() != null && fachAd[position].getName().equals("") && !fachAd[position].getNotiz().equals("")) {
                         tvNotiz.setText(fachAd[position].getNotiz());

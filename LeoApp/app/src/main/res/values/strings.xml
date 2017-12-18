@@ -3,6 +3,8 @@
 
     <string name="app_name" translatable="false">LeoApp</string>
 
+    <string name="nolessons">No lessons today :)</string>
+
     <string name="dismiss" translatable="false">OK</string>
     <string name="confirm" translatable="false">OK</string>
     <string name="cancel">Cancel</string>
@@ -29,8 +31,7 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        General:\n\n
-        - Updated Changelog-Dialog
+        - Updated Changelog-Dialog \n
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
