@@ -1,13 +1,8 @@
 package de.slg.leoapp.dialog;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 import android.widget.TextView;
 

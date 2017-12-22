@@ -214,7 +214,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
         private void refreshUI() {
             if (listView != null) {
                 fachArray = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(tag);
-                if(fachArray.length == 0)
+                if (fachArray.length == 0)
                     root.findViewById(R.id.nolessons).setVisibility(View.VISIBLE);
                 else
                     root.findViewById(R.id.nolessons).setVisibility(View.GONE);
@@ -235,7 +235,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
 
         StundenAdapter(Context pCont, Fach[] pFach) {
             super(pCont, R.layout.list_item_schulstunde, pFach);
-            cont   = pCont;
+            cont = pCont;
             fachAd = pFach;
         }
 
