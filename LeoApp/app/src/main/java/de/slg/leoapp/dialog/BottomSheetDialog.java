@@ -1,5 +1,6 @@
 package de.slg.leoapp.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.View;
@@ -51,9 +52,9 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
      * @param dialog siehe BottomSheetDialogFragment
      * @param style  siehe BottomSheetDialogFragment
      */
+    @SuppressLint("RestrictedApi")
     @Override
     public void setupDialog(final Dialog dialog, int style) {
-        //noinspection RestrictedApi
         super.setupDialog(dialog, style);
         View contentView = View.inflate(getContext(), R.layout.dialog_bottom_sheet, null);
         ((TextView) contentView.findViewById(R.id.textView1)).setText(title);

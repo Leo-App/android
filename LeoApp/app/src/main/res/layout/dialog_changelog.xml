@@ -1,62 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="30dp">
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:tint="@android:color/darker_gray"
         app:srcCompat="@drawable/ic_info_outline_white_24dp" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/textView1"
+        style="@style/Base.DialogWindowTitle.AppCompat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/imageView4"
+        android:layout_alignTop="@+id/imageView4"
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toRightOf="@+id/imageView4"
+        android:gravity="center"
         android:text="@string/changelog"
-        android:textAlignment="gravity"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textColor="@color/colorPrimary" />
 
     <TextView
-        android:id="@+id/changelog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/title"
-        android:layout_alignStart="@id/title"
-        android:layout_below="@id/title"
-        android:layout_marginEnd="20dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="20dp"
+        android:id="@+id/version_textview"
+        android:layout_toRightOf="@id/textView1"
+        android:layout_toEndOf="@id/textView1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:padding="3dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:layout_alignBottom="@id/textView1"/>
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignStart="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="21dp"
+        android:gravity="start"
         android:text="@string/dialog_changelog"
         android:textAlignment="gravity" />
-
-    <Button
-        android:id="@+id/buttonOK"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/changelog"
-        android:text="@string/confirm" />
 
 </RelativeLayout>

@@ -3,6 +3,8 @@
 
     <string name="app_name" translatable="false">LeoApp</string>
 
+    <string name="nolessons">No lessons today :)</string>
+
     <string name="dismiss" translatable="false">OK</string>
     <string name="confirm" translatable="false">OK</string>
     <string name="cancel">Cancel</string>
@@ -29,18 +31,7 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        Performance \n \n
-        • Reduced Energy consumption \n
-        • Increased speed at startup (especially with bad internet connection) \n \n
-        Design \n \n
-        • "Add Survey"-Button hides when scrolling down \n
-        • Timetable shows longer notes in free lessons \n
-        • New icons \n \n
-        Functions \n \n
-        • Exams show newly added exams in the timetable immediately \n
-        • Exams only "deletes" downloaded exams \n
-        • Exams doesn\'t delete any exams, but hides them \n
-        • Added Changelog \n
+        - Updated Changelog-Dialog \n
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
