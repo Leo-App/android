@@ -76,7 +76,6 @@ public class ReceiveService extends Service {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Utils.URL_TOMCAT)
-                //.url("ws://192.168.0.103:8080/leoapp/")
                 .build();
         Listener listener = new Listener();
         socket = client.newWebSocket(request, listener);
