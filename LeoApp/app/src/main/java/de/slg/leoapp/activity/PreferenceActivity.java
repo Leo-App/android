@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuInflater;
@@ -290,6 +291,18 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 startActivity(new Intent(getApplicationContext(), NotificationPreferenceActivity.class));
+                return true;
+            }
+        });
+
+        Preference version = findPreference("pref_key_version_app");
+        version.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog dialog = new AlertDialog.Builder(PreferenceActivity.this).create();
+                dialog.setContentView(R.layout.dialog_changelog);
+                ((TextView) dialog.findViewById(R.id.version_textview)).setText(Utils.getAppVersionName());
+                dialog.show();
                 return true;
             }
         });

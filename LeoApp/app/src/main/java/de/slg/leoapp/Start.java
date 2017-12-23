@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -112,16 +111,6 @@ public class Start extends Activity {
         Utils.getController().closeDatabases();
 
         Utils.getController().setContext(getApplicationContext());
-
-        //Vorübergehend
-        SharedPreferences preferences = Utils.getController().getPreferences();
-        if (!preferences.getBoolean("first", true) && preferences.getString("previousVersion", "").equals("")) {
-            preferences.edit()
-                    .putString("previousVersion", "beta-0.6.8")
-                    .putBoolean("first", false)
-                    .apply();
-        }
-        //TODO ab Version 0.7.0 entfernen!!!
 
         runUpdateTasks();
         startServices();
