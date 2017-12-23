@@ -72,7 +72,7 @@ public class ReceiveService extends Service {
         new QueueThread().start();
     }
 
-    private void startSocket() {
+    public void startSocket() {
         MessageHandler messageHandler = new MessageHandler();
         messageHandler.start();
 
@@ -140,7 +140,6 @@ public class ReceiveService extends Service {
             while (true) {
                 if (!messagesQueue.isEmpty()) {
                     String message = messagesQueue.getContent();
-                    Utils.logDebug(message);
 
                     if (message.startsWith("+")) {
                         Utils.logDebug(message);
@@ -205,7 +204,16 @@ public class ReceiveService extends Service {
                     }
 
                     if (message.startsWith("a")) {
-                        assoziationen();
+                        parts = message.substring(1).split(";");
+                        List<Assoziation> list = new List<>();
+                        for (String s : parts) {
+                            String[] current = s.split(",");
+                            if (current.length == 2) {
+                                list.append(new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1])));
+                            }
+                        }
+
+                        Utils.getController().getMessengerDatabase().insertAssoziationen(list);
 
                         refresh();
                         messagesQueue.remove();

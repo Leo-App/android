@@ -40,6 +40,7 @@ import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.essensbons.utility.Authenticator;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.activity.MessengerActivity;
@@ -262,6 +263,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Utils.getController().getMessengerDatabase().clear();
+                ReceiveService receiveService = Utils.getController().getReceiveService();
+                if (receiveService != null) {
+                    receiveService.startSocket();
+                }
                 return Utils.checkNetwork();
             }
         });
