@@ -24,7 +24,7 @@ public class SyncVoteTask extends AsyncTask<Void, Void, Void> {
                 de.slg.stimmungsbarometer.utility.Utils.setLastVote(Integer.parseInt(reader.readLine()));
                 reader.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
         }
         if (!de.slg.stimmungsbarometer.utility.Utils.hasVoted()) {

@@ -94,7 +94,7 @@ public abstract class Utils {
             PackageInfo pInfo = getController().getContext().getPackageManager().getPackageInfo(getController().getContext().getPackageName(), 0);
             return pInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            Utils.logError(e);
             return null;
         }
     }
@@ -146,9 +146,22 @@ public abstract class Utils {
      */
     public static void logError(Object o) {
         if (o != null) {
-            Log.wtf("LeoApp", o.toString());
+            Log.wtf("LeoAppError", o.toString());
         } else {
-            Log.wtf("LeoApp", "null");
+            Log.wtf("LeoAppError", "null");
+        }
+    }
+
+    /**
+     * Gibt die Fehlermeldung des Throwables in der Konsole aus.
+     *
+     * @param t Fehlermeldung wird im Android-Monitor ausgegeben
+     */
+    public static void logError(Throwable t) {
+        if (t != null) {
+            Log.wtf("LeoAppError", Log.getStackTraceString(t));
+        } else {
+            Log.wtf("LeoAppError", "null");
         }
     }
 

@@ -46,14 +46,14 @@ public class UpdateNameTask extends AsyncTask<String, Void, ReturnValues> {
             }
             in.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
             return ReturnValues.ERROR;
         } finally {
             if (in != null)
                 try {
                     in.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Utils.logError(e);
                 }
         }
         if (result.startsWith("-")) {

@@ -324,7 +324,7 @@ public class StimmungsbarometerActivity extends ActionLogActivity {
 
                     daten = ergebnisse;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Utils.logError(e);
                     return ResponseCode.SERVER_FAILED;
                 }
             }

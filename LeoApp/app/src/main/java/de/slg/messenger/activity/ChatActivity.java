@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -305,7 +304,7 @@ public class ChatActivity extends ActionLogActivity {
                         reader.close();
                         cid = Integer.parseInt(builder.toString());
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Utils.logError(e);
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "You need an active Internet-Connection to perform this Action", Toast.LENGTH_LONG).show();
@@ -336,7 +335,7 @@ public class ChatActivity extends ActionLogActivity {
                             Utils.logError(line);
                         reader.close();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Utils.logError(e);
                     }
                 }
             }

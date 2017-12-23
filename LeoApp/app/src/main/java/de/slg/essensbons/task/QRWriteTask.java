@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -193,21 +192,21 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             }
             in.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
             return;
         } finally {
             if (in != null)
                 try {
                     in.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Utils.logError(e);
                 }
         }
         EncryptionManager encryptionManager = new EncryptionManager();
         try {
             result = new String(encryptionManager.decrypt(result));
         } catch (Exception e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         String[]       data    = result.split("_next_");
         SQLiteDatabase db      = EssensQRActivity.sqlh.getWritableDatabase();
@@ -216,7 +215,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         try {
             highest = df.parse("1900-01-01");
         } catch (ParseException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         int amount = 0;
         for (String s : data) {
@@ -229,7 +228,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
                 if (d.after(highest))
                     highest = d;
             } catch (ParseException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
             Utils.logDebug("Date " + s.split("_seperator_")[0]);
             values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_DATE, s.split("_seperator_")[0]);
@@ -274,7 +273,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
                 }
             }
         } catch (WriterException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         return bM;
     }

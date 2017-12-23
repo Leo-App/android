@@ -65,7 +65,7 @@ public class CreateChat extends AsyncTask<Integer, Void, Intent> {
 
             Utils.getController().getMessengerDatabase().insertChat(new Chat(cid, cname, Chat.ChatType.GROUP));
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
     }
 
@@ -88,7 +88,7 @@ public class CreateChat extends AsyncTask<Integer, Void, Intent> {
 
                 Utils.getController().getMessengerDatabase().insertAssoziation(assoziation);
             } catch (IOException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
     }
 

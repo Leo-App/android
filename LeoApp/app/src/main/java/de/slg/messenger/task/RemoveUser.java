@@ -54,7 +54,7 @@ public class RemoveUser extends AsyncTask<User, Void, Void> {
             Utils.logDebug(builder.toString());
             Utils.getController().getMessengerDatabase().removeUserFormChat(uid, cid);
         } catch (Exception e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
     }
 

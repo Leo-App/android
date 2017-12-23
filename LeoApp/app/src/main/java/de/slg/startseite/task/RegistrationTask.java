@@ -3,7 +3,6 @@ package de.slg.startseite.task;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 
 import java.io.BufferedReader;
@@ -94,7 +93,7 @@ public class RegistrationTask extends AsyncTask<String, Void, ResponseCode> {
                 return ResponseCode.SUCCESS;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
 
         return ResponseCode.SERVER_FAILED;

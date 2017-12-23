@@ -129,7 +129,7 @@ public class StundenplanBildActivity extends ActionLogActivity {
                 });
                 snackbar.show();
             } catch (IOException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
         }
     }

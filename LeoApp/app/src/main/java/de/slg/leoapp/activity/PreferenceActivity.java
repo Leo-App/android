@@ -19,7 +19,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -473,7 +472,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                     }
                     in.close();
                 } catch (NoSuchAlgorithmException | IOException e) {
-                    e.printStackTrace();
+                    Utils.logError(e);
                 }
             } else
                 return Authenticator.NO_CONNECTION;

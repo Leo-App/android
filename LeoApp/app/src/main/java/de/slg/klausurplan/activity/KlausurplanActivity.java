@@ -251,7 +251,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
                 }
                 reader.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
             return null;
         }

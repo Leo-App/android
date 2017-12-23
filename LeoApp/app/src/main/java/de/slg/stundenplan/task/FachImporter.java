@@ -49,7 +49,7 @@ public class FachImporter extends AsyncTask<Void, Void, Void> {
 
             reader.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         return null;
     }

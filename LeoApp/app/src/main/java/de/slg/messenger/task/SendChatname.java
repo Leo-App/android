@@ -49,7 +49,7 @@ public class SendChatname extends AsyncTask<String, Void, Void> {
                 Utils.logDebug(builder.toString());
                 chatEditActivity.setCname(params[0]);
             } catch (Exception e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
         }
         return null;

@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -300,14 +299,14 @@ public class NewSurveyDialog extends AlertDialog {
                 }
                 in.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Utils.logError(e);
                 return false;
             } finally {
                 if (in != null)
                     try {
                         in.close();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Utils.logError(e);
                         return false;
                     }
             }

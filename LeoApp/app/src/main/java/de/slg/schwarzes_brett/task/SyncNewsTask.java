@@ -72,7 +72,7 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
                 dbh.close();
                 db.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Utils.logError(e);
                 return null;
             }
         }

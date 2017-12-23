@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.utility.Utils;
 import de.slg.stundenplan.utility.Fach;
 
