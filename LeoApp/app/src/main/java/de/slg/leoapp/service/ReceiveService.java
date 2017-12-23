@@ -74,6 +74,7 @@ public class ReceiveService extends Service {
     public void startSocket() {
         MessageHandler messageHandler = new MessageHandler();
         messageHandler.start();
+        messageHandler.append("c82_ ; _1008 - 1017_ ; _private");
 
         OkHttpClient client = new OkHttpClient();
 

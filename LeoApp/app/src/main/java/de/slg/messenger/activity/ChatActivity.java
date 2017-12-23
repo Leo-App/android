@@ -290,7 +290,7 @@ public class ChatActivity extends ActionLogActivity {
                     return null;
                 if (Utils.checkNetwork()) {
                     try {
-                        URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
+                        URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?cname=" + Utils.getUserID() + "+-+" + oUid + "&ctype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
                                 .openConnection();
 
                         BufferedReader reader =
