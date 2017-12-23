@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import de.slg.leoapp.notification.NotificationHandler;
@@ -89,42 +88,6 @@ public class ReceiveService extends Service {
         socket.send("uid=" + Utils.getUserID());
         socket.send("mdate=" + Utils.getController().getMessengerDatabase().getLatestMessage());
         socket.send("request");
-    }
-
-    private void assoziationen() {
-        try {
-            URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/getAssoziationen.php?uid=" + Utils.getUserID())
-                    .openConnection();
-
-            BufferedReader reader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream(), "UTF-8"));
-
-            StringBuilder builder = new StringBuilder();
-            String        l;
-            while ((l = reader.readLine()) != null) {
-                builder.append(l);
-            }
-            reader.close();
-
-            if (builder.toString().startsWith("-")) {
-                throw new IOException(builder.toString());
-            }
-
-            String[]          result = builder.toString().split(";");
-            List<Assoziation> list   = new List<>();
-            for (String s : result) {
-                String[] current = s.split(",");
-                if (current.length == 2) {
-                    list.append(new Assoziation(Integer.parseInt(current[0]), Integer.parseInt(current[1])));
-                }
-            }
-
-            Utils.getController().getMessengerDatabase().insertAssoziationen(list);
-        } catch (IOException e) {
-            Utils.logError(e);
-        }
     }
 
     private class MessageHandler extends Thread {
