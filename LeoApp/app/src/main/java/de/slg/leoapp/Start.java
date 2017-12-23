@@ -16,6 +16,7 @@ import java.util.Calendar;
 
 import de.slg.leoapp.notification.NotificationTime;
 import de.slg.leoapp.notification.NotificationType;
+import de.slg.leoapp.service.AlarmStartupService;
 import de.slg.leoapp.service.NotificationServiceWrapper;
 import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.task.DownloadFilesTask;
@@ -163,7 +164,7 @@ public class Start extends Activity {
         if (Utils.isVerified()) {
             startService(new Intent(getApplicationContext(), ReceiveService.class));
             initServiceIntents();
-            initNotificationServices();
+            startService(new Intent(getApplicationContext(), AlarmStartupService.class));
             initSyncAdapter();
         }
     }
