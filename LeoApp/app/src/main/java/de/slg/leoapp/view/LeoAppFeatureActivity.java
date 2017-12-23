@@ -22,6 +22,7 @@ import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.PreferenceActivity;
 import de.slg.leoapp.activity.ProfileActivity;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.activity.MessengerActivity;
 import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
@@ -194,7 +195,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
         username.setText(Utils.getUserName());
 
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == 2)
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
