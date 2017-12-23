@@ -182,7 +182,9 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
                 if (i != null) {
                     startActivity(i);
                 }
-                finish();
+                if (getNavigationHighlightId() != R.id.startseite) {
+                    finish();
+                }
 
                 return true;
             }
