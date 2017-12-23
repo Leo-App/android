@@ -233,6 +233,28 @@ public abstract class Utils {
     }
 
     /**
+     * Setzt den DefaultUsername des Benutzers auf einen übergebenen Wert.
+     *
+     * @param defaultName Neuer DefaultName
+     */
+    public static void setUserDefaultName(String defaultName) {
+        Utils.getController().getPreferences().edit()
+                .putString("pref_key_general_defaultusername", defaultName)
+                .apply();
+    }
+
+    /**
+     * Setzt das Passwort des Users auf einen übergebenen Wert.
+     *
+     * @param password Neues Userpasswort
+     */
+    public static void setUserPassword(String password) {
+        Utils.getController().getPreferences().edit()
+                .putString("pref_key_general_password", password)
+                .apply();
+    }
+
+    /**
      * Prüft, ob das aktuelle Gerät verifiziert ist.
      *
      * @return true - Gerät ist verifiziert, false - Gerät ist nicht verifiziert.

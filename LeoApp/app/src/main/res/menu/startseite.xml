@@ -9,10 +9,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_verify"
-        android:icon="@drawable/ic_edit_white_24dp"
-        android:title="@string/button_info_auth" />
-    <item
         android:id="@+id/action_request"
         android:icon="@drawable/ic_edit_white_24dp"
         android:title="@string/action_request"

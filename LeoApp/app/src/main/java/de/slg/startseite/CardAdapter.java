@@ -78,10 +78,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Utils.isVerified())
-                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensQRActivity.class));
-                        else
-                            Utils.getController().getMainActivity().showVerificationDialog();
+                        Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensQRActivity.class));
                     }
                 };
 
@@ -95,10 +92,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Utils.isVerified())
                             Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), KlausurplanActivity.class));
-                        else
-                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -111,10 +105,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Utils.isVerified())
                             Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), MessengerActivity.class));
-                        else
-                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
 
@@ -128,10 +119,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Utils.isVerified())
                             Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SchwarzesBrettActivity.class));
-                        else
-                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -144,10 +132,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Utils.isVerified())
                             Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StimmungsbarometerActivity.class));
-                        else
-                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -160,10 +145,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Utils.isVerified())
                             Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StundenplanActivity.class));
-                        else
-                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -176,10 +158,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (Utils.isVerified())
                             Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), WrapperSubstitutionActivity.class));
-                        else
-                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -194,8 +173,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                     public void onClick(View v) {
                         if (Utils.isVerified())
                             Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SurveyActivity.class));
-                        else
-                            Utils.getController().getMainActivity().showVerificationDialog();
                     }
                 };
                 break;
@@ -212,18 +189,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                     }
                 };
                 break;
-        }
-    }
-
-    /**
-     * Aktualisiert den Status aller Cards.
-     */
-    void updateCards() {
-        int i = 0;
-        for (cards.toFirst(); cards.hasAccess(); cards.next()) {
-            if (cards.getContent() instanceof Card)
-                notifyItemChanged(i);
-            i++;
         }
     }
 

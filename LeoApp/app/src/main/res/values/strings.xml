@@ -11,6 +11,9 @@
     <string name="error">Sorry, something went wrong</string>
     <string name="hours_settings_template">%1$s h</string>
 
+    <string name="intro_finished_title">All set!</string>
+    <string name="intro_finished_desc">You are now verified and able to use the app in its entirety! Maybe you can start by visiting your profile</string>
+
     <string name="share">Share</string>
     <string name="umfragen">Surveys</string>
 

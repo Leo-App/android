@@ -1,12 +1,7 @@
 package de.slg.leoapp.task;
 
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.view.View;
-import android.widget.Toast;
+import android.support.v4.app.Fragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,23 +9,24 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import de.slg.leoapp.R;
-import de.slg.leoapp.Start;
+import de.slg.leoapp.utility.List;
 import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.VerificationListener;
 
 public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
-    private final AlertDialog dialog;
-    private final boolean     refresh;
 
-    public SyncUserTask() {
-        this.dialog = null;
-        this.refresh = !Utils.isVerified();
+    private List<VerificationListener> listeners;
+    private Fragment fragment;
+
+    public SyncUserTask(Fragment fragment) {
+        listeners = new List<>();
+        this.fragment = fragment;
     }
 
-    public SyncUserTask(AlertDialog dialog) {
-        this.dialog = dialog;
-        this.refresh = !Utils.isVerified();
+    public SyncUserTask() {
+        listeners = new List<>();
+        this.fragment = null;
     }
 
     @Override
@@ -83,55 +79,20 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
         return ResponseCode.SERVER_FAILED;
     }
 
+    public SyncUserTask registerListener(VerificationListener listener) {
+        listeners.append(listener);
+        return this;
+    }
+
     @Override
     protected void onPostExecute(ResponseCode code) {
-        if (refresh) {
-            switch (code) {
-                case NO_CONNECTION:
-                    dialog.findViewById(R.id.progressBar1).setVisibility(View.GONE);
-                    showSnackbarNoConnection();
-                    break;
-                case SERVER_FAILED:
-                    dialog.findViewById(R.id.progressBar1).setVisibility(View.GONE);
-                    showSnackbarServerFailed();
-                    break;
-                case SUCCESS:
-                    dialog.dismiss();
-                    Toast.makeText(Utils.getContext(), "Verifizierung abgeschlossen!", Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utils.getController().closeActivities();
-                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), Start.class)
-                                    .putExtra("restart", true)
-                                    .addCategory(Intent.CATEGORY_LAUNCHER)
-                                    .setAction(Intent.ACTION_MAIN));
-                        }
-                    }, 50);
-                    break;
-            }
+
+        if(fragment == null)
+            return;
+
+        for (VerificationListener l : listeners) {
+            l.onSynchronisationProcessed(code, fragment);
         }
-    }
 
-    private void showSnackbarServerFailed() {
-        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), R.string.error_snackbar, Snackbar.LENGTH_LONG);
-        snackbar.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snackbar.dismiss();
-            }
-        });
-        snackbar.show();
-    }
-
-    private void showSnackbarNoConnection() {
-        final Snackbar snackbar = Snackbar.make(dialog.findViewById(R.id.snackbar), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
-        snackbar.setAction(Utils.getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snackbar.dismiss();
-            }
-        });
-        snackbar.show();
     }
 }
