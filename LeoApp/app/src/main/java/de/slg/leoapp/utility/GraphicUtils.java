@@ -1,8 +1,10 @@
 package de.slg.leoapp.utility;
 
 import android.content.res.Resources;
+import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 /**
  * GraphicUtils
@@ -13,6 +15,7 @@ import android.util.TypedValue;
  * @version 2017.2310
  * @since 0.0.1
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public abstract class GraphicUtils {
 
     /**
@@ -58,4 +61,13 @@ public abstract class GraphicUtils {
         DisplayMetrics dm = Utils.getContext().getResources().getDisplayMetrics();
         return dm.widthPixels;
     }
+
+    public static void sendToast(String text) {
+        Toast.makeText(Utils.getContext(), text, Toast.LENGTH_LONG).show();
+    }
+
+    public static void sendToast(@StringRes int text) {
+        Toast.makeText(Utils.getContext(), text, Toast.LENGTH_LONG).show();
+    }
+
 }

@@ -25,10 +25,12 @@
     <color name="colorAlle">@color/colorPrimary</color>
 
 
-    <color name="introSlide1">#2289c9</color>
-    <color name="introSlide2">#5ba0d1</color>
-    <color name="introSlide3">#0277bd</color>
-    <color name="introSlide4">#84b6e2</color>
-    <color name="introSlide5">#237fb6</color>
+    <color name="introSlide1">#ff2289c9</color>
+    <color name="introSlide2">#ff5ba0d1</color>
+    <color name="introSlide3">#ff0277bd</color>
+    <color name="introSlide4">#ff84b6e2</color>
+    <color name="introSlide5">#ff237fb6</color>
+
+    <color name="darker">#70000000</color>
 
 </resources>
