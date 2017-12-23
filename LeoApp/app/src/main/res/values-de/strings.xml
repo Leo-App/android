@@ -19,12 +19,13 @@
         eine Nachhilfebörse und einen Termin/Hausaufgabenplaner hinzuzufügen. Selbstverständlich berücksichtigen wir aber auch eure Vorschläge, teilt sie uns ruhig mit!
     </string>
     <string name="dialog_qrfoodmarks">
-        Wir testen zurzeit das neue Essensbonsystem intern mit dem Mensapersonal, es wird also bald zur Verfügung stehen. Natürlich kannst du es auch schon selber - wenn auch sehr begrenzt - testen.
+        Wir testen zurzeit das neue Essensbonsystem intern mit dem Mensapersonal, es wird also bald zur Verfügung stehen. Natürlich kannst du es auch schon selber - wenn auch sehr begrenzt - testen.\n
         Danke für deine Geduld :)
     </string>
 
     <string name="dialog_changelog">
         - Changelog-Dialog überarbeitet \n
+        - Messenger funktioniert \n
     </string>
 
     <string name="none">Keine</string>

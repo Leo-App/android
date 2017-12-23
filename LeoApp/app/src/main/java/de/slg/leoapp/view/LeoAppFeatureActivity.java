@@ -61,42 +61,48 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
      *
      * @return id des Activity-Layouts, zB. R.layout.startseite
      */
-    protected abstract @LayoutRes int getContentView();
+    protected abstract @LayoutRes
+    int getContentView();
 
     /**
      * Muss in der Implementation die Ressourcen-ID des DrawerLayouts zurückgeben.
      *
      * @return id des DrawerLayouts, zB. R.id.drawer
      */
-    protected abstract @IdRes int getDrawerLayoutId();
+    protected abstract @IdRes
+    int getDrawerLayoutId();
 
     /**
      * Soll die ID des NavigationViews zurückgeben.
      *
      * @return NavigationView-ID
      */
-    protected abstract @IdRes int getNavigationId();
+    protected abstract @IdRes
+    int getNavigationId();
 
     /**
      * Soll die ID der Toolbar zurückgeben.
      *
      * @return Toolbar-ID
      */
-    protected abstract @IdRes int getToolbarId();
+    protected abstract @IdRes
+    int getToolbarId();
 
     /**
      * Soll die String-Ressource des Titels der Toolbar zurückgeben.
      *
      * @return Text-ID, zb. R.string.title_main
      */
-    protected abstract @StringRes int getToolbarTextId();
+    protected abstract @StringRes
+    int getToolbarTextId();
 
     /**
      * Soll die ID des gehighlighteten Items in der Navigation zurückgeben. In der Regel also die des aktuellen Features.
      *
      * @return Menü-ID, zB. R.id.startseite
      */
-    protected abstract @IdRes int getNavigationHighlightId();
+    protected abstract @IdRes
+    int getNavigationHighlightId();
 
     /**
      * Liefert das NavigationView Objekt der aktuellen Activity. Erlaubt Zugriff von Subklassen auf den NavigationDrawer.
@@ -166,7 +172,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
                         i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                         break;
                     case R.id.startseite:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        i = null;
                         break;
                     case R.id.umfragen:
                         i = new Intent(getApplicationContext(), SurveyActivity.class);
@@ -181,10 +187,12 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                 }
+
                 if (i != null) {
                     startActivity(i);
-                    finish();
                 }
+                finish();
+
                 return true;
             }
         });
