@@ -300,8 +300,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 AlertDialog dialog = new AlertDialog.Builder(PreferenceActivity.this).create();
-                dialog.setContentView(R.layout.dialog_changelog);
-                ((TextView) dialog.findViewById(R.id.version_textview)).setText(Utils.getAppVersionName());
+                View        view   = getLayoutInflater().inflate(R.layout.dialog_changelog, null);
+                ((TextView) view.findViewById(R.id.version_textview)).setText(Utils.getAppVersionName());
+                dialog.setView(view);
                 dialog.show();
                 return true;
             }
