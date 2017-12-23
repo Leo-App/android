@@ -496,7 +496,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                     if (builder.toString().startsWith("-"))
                         return ResponseCode.SERVER_ERROR;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Utils.logError(e);
                     return ResponseCode.SERVER_ERROR;
                 }
                 return ResponseCode.SUCCESS;
@@ -586,7 +586,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                     if (builder.toString().startsWith("-"))
                         return ResponseCode.SERVER_ERROR;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Utils.logError(e);
                     return ResponseCode.SERVER_ERROR;
                 }
                 return ResponseCode.SUCCESS;

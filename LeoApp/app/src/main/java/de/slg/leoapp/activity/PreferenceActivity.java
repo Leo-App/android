@@ -17,9 +17,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +41,7 @@ import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.essensbons.utility.Authenticator;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
+import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.activity.MessengerActivity;
@@ -263,6 +264,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Utils.getController().getMessengerDatabase().clear();
+                ReceiveService receiveService = Utils.getController().getReceiveService();
+                if (receiveService != null) {
+                    receiveService.startSocket();
+                }
                 return Utils.checkNetwork();
             }
         });
@@ -286,6 +291,19 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 startActivity(new Intent(getApplicationContext(), NotificationPreferenceActivity.class));
+                return true;
+            }
+        });
+
+        Preference version = findPreference("pref_key_version_app");
+        version.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog dialog = new AlertDialog.Builder(PreferenceActivity.this).create();
+                View        view   = getLayoutInflater().inflate(R.layout.dialog_changelog, null);
+                ((TextView) view.findViewById(R.id.version_textview)).setText(Utils.getAppVersionName());
+                dialog.setView(view);
+                dialog.show();
                 return true;
             }
         });
@@ -473,7 +491,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                     }
                     in.close();
                 } catch (NoSuchAlgorithmException | IOException e) {
-                    e.printStackTrace();
+                    Utils.logError(e);
                 }
             } else
                 return Authenticator.NO_CONNECTION;

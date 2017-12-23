@@ -1,6 +1,5 @@
 package de.slg.messenger.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
@@ -33,10 +31,6 @@ public class MessengerActivity extends LeoAppFeatureActivity {
         Utils.getController().getMessengerDatabase();
 
         initTabs();
-
-        Dialog dialog = new InformationDialog(this, "Dieser Teil der Anwendung ist noch in Arbeit!");
-        dialog.setCancelable(false);
-        dialog.show();
     }
 
     @Override

@@ -7,8 +7,8 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.MessagingException;
 
 import de.slg.leoapp.utility.List;
-import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.MailClient;
+import de.slg.leoapp.utility.Utils;
 
 public class MailSendTask extends AsyncTask<String, Void, Void> {
     @Override
@@ -35,7 +35,7 @@ public class MailSendTask extends AsyncTask<String, Void, Void> {
             mailClient.createEmailMessage();
             mailClient.sendEmail();
         } catch (MessagingException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         return null;
     }

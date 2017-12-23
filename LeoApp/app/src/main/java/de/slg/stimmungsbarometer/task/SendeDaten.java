@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import de.slg.leoapp.utility.Utils;
 import de.slg.stimmungsbarometer.utility.Wahl;
 
 public class SendeDaten extends AsyncTask<Wahl, Void, Void> {
@@ -28,7 +29,8 @@ public class SendeDaten extends AsyncTask<Wahl, Void, Void> {
                     ;
                 reader.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Utils.logError(e);
+                Utils.logError(e);
             }
         }
         return null;

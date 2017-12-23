@@ -26,7 +26,7 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
                         .putString("pref_key_cache_vieweditems", getNewCacheString())
                         .apply();
             } catch (IOException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
         }
         return null;

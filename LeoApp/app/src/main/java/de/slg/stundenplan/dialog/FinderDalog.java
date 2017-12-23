@@ -160,7 +160,7 @@ public class FinderDalog extends AlertDialog {
                     db.clear();
                     db.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Utils.logError(e);
                 }
             }
         });

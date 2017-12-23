@@ -43,7 +43,7 @@ public class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
             writer.close();
             reader.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         try {
             BufferedReader reader = new BufferedReader(
@@ -74,7 +74,7 @@ public class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
             reader.close();
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         return null;
     }

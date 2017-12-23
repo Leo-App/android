@@ -20,6 +20,7 @@ import java.util.Date;
 import de.slg.klausurplan.utility.Klausur;
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
+import de.slg.leoapp.utility.Utils;
 
 public class KlausurDialog extends AppCompatDialog {
 
@@ -139,7 +140,7 @@ public class KlausurDialog extends AppCompatDialog {
         try {
             return Klausur.dateFormat.parse(s.substring(0, 6) + "20" + s.substring(6));
         } catch (ParseException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         return null;
     }

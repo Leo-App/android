@@ -67,7 +67,7 @@ public class NewsSynchronizer implements Synchronizer {
             dbh.close();
             db.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
             return false;
         }
         return true;

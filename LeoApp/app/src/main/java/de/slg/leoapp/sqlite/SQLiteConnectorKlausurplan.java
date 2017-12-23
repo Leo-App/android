@@ -17,8 +17,10 @@ import de.slg.klausurplan.utility.Klausur;
 import de.slg.leoapp.utility.Utils;
 
 public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
-    public static final  String           DATABASE_NAME           = "klausurplan";
     private static final SimpleDateFormat dateFormat              = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
+
+    public static final String DATABASE_NAME = "klausurplan";
+
     private static final String           TABLE_KLAUSUREN         = "klausuren";
     private static final String           KLAUSUR_ID              = "id";
     private static final String           KLAUSUR_TITEL           = "title";
@@ -108,7 +110,6 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     }
 
     public Klausur[] getExams(String where) {
-        Utils.logDebug(where);
         Cursor    cursor    = database.query(TABLE_KLAUSUREN, new String[]{KLAUSUR_ID, KLAUSUR_TITEL, KLAUSUR_DATUM, KLAUSUR_NOTIZ}, where, null, null, null, KLAUSUR_DATUM);
         Klausur[] klausuren = new Klausur[cursor.getCount()];
         int       i         = 0;
@@ -142,7 +143,7 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
         try {
             return dateFormat.parse(date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Utils.logError(e);
             return null;
         }
     }

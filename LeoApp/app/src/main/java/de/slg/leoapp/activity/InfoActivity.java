@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 
 public class InfoActivity extends ActionLogActivity {
@@ -26,7 +27,7 @@ public class InfoActivity extends ActionLogActivity {
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         String version = pInfo.versionName;
         int    verCode = pInfo.versionCode;

@@ -7,6 +7,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import de.slg.leoapp.utility.Utils;
+
 public class EncryptionManager {
 
     private final IvParameterSpec ivspec;
@@ -21,7 +23,7 @@ public class EncryptionManager {
         try {
             cipher = Cipher.getInstance("AES/CBC/NoPadding");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
     }
 

@@ -11,7 +11,7 @@
 
 	$uid = $db->real_escape_string($_GET['uid']);
 
-	$query = "SELECT a2.cid, a2.uid FROM Assoziation a1 INNER JOIN Assoziation a2 ON a1.cid = a2.cid WHERE a1.uid = " + $uid;
+	$query = "SELECT a2.cid, a2.uid FROM Assoziation a1 INNER JOIN Assoziation a2 ON a1.cid = a2.cid WHERE a1.uid = " . $uid;
 
 	$result = $db->query($query);
 	if ($result === false)

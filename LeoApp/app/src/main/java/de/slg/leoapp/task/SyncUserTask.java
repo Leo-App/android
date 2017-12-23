@@ -74,7 +74,7 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
 
             return ResponseCode.SUCCESS;
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         return ResponseCode.SERVER_FAILED;
     }

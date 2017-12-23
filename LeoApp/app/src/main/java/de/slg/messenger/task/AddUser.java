@@ -53,7 +53,7 @@ public class AddUser extends AsyncTask<User, Void, Void> {
                 Utils.logDebug(builder.toString());
                 Utils.getController().getMessengerDatabase().insertAssoziation(assoziation);
             } catch (Exception e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
         }
     }

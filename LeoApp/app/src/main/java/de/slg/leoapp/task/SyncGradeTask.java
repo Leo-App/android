@@ -46,7 +46,7 @@ public class SyncGradeTask extends AsyncTask<Void, Void, Void> {
 
             connection.connect();
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
         }
         return null;
     }

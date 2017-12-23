@@ -81,7 +81,7 @@ public class SurveySynchronizer implements Synchronizer {
             dbh.close();
             db.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Utils.logError(e);
             return false;
         }
 

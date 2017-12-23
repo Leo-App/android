@@ -42,7 +42,7 @@ public abstract class NotificationServiceWrapper {
 
             new NotificationHandler.StundenplanNotification().send();
 
-            Utils.logDebug("Service (re)started!");
+            Utils.logDebug("NotificationService (re)started!");
             return START_NOT_STICKY;
         }
 
@@ -54,7 +54,7 @@ public abstract class NotificationServiceWrapper {
 
         @Override
         public void onDestroy() {
-            Utils.logDebug("Service stopped!");
+            Utils.logDebug("NotificationService stopped!");
         }
 
         private void reschedule() {
@@ -81,7 +81,7 @@ public abstract class NotificationServiceWrapper {
 
             new NotificationHandler.StimmungsbarometerNotification().send();
 
-            Utils.logDebug("Service (re)started!");
+            Utils.logDebug("NotificationService (re)started!");
             return START_NOT_STICKY;
         }
 
@@ -93,7 +93,7 @@ public abstract class NotificationServiceWrapper {
 
         @Override
         public void onDestroy() {
-            Utils.logDebug("Service stopped!");
+            Utils.logDebug("NotificationService stopped!");
         }
 
         private void reschedule() {
@@ -125,7 +125,7 @@ public abstract class NotificationServiceWrapper {
             if(calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
                 sendNotificationIfNecessary();
 
-            Utils.logDebug("Service (re)started!");
+            Utils.logDebug("NotificationService (re)started!");
             return START_NOT_STICKY;
         }
 
@@ -137,7 +137,7 @@ public abstract class NotificationServiceWrapper {
 
         @Override
         public void onDestroy() {
-            Utils.logDebug("Service stopped!");
+            Utils.logDebug("NotificationService stopped!");
         }
 
         private void reschedule() {
@@ -184,7 +184,7 @@ public abstract class NotificationServiceWrapper {
                 if (dateD.before(new Date()))
                     new NotificationHandler.EssensbonsNotification().send();
             } catch (ParseException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
         }
     }
@@ -202,7 +202,7 @@ public abstract class NotificationServiceWrapper {
             if(calendar.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
                 new NotificationHandler.KlausurplanNotification().send();
 
-            Utils.logDebug("Service (re)started!");
+            Utils.logDebug("NotificationService (re)started!");
             return START_NOT_STICKY;
         }
 
@@ -214,7 +214,7 @@ public abstract class NotificationServiceWrapper {
 
         @Override
         public void onDestroy() {
-            Utils.logDebug("Service stopped!");
+            Utils.logDebug("NotificationService stopped!");
         }
 
         private void reschedule() {

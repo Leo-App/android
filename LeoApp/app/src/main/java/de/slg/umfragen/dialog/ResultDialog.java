@@ -208,7 +208,7 @@ public class ResultDialog extends AlertDialog {
                     answerResults.put(s.split("_;_")[0], Integer.parseInt(s.split("_;_")[1]));
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
 
             return ResponseCode.SUCCESS;

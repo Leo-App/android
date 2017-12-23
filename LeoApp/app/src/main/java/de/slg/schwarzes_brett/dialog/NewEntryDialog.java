@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -124,7 +123,7 @@ public class NewEntryDialog extends AlertDialog {
                 try {
                     d = sdf.parse(dateString);
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    Utils.logError(e);
                 }
                 sdf.applyPattern(NEW_FORMAT);
                 newDate = sdf.format(d);
@@ -206,7 +205,7 @@ public class NewEntryDialog extends AlertDialog {
                 while ((line = reader.readLine()) != null)
                     Utils.logError(line);
             } catch (IOException e) {
-                e.printStackTrace();
+                Utils.logError(e);
                 return false;
             }
             return true;

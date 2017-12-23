@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.List;
@@ -221,7 +220,7 @@ public class SQLiteConnectorMessenger {
         String[] columns = {"MAX(" + MESSAGE_DATE + ")"};
         Cursor   cursor  = query(TABLE_MESSAGES, columns, null, null);
         cursor.moveToFirst();
-        String erg = "";
+        String erg = "0";
         if (cursor.getCount() > 0)
             erg = cursor.getString(0);
         cursor.close();
@@ -587,7 +586,7 @@ public class SQLiteConnectorMessenger {
                         MESSAGE_READ + " INTEGER NOT NULL, " +
                         MESSAGE_DELETED + " INTEGER NOT NULL)");
             } catch (SQLException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
             try {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATS + " (" +
@@ -597,14 +596,14 @@ public class SQLiteConnectorMessenger {
                         CHAT_DELETED + " INTEGER NOT NULL, " +
                         CHAT_MUTE + " INTEGER NOT NULL)");
             } catch (SQLException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
             try {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_ASSOZIATION + " (" +
                         CHAT_ID + " INTEGER NOT NULL, " +
                         USER_ID + " INTEGER NOT NULL)");
             } catch (SQLException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
             try {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_USERS + " (" +
@@ -614,7 +613,7 @@ public class SQLiteConnectorMessenger {
                         USER_STUFE + " TEXT, " +
                         USER_PERMISSION + " INTEGER NOT NULL)");
             } catch (SQLException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
             try {
                 db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES_QUEUED + " (" +
@@ -622,7 +621,7 @@ public class SQLiteConnectorMessenger {
                         MESSAGE_TEXT + " TEXT NOT NULL, " +
                         CHAT_ID + " INTEGER NOT NULL)");
             } catch (SQLException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
         }
 
@@ -635,7 +634,7 @@ public class SQLiteConnectorMessenger {
                 db.execSQL("DROP TABLE " + TABLE_USERS);
                 db.execSQL("DROP TABLE " + TABLE_MESSAGES_QUEUED);
             } catch (SQLException e) {
-                e.printStackTrace();
+                Utils.logError(e);
             }
             onCreate(db);
         }

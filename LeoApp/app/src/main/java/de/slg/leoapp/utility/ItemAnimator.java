@@ -87,7 +87,7 @@ public abstract class ItemAnimator<ContentType extends View> {
                 try {
                     Thread.sleep(interval);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Utils.logError(e);
                 }
             }
         }
