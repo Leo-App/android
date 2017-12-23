@@ -362,7 +362,7 @@ public class MainActivity extends LeoAppFeatureActivity {
     }
 
     private void initOptionalDialog() {
-        new InformationDialog(this).setText(R.string.dialog_betatest).show();
+     //   new InformationDialog(this).setText(R.string.dialog_betatest).show();
     }
 
     private void processIntent() {
