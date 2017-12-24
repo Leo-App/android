@@ -7,14 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.activity.fragment.AbstractOrderedFragment;
 import de.slg.leoapp.activity.fragment.InfoFragmentBuilder;
 import de.slg.leoapp.activity.fragment.VerificationFragment;
-import de.slg.leoapp.activity.fragment.AbstractOrderedFragment;
 import de.slg.leoapp.task.RegistrationTask;
 import de.slg.leoapp.task.SyncGradeTask;
 import de.slg.leoapp.task.SyncUserTask;
@@ -23,7 +22,6 @@ import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.VerificationListener;
-import de.slg.startseite.activity.MainActivity;
 
 /**
  * IntroActivity.
@@ -51,7 +49,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 new InfoFragmentBuilder()
                         .setTitle(R.string.app_name)
                         .setContent(R.string.intro1)
-                        .setImage(R.mipmap.leo_app_icon)
+                        .setImage(R.mipmap.leo_app_icon_weihnachten)
                         .setColor(R.color.introSlide1)
                         .build()
         );
