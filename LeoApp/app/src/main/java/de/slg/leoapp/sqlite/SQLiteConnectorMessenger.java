@@ -220,10 +220,12 @@ public class SQLiteConnectorMessenger {
         String[] columns = {"MAX(" + MESSAGE_DATE + ")"};
         Cursor   cursor  = query(TABLE_MESSAGES, columns, null, null);
         cursor.moveToFirst();
-        String erg = "0";
+        String erg = null;
         if (cursor.getCount() > 0)
             erg = cursor.getString(0);
         cursor.close();
+        if (erg == null)
+            erg = "0";
         Utils.logDebug(erg);
         return erg;
     }

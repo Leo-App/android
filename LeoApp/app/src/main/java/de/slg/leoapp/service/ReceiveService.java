@@ -86,7 +86,8 @@ public class ReceiveService extends Service {
         socket = client.newWebSocket(request, listener);
 
         String date = Utils.getController().getMessengerDatabase().getLatestMessage();
-        date = date.substring(0, date.length() - 3);
+        if (date.length() > 3)
+            date = date.substring(0, date.length() - 3);
 
         socket.send("uid=" + Utils.getUserID());
         socket.send("mdate=" + date);
