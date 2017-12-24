@@ -10,7 +10,7 @@ import de.slg.leoapp.utility.Utils;
 /**
  * ReceiveSyncService.
  *
- * ...
+ * Startet den SyncAdapter, der Updates bzgl. Umfragen und Neuigkeiten am SchwarzenBrett empfängt.
  *
  * @author Gianni
  * @since 0.6.9
