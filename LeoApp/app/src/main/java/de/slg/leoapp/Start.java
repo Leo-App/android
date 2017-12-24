@@ -3,21 +3,13 @@ package de.slg.leoapp;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
-import de.slg.leoapp.notification.NotificationTime;
-import de.slg.leoapp.notification.NotificationType;
 import de.slg.leoapp.service.AlarmStartupService;
-import de.slg.leoapp.service.NotificationServiceWrapper;
 import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.task.DownloadFilesTask;
 import de.slg.leoapp.task.MailSendTask;

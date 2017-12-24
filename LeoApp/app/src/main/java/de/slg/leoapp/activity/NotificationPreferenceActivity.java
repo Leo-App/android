@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.notification.NotificationAlarmHandler;
-import de.slg.leoapp.service.AlarmStartupService;
 import de.slg.leoapp.utility.Utils;
 
 @SuppressWarnings("deprecation")

@@ -13,12 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.paolorotolo.appintro.ISlideBackgroundColorHolder;
+
 import de.slg.leoapp.R;
-import de.slg.leoapp.activity.IntroActivity;
-import de.slg.leoapp.task.RegistrationTask;
 import de.slg.leoapp.utility.ResponseCode;
-import de.slg.leoapp.utility.Utils;
-import de.slg.leoapp.utility.VerificationListener;
 
 public class VerificationFragment extends AbstractOrderedFragment implements ISlideBackgroundColorHolder {
 
