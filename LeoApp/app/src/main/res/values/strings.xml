@@ -37,6 +37,7 @@
         - Updated Changelog-Dialog \n
         - Updated Verification \n
         - Fixed Messenger! \n
+        - Fixed timed notifications
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
