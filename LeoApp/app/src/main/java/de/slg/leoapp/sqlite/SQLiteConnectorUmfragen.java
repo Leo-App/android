@@ -12,8 +12,8 @@ import de.slg.leoapp.utility.Utils;
 
 public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
 
-    public static final  String TABLE_SURVEYS          = "Umfragen";
-    public static final  String TABLE_ANSWERS          = "Antworten";
+    public static final  String TABLE_SURVEYS        = "Umfragen";
+    public static final  String TABLE_ANSWERS        = "Antworten";
 
     public static final  String SURVEYS_ID           = "id";
     public static final  String SURVEYS_TITEL        = "titel";
@@ -31,7 +31,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     private static final String DATABASE_NAME        = "surveys.db";
 
     public SQLiteConnectorUmfragen(Context c) {
-        super(c, DATABASE_NAME, null, 1);
+        super(c, DATABASE_NAME, null, 2);
     }
 
     @Override
@@ -46,6 +46,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
                 SURVEYS_ERSTELLDATUM + " TEXT NOT NULL, " +
                 SURVEYS_BESCHREIBUNG + " TEXT NOT NULL" +
                 ")");
+
         db.execSQL("CREATE TABLE " + TABLE_ANSWERS + " (" +
                 ANSWERS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 ANSWERS_SID + " INTEGER NOT NULL, " +

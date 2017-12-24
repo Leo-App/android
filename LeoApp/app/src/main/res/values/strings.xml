@@ -35,7 +35,9 @@
 
     <string name="dialog_changelog">
         - Updated Changelog-Dialog \n
-        - Messenger is working \n
+        - Updated Verification \n
+        - Fixed Messenger! \n
+        - Fixed timed notifications
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>

@@ -28,7 +28,9 @@
 
     <string name="dialog_changelog">
         - Changelog-Dialog überarbeitet \n
-        - Messenger funktioniert \n
+        - Verifizierung überarbeitet \n
+        - Messenger gefixt! \n
+        - Einige Notifications gefixt
     </string>
 
     <string name="none">Keine</string>

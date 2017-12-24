@@ -73,6 +73,11 @@
             android:description="@string/serviceDescription"
             android:exported="false"
             />
+
+        <service android:name=".service.AlarmStartupService"
+            android:exported="false"
+            />
+
         <activity
             android:name=".Start"
             android:screenOrientation="portrait"
