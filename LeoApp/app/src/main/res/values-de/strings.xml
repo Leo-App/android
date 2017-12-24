@@ -5,6 +5,9 @@
     <string name="error">Entschuldige, etwas ist schief gelaufen</string>
     <string name="hours_settings_template">%1$s Uhr</string>
 
+    <string name="intro_finished_title">Fertig!</string>
+    <string name="intro_finished_desc">Du bist verifiziert und kannst nun die App nutzen! :)</string>
+
     <string name="nolessons">Kein Unterricht :)</string>
 
     <string name="verification_title">Verifizieren</string>

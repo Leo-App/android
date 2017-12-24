@@ -11,6 +11,10 @@
     <string name="error">Sorry, something went wrong</string>
     <string name="hours_settings_template">%1$s h</string>
 
+    <string name="verification_title">Verify</string>
+    <string name="verification_desc">In order to use the LeoApp you need to be verified. You can do so by logging in with your school account</string>
+
+
     <string name="intro_finished_title">All set!</string>
     <string name="intro_finished_desc">You are now verified and able to use the app in its entirety! Maybe you can start by visiting your profile</string>
 
