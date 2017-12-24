@@ -31,11 +31,12 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     private static final String DATABASE_NAME        = "surveys.db";
 
     public SQLiteConnectorUmfragen(Context c) {
-        super(c, DATABASE_NAME, null, 1);
+        super(c, DATABASE_NAME, null, 2);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL("CREATE TABLE " + TABLE_SURVEYS + " (" +
                 SURVEYS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 SURVEYS_TITEL + " TEXT NOT NULL, " +
@@ -46,6 +47,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
                 SURVEYS_ERSTELLDATUM + " TEXT NOT NULL, " +
                 SURVEYS_BESCHREIBUNG + " TEXT NOT NULL" +
                 ")");
+
         db.execSQL("CREATE TABLE " + TABLE_ANSWERS + " (" +
                 ANSWERS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 ANSWERS_SID + " INTEGER NOT NULL, " +
