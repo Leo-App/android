@@ -16,13 +16,6 @@ Die master Version der LeoApp muss:
 #### development
 Wenn geplante Änderungen nicht minimal sind, bitte im development-Branch arbeiten und vollständig testen, bevor Pull requests erstellt werden. Außerdem sollte ggf. die Versionsnummer geändert werden.
 
-### Changelog
-- Klausurplan vollständig überarbeitet
-- Umfragefeature in vielen Aspekten verbessert
-- Anzeigefehler bei Stundenplannotizen behoben
-- Stundenplannotification überarbeitet
-- Diverse Bugs behoben
-
 #### FTP Development-Server
 Server: w011e117.kasserver.com<br/>
 FTP-Benutzer: f00cb34f<br/>
