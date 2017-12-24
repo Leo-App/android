@@ -85,8 +85,11 @@ public class ReceiveService extends Service {
 
         socket = client.newWebSocket(request, listener);
 
+        String date = Utils.getController().getMessengerDatabase().getLatestMessage();
+        date = date.substring(0, date.length() - 3);
+
         socket.send("uid=" + Utils.getUserID());
-        socket.send("mdate=" + Utils.getController().getMessengerDatabase().getLatestMessage());
+        socket.send("mdate=" + date);
         socket.send("request");
     }
 
@@ -129,7 +132,8 @@ public class ReceiveService extends Service {
                             int    uid   = Integer.parseInt(parts[5]);
 
                             Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
-                            new NotificationHandler.MessengerNotification().send();
+                            if (uid != Utils.getUserID())
+                                new NotificationHandler.MessengerNotification().send();
 
                             refresh();
                         } catch (UnsupportedEncodingException e) {

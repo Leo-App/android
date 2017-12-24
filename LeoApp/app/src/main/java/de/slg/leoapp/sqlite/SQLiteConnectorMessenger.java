@@ -224,6 +224,7 @@ public class SQLiteConnectorMessenger {
         if (cursor.getCount() > 0)
             erg = cursor.getString(0);
         cursor.close();
+        Utils.logDebug(erg);
         return erg;
     }
 

@@ -284,13 +284,15 @@ public class ChatActivity extends ActionLogActivity {
 
         @Override
         protected Void doInBackground(String... params) {
+            Utils.logDebug("hier1");
             if (cid == -1) {
                 int oUid = getIntent().getIntExtra("uid", -1);
                 if (oUid == -1)
                     return null;
+                Utils.logDebug("hier2 " + oUid);
                 if (Utils.checkNetwork()) {
                     try {
-                        URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?key=5453&chatname=" + Utils.getUserID() + "+-+" + oUid + "&chattype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
+                        URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?cname=" + Utils.getUserID() + "%20-%20" + oUid + "&ctype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
                                 .openConnection();
 
                         BufferedReader reader =
@@ -299,10 +301,13 @@ public class ChatActivity extends ActionLogActivity {
                                                 connection.getInputStream(), "UTF-8"));
                         StringBuilder builder = new StringBuilder();
                         String        l;
-                        while ((l = reader.readLine()) != null)
+                        while ((l = reader.readLine()) != null) {
                             builder.append(l);
+                            Utils.logDebug("hier3" + l);
+                        }
                         reader.close();
                         cid = Integer.parseInt(builder.toString());
+                        Utils.logDebug("hier4");
                     } catch (Exception e) {
                         Utils.logError(e);
                     }
@@ -313,6 +318,7 @@ public class ChatActivity extends ActionLogActivity {
 
             if (cid != -1) {
                 if (!Utils.checkNetwork()) {
+                    Utils.logDebug("hier5");
                     Utils.getController().getMessengerDatabase().enqueueMessage(params[0], cid);
                     refreshUI(true, true);
                 } else {
@@ -322,6 +328,7 @@ public class ChatActivity extends ActionLogActivity {
                     messagesArray[mOld.length] = new Message(params[0]);
                     refreshUI(false, true);
 
+                    Utils.logDebug("hier6");
                     try {
                         URLConnection connection = new URL(generateURL(params[0]))
                                 .openConnection();
@@ -333,6 +340,7 @@ public class ChatActivity extends ActionLogActivity {
                         String line;
                         while ((line = reader.readLine()) != null)
                             Utils.logError(line);
+                        Utils.logDebug("hier7");
                         reader.close();
                     } catch (Exception e) {
                         Utils.logError(e);
