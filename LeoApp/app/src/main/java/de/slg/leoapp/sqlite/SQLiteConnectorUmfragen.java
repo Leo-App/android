@@ -36,7 +36,6 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         db.execSQL("CREATE TABLE " + TABLE_SURVEYS + " (" +
                 SURVEYS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 SURVEYS_TITEL + " TEXT NOT NULL, " +
