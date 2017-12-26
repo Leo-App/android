@@ -9,10 +9,8 @@ import android.support.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.utility.List;
@@ -122,20 +120,16 @@ public class ReceiveService extends Service {
                     String[] parts = message.substring(1).split("_ ; _");
 
                     if (message.startsWith("m") && parts.length == 6) {
-                        try {
-                            int    mid   = Integer.parseInt(parts[0]);
-                            String mtext = de.slg.messenger.utility.Utils.Verschluesseln.decrypt(parts[1], de.slg.messenger.utility.Utils.Verschluesseln.decryptKey(parts[2])).replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
-                            long   mdate = Long.parseLong(parts[3] + "000");
-                            int    cid   = Integer.parseInt(parts[4]);
-                            int    uid   = Integer.parseInt(parts[5]);
+                        int    mid   = Integer.parseInt(parts[0]);
+                        String mtext = de.slg.messenger.utility.Utils.Encryption.decrypt(parts[1], de.slg.messenger.utility.Utils.Encryption.decryptKey(parts[2])).replace("_  ;  _", "_ ; _");
+                        long   mdate = Long.parseLong(parts[3] + "000");
+                        int    cid   = Integer.parseInt(parts[4]);
+                        int    uid   = Integer.parseInt(parts[5]);
 
-                            Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
-                            new NotificationHandler.MessengerNotification().send();
+                        Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
+                        new NotificationHandler.MessengerNotification().send();
 
-                            refresh();
-                        } catch (UnsupportedEncodingException e) {
-                            Utils.logError(e);
-                        }
+                        refresh();
 
                         messagesQueue.remove();
                         continue;
@@ -143,7 +137,7 @@ public class ReceiveService extends Service {
 
                     if (message.startsWith("c") && parts.length == 3) {
                         int           cid   = Integer.parseInt(parts[0]);
-                        String        cname = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                        String        cname = parts[1].replace("_  ;  _", "_ ; _");
                         Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
 
                         Utils.getController().getMessengerDatabase().insertChat(new Chat(cid, cname, ctype));
@@ -155,7 +149,7 @@ public class ReceiveService extends Service {
 
                     if (message.startsWith("u") && parts.length == 5) {
                         int    uid          = Integer.parseInt(parts[0]);
-                        String uname        = parts[1].replace("_  ;  _", "_ ; _").replace("_  next  _", "_ next _");
+                        String uname        = parts[1].replace("_  ;  _", "_ ; _");
                         String ustufe       = parts[2];
                         int    upermission  = Integer.parseInt(parts[3]);
                         String udefaultname = parts[4];
@@ -238,11 +232,10 @@ public class ReceiveService extends Service {
             return null;
         }
 
-        private String generateURL(String message, int cid) throws UnsupportedEncodingException {
-            message = URLEncoder.encode(message, "UTF-8");
-            String key      = de.slg.messenger.utility.Utils.Verschluesseln.createKey(message);
-            String vMessage = de.slg.messenger.utility.Utils.Verschluesseln.encrypt(message, key);
-            String vKey     = de.slg.messenger.utility.Utils.Verschluesseln.encryptKey(key);
+        private String generateURL(String message, int cid) {
+            String key      = de.slg.messenger.utility.Utils.Encryption.createKey(message);
+            String vMessage = de.slg.messenger.utility.Utils.Encryption.encrypt(message, key);
+            String vKey     = de.slg.messenger.utility.Utils.Encryption.encryptKey(key);
             return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?&uid=" + Utils.getUserID() + "&message=" + vMessage + "&cid=" + cid + "&vKey=" + vKey;
         }
     }

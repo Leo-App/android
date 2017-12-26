@@ -16,10 +16,8 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
@@ -342,11 +340,10 @@ public class ChatActivity extends ActionLogActivity {
             return null;
         }
 
-        private String generateURL(String message) throws UnsupportedEncodingException {
-            message = URLEncoder.encode(message, "UTF-8");
-            String key      = de.slg.messenger.utility.Utils.Verschluesseln.createKey(message);
-            String vMessage = de.slg.messenger.utility.Utils.Verschluesseln.encrypt(message, key);
-            String vKey     = de.slg.messenger.utility.Utils.Verschluesseln.encryptKey(key);
+        private String generateURL(String message) {
+            String key      = de.slg.messenger.utility.Utils.Encryption.createKey(message);
+            String vMessage = de.slg.messenger.utility.Utils.Encryption.encrypt(message, key);
+            String vKey     = de.slg.messenger.utility.Utils.Encryption.encryptKey(key);
             return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?&uid=" + Utils.getUserID() + "&message=" + vMessage + "&cid=" + cid + "&vKey=" + vKey;
         }
     }
