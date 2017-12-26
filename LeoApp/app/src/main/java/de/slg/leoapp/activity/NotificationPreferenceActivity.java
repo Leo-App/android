@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.Start;
+import de.slg.leoapp.notification.NotificationAlarmHandler;
 import de.slg.leoapp.utility.Utils;
 
 @SuppressWarnings("deprecation")
@@ -63,24 +63,27 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
                 qrtime = findPreference("pref_key_notification_time_foodmarks");
                 String value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_foodmarks", "-");
                 qrtime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                NotificationAlarmHandler.updateFoodmarkAlarm();
                 break;
             case "pref_key_notification_time_test":
                 testtime = findPreference("pref_key_notification_time_test");
                 value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_test", "-");
                 testtime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                NotificationAlarmHandler.updateKlausurAlarm();
                 break;
             case "pref_key_notification_time_survey":
                 surveytime = findPreference("pref_key_notification_time_survey");
                 value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_survey", "-");
                 surveytime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                NotificationAlarmHandler.updateMoodAlarm();
                 break;
             case "pref_key_notification_time_schedule":
                 scheduletime = findPreference("pref_key_notification_time_schedule");
                 value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_schedule", "-");
                 scheduletime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                NotificationAlarmHandler.updateTimetableAlarm();
                 break;
         }
-        Start.initNotificationServices();
     }
 
     @Override

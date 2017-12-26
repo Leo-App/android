@@ -22,6 +22,7 @@ import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.PreferenceActivity;
 import de.slg.leoapp.activity.ProfileActivity;
+import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.activity.MessengerActivity;
 import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
@@ -61,42 +62,48 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
      *
      * @return id des Activity-Layouts, zB. R.layout.startseite
      */
-    protected abstract @LayoutRes int getContentView();
+    protected abstract @LayoutRes
+    int getContentView();
 
     /**
      * Muss in der Implementation die Ressourcen-ID des DrawerLayouts zurückgeben.
      *
      * @return id des DrawerLayouts, zB. R.id.drawer
      */
-    protected abstract @IdRes int getDrawerLayoutId();
+    protected abstract @IdRes
+    int getDrawerLayoutId();
 
     /**
      * Soll die ID des NavigationViews zurückgeben.
      *
      * @return NavigationView-ID
      */
-    protected abstract @IdRes int getNavigationId();
+    protected abstract @IdRes
+    int getNavigationId();
 
     /**
      * Soll die ID der Toolbar zurückgeben.
      *
      * @return Toolbar-ID
      */
-    protected abstract @IdRes int getToolbarId();
+    protected abstract @IdRes
+    int getToolbarId();
 
     /**
      * Soll die String-Ressource des Titels der Toolbar zurückgeben.
      *
      * @return Text-ID, zb. R.string.title_main
      */
-    protected abstract @StringRes int getToolbarTextId();
+    protected abstract @StringRes
+    int getToolbarTextId();
 
     /**
      * Soll die ID des gehighlighteten Items in der Navigation zurückgeben. In der Regel also die des aktuellen Features.
      *
      * @return Menü-ID, zB. R.id.startseite
      */
-    protected abstract @IdRes int getNavigationHighlightId();
+    protected abstract @IdRes
+    int getNavigationHighlightId();
 
     /**
      * Liefert das NavigationView Objekt der aktuellen Activity. Erlaubt Zugriff von Subklassen auf den NavigationDrawer.
@@ -124,15 +131,6 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
     protected void initNavigationDrawer() {
         drawerLayout = (DrawerLayout) findViewById(getDrawerLayoutId());
         navigationView = (NavigationView) findViewById(getNavigationId());
-
-        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.foodmarks).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.barometer).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.umfragen).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.profile).setEnabled(Utils.isVerified());
 
         navigationView.setCheckedItem(getNavigationHighlightId());
 
@@ -166,7 +164,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
                         i = new Intent(getApplicationContext(), KlausurplanActivity.class);
                         break;
                     case R.id.startseite:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
+                        i = null;
                         break;
                     case R.id.umfragen:
                         i = new Intent(getApplicationContext(), SurveyActivity.class);
@@ -181,10 +179,14 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
                         i = new Intent(getApplicationContext(), MainActivity.class);
                         Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                 }
+
                 if (i != null) {
                     startActivity(i);
+                }
+                if (getNavigationHighlightId() != R.id.startseite) {
                     finish();
                 }
+
                 return true;
             }
         });
@@ -193,7 +195,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
         username.setText(Utils.getUserName());
 
         TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == 2)
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());

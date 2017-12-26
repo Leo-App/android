@@ -272,9 +272,10 @@ public class NotificationHandler {
         }
 
         public void send() {
-            de.slg.schwarzes_brett.utility.Utils.notifiedSchwarzesBrett(latest);
-            if (isActive())
+            if (isActive()) {
                 notificationManager.notify(ID_SCHWARZES_BRETT, notification);
+                de.slg.schwarzes_brett.utility.Utils.notifiedSchwarzesBrett(latest);
+            }
         }
 
         private boolean isActive() {
@@ -340,9 +341,10 @@ public class NotificationHandler {
         }
 
         public void send() {
-            de.slg.umfragen.utility.Utils.notifiedSurvey(latest);
-            if (isActive())
+            if (isActive()) {
                 notificationManager.notify(ID_UMFRAGEN, notification);
+                de.slg.umfragen.utility.Utils.notifiedSurvey(latest);
+            }
         }
 
         private boolean isActive() {

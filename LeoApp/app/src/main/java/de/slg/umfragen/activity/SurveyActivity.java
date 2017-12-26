@@ -472,8 +472,8 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 id = params[0];
                 remoteid = params[1];
 
-                SQLiteConnectorSchwarzesBrett db  = new SQLiteConnectorSchwarzesBrett(getApplicationContext());
-                SQLiteDatabase                dbh = db.getWritableDatabase();
+                SQLiteConnectorUmfragen db  = new SQLiteConnectorUmfragen(getApplicationContext());
+                SQLiteDatabase          dbh = db.getWritableDatabase();
 
                 dbh.execSQL("UPDATE " + SQLiteConnectorUmfragen.TABLE_ANSWERS
                         + " SET " + SQLiteConnectorUmfragen.ANSWERS_SELECTED + " = 1"
@@ -563,8 +563,8 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 if (!Utils.checkNetwork())
                     return ResponseCode.NO_CONNECTION;
 
-                SQLiteConnectorSchwarzesBrett db  = new SQLiteConnectorSchwarzesBrett(getApplicationContext());
-                SQLiteDatabase                dbh = db.getWritableDatabase();
+                SQLiteConnectorUmfragen db  = new SQLiteConnectorUmfragen(getApplicationContext());
+                SQLiteDatabase          dbh = db.getWritableDatabase();
 
                 dbh.execSQL("DELETE FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS + " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + params[0]);
                 dbh.execSQL("DELETE FROM " + SQLiteConnectorUmfragen.TABLE_ANSWERS + " WHERE " + SQLiteConnectorUmfragen.ANSWERS_SID + " = (SELECT " + SQLiteConnectorUmfragen.SURVEYS_ID + " FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS + " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + params[0] + ")");

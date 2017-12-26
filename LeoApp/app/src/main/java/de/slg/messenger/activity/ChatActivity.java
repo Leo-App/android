@@ -288,7 +288,7 @@ public class ChatActivity extends ActionLogActivity {
                     return null;
                 if (Utils.checkNetwork()) {
                     try {
-                        URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?cname=" + Utils.getUserID() + "+-+" + oUid + "&ctype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
+                        URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?cname=" + Utils.getUserID() + "%20-%20" + oUid + "&ctype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
                                 .openConnection();
 
                         BufferedReader reader =
@@ -297,8 +297,9 @@ public class ChatActivity extends ActionLogActivity {
                                                 connection.getInputStream(), "UTF-8"));
                         StringBuilder builder = new StringBuilder();
                         String        l;
-                        while ((l = reader.readLine()) != null)
+                        while ((l = reader.readLine()) != null) {
                             builder.append(l);
+                        }
                         reader.close();
                         cid = Integer.parseInt(builder.toString());
                     } catch (Exception e) {

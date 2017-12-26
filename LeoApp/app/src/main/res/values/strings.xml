@@ -11,6 +11,13 @@
     <string name="error">Sorry, something went wrong</string>
     <string name="hours_settings_template">%1$s h</string>
 
+    <string name="verification_title">Verify</string>
+    <string name="verification_desc">In order to use the LeoApp you need to be verified. You can do so by logging in with your school account</string>
+
+
+    <string name="intro_finished_title">All set!</string>
+    <string name="intro_finished_desc">You are now verified and able to use the app in its entirety! Maybe you can start by visiting your profile</string>
+
     <string name="share">Share</string>
     <string name="umfragen">Surveys</string>
 
@@ -32,6 +39,9 @@
 
     <string name="dialog_changelog">
         - Updated Changelog-Dialog \n
+        - Updated Verification \n
+        - Fixed Messenger! \n
+        - Fixed timed notifications
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>

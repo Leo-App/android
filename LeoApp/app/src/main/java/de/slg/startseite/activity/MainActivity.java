@@ -13,9 +13,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +24,6 @@ import de.slg.leoapp.activity.IntroActivity;
 import de.slg.leoapp.activity.PreferenceActivity;
 import de.slg.leoapp.dialog.ChangelogDialog;
 import de.slg.leoapp.dialog.EditTextDialog;
-import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.task.MailSendTask;
 import de.slg.leoapp.utility.User;
@@ -38,7 +34,6 @@ import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
 import de.slg.startseite.CardAdapter;
 import de.slg.startseite.CardType;
 import de.slg.startseite.dialog.CardAddDialog;
-import de.slg.startseite.dialog.VerificationDialog;
 import de.slg.stimmungsbarometer.dialog.AbstimmDialog;
 import de.slg.umfragen.activity.SurveyActivity;
 
@@ -124,10 +119,6 @@ public class MainActivity extends LeoAppFeatureActivity {
                 menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
         }
 
-        if (Utils.isVerified()) {
-            menu.removeItem(R.id.action_verify);
-        }
-
         return true;
     }
 
@@ -182,10 +173,6 @@ public class MainActivity extends LeoAppFeatureActivity {
                 new CardAddDialog(this).show();
                 break;
 
-            case R.id.action_verify:
-                showVerificationDialog();
-                break;
-
             case R.id.action_request:
                 featureRequestDialog = new EditTextDialog(this,
                             getString(R.string.feature_request_title),
@@ -208,8 +195,9 @@ public class MainActivity extends LeoAppFeatureActivity {
                 break;
 
             case R.id.action_help:
-                Intent myIntent = new Intent(MainActivity.this, IntroActivity.class);
-                MainActivity.this.startActivity(myIntent);
+                Intent helpIntent = new Intent(MainActivity.this, IntroActivity.class);
+                helpIntent.putExtra("no_verification", true);
+                MainActivity.this.startActivity(helpIntent);
                 break;
         }
         return true;
@@ -278,58 +266,13 @@ public class MainActivity extends LeoAppFeatureActivity {
         super.finish();
     }
 
-    private void initFeatureCards() {
+    public void initFeatureCards() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 findViewById(R.id.scrollView).scrollTo(0, 0);
             }
         }, 60);
-
-        if (Utils.isVerified() || Utils.getController().getPreferences().getBoolean("pref_key_dont_remind_me", false)) {
-            findViewById(R.id.card_view0).setVisibility(View.GONE);
-        }
-
-        findViewById(R.id.buttonCard).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!Utils.isVerified())
-                    showVerificationDialog();
-                else {
-                    Utils.getController().getPreferences()
-                            .edit()
-                            .putBoolean("pref_key_dont_remind_me", true)
-                            .apply();
-                    Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
-                    findViewById(R.id.card_view0).startAnimation(anim);
-                    final Handler handler = new Handler(); //Remove card after animation
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            findViewById(R.id.card_view0).setVisibility(View.GONE);
-                        }
-                    }, 310);
-                }
-            }
-        });
-        findViewById(R.id.buttonDismissCardView0).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.getController().getPreferences()
-                        .edit()
-                        .putBoolean("pref_key_dont_remind_me", true)
-                        .apply();
-                Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.card_fade_out);
-                findViewById(R.id.card_view0).startAnimation(anim);
-                final Handler handler = new Handler(); //Remove card after animation
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        findViewById(R.id.card_view0).setVisibility(View.GONE);
-                    }
-                }, 310);
-            }
-        });
 
         TextView version = (TextView) findViewById(R.id.versioncode_maincard);
         version.setText(Utils.getAppVersionName());
@@ -415,7 +358,7 @@ public class MainActivity extends LeoAppFeatureActivity {
     }
 
     private void initOptionalDialog() {
-        new InformationDialog(this).setText(R.string.dialog_betatest).show();
+     //   new InformationDialog(this).setText(R.string.dialog_betatest).show();
     }
 
     private void processIntent() {
@@ -471,14 +414,6 @@ public class MainActivity extends LeoAppFeatureActivity {
                 .edit()
                 .putString("pref_key_card_config", b.toString())
                 .apply();
-    }
-
-    public void showVerificationDialog() {
-        VerificationDialog dialog = new VerificationDialog(this);
-        dialog.show();
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        dialog.setCancelable(false);
     }
 
     public void addCard(CardType t) {

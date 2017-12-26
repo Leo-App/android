@@ -14,9 +14,9 @@ import de.slg.leoapp.utility.Utils;
  * <p>
  * Dialog zum Anzeigen von Änderungen in neuen Versionen.
  *
- * @author Moritz
+ * @author Moritz, Gianni
+ * @version 2017.2312
  * @since 0.6.9
- * @version 2017.0712
  */
 
 public class ChangelogDialog extends BottomSheetDialogFragment {
@@ -29,5 +29,15 @@ public class ChangelogDialog extends BottomSheetDialogFragment {
         ((TextView) contentView.findViewById(R.id.version_textview)).setText(Utils.getAppVersionName());
         dialog.setContentView(contentView);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Utils.getController().getPreferences()
+                .edit()
+                .putString("previousVersion", Utils.getAppVersionName())
+                .apply();
+    }
+
 
 }

@@ -220,8 +220,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
                     root.findViewById(R.id.nolessons).setVisibility(View.GONE);
 
                 listView.setAdapter(new StundenAdapter(getContext(), fachArray));
-            } else
-                root.findViewById(R.id.nolessons).setVisibility(View.VISIBLE);
+            }
         }
 
         void setTag(int tag) {
