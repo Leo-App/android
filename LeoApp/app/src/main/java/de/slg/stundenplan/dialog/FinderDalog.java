@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorStundenplanFinder;
-import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 

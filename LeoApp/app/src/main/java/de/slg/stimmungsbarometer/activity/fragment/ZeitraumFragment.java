@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.datastructure.List;
 import de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity;
 import de.slg.stimmungsbarometer.utility.Ergebnis;
 
