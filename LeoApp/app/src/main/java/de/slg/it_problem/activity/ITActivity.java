@@ -1,4 +1,4 @@
-package de.slg.it_problem;
+package de.slg.it_problem.activity;
 
 import android.os.Bundle;
 
@@ -6,6 +6,10 @@ import de.slg.leoapp.view.LeoAppFeatureActivity;
 
 /**
  * Stub.
+ *
+ * @author Gianni
+ * @since 0.7.2
+ * @version 2017.2912
  */
 public class ITActivity extends LeoAppFeatureActivity {
 

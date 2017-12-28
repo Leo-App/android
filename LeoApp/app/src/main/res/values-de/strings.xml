@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+
     <string name="cancel">Abbrechen</string>
     <string name="error">Entschuldige, etwas ist schief gelaufen</string>
     <string name="hours_settings_template">%1$s Uhr</string>

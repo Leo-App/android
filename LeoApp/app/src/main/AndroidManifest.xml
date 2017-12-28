@@ -165,7 +165,7 @@
             android:theme="@style/MainActivitiesTheme" />
 
         <activity
-            android:name="de.slg.it_problem.ITActivity"
+            android:name="de.slg.it_problem.activity.ITActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 

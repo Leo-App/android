@@ -31,7 +31,7 @@ public class Session {
     }
 
     boolean isAnswer() {
-        return current.getLeftTree().getContent() == null && current.getRightTree().getContent() == null;
+        return current.getLeftTree().isEmpty() && current.getRightTree().isEmpty();
     }
 
     void answerYes() {
