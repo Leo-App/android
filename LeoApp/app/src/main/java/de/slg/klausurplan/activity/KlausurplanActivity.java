@@ -26,7 +26,7 @@ import de.slg.klausurplan.utility.Klausur;
 import de.slg.leoapp.R;
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
-import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;

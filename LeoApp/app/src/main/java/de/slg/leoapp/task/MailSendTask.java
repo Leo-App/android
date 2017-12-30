@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 
 import javax.mail.MessagingException;
 
-import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.MailClient;
 import de.slg.leoapp.utility.Utils;
 

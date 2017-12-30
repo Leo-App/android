@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.VerificationListener;

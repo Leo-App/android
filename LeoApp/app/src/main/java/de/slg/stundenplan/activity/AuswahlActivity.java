@@ -20,7 +20,7 @@ import android.widget.TextView;
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.PreferenceActivity;
 import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
-import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.stundenplan.task.FachImporter;

@@ -19,7 +19,7 @@ import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.utility.GraphicUtils;
-import de.slg.leoapp.utility.List;
+import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.InfoButton;
 import de.slg.messenger.activity.MessengerActivity;

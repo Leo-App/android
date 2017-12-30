@@ -13,8 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import de.slg.leoapp.notification.NotificationHandler;
-import de.slg.leoapp.utility.List;
-import de.slg.leoapp.utility.Queue;
+import de.slg.leoapp.utility.datastructure.List;
+import de.slg.leoapp.utility.datastructure.Queue;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.utility.Assoziation;

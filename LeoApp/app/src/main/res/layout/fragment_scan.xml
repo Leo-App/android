@@ -102,6 +102,7 @@
         android:layout_margin="20dp"
         android:background="@color/colorPrimary"
         android:drawableLeft="@drawable/qrcode_scan"
+        android:drawableStart="@drawable/qrcode_scan"
         android:elevation="4dp"
         android:padding="12dp"
         android:text="@string/button_scan"

@@ -3,6 +3,9 @@
 
     <string name="app_name" translatable="false">LeoApp</string>
 
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
     <string name="nolessons">No lessons today :)</string>
 
     <string name="dismiss" translatable="false">OK</string>

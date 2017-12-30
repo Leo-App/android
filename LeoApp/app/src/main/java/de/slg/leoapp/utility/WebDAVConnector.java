@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import java.io.IOException;
 
+import de.slg.leoapp.utility.datastructure.List;
 import okhttp3.Authenticator;
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
