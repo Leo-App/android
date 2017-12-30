@@ -12,8 +12,8 @@ import de.slg.leoapp.utility.Utils;
 
 public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
 
-    public static final  String TABLE_SURVEYS        = "Umfragen";
-    public static final  String TABLE_ANSWERS        = "Antworten";
+    public static final String TABLE_SURVEYS = "Umfragen";
+    public static final String TABLE_ANSWERS = "Antworten";
 
     public static final  String SURVEYS_ID           = "id";
     public static final  String SURVEYS_TITEL        = "titel";

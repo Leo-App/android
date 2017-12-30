@@ -1,6 +1,5 @@
 package de.slg.leoapp.notification;
 
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -16,7 +15,7 @@ public abstract class NotificationAlarmHandler {
 
     public static void updateTimetableAlarm() {
         NotificationTime time;
-        Calendar calendar = Calendar.getInstance();
+        Calendar         calendar = Calendar.getInstance();
         time = Utils.getNotificationTime(NotificationType.TIMETABLE);
         calendar.set(Calendar.HOUR_OF_DAY, time.hours);
         calendar.set(Calendar.MINUTE, time.minutes);
@@ -37,7 +36,7 @@ public abstract class NotificationAlarmHandler {
 
     public static void updateFoodmarkAlarm() {
         NotificationTime time;
-        Calendar calendar = Calendar.getInstance();
+        Calendar         calendar = Calendar.getInstance();
         time = Utils.getNotificationTime(NotificationType.FOODMARKS);
         calendar.set(Calendar.HOUR_OF_DAY, time.hours);
         calendar.set(Calendar.MINUTE, time.minutes);
@@ -58,7 +57,7 @@ public abstract class NotificationAlarmHandler {
 
     public static void updateKlausurAlarm() {
         NotificationTime time;
-        Calendar calendar = Calendar.getInstance();
+        Calendar         calendar = Calendar.getInstance();
         time = Utils.getNotificationTime(NotificationType.KLAUSUR);
         calendar.set(Calendar.HOUR_OF_DAY, time.hours);
         calendar.set(Calendar.MINUTE, time.minutes);
@@ -79,7 +78,7 @@ public abstract class NotificationAlarmHandler {
 
     public static void updateMoodAlarm() {
         NotificationTime time;
-        Calendar calendar = Calendar.getInstance();
+        Calendar         calendar = Calendar.getInstance();
         time = Utils.getNotificationTime(NotificationType.MOOD);
         calendar.set(Calendar.HOUR_OF_DAY, time.hours);
         calendar.set(Calendar.MINUTE, time.minutes);

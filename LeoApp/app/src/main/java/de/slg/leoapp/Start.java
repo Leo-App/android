@@ -82,10 +82,15 @@ public class Start extends Activity {
 
     private void startServices() {
         if (Utils.isVerified()) {
-            startService(new Intent(getApplicationContext(), ReceiveService.class));
+            startReceiveService();
             startService(new Intent(getApplicationContext(), AlarmStartupService.class));
             initSyncAdapter();
         }
+    }
+
+    public static void startReceiveService() {
+        if (Utils.checkNetwork())
+            Utils.getContext().startService(new Intent(Utils.getContext(), ReceiveService.class));
     }
 
     private void initSyncAdapter() {

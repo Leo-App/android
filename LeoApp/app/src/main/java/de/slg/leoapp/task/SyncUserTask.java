@@ -17,7 +17,7 @@ import de.slg.leoapp.utility.VerificationListener;
 public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
 
     private List<VerificationListener> listeners;
-    private Fragment fragment;
+    private Fragment                   fragment;
 
     public SyncUserTask(Fragment fragment) {
         listeners = new List<>();
@@ -87,7 +87,7 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
     @Override
     protected void onPostExecute(ResponseCode code) {
 
-        if(fragment == null)
+        if (fragment == null)
             return;
 
         for (VerificationListener l : listeners) {

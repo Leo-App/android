@@ -90,7 +90,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                         .build()
         );
 
-        if(getIntent().getExtras() == null) {
+        if (getIntent().getExtras() == null) {
 
             //Verifiation-Slide
             addSlide(
@@ -155,7 +155,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
 
     public void onSlideChanged(@Nullable AbstractOrderedFragment oldFragment, @Nullable final AbstractOrderedFragment newFragment) {
 
-        if(oldFragment == null || newFragment == null || ignoreSlideChange) {
+        if (oldFragment == null || newFragment == null || ignoreSlideChange) {
             ignoreSlideChange = false;
             return;
         }
@@ -177,7 +177,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getPager().setCurrentItem(getPager().getCurrentItem()+1);
+                    getPager().setCurrentItem(getPager().getCurrentItem() + 1);
                 }
             });
         }
@@ -194,7 +194,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 break;
             case SUCCESS:
                 ignoreSlideChange = true;
-                getPager().setCurrentItem(VERIFICATION_SLIDE+1);
+                getPager().setCurrentItem(VERIFICATION_SLIDE + 1);
                 fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
                 break;
@@ -250,7 +250,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
 
     private void startVerification(AbstractOrderedFragment oldFragment) {
 
-        if(running)
+        if (running)
             return;
 
         running = true;
@@ -260,7 +260,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
         EditText name     = (EditText) v.findViewById(R.id.editText1);
         EditText password = (EditText) v.findViewById(R.id.editText2);
 
-        String userName = name.getText().toString();
+        String userName     = name.getText().toString();
         String userPassword = password.getText().toString();
 
         if (userName.length() == 0 || userPassword.length() == 0) {

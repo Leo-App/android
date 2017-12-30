@@ -28,6 +28,7 @@ import okhttp3.WebSocketListener;
 
 public class ReceiveService extends Service {
     private WebSocket socket;
+    private boolean   socketRunning;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -90,6 +91,20 @@ public class ReceiveService extends Service {
         socket.send("uid=" + Utils.getUserID());
         socket.send("mdate=" + date);
         socket.send("request");
+    }
+
+    public void startIfNotRunning() {
+        if (!isSocketRunning()) {
+            startSocket();
+        }
+    }
+
+    public boolean isSocketRunning() {
+        return socketRunning;
+    }
+
+    public void send(String s) {
+        socket.send(s);
     }
 
     private class MessageHandler extends Thread {
@@ -254,6 +269,7 @@ public class ReceiveService extends Service {
         @Override
         public void onOpen(WebSocket webSocket, Response response) {
             Utils.logDebug("Socket opened!");
+            socketRunning = true;
         }
 
         @Override
@@ -265,6 +281,7 @@ public class ReceiveService extends Service {
         @Override
         public void onClosed(WebSocket webSocket, int code, String reason) {
             Utils.logDebug("Socket closed!");
+            socketRunning = false;
         }
 
         @Override

@@ -52,9 +52,9 @@ public class VerificationFragment extends AbstractOrderedFragment implements ISl
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.title    = getArguments().getInt("title");
-        this.content  = getArguments().getInt("content");
-        this.color    = getArguments().getInt("color");
+        this.title = getArguments().getInt("title");
+        this.content = getArguments().getInt("content");
+        this.color = getArguments().getInt("color");
         this.position = getArguments().getInt("order");
     }
 
@@ -69,7 +69,7 @@ public class VerificationFragment extends AbstractOrderedFragment implements ISl
 
         TextView textViewTitle = (TextView) v.findViewById(R.id.title);
         TextView textViewDesc  = (TextView) v.findViewById(R.id.description);
-        name     = (EditText) v.findViewById(R.id.editText1);
+        name = (EditText) v.findViewById(R.id.editText1);
         password = (EditText) v.findViewById(R.id.editText2);
 
         textViewTitle.setText(title);

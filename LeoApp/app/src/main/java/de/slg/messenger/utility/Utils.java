@@ -1,7 +1,6 @@
 package de.slg.messenger.utility;
 
 public abstract class Utils {
-
     private static int currentlyDisplayedChatId = -1;
 
     public static int currentlyDisplayedChat() {

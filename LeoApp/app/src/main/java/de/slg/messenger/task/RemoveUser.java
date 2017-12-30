@@ -2,11 +2,8 @@ package de.slg.messenger.task;
 
 import android.os.AsyncTask;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-
+import de.slg.leoapp.Start;
+import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.activity.ChatEditActivity;
@@ -16,11 +13,18 @@ import de.slg.messenger.activity.ChatEditActivity;
  */
 public class RemoveUser extends AsyncTask<User, Void, Void> {
     private final int              cid;
+    private       ReceiveService   service;
     private       ChatEditActivity chatEditActivity;
 
     public RemoveUser(ChatEditActivity chatEditActivity, int cid) {
         this.chatEditActivity = chatEditActivity;
         this.cid = cid;
+        this.service = Utils.getController().getReceiveService();
+
+        if (service == null) {
+            Start.startReceiveService();
+            this.service = Utils.getController().getReceiveService();
+        }
     }
 
     @Override
@@ -37,29 +41,9 @@ public class RemoveUser extends AsyncTask<User, Void, Void> {
     }
 
     private void removeAssoziation(int uid) {
-        try {
-            URLConnection connection = new URL(generateURL(uid))
-                    .openConnection();
+        service.startIfNotRunning();
 
-            BufferedReader reader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream(), "UTF-8"));
-            StringBuilder builder = new StringBuilder();
-            String        line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-            reader.close();
-            Utils.logDebug(builder.toString());
-            Utils.getController().getMessengerDatabase().removeUserFormChat(uid, cid);
-        } catch (Exception e) {
-            Utils.logError(e);
-        }
-    }
-
-    private String generateURL(int uid) {
-        return Utils.BASE_URL_PHP + "messenger/removeAssoziation.php?cid=" + cid + "&uid=" + uid;
+        service.send("a- " + cid + ';' + uid);
     }
 
     @Override

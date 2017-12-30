@@ -338,7 +338,7 @@ public class SQLiteConnectorMessenger {
 
             if (ctype.equals(Chat.ChatType.PRIVATE)) {
                 String[] split = cname.split(" - ");
-                if (split[0].equals("" + Utils.getUserID())) {
+                if (split[0].equals(String.valueOf(Utils.getUserID()))) {
                     cname = getUname(Integer.parseInt(split[1]));
                 } else {
                     cname = getUname(Integer.parseInt(split[0]));

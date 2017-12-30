@@ -14,12 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-
 import de.slg.leoapp.R;
+import de.slg.leoapp.Start;
+import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.messenger.MessageAdapter;
@@ -30,9 +27,10 @@ public class ChatActivity extends ActionLogActivity {
     private int           cid;
     private String        cname;
     private Chat.ChatType ctype;
-    private Message[]     messagesArray;
-    private boolean[]     selected;
-    private boolean       hasSelected;
+
+    private Message[] messagesArray;
+    private boolean[] selected;
+    private boolean   hasSelected;
 
     private RecyclerView rvMessages;
     private EditText     etMessage;
@@ -224,7 +222,7 @@ public class ChatActivity extends ActionLogActivity {
     private void sendMessage() {
         String message = getMessage();
         if (message.length() > 0) {
-            new SendMessage().execute(message);
+            new SendMessage(this).execute(message);
         }
     }
 
@@ -274,78 +272,69 @@ public class ChatActivity extends ActionLogActivity {
         refreshUI(true, true);
     }
 
-    private class SendMessage extends AsyncTask<String, Void, Void> {
+    private static class SendMessage extends AsyncTask<String, Void, Void> {
+        private ChatActivity   activity;
+        private ReceiveService service;
+
+        private SendMessage(ChatActivity activity) {
+            this.activity = activity;
+            this.service = Utils.getController().getReceiveService();
+
+            if (service == null) {
+                Start.startReceiveService();
+                this.service = Utils.getController().getReceiveService();
+            }
+        }
+
         @Override
         protected void onPreExecute() {
-            etMessage.setText("");
+            activity.etMessage.setText("");
         }
 
         @Override
         protected Void doInBackground(String... params) {
-            if (cid == -1) {
-                int oUid = getIntent().getIntExtra("uid", -1);
-                if (oUid == -1)
-                    return null;
+            int oUid = activity.getIntent().getIntExtra("uid", -1);
+
+            if (activity.cid == -1) {
+                assert oUid != -1;
+
                 if (Utils.checkNetwork()) {
-                    try {
-                        URLConnection connection = new URL(Utils.BASE_URL_PHP + "messenger/addChat.php?cname=" + Utils.getUserID() + "%20-%20" + oUid + "&ctype=" + Chat.ChatType.PRIVATE.toString().toLowerCase())
-                                .openConnection();
 
-                        BufferedReader reader =
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                connection.getInputStream(), "UTF-8"));
-                        StringBuilder builder = new StringBuilder();
-                        String        l;
-                        while ((l = reader.readLine()) != null) {
-                            builder.append(l);
-                        }
-                        reader.close();
-                        cid = Integer.parseInt(builder.toString());
-                    } catch (Exception e) {
-                        Utils.logError(e);
-                    }
+                    service.startIfNotRunning();
+
+                    service.send("+c P;" + oUid + " - " + Utils.getUserID());
+
                 } else {
-                    Toast.makeText(getApplicationContext(), "You need an active Internet-Connection to perform this Action", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "You need an active Internet-Connection to perform this Action", Toast.LENGTH_LONG).show();
+                    return null;
                 }
             }
 
-            if (cid != -1) {
-                if (!Utils.checkNetwork()) {
-                    Utils.getController().getMessengerDatabase().enqueueMessage(params[0], cid);
-                    refreshUI(true, true);
-                } else {
-                    Message[] mOld = messagesArray;
-                    messagesArray = new Message[mOld.length + 1];
-                    System.arraycopy(mOld, 0, messagesArray, 0, mOld.length);
-                    messagesArray[mOld.length] = new Message(params[0]);
-                    refreshUI(false, true);
+            while ((activity.cid = Utils.getController().getMessengerDatabase().getChatWith(oUid)) == -1)
+                ;
 
-                    try {
-                        URLConnection connection = new URL(generateURL(params[0]))
-                                .openConnection();
+            if (Utils.checkNetwork()) {
+                Message[] mOld = activity.messagesArray;
+                activity.messagesArray = new Message[mOld.length + 1];
+                System.arraycopy(mOld, 0, activity.messagesArray, 0, mOld.length);
+                activity.messagesArray[mOld.length] = new Message(params[0]);
+                activity.refreshUI(false, true);
 
-                        BufferedReader reader =
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                connection.getInputStream(), "UTF-8"));
-                        String line;
-                        while ((line = reader.readLine()) != null)
-                            Utils.logError(line);
-                        reader.close();
-                    } catch (Exception e) {
-                        Utils.logError(e);
-                    }
-                }
+                service.startIfNotRunning();
+
+                String message = params[0];
+
+                String key      = de.slg.messenger.utility.Utils.Encryption.createKey(message);
+                String vMessage = de.slg.messenger.utility.Utils.Encryption.encrypt(message, key);
+                String vKey     = de.slg.messenger.utility.Utils.Encryption.encryptKey(key);
+
+                service.send("m+ " + activity.cid + ';' + vKey + ';' + vMessage);
+            } else {
+                Utils.getController().getMessengerDatabase().enqueueMessage(params[0], activity.cid);
+                activity.refreshUI(true, true);
             }
+
             return null;
-        }
-
-        private String generateURL(String message) {
-            String key      = de.slg.messenger.utility.Utils.Encryption.createKey(message);
-            String vMessage = de.slg.messenger.utility.Utils.Encryption.encrypt(message, key);
-            String vKey     = de.slg.messenger.utility.Utils.Encryption.encryptKey(key);
-            return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?&uid=" + Utils.getUserID() + "&message=" + vMessage + "&cid=" + cid + "&vKey=" + vKey;
         }
     }
 }

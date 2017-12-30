@@ -8,8 +8,7 @@ import de.slg.leoapp.notification.NotificationAlarmHandler;
 
 public class BootReceiver extends BroadcastReceiver {
 
-    public void onReceive(Context context, Intent intent)
-    {
+    public void onReceive(Context context, Intent intent) {
         NotificationAlarmHandler.initAlarmManagerIfNotExists();
     }
 
