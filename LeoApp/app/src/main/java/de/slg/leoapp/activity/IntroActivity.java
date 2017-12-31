@@ -188,16 +188,10 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
     public void onSynchronisationProcessed(ResponseCode response, Fragment fragment) {
         switch (response) {
             case NO_CONNECTION:
-                running = false;
-                GraphicUtils.sendToast("Etwas ist schiefgelaufen, versuche es später nochmal");
-                break;
             case AUTH_FAILED:
-                running = false;
-                GraphicUtils.sendToast("Etwas ist schiefgelaufen, versuche es später nochmal");
-                break;
             case SERVER_FAILED:
-                running = false;
                 GraphicUtils.sendToast("Etwas ist schiefgelaufen, versuche es später nochmal");
+                running = false;
                 break;
             case SUCCESS:
                 ignoreSlideChange = true;
