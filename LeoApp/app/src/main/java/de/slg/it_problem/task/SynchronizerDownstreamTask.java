@@ -19,8 +19,13 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
         this.decisionTreeMap = decisionTreeMap;
     }
 
+    //TODO: Save Trees to SQLite
+
     @Override
     protected Void doInBackground(String... subjects) {
+
+        if(!Utils.checkNetwork())
+            return null;
 
         for (String subject : subjects) {
 

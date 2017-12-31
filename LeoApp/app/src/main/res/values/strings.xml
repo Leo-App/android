@@ -6,6 +6,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <string name="title_it_problem">Problemsolver</string>
+
     <string name="nolessons">No lessons today :)</string>
 
     <string name="dismiss" translatable="false">OK</string>
