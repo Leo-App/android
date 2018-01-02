@@ -6,17 +6,11 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import de.slg.leoapp.notification.NotificationHandler;
-import de.slg.leoapp.utility.datastructure.List;
-import de.slg.leoapp.utility.datastructure.Queue;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.datastructure.List;
+import de.slg.leoapp.utility.datastructure.Queue;
 import de.slg.messenger.utility.Assoziation;
 import de.slg.messenger.utility.Chat;
 import de.slg.messenger.utility.Message;
@@ -27,8 +21,9 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 public class ReceiveService extends Service {
-    private WebSocket socket;
-    private boolean   socketRunning;
+    private WebSocket      socket;
+    private MessageHandler messageHandler;
+    private boolean        socketRunning;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -71,7 +66,7 @@ public class ReceiveService extends Service {
     }
 
     public void startSocket() {
-        MessageHandler messageHandler = new MessageHandler();
+        messageHandler = new MessageHandler();
         messageHandler.start();
 
         OkHttpClient client = new OkHttpClient();
@@ -103,16 +98,47 @@ public class ReceiveService extends Service {
         return socketRunning;
     }
 
-    public void send(String s) {
+    private void send(String s) {
+        startIfNotRunning();
+        Utils.logDebug(s);
         socket.send(s);
+    }
+
+    public void send(Message message) {
+        String key      = de.slg.messenger.utility.Utils.Encryption.createKey(message.mtext);
+        String vMessage = de.slg.messenger.utility.Utils.Encryption.encrypt(message.mtext, key);
+        String vKey     = de.slg.messenger.utility.Utils.Encryption.encryptKey(key);
+        String s        = "m+ " + message.cid + ';' + vKey + ';' + vMessage;
+        send(s);
+    }
+
+    public int send(Chat chat) {
+        messageHandler.newChats.clear();
+        String s = "c+ " + chat.ctype.toString().toUpperCase().charAt(0) + ';' + chat.cname;
+        send(s);
+        while (messageHandler.newChats.isEmpty())
+            ;
+        return messageHandler.newChats.getContent().cid;
+    }
+
+    public void send(Assoziation assoziation) {
+        String s = "a+ " + assoziation.cid + ';' + assoziation.uid;
+        send(s);
+    }
+
+    public void sendRemove(Assoziation assoziation) {
+        String s = "a- " + assoziation.cid + ';' + assoziation.uid;
+        send(s);
     }
 
     private class MessageHandler extends Thread {
         private Queue<String> messagesQueue;
+        private Queue<Chat>   newChats;
 
         MessageHandler() {
             super();
             messagesQueue = new Queue<>();
+            newChats = new Queue<>();
         }
 
         @Override
@@ -145,7 +171,7 @@ public class ReceiveService extends Service {
                         int    uid   = Integer.parseInt(parts[5]);
 
                         Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
-                        if (uid != Utils.getUserID())
+                        if (uid != Utils.getUserID() && cid != de.slg.messenger.utility.Utils.currentlyDisplayedChat())
                             new NotificationHandler.MessengerNotification().send();
 
                         refresh();
@@ -159,7 +185,13 @@ public class ReceiveService extends Service {
                         String        cname = parts[1].replace("_  ;  _", "_ ; _");
                         Chat.ChatType ctype = Chat.ChatType.valueOf(parts[2].toUpperCase());
 
-                        Utils.getController().getMessengerDatabase().insertChat(new Chat(cid, cname, ctype));
+                        Chat c = new Chat(cid, cname, ctype);
+
+                        if (!Utils.getController().getMessengerDatabase().contains(c)) {
+                            newChats.append(c);
+                        }
+
+                        Utils.getController().getMessengerDatabase().insertChat(c);
 
                         refresh();
                         messagesQueue.remove();
@@ -224,38 +256,11 @@ public class ReceiveService extends Service {
             Message[] array = Utils.getController().getMessengerDatabase().getQueuedMessages();
             for (Message m : array) {
                 if (Utils.checkNetwork()) {
-                    try {
-                        HttpURLConnection connection = (HttpURLConnection)
-                                new URL(generateURL(m.mtext, m.cid))
-                                        .openConnection();
-
-                        BufferedReader reader =
-                                new BufferedReader(
-                                        new InputStreamReader(
-                                                connection.getInputStream(), "UTF-8"));
-                        String line;
-                        while ((line = reader.readLine()) != null)
-                            if (line.startsWith("-")) {
-                                reader.close();
-                                throw new IOException(line);
-                            }
-                        reader.close();
-
-                        if (connection.getResponseCode() == 200)
-                            Utils.getController().getMessengerDatabase().dequeueMessage(m.mid);
-                    } catch (IOException e) {
-                        Utils.logError(e);
-                    }
+                    Utils.getController().getReceiveService().send(m);
+                    Utils.getController().getMessengerDatabase().dequeueMessage(m.mid);
                 }
             }
             return null;
-        }
-
-        private String generateURL(String message, int cid) {
-            String key      = de.slg.messenger.utility.Utils.Encryption.createKey(message);
-            String vMessage = de.slg.messenger.utility.Utils.Encryption.encrypt(message, key);
-            String vKey     = de.slg.messenger.utility.Utils.Encryption.encryptKey(key);
-            return Utils.BASE_URL_PHP + "messenger/addMessageEncrypted.php?&uid=" + Utils.getUserID() + "&message=" + vMessage + "&cid=" + cid + "&vKey=" + vKey;
         }
     }
 
@@ -286,7 +291,9 @@ public class ReceiveService extends Service {
 
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+            Utils.logError("Socket Error");
             Utils.logError(t);
+            socketRunning = false;
         }
     }
 }

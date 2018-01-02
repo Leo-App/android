@@ -17,25 +17,24 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorAccent"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/layoutIch"
-            android:layout_below="@id/actionBarStatistik"
-            android:layout_marginBottom="5dp">
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/actionBarStatistik">
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabLayout"
-                style="@style/TabLayoutDesign"
+            <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:elevation="4dp" />
+                android:orientation="vertical"/>
 
-        </android.support.v4.view.ViewPager>
+        </ScrollView>
 
         <RelativeLayout
             android:id="@+id/layoutIch"
@@ -54,7 +53,7 @@
                 android:layout_centerVertical="true"
                 android:scaleType="center"
                 android:tint="@color/tint_ich"
-                app:srcCompat="@drawable/background_profile_picture" />
+                app:srcCompat="@drawable/background_profile_picture"/>
 
             <TextView
                 android:id="@+id/textViewIch"
@@ -66,7 +65,7 @@
                 android:layout_toRightOf="@+id/imageViewIch"
                 android:text="Ich"
                 android:textColor="@color/tint_ich"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
         </RelativeLayout>
 
@@ -86,7 +85,7 @@
                 android:layout_height="16dp"
                 android:layout_centerVertical="true"
                 android:tint="@color/tint_schueler"
-                app:srcCompat="@drawable/background_profile_picture" />
+                app:srcCompat="@drawable/background_profile_picture"/>
 
             <TextView
                 android:id="@+id/textViewSchueler"
@@ -98,7 +97,7 @@
                 android:layout_toRightOf="@+id/imageViewSchueler"
                 android:text="Schüler"
                 android:textColor="@color/tint_schueler"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
         </RelativeLayout>
 
@@ -118,7 +117,7 @@
                 android:layout_height="16dp"
                 android:layout_centerVertical="true"
                 android:tint="@color/tint_lehrer"
-                app:srcCompat="@drawable/background_profile_picture" />
+                app:srcCompat="@drawable/background_profile_picture"/>
 
             <TextView
                 android:id="@+id/textViewLehrer"
@@ -130,7 +129,7 @@
                 android:layout_toRightOf="@+id/imageViewLehrer"
                 android:text="Lehrer"
                 android:textColor="@color/tint_lehrer"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
         </RelativeLayout>
 
@@ -150,7 +149,7 @@
                 android:layout_height="16dp"
                 android:layout_centerVertical="true"
                 android:tint="@color/tint_alle"
-                app:srcCompat="@drawable/background_profile_picture" />
+                app:srcCompat="@drawable/background_profile_picture"/>
 
             <TextView
                 android:id="@+id/textViewAlle"
@@ -162,17 +161,23 @@
                 android:layout_toRightOf="@+id/imageViewAlle"
                 android:text="Alle"
                 android:textColor="@color/tint_alle"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
         </RelativeLayout>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/changeQuestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
+            android:layout_alignBottom="@id/layoutAlle"
+            android:layout_alignEnd="@id/layoutAlle"
+            android:layout_alignRight="@id/layoutAlle"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:clickable="true"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_edit_white_24dp"/>
 
     </RelativeLayout>
 
@@ -182,6 +187,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/layout_navigation_header"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigation"/>
 
 </android.support.v4.widget.DrawerLayout>

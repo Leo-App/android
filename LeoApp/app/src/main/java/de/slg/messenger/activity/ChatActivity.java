@@ -302,16 +302,18 @@ public class ChatActivity extends ActionLogActivity {
 
                     service.startIfNotRunning();
 
-                    service.send("+c P;" + oUid + " - " + Utils.getUserID());
+                    int cid = service.send(new Chat(0, oUid + " - " + Utils.getUserID(), Chat.ChatType.PRIVATE));
+                    Utils.logDebug("cid = " + cid);
 
+                    while ((activity.cid = Utils.getController().getMessengerDatabase().getChatWith(oUid)) == -1)
+                        ;
+
+                    Utils.logDebug("cid = " + activity.cid);
                 } else {
                     Toast.makeText(activity, "You need an active Internet-Connection to perform this Action", Toast.LENGTH_LONG).show();
                     return null;
                 }
             }
-
-            while ((activity.cid = Utils.getController().getMessengerDatabase().getChatWith(oUid)) == -1)
-                ;
 
             if (Utils.checkNetwork()) {
                 Message[] mOld = activity.messagesArray;
@@ -321,14 +323,7 @@ public class ChatActivity extends ActionLogActivity {
                 activity.refreshUI(false, true);
 
                 service.startIfNotRunning();
-
-                String message = params[0];
-
-                String key      = de.slg.messenger.utility.Utils.Encryption.createKey(message);
-                String vMessage = de.slg.messenger.utility.Utils.Encryption.encrypt(message, key);
-                String vKey     = de.slg.messenger.utility.Utils.Encryption.encryptKey(key);
-
-                service.send("m+ " + activity.cid + ';' + vKey + ';' + vMessage);
+                service.send(new Message(0, params[0], activity.cid));
             } else {
                 Utils.getController().getMessengerDatabase().enqueueMessage(params[0], activity.cid);
                 activity.refreshUI(true, true);

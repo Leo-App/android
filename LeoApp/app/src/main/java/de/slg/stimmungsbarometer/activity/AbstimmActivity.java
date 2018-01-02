@@ -44,6 +44,9 @@ public class AbstimmActivity extends ActionLogActivity {
         if (Utils.getController().getMainActivity() != null && Utils.getController().getMainActivity().abstimmDialog != null)
             Utils.getController().getMainActivity().abstimmDialog.dismiss();
 
+        TextView textView = (TextView) findViewById(R.id.textView);
+        textView.setText(Utils.getController().getPreferences().getString("stimmungsbarometer_frage", "Wie geht es dir?"));
+
         initListView();
         initSmileys();
         initSendButton();

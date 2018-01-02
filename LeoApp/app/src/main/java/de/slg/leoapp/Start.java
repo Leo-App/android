@@ -14,6 +14,7 @@ import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.task.DownloadFilesTask;
 import de.slg.leoapp.task.MailSendTask;
 import de.slg.leoapp.task.SyncGradeTask;
+import de.slg.leoapp.task.SyncQuestionTask;
 import de.slg.leoapp.task.SyncUserTask;
 import de.slg.leoapp.task.SyncVoteTask;
 import de.slg.leoapp.utility.User;
@@ -65,6 +66,10 @@ public class Start extends Activity {
 
             if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
                 new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
+            }
+
+            if (Utils.isVerified()) {
+                new SyncQuestionTask().execute();
             }
         }
     }

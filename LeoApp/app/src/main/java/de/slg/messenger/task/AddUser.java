@@ -7,6 +7,7 @@ import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.activity.ChatEditActivity;
+import de.slg.messenger.utility.Assoziation;
 
 public class AddUser extends AsyncTask<User, Void, Void> {
     private final int              cid;
@@ -31,16 +32,11 @@ public class AddUser extends AsyncTask<User, Void, Void> {
 
     @Override
     protected Void doInBackground(User... params) {
+        service.startIfNotRunning();
         for (User u : params) {
-            sendAssoziation(cid, u.uid);
+            service.send(new Assoziation(cid, u.uid));
         }
         return null;
-    }
-
-    private void sendAssoziation(int cid, int uid) {
-        service.startIfNotRunning();
-
-        service.send("a+ " + cid + ';' + uid);
     }
 
     @Override

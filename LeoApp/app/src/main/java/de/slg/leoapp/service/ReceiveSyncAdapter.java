@@ -23,7 +23,6 @@ import de.slg.leoapp.utility.Utils;
  */
 @SuppressWarnings("unused")
 class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
-
     private Synchronizer[] synchronizers;
     private static final String TAG = ReceiveSyncAdapter.class.getSimpleName();
 
@@ -46,6 +45,8 @@ class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
         for(Synchronizer s : synchronizers)
             if(s.run())
                 s.postUpdate();
-
+//        if (Utils.getController().getReceiveService() == null)
+//            Start.startReceiveService();
+//        Utils.getController().getReceiveService().startIfNotRunning();
     }
 }

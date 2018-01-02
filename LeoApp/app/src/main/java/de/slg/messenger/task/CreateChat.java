@@ -16,6 +16,7 @@ import de.slg.leoapp.Start;
 import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.activity.ChatActivity;
+import de.slg.messenger.utility.Assoziation;
 import de.slg.messenger.utility.Chat;
 
 public class CreateChat extends AsyncTask<Integer, Void, Intent> {
@@ -38,12 +39,14 @@ public class CreateChat extends AsyncTask<Integer, Void, Intent> {
 
     @Override
     protected Intent doInBackground(Integer... params) {
+        service.startIfNotRunning();
+
         sendChat();
 
         if (cid != -1) {
-            sendAssoziation(Utils.getUserID());
+            service.send(new Assoziation(cid, Utils.getUserID()));
             for (Integer i : params) {
-                sendAssoziation(i);
+                service.send(new Assoziation(cid, i));
             }
         }
 
@@ -75,12 +78,6 @@ public class CreateChat extends AsyncTask<Integer, Void, Intent> {
         } catch (IOException e) {
             Utils.logError(e);
         }
-    }
-
-    private void sendAssoziation(int uid) {
-        service.startIfNotRunning();
-
-        service.send("a+ " + cid + ';' + uid);
     }
 
     private String generateURL(String cname) throws UnsupportedEncodingException {

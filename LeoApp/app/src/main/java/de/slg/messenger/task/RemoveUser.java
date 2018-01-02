@@ -7,10 +7,8 @@ import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.messenger.activity.ChatEditActivity;
+import de.slg.messenger.utility.Assoziation;
 
-/**
- * Created by Moritz on 08.12.2017.
- */
 public class RemoveUser extends AsyncTask<User, Void, Void> {
     private final int              cid;
     private       ReceiveService   service;
@@ -34,16 +32,13 @@ public class RemoveUser extends AsyncTask<User, Void, Void> {
 
     @Override
     protected Void doInBackground(User... params) {
-        for (User u : params) {
-            removeAssoziation(u.uid);
-        }
-        return null;
-    }
-
-    private void removeAssoziation(int uid) {
         service.startIfNotRunning();
 
-        service.send("a- " + cid + ';' + uid);
+        for (User u : params) {
+            service.sendRemove(new Assoziation(cid, u.uid));
+        }
+
+        return null;
     }
 
     @Override

@@ -17,18 +17,18 @@ import de.slg.klausurplan.utility.Klausur;
 import de.slg.leoapp.utility.Utils;
 
 public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
-    private static final SimpleDateFormat dateFormat              = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
 
     public static final String DATABASE_NAME = "klausurplan";
 
-    private static final String           TABLE_KLAUSUREN         = "klausuren";
-    private static final String           KLAUSUR_ID              = "id";
-    private static final String           KLAUSUR_TITEL           = "title";
-    private static final String           KLAUSUR_STUFE           = "stufe";
-    private static final String           KLAUSUR_DATUM           = "datum";
-    private static final String           KLAUSUR_NOTIZ           = "notiz";
-    private static final String           KLAUSUR_IN_STUNDENPLAN  = "in_stundenplan";
-    private static final String           KLAUSUR_HERUNTERGELADEN = "heruntergeladen";
+    private static final String TABLE_KLAUSUREN         = "klausuren";
+    private static final String KLAUSUR_ID              = "id";
+    private static final String KLAUSUR_TITEL           = "title";
+    private static final String KLAUSUR_STUFE           = "stufe";
+    private static final String KLAUSUR_DATUM           = "datum";
+    private static final String KLAUSUR_NOTIZ           = "notiz";
+    private static final String KLAUSUR_IN_STUNDENPLAN  = "in_stundenplan";
+    private static final String KLAUSUR_HERUNTERGELADEN = "heruntergeladen";
 
     public static final String WHERE_ONLY_CREATED    = KLAUSUR_HERUNTERGELADEN + " = 0";
     public static final String WHERE_ALL             = WHERE_ONLY_CREATED + " OR " + KLAUSUR_DATUM + " > '" + getMinDate() + "'";
