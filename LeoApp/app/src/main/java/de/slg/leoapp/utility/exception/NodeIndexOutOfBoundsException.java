@@ -1,5 +1,6 @@
 package de.slg.leoapp.utility.exception;
 
+@SuppressWarnings("unused")
 public class NodeIndexOutOfBoundsException extends RuntimeException {
     public NodeIndexOutOfBoundsException() { super(); }
     public NodeIndexOutOfBoundsException(String message) { super(message); }

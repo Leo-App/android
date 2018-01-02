@@ -62,7 +62,7 @@ public abstract class ActionLogActivity extends AppCompatActivity {
      *
      * @return Activitystatus
      */
-    public ActivityStatus getStatus() {
+    public final ActivityStatus getStatus() {
         return status;
     }
 

@@ -191,6 +191,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
             case AUTH_FAILED:
             case SERVER_FAILED:
                 GraphicUtils.sendToast("Etwas ist schiefgelaufen, versuche es später nochmal");
+                running = false;
                 break;
             case SUCCESS:
                 ignoreSlideChange = true;

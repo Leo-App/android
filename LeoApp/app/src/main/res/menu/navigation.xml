@@ -44,6 +44,11 @@
             android:checked="false"
             android:icon="@drawable/icon_survey"
             android:title="@string/title_survey_news" />
+        <item
+            android:id="@+id/itsolver"
+            android:checked="false"
+            android:icon="@drawable/icon_it_problem"
+            android:title="@string/title_it_problem" />
     </group>
 
     <group
