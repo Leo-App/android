@@ -29,10 +29,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import de.slg.essensbons.activity.EssensQRActivity;
 import de.slg.essensbons.activity.fragment.QRFragment;
 import de.slg.essensbons.utility.EncryptionManager;
+import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.essensbons.utility.Order;
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
@@ -61,14 +63,13 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
     @SuppressLint("SimpleDateFormat")
     protected Bitmap doInBackground(View... params) {
         target = params[0];
-        connection = hasActiveInternetConnection();
 
-        if (!(EssensQRActivity.sharedPref.getBoolean("pref_key_status_loggedin", false)))
+        if (!EssensbonUtils.isLoggedIn())
             return null;
 
-        if (connection) {
+        if (hasActiveInternetConnection()) {
             if (onAppStart) {
-                if (EssensQRActivity.sharedPref.getBoolean("pref_key_qr_sync", false))
+                if (EssensbonUtils.isAutoSyncEnabled())
                     saveNewestEntries();
             } else
                 saveNewestEntries();
@@ -81,7 +82,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         menu = act.getMenu();
         descr = act.getDescr();
 
-        String customerString = EssensQRActivity.sharedPref.getString("pref_key_qr_id", "00000");
+        String customerString = EssensbonUtils.getCustomerId();
         if (customerString.equals(""))
             return null;
 
@@ -103,7 +104,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
     protected void onPostExecute(Bitmap result) {
         ProgressBar spinner = (ProgressBar) target.findViewById(R.id.progressBar1);
         spinner.setVisibility(INVISIBLE);
-        boolean loggedin = Utils.getController().getPreferences().getBoolean("pref_key_status_loggedin", false);
+        boolean loggedin = EssensbonUtils.isLoggedIn();
         if (!connection)
             ((QRFragment) qr).showSnackBarNoConnection();
 
@@ -153,7 +154,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
                 SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_MENU,
                 SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_DESCR,
         };
-        DateFormat dateFormat    = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat    = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
         Date       date          = new Date();
         String     selection     = SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_DATE + " = ?";
         String[]   selectionArgs = {dateFormat.format(date)};
@@ -178,9 +179,9 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
     private void saveNewestEntries() {
         BufferedReader in     = null;
-        String         result = "";
+        StringBuilder result = new StringBuilder();
         try {
-            URL interfaceDB = new URL(Utils.BASE_URL_PHP + "essenqr/qr_database.php?id=" + EssensQRActivity.sharedPref.getString("pref_key_qr_id", "00000")
+            URL interfaceDB = new URL(Utils.BASE_URL_PHP + "essenqr/qr_database.php?id=" + EssensbonUtils.getCustomerId()
                     + "&auth=2SnDS7GBdHf5sd");
             Utils.logDebug(interfaceDB.toString());
             in = null;
@@ -188,7 +189,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 if (!inputLine.contains("<"))
-                    result += inputLine;
+                    result.append(inputLine);
             }
             in.close();
         } catch (IOException e) {
@@ -204,13 +205,13 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         }
         EncryptionManager encryptionManager = new EncryptionManager();
         try {
-            result = new String(encryptionManager.decrypt(result));
+            result = new StringBuilder(new String(encryptionManager.decrypt(result.toString())));
         } catch (Exception e) {
             Utils.logError(e);
         }
-        String[]       data    = result.split("_next_");
+        String[]       data    = result.toString().split("_next_");
         SQLiteDatabase db      = EssensQRActivity.sqlh.getWritableDatabase();
-        DateFormat     df      = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat     df      = new SimpleDateFormat("yyyy-mm-dd", Locale.GERMANY);
         Date           highest = null;
         try {
             highest = df.parse("1900-01-01");
@@ -248,7 +249,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             return;
         }
         Utils.logDebug(dateString);
-        Cursor c = db.rawQuery("SELECT ID FROM USERORDERS WHERE DATEU = ?", new String[]{dateString});
+        Cursor c = db.rawQuery("SELECT ID FROM USERORDERS WHERE DATEU = "+dateString, null);
         c.moveToFirst();
         if (c.getCount() == 0)
             return;

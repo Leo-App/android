@@ -8,11 +8,14 @@ import java.util.Hashtable;
 import de.slg.it_problem.activity.fragment.AnswerFragment;
 import de.slg.it_problem.activity.fragment.QuestionFragment;
 import de.slg.it_problem.activity.fragment.SelectionFragment;
+import de.slg.it_problem.task.SynchronizerDownstreamTask;
 import de.slg.it_problem.utility.FragmentType;
 import de.slg.it_problem.utility.Session;
 import de.slg.it_problem.utility.Subject;
+import de.slg.it_problem.utility.TaskStatusListener;
 import de.slg.it_problem.utility.datastructure.DecisionTree;
 import de.slg.leoapp.R;
+import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.exception.SubjectNotKnownException;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 
@@ -30,12 +33,15 @@ public class ITActivity extends LeoAppFeatureActivity {
     private Session currentSession;
     private String subject;
     private Hashtable<String, DecisionTree> decisionTreeHashtable;
+    private Bundle b;
 
     @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);
+        this.b = b;
         decisionTreeHashtable = new Hashtable<>();
-        initFragments(b);
+        initFragments();
+        initSync();
     }
 
     @Override
@@ -73,7 +79,7 @@ public class ITActivity extends LeoAppFeatureActivity {
         return R.id.itsolver;
     }
 
-    private void initFragments(Bundle b) {
+    private void initFragments() {
         if (b != null)
             return;
 
@@ -104,7 +110,7 @@ public class ITActivity extends LeoAppFeatureActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, newFragment)
+                .replace(R.id.fragment_container, newFragment, "CUR")
                 .addToBackStack(null)
                 .commit();
 
@@ -124,4 +130,9 @@ public class ITActivity extends LeoAppFeatureActivity {
         return currentSession;
     }
 
+    private void initSync() {
+        new SynchronizerDownstreamTask(decisionTreeHashtable)
+                .addListener((TaskStatusListener) getFragmentManager().findFragmentByTag("CUR"))
+                .execute(Subject.BEAMER, Subject.COMPUTER, Subject.NETWORK);
+    }
 }

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.it_problem.activity.ITActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.PreferenceActivity;
@@ -168,6 +169,9 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
                         break;
                     case R.id.umfragen:
                         i = new Intent(getApplicationContext(), SurveyActivity.class);
+                        break;
+                    case R.id.itsolver:
+                        i = new Intent(getApplicationContext(), ITActivity.class);
                         break;
                     case R.id.settings:
                         i = new Intent(getApplicationContext(), PreferenceActivity.class);

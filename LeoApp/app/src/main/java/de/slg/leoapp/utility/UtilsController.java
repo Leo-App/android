@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.it_problem.activity.ITActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.activity.NotificationPreferenceActivity;
 import de.slg.leoapp.activity.PreferenceActivity;
@@ -62,6 +63,8 @@ public class UtilsController {
     private EssensQRActivity essensQRActivity;
 
     private SurveyActivity surveyActivity;
+
+    private ITActivity itActivity;
 
     private PreferenceActivity             preferenceActivity;
     private NotificationPreferenceActivity notificationPreferenceActivity;
@@ -281,6 +284,10 @@ public class UtilsController {
         profileActivity = activity;
     }
 
+    public void registerITActivity(ITActivity activity) {
+        itActivity = activity;
+    }
+
     /**
      * @return Aktive Messenger-Activity, null wenn nicht aktiv.
      */
@@ -391,6 +398,10 @@ public class UtilsController {
      */
     public ProfileActivity getProfileActivity() {
         return profileActivity;
+    }
+
+    public ITActivity getItActivity() {
+        return itActivity;
     }
 
     /**

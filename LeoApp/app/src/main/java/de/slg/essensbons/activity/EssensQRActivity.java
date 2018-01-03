@@ -3,11 +3,9 @@ package de.slg.essensbons.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -27,6 +25,7 @@ import com.google.zxing.Result;
 import de.slg.essensbons.activity.fragment.QRFragment;
 import de.slg.essensbons.activity.fragment.ScanFragment;
 import de.slg.essensbons.task.QRReadTask;
+import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.notification.NotificationHandler;
@@ -37,7 +36,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
 public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScannerView.ResultHandler {
-    public static SharedPreferences         sharedPref;
+
     public static SQLiteConnectorEssensbons sqlh;
     public static Button                    scan;
     public static boolean runningSync, mensaModeRunning = false;
@@ -90,7 +89,6 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         tabLayout.setupWithViewPager(mViewPager);
 
         sqlh = new SQLiteConnectorEssensbons(getApplicationContext());
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         final Handler handler = new Handler();
         final Runnable r = new Runnable() {
@@ -106,7 +104,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         };
         handler.postDelayed(r, 100);
 
-        if (!mensaModeRunning && sharedPref.getBoolean("pref_key_mensa_mode", false)) {
+        if (!mensaModeRunning && EssensbonUtils.mensaModeEnabled()) {
             handler.removeCallbacks(r);
             mensaModeRunning = true;
             scan();
@@ -161,8 +159,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
             scV = new ZXingScannerView(getApplicationContext());
             setContentView(scV);
             scV.setResultHandler(this);
-            int cameraNumber = sharedPref.getBoolean("pref_key_qr_camera", false) ? 1 : 0;
-            scV.startCamera(cameraNumber);
+            scV.startCamera(EssensbonUtils.getPreferredCamera());
         }
     }
 
@@ -232,8 +229,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
                     scV = new ZXingScannerView(getApplicationContext());
                     setContentView(scV);
                     scV.setResultHandler(this);
-                    int cameraNumber = sharedPref.getBoolean("pref_key_qr_camera", false) ? 1 : 0;
-                    scV.startCamera(cameraNumber);
+                    scV.startCamera(EssensbonUtils.getPreferredCamera());
                 }
             }
         }
