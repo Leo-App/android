@@ -1,4 +1,4 @@
-package de.slg.stimmungsbarometer.activity.fragment;
+package de.slg.stimmungsbarometer.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,7 +14,7 @@ import static de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity.draw
 import static de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity.drawI;
 import static de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity.drawL;
 import static de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity.drawS;
-import static de.slg.stimmungsbarometer.activity.fragment.StatistikView.bitmapBack;
+import static de.slg.stimmungsbarometer.view.StatistikView.bitmapBack;
 
 public class StatistikViewBalken extends View {
     private Ergebnis[] data;
@@ -65,7 +65,7 @@ public class StatistikViewBalken extends View {
         width = getWidth();
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         baseLineY = height * 99 / 100;
-        abstandY = baseLineY * 9 / 40;
+        abstandY = baseLineY * 99 / 400;
         baseLineX = width / 24;
         abstandX = width / 12;
         breite = width / 6;

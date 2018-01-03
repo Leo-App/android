@@ -22,7 +22,6 @@ import java.util.Date;
  */
 @SuppressLint("SimpleDateFormat")
 public abstract class ActionLogActivity extends AppCompatActivity {
-
     private ActivityStatus status;
 
     @Override
