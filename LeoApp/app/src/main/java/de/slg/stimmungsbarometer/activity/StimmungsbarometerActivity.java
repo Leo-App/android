@@ -3,8 +3,12 @@ package de.slg.stimmungsbarometer.activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -22,9 +26,9 @@ import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
-import de.slg.stimmungsbarometer.activity.fragment.StatistikView;
-import de.slg.stimmungsbarometer.activity.fragment.StatistikViewBalken;
 import de.slg.stimmungsbarometer.utility.Ergebnis;
+import de.slg.stimmungsbarometer.view.StatistikView;
+import de.slg.stimmungsbarometer.view.StatistikViewBalken;
 
 public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
     public static boolean drawI;
@@ -44,7 +48,6 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wrapper_stimmungsbarometer);
         Utils.getController().registerStimmungsbarometerActivity(this);
 
         drawI = Utils.isVerified();
@@ -63,7 +66,7 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_wrapper_stimmungsbarometer;
+        return R.layout.activity_stimmungsbarometer;
     }
 
     @Override
@@ -78,7 +81,7 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getToolbarId() {
-        return R.id.actionBarStatistik;
+        return R.id.toolbar;
     }
 
     @Override
@@ -160,10 +163,16 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                viewWoche.setMinimumHeight(findViewById(R.id.scrollView).getHeight());
-                viewMonat.setMinimumHeight(findViewById(R.id.scrollView).getHeight());
-                viewJahr.setMinimumHeight(findViewById(R.id.scrollView).getHeight());
-                viewAlles.setMinimumHeight(findViewById(R.id.scrollView).getHeight());
+                int height = findViewById(R.id.scrollView).getHeight();
+                viewWoche.setMinimumHeight(height * 4 / 5);
+                viewMonat.setMinimumHeight(height * 4 / 5);
+                viewJahr.setMinimumHeight(height * 4 / 5);
+                viewAlles.setMinimumHeight(height * 4 / 5);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(0, 0, 0, height / 16);
+                viewWoche.setLayoutParams(lp);
+                viewMonat.setLayoutParams(lp);
+                viewJahr.setLayoutParams(lp);
             }
         }, 100);
 
@@ -172,9 +181,34 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
         viewJahr.setData(sqLiteConnector.getData(2));
         viewAlles.setData(sqLiteConnector.getAverage());
 
+        TextView titleWoche = new TextView(getApplicationContext());
+        titleWoche.setText("Letzte Woche");
+        titleWoche.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        titleWoche.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.black));
+        titleWoche.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
+        TextView titleMonat = new TextView(getApplicationContext());
+        titleMonat.setText("Letzter Monat");
+        titleMonat.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        titleMonat.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.black));
+        titleMonat.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
+        TextView titleJahr = new TextView(getApplicationContext());
+        titleJahr.setText("Letztes Jahr");
+        titleJahr.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        titleJahr.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.black));
+        titleJahr.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
+        TextView titleAlles = new TextView(getApplicationContext());
+        titleAlles.setText("Gesamt");
+        titleAlles.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        titleAlles.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.black));
+        titleAlles.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
+
+        container.addView(titleWoche);
         container.addView(viewWoche);
+        container.addView(titleMonat);
         container.addView(viewMonat);
+        container.addView(titleJahr);
         container.addView(viewJahr);
+        container.addView(titleAlles);
         container.addView(viewAlles);
     }
 

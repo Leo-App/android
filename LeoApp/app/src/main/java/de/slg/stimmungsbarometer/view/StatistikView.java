@@ -1,4 +1,4 @@
-package de.slg.stimmungsbarometer.activity.fragment;
+package de.slg.stimmungsbarometer.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -61,7 +61,7 @@ public class StatistikView extends View {
         width = getWidth();
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         baseLineY = height * 99 / 100;
-        abstandY = baseLineY * 9 / 40;
+        abstandY = baseLineY * 99 / 400;
         baseLineX = width / 20;
         radius = 8;
         if (bitmapIch == null || bitmapSchueler == null || bitmapLehrer == null || bitmapAlle == null) {
