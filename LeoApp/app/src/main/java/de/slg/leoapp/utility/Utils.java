@@ -62,6 +62,11 @@ public abstract class Utils {
      */
     public static final String URL_PHP_SCHOOL = BASE_DOMAIN_SCHOOL + "slgweb/leoapp_php/";
 
+    /**
+     * Pfad zu den PHP Skripts der Essensbestellung
+     */
+    public static final String URL_LUNCH_LEO = "https://lunch.leo-ac.de/"; //TODO
+
     /* Allgemeines */
     /**
      * {@link UtilsController} Objekt.

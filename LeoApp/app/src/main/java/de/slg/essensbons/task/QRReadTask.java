@@ -68,6 +68,7 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
             return false;
     }
 
+    @SuppressLint("DefaultLocale")
     private boolean checkValid(String s) {
         String[] parts = s.split("-");
 
@@ -101,12 +102,15 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         Utils.logDebug(subsum);
 
         try {
-            int menu       = Integer.parseInt(String.valueOf(parts[1].charAt(1)));
-            int customerid = Integer.parseInt(parts[0]);
-            customerid = (menu == 1) ? customerid / 3 : customerid / 2;
-            int checksum = Integer.parseInt(subsum) + customerid;
-            if (!String.valueOf(checksum).equals(parts[3]))
+            int orderId = Integer.parseInt(parts[0]);
+            int checksum = Integer.parseInt(subsum) + orderId;
+
+            int mod = checksum % 97;
+            int fin = 98-mod;
+
+            if (!String.format("%02d", fin).equals(parts[3]))
                 return false;
+
         } catch (NumberFormatException e) {
             return false;
         }
