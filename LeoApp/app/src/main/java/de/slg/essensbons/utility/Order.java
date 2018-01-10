@@ -11,15 +11,17 @@ import java.util.Date;
  * @since 0.0.1
  * @version 2017.0912
  */
-public class Order {
+public final class Order {
+    private final short  id;
     private final Date   date;
     private final short  menu;
     private final String descr;
 
-    public Order(Date d, short m, String s) {
-        menu = m;
-        date = d;
-        descr = s;
+    public Order(short id, Date date, short menu, String descr) {
+        this.id = id;
+        this.menu = menu;
+        this.date = date;
+        this.descr = descr;
     }
 
     public Date getDate() {
@@ -32,5 +34,9 @@ public class Order {
 
     public short getMenu() {
         return menu;
+    }
+
+    public short getId() {
+        return id;
     }
 }

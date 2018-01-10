@@ -1,5 +1,6 @@
 package de.slg.leoapp.utility;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 /**
@@ -13,7 +14,7 @@ import android.support.v4.app.Fragment;
  */
 
 public interface VerificationListener {
-    void onVerificationProcessed(ResponseCode response, Fragment fragment);
+    void onVerificationProcessed(ResponseCode response, @Nullable Fragment fragment);
 
-    void onSynchronisationProcessed(ResponseCode response, Fragment fragment);
+    void onSynchronisationProcessed(ResponseCode response, @Nullable Fragment fragment);
 }

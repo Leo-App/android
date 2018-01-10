@@ -475,7 +475,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                     BufferedReader in;
                     String         md5      = bytesToHex(enc);
                     Utils.logDebug(md5);
-                    URL interfaceDB = new URL(Utils.BASE_URL_PHP + "essenqr/qr_checkval.php?id=" + pref.getString("pref_key_qr_id", "00000") + "&auth=RW6SlQ&pw=" + md5);
+                    URL interfaceDB = new URL(Utils.URL_LUNCH_LEO + "qr_checkval.php?id=" + pref.getString("pref_key_qr_id", "00000") + "&auth=RW6SlQ&pw=" + md5);
                     Utils.logDebug(interfaceDB.toString());
                     in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
                     String inputLine;

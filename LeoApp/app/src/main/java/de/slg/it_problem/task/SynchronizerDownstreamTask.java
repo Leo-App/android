@@ -1,5 +1,7 @@
 package de.slg.it_problem.task;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -8,52 +10,103 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Hashtable;
 
+import de.slg.it_problem.utility.TaskStatusListener;
 import de.slg.it_problem.utility.datastructure.DecisionTree;
+import de.slg.leoapp.sqlite.SQLiteConnectorITProblem;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.datastructure.List;
 
 public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
 
     private Hashtable<String, DecisionTree> decisionTreeMap;
+    private List<TaskStatusListener> listeners;
 
     public SynchronizerDownstreamTask(Hashtable<String, DecisionTree> decisionTreeMap) {
         this.decisionTreeMap = decisionTreeMap;
+        listeners = new List<>();
     }
-
-    //TODO: Save Trees to SQLite
 
     @Override
     protected Void doInBackground(String... subjects) {
+        Utils.logDebug("BACKGROUND START");
 
-        if(!Utils.checkNetwork())
-            return null;
+        SQLiteConnectorITProblem db = new SQLiteConnectorITProblem(Utils.getContext());
 
-        for (String subject : subjects) {
+        if (Utils.checkNetwork()) {
 
-            try {
+            SQLiteDatabase dbh = db.getWritableDatabase();
 
-                URL updateURL = new URL(Utils.DOMAIN_DEV + "get.php?subject=" + subject);
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
+            for (String subject : subjects) {
 
-                StringBuilder builder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null)
-                    builder.append(line);
-                reader.close();
+                try {
 
-                String result = builder.toString();
+                    URL updateURL = new URL(Utils.DOMAIN_DEV + "/itbaum/get.php?subject=" + subject);
+                    BufferedReader reader =
+                            new BufferedReader(
+                                    new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
 
-                if (result.startsWith("-"))
-                    return null;
+                    StringBuilder builder = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null)
+                        builder.append(line);
+                    reader.close();
 
-                decisionTreeMap.put(subject, new DecisionTree(result));
+                    String result = builder.toString();
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                    if (result.startsWith("-"))
+                        continue;
+
+                    dbh.insertWithOnConflict(SQLiteConnectorITProblem.TABLE_DECISIONS, null, db.getContentValues(subject, result.substring(0, result.length() - 1)), SQLiteDatabase.CONFLICT_REPLACE);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    dbh.close();
+                }
             }
         }
+
+        SQLiteDatabase dbh = db.getReadableDatabase();
+
+        Cursor c = dbh.rawQuery("SELECT "
+                + SQLiteConnectorITProblem.DECISION_SUBJECT
+                + ", "
+                + SQLiteConnectorITProblem.DECISIONS_CONTENT
+                + " FROM "
+                + SQLiteConnectorITProblem.TABLE_DECISIONS, null);
+
+        c.moveToFirst();
+
+        while (!c.isAfterLast())  {
+            decisionTreeMap.put(c.getString(0), new DecisionTree(c.getString(1)));
+            c.moveToNext();
+        }
+
+        c.close();
+        Utils.logDebug("BACKGROUND FINISHED");
+        fillMissingTrees(subjects);
+
         return null;
+    }
+
+    @Override
+    public void onPostExecute(Void result) {
+        for (TaskStatusListener listener : listeners)
+            listener.taskFinished();
+    }
+
+    public SynchronizerDownstreamTask addListener(TaskStatusListener listener) {
+        listeners.append(listener);
+        return this;
+    }
+
+    private void fillMissingTrees(String[] subjects) {
+        Utils.logDebug("FILLED");
+        for (String cur : subjects) {
+            Utils.logError(cur);
+            if (decisionTreeMap.get(cur) == null)
+                decisionTreeMap.put(cur, new DecisionTree());
+        }
     }
 
 }

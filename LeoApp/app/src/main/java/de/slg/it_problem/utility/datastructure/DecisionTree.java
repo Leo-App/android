@@ -1,5 +1,7 @@
 package de.slg.it_problem.utility.datastructure;
 
+import android.support.annotation.NonNull;
+
 import de.slg.it_problem.utility.ProblemContent;
 import de.slg.leoapp.utility.datastructure.BinaryTree;
 
@@ -21,7 +23,7 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
      *
      * @param tree Stringrepräsentation des Baums
      */
-    public DecisionTree(String tree) {
+    public DecisionTree(@NonNull String tree) {
         super();
 
         if(tree.equals("") || tree.equals("_;;_"))
@@ -53,6 +55,13 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
         setLeftTree(leftTree);
         setRightTree(rightTree);
 
+    }
+
+    /**
+     * Standardkonstruktor.
+     */
+    public DecisionTree() {
+        super();
     }
 
     public DecisionTree getLeftTree() {
