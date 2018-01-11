@@ -58,6 +58,7 @@ public class SelectionFragment extends Fragment implements TaskStatusListener {
         public void onClick(View v) {
             reference.startFragment(FragmentType.QUESTION);
         }
+
     }
 
 }

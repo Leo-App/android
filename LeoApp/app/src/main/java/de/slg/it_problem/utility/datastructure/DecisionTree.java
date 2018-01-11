@@ -19,7 +19,7 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
     /**
      * Konstruktor.
      *
-     * Erstellt den Baum anhand eines Strings. Format des Strings: Inhalt_;_X_;_Y_;;_
+     * Erstellt den Baum anhand eines Strings. Format des Strings: Inhalt_;;_
      *
      * @param tree Stringrepräsentation des Baums
      */
