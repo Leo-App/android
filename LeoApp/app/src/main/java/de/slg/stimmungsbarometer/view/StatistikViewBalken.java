@@ -91,13 +91,17 @@ public class StatistikViewBalken extends View {
         canvasAlle.setBitmap(bitmapAlle);
 
         paint.setColor(ContextCompat.getColor(getContext(), R.color.colorIch));
-        canvasIch.drawRect(baseLineX, (float) (baseLineY - data[0].value * abstandY), baseLineX + breite, baseLineY, paint);
+        de.slg.leoapp.utility.Utils.logDebug("value ich = " + data[0].value);
+        de.slg.leoapp.utility.Utils.logDebug("value sch = " + data[1].value);
+        de.slg.leoapp.utility.Utils.logDebug("value leh = " + data[2].value);
+        de.slg.leoapp.utility.Utils.logDebug("value all = " + data[3].value);
+        canvasIch.drawRect(baseLineX, (float) (baseLineY - (5 - data[0].value) * abstandY), baseLineX + breite, baseLineY, paint);
         paint.setColor(ContextCompat.getColor(getContext(), R.color.colorSchueler));
-        canvasSchueler.drawRect(baseLineX + breite + abstandX, (float) (baseLineY - data[1].value * abstandY), baseLineX + breite + abstandX + breite, baseLineY, paint);
+        canvasSchueler.drawRect(baseLineX + breite + abstandX, (float) (baseLineY - (5 - data[1].value) * abstandY), baseLineX + breite + abstandX + breite, baseLineY, paint);
         paint.setColor(ContextCompat.getColor(getContext(), R.color.colorLehrer));
-        canvasLehrer.drawRect(baseLineX + (breite + abstandX) * 2, (float) (baseLineY - data[2].value * abstandY), baseLineX + (breite + abstandX) * 2 + breite, baseLineY, paint);
+        canvasLehrer.drawRect(baseLineX + (breite + abstandX) * 2, (float) (baseLineY - (5 - data[2].value) * abstandY), baseLineX + (breite + abstandX) * 2 + breite, baseLineY, paint);
         paint.setColor(ContextCompat.getColor(getContext(), R.color.colorAlle));
-        canvasAlle.drawRect(baseLineX + (breite + abstandX) * 3, (float) (baseLineY - data[3].value * abstandY), baseLineX + (breite + abstandX) * 3 + breite, baseLineY, paint);
+        canvasAlle.drawRect(baseLineX + (breite + abstandX) * 3, (float) (baseLineY - (5 - data[3].value) * abstandY), baseLineX + (breite + abstandX) * 3 + breite, baseLineY, paint);
         recreateCharts = false;
     }
 
