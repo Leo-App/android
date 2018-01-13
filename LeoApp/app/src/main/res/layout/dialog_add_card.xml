@@ -143,7 +143,7 @@
                     android:scaleType="fitCenter"
                     android:tag="NEWS"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_pin" />
+                    app:srcCompat="@drawable/icon_schwarzes_brett"/>
 
             </RelativeLayout>
 
@@ -199,7 +199,7 @@
                     android:scaleType="fitCenter"
                     android:tag="SURVEY"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/emoticon" />
+                    app:srcCompat="@drawable/icon_stimmungsbarometer"/>
 
             </RelativeLayout>
 

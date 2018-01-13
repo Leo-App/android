@@ -272,6 +272,10 @@ public class ChatActivity extends ActionLogActivity {
         refreshUI(true, true);
     }
 
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
+
     private static class SendMessage extends AsyncTask<String, Void, Void> {
         private ChatActivity   activity;
         private ReceiveService service;
@@ -302,13 +306,10 @@ public class ChatActivity extends ActionLogActivity {
 
                     service.startIfNotRunning();
 
-                    int cid = service.send(new Chat(0, oUid + " - " + Utils.getUserID(), Chat.ChatType.PRIVATE));
-                    Utils.logDebug("cid = " + cid);
+                    service.send(new Chat(0, oUid + " - " + Utils.getUserID(), Chat.ChatType.PRIVATE));
 
-                    while ((activity.cid = Utils.getController().getMessengerDatabase().getChatWith(oUid)) == -1)
+                    while (activity.cid == -1)
                         ;
-
-                    Utils.logDebug("cid = " + activity.cid);
                 } else {
                     Toast.makeText(activity, "You need an active Internet-Connection to perform this Action", Toast.LENGTH_LONG).show();
                     return null;

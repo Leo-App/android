@@ -19,8 +19,8 @@ import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.utility.GraphicUtils;
-import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.view.InfoButton;
 import de.slg.messenger.activity.MessengerActivity;
 import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
@@ -114,7 +114,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.title_news);
                 c.desc = Utils.getString(R.string.summary_info_news);
                 c.enabled = Utils.isVerified();
-                c.icon = R.drawable.ic_pin;
+                c.icon = R.drawable.icon_schwarzes_brett;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -126,7 +126,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_survey);
                 c.desc = Utils.getString(R.string.summary_info_survey);
-                c.icon = R.drawable.emoticon;
+                c.icon = R.drawable.icon_stimmungsbarometer;
                 c.enabled = Utils.isVerified();
                 c.buttonListener = new View.OnClickListener() {
                     @Override

@@ -7,7 +7,7 @@
         <item
             android:id="@+id/startseite"
             android:checked="false"
-            android:icon="@drawable/ic_home_white_24dp"
+            android:icon="@drawable/icon_startseite"
             android:title="@string/title_home" />
         <item
             android:id="@+id/foodmarks"
@@ -22,17 +22,17 @@
         <item
             android:id="@+id/messenger"
             android:checked="false"
-            android:icon="@drawable/ic_question_answer_white_24dp"
+            android:icon="@drawable/icon_messenger"
             android:title="@string/title_messenger" />
         <item
             android:id="@+id/newsboard"
             android:checked="false"
-            android:icon="@drawable/ic_pin"
+            android:icon="@drawable/icon_schwarzes_brett"
             android:title="@string/title_news" />
         <item
             android:id="@+id/barometer"
             android:checked="false"
-            android:icon="@drawable/ic_insert_emoticon_white_24dp"
+            android:icon="@drawable/icon_stimmungsbarometer"
             android:title="@string/title_survey" />
         <item
             android:id="@+id/stundenplan"
@@ -56,7 +56,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/profile"
-            android:icon="@drawable/emoticon"
+            android:icon="@drawable/ic_account_circle_black_24dp"
             android:title="@string/profil" />
         <item
             android:id="@+id/settings"

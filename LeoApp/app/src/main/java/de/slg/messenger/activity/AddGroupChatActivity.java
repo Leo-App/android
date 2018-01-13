@@ -25,6 +25,7 @@ public class AddGroupChatActivity extends ActionLogActivity {
     private MenuItem     confirm;
     private boolean[]    selection;
     private int          selected;
+    private int          cid;
 
     private boolean chatnameSet, usersSelected;
 
@@ -190,5 +191,13 @@ public class AddGroupChatActivity extends ActionLogActivity {
                 container.getChildAt(i).setVisibility(View.GONE);
             }
         }
+    }
+
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
     }
 }

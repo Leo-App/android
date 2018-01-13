@@ -11,6 +11,8 @@ import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.datastructure.Queue;
+import de.slg.messenger.activity.AddGroupChatActivity;
+import de.slg.messenger.activity.ChatActivity;
 import de.slg.messenger.utility.Assoziation;
 import de.slg.messenger.utility.Chat;
 import de.slg.messenger.utility.Message;
@@ -112,13 +114,10 @@ public class ReceiveService extends Service {
         send(s);
     }
 
-    public int send(Chat chat) {
+    public void send(Chat chat) {
         messageHandler.newChats.clear();
         String s = "c+ " + chat.ctype.toString().toUpperCase().charAt(0) + ';' + chat.cname;
         send(s);
-        while (messageHandler.newChats.isEmpty())
-            ;
-        return messageHandler.newChats.getContent().cid;
     }
 
     public void send(Assoziation assoziation) {
@@ -280,7 +279,21 @@ public class ReceiveService extends Service {
         @Override
         public void onMessage(WebSocket webSocket, String message) {
             Utils.logDebug(message);
-            messageHandler.append(message);
+            if (message.startsWith("+OK id")) {
+                int cid = Integer.parseInt(
+                        message.substring(6)
+                );
+                ChatActivity chatActivity = Utils.getController().getChatActivity();
+                if (chatActivity != null) {
+                    chatActivity.setCid(cid);
+                }
+                AddGroupChatActivity addGroupChatActivity = Utils.getController().getAddGroupChatActivity();
+                if (addGroupChatActivity != null) {
+                    addGroupChatActivity.setCid(cid);
+                }
+            } else {
+                messageHandler.append(message);
+            }
         }
 
         @Override

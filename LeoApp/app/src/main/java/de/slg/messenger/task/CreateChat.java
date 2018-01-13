@@ -1,6 +1,5 @@
 package de.slg.messenger.task;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 
@@ -15,17 +14,18 @@ import java.net.URLEncoder;
 import de.slg.leoapp.Start;
 import de.slg.leoapp.service.ReceiveService;
 import de.slg.leoapp.utility.Utils;
+import de.slg.messenger.activity.AddGroupChatActivity;
 import de.slg.messenger.activity.ChatActivity;
 import de.slg.messenger.utility.Assoziation;
 import de.slg.messenger.utility.Chat;
 
 public class CreateChat extends AsyncTask<Integer, Void, Intent> {
-    private final String         cname;
-    private final Activity       activity;
-    private       ReceiveService service;
-    private       int            cid;
+    private final String               cname;
+    private final AddGroupChatActivity activity;
+    private       ReceiveService       service;
+    private       int                  cid;
 
-    public CreateChat(Activity activity, String cname) {
+    public CreateChat(AddGroupChatActivity activity, String cname) {
         this.activity = activity;
         this.cname = cname;
         this.cid = -1;
@@ -43,11 +43,12 @@ public class CreateChat extends AsyncTask<Integer, Void, Intent> {
 
         sendChat();
 
-        if (cid != -1) {
-            service.send(new Assoziation(cid, Utils.getUserID()));
-            for (Integer i : params) {
-                service.send(new Assoziation(cid, i));
-            }
+        while ((cid = activity.getCid()) == -1)
+            ;
+
+        service.send(new Assoziation(cid, Utils.getUserID()));
+        for (Integer i : params) {
+            service.send(new Assoziation(cid, i));
         }
 
         return new Intent(activity, ChatActivity.class)
@@ -58,6 +59,8 @@ public class CreateChat extends AsyncTask<Integer, Void, Intent> {
 
     private void sendChat() {
         try {
+            service.send(new Chat(cid, cname, Chat.ChatType.GROUP));
+
             URLConnection connection = new URL(generateURL(cname))
                     .openConnection();
 

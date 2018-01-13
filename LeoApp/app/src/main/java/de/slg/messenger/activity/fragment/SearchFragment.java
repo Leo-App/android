@@ -250,7 +250,7 @@ public class SearchFragment extends Fragment {
                 Chat c = (Chat) current;
                 username.setText(c.cname);
                 userdefault.setText("");
-                icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
+                icon.setImageResource(R.drawable.icon_messenger);
             }
         }
 

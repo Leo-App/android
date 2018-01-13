@@ -24,9 +24,9 @@ public abstract class Utils {
         public static String encrypt(String text, String key) {
             StringBuilder builder = new StringBuilder();
             assert key.matches("[A-Z]*");
-            for (int i = 0, skipped = 0; i < text.length(); i++) {
+            for (int i = 0; i < text.length(); i++) {
                 char textChar = text.charAt(i),
-                        keyChar = key.charAt(i - skipped),
+                        keyChar = key.charAt(i),
                         encrypted = (char) (textChar + (keyChar - 65));
                 if (isCapitalLetter(textChar)) {
                     if (encrypted > 90)
@@ -54,9 +54,9 @@ public abstract class Utils {
         public static String decrypt(String text, String key) {
             StringBuilder builder = new StringBuilder();
             assert key.matches("[A-Z]*");
-            for (int iText = 0, iKey = 0; iText < text.length() && iKey < key.length(); iText++, iKey++) {
-                char textChar = text.charAt(iText),
-                        keyChar = key.charAt(iKey),
+            for (int i = 0; i < text.length() && i < key.length(); i++, i++) {
+                char textChar = text.charAt(i),
+                        keyChar = key.charAt(i),
                         decrypted = (char) (textChar - (keyChar - 65));
                 if (isCapitalLetter(textChar)) {
                     if (decrypted < 65)

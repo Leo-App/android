@@ -11,11 +11,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
-import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.VerificationListener;
+import de.slg.leoapp.utility.datastructure.List;
 
 @SuppressLint("StaticFieldLeak")
 public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
@@ -68,7 +68,9 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(
-                                    connection.getInputStream()));
+                                    connection.getInputStream()
+                            )
+                    );
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -76,7 +78,7 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
             }
             reader.close();
 
-            Utils.logDebug(checksum.toString());
+            Utils.logDebug(checksum);
 
             URLConnection connection2 =
                     new URL(Utils.BASE_URL_PHP + "user/addUser.php?name=" + Utils.getUserDefaultName() + "&permission=" + permission + "&checksum=" + checksum)

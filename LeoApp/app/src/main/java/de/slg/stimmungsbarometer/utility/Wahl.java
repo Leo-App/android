@@ -1,13 +1,11 @@
 package de.slg.stimmungsbarometer.utility;
 
 public class Wahl {
-    public final int    voteid;
-    public final int    userid;
-    public final String grund;
+    public final int voteid;
+    public final int userid;
 
-    public Wahl(int voteid, int userid, String grund) {
+    public Wahl(int voteid, int userid) {
         this.voteid = voteid;
         this.userid = userid;
-        this.grund = grund;
     }
 }
