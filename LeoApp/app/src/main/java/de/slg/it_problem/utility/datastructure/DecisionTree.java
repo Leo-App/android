@@ -3,6 +3,7 @@ package de.slg.it_problem.utility.datastructure;
 import android.support.annotation.NonNull;
 
 import de.slg.it_problem.utility.ProblemContent;
+import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.datastructure.BinaryTree;
 
 /**
@@ -30,7 +31,13 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
             return;
 
         String current = tree.substring(0, tree.indexOf("_;;_"));
+
+        Utils.logError(current);
+
         String[] params = current.split("_;_");
+
+        if (params.length != 3)
+            return;
 
         setContent(new ProblemContent(params[0], params[1], params[2]));
 
