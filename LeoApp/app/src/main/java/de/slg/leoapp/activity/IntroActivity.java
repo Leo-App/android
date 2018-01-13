@@ -220,6 +220,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 GraphicUtils.sendToast("Etwas ist schiefgelaufen, versuche es später nochmal");
                 fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
+
                 break;
             case SUCCESS:
                 if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
