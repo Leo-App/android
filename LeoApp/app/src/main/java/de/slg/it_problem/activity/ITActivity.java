@@ -88,7 +88,7 @@ public class ITActivity extends LeoAppFeatureActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container, selectionFragment)
+                .add(R.id.fragment_container, selectionFragment, "CUR")
                 .commit();
     }
 

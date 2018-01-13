@@ -11,6 +11,7 @@ import java.io.File;
 import de.slg.leoapp.utility.Utils;
 
 public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
+
     public static final  String TABLE_EINTRAEGE        = "Eintraege";
     public static final  String EINTRAEGE_TITEL        = "titel";
     public static final  String EINTRAEGE_ADRESSAT     = "adressat";
