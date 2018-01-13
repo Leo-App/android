@@ -3,8 +3,7 @@ package de.slg.stimmungsbarometer.activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
-import android.util.TypedValue;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -22,6 +21,7 @@ import java.util.GregorianCalendar;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.EditTextDialog;
 import de.slg.leoapp.sqlite.SQLiteConnectorStimmungsbarometer;
+import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
@@ -153,63 +153,65 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
     }
 
     private void initScrollView() {
-        ViewGroup container = (ViewGroup) findViewById(R.id.linearLayout);
-
         viewWoche = new StatistikView(getApplicationContext());
+        viewWoche.setData(sqLiteConnector.getData(0));
         viewMonat = new StatistikView(getApplicationContext());
+        viewMonat.setData(sqLiteConnector.getData(1));
         viewJahr = new StatistikView(getApplicationContext());
+        viewJahr.setData(sqLiteConnector.getData(2));
         viewAlles = new StatistikViewBalken(getApplicationContext());
+        viewAlles.setData(sqLiteConnector.getAverage());
 
-        new Handler().postDelayed(new Runnable() {
+        final CardView cardWoche = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
+        cardWoche.setCardElevation(GraphicUtils.dpToPx(4));
+        final CardView cardMonat = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
+        cardMonat.setCardElevation(GraphicUtils.dpToPx(4));
+        final CardView cardJahr = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
+        cardJahr.setCardElevation(GraphicUtils.dpToPx(4));
+        final CardView cardAlles = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
+        cardAlles.setCardElevation(GraphicUtils.dpToPx(4));
+
+        final TextView titleWoche = (TextView) cardWoche.findViewById(R.id.textView);
+        titleWoche.setText("Letzte Woche");
+        final TextView titleMonat = (TextView) cardMonat.findViewById(R.id.textView);
+        titleMonat.setText("Letzter Monat");
+        final TextView titleJahr = (TextView) cardJahr.findViewById(R.id.textView);
+        titleJahr.setText("Letztes Jahr");
+        final TextView titleAlles = (TextView) cardAlles.findViewById(R.id.textView);
+        titleAlles.setText("Gesamt");
+
+        final ViewGroup layoutWoche = (ViewGroup) cardWoche.findViewById(R.id.layout);
+        layoutWoche.addView(viewWoche);
+        final ViewGroup layoutMonat = (ViewGroup) cardMonat.findViewById(R.id.layout);
+        layoutMonat.addView(viewMonat);
+        final ViewGroup layoutJahr = (ViewGroup) cardJahr.findViewById(R.id.layout);
+        layoutJahr.addView(viewJahr);
+        final ViewGroup layoutAlles = (ViewGroup) cardAlles.findViewById(R.id.layout);
+        layoutAlles.addView(viewAlles);
+
+        new Handler().post(new Runnable() {
             @Override
             public void run() {
-                int height = findViewById(R.id.scrollView).getHeight();
+                View scrollView = findViewById(R.id.scrollView);
+                int  height;
+                while ((height = scrollView.getHeight()) == 0)
+                    ;
+
                 viewWoche.setMinimumHeight(height * 4 / 5);
                 viewMonat.setMinimumHeight(height * 4 / 5);
                 viewJahr.setMinimumHeight(height * 4 / 5);
                 viewAlles.setMinimumHeight(height * 4 / 5);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(0, 0, 0, height / 16);
-                viewWoche.setLayoutParams(lp);
-                viewMonat.setLayoutParams(lp);
-                viewJahr.setLayoutParams(lp);
+
+                final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(0, height / 64, 0, height / 64);
+
+                final LinearLayout container = (LinearLayout) findViewById(R.id.linearLayout);
+                container.addView(cardWoche, layoutParams);
+                container.addView(cardMonat, layoutParams);
+                container.addView(cardJahr, layoutParams);
+                container.addView(cardAlles, layoutParams);
             }
-        }, 100);
-
-        viewWoche.setData(sqLiteConnector.getData(0));
-        viewMonat.setData(sqLiteConnector.getData(1));
-        viewJahr.setData(sqLiteConnector.getData(2));
-        viewAlles.setData(sqLiteConnector.getAverage());
-
-        TextView titleWoche = new TextView(getApplicationContext());
-        titleWoche.setText("Letzte Woche");
-        titleWoche.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        titleWoche.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.black));
-        titleWoche.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
-        TextView titleMonat = new TextView(getApplicationContext());
-        titleMonat.setText("Letzter Monat");
-        titleMonat.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        titleMonat.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.black));
-        titleMonat.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
-        TextView titleJahr = new TextView(getApplicationContext());
-        titleJahr.setText("Letztes Jahr");
-        titleJahr.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        titleJahr.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.black));
-        titleJahr.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
-        TextView titleAlles = new TextView(getApplicationContext());
-        titleAlles.setText("Gesamt");
-        titleAlles.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        titleAlles.setTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.black));
-        titleAlles.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.background_light));
-
-        container.addView(titleWoche);
-        container.addView(viewWoche);
-        container.addView(titleMonat);
-        container.addView(viewMonat);
-        container.addView(titleJahr);
-        container.addView(viewJahr);
-        container.addView(titleAlles);
-        container.addView(viewAlles);
+        });
     }
 
     private void initEditButton() {
@@ -238,10 +240,18 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
     }
 
     private void updateViews() {
+        viewWoche.setData(sqLiteConnector.getData(0));
         viewWoche.invalidate();
+
+        viewMonat.setData(sqLiteConnector.getData(1));
         viewMonat.invalidate();
+
+        viewJahr.setData(sqLiteConnector.getData(2));
         viewJahr.invalidate();
+
+        viewAlles.setData(sqLiteConnector.getAverage());
         viewAlles.invalidate();
+
     }
 
     private class StartTask extends AsyncTask<Void, Void, ResponseCode> {
@@ -355,6 +365,7 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
                 }
             } catch (IOException e) {
                 Utils.logError(e);
+                e.printStackTrace();
                 return ResponseCode.SERVER_FAILED;
             }
 

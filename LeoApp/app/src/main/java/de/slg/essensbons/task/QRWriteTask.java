@@ -60,7 +60,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
     }
 
     @Override
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint("DefaultLocale")
     protected Bitmap doInBackground(View... params) {
         target = params[0];
 
@@ -81,21 +81,20 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
         menu = act.getMenu();
         descr = act.getDescr();
+        short id = act.getId();
 
-        String customerString = EssensbonUtils.getCustomerId();
-        if (customerString.equals(""))
-            return null;
-
-        int        customerid = Integer.parseInt(customerString);
-        DateFormat dateFormat = new SimpleDateFormat("ddMMyyy");
+        DateFormat dateFormat = new SimpleDateFormat("ddMMyyy", Locale.GERMAN);
         Date       date       = new Date();
         String     dateS      = dateFormat.format(date);
         dateS = dateS.substring(0, 4) + dateS.substring(5);
-        String code = customerString + "-M" + act.getMenu() + "-" + dateS + "-";
-        int    c1   = Integer.valueOf(dateS.substring(0, 2) + dateS.substring(4));
-        customerid = (act.getMenu() == 2) ? customerid / 2 : customerid / 3;
-        c1 += customerid;
-        code += String.valueOf(c1);
+
+        int cur = Integer.parseInt(dateS)+id;
+        int mod = cur%97;
+        int fin = 98-mod;
+
+        String formattedChecksum = String.format("%02d", fin);
+
+        String code = id+"-"+"M"+menu+"-"+dateS+"-"+formattedChecksum;
 
         return createNewQR(code);
     }
@@ -171,8 +170,9 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             return null;
         cursor.moveToNext();
         String desc = String.valueOf(cursor.getString(cursor.getColumnIndex(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_DESCR)));
-        String s    = String.valueOf(cursor.getShort(cursor.getColumnIndex(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_MENU)));
-        Order  o    = new Order(date, Short.parseShort(s), desc);
+        short menu = cursor.getShort(cursor.getColumnIndex(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_MENU));
+        short id = cursor.getShort(cursor.getColumnIndex(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_ID));
+        Order  o = new Order(id, date, menu, desc);
         cursor.close();
         return o;
     }
@@ -181,7 +181,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
         BufferedReader in     = null;
         StringBuilder result = new StringBuilder();
         try {
-            URL interfaceDB = new URL(Utils.BASE_URL_PHP + "essenqr/qr_database.php?id=" + EssensbonUtils.getCustomerId()
+            URL interfaceDB = new URL(Utils.URL_LUNCH_LEO + "qr_database.php?id=" + EssensbonUtils.getCustomerId()
                     + "&auth=2SnDS7GBdHf5sd");
             Utils.logDebug(interfaceDB.toString());
             in = null;
@@ -231,10 +231,13 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
             } catch (ParseException e) {
                 Utils.logError(e);
             }
-            Utils.logDebug("Date " + s.split("_seperator_")[0]);
-            values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_DATE, s.split("_seperator_")[0]);
-            values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_MENU, s.split("_seperator_")[1]);
-            values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_DESCR, s.split("_seperator_")[2]);
+
+            String[] parts = s.split("_separator_");
+
+            values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_ID, parts[0]);
+            values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_DATE, parts[1]);
+            values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_MENU, parts[2]);
+            values.put(SQLiteConnectorEssensbons.OrderEntry.COLUMN_NAME_DESCR, parts[3]);
             try {
                 db.insert(SQLiteConnectorEssensbons.OrderEntry.TABLE_NAME, null, values);
             } catch (Exception e) {

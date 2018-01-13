@@ -28,7 +28,7 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... subjects) {
-        Utils.logDebug("BACKGROUND START");
+        Utils.logError("BACKGROUND START");
 
         SQLiteConnectorITProblem db = new SQLiteConnectorITProblem(Utils.getContext());
 
@@ -60,10 +60,11 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                } finally {
-                    dbh.close();
                 }
             }
+
+            dbh.close();
+
         }
 
         SQLiteDatabase dbh = db.getReadableDatabase();
@@ -83,7 +84,7 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
         }
 
         c.close();
-        Utils.logDebug("BACKGROUND FINISHED");
+        Utils.logError("BACKGROUND FINISHED");
         fillMissingTrees(subjects);
 
         return null;
@@ -101,11 +102,12 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
     }
 
     private void fillMissingTrees(String[] subjects) {
-        Utils.logDebug("FILLED");
+        Utils.logError("FILLED");
         for (String cur : subjects) {
-            Utils.logError(cur);
-            if (decisionTreeMap.get(cur) == null)
+            if (decisionTreeMap.get(cur) == null) {
                 decisionTreeMap.put(cur, new DecisionTree());
+                Utils.logError("null"+cur);
+            }
         }
     }
 

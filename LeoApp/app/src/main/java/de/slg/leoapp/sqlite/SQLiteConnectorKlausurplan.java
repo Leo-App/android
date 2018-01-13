@@ -122,7 +122,7 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     }
 
     public Klausur getNextExam() {
-        Cursor  cursor = database.query(TABLE_KLAUSUREN, new String[]{KLAUSUR_ID, KLAUSUR_TITEL, KLAUSUR_DATUM, KLAUSUR_NOTIZ}, KLAUSUR_DATUM + " = '" + getDate() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 OR " + KLAUSUR_HERUNTERGELADEN + " = 0", null, null, null, KLAUSUR_DATUM, "1");
+        Cursor  cursor = database.query(TABLE_KLAUSUREN, new String[]{KLAUSUR_ID, KLAUSUR_TITEL, KLAUSUR_DATUM, KLAUSUR_NOTIZ}, KLAUSUR_DATUM + " = '" + getDate() + "' AND (" + KLAUSUR_IN_STUNDENPLAN + " = 1 OR " + KLAUSUR_HERUNTERGELADEN + " = 0)", null, null, null, KLAUSUR_DATUM, "1");
         Klausur k      = null;
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();

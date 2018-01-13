@@ -5,14 +5,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import de.slg.it_problem.activity.ITActivity;
-import de.slg.it_problem.task.SynchronizerDownstreamTask;
 import de.slg.it_problem.utility.FragmentType;
 import de.slg.it_problem.utility.Subject;
 import de.slg.it_problem.utility.TaskStatusListener;
 import de.slg.leoapp.R;
+import de.slg.leoapp.utility.GraphicUtils;
+import de.slg.leoapp.utility.Utils;
+
+// TODO abc123$
 
 /**
  * SelectionFragment.
@@ -40,6 +42,7 @@ public class SelectionFragment extends Fragment implements TaskStatusListener {
     }
 
     private void initButtons() {
+        Utils.logError("INIT");
         v.findViewById(R.id.button_beamer).setOnClickListener(new ButtonClickListener(Subject.BEAMER));
         v.findViewById(R.id.button_network).setOnClickListener(new ButtonClickListener(Subject.NETWORK));
         v.findViewById(R.id.button_computer).setOnClickListener(new ButtonClickListener(Subject.COMPUTER));
@@ -56,8 +59,14 @@ public class SelectionFragment extends Fragment implements TaskStatusListener {
 
         @Override
         public void onClick(View v) {
+            if (!reference.getCurrentSession().isAvailable()) {
+                GraphicUtils.sendToast("Keine Lösungen verfügbar");
+                return;
+            }
+
             reference.startFragment(FragmentType.QUESTION);
         }
+
     }
 
 }

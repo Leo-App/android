@@ -32,8 +32,7 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@android:color/background_light"/>
+                android:orientation="vertical"/>
 
         </ScrollView>
 

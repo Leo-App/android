@@ -34,6 +34,10 @@ public class Session {
         return current.getLeftTree().isEmpty() && current.getRightTree().isEmpty();
     }
 
+    public boolean isAvailable() {
+        return !current.isEmpty();
+    }
+
     public void answerYes() {
         current = current.getRightTree();
     }

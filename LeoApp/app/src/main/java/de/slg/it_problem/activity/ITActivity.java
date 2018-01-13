@@ -35,6 +35,8 @@ public class ITActivity extends LeoAppFeatureActivity {
     private Hashtable<String, DecisionTree> decisionTreeHashtable;
     private Bundle b;
 
+    private SelectionFragment selectionFragment;
+
     @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);
@@ -79,17 +81,38 @@ public class ITActivity extends LeoAppFeatureActivity {
         return R.id.itsolver;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getCurrentSession() != null) {
+            currentSession = null;
+            resetFragments();
+        } else {
+            finish();
+        }
+    }
+
     private void initFragments() {
         if (b != null)
             return;
 
-        SelectionFragment selectionFragment = new SelectionFragment();
+        selectionFragment = new SelectionFragment();
         selectionFragment.setArguments(getIntent().getExtras());
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, selectionFragment, "CUR")
                 .commit();
+    }
+
+    private void resetFragments() {
+        selectionFragment = new SelectionFragment();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, selectionFragment)
+                .commit();
+
+        initSync();
     }
 
     public void startFragment(FragmentType fragmentType) {
@@ -132,7 +155,7 @@ public class ITActivity extends LeoAppFeatureActivity {
 
     private void initSync() {
         new SynchronizerDownstreamTask(decisionTreeHashtable)
-                .addListener((TaskStatusListener) getFragmentManager().findFragmentByTag("CUR"))
+                .addListener(selectionFragment)
                 .execute(Subject.BEAMER, Subject.COMPUTER, Subject.NETWORK);
     }
 }

@@ -10,7 +10,7 @@ public class SQLiteConnectorEssensbons extends SQLiteOpenHelper {
     private static final String DATABASE_NAME           = "foodmarks.db";
     private static final String SQL_CREATE_TABLE_ORDERS = "CREATE TABLE IF NOT EXISTS "
             + OrderEntry.TABLE_NAME + " ("
-            + OrderEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+            + OrderEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY NOT NULL, "
             + OrderEntry.COLUMN_NAME_DATE + " date NOT NULL, "
             + OrderEntry.COLUMN_NAME_MENU + " tinyint NOT NULL, "
             + OrderEntry.COLUMN_NAME_DESCR + " text NOT NULL)";
@@ -72,7 +72,7 @@ public class SQLiteConnectorEssensbons extends SQLiteOpenHelper {
         public static final String COLUMN_NAME_DATE;
         public static final String COLUMN_NAME_MENU;
         public static final String COLUMN_NAME_DESCR;
-        static final        String COLUMN_NAME_ID;
+        public static final String COLUMN_NAME_ID;
 
         static {
             TABLE_NAME = "USERORDERS";
