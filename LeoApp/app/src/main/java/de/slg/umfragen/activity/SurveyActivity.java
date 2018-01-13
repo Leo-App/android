@@ -33,7 +33,6 @@ import java.util.Map;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.notification.NotificationHandler;
-import de.slg.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
 import de.slg.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;

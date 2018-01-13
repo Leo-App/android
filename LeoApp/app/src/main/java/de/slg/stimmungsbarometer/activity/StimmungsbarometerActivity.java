@@ -1,21 +1,12 @@
 package de.slg.stimmungsbarometer.activity;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.os.Handler;
+import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,42 +15,39 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.GregorianCalendar;
 
-import de.slg.essensbons.activity.EssensQRActivity;
-import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
-import de.slg.leoapp.activity.PreferenceActivity;
-import de.slg.leoapp.activity.ProfileActivity;
+import de.slg.leoapp.dialog.EditTextDialog;
+import de.slg.leoapp.sqlite.SQLiteConnectorStimmungsbarometer;
+import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
-import de.slg.leoapp.view.ActionLogActivity;
-import de.slg.messenger.activity.MessengerActivity;
-import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
-import de.slg.startseite.activity.MainActivity;
-import de.slg.stimmungsbarometer.activity.fragment.ZeitraumFragment;
+import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.stimmungsbarometer.utility.Ergebnis;
-import de.slg.stundenplan.activity.StundenplanActivity;
-import de.slg.umfragen.activity.SurveyActivity;
+import de.slg.stimmungsbarometer.view.StatistikView;
+import de.slg.stimmungsbarometer.view.StatistikViewBalken;
 
-public class StimmungsbarometerActivity extends ActionLogActivity {
-    public static  boolean            drawI;
-    public static  boolean            drawS;
-    public static  boolean            drawL;
-    public static  boolean            drawA;
-    private static Ergebnis[][]       daten;
-    private        DrawerLayout       drawerLayout;
-    private        ZeitraumFragment[] fragments;
+public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
+    public static boolean drawI;
+    public static boolean drawS;
+    public static boolean drawL;
+    public static boolean drawA;
 
-    public static Ergebnis[][] getData() {
-        return daten;
-    }
+    private SQLiteConnectorStimmungsbarometer sqLiteConnector;
+
+    private StatistikView       viewWoche;
+    private StatistikView       viewMonat;
+    private StatistikView       viewJahr;
+    private StatistikViewBalken viewAlles;
+
+    private EditTextDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wrapper_stimmungsbarometer);
         Utils.getController().registerStimmungsbarometerActivity(this);
 
         drawI = Utils.isVerified();
@@ -67,25 +55,48 @@ public class StimmungsbarometerActivity extends ActionLogActivity {
         drawL = true;
         drawA = true;
 
-        initTabs();
-        initToolbar();
-        initNavigationView();
+        sqLiteConnector = new SQLiteConnectorStimmungsbarometer(getApplicationContext());
+
+        initScrollView();
         initLayouts();
+        initEditButton();
 
         new StartTask().execute();
     }
 
     @Override
-    protected String getActivityTag() {
-        return "StimmungsbarometerActivity";
+    protected int getContentView() {
+        return R.layout.activity_stimmungsbarometer;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        if (mi.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
-        return true;
+    protected int getDrawerLayoutId() {
+        return R.id.drawer;
+    }
+
+    @Override
+    protected int getNavigationId() {
+        return R.id.navigationView;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return R.id.toolbar;
+    }
+
+    @Override
+    protected int getToolbarTextId() {
+        return R.string.title_survey;
+    }
+
+    @Override
+    protected int getNavigationHighlightId() {
+        return R.id.barometer;
+    }
+
+    @Override
+    protected String getActivityTag() {
+        return "StimmungsbarometerActivity";
     }
 
     @Override
@@ -108,7 +119,7 @@ public class StimmungsbarometerActivity extends ActionLogActivity {
                     drawI = !drawI;
                     v.findViewById(R.id.textViewIch).setEnabled(drawI);
                     v.findViewById(R.id.imageViewIch).setEnabled(drawI);
-                    updateFragments(false);
+                    updateViews();
                 }
             }
         });
@@ -118,7 +129,7 @@ public class StimmungsbarometerActivity extends ActionLogActivity {
                 drawS = !drawS;
                 v.findViewById(R.id.textViewSchueler).setEnabled(drawS);
                 v.findViewById(R.id.imageViewSchueler).setEnabled(drawS);
-                updateFragments(false);
+                updateViews();
             }
         });
         lL.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +138,7 @@ public class StimmungsbarometerActivity extends ActionLogActivity {
                 drawL = !drawL;
                 v.findViewById(R.id.textViewLehrer).setEnabled(drawL);
                 v.findViewById(R.id.imageViewLehrer).setEnabled(drawL);
-                updateFragments(false);
+                updateViews();
             }
         });
         lA.setOnClickListener(new View.OnClickListener() {
@@ -136,201 +147,226 @@ public class StimmungsbarometerActivity extends ActionLogActivity {
                 drawA = !drawA;
                 v.findViewById(R.id.textViewAlle).setEnabled(drawA);
                 v.findViewById(R.id.imageViewAlle).setEnabled(drawA);
-                updateFragments(false);
+                updateViews();
             }
         });
     }
 
-    private void updateFragments(boolean recreateCharts) {
-        for (ZeitraumFragment fragment : fragments)
-            fragment.update(recreateCharts);
-    }
+    private void initScrollView() {
+        viewWoche = new StatistikView(getApplicationContext());
+        viewWoche.setData(sqLiteConnector.getData(0));
+        viewMonat = new StatistikView(getApplicationContext());
+        viewMonat.setData(sqLiteConnector.getData(1));
+        viewJahr = new StatistikView(getApplicationContext());
+        viewJahr.setData(sqLiteConnector.getData(2));
+        viewAlles = new StatistikViewBalken(getApplicationContext());
+        viewAlles.setData(sqLiteConnector.getAverage());
 
-    private void initTabs() {
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        fragments = new ZeitraumFragment[4];
-        for (int i = 0; i < fragments.length; i++) {
-            fragments[i] = new ZeitraumFragment();
-            fragments[i].zeitraum = i;
-        }
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return fragments[position];
-            }
+        final CardView cardWoche = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
+        cardWoche.setCardElevation(GraphicUtils.dpToPx(4));
+        final CardView cardMonat = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
+        cardMonat.setCardElevation(GraphicUtils.dpToPx(4));
+        final CardView cardJahr = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
+        cardJahr.setCardElevation(GraphicUtils.dpToPx(4));
+        final CardView cardAlles = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
+        cardAlles.setCardElevation(GraphicUtils.dpToPx(4));
 
+        final TextView titleWoche = (TextView) cardWoche.findViewById(R.id.textView);
+        titleWoche.setText("Letzte Woche");
+        final TextView titleMonat = (TextView) cardMonat.findViewById(R.id.textView);
+        titleMonat.setText("Letzter Monat");
+        final TextView titleJahr = (TextView) cardJahr.findViewById(R.id.textView);
+        titleJahr.setText("Letztes Jahr");
+        final TextView titleAlles = (TextView) cardAlles.findViewById(R.id.textView);
+        titleAlles.setText("Gesamt");
+
+        final ViewGroup layoutWoche = (ViewGroup) cardWoche.findViewById(R.id.layout);
+        layoutWoche.addView(viewWoche);
+        final ViewGroup layoutMonat = (ViewGroup) cardMonat.findViewById(R.id.layout);
+        layoutMonat.addView(viewMonat);
+        final ViewGroup layoutJahr = (ViewGroup) cardJahr.findViewById(R.id.layout);
+        layoutJahr.addView(viewJahr);
+        final ViewGroup layoutAlles = (ViewGroup) cardAlles.findViewById(R.id.layout);
+        layoutAlles.addView(viewAlles);
+
+        new Handler().post(new Runnable() {
             @Override
-            public int getCount() {
-                return fragments.length;
+            public void run() {
+                View scrollView = findViewById(R.id.scrollView);
+                int  height;
+                while ((height = scrollView.getHeight()) == 0)
+                    ;
+
+                viewWoche.setMinimumHeight(height * 4 / 5);
+                viewMonat.setMinimumHeight(height * 4 / 5);
+                viewJahr.setMinimumHeight(height * 4 / 5);
+                viewAlles.setMinimumHeight(height * 4 / 5);
+
+                final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(0, height / 64, 0, height / 64);
+
+                final LinearLayout container = (LinearLayout) findViewById(R.id.linearLayout);
+                container.addView(cardWoche, layoutParams);
+                container.addView(cardMonat, layoutParams);
+                container.addView(cardJahr, layoutParams);
+                container.addView(cardAlles, layoutParams);
             }
         });
-        tabLayout.setupWithViewPager(viewPager);
-        // TODO String-Ressource
-        tabLayout.getTabAt(0).setText("Letzte Woche");
-        tabLayout.getTabAt(1).setText("Letzter Monat");
-        tabLayout.getTabAt(2).setText("Letztes Jahr");
-        tabLayout.getTabAt(3).setText("Gesamt");
     }
 
-    private void initToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.actionBarStatistik);
-        myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(getString(R.string.title_survey));
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        navigationView.getMenu().findItem(R.id.barometer).setChecked(true);
-        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
-                        break;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), MessengerActivity.class);
-                        break;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        return true;
-                    case R.id.klausurplan:
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                        break;
-                    case R.id.startseite:
-                        i = null;
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-                    case R.id.profile:
-                        i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        break;
-                    case R.id.umfragen:
-                        i = new Intent(getApplicationContext(), SurveyActivity.class);
-                        break;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+    private void initEditButton() {
+        if (Utils.getUserPermission() >= User.PERMISSION_LEHRER) {
+            View edit = findViewById(R.id.changeQuestion);
+            edit.setVisibility(View.VISIBLE);
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog = new EditTextDialog(
+                            StimmungsbarometerActivity.this,
+                            "Frage ändern",
+                            "Neue Frage",
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    new SendQuestionTask().execute(dialog.getTextInput());
+                                    dialog.dismiss();
+                                }
+                            }
+                    );
+                    dialog.show();
                 }
-                if (i != null)
-                    startActivity(i);
-                finish();
-                return true;
-            }
-        });
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.getUserName());
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
-            grade.setText(Utils.getLehrerKuerzel());
-        else
-            grade.setText(Utils.getUserStufe());
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
+            });
+        }
+    }
+
+    private void updateViews() {
+        viewWoche.setData(sqLiteConnector.getData(0));
+        viewWoche.invalidate();
+
+        viewMonat.setData(sqLiteConnector.getData(1));
+        viewMonat.invalidate();
+
+        viewJahr.setData(sqLiteConnector.getData(2));
+        viewJahr.invalidate();
+
+        viewAlles.setData(sqLiteConnector.getAverage());
+        viewAlles.invalidate();
+
     }
 
     private class StartTask extends AsyncTask<Void, Void, ResponseCode> {
         @Override
-        protected void onPreExecute() {
-            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-        }
-
-        @Override
         protected ResponseCode doInBackground(Void... params) {
-            if (daten == null) {
-                try {
-                    URLConnection connection = new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/ergebnisse.php?uid=" + Utils.getUserID())
-                            .openConnection();
+            try {
+                URLConnection connection = new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/ergebnisse.php?uid=" + Utils.getUserID())
+                        .openConnection();
 
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            connection.getInputStream(), "UTF-8"));
-                    String        line;
-                    StringBuilder builder = new StringBuilder();
-                    while ((line = reader.readLine()) != null) {
-                        builder.append(line);
-                    }
-                    reader.close();
-
-                    String result = builder.toString();
-                    if (result.startsWith("-")) {
-                        throw new IOException(result);
-                    }
-
-                    String[] e = builder.toString().split("_abschnitt_");
-
-                    String[] splitI = e[0].split("_next_");
-                    String[] splitS = e[1].split("_next_");
-                    String[] splitL = e[2].split("_next_");
-                    String[] splitA = e[3].split("_next_");
-
-                    Ergebnis[][] ergebnisse = new Ergebnis[4][];
-                    ergebnisse[0] = new Ergebnis[splitI.length];
-                    ergebnisse[1] = new Ergebnis[splitS.length];
-                    ergebnisse[2] = new Ergebnis[splitL.length];
-                    ergebnisse[3] = new Ergebnis[splitA.length];
-
-                    for (int i = 0; i < ergebnisse[0].length; i++) {
-                        String[] current = splitI[i].split(";");
-                        if (current.length == 2) {
-                            String[] date = current[1].replace('.', '_').split("_");
-                            ergebnisse[0][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), true, false, false, false);
-                        }
-                    }
-
-                    for (int i = 0; i < ergebnisse[1].length; i++) {
-                        String[] current = splitS[i].split(";");
-                        if (current.length == 2) {
-                            String[] date = current[1].replace('.', '_').split("_");
-                            ergebnisse[1][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, true, false, false);
-                        }
-                    }
-
-                    for (int i = 0; i < ergebnisse[2].length; i++) {
-                        String[] current = splitL[i].split(";");
-                        if (current.length == 2) {
-                            String[] date = current[1].replace('.', '_').split("_");
-                            ergebnisse[2][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, true, false);
-                        }
-                    }
-
-                    for (int i = 0; i < ergebnisse[3].length; i++) {
-                        String[] current = splitA[i].split(";");
-                        if (current.length == 2) {
-                            String[] date = current[1].replace('.', '_').split("_");
-                            ergebnisse[3][i] = new Ergebnis(new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])).getTime(), Double.parseDouble(current[0]), false, false, false, true);
-                        }
-                    }
-
-                    daten = ergebnisse;
-                } catch (IOException e) {
-                    Utils.logError(e);
-                    return ResponseCode.SERVER_FAILED;
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        connection.getInputStream(), "UTF-8"));
+                String        line;
+                StringBuilder builder = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
                 }
-            }
+                reader.close();
 
-            for (ZeitraumFragment fragment : fragments) {
-                fragment.fillData();
+                String result = builder.toString();
+                if (result.startsWith("-")) {
+                    throw new IOException(result);
+                }
+
+                String[] e = builder.toString().split("_abschnitt_");
+
+                String[] splitI = e[0].split("_next_");
+                String[] splitS = e[1].split("_next_");
+                String[] splitL = e[2].split("_next_");
+                String[] splitA = e[3].split("_next_");
+
+                for (String aSplitI : splitI) {
+                    String[] current = aSplitI.split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        sqLiteConnector.insert(
+                                new Ergebnis(
+                                        new GregorianCalendar(
+                                                Integer.parseInt(date[2]),
+                                                Integer.parseInt(date[1]) - 1,
+                                                Integer.parseInt(date[0])
+                                        ).getTime(),
+                                        Double.parseDouble(current[0]),
+                                        true,
+                                        false,
+                                        false,
+                                        false
+                                )
+                        );
+                    }
+                }
+
+                for (String split : splitS) {
+                    String[] current = split.split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        sqLiteConnector.insert(
+                                new Ergebnis(
+                                        new GregorianCalendar(
+                                                Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])
+                                        ).getTime(),
+                                        Double.parseDouble(current[0]),
+                                        false,
+                                        true,
+                                        false,
+                                        false
+                                )
+                        );
+                    }
+                }
+
+                for (String aSplitL : splitL) {
+                    String[] current = aSplitL.split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        sqLiteConnector.insert(
+                                new Ergebnis(
+                                        new GregorianCalendar(
+                                                Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])
+                                        ).getTime(),
+                                        Double.parseDouble(current[0]),
+                                        false,
+                                        false,
+                                        true,
+                                        false
+                                )
+                        );
+                    }
+                }
+
+                for (String aSplitA : splitA) {
+                    String[] current = aSplitA.split(";");
+                    if (current.length == 2) {
+                        String[] date = current[1].replace('.', '_').split("_");
+                        sqLiteConnector.insert(
+                                new Ergebnis(
+                                        new GregorianCalendar(
+                                                Integer.parseInt(date[2]),
+                                                Integer.parseInt(date[1]) - 1,
+                                                Integer.parseInt(date[0])
+                                        ).getTime(),
+                                        Double.parseDouble(current[0]),
+                                        false,
+                                        false,
+                                        false,
+                                        true
+                                )
+                        );
+                    }
+                }
+            } catch (IOException e) {
+                Utils.logError(e);
+                e.printStackTrace();
+                return ResponseCode.SERVER_FAILED;
             }
 
             return ResponseCode.SUCCESS;
@@ -341,8 +377,36 @@ public class StimmungsbarometerActivity extends ActionLogActivity {
             if (v == ResponseCode.SERVER_FAILED) {
                 Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
             }
-            updateFragments(true);
-            findViewById(R.id.progressBar).setVisibility(View.GONE);
+            updateViews();
+        }
+    }
+
+    private class SendQuestionTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                URLConnection connection = new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/newQuestion.php?qtext=" + URLEncoder.encode(params[0], "UTF-8"))
+                        .openConnection();
+
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        connection.getInputStream(), "UTF-8"));
+
+                String        line;
+                StringBuilder builder = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+
+                reader.close();
+
+                Utils.logDebug(builder);
+            } catch (IOException e) {
+                Utils.logError(e);
+            }
+            return null;
         }
     }
 }

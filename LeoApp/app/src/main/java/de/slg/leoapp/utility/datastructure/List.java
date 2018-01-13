@@ -110,33 +110,37 @@ public class List<ContentType> implements Iterable<ContentType> {
     /**
      * Verschiebt den Listenpointer um eine Stelle Richtung Ende der Liste.
      */
-    public void next() {
+    public List<ContentType> next() {
         current = current.next;
+        return this;
     }
 
     /**
      * Verschiebt den Listenpointer um eine Stelle Richtung Anfang der Liste.
      */
-    public void previous() {
+    public List<ContentType> previous() {
         current = current.previous;
+        return this;
     }
 
     /**
      * Verschiebt den Listenpointer zum Anfang der Liste.
      */
-    public void toFirst() {
+    public List<ContentType> toFirst() {
         if (!isEmpty()) {
             current = first;
         }
+        return this;
     }
 
     /**
      * Verschiebt den Listenpointer zum Ende der Liste.
      */
-    public void toLast() {
+    public List<ContentType> toLast() {
         if (!isEmpty()) {
             current = last;
         }
+        return this;
     }
 
     /**
@@ -144,12 +148,13 @@ public class List<ContentType> implements Iterable<ContentType> {
      *
      * @param index Zielindex
      */
-    public void toIndex(int index) {
+    public List<ContentType> toIndex(int index) {
         if (index >= length - 1)
             toLast();
         else
             for (toFirst(); hasAccess() && index > 0; next(), index--)
                 ;
+        return this;
     }
 
     /**

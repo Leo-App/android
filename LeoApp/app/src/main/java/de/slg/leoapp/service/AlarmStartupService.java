@@ -10,20 +10,20 @@ import de.slg.leoapp.utility.Utils;
 
 /**
  * AlarmStartupService.
- *
+ * <p>
  * Dieser Service verwaltet das erstmalige Starten der Notifications, die zu einer bestimmten Uhrzeit gesendet
  * werden. Dazu werden Methoden aus {@link NotificationAlarmHandler NotificationAlarmHandler}
  * verwendet.
  *
  * @author Gianni
- * @since 0.7.0
  * @version 2017.2412
+ * @since 0.7.0
  */
 public class AlarmStartupService extends Service {
 
     @Override
     public void onCreate() {
-        if(Utils.getContext() == null)
+        if (Utils.getContext() == null)
             Utils.getController().setContext(getApplicationContext());
         NotificationAlarmHandler.initAlarmManagerIfNotExists();
     }

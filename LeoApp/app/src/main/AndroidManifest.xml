@@ -74,7 +74,8 @@
             android:exported="false"
             />
 
-        <service android:name=".service.AlarmStartupService"
+        <service
+            android:name=".service.AlarmStartupService"
             android:exported="false"
             />
 

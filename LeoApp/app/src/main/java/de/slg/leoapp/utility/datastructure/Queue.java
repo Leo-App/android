@@ -80,6 +80,13 @@ public class Queue<ContentType> implements Iterable<ContentType> {
         };
     }
 
+    public Queue<ContentType> clear() {
+        first = null;
+        last = null;
+        size = 0;
+        return this;
+    }
+
     private class Node {
         private Node        next;
         private ContentType content;

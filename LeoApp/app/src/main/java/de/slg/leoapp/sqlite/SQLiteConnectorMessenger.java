@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.datastructure.List;
 import de.slg.messenger.utility.Assoziation;
 import de.slg.messenger.utility.Chat;
 import de.slg.messenger.utility.Message;
@@ -136,30 +136,35 @@ public class SQLiteConnectorMessenger {
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
                 CHAT_MUTE + " = 0 AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " != " + de.slg.messenger.utility.Utils.currentlyDisplayedChat();
+        Utils.logDebug(selection);
         Cursor cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID);
         cursor.moveToFirst();
 
         int mcount = cursor.getCount();
 
-        int cprev  = cursor.getInt(1);
-        int ccount = 1;
-        for (cursor.moveToNext(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            if (cursor.getInt(1) != cprev) {
-                ccount++;
-                cprev = cursor.getInt(1);
+        if (mcount > 0) {
+
+            int cprev  = cursor.getInt(1);
+            int ccount = 1;
+            for (cursor.moveToNext(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                if (cursor.getInt(1) != cprev) {
+                    ccount++;
+                    cprev = cursor.getInt(1);
+                }
             }
+
+            cursor.close();
+
+            String notificationString = mcount + " neue Nachrichten";
+            if (ccount > 1) {
+                notificationString += " in " + ccount + " Chats.";
+            } else {
+                notificationString += ".";
+            }
+
+            return notificationString;
         }
-
-        cursor.close();
-
-        String notificationString = mcount + " neue Nachrichten";
-        if (ccount > 1) {
-            notificationString += " in " + ccount + " Chats.";
-        } else {
-            notificationString += ".";
-        }
-
-        return notificationString;
+        return "";
     }
 
     public void setMessagesRead(int cid) {
@@ -338,7 +343,7 @@ public class SQLiteConnectorMessenger {
 
             if (ctype.equals(Chat.ChatType.PRIVATE)) {
                 String[] split = cname.split(" - ");
-                if (split[0].equals("" + Utils.getUserID())) {
+                if (split[0].equals(String.valueOf(Utils.getUserID()))) {
                     cname = getUname(Integer.parseInt(split[1]));
                 } else {
                     cname = getUname(Integer.parseInt(split[0]));
@@ -375,7 +380,7 @@ public class SQLiteConnectorMessenger {
         return cid;
     }
 
-    private boolean contains(Chat c) {
+    public boolean contains(Chat c) {
         Cursor  cursor = query(TABLE_CHATS, new String[]{CHAT_ID}, CHAT_ID + " = " + c.cid, null);
         boolean b      = cursor.getCount() > 0;
         cursor.close();
@@ -511,7 +516,6 @@ public class SQLiteConnectorMessenger {
 
     public User[] getUsersNotInChat(int cid) {
         String query = "SELECT u." + USER_ID + ", u." + USER_NAME + ", u." + USER_STUFE + ", u." + USER_PERMISSION + ", u." + USER_DEFAULTNAME + " FROM " + TABLE_USERS + " u LEFT JOIN " + TABLE_ASSOZIATION + " a ON u." + USER_ID + " = a." + USER_ID + " AND a." + CHAT_ID + " = " + cid + " WHERE a." + USER_ID + " IS NULL";
-        Utils.logDebug(query);
         Cursor cursor = rawQuery(query);
         User[] users  = new User[cursor.getCount()];
         int    i      = 0;

@@ -19,19 +19,23 @@ import de.slg.leoapp.R;
 
 /**
  * InfoFragmentBuilder.
- *
+ * <p>
  * Builder für Intro-Fragments.
  *
  * @author Gianni
- * @since 0.7.0
  * @version 2017.2312
+ * @since 0.7.0
  */
 public class InfoFragmentBuilder {
 
-    private @StringRes   int title;
-    private @StringRes   int content;
-    private @DrawableRes int image;
-    private @ColorRes    int color;
+    private @StringRes
+    int title;
+    private @StringRes
+    int content;
+    private @DrawableRes
+    int image;
+    private @ColorRes
+    int color;
 
     private static int position;
 
@@ -120,7 +124,7 @@ public class InfoFragmentBuilder {
             background = (LinearLayout) v.findViewById(R.id.main);
 
             TextView textViewTitle = (TextView) v.findViewById(R.id.title);
-            TextView textViewDesc = (TextView) v.findViewById(R.id.description);
+            TextView textViewDesc  = (TextView) v.findViewById(R.id.description);
 
             imageV.setImageResource(image);
             textViewTitle.setText(title);

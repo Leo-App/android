@@ -1,11 +1,6 @@
 package de.slg.messenger.utility;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-
 public abstract class Utils {
-
     private static int currentlyDisplayedChatId = -1;
 
     public static int currentlyDisplayedChat() {
@@ -16,13 +11,13 @@ public abstract class Utils {
         currentlyDisplayedChatId = cid;
     }
 
-    public abstract static class Verschluesseln {
+    public abstract static class Encryption {
         private static final String key2 = "ABCD";
 
         /**
          * Verschlüsselt text mit key
          *
-         * @param text UTF-8 codierter Text, der verschlüsselt wird
+         * @param text Text, der verschlüsselt wird
          * @param key  Schlüssel zum Verschlüsseln
          * @return text mit key verschlüsselt
          */
@@ -33,25 +28,18 @@ public abstract class Utils {
                 char textChar = text.charAt(i),
                         keyChar = key.charAt(i - skipped),
                         encrypted = (char) (textChar + (keyChar - 65));
-                if (textChar == '%') {
-                    for (int j = 0; j <= 2; j++) {
-                        builder.append(text.charAt(i + j));
-                    }
-                    i += 2;
-                    skipped += 2;
+                if (isCapitalLetter(textChar)) {
+                    if (encrypted > 90)
+                        encrypted -= 26;
+                    builder.append(encrypted);
+                } else if (isLowerCaseLetter(textChar)) {
+                    if (encrypted > 122)
+                        encrypted -= 26;
+                    builder.append(encrypted);
                 } else {
-                    if (isCapitalLetter(textChar)) {
-                        if (encrypted > 90)
-                            encrypted -= 26;
-                        builder.append(encrypted);
-                    } else if (isLowerCaseLetter(textChar)) {
-                        if (encrypted > 122)
-                            encrypted -= 26;
-                        builder.append(encrypted);
-                    } else {
-                        builder.append(textChar);
-                    }
+                    builder.append(textChar);
                 }
+
             }
             return builder.toString();
         }
@@ -63,53 +51,24 @@ public abstract class Utils {
          * @param key  Schlüssel zum entschlüsseln
          * @return text mit key entschlüsselt
          */
-        public static String decrypt(String text, String key) throws UnsupportedEncodingException {
+        public static String decrypt(String text, String key) {
             StringBuilder builder = new StringBuilder();
             assert key.matches("[A-Z]*");
-            text = URLEncoder.encode(text, "UTF-8");
             for (int iText = 0, iKey = 0; iText < text.length() && iKey < key.length(); iText++, iKey++) {
                 char textChar = text.charAt(iText),
                         keyChar = key.charAt(iKey),
                         decrypted = (char) (textChar - (keyChar - 65));
-                if (textChar == '%') {
-                    builder.append(text.charAt(iText));
-                    iText++;
-                    builder.append(text.charAt(iText));
-                    iText++;
-                    builder.append(text.charAt(iText));
+                if (isCapitalLetter(textChar)) {
+                    if (decrypted < 65)
+                        decrypted += 26;
+                    builder.append(decrypted);
+                } else if (isLowerCaseLetter(textChar)) {
+                    if (decrypted < 97)
+                        decrypted += 26;
+                    builder.append(decrypted);
                 } else {
-                    if (isCapitalLetter(textChar)) {
-                        if (decrypted < 65)
-                            decrypted += 26;
-                        builder.append(decrypted);
-                    } else if (isLowerCaseLetter(textChar)) {
-                        if (decrypted < 97)
-                            decrypted += 26;
-                        builder.append(decrypted);
-                    } else {
-                        builder.append(textChar);
-                    }
+                    builder.append(textChar);
                 }
-            }
-            return URLDecoder.decode(builder.toString(), "UTF-8");
-        }
-
-        /**
-         * Entschlüsselt key mit key2
-         *
-         * @param key Schlüssel, der entschlüsselt wird
-         * @return key mit key2 entschlüsselt
-         */
-        public static String decryptKey(String key) {
-            StringBuilder builder = new StringBuilder();
-            assert key2.matches("[A-Z]*");
-            for (int i = 0; i < key.length(); i++) {
-                char keyChar = key.charAt(i),
-                        key2Char = key2.charAt(i % key2.length()),
-                        decrypted = (char) (keyChar - (key2Char - 65));
-                if (decrypted < 65)
-                    decrypted += 26;
-                builder.append(decrypted);
             }
             return builder.toString();
         }
@@ -135,18 +94,34 @@ public abstract class Utils {
         }
 
         /**
+         * Entschlüsselt key mit key2
+         *
+         * @param key Schlüssel, der entschlüsselt wird
+         * @return key mit key2 entschlüsselt
+         */
+        public static String decryptKey(String key) {
+            StringBuilder builder = new StringBuilder();
+            assert key2.matches("[A-Z]*");
+            for (int i = 0; i < key.length(); i++) {
+                char keyChar = key.charAt(i),
+                        key2Char = key2.charAt(i % key2.length()),
+                        decrypted = (char) (keyChar - (key2Char - 65));
+                if (decrypted < 65)
+                    decrypted += 26;
+                builder.append(decrypted);
+            }
+            return builder.toString();
+        }
+
+        /**
          * Erzeugt einen zufälligen String, der der Länge des Textes entspricht
          *
-         * @param text UTF-8 codierter Text
+         * @param text Nachricht
          * @return zufälliger Text aus Großbuchstaben
          */
         public static String createKey(String text) {
-            int length = text.length();
-            for (int i = 0; i < text.length(); i++)
-                if (text.charAt(i) == '%')
-                    length -= 2;
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < text.length(); i++) {
                 builder.append((char) (65 + Math.random() * 26));
             }
             return builder.toString();

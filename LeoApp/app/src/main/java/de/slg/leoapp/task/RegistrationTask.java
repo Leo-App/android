@@ -20,7 +20,7 @@ import de.slg.leoapp.utility.VerificationListener;
 @SuppressLint("StaticFieldLeak")
 public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
 
-    private Fragment origin;
+    private Fragment                   origin;
     private List<VerificationListener> listeners;
 
     public RegistrationTask() {
@@ -36,7 +36,7 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
         String password = Utils.getController().getPreferences().getString("pref_key_general_password", "");
 
         StringBuilder checksum = new StringBuilder();
-        boolean teacher  = username.length() == 6;
+        boolean       teacher  = username.length() == 6;
 
         if (!Utils.checkNetwork()) {
             return ResponseCode.NO_CONNECTION;
@@ -110,7 +110,7 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
 
     @Override
     protected void onPostExecute(ResponseCode code) {
-        for(VerificationListener l : listeners) {
+        for (VerificationListener l : listeners) {
             l.onVerificationProcessed(code, origin);
         }
     }

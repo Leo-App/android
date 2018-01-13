@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.view.ActivityStatus;
 
 public class FachImporter extends AsyncTask<Void, Void, Void> {
     @Override
@@ -59,7 +60,7 @@ public class FachImporter extends AsyncTask<Void, Void, Void> {
         if (Utils.getController().getAuswahlActivity() != null) {
             Utils.getController().getAuswahlActivity().initDB();
             Utils.getController().getAuswahlActivity().initListView();
-        } else {
+        } else if (Utils.getController().getAuswahlActivity().getStatus() == ActivityStatus.ACTIVE) {
             Utils.getController().getStundenplanActivity().refreshUI();
         }
         Utils.getController().getActiveActivity().findViewById(R.id.progressBar).setVisibility(View.GONE);

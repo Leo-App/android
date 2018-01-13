@@ -139,7 +139,6 @@ public class MainActivity extends LeoAppFeatureActivity {
                 initFeatureCards();
 
                 findViewById(R.id.card_viewMain).setVisibility(View.GONE);
-                findViewById(R.id.card_view0).setVisibility(View.GONE);
 
                 getSupportActionBar().setTitle(getString(R.string.cards_customize));
                 getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
@@ -358,7 +357,7 @@ public class MainActivity extends LeoAppFeatureActivity {
     }
 
     private void initOptionalDialog() {
-     //   new InformationDialog(this).setText(R.string.dialog_betatest).show();
+        //   new InformationDialog(this).setText(R.string.dialog_betatest).show();
     }
 
     private void processIntent() {
