@@ -32,14 +32,14 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
 
         String current = tree.substring(0, tree.indexOf("_;;_"));
 
-        Utils.logError(current);
-
         String[] params = current.split("_;_");
 
         if (params.length != 3)
             return;
 
         setContent(new ProblemContent(params[0], params[1], params[2]));
+
+        Utils.logError(params[0] + " " + params[1] + " " + params[2]);
 
         tree = tree.substring(tree.indexOf("_;;_")+3);
 
@@ -96,13 +96,33 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
 
         ProblemContent content = getContent();
 
-        StringBuilder toString = new StringBuilder(content.title+"_;_"+content.description+"_;_"+content.pathToImage+"_;_")
+        StringBuilder toString = new StringBuilder(content.title+"_;_"+content.description+"_;_"+content.pathToImage)
                 .append("_;;_");
 
         if(getLeftTree() != null)
-            toString.append(getLeftTree().toString());
+            toString.append(getLeftTree().toString(true));
         if(getRightTree() != null)
-            toString.append(getRightTree().toString());
+            toString.append(getRightTree().toString(false));
+
+        return toString.toString();
+    }
+
+    private String toString(boolean leftDelimiter) {
+        if(getContent() == null)
+            return "";
+
+        ProblemContent content = getContent();
+
+        if (getLeftTree() == null && getRightTree() == null && leftDelimiter)
+            return content.title+"_;_"+content.description+"_;_"+content.pathToImage+"_;;_";
+
+        StringBuilder toString = new StringBuilder(content.title+"_;_"+content.description+"_;_"+content.pathToImage)
+                .append("_;;_");
+
+        if(getLeftTree() != null)
+            toString.append(getLeftTree().toString(leftDelimiter));
+        if(getRightTree() != null)
+            toString.append(getRightTree().toString(leftDelimiter));
 
         return toString.toString();
     }
