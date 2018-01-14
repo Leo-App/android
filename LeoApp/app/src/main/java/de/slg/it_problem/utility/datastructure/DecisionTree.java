@@ -69,23 +69,4 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
         super.setRightTree(tree);
     }
 
-    @Override
-    //preorder
-    public String toString() {
-
-        if(getContent() == null)
-            return "";
-
-        ProblemContent content = getContent();
-        StringBuilder toString = new StringBuilder(content.title+"_;_"+content.description+"_;_"+content.pathToImage)
-                .append("_;;_");
-
-        if(getLeftTree() != null)
-            toString.append(getLeftTree().toString());
-        if(getRightTree() != null)
-            toString.append(getRightTree().toString());
-
-        return toString.toString();
-    }
-
 }
