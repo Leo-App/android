@@ -54,12 +54,12 @@
                     android:layout_centerInParent="true"
                     android:layout_margin="12dp"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/smiley_background_very_satisfied"
+                    android:background="@drawable/background_smiley_very_satisfied"
                     android:contentDescription="@string/textview_placeholder"
                     android:scaleType="fitCenter"
                     android:tag="FOODMARKS"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/qrcode" />
+                    app:srcCompat="@mipmap/icon_essensbons"/>
 
             </RelativeLayout>
 
@@ -82,12 +82,12 @@
                     android:layout_centerInParent="true"
                     android:layout_margin="12dp"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/smiley_background_satisfied"
+                    android:background="@drawable/background_smiley_satisfied"
                     android:contentDescription="@string/textview_placeholder"
                     android:scaleType="fitCenter"
                     android:tag="TESTPLAN"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/icon_klausurplan" />
+                    app:srcCompat="@mipmap/icon_klausurplan"/>
 
             </RelativeLayout>
 
@@ -110,12 +110,12 @@
                     android:layout_centerInParent="true"
                     android:layout_margin="12dp"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/smiley_background_neutral"
+                    android:background="@drawable/background_smiley_neutral"
                     android:contentDescription="@string/textview_placeholder"
                     android:scaleType="fitCenter"
                     android:tag="MESSENGER"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/messenger" />
+                    app:srcCompat="@mipmap/icon_messenger"/>
 
             </RelativeLayout>
 
@@ -138,12 +138,12 @@
                     android:layout_centerInParent="true"
                     android:layout_margin="12dp"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/smiley_background_bad_mood"
+                    android:background="@drawable/background_smiley_bad_mood"
                     android:contentDescription="@string/textview_placeholder"
                     android:scaleType="fitCenter"
                     android:tag="NEWS"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/icon_schwarzes_brett"/>
+                    app:srcCompat="@mipmap/icon_schwarzes_brett"/>
 
             </RelativeLayout>
 
@@ -166,12 +166,12 @@
                     android:layout_centerInParent="true"
                     android:layout_margin="12dp"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/smiley_background_bad_mood"
+                    android:background="@drawable/background_smiley_bad_mood"
                     android:contentDescription="@string/textview_placeholder"
                     android:scaleType="fitCenter"
                     android:tag="POLL"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/icon_survey" />
+                    app:srcCompat="@mipmap/icon_umfragen"/>
 
             </RelativeLayout>
 
@@ -194,12 +194,12 @@
                     android:layout_centerInParent="true"
                     android:layout_margin="12dp"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/smiley_background_bad_mood"
+                    android:background="@drawable/background_smiley_bad_mood"
                     android:contentDescription="@string/textview_placeholder"
                     android:scaleType="fitCenter"
                     android:tag="SURVEY"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/icon_stimmungsbarometer"/>
+                    app:srcCompat="@mipmap/icon_stimmungsbarometer"/>
 
             </RelativeLayout>
 
@@ -222,12 +222,12 @@
                     android:layout_centerInParent="true"
                     android:layout_margin="12dp"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/smiley_background_bad_mood"
+                    android:background="@drawable/background_smiley_bad_mood"
                     android:contentDescription="@string/textview_placeholder"
                     android:scaleType="fitCenter"
                     android:tag="SCHEDULE"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/schedule" />
+                    app:srcCompat="@mipmap/icon_stundenplan"/>
 
             </RelativeLayout>
 
@@ -250,12 +250,12 @@
                     android:layout_centerInParent="true"
                     android:layout_margin="12dp"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/smiley_background_bad_mood"
+                    android:background="@drawable/background_smiley_bad_mood"
                     android:contentDescription="@string/textview_placeholder"
                     android:scaleType="fitCenter"
                     android:tag="COMING_SOON"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_priority_high_white_24dp" />
+                    app:srcCompat="@drawable/ic_priority_high"/>
 
             </RelativeLayout>
 

@@ -72,7 +72,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_foodmarks);
                 c.desc = Utils.getString(R.string.summary_info_foodmark);
-                c.icon = R.drawable.qrcode;
+                c.icon = R.mipmap.icon_essensbons;
                 c.enabled = Utils.isVerified();
                 c.buttonListener = new View.OnClickListener() {
                     @Override
@@ -87,7 +87,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.title_testplan);
                 c.desc = Utils.getString(R.string.summary_info_testplan);
                 c.enabled = Utils.isVerified();
-                c.icon = R.drawable.icon_klausurplan;
+                c.icon = R.mipmap.icon_klausurplan;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -100,7 +100,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.title_messenger);
                 c.desc = Utils.getString(R.string.summary_info_messenger);
                 c.enabled = Utils.isVerified();
-                c.icon = R.drawable.messenger;
+                c.icon = R.mipmap.icon_messenger;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -114,7 +114,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.title_news);
                 c.desc = Utils.getString(R.string.summary_info_news);
                 c.enabled = Utils.isVerified();
-                c.icon = R.drawable.icon_schwarzes_brett;
+                c.icon = R.mipmap.icon_schwarzes_brett;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -126,7 +126,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_survey);
                 c.desc = Utils.getString(R.string.summary_info_survey);
-                c.icon = R.drawable.icon_stimmungsbarometer;
+                c.icon = R.mipmap.icon_stimmungsbarometer;
                 c.enabled = Utils.isVerified();
                 c.buttonListener = new View.OnClickListener() {
                     @Override
@@ -140,7 +140,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.title_plan);
                 c.desc = Utils.getString(R.string.summary_info_schedule);
                 c.enabled = Utils.isVerified();
-                c.icon = R.drawable.schedule;
+                c.icon = R.mipmap.icon_stundenplan;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -153,7 +153,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.title_subst);
                 c.desc = Utils.getString(R.string.summary_info_subst);
                 c.enabled = Utils.isVerified();
-                c.icon = R.drawable.ic_account_switch;
+                c.icon = R.mipmap.icon_vertretung;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -166,7 +166,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.umfragen);
                 c.desc = Utils.getString(R.string.beschreibungUmfrage);
                 c.enabled = Utils.isVerified();
-                c.icon = R.drawable.icon_survey;
+                c.icon = R.mipmap.icon_umfragen;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -180,7 +180,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.coming_soon);
                 c.desc = Utils.getString(R.string.desc_coming_soon);
                 c.enabled = true;
-                c.icon = R.drawable.alert_decagram;
+                c.icon = R.mipmap.icon_coming_soon;
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

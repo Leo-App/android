@@ -72,7 +72,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/background_send_button"
                 android:tint="@color/colorAccent"
-                app:srcCompat="@drawable/ic_send_white_24dp" />
+                app:srcCompat="@drawable/ic_send"/>
 
         </RelativeLayout>
 

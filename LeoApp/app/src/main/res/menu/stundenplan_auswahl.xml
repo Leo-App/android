@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_speichern"
-        android:icon="@drawable/ic_done_white_24dp"
+        android:icon="@drawable/ic_done"
         android:title="@string/speichern"
         app:showAsAction="ifRoom"></item>
 </menu>

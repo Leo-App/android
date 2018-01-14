@@ -177,7 +177,7 @@
             android:layout_marginRight="5dp"
             android:clickable="true"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_edit_white_24dp"/>
+            app:srcCompat="@drawable/ic_edit"/>
 
     </RelativeLayout>
 

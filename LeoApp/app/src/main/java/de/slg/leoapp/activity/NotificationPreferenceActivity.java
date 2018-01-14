@@ -147,7 +147,7 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
         actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
         actionBar.setTitle(R.string.title_settings_notifications);
         setSupportActionBar(actionBar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }

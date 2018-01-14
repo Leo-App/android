@@ -55,7 +55,7 @@
                 app:backgroundTint="@color/colorAccent"
                 app:layout_anchor="@id/listViewKlausuren"
                 app:layout_anchorGravity="bottom|right|end"
-                app:srcCompat="@drawable/ic_add_white_24dp" />
+                app:srcCompat="@drawable/ic_add"/>
 
         </RelativeLayout>
 

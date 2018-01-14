@@ -180,22 +180,22 @@ public class ProfileActivity extends LeoAppFeatureActivity {
 
         profilePic.setImageResource(res);
         switch (res) {
-            case R.drawable.ic_sentiment_very_satisfied_white_24px:
+            case R.drawable.ic_smiley_1:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorVerySatisfied), PorterDuff.Mode.MULTIPLY);
                 break;
-            case R.drawable.ic_sentiment_satisfied_white_24px:
+            case R.drawable.ic_smiley_2:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorSatisfied), PorterDuff.Mode.MULTIPLY);
                 break;
-            case R.drawable.ic_sentiment_neutral_white_24px:
+            case R.drawable.ic_smiley_3:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorNeutral), PorterDuff.Mode.MULTIPLY);
                 break;
-            case R.drawable.ic_sentiment_dissatisfied_white_24px:
+            case R.drawable.ic_smiley_4:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorDissatisfied), PorterDuff.Mode.MULTIPLY);
                 break;
-            case R.drawable.ic_sentiment_very_dissatisfied_white_24px:
+            case R.drawable.ic_smiley_5:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorBadMood), PorterDuff.Mode.MULTIPLY);
                 break;
-            case R.drawable.ic_account_circle_black_24dp:
+            case R.mipmap.icon_profil:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
                 break;
         }

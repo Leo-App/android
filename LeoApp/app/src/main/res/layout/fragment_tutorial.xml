@@ -20,7 +20,7 @@
             android:layout_marginRight="60dp"
             android:layout_marginTop="20dp"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/leo_splash" />
+            app:srcCompat="@mipmap/leo_splash"/>
 
         <TextView
             android:id="@+id/description"

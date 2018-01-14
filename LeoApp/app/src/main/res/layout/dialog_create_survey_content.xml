@@ -52,7 +52,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/content"
         android:layout_marginTop="20dp"
-        android:drawableRight="@drawable/ic_chevron_right_white_24dp"
+        android:drawableRight="@drawable/ic_chevron_right"
         android:drawableTint="@color/colorPrimary"
         android:text="@string/button_next"
         android:textAllCaps="true" />
@@ -65,7 +65,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/content"
         android:layout_marginTop="20dp"
-        android:drawableLeft="@drawable/ic_chevron_left_white_24dp"
+        android:drawableLeft="@drawable/ic_chevron_left"
         android:drawableTint="@color/colorPrimary"
         android:text="@string/back"
         android:textAllCaps="true" />

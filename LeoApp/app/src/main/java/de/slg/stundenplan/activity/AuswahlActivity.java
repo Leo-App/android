@@ -20,8 +20,8 @@ import android.widget.TextView;
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.PreferenceActivity;
 import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
-import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.stundenplan.task.FachImporter;
 import de.slg.stundenplan.utility.Fach;
@@ -88,7 +88,7 @@ public class AuswahlActivity extends ActionLogActivity {
         myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.stunden));
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }

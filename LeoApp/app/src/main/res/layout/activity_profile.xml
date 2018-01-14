@@ -48,7 +48,7 @@
                             android:layout_width="200dp"
                             android:layout_height="200dp"
                             android:layout_centerHorizontal="true"
-                            app:srcCompat="@drawable/ic_account_circle_black_24dp" />
+                            app:srcCompat="@mipmap/icon_profil"/>
 
                     </RelativeLayout>
 
@@ -86,7 +86,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_below="@id/nickname"
                             android:tint="@color/colorPrimary"
-                            app:srcCompat="@drawable/ic_edit_white_24dp" />
+                            app:srcCompat="@drawable/ic_edit"/>
 
                         <TextView
                             android:id="@+id/nameProfil"
@@ -142,7 +142,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_below="@id/abbr"
                             android:tint="@color/colorPrimary"
-                            app:srcCompat="@drawable/ic_edit_white_24dp" />
+                            app:srcCompat="@drawable/ic_edit"/>
 
                         <TextView
                             android:id="@+id/teaProfil"
@@ -253,7 +253,7 @@
                             android:id="@+id/toSurvey"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            app:srcCompat="@drawable/ic_arrow_right_right"
+                            app:srcCompat="@drawable/ic_arrow_right"
                             android:layout_alignTop="@+id/surveyActual"
                             android:layout_marginRight="10dp"
                             android:layout_marginEnd="5dp"

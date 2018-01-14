@@ -58,7 +58,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 new InfoFragmentBuilder()
                         .setTitle(R.string.intro2_title)
                         .setContent(R.string.intro2)
-                        .setImage(R.drawable.ic_intro_image2)
+                        .setImage(R.drawable.intro_image2)
                         .setColor(R.color.introSlide2)
                         .build()
         );
@@ -67,7 +67,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 new InfoFragmentBuilder()
                         .setTitle(R.string.intro3_title)
                         .setContent(R.string.intro3)
-                        .setImage(R.drawable.ic_intro_message3)
+                        .setImage(R.drawable.intro_message3)
                         .setColor(R.color.introSlide3)
                         .build()
         );
@@ -76,7 +76,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 new InfoFragmentBuilder()
                         .setTitle(R.string.intro4_title)
                         .setContent(R.string.intro4)
-                        .setImage(R.drawable.ic_intro_message4)
+                        .setImage(R.drawable.intro_message4)
                         .setColor(R.color.introSlide5)
                         .build()
         );
@@ -85,7 +85,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 new InfoFragmentBuilder()
                         .setTitle(R.string.intro5_title)
                         .setContent(R.string.intro5)
-                        .setImage(R.drawable.ic_intro5)
+                        .setImage(R.drawable.intro_ic5)
                         .setColor(R.color.introSlide1)
                         .build()
         );

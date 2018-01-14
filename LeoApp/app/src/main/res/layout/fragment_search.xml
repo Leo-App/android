@@ -42,7 +42,7 @@
             android:tint="@android:color/white"
             android:visibility="gone"
             app:fabSize="mini"
-            app:srcCompat="@drawable/ic_expand_more_white_24dp" />
+            app:srcCompat="@drawable/ic_expand_more"/>
 
     </RelativeLayout>
 
@@ -139,7 +139,7 @@
                     android:background="@drawable/background_sort_buttons"
                     android:scaleType="fitCenter"
                     android:tint="@color/colorAccent"
-                    app:srcCompat="@drawable/ic_expand_more_white_24dp" />
+                    app:srcCompat="@drawable/ic_expand_more"/>
 
                 <Button
                     android:id="@+id/buttonGrade"

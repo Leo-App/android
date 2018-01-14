@@ -144,9 +144,9 @@ public class ChatsFragment extends Fragment {
                     notify.setVisibility(View.GONE);
                 }
                 if (c.ctype == Chat.ChatType.PRIVATE) {
-                    icon.setImageResource(R.drawable.ic_chat_bubble_white_24dp);
+                    icon.setImageResource(R.drawable.ic_chat_bubble);
                 } else {
-                    icon.setImageResource(R.drawable.icon_messenger);
+                    icon.setImageResource(R.mipmap.icon_messenger);
                 }
                 if (c.cmute) {
                     iconMute.setVisibility(View.VISIBLE);

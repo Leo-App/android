@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:tint="@color/colorPrimary"
-        app:srcCompat="@drawable/survey" />
+        app:srcCompat="@drawable/ic_create_survey"/>
 
     <TextView
         android:id="@+id/textViewStufe"

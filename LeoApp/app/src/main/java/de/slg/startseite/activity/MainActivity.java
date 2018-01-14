@@ -114,9 +114,9 @@ public class MainActivity extends LeoAppFeatureActivity {
         } else {
             getMenuInflater().inflate(R.menu.startseite, menu);
             if (Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false))
-                menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
+                menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_format_list_bulleted);
             else
-                menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets_white_24dp);
+                menu.findItem(R.id.action_appinfo_quick).setIcon(R.drawable.ic_widgets);
         }
 
         return true;
@@ -141,7 +141,7 @@ public class MainActivity extends LeoAppFeatureActivity {
                 findViewById(R.id.card_viewMain).setVisibility(View.GONE);
 
                 getSupportActionBar().setTitle(getString(R.string.cards_customize));
-                getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
+                getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
 
                 invalidateOptionsMenu();
                 break;
@@ -163,9 +163,9 @@ public class MainActivity extends LeoAppFeatureActivity {
                 initFeatureCards();
 
                 if (!b)
-                    item.setIcon(R.drawable.ic_format_list_bulleted_white_24dp);
+                    item.setIcon(R.drawable.ic_format_list_bulleted);
                 else
-                    item.setIcon(R.drawable.ic_widgets_white_24dp);
+                    item.setIcon(R.drawable.ic_widgets);
                 break;
 
             case R.id.action_appedit_add:
@@ -214,7 +214,7 @@ public class MainActivity extends LeoAppFeatureActivity {
                 findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
 
             getSupportActionBar().setTitle(getString(R.string.title_home));
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
 
             invalidateOptionsMenu();
         } else {

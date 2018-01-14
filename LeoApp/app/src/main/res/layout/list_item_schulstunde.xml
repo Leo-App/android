@@ -85,6 +85,6 @@
         android:layout_marginRight="5dp"
         android:tint="@color/colorInactive"
         android:visibility="gone"
-        app:srcCompat="@drawable/icon_klausurplan" />
+        app:srcCompat="@mipmap/icon_klausurplan"/>
 
 </RelativeLayout>

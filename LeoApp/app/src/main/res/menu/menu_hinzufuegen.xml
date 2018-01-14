@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/Aktion1"
-        android:icon="@drawable/ic_clear_white_24dp"
+        android:icon="@drawable/ic_clear"
         android:title="Item"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/Aktion2"
-        android:icon="@drawable/ic_done_white_24dp"
+        android:icon="@drawable/ic_done"
         android:title="Item"
         app:showAsAction="ifRoom" />
 </menu>

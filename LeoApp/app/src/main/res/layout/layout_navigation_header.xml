@@ -20,7 +20,7 @@
         android:background="@drawable/background_profile_picture"
         android:elevation="4dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_account_circle_black_24dp"
+        android:src="@mipmap/icon_profil"
         android:tint="@color/colorAccent" />
 
     <TextView

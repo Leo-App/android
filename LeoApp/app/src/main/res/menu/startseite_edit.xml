@@ -5,12 +5,12 @@
 
     <item
         android:id="@+id/action_appedit_done"
-        android:icon="@drawable/ic_done_white_24dp"
+        android:icon="@drawable/ic_done"
         android:title="@string/set_changes"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_appedit_add"
-        android:icon="@drawable/ic_add_white_24dp"
+        android:icon="@drawable/ic_add"
         android:title="@string/add_card"
         app:showAsAction="ifRoom" />
 
