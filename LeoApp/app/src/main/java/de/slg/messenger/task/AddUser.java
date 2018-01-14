@@ -32,7 +32,7 @@ public class AddUser extends AsyncTask<User, Void, Void> {
 
     @Override
     protected Void doInBackground(User... params) {
-        service.startIfNotRunning();
+        service.startSocketIfNotRunning();
         for (User u : params) {
             service.send(new Assoziation(cid, u.uid));
         }

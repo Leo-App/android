@@ -137,7 +137,6 @@ public class SQLiteConnectorMessenger {
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
                 CHAT_MUTE + " = 0 AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " != " + de.slg.messenger.utility.Utils.currentlyDisplayedChat();
-        Utils.logDebug(selection);
         Cursor cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID);
         cursor.moveToFirst();
 

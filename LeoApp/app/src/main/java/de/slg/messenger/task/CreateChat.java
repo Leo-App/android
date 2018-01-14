@@ -39,7 +39,7 @@ public class CreateChat extends AsyncTask<Integer, Void, Intent> {
 
     @Override
     protected Intent doInBackground(Integer... params) {
-        service.startIfNotRunning();
+        service.startSocketIfNotRunning();
 
         sendChat();
 

@@ -47,6 +47,6 @@ class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
                 s.postUpdate();
 //        if (Utils.getController().getReceiveService() == null)
 //            Start.startReceiveService();
-//        Utils.getController().getReceiveService().startIfNotRunning();
+//        Utils.getController().getReceiveService().startSocketIfNotRunning();
     }
 }

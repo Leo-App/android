@@ -266,7 +266,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 Utils.getController().getMessengerDatabase().clear();
                 ReceiveService receiveService = Utils.getController().getReceiveService();
                 if (receiveService != null) {
-                    receiveService.startSocket();
+                    receiveService.startSocketIfNotRunning();
                 }
                 return Utils.checkNetwork();
             }

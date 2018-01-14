@@ -304,7 +304,7 @@ public class ChatActivity extends ActionLogActivity {
 
                 if (Utils.checkNetwork()) {
 
-                    service.startIfNotRunning();
+                    service.startSocketIfNotRunning();
 
                     service.send(new Chat(0, oUid + " - " + Utils.getUserID(), Chat.ChatType.PRIVATE));
 
@@ -323,7 +323,7 @@ public class ChatActivity extends ActionLogActivity {
                 activity.messagesArray[mOld.length] = new Message(params[0]);
                 activity.refreshUI(false, true);
 
-                service.startIfNotRunning();
+                service.startSocketIfNotRunning();
                 service.send(new Message(0, params[0], activity.cid));
             } else {
                 Utils.getController().getMessengerDatabase().enqueueMessage(params[0], activity.cid);
