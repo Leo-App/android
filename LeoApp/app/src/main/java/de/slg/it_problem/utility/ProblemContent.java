@@ -22,4 +22,9 @@ public class ProblemContent {
         this.pathToImage = pathToImage.equals("null") ? null : pathToImage;
     }
 
+    @Override
+    public String toString() {
+        return title + "_;_" + description + "_;_" + pathToImage;
+    }
+
 }
