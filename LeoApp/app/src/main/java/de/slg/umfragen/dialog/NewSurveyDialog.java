@@ -278,24 +278,24 @@ public class NewSurveyDialog extends AlertDialog {
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            String answerString = answers[0];
+            StringBuilder answerString = new StringBuilder(answers[0]);
 
             for (int i = 1; i < 5; i++) {
                 if(answers[i].equals(""))
                     continue;
-                answerString += "_;_" + answers[i];
+                answerString.append("_;_").append(answers[i]);
             }
 
             BufferedReader in     = null;
-            String         result = "";
+            StringBuilder result = new StringBuilder();
             try {
-                URL interfaceDB = new URL((Utils.DOMAIN_DEV + "ic_create_survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
+                URL interfaceDB = new URL((Utils.DOMAIN_DEV + "survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
                 Utils.logError(interfaceDB.toString());
                 in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
                     if (!inputLine.contains("<"))
-                        result += inputLine;
+                        result.append(inputLine);
                 }
                 in.close();
             } catch (IOException e) {
@@ -310,7 +310,7 @@ public class NewSurveyDialog extends AlertDialog {
                         return false;
                     }
             }
-            return !result.startsWith("-");
+            return !result.toString().startsWith("-");
         }
 
         @Override
