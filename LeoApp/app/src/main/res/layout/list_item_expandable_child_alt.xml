@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="25dp"
         android:tint="@color/colorPrimary"
-        app:srcCompat="@drawable/icon_calendar" />
+        app:srcCompat="@mipmap/icon_stundenplan"/>
 
     <TextView
         android:id="@+id/textView"

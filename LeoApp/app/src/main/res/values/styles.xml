@@ -17,7 +17,7 @@
     </style>
 
     <style name="ActionButton.Overflow.Icon" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_more_vert_white_24dp</item>
+        <item name="android:src">@drawable/ic_more_vert</item>
     </style>
 
     <style name="TabLayoutDesign" parent="Widget.Design.TabLayout">
@@ -45,7 +45,7 @@
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="StartTheme" parent="Theme.AppCompat.Light">
-        <item name="android:background">@drawable/leo_splash</item>
+        <item name="android:background">@mipmap/leo_splash</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 

@@ -78,7 +78,7 @@
                 android:scaleType="fitCenter"
                 android:tint="@android:color/white"
                 app:fabSize="normal"
-                app:srcCompat="@drawable/survey" />
+                app:srcCompat="@drawable/ic_create_survey"/>
 
         </RelativeLayout>
 

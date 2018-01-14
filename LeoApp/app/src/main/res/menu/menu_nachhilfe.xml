@@ -4,17 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/Action3"
-        android:icon="@drawable/icon_klausurplan"
+        android:icon="@mipmap/icon_klausurplan"
         android:title="Item"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/Action2"
-        android:icon="@drawable/ic_refresh_white_24dp"
+        android:icon="@drawable/ic_refresh"
         android:title="Item"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/Action1"
-        android:icon="@drawable/ic_add_white_24dp"
+        android:icon="@drawable/ic_add"
         android:title="Item"
         app:showAsAction="ifRoom" />
 </menu>

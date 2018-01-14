@@ -23,7 +23,7 @@
         android:layout_toLeftOf="@id/button"
         android:background="@null"
         android:tint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_share_white_24dp" />
+        app:srcCompat="@drawable/ic_share"/>
 
     <ImageButton
         android:id="@+id/delete"
@@ -35,6 +35,6 @@
         android:background="@null"
         android:tint="@android:color/holo_red_dark"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_delete_white_24dp" />
+        app:srcCompat="@drawable/ic_delete"/>
 
 </RelativeLayout>

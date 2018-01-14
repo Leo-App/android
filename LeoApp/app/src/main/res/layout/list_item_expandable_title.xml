@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/view_amount_background"
+        android:background="@drawable/background_view_amount"
         android:gravity="center"
         android:layout_centerVertical="true"
         android:textColor="@android:color/white"

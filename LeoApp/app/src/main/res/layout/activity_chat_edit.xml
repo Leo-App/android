@@ -57,7 +57,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="2dp"
                         android:layout_marginTop="4dp"
-                        app:srcCompat="@drawable/account_multiple" />
+                        app:srcCompat="@drawable/ic_person_multiple"/>
 
                     <TextView
                         android:id="@+id/textView"
@@ -111,7 +111,7 @@
                         android:layout_marginRight="2dp"
                         android:layout_marginTop="4dp"
                         android:tint="@android:color/black"
-                        app:srcCompat="@drawable/ic_settings_white_24dp" />
+                        app:srcCompat="@mipmap/icon_settings"/>
 
                     <TextView
                         android:id="@+id/textView2"

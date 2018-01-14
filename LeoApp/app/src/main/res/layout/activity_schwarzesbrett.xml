@@ -79,7 +79,7 @@
                 android:scaleType="fitCenter"
                 android:tint="@android:color/white"
                 app:fabSize="normal"
-                app:srcCompat="@drawable/ic_add_white_24dp" />
+                app:srcCompat="@drawable/ic_add"/>
 
         </RelativeLayout>
 

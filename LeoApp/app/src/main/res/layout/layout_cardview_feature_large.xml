@@ -26,7 +26,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:tint="#9E9E9E"
-            card_view:srcCompat="@drawable/qrcode" />
+            card_view:srcCompat="@mipmap/icon_essensbons"/>
 
         <TextView
             android:id="@+id/info_title0"

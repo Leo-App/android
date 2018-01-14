@@ -39,7 +39,7 @@
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:tint="@android:color/darker_gray"
-            app:srcCompat="@drawable/ic_chevron_left_white_24dp" />
+            app:srcCompat="@drawable/ic_chevron_left"/>
 
         <TextView
             android:id="@+id/categoryTitle"
@@ -67,7 +67,7 @@
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:tint="@android:color/darker_gray"
-            app:srcCompat="@drawable/ic_chevron_right_white_24dp" />
+            app:srcCompat="@drawable/ic_chevron_right"/>
 
     </RelativeLayout>
 
@@ -108,7 +108,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@id/checkBox"
-            android:drawableRight="@drawable/ic_chevron_right_white_24dp"
+            android:drawableRight="@drawable/ic_chevron_right"
             android:drawableTint="@color/colorAccent"
             android:text="Überspringen"
             android:textAllCaps="true" />

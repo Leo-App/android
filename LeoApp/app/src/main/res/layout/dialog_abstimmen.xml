@@ -38,11 +38,11 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="@drawable/smiley_background_very_satisfied"
+            android:background="@drawable/background_smiley_very_satisfied"
             android:contentDescription="@string/textview_placeholder"
             android:scaleType="fitCenter"
             android:tint="@color/image_very_satisfied"
-            app:srcCompat="@drawable/ic_sentiment_very_satisfied_white_24px" />
+            app:srcCompat="@drawable/ic_smiley_1"/>
 
         <ImageButton
             android:id="@+id/imageButtonS"
@@ -51,11 +51,11 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="@drawable/smiley_background_satisfied"
+            android:background="@drawable/background_smiley_satisfied"
             android:contentDescription="@string/textview_placeholder"
             android:scaleType="fitCenter"
             android:tint="@color/image_satisfied"
-            app:srcCompat="@drawable/ic_sentiment_satisfied_white_24px" />
+            app:srcCompat="@drawable/ic_smiley_2"/>
 
         <ImageButton
             android:id="@+id/imageButtonN"
@@ -64,11 +64,11 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="@drawable/smiley_background_neutral"
+            android:background="@drawable/background_smiley_neutral"
             android:contentDescription="@string/textview_placeholder"
             android:scaleType="fitCenter"
             android:tint="@color/image_neutral"
-            app:srcCompat="@drawable/ic_sentiment_neutral_white_24px" />
+            app:srcCompat="@drawable/ic_smiley_3"/>
 
         <ImageButton
             android:id="@+id/imageButtonD"
@@ -77,11 +77,11 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="@drawable/smiley_background_dissatisfied"
+            android:background="@drawable/background_smiley_dissatisfied"
             android:contentDescription="@string/textview_placeholder"
             android:scaleType="fitCenter"
             android:tint="@color/image_dissatisfied"
-            app:srcCompat="@drawable/ic_sentiment_dissatisfied_white_24px" />
+            app:srcCompat="@drawable/ic_smiley_4"/>
 
 
         <ImageButton
@@ -91,11 +91,11 @@
             android:layout_margin="8dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="@drawable/smiley_background_bad_mood"
+            android:background="@drawable/background_smiley_bad_mood"
             android:contentDescription="@string/textview_placeholder"
             android:scaleType="fitCenter"
             android:tint="@color/image_bad_mood"
-            app:srcCompat="@drawable/ic_sentiment_very_dissatisfied_white_24px" />
+            app:srcCompat="@drawable/ic_smiley_5"/>
 
     </LinearLayout>
 
@@ -107,29 +107,6 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout"
         android:visibility="visible">
-
-        <TextView
-            android:id="@+id/textViewWhy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginStart="15dp"
-            android:text="Warum?"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorPrimary"
-            android:textSize="17sp" />
-
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="148dp"
-            android:layout_alignLeft="@id/textViewWhy"
-            android:layout_alignRight="@id/textViewWhy"
-            android:layout_below="@+id/textViewWhy"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal" />
 
     </RelativeLayout>
 

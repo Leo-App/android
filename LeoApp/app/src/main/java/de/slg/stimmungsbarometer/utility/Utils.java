@@ -23,17 +23,17 @@ public abstract class Utils {
     public static int getCurrentMoodRessource() {
         switch (getLastVote()) {
             case 1:
-                return R.drawable.ic_sentiment_very_satisfied_white_24px;
+                return R.drawable.ic_smiley_1;
             case 2:
-                return R.drawable.ic_sentiment_satisfied_white_24px;
+                return R.drawable.ic_smiley_2;
             case 3:
-                return R.drawable.ic_sentiment_neutral_white_24px;
+                return R.drawable.ic_smiley_3;
             case 4:
-                return R.drawable.ic_sentiment_dissatisfied_white_24px;
+                return R.drawable.ic_smiley_4;
             case 5:
-                return R.drawable.ic_sentiment_very_dissatisfied_white_24px;
+                return R.drawable.ic_smiley_5;
             default:
-                return R.drawable.ic_account_circle_black_24dp;
+                return R.mipmap.icon_profil;
         }
     }
 

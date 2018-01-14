@@ -401,7 +401,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
                 };
 
                 final ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewIcon);
-                iv.setImageResource(R.drawable.ic_file_download_black_24dp);
+                iv.setImageResource(R.drawable.ic_file_download);
                 iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
                 iv.setOnClickListener(listener);
 

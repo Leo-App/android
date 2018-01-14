@@ -13,7 +13,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:tint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_chat_bubble_white_24dp" />
+        app:srcCompat="@drawable/ic_chat_bubble"/>
 
     <ImageView
         android:id="@+id/iconMute"
@@ -26,7 +26,7 @@
         android:padding="1dp"
         android:tint="@color/colorInactive"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_volume_off_white_24dp" />
+        app:srcCompat="@drawable/ic_mute"/>
 
     <TextView
         android:id="@+id/chatname"
@@ -70,7 +70,7 @@
         android:padding="2dp"
         android:tint="@color/colorAccent"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_priority_high_white_24dp" />
+        app:srcCompat="@drawable/ic_priority_high"/>
 
     <ImageView
         android:id="@+id/imageButtonMute"
@@ -83,7 +83,7 @@
         android:padding="5dp"
         android:tint="@color/active"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_volume_off_white_24dp" />
+        app:srcCompat="@drawable/ic_mute"/>
 
     <ImageView
         android:id="@+id/imageButtonDelete"
@@ -96,6 +96,6 @@
         android:padding="5dp"
         android:tint="@color/colorBadMood"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_delete_white_24dp" />
+        app:srcCompat="@drawable/ic_delete"/>
 
 </RelativeLayout>

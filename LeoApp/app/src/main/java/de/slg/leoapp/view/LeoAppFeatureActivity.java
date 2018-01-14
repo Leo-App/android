@@ -218,7 +218,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
         toolbar.setTitle(getString(getToolbarTextId()));
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

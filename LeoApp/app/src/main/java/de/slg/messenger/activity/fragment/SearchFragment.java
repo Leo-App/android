@@ -117,10 +117,10 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 expanded = !expanded;
                 if (expanded) {
-                    expand.setImageResource(R.drawable.ic_expand_less_white_24dp);
+                    expand.setImageResource(R.drawable.ic_expand_less);
                     SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.VISIBLE);
                 } else {
-                    expand.setImageResource(R.drawable.ic_expand_more_white_24dp);
+                    expand.setImageResource(R.drawable.ic_expand_more);
                     SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.GONE);
                 }
             }
@@ -169,18 +169,18 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 if (nameDesc) {
                     nameDesc = false;
-                    nameUpDown.setImageResource(R.drawable.ic_expand_less_white_24dp);
+                    nameUpDown.setImageResource(R.drawable.ic_expand_less);
                 } else {
                     nameDesc = true;
-                    nameUpDown.setImageResource(R.drawable.ic_expand_more_white_24dp);
+                    nameUpDown.setImageResource(R.drawable.ic_expand_more);
                 }
                 refreshUI();
             }
         });
         if (!nameDesc) {
-            nameUpDown.setImageResource(R.drawable.ic_expand_less_white_24dp);
+            nameUpDown.setImageResource(R.drawable.ic_expand_less);
         } else {
-            nameUpDown.setImageResource(R.drawable.ic_expand_more_white_24dp);
+            nameUpDown.setImageResource(R.drawable.ic_expand_more);
         }
         final Button grade = (Button) view.findViewById(R.id.buttonGrade);
         grade.setOnClickListener(new View.OnClickListener() {
@@ -245,12 +245,12 @@ public class SearchFragment extends Fragment {
                 User u = (User) current;
                 username.setText(u.uname);
                 userdefault.setText(u.udefaultname + ", " + u.ustufe);
-                icon.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                icon.setImageResource(R.mipmap.icon_profil);
             } else {
                 Chat c = (Chat) current;
                 username.setText(c.cname);
                 userdefault.setText("");
-                icon.setImageResource(R.drawable.ic_question_answer_white_24dp);
+                icon.setImageResource(R.mipmap.icon_messenger);
             }
         }
 

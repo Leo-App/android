@@ -4,31 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_appedit"
-        android:icon="@drawable/ic_edit_white_24dp"
+        android:icon="@drawable/ic_edit"
         android:title="@string/cards_customize"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_request"
-        android:icon="@drawable/ic_edit_white_24dp"
+        android:icon="@drawable/ic_edit"
         android:title="@string/action_request"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_settings"
-        android:icon="@drawable/ic_edit_white_24dp"
+        android:icon="@drawable/ic_edit"
         android:title="@string/title_settings"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_help"
-        android:icon="@drawable/ic_edit_white_24dp"
+        android:icon="@drawable/ic_edit"
         android:title="@string/action_help"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_appinfo_quick"
-        android:icon="@drawable/ic_widgets_white_24dp"
+        android:icon="@drawable/ic_widgets"
         android:title="@string/cards_quick"
         app:showAsAction="ifRoom" />
 </menu>

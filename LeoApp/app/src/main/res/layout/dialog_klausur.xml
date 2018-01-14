@@ -85,7 +85,7 @@
         android:background="@android:color/transparent"
         android:tint="@android:color/black"
         android:visibility="visible"
-        app:srcCompat="@drawable/ic_pin" />
+        app:srcCompat="@mipmap/icon_stundenplan"/>
 
     <TextView
         android:id="@+id/textViewMenu"

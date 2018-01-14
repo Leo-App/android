@@ -7,47 +7,47 @@
         <item
             android:id="@+id/startseite"
             android:checked="false"
-            android:icon="@drawable/ic_home_white_24dp"
+            android:icon="@mipmap/icon_startseite"
             android:title="@string/title_home" />
         <item
             android:id="@+id/foodmarks"
             android:checked="false"
-            android:icon="@drawable/qrcode"
+            android:icon="@mipmap/icon_essensbons"
             android:title="@string/title_foodmarks" />
         <item
             android:id="@+id/klausurplan"
             android:checked="false"
-            android:icon="@drawable/icon_klausurplan"
+            android:icon="@mipmap/icon_klausurplan"
             android:title="@string/title_testplan" />
         <item
             android:id="@+id/messenger"
             android:checked="false"
-            android:icon="@drawable/ic_question_answer_white_24dp"
+            android:icon="@mipmap/icon_messenger"
             android:title="@string/title_messenger" />
         <item
             android:id="@+id/newsboard"
             android:checked="false"
-            android:icon="@drawable/ic_pin"
+            android:icon="@mipmap/icon_schwarzes_brett"
             android:title="@string/title_news" />
         <item
             android:id="@+id/barometer"
             android:checked="false"
-            android:icon="@drawable/ic_insert_emoticon_white_24dp"
+            android:icon="@mipmap/icon_stimmungsbarometer"
             android:title="@string/title_survey" />
         <item
             android:id="@+id/stundenplan"
             android:checked="false"
-            android:icon="@drawable/ic_event_white_24dp"
+            android:icon="@mipmap/icon_stundenplan"
             android:title="@string/title_plan" />
         <item
             android:id="@+id/umfragen"
             android:checked="false"
-            android:icon="@drawable/icon_survey"
+            android:icon="@mipmap/icon_umfragen"
             android:title="@string/title_survey_news" />
         <item
             android:id="@+id/itsolver"
             android:checked="false"
-            android:icon="@drawable/icon_it_problem"
+            android:icon="@mipmap/icon_it_problem"
             android:title="@string/title_it_problem" />
     </group>
 
@@ -56,11 +56,11 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/profile"
-            android:icon="@drawable/emoticon"
+            android:icon="@mipmap/icon_profil"
             android:title="@string/profil" />
         <item
             android:id="@+id/settings"
-            android:icon="@drawable/ic_settings_white_24dp"
+            android:icon="@mipmap/icon_settings"
             android:title="@string/title_settings" />
     </group>
 </menu>

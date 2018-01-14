@@ -17,7 +17,6 @@ import de.slg.klausurplan.utility.Klausur;
 import de.slg.leoapp.utility.Utils;
 
 public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
-
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
 
     public static final String DATABASE_NAME = "klausurplan";
@@ -32,10 +31,10 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
     private static final String KLAUSUR_HERUNTERGELADEN = "heruntergeladen";
 
     public static final String WHERE_ONLY_CREATED    = KLAUSUR_HERUNTERGELADEN + " = 0";
-    public static final String WHERE_ALL             = WHERE_ONLY_CREATED + " OR " + KLAUSUR_DATUM + " > '" + getMinDate() + "'";
-    public static final String WHERE_ONLY_GRADE      = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
-    public static final String WHERE_GRADE_TIMETABLE = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
-    public static final String WHERE_ONLY_TIMETABLE  = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > '" + getMinDate() + "')";
+    public static final String WHERE_ALL             = WHERE_ONLY_CREATED + " OR " + KLAUSUR_DATUM + " > ";
+    public static final String WHERE_ONLY_GRADE      = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_DATUM + " > ";
+    public static final String WHERE_GRADE_TIMETABLE = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_STUFE + " = '" + Utils.getUserStufe() + "' AND " + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > ";
+    public static final String WHERE_ONLY_TIMETABLE  = WHERE_ONLY_CREATED + " OR (" + KLAUSUR_IN_STUNDENPLAN + " = 1 AND " + KLAUSUR_DATUM + " > ";
 
     private final SQLiteDatabase database;
 
@@ -44,10 +43,10 @@ public class SQLiteConnectorKlausurplan extends SQLiteOpenHelper {
         database = getWritableDatabase();
     }
 
-    private static String getMinDate() {
+    public static String getMinDate() {
         Calendar calendar = new GregorianCalendar();
-        calendar.add(Calendar.MONTH, -Utils.getController().getPreferences().getInt("pref_key_delete", 12));
-        return dateFormat.format(calendar.getTime());
+        calendar.add(Calendar.MONTH, -1 * Utils.getController().getPreferences().getInt("pref_key_delete", 12));
+        return '\'' + dateFormat.format(calendar.getTime()) + '\'';
     }
 
     @Override

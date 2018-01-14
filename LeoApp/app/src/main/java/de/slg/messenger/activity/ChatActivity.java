@@ -169,7 +169,7 @@ public class ChatActivity extends ActionLogActivity {
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(cname);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         if (ctype != Chat.ChatType.PRIVATE && Utils.getController().getMessengerDatabase().userInChat(Utils.getUserID(), cid)) {
@@ -272,6 +272,10 @@ public class ChatActivity extends ActionLogActivity {
         refreshUI(true, true);
     }
 
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
+
     private static class SendMessage extends AsyncTask<String, Void, Void> {
         private ChatActivity   activity;
         private ReceiveService service;
@@ -302,13 +306,10 @@ public class ChatActivity extends ActionLogActivity {
 
                     service.startIfNotRunning();
 
-                    int cid = service.send(new Chat(0, oUid + " - " + Utils.getUserID(), Chat.ChatType.PRIVATE));
-                    Utils.logDebug("cid = " + cid);
+                    service.send(new Chat(0, oUid + " - " + Utils.getUserID(), Chat.ChatType.PRIVATE));
 
-                    while ((activity.cid = Utils.getController().getMessengerDatabase().getChatWith(oUid)) == -1)
+                    while (activity.cid == -1)
                         ;
-
-                    Utils.logDebug("cid = " + activity.cid);
                 } else {
                     Toast.makeText(activity, "You need an active Internet-Connection to perform this Action", Toast.LENGTH_LONG).show();
                     return null;

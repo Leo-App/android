@@ -126,9 +126,9 @@ public class MessengerActivity extends LeoAppFeatureActivity {
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_question_answer_white_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_person_white_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_search_white_24dp);
+        tabLayout.getTabAt(0).setIcon(R.mipmap.icon_messenger);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_person);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_search);
     }
 
     /**

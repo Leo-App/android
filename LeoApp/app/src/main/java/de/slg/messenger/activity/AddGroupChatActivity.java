@@ -25,6 +25,7 @@ public class AddGroupChatActivity extends ActionLogActivity {
     private MenuItem     confirm;
     private boolean[]    selection;
     private int          selected;
+    private int          cid;
 
     private boolean chatnameSet, usersSelected;
 
@@ -96,7 +97,7 @@ public class AddGroupChatActivity extends ActionLogActivity {
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(R.string.title_new_groupchat);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }
@@ -190,5 +191,13 @@ public class AddGroupChatActivity extends ActionLogActivity {
                 container.getChildAt(i).setVisibility(View.GONE);
             }
         }
+    }
+
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
     }
 }

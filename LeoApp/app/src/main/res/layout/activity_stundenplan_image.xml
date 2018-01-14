@@ -24,6 +24,6 @@
         android:layout_marginRight="17dp"
         android:clickable="true"
         app:fabSize="mini"
-        app:srcCompat="@drawable/ic_save_white_24dp" />
+        app:srcCompat="@drawable/ic_save"/>
 
 </RelativeLayout>

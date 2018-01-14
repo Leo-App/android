@@ -2,9 +2,11 @@ package de.slg.leoapp.task;
 
 import android.os.AsyncTask;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.HttpURLConnection;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.WebDAVConnector;
@@ -40,11 +42,27 @@ public class SyncGradeTask extends AsyncTask<Void, Void, Void> {
 
         try {
 
-            HttpURLConnection connection = (HttpURLConnection)
-                    new URL(Utils.BASE_URL_PHP + "user/updateKlasse.php?uid=" + Utils.getUserID() + "&uklasse=" + grade)
+            URLConnection connection =
+                    new URL(
+                            Utils.BASE_URL_PHP + "user/updateKlasse.php?uid=" + Utils.getUserID() + "&uklasse=" + grade
+                    )
                             .openConnection();
 
-            connection.connect();
+            BufferedReader reader =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    connection.getInputStream()
+                            )
+                    );
+
+            String        line;
+            StringBuilder builder = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            reader.close();
+
+            Utils.logDebug(builder);
         } catch (IOException e) {
             Utils.logError(e);
         }

@@ -123,7 +123,7 @@ public class AbstimmActivity extends ActionLogActivity {
             @Override
             public void onClick(View view) {
                 if (confirm.isEnabled()) {
-                    new SendeDaten().execute(new Wahl(voteid, userid, ausgewählterGrund));
+                    new SendeDaten().execute(new Wahl(voteid, userid));
                     de.slg.stimmungsbarometer.utility.Utils.setLastVote(voteid);
                     finish();
                 }

@@ -1,7 +1,6 @@
 package de.slg.klausurplan;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -20,7 +19,6 @@ public class NumberPickerPreference extends DialogPreference {
     private static final boolean WRAP_SELECTOR_WHEEL = true;
 
     private NumberPicker picker;
-    private int          value;
 
     public NumberPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -45,11 +43,11 @@ public class NumberPickerPreference extends DialogPreference {
     @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
+        picker.setDisplayedValues(new String[]{"1 " + Utils.getString(R.string.month), "2 " + Utils.getString(R.string.months), "3 " + Utils.getString(R.string.months), "4 " + Utils.getString(R.string.months), "5 " + Utils.getString(R.string.months), "6 " + Utils.getString(R.string.months), "7 " + Utils.getString(R.string.months), "8 " + Utils.getString(R.string.months), "9 " + Utils.getString(R.string.months), "10 " + Utils.getString(R.string.months), "11 " + Utils.getString(R.string.months), "1 " + Utils.getString(R.string.year)});
         picker.setMinValue(MIN_VALUE);
         picker.setMaxValue(MAX_VALUE);
-        picker.setDisplayedValues(new String[]{"1 " + Utils.getString(R.string.month), "2 " + Utils.getString(R.string.months), "3 " + Utils.getString(R.string.months), "4 " + Utils.getString(R.string.months), "5 " + Utils.getString(R.string.months), "6 " + Utils.getString(R.string.months), "7 " + Utils.getString(R.string.months), "8 " + Utils.getString(R.string.months), "9 " + Utils.getString(R.string.months), "10 " + Utils.getString(R.string.months), "11 " + Utils.getString(R.string.months), "1 " + Utils.getString(R.string.year)});
+        picker.setValue(getSharedPreferences().getInt(getKey(), 12));
         picker.setWrapSelectorWheel(WRAP_SELECTOR_WHEEL);
-        picker.setValue(getValue());
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     }
 
@@ -59,23 +57,8 @@ public class NumberPickerPreference extends DialogPreference {
             picker.clearFocus();
             int newValue = picker.getValue();
             if (callChangeListener(newValue)) {
-                setValue(newValue);
+                persistInt(newValue);
             }
         }
-    }
-
-    @Override
-    protected Object onGetDefaultValue(TypedArray a, int index) {
-        return a.getInt(index, MIN_VALUE);
-    }
-
-    private int getValue() {
-        this.value = getPersistedInt(1);
-        return this.value;
-    }
-
-    private void setValue(int value) {
-        this.value = value;
-        persistInt(this.value);
     }
 }

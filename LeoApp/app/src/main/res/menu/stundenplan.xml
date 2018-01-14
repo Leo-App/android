@@ -4,18 +4,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_edit"
-        android:icon="@drawable/ic_edit_white_24dp"
+        android:icon="@drawable/ic_edit"
         android:title="@string/menu_stundenplan_name"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_picture"
-        android:icon="@drawable/ic_image_white_24dp"
+        android:icon="@drawable/ic_image"
         android:title="@string/mache_bild"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_randstunde"
-        android:icon="@drawable/ic_save_white_24dp"
+        android:icon="@drawable/ic_save"
         android:title="@string/title_randstundenfinder"
         app:showAsAction="never" />
 </menu>

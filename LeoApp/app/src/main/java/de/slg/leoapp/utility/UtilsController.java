@@ -38,6 +38,7 @@ import de.slg.umfragen.activity.SurveyActivity;
  * @version 2017.2610
  * @since 0.5.5
  */
+@SuppressWarnings({"WeakerAccess"})
 public class UtilsController {
     private Context           context;
     private SharedPreferences preferences;
@@ -333,7 +334,7 @@ public class UtilsController {
     /**
      * @return Aktive StundenplanBild-Activity (Anzeige des Stundenplans im .bmp Format)
      */
-    private StundenplanBildActivity getStundenplanBildActivity() {
+    public StundenplanBildActivity getStundenplanBildActivity() {
         return stundenplanBildActivity;
     }
 
@@ -347,42 +348,42 @@ public class UtilsController {
     /**
      * @return Aktive Stimmungsbarometer-Activity, null wenn nicht aktiv.
      */
-    private StimmungsbarometerActivity getStimmungsbarometerActivity() {
+    public StimmungsbarometerActivity getStimmungsbarometerActivity() {
         return stimmungsbarometerActivity;
     }
 
     /**
      * @return Aktive ChatEdit-Activity, null wenn nicht aktiv.
      */
-    private ChatEditActivity getChatEditActivity() {
+    public ChatEditActivity getChatEditActivity() {
         return chatEditActivity;
     }
 
     /**
      * @return Aktive Messenger-Activity, null wenn nicht aktiv.
      */
-    private AddGroupChatActivity getAddGroupChatActivity() {
+    public AddGroupChatActivity getAddGroupChatActivity() {
         return addGroupChatActivity;
     }
 
     /**
      * @return Aktive QR-Activity (Anzeige der Essensbons)
      */
-    private EssensQRActivity getEssensQRActivity() {
+    public EssensQRActivity getEssensQRActivity() {
         return essensQRActivity;
     }
 
     /**
      * @return Aktive Preference-Activity (Einstellungen)
      */
-    private PreferenceActivity getPreferenceActivity() {
+    public PreferenceActivity getPreferenceActivity() {
         return preferenceActivity;
     }
 
     /**
      * @return Aktive NotificationPreference-Activity (Notification Einstellungen)
      */
-    private NotificationPreferenceActivity getNotificationPreferenceActivity() {
+    public NotificationPreferenceActivity getNotificationPreferenceActivity() {
         return notificationPreferenceActivity;
     }
 

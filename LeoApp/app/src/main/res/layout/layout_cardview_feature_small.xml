@@ -32,7 +32,7 @@
             android:layout_centerVertical="true"
             android:adjustViewBounds="false"
             android:tint="@color/colorGreyNormal"
-            card_view:srcCompat="@drawable/qrcode"
+            card_view:srcCompat="@mipmap/icon_essensbons"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />

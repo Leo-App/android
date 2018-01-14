@@ -62,7 +62,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/spinner2"
         android:layout_marginTop="20dp"
-        android:drawableLeft="@drawable/ic_chevron_left_white_24dp"
+        android:drawableLeft="@drawable/ic_chevron_left"
         android:drawableTint="@color/colorPrimary"
         android:text="@string/back"
         android:textAllCaps="true" />

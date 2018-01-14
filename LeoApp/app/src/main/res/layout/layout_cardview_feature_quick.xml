@@ -29,7 +29,7 @@
                 android:layout_height="125dp"
                 android:layout_centerInParent="true"
                 android:tint="@color/colorPrimary"
-                card_view:srcCompat="@drawable/qrcode" />
+                card_view:srcCompat="@mipmap/icon_essensbons"/>
 
             <Button
                 android:id="@+id/buttonCard"
