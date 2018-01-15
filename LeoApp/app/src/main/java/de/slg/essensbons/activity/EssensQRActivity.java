@@ -24,6 +24,7 @@ import com.google.zxing.Result;
 
 import de.slg.essensbons.activity.fragment.QRFragment;
 import de.slg.essensbons.activity.fragment.ScanFragment;
+import de.slg.essensbons.intro.EssensbonIntroActivity;
 import de.slg.essensbons.task.QRReadTask;
 import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
@@ -51,42 +52,13 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         super.onCreate(savedInstanceState);
         new InformationDialog(this).setText(R.string.dialog_qrfoodmarks).show();
 
-        Utils.getController().registerEssensQRActivity(this);
+        Utils.getController().registerEssensbonActivity(this);
 
         runningScan = false;
         runningSync = false;
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
-
-            private final QRFragment fragment1 = new QRFragment();
-            private final ScanFragment fragment2 = new ScanFragment();
-
-            @Override
-            public Fragment getItem(int position) {
-                if (position == 0)
-                    return fragment1;
-                else
-                    return fragment2;
-            }
-
-            @Override
-            public int getCount() {
-                return 2;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                if (position == 0)
-                    return getString(R.string.title_foodmarks);
-                else
-                    return getString(R.string.toolbar_scan);
-            }
-        };
-        mViewPager.setAdapter(adapt);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
-        tabLayout.setupWithViewPager(mViewPager);
+        initIntro();
+        initFragments();
 
         sqlh = new SQLiteConnectorEssensbons(getApplicationContext());
 
@@ -111,6 +83,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         } else
             mensaModeRunning = false;
     }
+
 
     @Override
     protected int getContentView() {
@@ -145,22 +118,6 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
     @Override
     protected String getActivityTag() {
         return "QRActivity";
-    }
-
-    private void scan() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    MY_PERMISSIONS_REQUEST_USE_CAMERA);
-        } else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            runningScan = true;
-            scV = new ZXingScannerView(getApplicationContext());
-            setContentView(scV);
-            scV.setResultHandler(this);
-            scV.startCamera(EssensbonUtils.getPreferredCamera());
-        }
     }
 
     @Override
@@ -238,6 +195,65 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
     @Override
     public void finish() {
         super.finish();
-        Utils.getController().registerEssensQRActivity(null);
+        Utils.getController().registerEssensbonActivity(null);
     }
+
+    private void scan() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_USE_CAMERA);
+        } else {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            runningScan = true;
+            scV = new ZXingScannerView(getApplicationContext());
+            setContentView(scV);
+            scV.setResultHandler(this);
+            scV.startCamera(EssensbonUtils.getPreferredCamera());
+        }
+    }
+
+    private void initIntro() {
+        if (Utils.getController().getPreferences().getBoolean("intro_shown_qr", false)) {
+            startActivity(new Intent(this, EssensbonIntroActivity.class));
+        }
+    }
+
+    private void initFragments() {
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
+
+            private final QRFragment fragment1 = new QRFragment();
+            private final ScanFragment fragment2 = new ScanFragment();
+
+            @Override
+            public Fragment getItem(int position) {
+                if (position == 0)
+                    return fragment1;
+                else
+                    return fragment2;
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                if (position == 0)
+                    return getString(R.string.title_foodmarks);
+                else
+                    return getString(R.string.toolbar_scan);
+            }
+        };
+        mViewPager.setAdapter(adapt);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        tabLayout.setupWithViewPager(mViewPager);
+
+    }
+
+
 }

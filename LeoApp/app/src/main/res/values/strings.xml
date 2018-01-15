@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="qr_intro_title1">QR - Foodmarks</string>
+    <string name="qr_intro_desc1">This feature simplifies the procedures during TODO</string>
+
+    <string name="qr_intro_titleVerification">Log in</string>
+    <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
+        lunch.leo-ac.de credentials.</string>
+
     <string name="app_name" translatable="false">LeoApp</string>
 
     <string name="yes">Yes</string>

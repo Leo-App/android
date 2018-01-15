@@ -170,6 +170,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 
+        <activity
+            android:name="de.slg.essensbons.intro.EssensbonIntroActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
+
     </application>
 
 </manifest>

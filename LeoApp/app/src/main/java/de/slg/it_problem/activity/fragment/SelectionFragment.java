@@ -42,7 +42,6 @@ public class SelectionFragment extends Fragment implements TaskStatusListener {
     }
 
     private void initButtons() {
-        Utils.logError("INIT");
         v.findViewById(R.id.button_beamer).setOnClickListener(new ButtonClickListener(Subject.BEAMER));
         v.findViewById(R.id.button_network).setOnClickListener(new ButtonClickListener(Subject.NETWORK));
         v.findViewById(R.id.button_computer).setOnClickListener(new ButtonClickListener(Subject.COMPUTER));

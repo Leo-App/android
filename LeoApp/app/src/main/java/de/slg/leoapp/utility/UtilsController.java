@@ -269,7 +269,7 @@ public class UtilsController {
         surveyActivity = activity;
     }
 
-    public void registerEssensQRActivity(EssensQRActivity activity) {
+    public void registerEssensbonActivity(EssensQRActivity activity) {
         essensQRActivity = activity;
     }
 

@@ -3,7 +3,6 @@ package de.slg.it_problem.utility.datastructure;
 import android.support.annotation.NonNull;
 
 import de.slg.it_problem.utility.ProblemContent;
-import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.datastructure.BinaryTree;
 
 /**
@@ -34,7 +33,7 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
 
         setContent(new ProblemContent(data[0], data[1], data[2]));
 
-        if (tree.contains(";l0;") && tree.contains(";R0;")) {
+        if (tree.contains(";L0;") && tree.contains(";R0;")) {
             setLeftTree(new DecisionTree(tree.substring(tree.indexOf(";L0;"), tree.indexOf(";R0;")), 0));
             setRightTree(new DecisionTree(tree.substring(tree.indexOf(";R0;")), 0));
         }
@@ -43,7 +42,18 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
     private DecisionTree(@NonNull String tree, int level) {
         if(tree.equals("") || tree.equals("_;;_"))
             return;
-        //TODO
+
+        String current = tree.split("_;;_")[0].substring(tree.indexOf(level+";")+2);
+        String[] data = current.split("_;_");
+
+        setContent(new ProblemContent(data[0], data[1], data[2]));
+        level++;
+
+        if (tree.contains(";L"+level+";") && tree.contains(";R"+level+";")) {
+            setLeftTree(new DecisionTree(tree.substring(tree.indexOf(";L"+level+";"), tree.indexOf(";R"+level+";")), level));
+            setRightTree(new DecisionTree(tree.substring(tree.indexOf(";R"+level+";")), level));
+        }
+
     }
 
     /**
