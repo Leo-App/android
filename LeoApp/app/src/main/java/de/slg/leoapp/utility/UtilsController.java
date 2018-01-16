@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.intro.EssensbonIntroActivity;
 import de.slg.it_problem.activity.ITActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.activity.NotificationPreferenceActivity;
@@ -66,6 +67,8 @@ public class UtilsController {
     private SurveyActivity surveyActivity;
 
     private ITActivity itActivity;
+
+    private EssensbonIntroActivity essensbonIntroActivity;
 
     private PreferenceActivity             preferenceActivity;
     private NotificationPreferenceActivity notificationPreferenceActivity;
@@ -289,6 +292,10 @@ public class UtilsController {
         itActivity = activity;
     }
 
+    public void registerEssensbonIntroActity(EssensbonIntroActivity activity) {
+        essensbonIntroActivity = activity;
+    }
+
     /**
      * @return Aktive Messenger-Activity, null wenn nicht aktiv.
      */
@@ -388,7 +395,7 @@ public class UtilsController {
     }
 
     /**
-     * @return Aktive Profil-Activity
+     * @return Aktive Umfrage-Activity
      */
     public SurveyActivity getSurveyActivity() {
         return surveyActivity;
@@ -401,8 +408,15 @@ public class UtilsController {
         return profileActivity;
     }
 
+    /**
+     * @return Aktive IT-Activity
+     */
     public ITActivity getItActivity() {
         return itActivity;
+    }
+
+    public EssensbonIntroActivity getEssensbonIntroActivity() {
+        return essensbonIntroActivity;
     }
 
     /**
@@ -512,6 +526,9 @@ public class UtilsController {
         }
         if (getSurveyActivity() != null) {
             getSurveyActivity().finish();
+        }
+        if (getEssensbonIntroActivity() != null) {
+            getEssensbonIntroActivity().finish();
         }
     }
 

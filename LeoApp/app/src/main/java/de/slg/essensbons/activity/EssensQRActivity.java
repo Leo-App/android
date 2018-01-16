@@ -25,18 +25,22 @@ import com.google.zxing.Result;
 import de.slg.essensbons.activity.fragment.QRFragment;
 import de.slg.essensbons.activity.fragment.ScanFragment;
 import de.slg.essensbons.intro.EssensbonIntroActivity;
+import de.slg.essensbons.task.EssensbonLoginTask;
 import de.slg.essensbons.task.QRReadTask;
+import de.slg.essensbons.utility.Authenticator;
 import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
+import de.slg.leoapp.task.general.CallbackTask;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 @SuppressLint("StaticFieldLeak")
-public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScannerView.ResultHandler {
+public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScannerView.ResultHandler, TaskStatusListener {
 
     public static SQLiteConnectorEssensbons sqlh;
     public static Button                    scan;
@@ -50,8 +54,6 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new InformationDialog(this).setText(R.string.dialog_qrfoodmarks).show();
-
         Utils.getController().registerEssensbonActivity(this);
 
         runningScan = false;
@@ -83,7 +85,6 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         } else
             mensaModeRunning = false;
     }
-
 
     @Override
     protected int getContentView() {
@@ -198,6 +199,12 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         Utils.getController().registerEssensbonActivity(null);
     }
 
+    @Override
+    public void taskFinished(Object... result) {
+        if (result[0] == Authenticator.NOT_VALID)
+            startActivity(new Intent(this, EssensbonIntroActivity.class));
+    }
+
     private void scan() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -215,9 +222,10 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
     }
 
     private void initIntro() {
-//        if (Utils.getController().getPreferences().getBoolean("intro_shown_qr", true)) {
-            startActivity(new Intent(this, EssensbonIntroActivity.class));
- //       }
+        if (!Utils.getController().getPreferences().getBoolean("intro_shown_qr", true))
+            startActivity(new Intent(this, EssensbonIntroActivity.class).putExtra("explanation", true));
+        else
+            initCredentialCheck();
     }
 
     private void initFragments() {
@@ -255,5 +263,8 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
 
     }
 
-
+    private void initCredentialCheck() {
+        EssensbonLoginTask task = new EssensbonLoginTask();
+        task.addListener(this).execute();
+    }
 }

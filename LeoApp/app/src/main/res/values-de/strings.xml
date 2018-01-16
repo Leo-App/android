@@ -6,6 +6,15 @@
 
     <string name="title_it_problem">IT - Problemlöser</string>
 
+    <!-- TODO Translate -->
+
+    <string name="qr_intro_titleVerification">Log in</string>
+    <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
+        lunch.leo-ac.de credentials.</string>
+
+    <string name="qr_intro_title1">QR - Foodmarks</string>
+    <string name="qr_intro_desc1">This feature simplifies the procedures during TODO</string>
+
     <string name="cancel">Abbrechen</string>
     <string name="error">Entschuldige, etwas ist schief gelaufen</string>
     <string name="hours_settings_template">%1$s Uhr</string>

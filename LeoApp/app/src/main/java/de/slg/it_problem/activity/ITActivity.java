@@ -14,6 +14,7 @@ import de.slg.it_problem.utility.Session;
 import de.slg.it_problem.utility.Subject;
 import de.slg.it_problem.utility.datastructure.DecisionTree;
 import de.slg.leoapp.R;
+import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.exception.SubjectNotKnownException;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 
@@ -38,6 +39,7 @@ public class ITActivity extends LeoAppFeatureActivity {
     @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);
+        Utils.getController().registerITActivity(this);
         this.b = b;
         decisionTreeHashtable = new Hashtable<>();
         initFragments();

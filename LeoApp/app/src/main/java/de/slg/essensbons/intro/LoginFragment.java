@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.github.paolorotolo.appintro.ISlideBackgroundColorHolder;
 
+import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.fragment.AbstractOrderedFragment;
 import de.slg.leoapp.utility.GraphicUtils;
@@ -20,9 +21,9 @@ import de.slg.leoapp.utility.GraphicUtils;
 public class LoginFragment extends AbstractOrderedFragment implements ISlideBackgroundColorHolder {
 
     public static LoginFragment newInstance(@StringRes int title,
-                                                                                   @StringRes int content,
-                                                                                   @ColorRes int color,
-                                                                                   int position) {
+                                            @StringRes int content,
+                                            @ColorRes int color,
+                                            int position) {
 
         LoginFragment fragmentInfo = new LoginFragment();
 

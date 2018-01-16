@@ -1,38 +1,27 @@
 package de.slg.essensbons.task;
 
-import android.support.v4.app.Fragment;
-import android.view.View;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import de.slg.essensbons.utility.Authenticator;
-import de.slg.leoapp.R;
+import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.task.general.CallbackTask;
 import de.slg.leoapp.task.general.TaskStatusListener;
-import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.utility.Utils;
 
 public class EssensbonLoginTask extends CallbackTask<Void, Void, Authenticator> {
 
     private final static char[] hexArray = "0123456789abcdef".toCharArray();
 
-    private Fragment target;
-
-    public EssensbonLoginTask(Fragment target) {
-        this.target = target;
-    }
-
     @Override
     protected Authenticator doInBackground(Void... params) {
-        if (fastConnectionAvailable()) {
-            String pw = Utils.getController().getPreferences().getString("pref_key_qr_pw", "");
-            String userId = null; //TODO
+        if (EssensbonUtils.fastConnectionAvailable()) {
+            String pw = EssensbonUtils.getPassword();
+            String userId = EssensbonUtils.getCustomerId();
             try {
                 byte[]         contents = pw.getBytes("UTF-8");
                 MessageDigest  md       = MessageDigest.getInstance("MD5");
@@ -49,6 +38,7 @@ public class EssensbonLoginTask extends CallbackTask<Void, Void, Authenticator> 
                         return Authenticator.VALID;
                     }
                     if (inputLine.contains("false")) {
+                        EssensbonUtils.setLoginStatus(true);
                         return Authenticator.NOT_VALID;
                     }
                 }
@@ -61,34 +51,10 @@ public class EssensbonLoginTask extends CallbackTask<Void, Void, Authenticator> 
         return Authenticator.NOT_VALID;
     }
 
-    private boolean fastConnectionAvailable() {
-        try {
-            HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
-            urlc.setRequestProperty("User-Agent", "Test");
-            urlc.setRequestProperty("Connection", "close");
-            urlc.setConnectTimeout(1500);
-            urlc.connect();
-            return (urlc.getResponseCode() == 200);
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
     @Override
     public void onPostExecute(Authenticator result) {
-        target.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
-        switch (result) {
-            case VALID:
-                break;
-            case NOT_VALID:
-                GraphicUtils.sendToast("Daten stimmen nicht überein");
-                break;
-            case NO_CONNECTION:
-                GraphicUtils.sendToast("Keine Internetverbindung verfügbar");
-
-        }
-
-        super.onPostExecute(result);
+        for (TaskStatusListener listener : getListeners())
+            listener.taskFinished(result);
     }
 
     private static String bytesToHex(byte[] bytes) {
@@ -99,13 +65,6 @@ public class EssensbonLoginTask extends CallbackTask<Void, Void, Authenticator> 
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
         }
         return new String(hexChars);
-    }
-
-    private void setLogin(boolean b) {
-       Utils.getController().getPreferences()
-                .edit()
-                .putBoolean("pref_key_status_loggedin", b)
-                .apply();
     }
 
 }

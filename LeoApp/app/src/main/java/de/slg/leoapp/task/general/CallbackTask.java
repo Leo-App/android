@@ -46,4 +46,8 @@ public abstract class CallbackTask<ContentTypeA, ContentTypeB, ContentTypeC> ext
             l.taskFinished();
     }
 
+    public void execute() {
+        super.execute();
+    }
+
 }
