@@ -28,7 +28,7 @@ public class SurveySynchronizer implements Synchronizer {
             return false;
 
         try {
-            URL updateURL = new URL(Utils.DOMAIN_DEV + "ic_create_survey/getSurveys.php");
+            URL updateURL = new URL(Utils.DOMAIN_DEV + "survey/getSurveys.php");
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
@@ -39,7 +39,7 @@ public class SurveySynchronizer implements Synchronizer {
                 builder.append(line);
             reader.close();
 
-            URL resultURL = new URL(Utils.DOMAIN_DEV + "ic_create_survey/getSingleResult.php?user=" + Utils.getUserID());
+            URL resultURL = new URL(Utils.DOMAIN_DEV + "survey/getSingleResult.php?user=" + Utils.getUserID());
             reader =
                     new BufferedReader(
                             new InputStreamReader(resultURL.openConnection().getInputStream(), "UTF-8"));

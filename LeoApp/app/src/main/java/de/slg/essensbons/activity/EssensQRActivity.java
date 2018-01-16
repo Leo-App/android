@@ -57,8 +57,8 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         runningScan = false;
         runningSync = false;
 
-        initIntro();
         initFragments();
+        initIntro();
 
         sqlh = new SQLiteConnectorEssensbons(getApplicationContext());
 
@@ -215,9 +215,9 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
     }
 
     private void initIntro() {
-        if (Utils.getController().getPreferences().getBoolean("intro_shown_qr", false)) {
+//        if (Utils.getController().getPreferences().getBoolean("intro_shown_qr", true)) {
             startActivity(new Intent(this, EssensbonIntroActivity.class));
-        }
+ //       }
     }
 
     private void initFragments() {

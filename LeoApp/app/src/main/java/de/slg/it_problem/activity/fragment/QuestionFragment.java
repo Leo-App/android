@@ -1,7 +1,6 @@
 package de.slg.it_problem.activity.fragment;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,7 +14,7 @@ import de.slg.it_problem.activity.ITActivity;
 import de.slg.it_problem.task.ImageSynchronizerTask;
 import de.slg.it_problem.utility.FragmentType;
 import de.slg.it_problem.utility.Session;
-import de.slg.it_problem.utility.TaskStatusListener;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.R;
 
 public class QuestionFragment extends Fragment implements TaskStatusListener {

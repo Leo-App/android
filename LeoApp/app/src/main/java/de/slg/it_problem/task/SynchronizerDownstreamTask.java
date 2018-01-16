@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Hashtable;
 
-import de.slg.it_problem.utility.TaskStatusListener;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.it_problem.utility.datastructure.DecisionTree;
 import de.slg.leoapp.sqlite.SQLiteConnectorITProblem;
 import de.slg.leoapp.utility.Utils;

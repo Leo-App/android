@@ -178,7 +178,7 @@ public class ResultDialog extends AlertDialog {
                     return ResponseCode.NO_CONNECTION;
                 }
 
-                URL            updateURL = new URL(Utils.DOMAIN_DEV + "survey/getAllResults.php?ic_create_survey=" + id);
+                URL            updateURL = new URL(Utils.DOMAIN_DEV + "survey/getAllResults.php?survey=" + id);
                 BufferedReader reader    = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
 
                 Utils.logError(updateURL);

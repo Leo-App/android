@@ -16,16 +16,6 @@
     <PreferenceCategory
         android:key="pref_key_storage_settings"
         android:title="@string/title_foodmarks">
-
-        <EditTextPreference
-            android:key="pref_key_qr_id"
-            android:summary="@string/settings_summary_customid"
-            android:title="@string/settings_title_customid" />
-        <EditTextPreference
-            android:inputType="textPassword"
-            android:key="pref_key_qr_pw"
-            android:summary="@string/settings_summary_pw"
-            android:title="@string/settings_title_password" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_key_mensa_mode"

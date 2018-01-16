@@ -12,10 +12,8 @@ import de.slg.it_problem.task.SynchronizerDownstreamTask;
 import de.slg.it_problem.utility.FragmentType;
 import de.slg.it_problem.utility.Session;
 import de.slg.it_problem.utility.Subject;
-import de.slg.it_problem.utility.TaskStatusListener;
 import de.slg.it_problem.utility.datastructure.DecisionTree;
 import de.slg.leoapp.R;
-import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.exception.SubjectNotKnownException;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 

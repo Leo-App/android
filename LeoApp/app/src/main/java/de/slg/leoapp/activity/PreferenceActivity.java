@@ -53,23 +53,13 @@ import de.slg.umfragen.activity.SurveyActivity;
 
 @SuppressWarnings("deprecation")
 public class PreferenceActivity extends android.preference.PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private final static char[] hexArray = "0123456789abcdef".toCharArray();
-    private ProgressBar       progressBar;
     private SharedPreferences pref;
     private DrawerLayout      drawerLayout;
     private NavigationView    navigationView;
 
     private AppCompatDelegate mDelegate; //Downwards compatibility
 
-    private static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for (int j = 0; j < bytes.length; j++) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -177,30 +167,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         SharedPreferences pref = getPreferenceScreen().getSharedPreferences();
 
         switch (key) {
-            case "pref_key_qr_id":
-                if (!sharedPreferences.getString("pref_key_qr_id", "").matches("[0-9]{5}")) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.invalidId), Toast.LENGTH_LONG).show();
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                    preferences.edit()
-                            .putString("pref_key_qr_id", "")
-                            .apply();
-                    connectionPref = findPreference(key);
-                    connectionPref.setSummary(getString(R.string.settings_summary_customid));
-                } else {
-                    connectionPref = findPreference(key);
-                    connectionPref.setSummary(sharedPreferences.getString(key, ""));
-                    progressBar.setVisibility(View.VISIBLE);
-                    PreferenceTask t = new PreferenceTask();
-                    t.execute();
-                }
-                break;
-            case "pref_key_qr_pw":
-                PreferenceTask t = new PreferenceTask();
-                progressBar.setVisibility(View.VISIBLE);
-                connectionPref = findPreference(key);
-                connectionPref.setSummary(getRepl(sharedPreferences.getString(key, "passwort")));
-                t.execute();
-                break;
             case "pref_key_qr_autofade":
                 connectionPref = findPreference("pref_key_qr_autofade_time");
                 connectionPref.setEnabled(sharedPreferences.getBoolean(key, false));
@@ -228,8 +194,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     private void initPreferenceChanges() {
         pref = getPreferenceScreen().getSharedPreferences();
-        progressBar = (ProgressBar) findViewById(R.id.progressBar2);
-        progressBar.setVisibility(View.INVISIBLE);
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         hideProgressBar();
@@ -237,16 +201,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         findPreference("pref_key_version_app").setSummary(Utils.getAppVersionName());
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-
-        if (!getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_id", "").equals("")) {
-            Preference connectionPref = findPreference("pref_key_qr_id");
-            connectionPref.setSummary(getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_id", ""));
-        }
-
-        if (!getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_pw", "").equals("")) {
-            Preference connectionPref = findPreference("pref_key_qr_pw");
-            connectionPref.setSummary(getRepl(getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_pw", "passwort")));
-        }
 
         Preference connectionPref = findPreference("pref_key_qr_autofade_time");
         connectionPref.setEnabled(getPreferenceScreen().getSharedPreferences().getBoolean("pref_key_qr_autofade", false));
@@ -412,46 +366,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         getDelegate().invalidateOptionsMenu();
     }
 
-    private String getRepl(String s) {
-        StringBuilder b = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            b.append("*");
-        }
-        return b.toString();
-    }
-
-    private void showSnackbar() {
-        final Snackbar cS = Snackbar.make(findViewById(R.id.coords), R.string.snackbar_no_connection_info_check, Snackbar.LENGTH_LONG);
-        cS.setActionTextColor(Color.WHITE);
-        cS.setAction(getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cS.dismiss();
-            }
-        });
-        cS.show();
-    }
-
-    private void showSnackbar2() {
-        final Snackbar cS = Snackbar.make(findViewById(R.id.coords), R.string.snackbar_not_correct_info, Snackbar.LENGTH_LONG);
-        cS.setActionTextColor(Color.WHITE);
-        cS.setAction(getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cS.dismiss();
-            }
-        });
-        cS.show();
-    }
-
-    private void setLogin(boolean b) {
-        getPreferenceScreen()
-                .getSharedPreferences()
-                .edit()
-                .putBoolean("pref_key_status_loggedin", b)
-                .apply();
-    }
-
     public void hideProgressBar() {
         findViewById(R.id.progressBar2).setVisibility(View.GONE);
     }
@@ -463,70 +377,4 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         return mDelegate;
     }
 
-    private class PreferenceTask extends AsyncTask<Void, Void, Authenticator> {
-        @Override
-        protected Authenticator doInBackground(Void... params) {
-            if (hasActiveInternetConnection()) {
-                String pw = getPreferenceScreen().getSharedPreferences().getString("pref_key_qr_pw", "");
-                try {
-                    byte[]         contents = pw.getBytes("UTF-8");
-                    MessageDigest  md       = MessageDigest.getInstance("MD5");
-                    byte[]         enc      = md.digest(contents);
-                    BufferedReader in;
-                    String         md5      = bytesToHex(enc);
-                    Utils.logDebug(md5);
-                    URL interfaceDB = new URL(Utils.URL_LUNCH_LEO + "qr_checkval.php?id=" + pref.getString("pref_key_qr_id", "00000") + "&auth=RW6SlQ&pw=" + md5);
-                    Utils.logDebug(interfaceDB.toString());
-                    in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
-                    String inputLine;
-                    while ((inputLine = in.readLine()) != null) {
-                        if (inputLine.contains("true")) {
-                            Utils.logDebug("valid");
-                            return Authenticator.VALID;
-                        }
-                        if (inputLine.contains("false")) {
-                            Utils.logDebug("invalid");
-                            return Authenticator.NOT_VALID;
-                        }
-                    }
-                    in.close();
-                } catch (NoSuchAlgorithmException | IOException e) {
-                    Utils.logError(e);
-                }
-            } else
-                return Authenticator.NO_CONNECTION;
-            return Authenticator.NOT_VALID;
-        }
-
-        boolean hasActiveInternetConnection() {
-            try {
-                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
-                urlc.setRequestProperty("User-Agent", "Test");
-                urlc.setRequestProperty("Connection", "close");
-                urlc.setConnectTimeout(1500);
-                urlc.connect();
-                return (urlc.getResponseCode() == 200);
-            } catch (IOException e) {
-                return false;
-            }
-        }
-
-        @Override
-        public void onPostExecute(Authenticator result) {
-            progressBar.setVisibility(View.INVISIBLE);
-            switch (result) {
-                case VALID:
-                    setLogin(true);
-                    Toast t = Toast.makeText(getApplicationContext(), getString(R.string.login_success), Toast.LENGTH_LONG);
-                    t.show();
-                    break;
-                case NOT_VALID:
-                    setLogin(false);
-                    showSnackbar2();
-                    break;
-                case NO_CONNECTION:
-                    showSnackbar();
-            }
-        }
-    }
 }

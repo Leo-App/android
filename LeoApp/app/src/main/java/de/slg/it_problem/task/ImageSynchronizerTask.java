@@ -2,13 +2,12 @@ package de.slg.it_problem.task;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
 import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.net.URL;
 
-import de.slg.it_problem.utility.TaskStatusListener;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.Utils;
 
 public class ImageSynchronizerTask extends AsyncTask<String, Void, Bitmap> {
