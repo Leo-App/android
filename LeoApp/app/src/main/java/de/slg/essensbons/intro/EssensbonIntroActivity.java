@@ -48,14 +48,30 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
 
             verificationSlide = 1;
 
-        }
+            addSlide(LoginFragment.newInstance(
+                    R.string.qr_intro_titleVerification,
+                    R.string.qr_intro_descVerification,
+                    R.color.introSlide2,
+                    verificationSlide
+            ));
 
-        addSlide(LoginFragment.newInstance(
-                R.string.qr_intro_titleVerification,
-                R.string.qr_intro_descVerification,
-                R.color.introSlide2,
-                verificationSlide
-        ));
+        } else {
+
+            final Fragment f = LoginFragment.newInstance(
+                    R.string.qr_intro_titleVerification,
+                    R.string.qr_intro_descVerification,
+                    R.color.introSlide2,
+                    verificationSlide);
+
+            addSlide(f);
+
+            findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    logIn(f);
+                }
+            });
+        }
 
         addSlide(
                 new InfoFragmentBuilder()

@@ -15,6 +15,7 @@ import com.github.paolorotolo.appintro.ISlideBackgroundColorHolder;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.fragment.AbstractOrderedFragment;
+import de.slg.leoapp.utility.GraphicUtils;
 
 public class LoginFragment extends AbstractOrderedFragment implements ISlideBackgroundColorHolder {
 
