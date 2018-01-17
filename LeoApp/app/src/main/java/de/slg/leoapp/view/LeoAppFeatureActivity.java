@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.it_problem.activity.ITActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
@@ -146,7 +146,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
+                        i = new Intent(getApplicationContext(), EssensbonActivity.class);
                         break;
                     case R.id.messenger:
                         i = new Intent(getApplicationContext(), MessengerActivity.class);

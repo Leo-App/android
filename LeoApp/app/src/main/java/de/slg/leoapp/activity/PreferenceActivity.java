@@ -3,16 +3,12 @@ package de.slg.leoapp.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,20 +21,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import de.slg.essensbons.activity.EssensQRActivity;
-import de.slg.essensbons.utility.Authenticator;
+import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.service.ReceiveService;
@@ -303,7 +289,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
+                        i = new Intent(getApplicationContext(), EssensbonActivity.class);
                         break;
                     case R.id.messenger:
                         i = new Intent(getApplicationContext(), MessengerActivity.class);

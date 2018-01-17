@@ -142,8 +142,8 @@
     <string name="toolbar_title">Essensbons</string>
     <string name="button_scan">Scannen</string>
     <string name="qr_display_title">Deine Bestellung für heute, den</string>
-    <string name="qr_display_menu">Menü</string>
-    <string name="dialog_desc_valid">Bestelltes Menü:</string>
+    <string name="qr_display_menu">Menü %1$d</string>
+    <string name="dialog_desc_valid">Bestelltes Menü: \t %1$d</string>
     <string name="qr_display_not_ordered">Für heute liegt keine Bestellung vor</string>
     <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine Anmeldedaten in den Einstellungen</string>
     <string name="explain_desc_1">Mit dieser Funktion lassen sich die QR-Codes der Essensbestellung überprüfen.</string>

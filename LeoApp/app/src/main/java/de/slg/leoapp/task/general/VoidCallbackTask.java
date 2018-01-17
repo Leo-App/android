@@ -9,9 +9,7 @@ import de.slg.leoapp.utility.datastructure.List;
  *
  * Klasse für AsyncTasks, die ihren Status an Listener mitteilen müssen.
  *
- * @param <ContentTypeA> Datentyp der Inputobjekte
- * @param <ContentTypeB> Datentyp der Progressobjekte
- * @param <ContentTypeC> Datentyp des Ergebnisobjekts
+ * @param <ContentType> Datentyp des Ergebnisobjekts
  *
  * @author Gianni
  * @since 0.7.2

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.essensbons.intro.EssensbonIntroActivity;
 import de.slg.it_problem.activity.ITActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
@@ -62,7 +62,7 @@ public class UtilsController {
 
     private KlausurplanActivity klausurplanActivity;
 
-    private EssensQRActivity essensQRActivity;
+    private EssensbonActivity essensbonActivity;
 
     private SurveyActivity surveyActivity;
 
@@ -117,8 +117,8 @@ public class UtilsController {
             return auswahlActivity;
         } else if (klausurplanActivity != null) {
             return klausurplanActivity;
-        } else if (essensQRActivity != null) {
-            return essensQRActivity;
+        } else if (essensbonActivity != null) {
+            return essensbonActivity;
         } else if (preferenceActivity != null) {
             return preferenceActivity;
         } else if (notificationPreferenceActivity != null) {
@@ -204,8 +204,8 @@ public class UtilsController {
             return auswahlActivity;
         } else if (klausurplanActivity != null && klausurplanActivity.getStatus() == ActivityStatus.ACTIVE) {
             return klausurplanActivity;
-        } else if (essensQRActivity != null && essensQRActivity.getStatus() == ActivityStatus.ACTIVE) {
-            return essensQRActivity;
+        } else if (essensbonActivity != null && essensbonActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return essensbonActivity;
         } else if (profileActivity != null && profileActivity.getStatus() == ActivityStatus.ACTIVE) {
             return profileActivity;
         } else if (surveyActivity != null && surveyActivity.getStatus() == ActivityStatus.ACTIVE) {
@@ -272,8 +272,8 @@ public class UtilsController {
         surveyActivity = activity;
     }
 
-    public void registerEssensbonActivity(EssensQRActivity activity) {
-        essensQRActivity = activity;
+    public void registerEssensbonActivity(EssensbonActivity activity) {
+        essensbonActivity = activity;
     }
 
     public void registerPreferenceActivity(PreferenceActivity activity) {
@@ -376,8 +376,8 @@ public class UtilsController {
     /**
      * @return Aktive QR-Activity (Anzeige der Essensbons)
      */
-    public EssensQRActivity getEssensQRActivity() {
-        return essensQRActivity;
+    public EssensbonActivity getEssensbonActivity() {
+        return essensbonActivity;
     }
 
     /**
@@ -506,8 +506,8 @@ public class UtilsController {
         if (getStimmungsbarometerActivity() != null) {
             getStimmungsbarometerActivity().finish();
         }
-        if (getEssensQRActivity() != null) {
-            getEssensQRActivity().finish();
+        if (getEssensbonActivity() != null) {
+            getEssensbonActivity().finish();
         }
         if (getKlausurplanActivity() != null) {
             getKlausurplanActivity().finish();

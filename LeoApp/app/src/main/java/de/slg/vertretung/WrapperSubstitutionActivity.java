@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.PreferenceActivity;
@@ -107,7 +107,7 @@ public class WrapperSubstitutionActivity extends ActionLogActivity {
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
+                        i = new Intent(getApplicationContext(), EssensbonActivity.class);
                         break;
                     case R.id.messenger:
                         i = new Intent(getApplicationContext(), MessengerActivity.class);

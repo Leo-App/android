@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.IntroActivity;
@@ -65,10 +65,10 @@ public class MainActivity extends LeoAppFeatureActivity {
         initIntroduction();
         initOptionalDialog();
 
-        if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
-            startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
+        if (!EssensbonActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
+            startActivity(new Intent(getApplicationContext(), EssensbonActivity.class));
         } else {
-            EssensQRActivity.mensaModeRunning = false;
+            EssensbonActivity.mensaModeRunning = false;
         }
     }
 
@@ -375,7 +375,7 @@ public class MainActivity extends LeoAppFeatureActivity {
 
             switch (notificationTarget) {
                 case NotificationHandler.ID_ESSENSBONS:
-                    startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
+                    startActivity(new Intent(getApplicationContext(), EssensbonActivity.class));
                     break;
 
                 case NotificationHandler.ID_KLAUSURPLAN:

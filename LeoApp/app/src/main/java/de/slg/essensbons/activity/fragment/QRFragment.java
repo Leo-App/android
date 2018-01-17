@@ -1,6 +1,7 @@
 package de.slg.essensbons.activity.fragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -15,34 +16,41 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.essensbons.task.QRWriteTask;
+import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
+import de.slg.leoapp.task.general.TaskStatusListener;
+import de.slg.leoapp.utility.Utils;
 
-public class QRFragment extends Fragment {
-    private View        rootView;
+public class QRFragment extends Fragment implements TaskStatusListener {
+
+    private View viewReference;
+    private EssensbonActivity activityReference;
+
     private ImageView   iv1, iv2;
     private TextView    t2, t3;
     private ProgressBar spinner;
 
     @Override
     @SuppressLint("SimpleDateFormat")
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_qr, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        iv1 = rootView.findViewById(R.id.imageView);
-        iv2 = rootView.findViewById(R.id.imageViewError);
+        viewReference = inflater.inflate(R.layout.fragment_qr, container, false);
+        activityReference = (EssensbonActivity) getActivity();
 
-        TextView t = rootView.findViewById(R.id.textViewDatum);
+        iv1 = viewReference.findViewById(R.id.imageView);
+        iv2 = viewReference.findViewById(R.id.imageViewError);
+
+        TextView t = viewReference.findViewById(R.id.textViewDatum);
         t.bringToFront();
 
-        t2 = rootView.findViewById(R.id.textViewMenu);
+        t2 = viewReference.findViewById(R.id.textViewMenu);
         t2.bringToFront();
 
-        t3 = rootView.findViewById(R.id.textViewMenuDetails);
+        t3 = viewReference.findViewById(R.id.textViewMenuDetails);
 
-        spinner = rootView.findViewById(R.id.progressBar1);
+        spinner = viewReference.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
         Date             d  = new Date();
@@ -51,14 +59,14 @@ public class QRFragment extends Fragment {
 
         synchronize(true);
 
-        return rootView;
+        return viewReference;
     }
 
     public void synchronize(boolean start) {
-        if (EssensQRActivity.runningSync)
+        if (activityReference.isRunningSync())
             return;
 
-        EssensQRActivity.runningSync = true;
+        activityReference.startRunningSync();
 
         iv1.setVisibility(View.INVISIBLE);
         iv2.setVisibility(View.INVISIBLE);
@@ -68,19 +76,38 @@ public class QRFragment extends Fragment {
         t2.setVisibility(View.INVISIBLE);
         t3.setVisibility(View.INVISIBLE);
 
-        QRWriteTask task = new QRWriteTask(this, start);
-        task.execute(rootView);
+        new QRWriteTask(start).addListener(this).execute();
     }
 
-    public void showSnackBarNoConnection() {
-        final Snackbar cS = Snackbar.make(rootView.findViewById(R.id.myCoordinatorLayout), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
-        cS.setActionTextColor(Color.WHITE);
-        cS.setAction(getString(R.string.snackbar_no_connection_button), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cS.dismiss();
-            }
-        });
-        cS.show();
+    @Override
+    public void taskFinished(Object... params) {
+
+        ProgressBar spinner = viewReference.findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.INVISIBLE);
+
+        Bitmap result      = (Bitmap) params[0];
+        short menu         = (Short) params[1];
+        String description = (String) params[2];
+
+        if (result != null) {
+            ((ImageView) viewReference.findViewById(R.id.imageView)).setImageBitmap(result);
+            ((TextView) viewReference.findViewById(R.id.textViewMenu)).setText(getString(R.string.qr_display_menu, menu));
+            ((TextView) viewReference.findViewById(R.id.textViewMenuDetails)).setText(description);
+            viewReference.findViewById(R.id.textViewMenu).setVisibility(View.VISIBLE);
+            viewReference.findViewById(R.id.imageView).setVisibility(View.VISIBLE);
+            viewReference.findViewById(R.id.textViewMenuDetails).setVisibility(View.VISIBLE);
+        } else {
+            ((ImageView) viewReference.findViewById(R.id.imageView)).setImageResource(R.drawable.ic_qrcode_crossedout);
+            ((TextView) viewReference.findViewById(R.id.textViewMenu)).setText(Utils.getString(R.string.qr_display_not_ordered));
+            ((TextView) viewReference.findViewById(R.id.textViewDatum)).setText(Utils.getString(R.string.no_order));
+
+            viewReference.findViewById(R.id.textViewMenu).setVisibility(View.VISIBLE);
+            viewReference.findViewById(R.id.textView).setVisibility(View.INVISIBLE);
+            viewReference.findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
+            viewReference.findViewById(R.id.textViewMenuDetails).setVisibility(View.INVISIBLE);
+        }
+
+        ((EssensbonActivity) getActivity()).stopRunningSync();
+        viewReference.findViewById(R.id.progressBar1).setVisibility(View.GONE);
     }
 }

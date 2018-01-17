@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;
@@ -77,7 +77,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensQRActivity.class));
+                        Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensbonActivity.class));
                     }
                 };
 

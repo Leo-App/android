@@ -121,7 +121,7 @@
             android:name="de.slg.messenger.activity.ChatEditActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.essensbons.activity.EssensQRActivity"
+            android:name="de.slg.essensbons.activity.EssensbonActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity

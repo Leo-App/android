@@ -1,11 +1,9 @@
 package de.slg.essensbons.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -16,9 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import com.google.zxing.Result;
 
@@ -31,23 +27,25 @@ import de.slg.essensbons.utility.Authenticator;
 import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.notification.NotificationHandler;
-import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
 import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-@SuppressLint("StaticFieldLeak")
-public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScannerView.ResultHandler, TaskStatusListener {
+public class EssensbonActivity extends LeoAppFeatureActivity implements ZXingScannerView.ResultHandler, TaskStatusListener {
 
-    public static SQLiteConnectorEssensbons sqlh;
-    public static Button                    scan;
-    public static boolean runningSync, mensaModeRunning = false;
-    private final int MY_PERMISSIONS_REQUEST_USE_CAMERA = 0;
-    public  ZXingScannerView     scV;
-    private ViewPager            mViewPager;
+    public static boolean mensaModeRunning;
+
+    private ZXingScannerView     scannerView;
+    private ViewPager            viewPager;
     private FragmentPagerAdapter adapt;
-    private boolean              runningScan;
+
+    private boolean runningScan;
+    private boolean runningSync;
+
+    static {
+        mensaModeRunning = false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,24 +58,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         initFragments();
         initIntro();
 
-        sqlh = new SQLiteConnectorEssensbons(getApplicationContext());
-
-        final Handler handler = new Handler();
-        final Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                scan.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        scan();
-                    }
-                });
-            }
-        };
-        handler.postDelayed(r, 100);
-
         if (!mensaModeRunning && EssensbonUtils.mensaModeEnabled()) {
-            handler.removeCallbacks(r);
             mensaModeRunning = true;
             scan();
         } else
@@ -136,7 +117,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.action_refresh) {
             ((QRFragment) adapt.getItem(0)).synchronize(false);
-            mViewPager.setCurrentItem(0);
+            viewPager.setCurrentItem(0);
         }
         return true;
     }
@@ -146,9 +127,9 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             if (runningScan) {
                 runningScan = false;
-                scV.stopCamera();
+                scannerView.stopCamera();
                 finish();
-                startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
+                startActivity(new Intent(getApplicationContext(), EssensbonActivity.class));
                 return false;
             }
             return super.onKeyDown(keyCode, event);
@@ -158,10 +139,10 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
 
     @Override
     protected void onPause() {
-        if (scV != null && scV.isActivated()) {
-            scV.stopCamera();
+        if (scannerView != null && scannerView.isActivated()) {
+            scannerView.stopCamera();
             finish();
-            startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
+            startActivity(new Intent(getApplicationContext(), EssensbonActivity.class));
         } else {
             super.onPause();
         }
@@ -169,23 +150,23 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
 
     @Override
     public void handleResult(Result result) {
-        QRReadTask task = new QRReadTask(this);
-        scV.stopCamera();
+        QRReadTask task = new QRReadTask();
+        scannerView.stopCamera();
         task.execute(result.getText());
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_USE_CAMERA: {
+            case 0: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
                     runningScan = true;
-                    scV = new ZXingScannerView(getApplicationContext());
-                    setContentView(scV);
-                    scV.setResultHandler(this);
-                    scV.startCamera(EssensbonUtils.getPreferredCamera());
+                    scannerView = new ZXingScannerView(getApplicationContext());
+                    setContentView(scannerView);
+                    scannerView.setResultHandler(this);
+                    scannerView.startCamera(EssensbonUtils.getPreferredCamera());
                 }
             }
         }
@@ -203,19 +184,35 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
             startActivity(new Intent(this, EssensbonIntroActivity.class));
     }
 
-    private void scan() {
+    public ZXingScannerView getScannerView() {
+        return scannerView;
+    }
+
+    public boolean isRunningSync() {
+        return runningSync;
+    }
+
+    public void stopRunningSync() {
+        runningSync = false;
+    }
+
+    public void startRunningSync() {
+        runningSync = true;
+    }
+
+    public void scan() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
-                    MY_PERMISSIONS_REQUEST_USE_CAMERA);
+                    0);
         } else {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             runningScan = true;
-            scV = new ZXingScannerView(getApplicationContext());
-            setContentView(scV);
-            scV.setResultHandler(this);
-            scV.startCamera(EssensbonUtils.getPreferredCamera());
+            scannerView = new ZXingScannerView(getApplicationContext());
+            setContentView(scannerView);
+            scannerView.setResultHandler(this);
+            scannerView.startCamera(EssensbonUtils.getPreferredCamera());
         }
     }
 
@@ -229,7 +226,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
     }
 
     private void initFragments() {
-        mViewPager = findViewById(R.id.pager);
+        viewPager = findViewById(R.id.pager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             private final QRFragment fragment1 = new QRFragment();
@@ -256,10 +253,10 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
                     return getString(R.string.toolbar_scan);
             }
         };
-        mViewPager.setAdapter(adapt);
+        viewPager.setAdapter(adapt);
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
-        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 

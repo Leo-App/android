@@ -153,8 +153,8 @@
     <string name="button_confirm" translatable="false">OK</string>
     <string name="textview_placeholder" translatable="false">placeholder</string>
     <string name="qr_display_title">Your order for today, the</string>
-    <string name="qr_display_menu">Menu</string>
-    <string name="dialog_desc_valid">Ordered menu:</string>
+    <string name="qr_display_menu">Menu %1$d</string>
+    <string name="dialog_desc_valid">Ordered menu: \t %1$d</string>
     <string name="dialog_desc_valid_id" translatable="false">User-ID: </string>
     <string name="qr_display_not_ordered">You have no order for today</string>
     <string name="qr_display_not_loggedin">You\'re not logged in, please check your user data</string>

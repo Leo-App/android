@@ -123,9 +123,11 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
 
             case NO_CONNECTION:
                 GraphicUtils.sendToast("Keine Internetverbindung verfügbar");
+                EssensbonUtils.setLoginStatus(false);
                 break;
             case NOT_VALID:
                 GraphicUtils.sendToast("Daten stimmen nicht überein");
+                EssensbonUtils.setLoginStatus(false);
                 break;
             case VALID:
                 getPager().setCurrentItem(verificationSlide + 1);

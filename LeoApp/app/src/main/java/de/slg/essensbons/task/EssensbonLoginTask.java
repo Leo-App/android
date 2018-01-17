@@ -19,18 +19,23 @@ public class EssensbonLoginTask extends VoidCallbackTask<Authenticator> {
 
     @Override
     protected Authenticator doInBackground(Void... params) {
+
         if (EssensbonUtils.fastConnectionAvailable()) {
+
             String pw = EssensbonUtils.getPassword();
             String userId = EssensbonUtils.getCustomerId();
             try {
-                byte[]         contents = pw.getBytes("UTF-8");
-                MessageDigest  md       = MessageDigest.getInstance("MD5");
-                byte[]         enc      = md.digest(contents);
+                byte[] contents = pw.getBytes("UTF-8");
+
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                byte[] enc = md.digest(contents);
+
                 BufferedReader in;
-                String         md5      = bytesToHex(enc);
-                Utils.logDebug(md5);
+                String md5 = bytesToHex(enc);
+
                 URL interfaceDB = new URL(Utils.URL_LUNCH_LEO + "qr_checkval.php?id=" + userId + "&auth=RW6SlQ&pw=" + md5);
                 Utils.logDebug(interfaceDB.toString());
+
                 in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
@@ -38,7 +43,7 @@ public class EssensbonLoginTask extends VoidCallbackTask<Authenticator> {
                         return Authenticator.VALID;
                     }
                     if (inputLine.contains("false")) {
-                        EssensbonUtils.setLoginStatus(true);
+                        EssensbonUtils.setLoginStatus(false);
                         return Authenticator.NOT_VALID;
                     }
                 }
@@ -46,9 +51,13 @@ public class EssensbonLoginTask extends VoidCallbackTask<Authenticator> {
             } catch (NoSuchAlgorithmException | IOException e) {
                 Utils.logError(e);
             }
-        } else
+
+        } else {
             return Authenticator.NO_CONNECTION;
+        }
+
         return Authenticator.NOT_VALID;
+
     }
 
     @Override
