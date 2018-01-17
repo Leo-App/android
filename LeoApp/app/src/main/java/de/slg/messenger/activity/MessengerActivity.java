@@ -122,9 +122,9 @@ public class MessengerActivity extends LeoAppFeatureActivity {
                 return 3;
             }
         };
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.mipmap.icon_messenger);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_person);

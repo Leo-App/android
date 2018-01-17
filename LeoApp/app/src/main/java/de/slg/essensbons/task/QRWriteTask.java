@@ -101,7 +101,7 @@ public class QRWriteTask extends AsyncTask<View, Integer, Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap result) {
-        ProgressBar spinner = (ProgressBar) target.findViewById(R.id.progressBar1);
+        ProgressBar spinner = target.findViewById(R.id.progressBar1);
         spinner.setVisibility(INVISIBLE);
         boolean loggedin = EssensbonUtils.isLoggedIn();
         if (!connection)

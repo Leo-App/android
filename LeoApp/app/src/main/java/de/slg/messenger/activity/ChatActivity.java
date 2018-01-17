@@ -158,14 +158,14 @@ public class ChatActivity extends ActionLogActivity {
             }
         };
 
-        rvMessages = (RecyclerView) findViewById(R.id.recyclerViewMessages);
+        rvMessages = findViewById(R.id.recyclerViewMessages);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvMessages.setLayoutManager(layoutManager);
         refreshUI(true, true);
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.actionBarChat);
+        Toolbar toolbar = findViewById(R.id.actionBarChat);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(cname);
         setSupportActionBar(toolbar);
@@ -185,9 +185,9 @@ public class ChatActivity extends ActionLogActivity {
     }
 
     private void initSendMessage() {
-        etMessage = (EditText) findViewById(R.id.inputMessage);
+        etMessage = findViewById(R.id.inputMessage);
 
-        ImageButton sendButton = (ImageButton) findViewById(R.id.sendButton);
+        ImageButton sendButton = findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

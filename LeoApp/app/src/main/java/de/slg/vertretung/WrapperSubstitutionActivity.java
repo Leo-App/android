@@ -53,8 +53,8 @@ public class WrapperSubstitutionActivity extends ActionLogActivity {
     }
 
     private void initTabs() {
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pagerS);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayoutS);
+        ViewPager viewPager = findViewById(R.id.pagerS);
+        TabLayout tabLayout = findViewById(R.id.tablayoutS);
         Date      d         = new Date();
         Calendar  c         = Calendar.getInstance();
         c.setTimeZone(TimeZone.getDefault());
@@ -82,7 +82,7 @@ public class WrapperSubstitutionActivity extends ActionLogActivity {
     }
 
     private void initToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbarS);
+        Toolbar myToolbar = findViewById(R.id.toolbarS);
         myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_subst));
@@ -92,8 +92,8 @@ public class WrapperSubstitutionActivity extends ActionLogActivity {
     }
 
     private void initNavigationView() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        NavigationView navigationView = findViewById(R.id.navigationView);
+        drawerLayout = findViewById(R.id.drawer);
         navigationView.getMenu().findItem(R.id.barometer).setChecked(true);
         //        navigationView.getMenu().findItem(R.id.nachhilfe).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
@@ -148,9 +148,9 @@ public class WrapperSubstitutionActivity extends ActionLogActivity {
                 return true;
             }
         });
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+        TextView username = navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+        ImageView mood = navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
     }
 

@@ -273,7 +273,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarSettings);
+        Toolbar toolbar = findViewById(R.id.toolbarSettings);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(R.string.title_settings);
         setSupportActionBar(toolbar);
@@ -283,8 +283,8 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     }
 
     private void initNavigationView() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        drawerLayout = findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.navigationView);
 
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
         navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
@@ -341,16 +341,16 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             }
         });
 
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+        TextView username = navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
 
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
+        TextView grade = navigationView.getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
 
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+        ImageView mood = navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
     }
 

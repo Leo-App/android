@@ -56,7 +56,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        rvSearch = (RecyclerView) view.findViewById(R.id.recyclerViewSearch);
+        rvSearch = view.findViewById(R.id.recyclerViewSearch);
         clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +90,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void initSearch() {
-        TextView input = (TextView) view.findViewById(R.id.editText);
+        TextView input = view.findViewById(R.id.editText);
         input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,7 +111,7 @@ public class SearchFragment extends Fragment {
     private void initSort() {
         expanded = false;
         view.findViewById(R.id.sortCard).setVisibility(View.GONE);
-        final FloatingActionButton expand = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
+        final FloatingActionButton expand = view.findViewById(R.id.floatingActionButton);
         expand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +125,7 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-        final Button first = (Button) view.findViewById(R.id.buttonFirst);
+        final Button first = view.findViewById(R.id.buttonFirst);
         first.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,7 +144,7 @@ public class SearchFragment extends Fragment {
         } else {
             first.setText("Chats");
         }
-        final Button sortName = (Button) view.findViewById(R.id.buttonName);
+        final Button sortName = view.findViewById(R.id.buttonName);
         sortName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,7 +163,7 @@ public class SearchFragment extends Fragment {
         } else {
             sortName.setText("Standardname");
         }
-        final ImageButton nameUpDown = (ImageButton) view.findViewById(R.id.buttonNameUpDown);
+        final ImageButton nameUpDown = view.findViewById(R.id.buttonNameUpDown);
         nameUpDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +182,7 @@ public class SearchFragment extends Fragment {
         } else {
             nameUpDown.setImageResource(R.drawable.ic_expand_more);
         }
-        final Button grade = (Button) view.findViewById(R.id.buttonGrade);
+        final Button grade = view.findViewById(R.id.buttonGrade);
         grade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,9 +238,9 @@ public class SearchFragment extends Fragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             View            v           = holder.itemView;
             Object          current     = data[position];
-            final TextView  username    = (TextView) v.findViewById(R.id.username);
-            final TextView  userdefault = (TextView) v.findViewById(R.id.userdefault);
-            final ImageView icon        = (ImageView) v.findViewById(R.id.iconUser);
+            final TextView  username    = v.findViewById(R.id.username);
+            final TextView  userdefault = v.findViewById(R.id.userdefault);
+            final ImageView icon        = v.findViewById(R.id.iconUser);
             if (current instanceof User) {
                 User u = (User) current;
                 username.setText(u.uname);

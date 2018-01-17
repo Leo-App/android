@@ -229,7 +229,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
     }
 
     private void initFragments() {
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager = findViewById(R.id.pager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             private final QRFragment fragment1 = new QRFragment();
@@ -258,7 +258,7 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
         };
         mViewPager.setAdapter(adapt);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(mViewPager);
 
     }

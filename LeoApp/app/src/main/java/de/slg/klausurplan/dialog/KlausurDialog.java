@@ -109,9 +109,9 @@ public class KlausurDialog extends AppCompatDialog {
     }
 
     private void initEditTexts() {
-        eingabeFach = (EditText) findViewById(R.id.eingabeFach);
-        eingabeDatum = (EditText) findViewById(R.id.eingabeDatum);
-        eingabeNotiz = (EditText) findViewById(R.id.eingabeNotiz);
+        eingabeFach = findViewById(R.id.eingabeFach);
+        eingabeDatum = findViewById(R.id.eingabeDatum);
+        eingabeNotiz = findViewById(R.id.eingabeNotiz);
 
         eingabeFach.setText(currentKlausur.getTitel());
         eingabeDatum.setText(Klausur.dateFormat.format(currentKlausur.getDatum()));

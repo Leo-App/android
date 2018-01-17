@@ -89,10 +89,10 @@ public class ProfileActivity extends LeoAppFeatureActivity {
     }
 
     public void initProfil() {
-        TextView nameProfil        = (TextView) findViewById(R.id.nameProfil);
-        TextView defaultNameProfil = (TextView) findViewById(R.id.defaultName);
-        TextView stufeProfil       = (TextView) findViewById(R.id.stufeProfil);
-        TextView survey            = (TextView) findViewById(R.id.surveyActual);
+        TextView nameProfil        = findViewById(R.id.nameProfil);
+        TextView defaultNameProfil = findViewById(R.id.defaultName);
+        TextView stufeProfil       = findViewById(R.id.stufeProfil);
+        TextView survey            = findViewById(R.id.surveyActual);
 
         nameProfil.setText(Utils.getUserName());
         defaultNameProfil.setText(Utils.getUserDefaultName());
@@ -175,7 +175,7 @@ public class ProfileActivity extends LeoAppFeatureActivity {
     }
 
     private void setProfilePicture() {
-        final ImageView profilePic = (ImageView) findViewById(R.id.profilePic);
+        final ImageView profilePic = findViewById(R.id.profilePic);
         final int       res        = de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource();
 
         profilePic.setImageResource(res);

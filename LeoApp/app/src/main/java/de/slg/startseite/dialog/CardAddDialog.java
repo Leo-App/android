@@ -44,14 +44,14 @@ public class CardAddDialog extends AlertDialog {
         super.onCreate(b);
         setContentView(R.layout.dialog_add_card);
         buttons = new ImageButton[]{
-                (ImageButton) findViewById(R.id.imageButton1),
-                (ImageButton) findViewById(R.id.imageButton2),
-                (ImageButton) findViewById(R.id.imageButton3),
-                (ImageButton) findViewById(R.id.imageButton4),
-                (ImageButton) findViewById(R.id.imageButton5),
-                (ImageButton) findViewById(R.id.imageButton6),
-                (ImageButton) findViewById(R.id.imageButton7),
-                (ImageButton) findViewById(R.id.imageButton8)
+                findViewById(R.id.imageButton1),
+                findViewById(R.id.imageButton2),
+                findViewById(R.id.imageButton3),
+                findViewById(R.id.imageButton4),
+                findViewById(R.id.imageButton5),
+                findViewById(R.id.imageButton6),
+                findViewById(R.id.imageButton7),
+                findViewById(R.id.imageButton8)
         };
 
         backgrounds = new View[]{

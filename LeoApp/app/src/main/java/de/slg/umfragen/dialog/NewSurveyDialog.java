@@ -267,7 +267,7 @@ public class NewSurveyDialog extends AlertDialog {
         if (stage != layouts.length - 1)
             return;
 
-        Spinner s = (Spinner) findViewById(R.id.spinner2);
+        Spinner s = findViewById(R.id.spinner2);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Utils.getContext(),
                 R.array.level, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_item);

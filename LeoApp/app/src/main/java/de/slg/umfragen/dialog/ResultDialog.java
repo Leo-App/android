@@ -73,32 +73,32 @@ public class ResultDialog extends AlertDialog {
         super.onCreate(b);
         setContentView(R.layout.dialog_survey_result);
 
-        b1 = (Button) findViewById(R.id.buttonOK);
+        b1 = findViewById(R.id.buttonOK);
 
-        t1 = (TextView) findViewById(R.id.question);
-        t2 = (TextView) findViewById(R.id.votes);
+        t1 = findViewById(R.id.question);
+        t2 = findViewById(R.id.votes);
 
-        load = (ProgressBar) findViewById(R.id.progressBarLoading);
+        load = findViewById(R.id.progressBarLoading);
 
-        ProgressBar p1 = (ProgressBar) findViewById(R.id.progressBar1);
-        ProgressBar p2 = (ProgressBar) findViewById(R.id.progressBar2);
-        ProgressBar p3 = (ProgressBar) findViewById(R.id.progressBar3);
-        ProgressBar p4 = (ProgressBar) findViewById(R.id.progressBar4);
-        ProgressBar p5 = (ProgressBar) findViewById(R.id.progressBar5);
+        ProgressBar p1 = findViewById(R.id.progressBar1);
+        ProgressBar p2 = findViewById(R.id.progressBar2);
+        ProgressBar p3 = findViewById(R.id.progressBar3);
+        ProgressBar p4 = findViewById(R.id.progressBar4);
+        ProgressBar p5 = findViewById(R.id.progressBar5);
         progressBars = new ProgressBar[]{p1, p2, p3, p4, p5};
 
-        TextView op1 = (TextView) findViewById(R.id.answer1);
-        TextView op2 = (TextView) findViewById(R.id.answer2);
-        TextView op3 = (TextView) findViewById(R.id.answer3);
-        TextView op4 = (TextView) findViewById(R.id.answer4);
-        TextView op5 = (TextView) findViewById(R.id.answer5);
+        TextView op1 = findViewById(R.id.answer1);
+        TextView op2 = findViewById(R.id.answer2);
+        TextView op3 = findViewById(R.id.answer3);
+        TextView op4 = findViewById(R.id.answer4);
+        TextView op5 = findViewById(R.id.answer5);
         answers = new TextView[]{op1, op2, op3, op4, op5};
 
-        TextView pe1 = (TextView) findViewById(R.id.percent1);
-        TextView pe2 = (TextView) findViewById(R.id.percent2);
-        TextView pe3 = (TextView) findViewById(R.id.percent3);
-        TextView pe4 = (TextView) findViewById(R.id.percent4);
-        TextView pe5 = (TextView) findViewById(R.id.percent5);
+        TextView pe1 = findViewById(R.id.percent1);
+        TextView pe2 = findViewById(R.id.percent2);
+        TextView pe3 = findViewById(R.id.percent3);
+        TextView pe4 = findViewById(R.id.percent4);
+        TextView pe5 = findViewById(R.id.percent5);
         percentages = new TextView[]{pe1, pe2, pe3, pe4, pe5};
 
         for (TextView cur : answers)

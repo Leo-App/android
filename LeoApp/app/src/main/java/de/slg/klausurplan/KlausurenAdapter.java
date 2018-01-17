@@ -39,7 +39,7 @@ public class KlausurenAdapter extends ArrayAdapter<Klausur> {
         Klausur current = klausuren[position];
 
         if (position == 0 || !de.slg.klausurplan.utility.Utils.isSameWeek(klausuren[position - 1].getDatum(), current.getDatum())) {
-            TextView woche = (TextView) v.findViewById(R.id.textViewWoche);
+            TextView woche = v.findViewById(R.id.textViewWoche);
             woche.setVisibility(View.VISIBLE);
             woche.setText(de.slg.klausurplan.utility.Utils.getWeek(current.getDatum()));
         } else {
@@ -47,10 +47,10 @@ public class KlausurenAdapter extends ArrayAdapter<Klausur> {
         }
 
         String[]       parts    = current.getTitel().split(" ");
-        final TextView fach     = (TextView) v.findViewById(R.id.textView);
-        final TextView kursinfo = (TextView) v.findViewById(R.id.textViewKursInfo);
-        final TextView stufe    = (TextView) v.findViewById(R.id.textViewStufe);
-        final TextView datum    = (TextView) v.findViewById(R.id.textViewDate);
+        final TextView fach     = v.findViewById(R.id.textView);
+        final TextView kursinfo = v.findViewById(R.id.textViewKursInfo);
+        final TextView stufe    = v.findViewById(R.id.textViewStufe);
+        final TextView datum    = v.findViewById(R.id.textViewDate);
 
         if (!Utils.getUserStufe().equals("")) {
             stufe.setVisibility(View.GONE);

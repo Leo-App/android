@@ -284,11 +284,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         CardViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.info_title0);
-            content = (RelativeLayout) itemView.findViewById(R.id.info_content0);
-            icon = (ImageView) itemView.findViewById(R.id.info_card_icon);
-            wrapper = (CardView) itemView.findViewById(R.id.card_preset);
-            btn = (Button) itemView.findViewById(R.id.buttonCard);
+            title = itemView.findViewById(R.id.info_title0);
+            content = itemView.findViewById(R.id.info_content0);
+            icon = itemView.findViewById(R.id.info_card_icon);
+            wrapper = itemView.findViewById(R.id.card_preset);
+            btn = itemView.findViewById(R.id.buttonCard);
             button = new InfoButton(btn);
         }
     }

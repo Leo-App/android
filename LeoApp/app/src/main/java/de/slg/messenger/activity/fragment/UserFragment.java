@@ -33,7 +33,7 @@ public class UserFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        rvUsers = (RecyclerView) view.findViewById(R.id.recyclerView);
+        rvUsers = view.findViewById(R.id.recyclerView);
         userClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,8 +91,8 @@ public class UserFragment extends Fragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             View           v           = holder.itemView;
-            final TextView username    = (TextView) v.findViewById(R.id.username);
-            final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+            final TextView username    = v.findViewById(R.id.username);
+            final TextView userdefault = v.findViewById(R.id.userdefault);
             username.setText(array[position].uname);
             userdefault.setText(array[position].udefaultname + ", " + array[position].ustufe);
             v.findViewById(R.id.checkBox).setVisibility(View.INVISIBLE);

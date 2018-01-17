@@ -31,18 +31,18 @@ public class QRFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_qr, container, false);
 
-        iv1 = (ImageView) rootView.findViewById(R.id.imageView);
-        iv2 = (ImageView) rootView.findViewById(R.id.imageViewError);
+        iv1 = rootView.findViewById(R.id.imageView);
+        iv2 = rootView.findViewById(R.id.imageViewError);
 
-        TextView t = (TextView) rootView.findViewById(R.id.textViewDatum);
+        TextView t = rootView.findViewById(R.id.textViewDatum);
         t.bringToFront();
 
-        t2 = (TextView) rootView.findViewById(R.id.textViewMenu);
+        t2 = rootView.findViewById(R.id.textViewMenu);
         t2.bringToFront();
 
-        t3 = (TextView) rootView.findViewById(R.id.textViewMenuDetails);
+        t3 = rootView.findViewById(R.id.textViewMenuDetails);
 
-        spinner = (ProgressBar) rootView.findViewById(R.id.progressBar1);
+        spinner = rootView.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
         Date             d  = new Date();

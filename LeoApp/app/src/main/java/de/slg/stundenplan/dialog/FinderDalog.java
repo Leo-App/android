@@ -32,16 +32,16 @@ public class FinderDalog extends AlertDialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_randstunden);
 
-        final TextView t1 = (TextView) findViewById(R.id.text1);
-        final TextView t2 = (TextView) findViewById(R.id.text2);
-        final TextView t3 = (TextView) findViewById(R.id.text3);
-        final TextView t4 = (TextView) findViewById(R.id.text4);
-        final TextView t5 = (TextView) findViewById(R.id.text5);
+        final TextView t1 = findViewById(R.id.text1);
+        final TextView t2 = findViewById(R.id.text2);
+        final TextView t3 = findViewById(R.id.text3);
+        final TextView t4 = findViewById(R.id.text4);
+        final TextView t5 = findViewById(R.id.text5);
 
-        final TextView a2 = (TextView) findViewById(R.id.add2);
-        final TextView a3 = (TextView) findViewById(R.id.add3);
-        final TextView a4 = (TextView) findViewById(R.id.add4);
-        final TextView a5 = (TextView) findViewById(R.id.add5);
+        final TextView a2 = findViewById(R.id.add2);
+        final TextView a3 = findViewById(R.id.add3);
+        final TextView a4 = findViewById(R.id.add4);
+        final TextView a5 = findViewById(R.id.add5);
 
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             t1.setText(Utils.getLehrerKuerzel());
@@ -154,7 +154,7 @@ public class FinderDalog extends AlertDialog {
                     t5.setVisibility(View.GONE);
                     ok.setVisibility(View.GONE);
 
-                    TextView t = (TextView) findViewById(R.id.textView);
+                    TextView t = findViewById(R.id.textView);
                     t.setText(db.gibFreistundenZeiten());
 
                     db.clear();

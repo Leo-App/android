@@ -94,7 +94,7 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
         } else if (oldFragment.getPosition() > newFragment.getPosition() && newFragment.getPosition() == verificationSlide) {
             cancel(oldFragment);
         } else if (newFragment.getPosition() == verificationSlide) {
-            ImageButton nextButton = (ImageButton) findViewById(R.id.next);
+            ImageButton nextButton = findViewById(R.id.next);
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -102,7 +102,7 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
                 }
             });
         } else {
-            ImageButton nextButton = (ImageButton) findViewById(R.id.next);
+            ImageButton nextButton = findViewById(R.id.next);
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -203,8 +203,8 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
 
         View v = verificationFragment.getView();
 
-        EditText name = (EditText) v.findViewById(R.id.editText1);
-        EditText password = (EditText) v.findViewById(R.id.editText2);
+        EditText name = v.findViewById(R.id.editText1);
+        EditText password = v.findViewById(R.id.editText2);
 
         String userName = name.getText().toString();
         String userPassword = password.getText().toString();

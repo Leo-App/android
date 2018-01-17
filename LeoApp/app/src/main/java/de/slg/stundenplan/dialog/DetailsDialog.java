@@ -32,12 +32,12 @@ public class DetailsDialog extends AlertDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_stundenplan_details);
-        tvZeit = (TextView) findViewById(R.id.uhrzeit_details);
-        tvRaum = (TextView) findViewById(R.id.raumnr_details);
-        tvLehrer = (TextView) findViewById(R.id.lehrerK_details);
-        etNotiz = (EditText) findViewById(R.id.notizFeld_details);
-        cbSchrift = (CheckBox) findViewById(R.id.checkBox_schriftlich);
-        title = (TextView) findViewById(R.id.title_details);
+        tvZeit = findViewById(R.id.uhrzeit_details);
+        tvRaum = findViewById(R.id.raumnr_details);
+        tvLehrer = findViewById(R.id.lehrerK_details);
+        etNotiz = findViewById(R.id.notizFeld_details);
+        cbSchrift = findViewById(R.id.checkBox_schriftlich);
+        title = findViewById(R.id.title_details);
         findViewById(R.id.buttonSav).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

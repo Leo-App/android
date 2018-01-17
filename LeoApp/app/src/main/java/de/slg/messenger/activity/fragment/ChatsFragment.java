@@ -37,7 +37,7 @@ public class ChatsFragment extends Fragment {
 
     private void initRecyclerView() {
         selected = -1;
-        rvChats = (RecyclerView) view.findViewById(R.id.recyclerView);
+        rvChats = view.findViewById(R.id.recyclerView);
 
         chatClickListener = new View.OnClickListener() {
             @Override
@@ -122,9 +122,9 @@ public class ChatsFragment extends Fragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             final View      v            = holder.itemView;
-            final TextView  chatname     = (TextView) v.findViewById(R.id.chatname);
-            final TextView  lastMessage  = (TextView) v.findViewById(R.id.letzteNachricht);
-            final ImageView icon         = (ImageView) v.findViewById(R.id.iconChat);
+            final TextView  chatname     = v.findViewById(R.id.chatname);
+            final TextView  lastMessage  = v.findViewById(R.id.letzteNachricht);
+            final ImageView icon         = v.findViewById(R.id.iconChat);
             final View      iconMute     = v.findViewById(R.id.iconMute);
             final View      buttonDelete = v.findViewById(R.id.imageButtonDelete);
             final View      buttonMute   = v.findViewById(R.id.imageButtonMute);
