@@ -19,7 +19,10 @@ public class ProblemContent {
     public ProblemContent(String title, String description, String pathToImage) {
         this.title = title;
         this.description = description;
-        this.pathToImage = pathToImage.equals("null") ? null : pathToImage;
+        if (pathToImage != null)
+            this.pathToImage = pathToImage.equals("null") ? null : pathToImage;
+        else
+            this.pathToImage = pathToImage;
     }
 
     @Override

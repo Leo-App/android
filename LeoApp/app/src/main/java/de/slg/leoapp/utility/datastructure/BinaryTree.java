@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import java.util.Iterator;
 
-import de.slg.it_problem.utility.ProblemContent;
 import de.slg.leoapp.utility.exception.NodeIndexOutOfBoundsException;
 
 /**
@@ -15,7 +14,7 @@ import de.slg.leoapp.utility.exception.NodeIndexOutOfBoundsException;
  * @version 2017.2912
  * @since 0.7.2
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings("all")
 public class BinaryTree<ContentType> implements Iterable<ContentType> {
 
     private BTNode<ContentType> node;
@@ -151,10 +150,12 @@ public class BinaryTree<ContentType> implements Iterable<ContentType> {
         StringBuilder toString = new StringBuilder(getContent().toString())
                 .append("_;;_");
 
-        if(getLeftTree() != null)
-            toString.append(";L").append(level).append(";").append(getLeftTree().toString(++level));
-        if(getRightTree() != null) {
-            toString.append(";R").append(level).append(";").append(getRightTree().toString(++level));
+        level++;
+
+        if(!getLeftTree().isEmpty())
+            toString.append(";L").append(level).append(";").append(getLeftTree().toString(level));
+        if(!getRightTree().isEmpty()) {
+            toString.append(";R").append(level).append(";").append(getRightTree().toString(level));
         }
 
         return toString.toString();

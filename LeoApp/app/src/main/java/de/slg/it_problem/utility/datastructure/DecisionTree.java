@@ -33,9 +33,9 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
 
         setContent(new ProblemContent(data[0], data[1], data[2]));
 
-        if (tree.contains(";L0;") && tree.contains(";R0;")) {
-            setLeftTree(new DecisionTree(tree.substring(tree.indexOf(";L0;"), tree.indexOf(";R0;")), 0));
-            setRightTree(new DecisionTree(tree.substring(tree.indexOf(";R0;")), 0));
+        if (tree.contains(";L1;") && tree.contains(";R1;")) {
+            setLeftTree(new DecisionTree(tree.substring(tree.indexOf(";L1;"), tree.indexOf(";R1;")), 1));
+            setRightTree(new DecisionTree(tree.substring(tree.indexOf(";R1;")), 1));
         }
     }
 
@@ -60,7 +60,7 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
      * Standardkonstruktor.
      */
     public DecisionTree() {
-        super();
+         super();
     }
 
     public DecisionTree getLeftTree() {
@@ -77,6 +77,30 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
 
     private void setRightTree(DecisionTree tree) {
         super.setRightTree(tree);
+    }
+
+    @Override
+    //preorder
+    public String toString() {
+        return toString(0);
+    }
+
+    private String toString(int level) {
+        if(getContent() == null)
+            return "";
+
+        StringBuilder toString = new StringBuilder(getContent().toString())
+                .append("_;;_");
+
+        level++;
+
+        if(!super.getLeftTree().isEmpty())
+            toString.append(";L").append(level).append(";").append(getLeftTree().toString(level));
+        if(!super.getRightTree().isEmpty()) {
+            toString.append(";R").append(level).append(";").append(getRightTree().toString(level));
+        }
+
+        return toString.toString();
     }
 
 }
