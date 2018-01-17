@@ -65,7 +65,7 @@ public abstract class Utils {
     /**
      * Pfad zu den PHP Skripts der Essensbestellung
      */
-    public static final String URL_LUNCH_LEO = "https://lunch.leo-ac.de/"; //TODO
+    public static final String URL_LUNCH_LEO = "http://lunch.leo-ac.de/include/";
 
     /* Allgemeines */
     /**

@@ -30,10 +30,8 @@ import de.slg.essensbons.task.QRReadTask;
 import de.slg.essensbons.utility.Authenticator;
 import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
-import de.slg.leoapp.dialog.InformationDialog;
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
-import de.slg.leoapp.task.general.CallbackTask;
 import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
@@ -224,6 +222,8 @@ public class EssensQRActivity extends LeoAppFeatureActivity implements ZXingScan
     private void initIntro() {
         if (!Utils.getController().getPreferences().getBoolean("intro_shown_qr", true))
             startActivity(new Intent(this, EssensbonIntroActivity.class).putExtra("explanation", true));
+        else if (EssensbonUtils.isLoggedIn())
+            startActivity(new Intent(this, EssensbonIntroActivity.class));
         else
             initCredentialCheck();
     }

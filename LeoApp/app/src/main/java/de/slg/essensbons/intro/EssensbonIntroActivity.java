@@ -45,12 +45,6 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
     }
 
     @Override
-    public void onBackPressed() {
-        Utils.getController().closeActivities();
-        startActivity(new Intent(this, MainActivity.class));
-    }
-
-    @Override
     public void finish() {
         super.finish();
 
@@ -70,6 +64,12 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
         this.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Utils.getController().closeActivities();
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override
@@ -128,11 +128,10 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
                 GraphicUtils.sendToast("Daten stimmen nicht überein");
                 break;
             case VALID:
+                getPager().setCurrentItem(verificationSlide + 1);
                 EssensbonUtils.setLoginStatus(true);
                 break;
         }
-
-        getPager().setCurrentItem(verificationSlide + 1);
     }
 
     private void initSlides() {

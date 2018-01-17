@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import de.slg.leoapp.utility.datastructure.List;
 
 /**
- * CallbackTask.
+ * VoidCallbackTask.
  *
  * Klasse für AsyncTasks, die ihren Status an Listener mitteilen müssen.
  *
@@ -17,7 +17,7 @@ import de.slg.leoapp.utility.datastructure.List;
  * @since 0.7.2
  * @version 2018.1601
  */
-public abstract class CallbackTask<ContentTypeA, ContentTypeB, ContentTypeC> extends AsyncTask<ContentTypeA, ContentTypeB, ContentTypeC> {
+public abstract class VoidCallbackTask<ContentType> extends AsyncTask<Void, Void, ContentType> {
 
     private final List<TaskStatusListener> listeners;
 
@@ -25,7 +25,7 @@ public abstract class CallbackTask<ContentTypeA, ContentTypeB, ContentTypeC> ext
         listeners = new List<>();
     }
 
-    public final CallbackTask addListener(TaskStatusListener listener) {
+    public final VoidCallbackTask addListener(TaskStatusListener listener) {
         listeners.append(listener);
         return this;
     }
@@ -41,7 +41,7 @@ public abstract class CallbackTask<ContentTypeA, ContentTypeB, ContentTypeC> ext
      * @param result Ergebnis des Tasks
      */
     @Override
-    protected void onPostExecute(ContentTypeC result) {
+    protected void onPostExecute(ContentType result) {
         for (TaskStatusListener l : listeners)
             l.taskFinished();
     }
