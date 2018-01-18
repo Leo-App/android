@@ -120,11 +120,11 @@ public class InfoFragmentBuilder {
                                  @Nullable Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_intro_info, container, false);
 
-            ImageView imageV = (ImageView) v.findViewById(R.id.image);
-            background = (LinearLayout) v.findViewById(R.id.main);
+            ImageView imageV = v.findViewById(R.id.image);
+            background = v.findViewById(R.id.main);
 
-            TextView textViewTitle = (TextView) v.findViewById(R.id.title);
-            TextView textViewDesc  = (TextView) v.findViewById(R.id.description);
+            TextView textViewTitle = v.findViewById(R.id.title);
+            TextView textViewDesc  = v.findViewById(R.id.description);
 
             imageV.setImageResource(image);
             textViewTitle.setText(title);

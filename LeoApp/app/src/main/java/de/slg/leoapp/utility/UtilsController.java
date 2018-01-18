@@ -6,7 +6,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
+import de.slg.essensbons.intro.EssensbonIntroActivity;
 import de.slg.it_problem.activity.ITActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.activity.NotificationPreferenceActivity;
@@ -61,11 +62,13 @@ public class UtilsController {
 
     private KlausurplanActivity klausurplanActivity;
 
-    private EssensQRActivity essensQRActivity;
+    private EssensbonActivity essensbonActivity;
 
     private SurveyActivity surveyActivity;
 
     private ITActivity itActivity;
+
+    private EssensbonIntroActivity essensbonIntroActivity;
 
     private PreferenceActivity             preferenceActivity;
     private NotificationPreferenceActivity notificationPreferenceActivity;
@@ -114,8 +117,8 @@ public class UtilsController {
             return auswahlActivity;
         } else if (klausurplanActivity != null) {
             return klausurplanActivity;
-        } else if (essensQRActivity != null) {
-            return essensQRActivity;
+        } else if (essensbonActivity != null) {
+            return essensbonActivity;
         } else if (preferenceActivity != null) {
             return preferenceActivity;
         } else if (notificationPreferenceActivity != null) {
@@ -201,8 +204,8 @@ public class UtilsController {
             return auswahlActivity;
         } else if (klausurplanActivity != null && klausurplanActivity.getStatus() == ActivityStatus.ACTIVE) {
             return klausurplanActivity;
-        } else if (essensQRActivity != null && essensQRActivity.getStatus() == ActivityStatus.ACTIVE) {
-            return essensQRActivity;
+        } else if (essensbonActivity != null && essensbonActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return essensbonActivity;
         } else if (profileActivity != null && profileActivity.getStatus() == ActivityStatus.ACTIVE) {
             return profileActivity;
         } else if (surveyActivity != null && surveyActivity.getStatus() == ActivityStatus.ACTIVE) {
@@ -269,8 +272,8 @@ public class UtilsController {
         surveyActivity = activity;
     }
 
-    public void registerEssensQRActivity(EssensQRActivity activity) {
-        essensQRActivity = activity;
+    public void registerEssensbonActivity(EssensbonActivity activity) {
+        essensbonActivity = activity;
     }
 
     public void registerPreferenceActivity(PreferenceActivity activity) {
@@ -287,6 +290,10 @@ public class UtilsController {
 
     public void registerITActivity(ITActivity activity) {
         itActivity = activity;
+    }
+
+    public void registerEssensbonIntroActity(EssensbonIntroActivity activity) {
+        essensbonIntroActivity = activity;
     }
 
     /**
@@ -369,8 +376,8 @@ public class UtilsController {
     /**
      * @return Aktive QR-Activity (Anzeige der Essensbons)
      */
-    public EssensQRActivity getEssensQRActivity() {
-        return essensQRActivity;
+    public EssensbonActivity getEssensbonActivity() {
+        return essensbonActivity;
     }
 
     /**
@@ -388,7 +395,7 @@ public class UtilsController {
     }
 
     /**
-     * @return Aktive Profil-Activity
+     * @return Aktive Umfrage-Activity
      */
     public SurveyActivity getSurveyActivity() {
         return surveyActivity;
@@ -401,8 +408,15 @@ public class UtilsController {
         return profileActivity;
     }
 
+    /**
+     * @return Aktive IT-Activity
+     */
     public ITActivity getItActivity() {
         return itActivity;
+    }
+
+    public EssensbonIntroActivity getEssensbonIntroActivity() {
+        return essensbonIntroActivity;
     }
 
     /**
@@ -492,8 +506,8 @@ public class UtilsController {
         if (getStimmungsbarometerActivity() != null) {
             getStimmungsbarometerActivity().finish();
         }
-        if (getEssensQRActivity() != null) {
-            getEssensQRActivity().finish();
+        if (getEssensbonActivity() != null) {
+            getEssensbonActivity().finish();
         }
         if (getKlausurplanActivity() != null) {
             getKlausurplanActivity().finish();
@@ -512,6 +526,9 @@ public class UtilsController {
         }
         if (getSurveyActivity() != null) {
             getSurveyActivity().finish();
+        }
+        if (getEssensbonIntroActivity() != null) {
+            getEssensbonIntroActivity().finish();
         }
     }
 

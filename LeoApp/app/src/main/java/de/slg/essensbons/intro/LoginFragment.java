@@ -1,4 +1,4 @@
-package de.slg.leoapp.activity.fragment;
+package de.slg.essensbons.intro;
 
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
@@ -8,23 +8,24 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.paolorotolo.appintro.ISlideBackgroundColorHolder;
 
+import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
-import de.slg.leoapp.utility.ResponseCode;
+import de.slg.leoapp.activity.fragment.AbstractOrderedFragment;
+import de.slg.leoapp.utility.GraphicUtils;
 
-public class VerificationFragment extends AbstractOrderedFragment implements ISlideBackgroundColorHolder {
+public class LoginFragment extends AbstractOrderedFragment implements ISlideBackgroundColorHolder {
 
-    public static VerificationFragment newInstance(@StringRes int title,
-                                                   @StringRes int content,
-                                                   @ColorRes int color,
-                                                   int position) {
+    public static LoginFragment newInstance(@StringRes int title,
+                                            @StringRes int content,
+                                            @ColorRes int color,
+                                            int position) {
 
-        VerificationFragment fragmentInfo = new VerificationFragment();
+        LoginFragment fragmentInfo = new LoginFragment();
 
         Bundle bundle = new Bundle(4);
         bundle.putInt("title", title);
@@ -60,7 +61,7 @@ public class VerificationFragment extends AbstractOrderedFragment implements ISl
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_intro_verification, container, false);
+        View v = inflater.inflate(R.layout.fragment_intro_login, container, false);
         background = v.findViewById(R.id.main);
 
         TextView textViewTitle = v.findViewById(R.id.title);

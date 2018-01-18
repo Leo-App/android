@@ -106,7 +106,7 @@ public class ChatEditActivity extends ActionLogActivity {
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.actionBarEditChat);
+        Toolbar toolbar = findViewById(R.id.actionBarEditChat);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(cname);
         setSupportActionBar(toolbar);
@@ -116,9 +116,9 @@ public class ChatEditActivity extends ActionLogActivity {
     }
 
     private void initUsers() {
-        userContainer = (LinearLayout) findViewById(R.id.linearLayoutUsers);
+        userContainer = findViewById(R.id.linearLayoutUsers);
         scrollView = findViewById(R.id.scrollView);
-        listView = (ListView) findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
 
         usersInChat = Utils.getController().getMessengerDatabase().getUsersInChat(cid);
         usersNotInChat = Utils.getController().getMessengerDatabase().getUsersNotInChat(cid);
@@ -128,8 +128,8 @@ public class ChatEditActivity extends ActionLogActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final CheckBox checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-                final TextView username = (TextView) view.findViewById(R.id.username);
+                final CheckBox checkBox = view.findViewById(R.id.checkBox);
+                final TextView username = view.findViewById(R.id.username);
                 checkBox.setChecked(!checkBox.isChecked());
                 int color = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
                 if (!checkBox.isChecked())
@@ -151,7 +151,7 @@ public class ChatEditActivity extends ActionLogActivity {
 
     private void initSettings() {
         mode = "";
-        notifications = (Switch) findViewById(R.id.switch1);
+        notifications = findViewById(R.id.switch1);
         notifications.setChecked(!Utils.getController().getMessengerDatabase().isMute(cid));
 
         final View name = findViewById(R.id.changeName);
@@ -221,8 +221,8 @@ public class ChatEditActivity extends ActionLogActivity {
         for (User u : data) {
             View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
 
-            final TextView username    = (TextView) v.findViewById(R.id.username);
-            final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+            final TextView username    = v.findViewById(R.id.username);
+            final TextView userdefault = v.findViewById(R.id.userdefault);
 
             username.setText(u.uname);
             userdefault.setText(u.udefaultname + ", " + u.ustufe);
@@ -234,8 +234,8 @@ public class ChatEditActivity extends ActionLogActivity {
 
         View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
 
-        final TextView username    = (TextView) v.findViewById(R.id.username);
-        final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+        final TextView username    = v.findViewById(R.id.username);
+        final TextView userdefault = v.findViewById(R.id.userdefault);
 
         username.setText(Utils.getUserName());
         userdefault.setText(Utils.getUserDefaultName() + ", " + Utils.getUserStufe());
@@ -258,7 +258,7 @@ public class ChatEditActivity extends ActionLogActivity {
 
         View v = getLayoutInflater().inflate(R.layout.dialog_change_chatname, null);
 
-        final TextView textView = (TextView) v.findViewById(R.id.etChatname);
+        final TextView textView = v.findViewById(R.id.etChatname);
         textView.setText(cname);
 
         v.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {

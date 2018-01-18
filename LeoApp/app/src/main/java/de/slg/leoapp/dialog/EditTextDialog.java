@@ -48,7 +48,7 @@ public class EditTextDialog extends AlertDialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_edit_text);
 
-        editText = (EditText) findViewById(R.id.editText);
+        editText = findViewById(R.id.editText);
         editText.setHint(hint);
 
         ((TextView) findViewById(R.id.titel)).setText(title);

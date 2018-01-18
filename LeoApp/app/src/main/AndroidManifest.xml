@@ -18,9 +18,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/leo_app_icon_weihnachten"
+        android:icon="@mipmap/leo_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/leo_app_icon_weihnachten"
+        android:roundIcon="@mipmap/leo_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -121,7 +121,7 @@
             android:name="de.slg.messenger.activity.ChatEditActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.essensbons.activity.EssensQRActivity"
+            android:name="de.slg.essensbons.activity.EssensbonActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
@@ -167,6 +167,11 @@
 
         <activity
             android:name="de.slg.it_problem.activity.ITActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
+
+        <activity
+            android:name="de.slg.essensbons.intro.EssensbonIntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 

@@ -14,7 +14,7 @@ import de.slg.it_problem.activity.ITActivity;
 import de.slg.it_problem.task.ImageSynchronizerTask;
 import de.slg.it_problem.utility.FragmentType;
 import de.slg.it_problem.utility.Session;
-import de.slg.it_problem.utility.TaskStatusListener;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.R;
 
 public class AnswerFragment extends Fragment implements TaskStatusListener {
@@ -48,11 +48,11 @@ public class AnswerFragment extends Fragment implements TaskStatusListener {
     }
 
     private void refresh() {
-        TextView title = (TextView) viewReference.findViewById(R.id.title);
-        TextView content = (TextView) viewReference.findViewById(R.id.content);
+        TextView title = viewReference.findViewById(R.id.title);
+        TextView content = viewReference.findViewById(R.id.content);
 
-        image = (ImageView) viewReference.findViewById(R.id.image);
-        progressBar = (ProgressBar) viewReference.findViewById(R.id.progressBar2);
+        image = viewReference.findViewById(R.id.image);
+        progressBar = viewReference.findViewById(R.id.progressBar2);
 
         title.setText(sessionReference.getTitle());
         content.setText(sessionReference.getDescription());

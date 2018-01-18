@@ -71,10 +71,10 @@ public class NewEntryDialog extends AlertDialog {
     }
 
     private void initTextViews() {
-        final Button   submit = (Button) findViewById(R.id.buttonSave);
-        final TextView t1     = (TextView) findViewById(R.id.title_edittext);
-        final TextView t2     = (TextView) findViewById(R.id.eingabeDatum);
-        final TextView t3     = (TextView) findViewById(R.id.content);
+        final Button   submit = findViewById(R.id.buttonSave);
+        final TextView t1     = findViewById(R.id.title_edittext);
+        final TextView t2     = findViewById(R.id.eingabeDatum);
+        final TextView t3     = findViewById(R.id.content);
 
         TextWatcher listener = new TextWatcher() {
 
@@ -109,10 +109,10 @@ public class NewEntryDialog extends AlertDialog {
         findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final TextView title = (TextView) findViewById(R.id.title_edittext);
+                final TextView title = findViewById(R.id.title_edittext);
 
-                final TextView content = (TextView) findViewById(R.id.content);
-                final TextView date    = (TextView) findViewById(R.id.eingabeDatum);
+                final TextView content = findViewById(R.id.content);
+                final TextView date    = findViewById(R.id.eingabeDatum);
 
                 final String     OLD_FORMAT = "dd-MM-yyyy";
                 final String     NEW_FORMAT = "yyyy-MM-dd";
@@ -127,7 +127,7 @@ public class NewEntryDialog extends AlertDialog {
                 }
                 sdf.applyPattern(NEW_FORMAT);
                 newDate = sdf.format(d);
-                Spinner spinner = (Spinner) findViewById(R.id.spinner2);
+                Spinner spinner = findViewById(R.id.spinner2);
                 Utils.logError(spinner.getSelectedItem().toString());
                 new sendEntryTask().execute(title.getText().toString(), content.getText().toString(), newDate, spinner.getSelectedItem().toString());
             }
@@ -135,8 +135,8 @@ public class NewEntryDialog extends AlertDialog {
     }
 
     private void initDatePicker() {
-        ImageButton dateButton = (ImageButton) findViewById(R.id.imageButton);
-        TextView    dateText   = (TextView) findViewById(R.id.eingabeDatum);
+        ImageButton dateButton = findViewById(R.id.imageButton);
+        TextView    dateText   = findViewById(R.id.eingabeDatum);
         setDateTimeField(dateText);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -163,7 +163,7 @@ public class NewEntryDialog extends AlertDialog {
 
     private void initSpinner() {
 
-        Spinner s = (Spinner) findViewById(R.id.spinner2);
+        Spinner s = findViewById(R.id.spinner2);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Utils.getContext(),
                 R.array.level, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_item);

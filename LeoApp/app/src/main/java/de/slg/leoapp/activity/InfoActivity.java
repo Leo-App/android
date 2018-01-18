@@ -36,7 +36,7 @@ public class InfoActivity extends ActionLogActivity {
     }
 
     private void initToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbarInfo);
+        Toolbar myToolbar = findViewById(R.id.toolbarInfo);
         myToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.toolbar_name_info));

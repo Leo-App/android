@@ -10,9 +10,9 @@ import de.slg.it_problem.activity.fragment.QuestionFragment;
 import de.slg.it_problem.activity.fragment.SelectionFragment;
 import de.slg.it_problem.task.SynchronizerDownstreamTask;
 import de.slg.it_problem.utility.FragmentType;
+import de.slg.it_problem.utility.ProblemContent;
 import de.slg.it_problem.utility.Session;
 import de.slg.it_problem.utility.Subject;
-import de.slg.it_problem.utility.TaskStatusListener;
 import de.slg.it_problem.utility.datastructure.DecisionTree;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
@@ -40,10 +40,16 @@ public class ITActivity extends LeoAppFeatureActivity {
     @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);
+        Utils.getController().registerITActivity(this);
         this.b = b;
         decisionTreeHashtable = new Hashtable<>();
         initFragments();
         initSync();
+
+        DecisionTree t1 = new DecisionTree("Ist das HDMI Kabel eigesteckt_;_siehe oben_;_null_;;_;L1;Bitte das HDMI Kabel einstecken_;_siehe oben_;_null_;;_;L2;Test 4_;_siehe oben_;_null_;;_;R2;Test 5_;_siehe oben_;_null_;;_;R1;Test 3_;_siehe oben_;_null_;;_");
+        Utils.logError("Ist das HDMI Kabel eigesteckt_;_siehe oben_;_null_;;_;L1;Bitte das HDMI Kabel einstecken_;_siehe oben_;_null_;;_;L2;Test 4_;_siehe oben_;_null_;;_;R2;Test 5_;_siehe oben_;_null_;;_;R1;Test 3_;_siehe oben_;_null_;;_");
+        Utils.logError(t1);
+
     }
 
     @Override

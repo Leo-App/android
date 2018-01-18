@@ -84,7 +84,7 @@ public class AuswahlActivity extends ActionLogActivity {
     }
 
     private void initToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar myToolbar = findViewById(R.id.toolbar);
         myToolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.stunden));
@@ -94,7 +94,7 @@ public class AuswahlActivity extends ActionLogActivity {
     }
 
     public void initListView() {
-        ListView listView = (ListView) findViewById(R.id.listA);
+        ListView listView = findViewById(R.id.listA);
 
         adapter = new KursAdapter(getApplicationContext(), db.getFaecher());
 
@@ -192,11 +192,11 @@ public class AuswahlActivity extends ActionLogActivity {
                 views[position] = getLayoutInflater().inflate(R.layout.list_item_kurs, null);
                 views[position].setEnabled(true);
 
-                TextView tvFach    = (TextView) views[position].findViewById(R.id.fach_auswahl);
-                TextView tvKuerzel = (TextView) views[position].findViewById(R.id.kürzel_auswahl);
-                TextView tvLehrer  = (TextView) views[position].findViewById(R.id.lehrer_auswahl);
-                TextView tvKlasse  = (TextView) views[position].findViewById(R.id.klasse_auswahl);
-                CheckBox checkBox  = (CheckBox) views[position].findViewById(R.id.checkBox);
+                TextView tvFach    = views[position].findViewById(R.id.fach_auswahl);
+                TextView tvKuerzel = views[position].findViewById(R.id.kürzel_auswahl);
+                TextView tvLehrer  = views[position].findViewById(R.id.lehrer_auswahl);
+                TextView tvKlasse  = views[position].findViewById(R.id.klasse_auswahl);
+                CheckBox checkBox  = views[position].findViewById(R.id.checkBox);
                 Fach     current   = fachArray[position];
 
                 tvFach.setText(current.getName());
@@ -237,9 +237,9 @@ public class AuswahlActivity extends ActionLogActivity {
                 if (views[i] != null) {
                     Fach     current   = fachArray[i];
                     CheckBox c         = cbs[i];
-                    TextView tvFach    = (TextView) views[i].findViewById(R.id.fach_auswahl);
-                    TextView tvKuerzel = (TextView) views[i].findViewById(R.id.kürzel_auswahl);
-                    TextView tvLehrer  = (TextView) views[i].findViewById(R.id.lehrer_auswahl);
+                    TextView tvFach    = views[i].findViewById(R.id.fach_auswahl);
+                    TextView tvKuerzel = views[i].findViewById(R.id.kürzel_auswahl);
+                    TextView tvLehrer  = views[i].findViewById(R.id.lehrer_auswahl);
                     if (c.isChecked()) {
                         views[i].setEnabled(true);
                         tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));

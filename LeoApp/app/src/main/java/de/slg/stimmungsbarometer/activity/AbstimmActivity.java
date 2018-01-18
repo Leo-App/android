@@ -44,7 +44,7 @@ public class AbstimmActivity extends ActionLogActivity {
         if (Utils.getController().getMainActivity() != null && Utils.getController().getMainActivity().abstimmDialog != null)
             Utils.getController().getMainActivity().abstimmDialog.dismiss();
 
-        TextView textView = (TextView) findViewById(R.id.textView);
+        TextView textView = findViewById(R.id.textView);
         textView.setText(Utils.getController().getPreferences().getString("stimmungsbarometer_frage", "Wie geht es dir?"));
 
         initListView();
@@ -58,11 +58,11 @@ public class AbstimmActivity extends ActionLogActivity {
     }
 
     private void initSmileys() {
-        very_satisfied = (ImageButton) findViewById(R.id.imageButtonVS);
-        satisfied = (ImageButton) findViewById(R.id.imageButtonS);
-        neutral = (ImageButton) findViewById(R.id.imageButtonN);
-        dissatisfied = (ImageButton) findViewById(R.id.imageButtonD);
-        bad_mood = (ImageButton) findViewById(R.id.imageButtonB);
+        very_satisfied = findViewById(R.id.imageButtonVS);
+        satisfied = findViewById(R.id.imageButtonS);
+        neutral = findViewById(R.id.imageButtonN);
+        dissatisfied = findViewById(R.id.imageButtonD);
+        bad_mood = findViewById(R.id.imageButtonB);
 
         very_satisfied.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +134,7 @@ public class AbstimmActivity extends ActionLogActivity {
     }
 
     private void initListView() {
-        listView = (ListView) findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
         if (Utils.getController().getPreferences().getBoolean("pref_key_show_reasons_survey", false)) {
             listView.setClickable(false);
             listView.setVisibility(View.VISIBLE);
@@ -185,7 +185,7 @@ public class AbstimmActivity extends ActionLogActivity {
                 v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_item_grund, null);
             }
 
-            final TextView grund = (TextView) v.findViewById(R.id.textViewGrund);
+            final TextView grund = v.findViewById(R.id.textViewGrund);
             grund.setText(gruende[position]);
 
             return v;

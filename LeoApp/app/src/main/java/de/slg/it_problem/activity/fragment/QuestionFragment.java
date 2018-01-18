@@ -1,7 +1,6 @@
 package de.slg.it_problem.activity.fragment;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,14 +14,16 @@ import de.slg.it_problem.activity.ITActivity;
 import de.slg.it_problem.task.ImageSynchronizerTask;
 import de.slg.it_problem.utility.FragmentType;
 import de.slg.it_problem.utility.Session;
-import de.slg.it_problem.utility.TaskStatusListener;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.R;
+
+import static android.view.View.GONE;
 
 public class QuestionFragment extends Fragment implements TaskStatusListener {
 
-    private Session sessionReference;
+    private Session    sessionReference;
     private ITActivity activityReference;
-    private View viewReference;
+    private View       viewReference;
 
     private ProgressBar progressBar;
     private ImageView   image;
@@ -43,16 +44,19 @@ public class QuestionFragment extends Fragment implements TaskStatusListener {
         if (sessionReference.isAnswer()) {
             activityReference.startFragment(FragmentType.ANSWER);
         } else {
-            TextView title = (TextView) viewReference.findViewById(R.id.title);
-            TextView content = (TextView) viewReference.findViewById(R.id.content);
+            TextView title   = viewReference.findViewById(R.id.title);
+            TextView content = viewReference.findViewById(R.id.content);
 
-            image = (ImageView) viewReference.findViewById(R.id.image);
-            progressBar = (ProgressBar) viewReference.findViewById(R.id.progressBar2);
+            image = viewReference.findViewById(R.id.image);
+            progressBar = viewReference.findViewById(R.id.progressBar2);
 
             title.setText(sessionReference.getTitle());
             content.setText(sessionReference.getDescription());
 
-            new ImageSynchronizerTask().registerListener(this).execute(activityReference.getCurrentSession().getPath());
+            if (sessionReference.getPath() == null)
+                progressBar.setVisibility(View.GONE);
+            else
+                new ImageSynchronizerTask().registerListener(this).execute(sessionReference.getPath());
 
         }
 
@@ -79,7 +83,7 @@ public class QuestionFragment extends Fragment implements TaskStatusListener {
     @Override
     public void taskFinished(Object... images) {
         if (progressBar != null && image != null) {
-            progressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(GONE);
             image.setImageBitmap((Bitmap) images[0]);
         }
     }

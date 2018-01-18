@@ -38,7 +38,7 @@ public class StundenplanBildActivity extends ActionLogActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stundenplan_image);
         Utils.getController().registerStundenplanBildActivity(this);
-        view = (StundenplanView) findViewById(R.id.image);
+        view = findViewById(R.id.image);
         //initToolbar();
         initFabSAVE();
     }
@@ -71,7 +71,7 @@ public class StundenplanBildActivity extends ActionLogActivity {
     }
 
     public void initFabSAVE() {
-        FloatingActionButton fabSAVE = (FloatingActionButton) findViewById(R.id.fabSAVE);
+        FloatingActionButton fabSAVE = findViewById(R.id.fabSAVE);
         fabSAVE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

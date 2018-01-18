@@ -47,11 +47,11 @@ public class MessageAdapter extends RecyclerView.Adapter {
         Message current = messagesArray[position];
 
         final View         v           = holder.itemView;
-        final TextView     datum       = (TextView) v.findViewById(R.id.textViewDate);
-        final TextView     nachricht   = (TextView) v.findViewById(R.id.nachricht);
-        final TextView     absender    = (TextView) v.findViewById(R.id.absender);
-        final TextView     uhrzeit     = (TextView) v.findViewById(R.id.datum);
-        final LinearLayout layout      = (LinearLayout) v.findViewById(R.id.chatbubblewrapper);
+        final TextView     datum       = v.findViewById(R.id.textViewDate);
+        final TextView     nachricht   = v.findViewById(R.id.nachricht);
+        final TextView     absender    = v.findViewById(R.id.absender);
+        final TextView     uhrzeit     = v.findViewById(R.id.datum);
+        final LinearLayout layout      = v.findViewById(R.id.chatbubblewrapper);
         final View         chatbubble  = v.findViewById(R.id.chatbubble);
         final View         progressbar = v.findViewById(R.id.progressBar);
 
@@ -130,9 +130,9 @@ public class MessageAdapter extends RecyclerView.Adapter {
         private ViewHolder() {
             super(((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_item_message, null));
 
-            TextView nachricht = (TextView) itemView.findViewById(R.id.nachricht);
+            TextView nachricht = itemView.findViewById(R.id.nachricht);
             nachricht.setMaxWidth(GraphicUtils.getDisplayWidth() * 2 / 3);
-            TextView absender = (TextView) itemView.findViewById(R.id.absender);
+            TextView absender = itemView.findViewById(R.id.absender);
             absender.setMaxWidth(GraphicUtils.getDisplayWidth() * 2 / 3);
 
             itemView.setOnLongClickListener(longClickListener);

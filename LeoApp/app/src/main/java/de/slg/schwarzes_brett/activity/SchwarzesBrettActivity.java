@@ -188,7 +188,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
     }
 
     private void initSwipeToRefresh() {
-        final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
+        final SwipeRefreshLayout swipeLayout = findViewById(R.id.refresh);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -216,7 +216,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
     private void initExpandableListView() {
         createGroupList();
 
-        ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.eintraege);
+        ExpandableListView expandableListView = findViewById(R.id.eintraege);
 
         ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() > User.PERMISSION_SCHUELER
                 ? new ExpandableListAdapter(entriesMap, groupList, createViewList())
@@ -348,12 +348,12 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
             convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
-            TextView textView = (TextView) convertView.findViewById(R.id.textView);
+            TextView textView = convertView.findViewById(R.id.textView);
             textView.setText((String) getGroup(groupPosition));
-            TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
+            TextView textViewStufe = convertView.findViewById(R.id.textViewStufe);
             textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
             if (views != null) {
-                TextView textViewViews = (TextView) convertView.findViewById(R.id.textViewViews);
+                TextView textViewViews = convertView.findViewById(R.id.textViewViews);
                 textViewViews.setVisibility(View.VISIBLE);
                 if (views.size() > groupPosition) {
                     String viewString = views.get(groupPosition) > 999 ? "999+" : String.valueOf(views.get(groupPosition));
@@ -375,12 +375,12 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
             if (isLastChild) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
 
-                final TextView textViewDate = (TextView) convertView.findViewById(R.id.textView);
+                final TextView textViewDate = convertView.findViewById(R.id.textView);
                 textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
             } else if (childPosition == 0) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
 
-                final TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                final TextView textView = convertView.findViewById(R.id.textView);
                 textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
             } else {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
@@ -400,12 +400,12 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
                     }
                 };
 
-                final ImageView iv = (ImageView) convertView.findViewById(R.id.imageViewIcon);
+                final ImageView iv = convertView.findViewById(R.id.imageViewIcon);
                 iv.setImageResource(R.drawable.ic_file_download);
                 iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
                 iv.setOnClickListener(listener);
 
-                final TextView textView = (TextView) convertView.findViewById(R.id.textView);
+                final TextView textView = convertView.findViewById(R.id.textView);
                 textView.setText(location.substring(location.lastIndexOf('/') + 1));
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 textView.setOnClickListener(listener);

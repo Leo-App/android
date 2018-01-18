@@ -93,7 +93,7 @@ public class AddGroupChatActivity extends ActionLogActivity {
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(R.string.title_new_groupchat);
         setSupportActionBar(toolbar);
@@ -103,7 +103,7 @@ public class AddGroupChatActivity extends ActionLogActivity {
     }
 
     private void initEditText() {
-        etChatname = (EditText) findViewById(R.id.editTextChatName);
+        etChatname = findViewById(R.id.editTextChatName);
         etChatname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -122,7 +122,7 @@ public class AddGroupChatActivity extends ActionLogActivity {
     }
 
     private void initSearch() {
-        EditText search = (EditText) findViewById(R.id.editTextSearch);
+        EditText search = findViewById(R.id.editTextSearch);
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -143,15 +143,15 @@ public class AddGroupChatActivity extends ActionLogActivity {
     }
 
     private void initContainer() {
-        container = (LinearLayout) findViewById(R.id.linearLayoutUsers);
+        container = findViewById(R.id.linearLayoutUsers);
         container.removeAllViews();
 
         for (int i = 0; i < users.length; i++) {
             User u = users[i];
             View v = getLayoutInflater().inflate(R.layout.list_item_user, null);
 
-            final TextView username    = (TextView) v.findViewById(R.id.username);
-            final TextView userdefault = (TextView) v.findViewById(R.id.userdefault);
+            final TextView username    = v.findViewById(R.id.username);
+            final TextView userdefault = v.findViewById(R.id.userdefault);
 
             username.setText(u.uname);
             userdefault.setText(u.udefaultname + ", " + u.ustufe);

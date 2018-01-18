@@ -34,11 +34,11 @@ public class AbstimmDialog extends AlertDialog {
     }
 
     private void initSmileys() {
-        very_satisfied = (ImageButton) findViewById(R.id.imageButtonVS);
-        satisfied = (ImageButton) findViewById(R.id.imageButtonS);
-        neutral = (ImageButton) findViewById(R.id.imageButtonN);
-        dissatisfied = (ImageButton) findViewById(R.id.imageButtonD);
-        bad_mood = (ImageButton) findViewById(R.id.imageButtonB);
+        very_satisfied = findViewById(R.id.imageButtonVS);
+        satisfied = findViewById(R.id.imageButtonS);
+        neutral = findViewById(R.id.imageButtonN);
+        dissatisfied = findViewById(R.id.imageButtonD);
+        bad_mood = findViewById(R.id.imageButtonB);
 
         very_satisfied.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -103,7 +103,7 @@ public class Start extends Activity {
                 createSyncAccount(),
                 "de.slg.leoapp",
                 Bundle.EMPTY,
-                10);
+                10*60);
     }
 
     private Account createSyncAccount() {

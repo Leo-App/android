@@ -152,14 +152,14 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
                 }
             }
         };
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viPager);
+        ViewPager viewPager = findViewById(R.id.viPager);
         viewPager.setAdapter(adapter);
 
         int dayOfWeek = new GregorianCalendar().get(Calendar.DAY_OF_WEEK);
         if (dayOfWeek > Calendar.SUNDAY && dayOfWeek < Calendar.SATURDAY)
             viewPager.setCurrentItem(new GregorianCalendar().get(Calendar.DAY_OF_WEEK) - 2);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -179,7 +179,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
             if (root == null) {
                 root = layIn.inflate(R.layout.fragment_wochentag, container, false);
 
-                listView = (ListView) root.findViewById(R.id.listW);
+                listView = root.findViewById(R.id.listW);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -247,11 +247,11 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
                     v = layoutInflater.inflate(R.layout.list_item_schulstunde, null);
                 }
 
-                TextView tvFach   = (TextView) v.findViewById(R.id.fach_wt);
-                TextView tvLehrer = (TextView) v.findViewById(R.id.lehrer_wt);
-                TextView tvRaum   = (TextView) v.findViewById(R.id.raum_wt);
-                TextView tvStunde = (TextView) v.findViewById(R.id.stunde_wt);
-                TextView tvNotiz  = (TextView) v.findViewById(R.id.notiz);
+                TextView tvFach   = v.findViewById(R.id.fach_wt);
+                TextView tvLehrer = v.findViewById(R.id.lehrer_wt);
+                TextView tvRaum   = v.findViewById(R.id.raum_wt);
+                TextView tvStunde = v.findViewById(R.id.stunde_wt);
+                TextView tvNotiz  = v.findViewById(R.id.notiz);
 
                 if (fachAd[position] != null) {
                     if (fachAd[position].getName() != null && fachAd[position].getNotiz() != null && fachAd[position].getName().equals("") && !fachAd[position].getNotiz().equals("")) {

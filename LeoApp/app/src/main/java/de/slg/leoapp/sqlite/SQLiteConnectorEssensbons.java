@@ -3,99 +3,64 @@ package de.slg.leoapp.sqlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.BaseColumns;
 
 public class SQLiteConnectorEssensbons extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME           = "foodmarks.db";
-    private static final String SQL_CREATE_TABLE_ORDERS = "CREATE TABLE IF NOT EXISTS "
-            + OrderEntry.TABLE_NAME + " ("
-            + OrderEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY NOT NULL, "
-            + OrderEntry.COLUMN_NAME_DATE + " date NOT NULL, "
-            + OrderEntry.COLUMN_NAME_MENU + " tinyint NOT NULL, "
-            + OrderEntry.COLUMN_NAME_DESCR + " text NOT NULL)";
+    private static final String DATABASE_NAME = "foodmarks.db";
 
-    private static final String SQL_CREATE_TABLE_SCANS = "CREATE TABLE IF NOT EXISTS "
-            + ScanEntry.TABLE_NAME + " ("
-            + ScanEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            + ScanEntry.COLUMN_NAME_DATE + " date NOT NULL, "
-            + ScanEntry.COLUMN_NAME_CUSTOMERID + " tinyint NOT NULL)";
+    public static final String TABLE_SCAN       = "Scans";
+    public static final String TABLE_ORDERS     = "Userorders";
+    public static final String TABLE_STATISTICS = "Statistics";
 
-    private static final String SQL_CREATE_TABLE_STAT = "CREATE TABLE IF NOT EXISTS "
-            + StatisticsEntry.TABLE_NAME + " ("
-            + StatisticsEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-            + StatisticsEntry.COLUMN_NAME_SYNCDATE + " date NOT NULL, "
-            + StatisticsEntry.COLUMN_NAME_LASTORDER + " int NOT NULL, "
-            + StatisticsEntry.COLUMN_NAME_AMOUNT + " int)";
+    public static final String SCAN_ID         = "id";
+    public static final String SCAN_CUSTOMERID = "userid";
+    public static final String SCAN_DATE       = "dateu";
 
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + OrderEntry.TABLE_NAME + ", " + ScanEntry.TABLE_NAME + ", " + StatisticsEntry.TABLE_NAME;
+    public static final String ORDER_ID    = "id";
+    public static final String ORDER_DATE  = "dateu";
+    public static final String ORDER_MENU  = "menu";
+    public static final String ORDER_DESCR = "description";
+
+    public static final String STATISTICS_ID        = "id";
+    public static final String STATISTICS_SYNCDATE  = "syncdate";
+    public static final String STATISTICS_AMOUNT    = "amount";
+    public static final String STATISTICS_LASTORDER = "lastorder";
 
     public SQLiteConnectorEssensbons(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 3);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_TABLE_ORDERS);
-        db.execSQL(SQL_CREATE_TABLE_SCANS);
-        db.execSQL(SQL_CREATE_TABLE_STAT);
+        db.execSQL("CREATE TABLE IF NOT EXISTS "
+                + TABLE_ORDERS + " ("
+                + ORDER_ID + " INTEGER PRIMARY KEY NOT NULL, "
+                + ORDER_DATE + " date NOT NULL, "
+                + ORDER_MENU + " tinyint NOT NULL, "
+                + ORDER_DESCR + " text NOT NULL)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS "
+                + TABLE_SCAN + " ("
+                + SCAN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                + SCAN_DATE + " date NOT NULL, "
+                + SCAN_CUSTOMERID + " tinyint NOT NULL)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS "
+                + TABLE_STATISTICS + " ("
+                + STATISTICS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                + STATISTICS_SYNCDATE + " date NOT NULL, "
+                + STATISTICS_LASTORDER + " int NOT NULL, "
+                + STATISTICS_AMOUNT + " int)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS + ", " + TABLE_SCAN + ", " + TABLE_STATISTICS);
         onCreate(db);
     }
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
-    }
-
-    public static class ScanEntry implements BaseColumns {
-        public static final String TABLE_NAME;
-        public static final String COLUMN_NAME_CUSTOMERID;
-        public static final String COLUMN_NAME_DATE;
-        static final        String COLUMN_NAME_ID;
-
-        static {
-            TABLE_NAME = "SCANS";
-            COLUMN_NAME_ID = "ID";
-            COLUMN_NAME_CUSTOMERID = "USERID";
-            COLUMN_NAME_DATE = "DATEU";
-        }
-    }
-
-    public static class OrderEntry implements BaseColumns {
-        public static final String TABLE_NAME;
-        public static final String COLUMN_NAME_DATE;
-        public static final String COLUMN_NAME_MENU;
-        public static final String COLUMN_NAME_DESCR;
-        public static final String COLUMN_NAME_ID;
-
-        static {
-            TABLE_NAME = "USERORDERS";
-            COLUMN_NAME_ID = "ID";
-            COLUMN_NAME_DATE = "DATEU";
-            COLUMN_NAME_MENU = "MENU";
-            COLUMN_NAME_DESCR = "DESCR";
-        }
-    }
-
-    public static class StatisticsEntry implements BaseColumns {
-        public static final String TABLE_NAME;
-        static final        String COLUMN_NAME_ID;
-        static final        String COLUMN_NAME_SYNCDATE;
-        static final        String COLUMN_NAME_AMOUNT;
-        static final        String COLUMN_NAME_LASTORDER;
-
-        static {
-            TABLE_NAME = "STATISTICS";
-            COLUMN_NAME_ID = "ID";
-            COLUMN_NAME_SYNCDATE = "SYNCDATE";
-            COLUMN_NAME_AMOUNT = "AMOUNT";
-            COLUMN_NAME_LASTORDER = "LASTORDER";
-        }
     }
 }

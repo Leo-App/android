@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.it_problem.activity.ITActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
@@ -129,8 +129,8 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
      */
     @CallSuper
     protected void initNavigationDrawer() {
-        drawerLayout = (DrawerLayout) findViewById(getDrawerLayoutId());
-        navigationView = (NavigationView) findViewById(getNavigationId());
+        drawerLayout = findViewById(getDrawerLayoutId());
+        navigationView = findViewById(getNavigationId());
 
         navigationView.setCheckedItem(getNavigationHighlightId());
 
@@ -146,7 +146,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
                 Intent i;
                 switch (menuItem.getItemId()) {
                     case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensQRActivity.class);
+                        i = new Intent(getApplicationContext(), EssensbonActivity.class);
                         break;
                     case R.id.messenger:
                         i = new Intent(getApplicationContext(), MessengerActivity.class);
@@ -194,16 +194,16 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
             }
         });
 
-        TextView username = (TextView) navigationView.getHeaderView(0).findViewById(R.id.username);
+        TextView username = navigationView.getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
 
-        TextView grade = (TextView) navigationView.getHeaderView(0).findViewById(R.id.grade);
+        TextView grade = navigationView.getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
 
-        ImageView mood = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+        ImageView mood = navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
     }
 
@@ -213,7 +213,7 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
      */
     @CallSuper
     protected void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(getToolbarId());
+        Toolbar toolbar = findViewById(getToolbarId());
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(getString(getToolbarTextId()));
         setSupportActionBar(toolbar);

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="qr_intro_title1">QR - Foodmarks</string>
+    <string name="qr_intro_desc1">This feature simplifies the procedures during TODO</string>
+
+    <string name="qr_intro_titleVerification">Log in</string>
+    <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
+        lunch.leo-ac.de credentials.</string>
+
     <string name="app_name" translatable="false">LeoApp</string>
 
     <string name="yes">Yes</string>
@@ -146,8 +153,8 @@
     <string name="button_confirm" translatable="false">OK</string>
     <string name="textview_placeholder" translatable="false">placeholder</string>
     <string name="qr_display_title">Your order for today, the</string>
-    <string name="qr_display_menu">Menu</string>
-    <string name="dialog_desc_valid">Ordered menu:</string>
+    <string name="qr_display_menu">Menu %1$d</string>
+    <string name="dialog_desc_valid">Ordered menu: \t %1$d</string>
     <string name="dialog_desc_valid_id" translatable="false">User-ID: </string>
     <string name="qr_display_not_ordered">You have no order for today</string>
     <string name="qr_display_not_loggedin">You\'re not logged in, please check your user data</string>

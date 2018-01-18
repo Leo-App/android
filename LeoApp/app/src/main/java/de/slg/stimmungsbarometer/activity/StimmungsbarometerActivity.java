@@ -171,22 +171,22 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
         final CardView cardAlles = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
         cardAlles.setCardElevation(GraphicUtils.dpToPx(4));
 
-        final TextView titleWoche = (TextView) cardWoche.findViewById(R.id.textView);
+        final TextView titleWoche = cardWoche.findViewById(R.id.textView);
         titleWoche.setText("Letzte Woche");
-        final TextView titleMonat = (TextView) cardMonat.findViewById(R.id.textView);
+        final TextView titleMonat = cardMonat.findViewById(R.id.textView);
         titleMonat.setText("Letzter Monat");
-        final TextView titleJahr = (TextView) cardJahr.findViewById(R.id.textView);
+        final TextView titleJahr = cardJahr.findViewById(R.id.textView);
         titleJahr.setText("Letztes Jahr");
-        final TextView titleAlles = (TextView) cardAlles.findViewById(R.id.textView);
+        final TextView titleAlles = cardAlles.findViewById(R.id.textView);
         titleAlles.setText("Gesamt");
 
-        final ViewGroup layoutWoche = (ViewGroup) cardWoche.findViewById(R.id.layout);
+        final ViewGroup layoutWoche = cardWoche.findViewById(R.id.layout);
         layoutWoche.addView(viewWoche);
-        final ViewGroup layoutMonat = (ViewGroup) cardMonat.findViewById(R.id.layout);
+        final ViewGroup layoutMonat = cardMonat.findViewById(R.id.layout);
         layoutMonat.addView(viewMonat);
-        final ViewGroup layoutJahr = (ViewGroup) cardJahr.findViewById(R.id.layout);
+        final ViewGroup layoutJahr = cardJahr.findViewById(R.id.layout);
         layoutJahr.addView(viewJahr);
-        final ViewGroup layoutAlles = (ViewGroup) cardAlles.findViewById(R.id.layout);
+        final ViewGroup layoutAlles = cardAlles.findViewById(R.id.layout);
         layoutAlles.addView(viewAlles);
 
         new Handler().post(new Runnable() {
@@ -205,7 +205,7 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
                 final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutParams.setMargins(0, height / 64, 0, height / 64);
 
-                final LinearLayout container = (LinearLayout) findViewById(R.id.linearLayout);
+                final LinearLayout container = findViewById(R.id.linearLayout);
                 container.addView(cardWoche, layoutParams);
                 container.addView(cardMonat, layoutParams);
                 container.addView(cardJahr, layoutParams);

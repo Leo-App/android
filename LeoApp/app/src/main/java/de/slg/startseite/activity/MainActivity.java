@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.activity.IntroActivity;
@@ -65,10 +65,10 @@ public class MainActivity extends LeoAppFeatureActivity {
         initIntroduction();
         initOptionalDialog();
 
-        if (!EssensQRActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
-            startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
+        if (!EssensbonActivity.mensaModeRunning && Utils.getController().getPreferences().getBoolean("pref_key_mensa_mode", false)) {
+            startActivity(new Intent(getApplicationContext(), EssensbonActivity.class));
         } else {
-            EssensQRActivity.mensaModeRunning = false;
+            EssensbonActivity.mensaModeRunning = false;
         }
     }
 
@@ -231,16 +231,16 @@ public class MainActivity extends LeoAppFeatureActivity {
             abstimmDialog.show();
         }
 
-        TextView username = (TextView) getNavigationView().getHeaderView(0).findViewById(R.id.username);
+        TextView username = getNavigationView().getHeaderView(0).findViewById(R.id.username);
         username.setText(Utils.getUserName());
 
-        TextView grade = (TextView) getNavigationView().getHeaderView(0).findViewById(R.id.grade);
+        TextView grade = getNavigationView().getHeaderView(0).findViewById(R.id.grade);
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             grade.setText(Utils.getLehrerKuerzel());
         else
             grade.setText(Utils.getUserStufe());
 
-        ImageView mood = (ImageView) getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
+        ImageView mood = getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
 
         Utils.getNotificationManager().cancel(NotificationHandler.ID_STIMMUNGSBAROMETER);
@@ -273,10 +273,10 @@ public class MainActivity extends LeoAppFeatureActivity {
             }
         }, 60);
 
-        TextView version = (TextView) findViewById(R.id.versioncode_maincard);
+        TextView version = findViewById(R.id.versioncode_maincard);
         version.setText(Utils.getAppVersionName());
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCards);
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerViewCards);
         mAdapter = new CardAdapter();
 
         final boolean quickLayout = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
@@ -375,7 +375,7 @@ public class MainActivity extends LeoAppFeatureActivity {
 
             switch (notificationTarget) {
                 case NotificationHandler.ID_ESSENSBONS:
-                    startActivity(new Intent(getApplicationContext(), EssensQRActivity.class));
+                    startActivity(new Intent(getApplicationContext(), EssensbonActivity.class));
                     break;
 
                 case NotificationHandler.ID_KLAUSURPLAN:
@@ -428,7 +428,7 @@ public class MainActivity extends LeoAppFeatureActivity {
                 abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        ImageView mood = (ImageView) getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
+                        ImageView mood = getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
                         mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
                         new Handler().postDelayed(new Runnable() {
                             @Override

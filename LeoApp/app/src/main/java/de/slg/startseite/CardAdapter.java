@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.klausurplan.activity.KlausurplanActivity;
 import de.slg.leoapp.R;
 import de.slg.leoapp.dialog.InformationDialog;
@@ -77,7 +77,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.buttonListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensQRActivity.class));
+                        Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensbonActivity.class));
                     }
                 };
 
@@ -284,11 +284,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         CardViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.info_title0);
-            content = (RelativeLayout) itemView.findViewById(R.id.info_content0);
-            icon = (ImageView) itemView.findViewById(R.id.info_card_icon);
-            wrapper = (CardView) itemView.findViewById(R.id.card_preset);
-            btn = (Button) itemView.findViewById(R.id.buttonCard);
+            title = itemView.findViewById(R.id.info_title0);
+            content = itemView.findViewById(R.id.info_content0);
+            icon = itemView.findViewById(R.id.info_card_icon);
+            wrapper = itemView.findViewById(R.id.card_preset);
+            btn = itemView.findViewById(R.id.buttonCard);
             button = new InfoButton(btn);
         }
     }

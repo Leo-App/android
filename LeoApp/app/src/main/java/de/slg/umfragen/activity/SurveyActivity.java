@@ -138,7 +138,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     private void initExpandableListView() {
         createGroupList();
 
-        expandableListView = (ExpandableListView) findViewById(R.id.eintraege);
+        expandableListView = findViewById(R.id.eintraege);
 
         ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(entriesMap, groupList);
         expandableListView.setAdapter(expandableListAdapter);
@@ -182,7 +182,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     }
 
     private void initSwipeToRefresh() {
-        final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
+        final SwipeRefreshLayout swipeLayout = findViewById(R.id.refresh);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -270,9 +270,9 @@ public class SurveyActivity extends LeoAppFeatureActivity {
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
             convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_alt, null);
-            TextView textView = (TextView) convertView.findViewById(R.id.textView);
+            TextView textView = convertView.findViewById(R.id.textView);
             textView.setText((String) getGroup(groupPosition));
-            TextView textViewStufe = (TextView) convertView.findViewById(R.id.textViewStufe);
+            TextView textViewStufe = convertView.findViewById(R.id.textViewStufe);
             textViewStufe.setText(getSurvey(groupPosition).to);
 
             return convertView;
@@ -287,9 +287,9 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 if (getSurvey(groupPosition).remoteId == Utils.getUserID())
                     convertView.findViewById(R.id.delete).setVisibility(View.VISIBLE);
 
-                final Button      button = (Button) convertView.findViewById(R.id.button);
-                final ImageButton delete = (ImageButton) convertView.findViewById(R.id.delete);
-                final ImageButton share  = (ImageButton) convertView.findViewById(R.id.share);
+                final Button      button = convertView.findViewById(R.id.button);
+                final ImageButton delete = convertView.findViewById(R.id.delete);
+                final ImageButton share  = convertView.findViewById(R.id.share);
 
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -372,7 +372,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
 
                 String option = getSurvey(groupPosition).answers[childPosition - 2];
 
-                final CompoundButton t = (CompoundButton) convertView.findViewById(R.id.checkBox);
+                final CompoundButton t = convertView.findViewById(R.id.checkBox);
 
                 t.setText(option.split("_;_")[0]);
                 t.setTag(Integer.parseInt(option.split("_;_")[1]));

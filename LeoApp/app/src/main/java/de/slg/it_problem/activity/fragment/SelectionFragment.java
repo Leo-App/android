@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import de.slg.it_problem.activity.ITActivity;
 import de.slg.it_problem.utility.FragmentType;
 import de.slg.it_problem.utility.Subject;
-import de.slg.it_problem.utility.TaskStatusListener;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.utility.Utils;
@@ -42,23 +42,27 @@ public class SelectionFragment extends Fragment implements TaskStatusListener {
     }
 
     private void initButtons() {
-        Utils.logError("INIT");
         v.findViewById(R.id.button_beamer).setOnClickListener(new ButtonClickListener(Subject.BEAMER));
         v.findViewById(R.id.button_network).setOnClickListener(new ButtonClickListener(Subject.NETWORK));
         v.findViewById(R.id.button_computer).setOnClickListener(new ButtonClickListener(Subject.COMPUTER));
+
+        Utils.logError("FINISHED INIT BUTTONS");
     }
 
     private class ButtonClickListener implements View.OnClickListener {
 
         ITActivity reference;
+        String subject;
 
         private ButtonClickListener(String subject) {
             reference = (ITActivity) getActivity();
-            reference.setSubject(subject);
+            this.subject = subject;
         }
 
         @Override
         public void onClick(View v) {
+            reference.setSubject(subject);
+
             if (!reference.getCurrentSession().isAvailable()) {
                 GraphicUtils.sendToast("Keine Lösungen verfügbar");
                 return;

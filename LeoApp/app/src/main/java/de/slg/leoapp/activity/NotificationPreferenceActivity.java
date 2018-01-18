@@ -143,7 +143,7 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
 
 
     private void initToolbar() {
-        Toolbar actionBar = (Toolbar) findViewById(R.id.toolbarSettings);
+        Toolbar actionBar = findViewById(R.id.toolbarSettings);
         actionBar.setTitleTextColor(getResources().getColor(android.R.color.white));
         actionBar.setTitle(R.string.title_settings_notifications);
         setSupportActionBar(actionBar);

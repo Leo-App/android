@@ -10,6 +10,7 @@ public class SQLiteConnectorITProblem extends SQLiteOpenHelper {
     public static final  String TABLE_DECISIONS   = "Entscheidungen";
     public static final  String DECISION_SUBJECT  = "titel";
     public static final  String DECISIONS_CONTENT = "adressat";
+
     private static final String DATABASE_NAME     = "problems.db";
 
     public SQLiteConnectorITProblem(Context c) {
@@ -22,7 +23,8 @@ public class SQLiteConnectorITProblem extends SQLiteOpenHelper {
                 + " (" +
                 DECISION_SUBJECT + " VARCHAR(255) NOT NULL, " +
                 DECISIONS_CONTENT + " TEXT NOT NULL," +
-                " CONSTRAINT unique_subj UNIQUE ("+DECISION_SUBJECT+") )");
+                " CONSTRAINT unique_subj UNIQUE ("+DECISION_SUBJECT+") " +
+                ")");
     }
 
     @Override

@@ -133,7 +133,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
     }
 
     private void initListView() {
-        listView = (ListView) findViewById(R.id.listViewKlausuren);
+        listView = findViewById(R.id.listViewKlausuren);
         listView.setVerticalScrollBarEnabled(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -181,7 +181,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
     }
 
     private void initAddButton() {
-        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
+        FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

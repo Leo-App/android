@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Hashtable;
 
-import de.slg.it_problem.utility.TaskStatusListener;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.it_problem.utility.datastructure.DecisionTree;
 import de.slg.leoapp.sqlite.SQLiteConnectorITProblem;
 import de.slg.leoapp.utility.Utils;
@@ -84,7 +84,6 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
         }
 
         c.close();
-        Utils.logError("BACKGROUND FINISHED");
         fillMissingTrees(subjects);
 
         return null;
@@ -92,6 +91,7 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
 
     @Override
     public void onPostExecute(Void result) {
+        Utils.logError("FINISHED TASK");
         for (TaskStatusListener listener : listeners)
             listener.taskFinished();
     }
@@ -106,8 +106,8 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
         for (String cur : subjects) {
             if (decisionTreeMap.get(cur) == null) {
                 decisionTreeMap.put(cur, new DecisionTree());
-                Utils.logError("null"+cur);
             }
+            Utils.logError(cur+": "+decisionTreeMap.get(cur));
         }
     }
 

@@ -6,6 +6,15 @@
 
     <string name="title_it_problem">IT - Problemlöser</string>
 
+    <!-- TODO Translate -->
+
+    <string name="qr_intro_titleVerification">Log in</string>
+    <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
+        lunch.leo-ac.de credentials.</string>
+
+    <string name="qr_intro_title1">QR - Foodmarks</string>
+    <string name="qr_intro_desc1">This feature simplifies the procedures during TODO</string>
+
     <string name="cancel">Abbrechen</string>
     <string name="error">Entschuldige, etwas ist schief gelaufen</string>
     <string name="hours_settings_template">%1$s Uhr</string>
@@ -133,8 +142,8 @@
     <string name="toolbar_title">Essensbons</string>
     <string name="button_scan">Scannen</string>
     <string name="qr_display_title">Deine Bestellung für heute, den</string>
-    <string name="qr_display_menu">Menü</string>
-    <string name="dialog_desc_valid">Bestelltes Menü:</string>
+    <string name="qr_display_menu">Menü %1$d</string>
+    <string name="dialog_desc_valid">Bestelltes Menü: \t %1$d</string>
     <string name="qr_display_not_ordered">Für heute liegt keine Bestellung vor</string>
     <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe deine Anmeldedaten in den Einstellungen</string>
     <string name="explain_desc_1">Mit dieser Funktion lassen sich die QR-Codes der Essensbestellung überprüfen.</string>

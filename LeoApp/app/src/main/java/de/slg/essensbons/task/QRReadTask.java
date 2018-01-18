@@ -14,7 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import de.slg.essensbons.activity.EssensQRActivity;
+import de.slg.essensbons.activity.EssensbonActivity;
+import de.slg.essensbons.dialog.FeedbackDialog;
 import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
@@ -22,29 +23,35 @@ import de.slg.leoapp.utility.Utils;
 
 public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
 
-    private final EssensQRActivity act;
-    private       int              orderedMenu;
+    private int orderedMenu;
+    private SQLiteDatabase dbh;
 
-    public QRReadTask(EssensQRActivity act) {
-        this.act = act;
+    public QRReadTask() {
+        SQLiteConnectorEssensbons db = new SQLiteConnectorEssensbons(Utils.getContext());
+        dbh = db.getWritableDatabase();
     }
 
     @Override
     protected Boolean doInBackground(String... params) {
+
         if (checkValid(params[0])) {
+
             String[] parts = params[0].split("-");
             String   day   = parts[2].substring(0, 2);
             String   month = parts[2].substring(2, 4);
             String   year  = parts[2].substring(4, 7);
+
             orderedMenu = Integer.parseInt(String.valueOf(params[0].charAt(7)));
-            SQLiteDatabase db = EssensQRActivity.sqlh.getReadableDatabase();
+
             String[] projection = {
-                    SQLiteConnectorEssensbons.ScanEntry.COLUMN_NAME_DATE,
+                    SQLiteConnectorEssensbons.SCAN_DATE,
             };
-            String   selection     = SQLiteConnectorEssensbons.ScanEntry.COLUMN_NAME_DATE + " = ? AND " + SQLiteConnectorEssensbons.ScanEntry.COLUMN_NAME_CUSTOMERID + " = ?";
+
+            String   selection     = SQLiteConnectorEssensbons.SCAN_DATE + " = ? AND " + SQLiteConnectorEssensbons.SCAN_CUSTOMERID + " = ?";
             String[] selectionArgs = {"2" + year + "-" + month + "-" + day, parts[0]};
-            Cursor cursor = db.query(
-                    SQLiteConnectorEssensbons.ScanEntry.TABLE_NAME,
+
+            Cursor cursor = dbh.query(
+                    SQLiteConnectorEssensbons.TABLE_SCAN,
                     projection,
                     selection,
                     selectionArgs,
@@ -52,21 +59,25 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
                     null,
                     null
             );
+
             if (cursor.getCount() == 0) {
                 cursor.close();
-                db = EssensQRActivity.sqlh.getWritableDatabase();
                 ContentValues values = new ContentValues();
-                values.put(SQLiteConnectorEssensbons.ScanEntry.COLUMN_NAME_CUSTOMERID, params[0].split("-")[0]);
-                values.put(SQLiteConnectorEssensbons.ScanEntry.COLUMN_NAME_DATE, "2" + year + "-" + month + "-" + day);
-                db.insert(SQLiteConnectorEssensbons.ScanEntry.TABLE_NAME, null, values);
+                values.put(SQLiteConnectorEssensbons.SCAN_CUSTOMERID, params[0].split("-")[0]);
+                values.put(SQLiteConnectorEssensbons.SCAN_DATE, "2" + year + "-" + month + "-" + day);
+                dbh.insert(SQLiteConnectorEssensbons.TABLE_SCAN, null, values);
                 return true;
             } else {
                 cursor.close();
                 return false;
             }
-        } else
+
+        } else {
             return false;
+        }
+
     }
+
 
     @SuppressLint("DefaultLocale")
     private boolean checkValid(String s) {
@@ -122,26 +133,20 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
     @SuppressLint({"SetTextI18n", "InflateParams"})
     @Override
     protected void onPostExecute(Boolean result) {
-        final AlertDialog dialog   = new AlertDialog.Builder(act).create();
-        LayoutInflater    inflater = act.getLayoutInflater();
-        View              v;
-        long[]            interval;
 
-        if (result) {
-            v = inflater.inflate(R.layout.dialog_valid, null);
-            ((TextView) v.findViewById(R.id.textView4)).setText(act.getString(R.string.dialog_desc_valid) + "\t" + orderedMenu);
-            interval = new long[]{0, 200, 100, 200};
-        } else {
-            v = inflater.inflate(R.layout.dialog_invalid, null);
-            interval = new long[]{0, 1000, 500, 1000};
-        }
+        dbh.close();
 
-        Vibrator vb = (Vibrator) act.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        long[] interval = result ? new long[]{0, 200, 100, 200} : new long[]{0, 1000, 500, 1000};
+
+        final AlertDialog dialog = new FeedbackDialog(Utils.getContext(), result, orderedMenu);
+
+        Vibrator vb = (Vibrator) Utils.getContext().getSystemService(Context.VIBRATOR_SERVICE);
         vb.vibrate(interval, -1);
 
-        dialog.setView(v);
         if (EssensbonUtils.isAutoFadeEnabled()) {
-            int           duration = EssensbonUtils.getFadeTime();
+
+            int duration = EssensbonUtils.getFadeTime();
+
             final Handler handler  = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -149,20 +154,9 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
                     dialog.dismiss();
                 }
             }, duration * 1000);
+
         }
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                act.scV.startCamera(0);
-            }
-        });
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                act.scV.setResultHandler(act);
-                act.scV.startCamera(0);
-            }
-        });
+
         dialog.show();
     }
 }
