@@ -30,9 +30,35 @@ public class SelectionFragment extends Fragment implements TaskStatusListener {
 
     private View v;
 
+    /**
+     * Instanziiert ein neues SelectionFragment, basierend auf einem boolean Parameter, der angibt ob
+     * die Buttons nach Synchronisation oder direkt initialisiert werden.
+     *
+     * @param sync Findet ein Synchronisationvorgang statt?
+     * @return Neue SelectionFragment Instanz
+     */
+    public static SelectionFragment newInstance(boolean sync) {
+        SelectionFragment fragment = new SelectionFragment();
+
+        Bundle b = new Bundle();
+        b.putBoolean("sync_start", !sync);
+
+        fragment.setArguments(b);
+
+        Utils.logError("INSTATIATE");
+
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v =  inflater.inflate(R.layout.fragment_it_overview, container, false);
+
+        Utils.logError("CREATEVIEW");
+
+        if (getArguments().getBoolean("sync_start"))
+            initButtons();
+
         return v;
     }
 
@@ -45,8 +71,6 @@ public class SelectionFragment extends Fragment implements TaskStatusListener {
         v.findViewById(R.id.button_beamer).setOnClickListener(new ButtonClickListener(Subject.BEAMER));
         v.findViewById(R.id.button_network).setOnClickListener(new ButtonClickListener(Subject.NETWORK));
         v.findViewById(R.id.button_computer).setOnClickListener(new ButtonClickListener(Subject.COMPUTER));
-
-        Utils.logError("FINISHED INIT BUTTONS");
     }
 
     private class ButtonClickListener implements View.OnClickListener {
@@ -61,6 +85,7 @@ public class SelectionFragment extends Fragment implements TaskStatusListener {
 
         @Override
         public void onClick(View v) {
+            reference.resetSession();
             reference.setSubject(subject);
 
             if (!reference.getCurrentSession().isAvailable()) {

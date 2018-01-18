@@ -63,6 +63,10 @@ public class DecisionTree extends BinaryTree<ProblemContent> {
          super();
     }
 
+    public boolean hasChildren() {
+        return !(super.getLeftTree().isEmpty() && super.getRightTree().isEmpty());
+    }
+
     public DecisionTree getLeftTree() {
         return (DecisionTree) super.getLeftTree();
     }

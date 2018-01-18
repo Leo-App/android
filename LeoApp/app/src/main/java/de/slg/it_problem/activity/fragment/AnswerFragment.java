@@ -30,7 +30,7 @@ public class AnswerFragment extends Fragment implements TaskStatusListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activityReference = (ITActivity) getActivity();
         sessionReference = activityReference.getCurrentSession();
-        viewReference = inflater.inflate(R.layout.fragment_it_question, container, false);
+        viewReference = inflater.inflate(R.layout.fragment_it_answer, container, false);
 
         refresh();
         initFAB();
@@ -57,7 +57,10 @@ public class AnswerFragment extends Fragment implements TaskStatusListener {
         title.setText(sessionReference.getTitle());
         content.setText(sessionReference.getDescription());
 
-        new ImageSynchronizerTask().registerListener(this).execute(activityReference.getCurrentSession().getPath());
+        if (sessionReference.getPath() == null)
+            progressBar.setVisibility(View.GONE);
+        else
+            new ImageSynchronizerTask().registerListener(this).execute(sessionReference.getPath());
     }
 
     @Override

@@ -116,7 +116,6 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
     @Override
     public void taskFinished(Object... result) {
         running = false;
-        ignoreSlideChange = true;
         verificationFragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
 
         switch ((Authenticator) result[0]) {
@@ -132,6 +131,7 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
             case VALID:
                 getPager().setCurrentItem(verificationSlide + 1);
                 EssensbonUtils.setLoginStatus(true);
+                ignoreSlideChange = true;
                 break;
         }
     }
