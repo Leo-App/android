@@ -264,10 +264,12 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 Utils.getController().getMessengerDatabase().clear();
-                ReceiveService receiveService = Utils.getController().getReceiveService();
-                if (receiveService != null) {
-                    receiveService.startSocketIfNotRunning();
-                }
+                Intent intent = new Intent(
+                        getApplicationContext(),
+                        ReceiveService.class
+                );
+                stopService(intent);
+                startService(intent);
                 return Utils.checkNetwork();
             }
         });

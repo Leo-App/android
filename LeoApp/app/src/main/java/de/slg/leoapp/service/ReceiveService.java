@@ -93,6 +93,7 @@ public class ReceiveService extends Service {
         String vMessage = de.slg.messenger.utility.Encryption.encrypt(message.mtext, key);
         String vKey     = de.slg.messenger.utility.Encryption.encryptKey(key);
         String s        = "m+ " + message.cid + ';' + vKey + ';' + vMessage;
+        Utils.logDebug(s);
         send(s);
     }
 
