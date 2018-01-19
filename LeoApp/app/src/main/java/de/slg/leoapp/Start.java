@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 import de.slg.leoapp.service.AlarmStartupService;
 import de.slg.leoapp.service.ReceiveService;
-import de.slg.leoapp.task.DownloadFilesTask;
 import de.slg.leoapp.task.MailSendTask;
+import de.slg.leoapp.task.SyncFilesTask;
 import de.slg.leoapp.task.SyncGradeTask;
 import de.slg.leoapp.task.SyncQuestionTask;
 import de.slg.leoapp.task.SyncUserTask;
@@ -60,8 +60,8 @@ public class Start extends Activity {
                 new SyncUserTask().execute();
             }
 
-            if (!filesExist()) {
-                new DownloadFilesTask().execute();
+            if (Utils.isVerified()) {
+                new SyncFilesTask().execute();
             }
 
             if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
@@ -72,17 +72,6 @@ public class Start extends Activity {
                 new SyncQuestionTask().execute();
             }
         }
-    }
-
-    private boolean filesExist() {
-        boolean k = false, s = false;
-        for (String f : fileList()) {
-            if (f.equals("klausurplan.xml"))
-                k = true;
-            if (f.equals("stundenplan.txt"))
-                s = true;
-        }
-        return k && s;
     }
 
     private void startServices() {

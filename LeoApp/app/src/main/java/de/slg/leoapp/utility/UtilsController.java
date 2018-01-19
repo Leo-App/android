@@ -165,17 +165,6 @@ public class UtilsController {
     }
 
     /**
-     * Liefert die SQLite Datenbank des Stundenplans.
-     *
-     * @return Stundenplan-Datenbank
-     */
-    public SQLiteConnectorStundenplan getStundenplanDatabase() {
-        if (SQLiteConnectorStundenplan == null)
-            SQLiteConnectorStundenplan = new SQLiteConnectorStundenplan(getContext());
-        return SQLiteConnectorStundenplan;
-    }
-
-    /**
      * Liefert die aktive Activity zurück, null wenn keine aktiv ist.
      *
      * @return Aktive Activity
