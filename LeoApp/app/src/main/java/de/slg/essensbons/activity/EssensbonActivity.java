@@ -2,21 +2,19 @@ package de.slg.essensbons.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import de.slg.essensbons.activity.fragment.QRFragment;
 import de.slg.essensbons.activity.fragment.ScanFragment;
 import de.slg.essensbons.intro.EssensbonIntroActivity;
 import de.slg.essensbons.task.EssensbonLoginTask;
-import de.slg.essensbons.task.QRReadTask;
 import de.slg.essensbons.utility.Authenticator;
 import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
@@ -33,7 +31,6 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
     private FragmentPagerAdapter adapt;
 
     private boolean runningSync;
-    private IntentIntegrator integrator;
 
     static {
         mensaModeRunning = false;
@@ -78,7 +75,7 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
 
     @Override
     protected int getToolbarTextId() {
-        return R.string.toolbar_title;
+        return (int) R.id.foodmarks;
     }
 
     @Override
@@ -129,10 +126,6 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
         return runningSync;
     }
 
-    public IntentIntegrator getIntegrator() {
-        return integrator;
-    }
-
     public void stopRunningSync() {
         runningSync = false;
     }
@@ -141,31 +134,9 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
         runningSync = true;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
-            if(result.getContents() != null) {
-                QRReadTask task = new QRReadTask();
-                task.execute(result.getContents());
-                if (EssensbonUtils.isAutoFadeEnabled()) {
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            integrator.initiateScan();
-                        }
-                    }, EssensbonUtils.getFadeTime()*1000);
-                }
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
     public void scan() {
 
-        integrator = new IntentIntegrator(this);
+        IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
         integrator.setCameraId(EssensbonUtils.getPreferredCamera());
         integrator.setOrientationLocked(true);

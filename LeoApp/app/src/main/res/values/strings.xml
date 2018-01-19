@@ -2,11 +2,11 @@
 <resources>
 
     <string name="qr_intro_title1">QR - Foodmarks</string>
-    <string name="qr_intro_desc1">This feature simplifies the procedures during TODO</string>
+    <string name="qr_intro_desc1">This feature simplifies the issue of food during lunch.</string>
 
     <string name="qr_scan_title">Essensbon Scannen</string>
 
-    <string name="qr_intro_titleVerification">Log in</string>
+    <string name="qr_intro_titleVerification" translatable="false">Log in</string>
     <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
         lunch.leo-ac.de credentials.</string>
 
@@ -15,11 +15,11 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <string name="title_it_problem">Problemsolver</string>
+    <string name="title_it_problem">Problem Solver</string>
 
     <string name="nolessons">No lessons today :)</string>
 
-    <string name="dismiss" translatable="false">OK</string>
+    <string name="dismiss">Dismiss</string>
     <string name="confirm" translatable="false">OK</string>
     <string name="cancel">Cancel</string>
     <string name="error">Sorry, something went wrong</string>
@@ -64,18 +64,17 @@
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="action_load">Load exams</string>
-    <string name="action_delete_all">Delete downloaded</string>
+    <string name="action_delete_all">Delete downloaded exams</string>
     <string name="action_leave_chat">Leave chat</string>
     <string name="action_help">Help</string>
     <string name="action_request" translatable="false">Bugreport</string>
-
+    <string name="title">Title</string>
 
     <!-- Snackbar -->
     <string name="snackbar_ungültig">Subject or date are incorrect</string>
     <string name="snackbar_gelöscht">All Exams deleted</string>
     <string name="snackbar_undo">Undo</string>
     <string name="snackbar_no_connection_info">No internet connection</string>
-    <string name="snackbar_no_connection_button">Dismiss</string>
     <string name="settings_snackbar_username_taken">That username is already taken</string>
     <string name="snackbar_no_connection_info_check">No internet connection to check login data</string>
     <string name="snackbar_not_correct_info">Login data not correct</string>
@@ -115,7 +114,6 @@
 
     <string name="coming_soon" translatable="false">Coming soon!</string>
 
-    <string name="button_card_dismiss">Dismiss</string>
     <string name="add_card">Add card</string>
     <string name="button_add">Add</string>
     <string name="selector_card">Add card(s)</string>
@@ -150,7 +148,6 @@
 
     <!-- EssensQR -->
     <string name="toolbar_scan">Scan!</string>
-    <string name="toolbar_title">Essensbons</string>
     <string name="button_scan">Scan</string>
     <string name="button_confirm" translatable="false">OK</string>
     <string name="textview_placeholder" translatable="false">placeholder</string>
@@ -178,20 +175,20 @@
 
 
     <!-- Klausurplan -->
-    <string name="title_activity">Exam</string>
+    <string name="exam">Exam</string>
     <string name="klausuren_filename" translatable="false">klausuren.txt</string>
     <string name="subject">Subject</string>
     <string name="date">Date</string>
     <string name="date_format" translatable="false">DD.MM.YY</string>
-    <string name="note">Grade</string>
+    <string name="note">Mark</string>
     <string name="week">Week</string>
 
 
     <!-- Messenger -->
-    <string name="name_of_chat">Chatname</string>
+    <string name="name_of_chat" translatable="false">Chatname</string>
     <string name="title_new_groupchat">New group</string>
     <string name="serviceDescription">Receives messages while the app is closed</string>
-    <string name="need_internet">To do this, you need an internet connection</string>
+    <string name="need_internet">You need an internet connection to do this</string>
     <string name="queue">Queue</string>
     <string name="edit_chat">Change chatname</string>
     <string name="add_user">Add users</string>
@@ -206,7 +203,7 @@
 
 
     <!-- Schwarzes Brett -->
-    <string name="new_entry">New Entry</string>
+    <string name="new_entry">New entry</string>
     <string name="new_entry_title">Title</string>
     <string name="new_entry_content">Content</string>
     <string name="to">To</string>
@@ -290,16 +287,15 @@
     <string name="results">Results</string>
     <string name="send_survey">Send</string>
     <string name="statistics_result">%1$d/%2$d Stimmen (%3$s Prozent)</string>
-    <string name="survey">Umfrage: b</string>
-    <string name="survey_checkbox_answers">Mehrere Möglichkeiten auswählbar</string>
-    <string name="survey_deleted">Umfrage gelöscht</string>
-    <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
-    <string name="survey_description_content">Beschreibe dein Anliegen in einigen Worten.</string>
-    <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
+    <string name="survey">Survey:</string>
+    <string name="survey_checkbox_answers">Multiple options available</string>
+    <string name="survey_deleted">Survey deleted</string>
+    <string name="survey_description_content">Describe your survey in a few words.</string>
+    <string name="survey_description_title">Choose an informative title for your survey.</string>
     <string name="survey_new_answer">Answer</string>
     <string name="title_description_to">Who is the target audience for this survey?</string>
-    <string name="title_survey_answers">Antwortmöglichkeiten</string>
-    <string name="title_survey_content">Beschreibung (optional)</string>
+    <string name="title_survey_answers">Answer possibilities</string>
+    <string name="title_survey_content">Description (optional)</string>
     <string name="title_survey_title">Title</string>
     <string name="title_survey_to">Target audience</string>
     <string name="vote_button">Vote</string>
@@ -311,13 +307,13 @@
     <string name="settings_category_general">General</string>
 
     <string name="settings_title_username">Username</string>
-    <string name="settings_summary_username">Der Benutzername deines Schulaccounts</string>
+    <string name="settings_summary_username">The username of your school account</string>
 
     <string name="settings_title_nickname">Nickname</string>
-    <string name="settings_summary_nickname">Dieser Name wird deinen Mitschülern angezeigt</string>
+    <string name="settings_summary_nickname">This name will be shown to your classmates</string>
 
     <string name="settings_title_password">Password</string>
-    <string name="settings_summary_password">Gib hier dein Schulpasswort ein</string>
+    <string name="settings_summary_password">Please enter your school password</string>
 
     <string name="settings_title_level">Grade</string>
     <string name="settings_summary_level" translatable="false">N/A</string>
@@ -346,11 +342,11 @@
     <string name="settings_summary_mode">MensaMode&#8482; for canteen staff</string>
     <string name="settings_title_notification">Receive notifications</string>
     <string name="settings_summary_notification">Notify me on missing synchronisation</string>
-    <string name="settings_title_notification_time">Notification Time</string>
+    <string name="settings_title_notification_time">Notification time</string>
     <string name="settings_summary_notification_time">When should we remind you?</string>
 
     <string name="settings_summary_notification_test">Notify me on approaching exams</string>
-    <string name="settings_summary_notification_survey">Notify me if I haven\'nt voted yet</string>
+    <string name="settings_summary_notification_survey">Notify me if I haven\'t voted yet</string>
     <string name="settings_summary_notification_schedule">Notify me about my lessons tomorrow</string>
     <string name="settings_summary_notification_news">Notify me about new entries</string>
 
@@ -417,25 +413,25 @@
     <string name="klett">Climbing</string>
     <string name="rt">Horseback riding</string>
     <string name="verification_success">Verification succeeded</string>
-    <string name="ten">Tennis</string>
+    <string name="ten" translatable="false">Tennis</string>
     <string name="sani">Paramedic</string>
     <string name="kochen">Cooking</string>
     <string name="rob">Robotics</string>
-    <string name="aq">Aquarium</string>
-    <string name="band">Band</string>
+    <string name="aq" translatable="false">Aquarium</string>
+    <string name="band" translatable="false">Band</string>
     <string name="fb">Soccer</string>
     <string name="mint">STEM</string>
     <string name="näh">Sewing</string>
     <string name="desc_coming_soon">In the near future, new features will be added.</string>
     <string name="title_randstundenfinder">Randstundenfinder</string>
     <string name="add_teacher">Lehrerkürzel hinzufügen</string>
-    <string name="title_survey_news">Umfragen</string>
-    <string name="profil">Dein Profil</string>
-    <string name="sg">Sehr gut</string>
-    <string name="g">Gut</string>
+    <string name="title_survey_news">Surveys</string>
+    <string name="profil">Your Profile</string>
+    <string name="sg">Very good</string>
+    <string name="g">Good</string>
     <string name="m">Neutral</string>
-    <string name="s">Schlecht</string>
-    <string name="ss">Sehr schlecht</string>
+    <string name="s">Bad</string>
+    <string name="ss">Very bad</string>
     <string name="intro5">Hold feature buttons to get additional information.</string>
     <string name="intro4">Your timetable and your next exams are just two clicks away!</string>
     <string name="intro3">Contact your teachers or friends with the messenger</string>
@@ -446,5 +442,64 @@
     <string name="intro4_title">Everything in one app</string>
     <string name="intro5_title">Click!</string>
     <string name="createCourse">Create new Course</string>
+    <string name="so">Su</string>
+    <string name="sa">Sa</string>
+    <string name="search_user">Search user</string>
+    <string name="participants">Participants</string>
+    <string name="choose_subject">Choose your subject</string>
+    <string name="survey_description_answers">Add up to five answer possibilities</string>
+    <string name="running_survey">Running survey</string>
+    <string name="token">Token</string>
+    <string name="grade">grade</string>
+    <string name="me">me</string>
+    <string name="students">Students</string>
+    <string name="all">All</string>
+    <string name="not_show_again">Do not show again</string>
+    <string name="skip">Skip</string>
+    <string name="leave_chat_question">Bist du sicher, dass du diesen Chat verlassen möchtest?</string>
+    <string name="beamer" translatable="false">Beamer</string>
+    <string name="search_term">Search term</string>
+    <string name="first">Als oberstes</string>
+    <string name="user">Benutzer</string>
+    <string name="sort">Sortieren</string>
+    <string name="version_code" translatable="false">Version: %1$s (%2$s )</string>
+
+    <string name="saved_as">Saved as</string>
+    <string name="open">Open</string>
+    <string name="course" translatable="false">Fächer</string>
+    <string name="how_are_you">How are you?</string>
+    <string name="network">Network</string>
+    <string name="computer">Computer</string>
+    <string name="error_later">s</string>
+    <string name="voted_sucessfully">Voted sucessfully</string>
+    <string name="chats">Chats</string>
+    <string name="users">Users</string>
+
+    <string name="weather">Weather</string>
+    <string name="last_week">Last week</string>
+    <string name="last_month">Last month</string>
+    <string name="total">Total</string>
+    <string name="last_year">Last year</string>
+    <string name="change_question">Change question</string>
+    <string name="new_question">New question</string>
+    <string name="new_survey">New survey</string>
+    <string name="vote_survey">Participate in the latest survey</string>
+    <string name="not_voted">You did not voted yet</string>
+    <string name="vote_now">Vote now</string>
+    <string name="lessons_tommorrow">Your lessons tommorrow</string>
+    <string name="new_entries">New entry</string>
+    <string name="news_pin_board">New entries on the pin board</string>
+    <string name="need_title">Please specify a title</string>
+    <string name="min_replies">You need at least one answer possibility</string>
+    <string name="survey_sucessfully">Survey successfully created</string>
+    <string name="data_differs">Login not successful</string>
+    <string name="not_in_chat">You are not a member of this chat!</string>
+    <string name="one_course_sel">One course selected</string>
+    <string name="multiple_course_selected">%1$d courses selected</string>
+    <string name="no_solutions">No solutions available</string>
+    <string name="customer_number">Customer ID not in the right format</string>
+    <string name="friends">Friends</string>
+    <string name="particular_occasion">Particular occasion</string>
+    <string name="other">Other</string>
 
 </resources>

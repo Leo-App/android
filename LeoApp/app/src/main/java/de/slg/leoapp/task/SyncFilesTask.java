@@ -33,7 +33,8 @@ public class SyncFilesTask extends AsyncTask<Void, Void, Void> {
                     new OutputStreamWriter(
                             Utils.getContext()
                                     .openFileOutput(
-                                            "klausurplan.xml", Context.MODE_PRIVATE
+                                            "klausurplan.xml",
+                                            Context.MODE_PRIVATE
                                     )
                     )
             );

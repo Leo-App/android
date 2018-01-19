@@ -48,11 +48,11 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
         if (!de.slg.klausurplan.utility.Utils.databaseExists(getApplicationContext())) {
             database = new SQLiteConnectorKlausurplan(getApplicationContext());
+            databaseStundenplan = new SQLiteConnectorStundenplan(getApplicationContext());
             new Importer().execute();
         } else {
             database = new SQLiteConnectorKlausurplan(getApplicationContext());
         }
-        databaseStundenplan = new SQLiteConnectorStundenplan(getApplicationContext());
 
         initListView();
         initAddButton();

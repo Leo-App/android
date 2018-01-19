@@ -172,13 +172,13 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
         cardAlles.setCardElevation(GraphicUtils.dpToPx(4));
 
         final TextView titleWoche = cardWoche.findViewById(R.id.textView);
-        titleWoche.setText("Letzte Woche");
+        titleWoche.setText(R.string.last_week);
         final TextView titleMonat = cardMonat.findViewById(R.id.textView);
-        titleMonat.setText("Letzter Monat");
+        titleMonat.setText(R.string.last_month);
         final TextView titleJahr = cardJahr.findViewById(R.id.textView);
-        titleJahr.setText("Letztes Jahr");
+        titleJahr.setText(R.string.last_year);
         final TextView titleAlles = cardAlles.findViewById(R.id.textView);
-        titleAlles.setText("Gesamt");
+        titleAlles.setText(R.string.total);
 
         final ViewGroup layoutWoche = cardWoche.findViewById(R.id.layout);
         layoutWoche.addView(viewWoche);
@@ -223,8 +223,8 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
                 public void onClick(View v) {
                     dialog = new EditTextDialog(
                             StimmungsbarometerActivity.this,
-                            "Frage ändern",
-                            "Neue Frage",
+                            getString(R.string.change_question),
+                            getString(R.string.new_question),
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

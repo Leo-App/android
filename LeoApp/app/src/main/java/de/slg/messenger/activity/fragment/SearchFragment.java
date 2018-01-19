@@ -130,19 +130,19 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (chatsFirst) {
-                    first.setText("Benutzer");
+                    first.setText(getString(R.string.user));
                     chatsFirst = false;
                 } else {
-                    first.setText("Chats");
+                    first.setText(getString(R.string.chats));
                     chatsFirst = true;
                 }
                 refreshUI();
             }
         });
         if (!chatsFirst) {
-            first.setText("Benutzer");
+            first.setText(R.string.users);
         } else {
-            first.setText("Chats");
+            first.setText(R.string.chats);
         }
         final Button sortName = view.findViewById(R.id.buttonName);
         sortName.setOnClickListener(new View.OnClickListener() {
@@ -150,18 +150,18 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 if (name.equals(USER_DEFAULTNAME)) {
                     name = USER_NAME;
-                    sortName.setText("Nickname");
+                    sortName.setText(getString(R.string.settings_title_nickname));
                 } else {
                     name = USER_DEFAULTNAME;
-                    sortName.setText("Standardname");
+                    sortName.setText(getString(R.string.settings_title_username));
                 }
                 refreshUI();
             }
         });
         if (!name.equals(USER_DEFAULTNAME)) {
-            sortName.setText("Nickname");
+            sortName.setText(getString(R.string.settings_title_nickname));
         } else {
-            sortName.setText("Standardname");
+            sortName.setText(getString(R.string.settings_title_username));
         }
         final ImageButton nameUpDown = view.findViewById(R.id.buttonNameUpDown);
         nameUpDown.setOnClickListener(new View.OnClickListener() {

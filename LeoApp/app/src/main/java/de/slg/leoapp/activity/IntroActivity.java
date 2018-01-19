@@ -15,8 +15,11 @@ import de.slg.leoapp.activity.fragment.AbstractOrderedFragment;
 import de.slg.leoapp.activity.fragment.InfoFragmentBuilder;
 import de.slg.leoapp.activity.fragment.VerificationFragment;
 import de.slg.leoapp.task.RegistrationTask;
+import de.slg.leoapp.task.SyncFilesTask;
 import de.slg.leoapp.task.SyncGradeTask;
+import de.slg.leoapp.task.SyncQuestionTask;
 import de.slg.leoapp.task.SyncUserTask;
+import de.slg.leoapp.task.SyncVoteTask;
 import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.utility.User;
@@ -110,14 +113,12 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                             .setColor(R.color.colorSatisfied)
                             .build()
             );
-
         }
 
         showStatusBar(false);
         showSkipButton(false);
         setProgressButtonEnabled(true);
         setDepthAnimation();
-
     }
 
     @Override
@@ -181,7 +182,6 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 }
             });
         }
-
     }
 
     @Override
@@ -190,7 +190,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
             case NO_CONNECTION:
             case AUTH_FAILED:
             case SERVER_FAILED:
-                GraphicUtils.sendToast("Etwas ist schiefgelaufen, versuche es später nochmal");
+                GraphicUtils.sendToast(getString(R.string.error_later));
                 running = false;
                 break;
             case SUCCESS:
@@ -212,12 +212,12 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 break;
             case AUTH_FAILED:
-                GraphicUtils.sendToast("Daten stimmen nicht überein");
+                GraphicUtils.sendToast(getString(R.string.data_differs));
                 fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
                 break;
             case SERVER_FAILED:
-                GraphicUtils.sendToast("Etwas ist schiefgelaufen, versuche es später nochmal");
+                GraphicUtils.sendToast(getString(R.string.error_later));
                 fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
 
@@ -234,6 +234,10 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 }
                 new SyncGradeTask().execute();
                 new SyncUserTask(fragment).registerListener(this).execute();
+                new SyncVoteTask().execute();
+                new SyncFilesTask().execute();
+                new SyncQuestionTask().execute();
+
                 break;
         }
     }
@@ -266,7 +270,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
         String userPassword = password.getText().toString();
 
         if (userName.length() == 0 || userPassword.length() == 0) {
-            GraphicUtils.sendToast("Daten stimmen nicht überein");
+            GraphicUtils.sendToast(R.string.data_differs);
             running = false;
             return;
         }

@@ -115,8 +115,8 @@ public class StundenplanBildActivity extends ActionLogActivity {
                 FileOutputStream outputStream = new FileOutputStream(image);
                 outputStream.write(bytes.toByteArray());
                 outputStream.close();
-                final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), "Saved as " + getFilename(), Snackbar.LENGTH_LONG);
-                snackbar.setAction("Open", new View.OnClickListener() {
+                final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), getString(R.string.saved_as) + getFilename(), Snackbar.LENGTH_LONG);
+                snackbar.setAction(R.string.open, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         snackbar.dismiss();

@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:text="@string/title_activity"
+        android:text="@string/exam"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <TextView

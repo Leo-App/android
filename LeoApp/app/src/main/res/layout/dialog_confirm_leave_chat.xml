@@ -26,7 +26,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
-        android:text="Bist du sicher, dass du diesen Chat verlassen möchtest?"
+        android:text="@string/leave_chat_question"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="15sp" />
 

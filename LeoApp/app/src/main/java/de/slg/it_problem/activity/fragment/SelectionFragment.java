@@ -93,7 +93,7 @@ public class SelectionFragment extends Fragment implements TaskStatusListener {
             reference.setSubject(subject);
 
             if (!reference.getCurrentSession().isAvailable()) {
-                GraphicUtils.sendToast("Keine Lösungen verfügbar");
+                GraphicUtils.sendToast(R.string.no_solutions);
                 return;
             }
 

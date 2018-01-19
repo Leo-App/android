@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.view.View;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -16,6 +17,10 @@ import de.slg.leoapp.utility.Utils;
 public class Importer extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
+        File file = new File(Utils.getContext().getFilesDir(), "stundenplan.txt");
+        if (file.exists()) {
+            new SyncFilesTask().execute();
+        }
         Utils.getController().getActiveActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
     }
 
@@ -40,6 +45,7 @@ public class Importer extends AsyncTask<Void, Void, Void> {
 
             String letzterKurs   = "";
             String letzterLehrer = "";
+            String letzteStufe   = "";
             long   letzteID      = -1;
 
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
@@ -53,7 +59,7 @@ public class Importer extends AsyncTask<Void, Void, Void> {
                 String stunde = fach[5];
 
                 if (stufe.replace("0", "").startsWith(Utils.getUserStufe()) || Utils.getUserPermission() == User.PERMISSION_LEHRER) {
-                    if (!letzterKurs.equals(kurs) || !letzterLehrer.equals(lehrer)) {
+                    if (!letzterKurs.equals(kurs) || !letzterLehrer.equals(lehrer) || !letzteStufe.equals(stufe)) {
                         letzteID = database.insertFach(
                                 kurs,
                                 lehrer,
@@ -61,6 +67,7 @@ public class Importer extends AsyncTask<Void, Void, Void> {
                         );
                         letzterKurs = kurs;
                         letzterLehrer = lehrer;
+                        letzteStufe = stufe;
 
                         if (Utils.getUserPermission() == User.PERMISSION_LEHRER && Utils.getLehrerKuerzel().toUpperCase().equals(lehrer.toUpperCase())) {
                             database.waehleFach(letzteID);
