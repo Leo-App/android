@@ -2,6 +2,7 @@ package de.slg.essensbons.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -32,6 +33,7 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
     private FragmentPagerAdapter adapt;
 
     private boolean runningSync;
+    private IntentIntegrator integrator;
 
     static {
         mensaModeRunning = false;
@@ -127,6 +129,10 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
         return runningSync;
     }
 
+    public IntentIntegrator getIntegrator() {
+        return integrator;
+    }
+
     public void stopRunningSync() {
         runningSync = false;
     }
@@ -142,6 +148,15 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
             if(result.getContents() != null) {
                 QRReadTask task = new QRReadTask();
                 task.execute(result.getContents());
+                if (EssensbonUtils.isAutoFadeEnabled()) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            integrator.initiateScan();
+                        }
+                    }, EssensbonUtils.getFadeTime()*1000);
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -150,10 +165,11 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
 
     public void scan() {
 
-        IntentIntegrator integrator = new IntentIntegrator(this);
-//        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+        integrator = new IntentIntegrator(this);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
         integrator.setCameraId(EssensbonUtils.getPreferredCamera());
         integrator.setOrientationLocked(true);
+        integrator.setBeepEnabled(false);
         integrator.setCaptureActivity(ScanActivity.class);
         integrator.setPrompt("");
         integrator.initiateScan();

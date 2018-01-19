@@ -24,7 +24,7 @@ import de.slg.leoapp.notification.NotificationType;
  * @since 0.0.1
  */
 @SuppressLint("StaticFieldLeak")
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings("all")
 public abstract class Utils {
 
     /**

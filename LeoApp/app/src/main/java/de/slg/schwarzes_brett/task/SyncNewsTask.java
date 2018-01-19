@@ -36,7 +36,7 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         if (Utils.checkNetwork()) {
             try {
-                URLConnection connection = new URL(Utils.DOMAIN_DEV + "schwarzesBrett/meldungen.php")
+                URLConnection connection = new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
                         .openConnection();
 
                 BufferedReader reader =
