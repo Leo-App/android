@@ -40,7 +40,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/actionBarNavDrawer1"
             android:layout_marginTop="12dp"
-            android:text="Wählen Sie ihr Fach aus"
+            android:text="@string/choose_subject"
             android:textColor="#000000"
             android:textSize="18sp" />
 

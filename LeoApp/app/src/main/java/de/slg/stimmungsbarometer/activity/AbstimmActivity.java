@@ -21,7 +21,7 @@ import de.slg.stimmungsbarometer.task.SendeDaten;
 import de.slg.stimmungsbarometer.utility.Wahl;
 
 public class AbstimmActivity extends ActionLogActivity {
-    private final String[] gruende           = {"Wetter", "Fächer", "Lehrer", "Freunde/Bekannte", "Arbeiten/Klausuren", "besonderer Anlass", "Sonstiges"};
+    private final String[] gruende           = {getString(R.string.weather), getString(R.string.course), getString(R.string.lehrer), getString(R.string.friends), getString(R.string.exam), getString(R.string.particular_occasion), getString(R.string.other)};
     private final int      userid            = Utils.getUserID();
     private       int      voteid            = 0;
     private       String   ausgewählterGrund = "";
@@ -45,7 +45,7 @@ public class AbstimmActivity extends ActionLogActivity {
             Utils.getController().getMainActivity().abstimmDialog.dismiss();
 
         TextView textView = findViewById(R.id.textView);
-        textView.setText(Utils.getController().getPreferences().getString("stimmungsbarometer_frage", "Wie geht es dir?"));
+        textView.setText(Utils.getController().getPreferences().getString("stimmungsbarometer_frage", getString(R.string.how_are_you)));
 
         initListView();
         initSmileys();

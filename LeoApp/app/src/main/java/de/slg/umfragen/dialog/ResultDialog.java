@@ -222,7 +222,7 @@ public class ResultDialog extends AlertDialog {
                     findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
                     final Snackbar snack = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
                     snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                    snack.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                    snack.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             snack.dismiss();
@@ -232,9 +232,9 @@ public class ResultDialog extends AlertDialog {
                     break;
                 case SERVER_ERROR:
                     findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
-                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), "Es ist etwas schiefgelaufen, versuche es später erneut", Snackbar.LENGTH_SHORT);
+                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), Utils.getString(R.string.error_later), Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                    snackbar.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                    snackbar.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             snackbar.dismiss();

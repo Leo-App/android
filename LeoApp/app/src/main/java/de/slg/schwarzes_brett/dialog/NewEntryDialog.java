@@ -219,7 +219,7 @@ public class NewEntryDialog extends AlertDialog {
             } else {
                 final Snackbar snack = Snackbar.make(findViewById(R.id.dialog_entry), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
                 snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                snack.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                snack.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         snack.dismiss();

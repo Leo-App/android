@@ -75,7 +75,7 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
 
     @Override
     protected int getToolbarTextId() {
-        return R.string.toolbar_title;
+        return (int) R.id.foodmarks;
     }
 
     @Override

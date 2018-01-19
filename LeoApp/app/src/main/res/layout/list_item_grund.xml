@@ -14,7 +14,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="8dp"
-        android:text="TextView"
+        android:text=""
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
