@@ -98,7 +98,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
@@ -113,7 +113,7 @@
                             android:layout_height="wrap_content"
                             android:text="Nachricht"
                             android:textColor="@color/colorText"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"/>
 
                     </LinearLayout>
 
@@ -133,7 +133,7 @@
                             android:lines="1"
                             android:text="HH:MM:SS"
                             android:textColor="@color/colorText"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"/>
 
                     </LinearLayout>
 
@@ -146,7 +146,7 @@
                 style="?android:attr/progressBarStyle"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="bottom|end"
                 android:layout_marginLeft="5dp"
                 android:theme="@style/ProgressBar"
                 android:visibility="visible" />

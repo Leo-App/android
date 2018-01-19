@@ -61,6 +61,7 @@ public class ReceiveService extends Service {
 
         Request request = new Request.Builder()
                 .url(Utils.URL_TOMCAT)
+//                .url(Utils.URL_TOMCAT_DEV)
                 .build();
 
         SocketListener listener = new SocketListener(this, messageHandler);
@@ -78,7 +79,6 @@ public class ReceiveService extends Service {
 
     private void send(String s) {
         startSocketIfNotRunning();
-        Utils.logDebug(s);
         socket.send(s);
     }
 
@@ -93,6 +93,10 @@ public class ReceiveService extends Service {
         String vMessage = de.slg.messenger.utility.Encryption.encrypt(message.mtext, key);
         String vKey     = de.slg.messenger.utility.Encryption.encryptKey(key);
         String s        = "m+ " + message.cid + ';' + vKey + ';' + vMessage;
+        for (char c : message.mtext.toCharArray()) {
+            Utils.logDebug(c);
+            Utils.logDebug((int) c);
+        }
         Utils.logDebug(s);
         send(s);
     }
