@@ -89,14 +89,16 @@ public class ProfileActivity extends LeoAppFeatureActivity {
     }
 
     public void initProfil() {
-        TextView nameProfil        = findViewById(R.id.nameProfil);
-        TextView defaultNameProfil = findViewById(R.id.defaultName);
-        TextView stufeProfil       = findViewById(R.id.stufeProfil);
-        TextView survey            = findViewById(R.id.surveyActual);
+        TextView       nameProfil        = findViewById(R.id.nameProfil);
+        TextView       defaultNameProfil = findViewById(R.id.defaultName);
+        TextView       stufeProfil       = findViewById(R.id.stufeProfil);
+        TextView       survey            = findViewById(R.id.surveyActual);
+        final TextView kuerzel           = findViewById(R.id.teaProfil);
 
         nameProfil.setText(Utils.getUserName());
         defaultNameProfil.setText(Utils.getUserDefaultName());
         stufeProfil.setText(Utils.getUserStufe());
+        kuerzel.setText(Utils.getLehrerKuerzel());
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
             stufeProfil.setText("-");
             findViewById(R.id.card_viewTEA).setVisibility(View.VISIBLE);
@@ -115,6 +117,7 @@ public class ProfileActivity extends LeoAppFeatureActivity {
                                                     .apply();
                                             initProfil();
                                             initNavigationDrawer();
+                                            kuerzel.setText(Utils.getLehrerKuerzel());
                                             dialog.dismiss();
                                         }
                                     });
@@ -156,7 +159,7 @@ public class ProfileActivity extends LeoAppFeatureActivity {
         });
 
         String surveyTitle = getCurrentSurvey();
-        if(surveyTitle == null) {
+        if (surveyTitle == null) {
             findViewById(R.id.toSurvey).setVisibility(View.GONE);
             surveyTitle = "-";
         }
@@ -171,7 +174,6 @@ public class ProfileActivity extends LeoAppFeatureActivity {
                 finish();
             }
         });
-
     }
 
     private void setProfilePicture() {
@@ -210,7 +212,6 @@ public class ProfileActivity extends LeoAppFeatureActivity {
         c.moveToFirst();
         String returnS = c.getCount() == 0 ? null : c.getString(0);
 
-
         c.close();
         db.close();
         dbh.close();
@@ -221,5 +222,4 @@ public class ProfileActivity extends LeoAppFeatureActivity {
     public View getCoordinatorLayout() {
         return findViewById(R.id.coordinator);
     }
-
 }
