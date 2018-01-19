@@ -204,15 +204,15 @@ public class SurveyActivity extends LeoAppFeatureActivity {
         switch (stufe) {
             case "":
             case "TEA":
-                cursor = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_SURVEYS, new String[]{SQLiteConnectorUmfragen.SURVEYS_ADRESSAT, SQLiteConnectorUmfragen.SURVEYS_TITEL, SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG, SQLiteConnectorUmfragen.SURVEYS_ABSENDER, SQLiteConnectorUmfragen.SURVEYS_MULTIPLE, SQLiteConnectorUmfragen.SURVEYS_ID, SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID}, null, null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_SURVEYS, new String[]{SQLiteConnectorUmfragen.SURVEYS_ADRESSAT, SQLiteConnectorUmfragen.SURVEYS_TITEL, SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG, SQLiteConnectorUmfragen.SURVEYS_ABSENDER, SQLiteConnectorUmfragen.SURVEYS_MULTIPLE, SQLiteConnectorUmfragen.SURVEYS_ID, SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID, SQLiteConnectorUmfragen.SURVEYS_VOTEABLE}, null, null, null, null, null);
                 break;
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_SURVEYS, new String[]{SQLiteConnectorUmfragen.SURVEYS_ADRESSAT, SQLiteConnectorUmfragen.SURVEYS_TITEL, SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG, SQLiteConnectorUmfragen.SURVEYS_ABSENDER, SQLiteConnectorUmfragen.SURVEYS_MULTIPLE, SQLiteConnectorUmfragen.SURVEYS_ID, SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID}, SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_SURVEYS, new String[]{SQLiteConnectorUmfragen.SURVEYS_ADRESSAT, SQLiteConnectorUmfragen.SURVEYS_TITEL, SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG, SQLiteConnectorUmfragen.SURVEYS_ABSENDER, SQLiteConnectorUmfragen.SURVEYS_MULTIPLE, SQLiteConnectorUmfragen.SURVEYS_ID, SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID, SQLiteConnectorUmfragen.SURVEYS_VOTEABLE}, SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
                 break;
             default:
-                cursor = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_SURVEYS, new String[]{SQLiteConnectorUmfragen.SURVEYS_ADRESSAT, SQLiteConnectorUmfragen.SURVEYS_TITEL, SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG, SQLiteConnectorUmfragen.SURVEYS_ABSENDER, SQLiteConnectorUmfragen.SURVEYS_MULTIPLE, SQLiteConnectorUmfragen.SURVEYS_ID, SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID}, SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
+                cursor = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_SURVEYS, new String[]{SQLiteConnectorUmfragen.SURVEYS_ADRESSAT, SQLiteConnectorUmfragen.SURVEYS_TITEL, SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG, SQLiteConnectorUmfragen.SURVEYS_ABSENDER, SQLiteConnectorUmfragen.SURVEYS_MULTIPLE, SQLiteConnectorUmfragen.SURVEYS_ID, SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID, SQLiteConnectorUmfragen.SURVEYS_VOTEABLE}, SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
                 break;
         }
 
@@ -231,7 +231,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
 
             cursorAnswers.close();
 
-            Survey s = new Survey(cursor.getInt(5), cursor.getInt(6), cursor.getString(1), cursor.getString(2), cursor.getInt(4) != 0, voted, cursor.getString(0), answers);
+            Survey s = new Survey(cursor.getInt(5), cursor.getInt(6), cursor.getString(1), cursor.getString(2), cursor.getInt(4) != 0, voted || cursor.getInt(7) == 0, cursor.getString(0), answers);
             entriesMap.put(cursor.getInt(6), s);
         }
 
@@ -482,7 +482,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL(Utils.BASE_URL_PHP + "ic_create_survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
+                    URL updateURL = new URL(Utils.DOMAIN_DEV + "survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
@@ -572,7 +572,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/deleteSurvey.php?survey=" + params[0]);
+                    URL updateURL = new URL(Utils.DOMAIN_DEV + "survey/deleteSurvey.php?ic_create_survey=" + params[0]);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));

@@ -33,10 +33,6 @@ import de.slg.umfragen.dialog.ResultDialog;
 
 import static android.view.View.GONE;
 
-/**
- * Created by Luzia on 19.01.2018.
- */
-
 public class SaveResultsTask extends AsyncTask<Void, Void, ResponseCode> {
 
         private int                            amountAnswers;
