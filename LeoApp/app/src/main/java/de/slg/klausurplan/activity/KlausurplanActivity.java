@@ -235,6 +235,8 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
         private Importer() {
             this.schriflich = databaseStundenplan.gibSchriftlicheFaecherStrings();
+            for (String s : schriflich)
+                Utils.logDebug(s);
         }
 
         @Override

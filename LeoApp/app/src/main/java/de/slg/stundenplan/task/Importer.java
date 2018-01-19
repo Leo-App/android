@@ -64,6 +64,7 @@ public class Importer extends AsyncTask<Void, Void, Void> {
 
                         if (Utils.getUserPermission() == User.PERMISSION_LEHRER && Utils.getLehrerKuerzel().toUpperCase().equals(lehrer.toUpperCase())) {
                             database.waehleFach(letzteID);
+                            database.setzeSchriftlich(true, letzteID);
                         }
                     }
 

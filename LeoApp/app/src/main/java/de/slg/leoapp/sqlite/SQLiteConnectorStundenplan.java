@@ -116,7 +116,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     public void waehleFach(long fid) {
         ContentValues values = new ContentValues();
         values.put(FACH_ID, fid);
-        values.put(GEWAEHLT_SCHRIFTLICH, Utils.getUserPermission() == User.PERMISSION_LEHRER);
+        values.put(GEWAEHLT_SCHRIFTLICH, false);
         database.insert(TABLE_GEWAEHLT, null, values);
     }
 
@@ -603,6 +603,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         if (cursor.getCount() > 0) {
             faecher = new String[cursor.getCount()];
             String stufe = Utils.getUserStufe();
+            Utils.logDebug(stufe);
             cursor.moveToFirst();
             for (int i = 0; !cursor.isAfterLast(); cursor.moveToNext(), i++) {
                 String kuerzel = cursor.getString(0);
@@ -614,7 +615,9 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
                 if (teil2.charAt(0) == 'L')
                     teil2 = "L";
                 kuerzel = teil1 + teil2;
-                kuerzel = kuerzel + " " + lehrer + " " + stufe;
+                kuerzel = kuerzel + " " + lehrer;
+                if (Utils.getUserPermission() != User.PERMISSION_LEHRER)
+                    kuerzel += " " + stufe;
                 faecher[i] = kuerzel;
             }
         }
