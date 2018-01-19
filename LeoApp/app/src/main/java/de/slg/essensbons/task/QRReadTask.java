@@ -83,8 +83,6 @@ public class QRReadTask extends AsyncTask<String, Void, Boolean> {
 
     }
 
-
-    @SuppressLint("DefaultLocale")
     private boolean checkValid(String s) {
         String[] parts = s.split("-");
 

@@ -40,6 +40,7 @@ public class Importer extends AsyncTask<Void, Void, Void> {
 
             String letzterKurs   = "";
             String letzterLehrer = "";
+            String letzteStufe   = "";
             long   letzteID      = -1;
 
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
@@ -53,7 +54,7 @@ public class Importer extends AsyncTask<Void, Void, Void> {
                 String stunde = fach[5];
 
                 if (stufe.replace("0", "").startsWith(Utils.getUserStufe()) || Utils.getUserPermission() == User.PERMISSION_LEHRER) {
-                    if (!letzterKurs.equals(kurs) || !letzterLehrer.equals(lehrer)) {
+                    if (!letzterKurs.equals(kurs) || !letzterLehrer.equals(lehrer) || !letzteStufe.equals(stufe)) {
                         letzteID = database.insertFach(
                                 kurs,
                                 lehrer,
@@ -61,6 +62,7 @@ public class Importer extends AsyncTask<Void, Void, Void> {
                         );
                         letzterKurs = kurs;
                         letzterLehrer = lehrer;
+                        letzteStufe = stufe;
 
                         if (Utils.getUserPermission() == User.PERMISSION_LEHRER && Utils.getLehrerKuerzel().toUpperCase().equals(lehrer.toUpperCase())) {
                             database.waehleFach(letzteID);
