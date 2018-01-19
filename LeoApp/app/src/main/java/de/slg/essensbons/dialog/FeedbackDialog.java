@@ -1,10 +1,10 @@
 package de.slg.essensbons.dialog;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
@@ -31,14 +31,12 @@ public class FeedbackDialog extends AlertDialog {
         } else {
             setContentView(R.layout.dialog_invalid);
         }
-
-        setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                Utils.getController().getEssensbonActivity().getIntegrator().initiateScan();
-            }
-        });
-
     }
 
+    @Override
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
+        dismiss();
+
+        return super.onTouchEvent(event);
+    }
 }

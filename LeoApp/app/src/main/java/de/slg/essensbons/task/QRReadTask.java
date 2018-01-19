@@ -2,33 +2,36 @@ package de.slg.essensbons.task;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Vibrator;
-import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
-import de.slg.essensbons.activity.EssensbonActivity;
-import de.slg.essensbons.dialog.FeedbackDialog;
-import de.slg.essensbons.utility.EssensbonUtils;
-import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.datastructure.List;
 
-public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
-
+public class QRReadTask extends AsyncTask<String, Void, Boolean> {
     private int orderedMenu;
     private SQLiteDatabase dbh;
+
+    private final List<TaskStatusListener> listeners;
+
+
+    public final AsyncTask<String, Void, Boolean> addListener(TaskStatusListener listener) {
+        listeners.append(listener);
+        return this;
+    }
+
+    protected final List<TaskStatusListener> getListeners() {
+        return listeners;
+    }
 
     public QRReadTask() {
         SQLiteConnectorEssensbons db = new SQLiteConnectorEssensbons(Utils.getContext());
         dbh = db.getWritableDatabase();
+
+        listeners = new List<>();
     }
 
     @Override
@@ -36,18 +39,20 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
 
         if (checkValid(params[0])) {
 
-            String[] parts = params[0].split("-");
-            String   day   = parts[2].substring(0, 2);
-            String   month = parts[2].substring(2, 4);
-            String   year  = parts[2].substring(4, 7);
+            Utils.logDebug(params[0]);
 
-            orderedMenu = Integer.parseInt(String.valueOf(params[0].charAt(7)));
+            String[] parts = params[0].split("-");
+            String day = parts[2].substring(0, 2);
+            String month = parts[2].substring(2, 4);
+            String year = parts[2].substring(4, 7);
+
+            orderedMenu = Integer.parseInt(String.valueOf(params[0].charAt(8)));
 
             String[] projection = {
                     SQLiteConnectorEssensbons.SCAN_DATE,
             };
 
-            String   selection     = SQLiteConnectorEssensbons.SCAN_DATE + " = ? AND " + SQLiteConnectorEssensbons.SCAN_CUSTOMERID + " = ?";
+            String selection = SQLiteConnectorEssensbons.SCAN_DATE + " = ? AND " + SQLiteConnectorEssensbons.SCAN_CUSTOMERID + " = ?";
             String[] selectionArgs = {"2" + year + "-" + month + "-" + day, parts[0]};
 
             Cursor cursor = dbh.query(
@@ -98,7 +103,7 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
         Utils.logDebug("passed date size test");
 
         try {
-            int day   = Integer.parseInt(parts[2].substring(0, 2));
+            int day = Integer.parseInt(parts[2].substring(0, 2));
             int month = Integer.parseInt(parts[2].substring(2, 4));
             if (day > 31 || day < 1)
                 return false;
@@ -117,7 +122,7 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
             int checksum = Integer.parseInt(subsum) + orderId;
 
             int mod = checksum % 97;
-            int fin = 98-mod;
+            int fin = 98 - mod;
 
             if (!String.format("%02d", fin).equals(parts[3]))
                 return false;
@@ -133,30 +138,10 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
     @SuppressLint({"SetTextI18n", "InflateParams"})
     @Override
     protected void onPostExecute(Boolean result) {
-
         dbh.close();
 
-        long[] interval = result ? new long[]{0, 200, 100, 200} : new long[]{0, 1000, 500, 1000};
-
-        final AlertDialog dialog = new FeedbackDialog(Utils.getController().getEssensbonActivity(), result, orderedMenu);
-
-        Vibrator vb = (Vibrator) Utils.getContext().getSystemService(Context.VIBRATOR_SERVICE);
-        vb.vibrate(interval, -1);
-
-        if (EssensbonUtils.isAutoFadeEnabled()) {
-
-            int duration = EssensbonUtils.getFadeTime();
-
-            final Handler handler  = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    dialog.dismiss();
-                }
-            }, duration * 1000);
-
+        for (TaskStatusListener listener : getListeners()) {
+            listener.taskFinished(result, orderedMenu);
         }
-
-        dialog.show();
     }
 }
