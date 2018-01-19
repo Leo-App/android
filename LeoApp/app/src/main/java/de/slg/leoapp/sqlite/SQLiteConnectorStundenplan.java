@@ -50,6 +50,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
                 FACH_NAME + " TEXT NOT NULL, " +
                 FACH_LEHRER + " TEXT NOT NULL, " +
                 FACH_KLASSE + " TEXT NOT NULL)");
+
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_STUNDEN + " (" +
                 FACH_ID + " INTEGER NOT NULL, " +
                 STUNDEN_TAG + " INTEGER NOT NULL, " +
@@ -60,6 +61,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
                 " (" + FACH_ID +
                 ", " + STUNDEN_TAG +
                 ", " + STUNDEN_STUNDE + "))");
+
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_GEWAEHLT + " (" +
                 FACH_ID + " INTEGER PRIMARY KEY, " +
                 GEWAEHLT_SCHRIFTLICH + " INTEGER NOT NULL)");

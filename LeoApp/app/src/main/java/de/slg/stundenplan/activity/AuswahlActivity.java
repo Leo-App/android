@@ -79,9 +79,9 @@ public class AuswahlActivity extends ActionLogActivity {
     public void finish() {
         super.finish();
         Utils.getController().registerAuswahlActivity(null);
-        database.close();
         if (database.hatGewaehlt())
             Utils.getController().getStundenplanActivity().finish();
+        database.close();
     }
 
     private void initToolbar() {
