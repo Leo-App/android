@@ -155,9 +155,9 @@ public class AuswahlActivity extends ActionLogActivity {
             item.setEnabled(true);
         }
         if (anzahl == 1)
-            getSupportActionBar().setTitle("1 Kurs ausgewählt");
+            getSupportActionBar().setTitle(R.string.one_course_sel);
         else
-            getSupportActionBar().setTitle(anzahl + " Kurse ausgewählt");
+            getSupportActionBar().setTitle(getString(R.string.multiple_course_selected ,anzahl));
     }
 
     public void initDB() {

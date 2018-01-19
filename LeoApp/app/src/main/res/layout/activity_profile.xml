@@ -75,7 +75,7 @@
                             android:layout_marginBottom="10dp"
                             android:textSize="13sp"
                             android:layout_alignParentTop="true"
-                            android:text="Nickname"
+                            android:text="@string/settings_title_nickname"
                             android:textColor="@color/colorPrimary" />
 
                         <ImageView
@@ -99,7 +99,7 @@
                             android:layout_marginStart="20dp"
                             android:layout_toLeftOf="@id/editProfil"
                             android:layout_toStartOf="@id/editProfil"
-                            android:text="An anticlimatic bass drop"
+                            android:text=""
                             android:textColor="@android:color/black"
                             android:textSize="20sp" />
 
@@ -131,7 +131,7 @@
                             android:layout_marginBottom="5dp"
                             android:textSize="13sp"
                             android:layout_alignParentTop="true"
-                            android:text="Kürzel"
+                            android:text="@string/token"
                             android:textColor="@color/colorPrimary" />
 
                         <ImageView
@@ -183,7 +183,7 @@
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="5dp"
                             android:textSize="13sp"
-                            android:text="Default Name"
+                            android:text="@string/settings_title_username"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
@@ -196,7 +196,7 @@
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="10dp"
-                            android:text="giaspi270700"
+                            android:text=""
                             android:textColor="@android:color/black" />
 
                         <TextView
@@ -207,7 +207,7 @@
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="15dp"
                             android:textSize="13sp"
-                            android:text="Stufe"
+                            android:text="@string/grade"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
@@ -220,7 +220,7 @@
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="10dp"
-                            android:text="Q2"
+                            android:text=""
                             android:textColor="@android:color/black" />
 
                         <TextView
@@ -231,7 +231,7 @@
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="15dp"
                             android:textSize="13sp"
-                            android:text="Laufende Umfrage"
+                            android:text="@string/running_survey"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
@@ -245,7 +245,7 @@
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
-                            android:text="Berufsbörse"
+                            android:text=""
                             android:textColor="@android:color/black" />
 
                         <ImageView

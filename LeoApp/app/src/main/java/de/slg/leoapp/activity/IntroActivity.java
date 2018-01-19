@@ -190,7 +190,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
             case NO_CONNECTION:
             case AUTH_FAILED:
             case SERVER_FAILED:
-                GraphicUtils.sendToast("Etwas ist schiefgelaufen, versuche es später nochmal");
+                GraphicUtils.sendToast(getString(R.string.error_later));
                 running = false;
                 break;
             case SUCCESS:
@@ -212,12 +212,12 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 break;
             case AUTH_FAILED:
-                GraphicUtils.sendToast("Daten stimmen nicht überein");
+                GraphicUtils.sendToast(getString(R.string.data_differs));
                 fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
                 break;
             case SERVER_FAILED:
-                GraphicUtils.sendToast("Etwas ist schiefgelaufen, versuche es später nochmal");
+                GraphicUtils.sendToast(getString(R.string.error_later));
                 fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
 
@@ -270,7 +270,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
         String userPassword = password.getText().toString();
 
         if (userName.length() == 0 || userPassword.length() == 0) {
-            GraphicUtils.sendToast("Daten stimmen nicht überein");
+            GraphicUtils.sendToast(R.string.data_differs);
             running = false;
             return;
         }

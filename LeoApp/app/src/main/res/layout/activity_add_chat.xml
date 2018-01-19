@@ -71,7 +71,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:hint="Benutzer suchen"
+                        android:hint="@string/search_user"
                         android:inputType="textPersonName"
                         android:lines="1" />
 

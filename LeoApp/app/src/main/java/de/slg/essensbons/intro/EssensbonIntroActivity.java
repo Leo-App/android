@@ -121,11 +121,11 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
         switch ((Authenticator) result[0]) {
 
             case NO_CONNECTION:
-                GraphicUtils.sendToast("Keine Internetverbindung verfügbar");
+                GraphicUtils.sendToast(getString(R.string.need_internet));
                 EssensbonUtils.setLoginStatus(false);
                 break;
             case NOT_VALID:
-                GraphicUtils.sendToast("Daten stimmen nicht überein");
+                GraphicUtils.sendToast(getString(R.string.data_differs));
                 EssensbonUtils.setLoginStatus(false);
                 break;
             case VALID:
@@ -212,13 +212,13 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
         String userPassword = password.getText().toString();
 
         if (userName.length() == 0 || userPassword.length() == 0) {
-            GraphicUtils.sendToast("Daten stimmen nicht überein");
+            GraphicUtils.sendToast(getString(R.string.data_differs));
             running = false;
             return;
         }
 
         if (!userName.matches("[0-9]{5}")) {
-            GraphicUtils.sendToast("Kundennummer nicht im richtigen Format");
+            GraphicUtils.sendToast(R.string.customer_number);
             running = false;
             return;
         }

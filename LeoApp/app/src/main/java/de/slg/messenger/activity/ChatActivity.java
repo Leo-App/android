@@ -197,7 +197,7 @@ public class ChatActivity extends ActionLogActivity {
 
         if (ctype == Chat.ChatType.GROUP && !Utils.getController().getMessengerDatabase().userInChat(Utils.getUserID(), cid)) {
             etMessage.setEnabled(false);
-            etMessage.setHint("Du bist nicht in diesem Chat!");
+            etMessage.setHint(R.string.not_in_chat);
             sendButton.setEnabled(false);
         }
     }
@@ -309,7 +309,7 @@ public class ChatActivity extends ActionLogActivity {
                     while (activity.cid == -1)
                         ;
                 } else {
-                    Toast.makeText(activity, "You need an active Internet-Connection to perform this Action", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, R.string.need_internet, Toast.LENGTH_LONG).show();
                     return null;
                 }
             }

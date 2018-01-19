@@ -508,7 +508,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                     case NO_CONNECTION:
                         final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar.setAction(Utils.getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                        snackbar.setAction(Utils.getContext().getString(R.string.confirm), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 snackbar.dismiss();
@@ -517,9 +517,9 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                         snackbar.show();
                         break;
                     case SERVER_ERROR:
-                        final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, versuche es später erneut", Snackbar.LENGTH_SHORT);
+                        final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), R.string.error_later, Snackbar.LENGTH_SHORT);
                         snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar2.setAction(Utils.getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                        snackbar2.setAction(Utils.getContext().getString(R.string.confirm), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 snackbar2.dismiss();
@@ -535,7 +535,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                                 showResultDialog(remoteid);
                             }
                         });
-                        Toast.makeText(Utils.getContext(), "Erfolgreich abgestimmt", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Utils.getContext(), R.string.voted_sucessfully, Toast.LENGTH_SHORT).show();
 
                         for (CompoundButton c : checkboxes.get(remoteid)) {
                             c.setEnabled(false);
@@ -598,7 +598,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                     case NO_CONNECTION:
                         final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar.setAction(Utils.getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                        snackbar.setAction(Utils.getContext().getString(R.string.confirm), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 snackbar.dismiss();
@@ -607,9 +607,9 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                         snackbar.show();
                         break;
                     case SERVER_ERROR:
-                        final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), "Es ist etwas schiefgelaufen, versuche es später erneut", Snackbar.LENGTH_SHORT);
+                        final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), getString(R.string.error_later), Snackbar.LENGTH_SHORT);
                         snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar2.setAction(Utils.getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                        snackbar2.setAction(Utils.getContext().getString(R.string.confirm), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 snackbar2.dismiss();

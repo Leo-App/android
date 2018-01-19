@@ -266,8 +266,8 @@ public class NotificationHandler {
                     .setSmallIcon(R.mipmap.icon_schwarzes_brett)
                     .setVibrate(new long[]{200})
                     .setAutoCancel(true)
-                    .setContentTitle("Neue Einträge")
-                    .setContentText("Es gibt Neuigkeiten am Schwarzen Brett")
+                    .setContentTitle(context.getString(R.string.new_entries))
+                    .setContentText(context.getString(R.string.news_pin_board))
                     .setContentIntent(resultPendingIntent)
                     .build();
         }
@@ -335,8 +335,8 @@ public class NotificationHandler {
                     .setSmallIcon(R.mipmap.icon_umfragen)
                     .setVibrate(new long[]{200})
                     .setAutoCancel(true)
-                    .setContentTitle("Neue Umfrage")
-                    .setContentText("Stimme in der neuesten Umfrage ab")
+                    .setContentTitle(context.getString(R.string.new_survey))
+                    .setContentText(context.getString(R.string.vote_survey))
                     .setContentIntent(resultPendingIntent)
                     .build();
         }
@@ -401,8 +401,8 @@ public class NotificationHandler {
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_stimmungsbarometer)
                     .setVibrate(new long[]{200})
-                    .setContentTitle("Du hast noch nicht abgestimmt!")
-                    .setContentText("Jetzt abstimmen")
+                    .setContentTitle(context.getString(R.string.not_voted))
+                    .setContentText(context.getString(R.string.vote_now))
                     .setAutoCancel(true)
                     .setContentIntent(resultPendingIntent)
                     .build();
@@ -439,7 +439,7 @@ public class NotificationHandler {
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_stundenplan)
                     .setVibrate(new long[]{200})
-                    .setContentTitle("Deine Stunden morgen:")
+                    .setContentTitle(context.getString(R.string.lessons_tommorrow))
                     .setContentText(msg)
                     .setStyle(new NotificationCompat.BigTextStyle()
                             .bigText(msg))

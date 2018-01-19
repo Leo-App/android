@@ -63,7 +63,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageViewIch"
                 android:layout_toRightOf="@+id/imageViewIch"
-                android:text="Ich"
+                android:text="@string/me"
                 android:textColor="@color/tint_ich"
                 android:textSize="16sp"/>
 
@@ -95,7 +95,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageViewSchueler"
                 android:layout_toRightOf="@+id/imageViewSchueler"
-                android:text="Schüler"
+                android:text="@string/students"
                 android:textColor="@color/tint_schueler"
                 android:textSize="16sp"/>
 
@@ -127,7 +127,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageViewLehrer"
                 android:layout_toRightOf="@+id/imageViewLehrer"
-                android:text="Lehrer"
+                android:text="@string/lehrer"
                 android:textColor="@color/tint_lehrer"
                 android:textSize="16sp"/>
 
@@ -159,7 +159,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/imageViewAlle"
                 android:layout_toRightOf="@+id/imageViewAlle"
-                android:text="Alle"
+                android:text="@string/all"
                 android:textColor="@color/tint_alle"
                 android:textSize="16sp"/>
 

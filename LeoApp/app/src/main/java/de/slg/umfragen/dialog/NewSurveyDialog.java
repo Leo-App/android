@@ -106,9 +106,9 @@ public class NewSurveyDialog extends AlertDialog {
                 switch (stage) {
                     case 0:
                         if (((EditText) findViewById(R.id.content)).getText().toString().length() == 0) {
-                            final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), "Du musst einen Titel angeben", Snackbar.LENGTH_SHORT);
+                            final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), R.string.need_title, Snackbar.LENGTH_SHORT);
                             snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                            snackbar.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                            snackbar.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     snackbar.dismiss();
@@ -132,9 +132,9 @@ public class NewSurveyDialog extends AlertDialog {
                                 s5 = ((EditText) findViewById(R.id.text5)).getText().toString();
 
                         if (s1.length() + s2.length() + s3.length() + s4.length() + s5.length() < 1) {
-                            final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), "Du musst mindestens eine Antwortmöglichkeit angeben", Snackbar.LENGTH_SHORT);
+                            final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), R.string.min_replies, Snackbar.LENGTH_SHORT);
                             snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                            snackbar.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                            snackbar.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     snackbar.dismiss();
@@ -340,11 +340,11 @@ public class NewSurveyDialog extends AlertDialog {
         protected void onPostExecute(Boolean b) {
             if (b) {
                 dismiss();
-                Toast.makeText(Utils.getContext(), "Umfrage erfolgreich erstellt", Toast.LENGTH_LONG).show();
+                Toast.makeText(Utils.getContext(), R.string.survey_sucessfully, Toast.LENGTH_LONG).show();
             } else {
-                final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), "Es ist etwas schiefgelaufen, versuche es später erneut", Snackbar.LENGTH_SHORT);
+                final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), Utils.getString(R.string.error_later), Snackbar.LENGTH_SHORT);
                 snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                snackbar.setAction(getContext().getString(R.string.dismiss), new View.OnClickListener() {
+                snackbar.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         snackbar.dismiss();

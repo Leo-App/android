@@ -161,7 +161,7 @@ public class WrapperSubstitutionActivity extends ActionLogActivity {
         c.setTime(d);
         if (!today)
             c.add(Calendar.DATE, 1);
-        return new String[]{"SO", "MO", "DI", "MI", "DO", "FR", "SA"}[c.get(Calendar.DAY_OF_WEEK) - 1] + ". " + c.get(Calendar.DAY_OF_MONTH) + "."
+        return new String[]{getString(R.string.so) , getString(R.string.mo), getString(R.string.di), getString(R.string.mi), getString(R.string.don), getString(R.string.fr), getString(R.string.sa)}[c.get(Calendar.DAY_OF_WEEK) - 1] + ". " + c.get(Calendar.DAY_OF_MONTH) + "."
                 + c.get(Calendar.MONTH) + "."
                 + c.get(Calendar.YEAR);
     }
