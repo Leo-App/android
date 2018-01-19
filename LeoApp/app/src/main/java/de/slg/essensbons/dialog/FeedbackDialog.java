@@ -19,7 +19,7 @@ public class FeedbackDialog extends AlertDialog {
     private ZXingScannerView scannerView;
 
     public FeedbackDialog(@NonNull Context context, boolean valid, int orderedMenu) {
-        super(context);
+        super(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 
         this.valid = valid;
         this.orderedMenu = orderedMenu;
