@@ -23,7 +23,6 @@ import de.slg.schwarzes_brett.task.UpdateViewTrackerTask;
 import de.slg.startseite.activity.MainActivity;
 
 public class Start extends Activity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +55,7 @@ public class Start extends Activity {
                 new SyncGradeTask().execute();
             }
 
-            if (Utils.isVerified() && !getIntent().getBooleanExtra("restart", false)) {
+            if (Utils.isVerified()) {
                 new SyncUserTask().execute();
             }
 

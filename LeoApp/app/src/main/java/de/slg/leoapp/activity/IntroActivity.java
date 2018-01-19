@@ -15,8 +15,11 @@ import de.slg.leoapp.activity.fragment.AbstractOrderedFragment;
 import de.slg.leoapp.activity.fragment.InfoFragmentBuilder;
 import de.slg.leoapp.activity.fragment.VerificationFragment;
 import de.slg.leoapp.task.RegistrationTask;
+import de.slg.leoapp.task.SyncFilesTask;
 import de.slg.leoapp.task.SyncGradeTask;
+import de.slg.leoapp.task.SyncQuestionTask;
 import de.slg.leoapp.task.SyncUserTask;
+import de.slg.leoapp.task.SyncVoteTask;
 import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.utility.ResponseCode;
 import de.slg.leoapp.utility.User;
@@ -110,14 +113,12 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                             .setColor(R.color.colorSatisfied)
                             .build()
             );
-
         }
 
         showStatusBar(false);
         showSkipButton(false);
         setProgressButtonEnabled(true);
         setDepthAnimation();
-
     }
 
     @Override
@@ -181,7 +182,6 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 }
             });
         }
-
     }
 
     @Override
@@ -234,6 +234,10 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 }
                 new SyncGradeTask().execute();
                 new SyncUserTask(fragment).registerListener(this).execute();
+                new SyncVoteTask().execute();
+                new SyncFilesTask().execute();
+                new SyncQuestionTask().execute();
+
                 break;
         }
     }

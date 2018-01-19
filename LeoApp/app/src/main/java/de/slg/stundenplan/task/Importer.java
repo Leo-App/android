@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.view.View;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -16,6 +17,10 @@ import de.slg.leoapp.utility.Utils;
 public class Importer extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
+        File file = new File(Utils.getContext().getFilesDir(), "stundenplan.txt");
+        if (file.exists()) {
+            new SyncFilesTask().execute();
+        }
         Utils.getController().getActiveActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
     }
 
