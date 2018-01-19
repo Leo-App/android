@@ -138,7 +138,7 @@ public class QRReadTask extends AsyncTask<String, Integer, Boolean> {
 
         long[] interval = result ? new long[]{0, 200, 100, 200} : new long[]{0, 1000, 500, 1000};
 
-        final AlertDialog dialog = new FeedbackDialog(Utils.getContext(), result, orderedMenu);
+        final AlertDialog dialog = new FeedbackDialog(Utils.getController().getEssensbonActivity(), result, orderedMenu);
 
         Vibrator vb = (Vibrator) Utils.getContext().getSystemService(Context.VIBRATOR_SERVICE);
         vb.vibrate(interval, -1);

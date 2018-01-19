@@ -40,7 +40,7 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
 
                 try {
 
-                    URL updateURL = new URL(Utils.DOMAIN_DEV + "/itbaum/get.php?subject=" + subject);
+                    URL updateURL = new URL(Utils.BASE_URL_PHP + "/itbaum/get.php?subject=" + subject);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));

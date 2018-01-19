@@ -129,9 +129,9 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
                 EssensbonUtils.setLoginStatus(false);
                 break;
             case VALID:
+                ignoreSlideChange = true;
                 getPager().setCurrentItem(verificationSlide + 1);
                 EssensbonUtils.setLoginStatus(true);
-                ignoreSlideChange = true;
                 break;
         }
     }

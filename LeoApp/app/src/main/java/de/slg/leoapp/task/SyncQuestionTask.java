@@ -33,6 +33,8 @@ public class SyncQuestionTask extends AsyncTask<Void, Void, Void> {
             }
             reader.close();
 
+            Utils.logDebug(builder);
+
             Utils.getController().getPreferences()
                     .edit()
                     .putString("stimmungsbarometer_frage", builder.toString())

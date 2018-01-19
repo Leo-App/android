@@ -26,6 +26,7 @@ import de.slg.klausurplan.utility.Klausur;
 import de.slg.leoapp.R;
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
+import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.datastructure.List;
@@ -38,6 +39,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
     private KlausurDialog              dialog;
     private boolean                    confirmDelete;
     private SQLiteConnectorKlausurplan database;
+    private SQLiteConnectorStundenplan databaseStundenplan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         } else {
             database = new SQLiteConnectorKlausurplan(getApplicationContext());
         }
+        databaseStundenplan = new SQLiteConnectorStundenplan(getApplicationContext());
 
         initListView();
         initAddButton();
@@ -130,6 +133,8 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
             dialog.dismiss();
         if (database != null)
             database.close();
+        if (databaseStundenplan != null)
+            databaseStundenplan.close();
     }
 
     private void initListView() {
@@ -210,7 +215,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
     }
 
     private void refreshArray() {
-        if (Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", true) && Utils.getController().getStundenplanDatabase().hatGewaehlt()) {
+        if (Utils.getController().getPreferences().getBoolean("pref_key_test_timetable_sync", true) && databaseStundenplan.hatGewaehlt()) {
             if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
                 klausuren = database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_TIMETABLE + SQLiteConnectorKlausurplan.getMinDate() + ')');
             else
@@ -229,7 +234,9 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         private       int            year, halbjahr;
 
         private Importer() {
-            this.schriflich = Utils.getController().getStundenplanDatabase().gibSchriftlicheFaecherStrings();
+            this.schriflich = databaseStundenplan.gibSchriftlicheFaecherStrings();
+            for (String s : schriflich)
+                Utils.logDebug(s);
         }
 
         @Override

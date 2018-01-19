@@ -24,7 +24,7 @@ import de.slg.leoapp.notification.NotificationType;
  * @since 0.0.1
  */
 @SuppressLint("StaticFieldLeak")
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings("all")
 public abstract class Utils {
 
     /**
@@ -180,6 +180,10 @@ public abstract class Utils {
     public static void logDebug(Object o) {
         if (o != null) {
             Log.d("LeoAppDebug", o.toString());
+            if (o instanceof Iterable) {
+                for (Object oI : (Iterable) o)
+                    logDebug(oI);
+            }
         } else {
             Log.d("LeoAppDebug", "null");
         }

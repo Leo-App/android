@@ -16,6 +16,10 @@
         </item>
     </style>
 
+    <style name="ScanTheme" parent="MainActivitiesTheme">
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
     <style name="ActionButton.Overflow.Icon" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
         <item name="android:src">@drawable/ic_more_vert</item>
     </style>

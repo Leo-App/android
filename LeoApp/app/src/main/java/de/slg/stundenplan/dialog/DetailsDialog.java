@@ -1,6 +1,7 @@
 package de.slg.stundenplan.dialog;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -11,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.stundenplan.utility.Fach;
 
 public class DetailsDialog extends AlertDialog {
@@ -24,6 +25,8 @@ public class DetailsDialog extends AlertDialog {
     private TextView tvLehrer;
     private TextView title;
 
+    private SQLiteConnectorStundenplan database;
+
     public DetailsDialog(@NonNull Context context) {
         super(context);
     }
@@ -32,12 +35,16 @@ public class DetailsDialog extends AlertDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_stundenplan_details);
+
+        database = new SQLiteConnectorStundenplan(getContext());
+
         tvZeit = findViewById(R.id.uhrzeit_details);
         tvRaum = findViewById(R.id.raumnr_details);
         tvLehrer = findViewById(R.id.lehrerK_details);
         etNotiz = findViewById(R.id.notizFeld_details);
         cbSchrift = findViewById(R.id.checkBox_schriftlich);
         title = findViewById(R.id.title_details);
+
         findViewById(R.id.buttonSav).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,11 +53,18 @@ public class DetailsDialog extends AlertDialog {
                 if (!fach.getKuerzel().equals("FREI")) {
                     boolean b = cbSchrift.isChecked();
                     fach.setzeSchriftlich(b);
-                    Utils.getController().getStundenplanDatabase().setzeSchriftlich(b, fach.id);
+                    database.setzeSchriftlich(b, fach.id);
                 }
                 fach.setzeNotiz(notiz);
-                Utils.getController().getStundenplanDatabase().setzeNotiz(notiz, fach.id, fach.getTag(), fach.getStunde());
+                database.setzeNotiz(notiz, fach.id, fach.getTag(), fach.getStunde());
                 dismiss();
+            }
+        });
+
+        setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                database.close();
             }
         });
     }
@@ -63,12 +77,12 @@ public class DetailsDialog extends AlertDialog {
     private void initDetails() {
         if (!fach.getKuerzel().equals("FREI")) {
             title.setText(fach.getName() + " " + fach.getKuerzel().substring(2));
-            tvZeit.setText(Utils.getController().getStundenplanDatabase().gibZeiten(fach));
+            tvZeit.setText(database.gibZeiten(fach));
             tvRaum.setText(fach.getRaum());
             tvLehrer.setText(fach.getLehrer());
             etNotiz.setText(fach.getNotiz());
             cbSchrift.setChecked(fach.getSchriftlich());
-            cbSchrift.setClickable(!Utils.getController().getStundenplanDatabase().mussSchriftlich(fach.id));
+            cbSchrift.setClickable(!database.mussSchriftlich(fach.id));
         } else {
             title.setText(getContext().getString(R.string.free_hour));
             tvRaum.setVisibility(View.GONE);
@@ -76,9 +90,8 @@ public class DetailsDialog extends AlertDialog {
             cbSchrift.setVisibility(View.GONE);
             findViewById(R.id.raum_details).setVisibility(View.GONE);
             findViewById(R.id.lehrer_details).setVisibility(View.GONE);
-            tvZeit.setText(Utils.getController().getStundenplanDatabase().gibZeit(fach.getTag(), fach.getStunde()));
+            tvZeit.setText(database.gibZeit(fach.getTag(), fach.getStunde()));
             etNotiz.setText(fach.getNotiz());
         }
     }
-
 }
