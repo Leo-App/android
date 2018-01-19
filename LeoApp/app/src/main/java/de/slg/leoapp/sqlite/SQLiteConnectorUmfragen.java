@@ -54,6 +54,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
                 ANSWERS_SELECTED + " TINYINT NOT NULL, " +
                 ANSWERS_INHALT + " TEXT NOT NULL" +
                 ")");
+
     }
 
     @Override

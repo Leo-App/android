@@ -29,7 +29,7 @@ public class NewsSynchronizer implements Synchronizer {
             return false;
 
         try {
-            URLConnection connection = new URL(Utils.DOMAIN_DEV + "schwarzesBrett/meldungen.php")
+            URLConnection connection = new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
                     .openConnection();
 
             BufferedReader reader =
