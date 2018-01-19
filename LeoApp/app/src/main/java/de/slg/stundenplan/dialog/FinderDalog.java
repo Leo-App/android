@@ -46,61 +46,10 @@ public class FinderDalog extends AlertDialog {
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             t1.setText(Utils.getLehrerKuerzel());
 
-        a2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                findViewById(R.id.add2).setVisibility(View.INVISIBLE);
-                t2.setVisibility(View.VISIBLE);
-                InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                manager.showSoftInput(t2, InputMethodManager.SHOW_IMPLICIT);
-                t2.requestFocus();
-            }
-        });
-
-        a3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (t2.getVisibility() != View.VISIBLE) {
-                    findViewById(R.id.add3).setVisibility(View.INVISIBLE);
-                    t3.setVisibility(View.VISIBLE);
-                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    manager.showSoftInput(t3, InputMethodManager.SHOW_IMPLICIT);
-                    t3.requestFocus();
-                } else {
-                    a2.callOnClick();
-                }
-            }
-        });
-
-        a4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (t3.getVisibility() != View.VISIBLE) {
-                    findViewById(R.id.add4).setVisibility(View.INVISIBLE);
-                    t4.setVisibility(View.VISIBLE);
-                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    manager.showSoftInput(t4, InputMethodManager.SHOW_IMPLICIT);
-                    t4.requestFocus();
-                } else {
-                    a3.callOnClick();
-                }
-            }
-        });
-
-        a5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (t4.getVisibility() != View.VISIBLE) {
-                    findViewById(R.id.add5).setVisibility(View.INVISIBLE);
-                    t5.setVisibility(View.VISIBLE);
-                    InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    manager.showSoftInput(t5, InputMethodManager.SHOW_IMPLICIT);
-                    t5.requestFocus();
-                } else {
-                    a4.callOnClick();
-                }
-            }
-        });
+        a2.setOnClickListener(new ButtonClickListener());
+        a3.setOnClickListener(new ButtonClickListener());
+        a4.setOnClickListener(new ButtonClickListener());
+        a5.setOnClickListener(new ButtonClickListener());
 
         a2.getCompoundDrawables()[0].setColorFilter(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
         a3.getCompoundDrawables()[0].setColorFilter(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
@@ -165,4 +114,40 @@ public class FinderDalog extends AlertDialog {
             }
         });
     }
+
+    private class ButtonClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            final TextView t2 = findViewById(R.id.text2);
+            final TextView t3 = findViewById(R.id.text3);
+            final TextView t4 = findViewById(R.id.text4);
+            final TextView t5 = findViewById(R.id.text5);
+
+            final TextView a2 = findViewById(R.id.add2);
+            final TextView a3 = findViewById(R.id.add3);
+            final TextView a4 = findViewById(R.id.add4);
+            final TextView a5 = findViewById(R.id.add5);
+
+            if (t2.getVisibility() != View.VISIBLE) {
+                a2.setVisibility(View.INVISIBLE);
+                t2.setVisibility(View.VISIBLE);
+                t2.requestFocus();
+            } else if (t3.getVisibility() != View.VISIBLE) {
+                a3.setVisibility(View.INVISIBLE);
+                t3.setVisibility(View.VISIBLE);
+                t3.requestFocus();
+            } else if (t4.getVisibility() != View.VISIBLE) {
+                a4.setVisibility(View.INVISIBLE);
+                t4.setVisibility(View.VISIBLE);
+                t4.requestFocus();
+            } else if (t5.getVisibility() != View.VISIBLE) {
+                a5.setVisibility(View.INVISIBLE);
+                t5.setVisibility(View.VISIBLE);
+                t5.requestFocus();
+            }
+
+        }
+    }
+
 }
