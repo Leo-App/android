@@ -25,7 +25,7 @@ public class Importer extends AsyncTask<Void, Void, Void> {
             while (SyncFilesTask.running)
                 ;
 
-            SQLiteConnectorStundenplan database = Utils.getController().getStundenplanDatabase();
+            SQLiteConnectorStundenplan database = new SQLiteConnectorStundenplan(Utils.getContext());
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
@@ -82,6 +82,7 @@ public class Importer extends AsyncTask<Void, Void, Void> {
             }
 
             reader.close();
+            database.close();
         } catch (IOException e) {
             Utils.logError(e);
         }

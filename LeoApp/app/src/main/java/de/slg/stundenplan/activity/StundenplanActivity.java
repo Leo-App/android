@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
@@ -34,14 +35,17 @@ import de.slg.stundenplan.task.Importer;
 import de.slg.stundenplan.utility.Fach;
 
 public class StundenplanActivity extends LeoAppFeatureActivity {
-    private WochentagFragment[] fragments;
+    private WochentagFragment[]        fragments;
+    private SQLiteConnectorStundenplan database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Utils.getController().registerStundenplanActivity(this);
-        if (!Utils.getController().getStundenplanDatabase().hatGewaehlt()) {
+
+        database = new SQLiteConnectorStundenplan(getApplicationContext());
+
+        if (!database.hatGewaehlt()) {
             if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
                 startActivity(
                         new Intent(
@@ -121,6 +125,9 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
     public void finish() {
         super.finish();
         Utils.getController().registerStundenplanActivity(null);
+        if (database != null) {
+            database.close();
+        }
     }
 
     private void initTabs() {
@@ -128,6 +135,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
         for (int i = 0; i < fragments.length; i++) {
             fragments[i] = new WochentagFragment();
             fragments[i].setTag(i + 1);
+            fragments[i].setDatabase(database);
         }
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -175,10 +183,11 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
     }
 
     public static class WochentagFragment extends Fragment {
-        private View     root;
-        private Fach[]   fachArray;
-        private int      tag;
-        private ListView listView;
+        private View                       root;
+        private Fach[]                     fachArray;
+        private int                        tag;
+        private ListView                   listView;
+        private SQLiteConnectorStundenplan database;
 
         @Override
         public View onCreateView(LayoutInflater layIn, ViewGroup container, Bundle savedInstanceState) {
@@ -190,15 +199,15 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (fachArray[position].id <= 0) {
-                            Utils.getController().getStundenplanDatabase().freistunde(tag, position + 1);
-                            fachArray[position] = Utils.getController().getStundenplanDatabase().getFach(tag, position + 1);
+                            database.freistunde(tag, position + 1);
+                            fachArray[position] = database.getFach(tag, position + 1);
                             view.invalidate();
                         }
                         DetailsDialog dialog = new DetailsDialog(getActivity());
                         dialog.show();
                         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                        dialog.init(Utils.getController().getStundenplanDatabase().getFach(tag, position + 1));
+                        dialog.init(database.getFach(tag, position + 1));
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
@@ -219,7 +228,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
 
         private void refreshUI() {
             if (listView != null) {
-                fachArray = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(tag);
+                fachArray = database.gewaehlteFaecherAnTag(tag);
                 if (fachArray.length == 0)
                     root.findViewById(R.id.nolessons).setVisibility(View.VISIBLE);
                 else
@@ -231,6 +240,10 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
 
         void setTag(int tag) {
             this.tag = tag;
+        }
+
+        public void setDatabase(SQLiteConnectorStundenplan database) {
+            this.database = database;
         }
     }
 

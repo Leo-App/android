@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.stundenplan.utility.Fach;
@@ -107,10 +108,12 @@ public class StundenplanView extends View {
         canvas.drawText("14:20 - 15:05", baseLineX + paddingX * 3, baseLineY + abstandY * 8 + paddingY * 3, paint);
         canvas.drawText("15:10 - 15:55", baseLineX + paddingX * 3, baseLineY + abstandY * 9 + paddingY * 3, paint);
         canvas.drawText("16:00 - 16:45", baseLineX + paddingX * 3, baseLineY + abstandY * 10 + paddingY * 3, paint);
-        Fach[][] gewaehlteFaecher = new Fach[5][];
+        SQLiteConnectorStundenplan database         = new SQLiteConnectorStundenplan(getContext());
+        Fach[][]                   gewaehlteFaecher = new Fach[5][];
         for (int i = 0; i < gewaehlteFaecher.length; i++) {
-            gewaehlteFaecher[i] = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(i + 1);
+            gewaehlteFaecher[i] = database.gewaehlteFaecherAnTag(i + 1);
         }
+        database.close();
         for (int i = 1; i < 10; i++) {
             int yValue = baseline2Y + (i - 1) * abstandY;
             for (int j = 0; j < 5; j++) {
