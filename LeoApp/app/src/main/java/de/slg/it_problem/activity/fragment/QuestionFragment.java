@@ -16,8 +16,7 @@ import de.slg.it_problem.utility.FragmentType;
 import de.slg.it_problem.utility.Session;
 import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.R;
-
-import static android.view.View.GONE;
+import de.slg.leoapp.utility.Utils;
 
 public class QuestionFragment extends Fragment implements TaskStatusListener {
 
@@ -43,6 +42,7 @@ public class QuestionFragment extends Fragment implements TaskStatusListener {
     private void refresh() {
         if (sessionReference.isAnswer()) {
             activityReference.startFragment(FragmentType.ANSWER);
+            Utils.logError("ANSWER");
         } else {
             TextView title   = viewReference.findViewById(R.id.title);
             TextView content = viewReference.findViewById(R.id.content);
@@ -83,7 +83,7 @@ public class QuestionFragment extends Fragment implements TaskStatusListener {
     @Override
     public void taskFinished(Object... images) {
         if (progressBar != null && image != null) {
-            progressBar.setVisibility(GONE);
+            progressBar.setVisibility(View.GONE);
             image.setImageBitmap((Bitmap) images[0]);
         }
     }

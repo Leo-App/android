@@ -10,7 +10,6 @@ import de.slg.it_problem.activity.fragment.QuestionFragment;
 import de.slg.it_problem.activity.fragment.SelectionFragment;
 import de.slg.it_problem.task.SynchronizerDownstreamTask;
 import de.slg.it_problem.utility.FragmentType;
-import de.slg.it_problem.utility.ProblemContent;
 import de.slg.it_problem.utility.Session;
 import de.slg.it_problem.utility.Subject;
 import de.slg.it_problem.utility.datastructure.DecisionTree;
@@ -41,15 +40,12 @@ public class ITActivity extends LeoAppFeatureActivity {
     public void onCreate(Bundle b) {
         super.onCreate(b);
         Utils.getController().registerITActivity(this);
+
         this.b = b;
         decisionTreeHashtable = new Hashtable<>();
+
         initFragments();
         initSync();
-
-        DecisionTree t1 = new DecisionTree("Ist das HDMI Kabel eigesteckt_;_siehe oben_;_null_;;_;L1;Bitte das HDMI Kabel einstecken_;_siehe oben_;_null_;;_;L2;Test 4_;_siehe oben_;_null_;;_;R2;Test 5_;_siehe oben_;_null_;;_;R1;Test 3_;_siehe oben_;_null_;;_");
-        Utils.logError("Ist das HDMI Kabel eigesteckt_;_siehe oben_;_null_;;_;L1;Bitte das HDMI Kabel einstecken_;_siehe oben_;_null_;;_;L2;Test 4_;_siehe oben_;_null_;;_;R2;Test 5_;_siehe oben_;_null_;;_;R1;Test 3_;_siehe oben_;_null_;;_");
-        Utils.logError(t1);
-
     }
 
     @Override
@@ -59,7 +55,7 @@ public class ITActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_it_wrapper;
+        return R.layout.activity_wrapper_it;
     }
 
     @Override
@@ -101,7 +97,7 @@ public class ITActivity extends LeoAppFeatureActivity {
         if (b != null)
             return;
 
-        selectionFragment = new SelectionFragment();
+        selectionFragment = SelectionFragment.newInstance(true);
         selectionFragment.setArguments(getIntent().getExtras());
 
         getSupportFragmentManager()
@@ -111,7 +107,7 @@ public class ITActivity extends LeoAppFeatureActivity {
     }
 
     private void resetFragments() {
-        selectionFragment = new SelectionFragment();
+        selectionFragment = SelectionFragment.newInstance(true);
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -133,7 +129,7 @@ public class ITActivity extends LeoAppFeatureActivity {
                 newFragment = new QuestionFragment();
                 break;
             case SELECTION:
-                newFragment = new SelectionFragment();
+                newFragment = SelectionFragment.newInstance(false);
                 break;
         }
 
@@ -157,6 +153,10 @@ public class ITActivity extends LeoAppFeatureActivity {
             currentSession = new Session(subject, decisionTreeHashtable);
 
         return currentSession;
+    }
+
+    public void resetSession() {
+        currentSession = null;
     }
 
     private void initSync() {

@@ -11,8 +11,6 @@ public class Session {
 
     public Session(String subject, Hashtable<String, DecisionTree> selection) {
         current = selection.get(subject);
-        de.slg.leoapp.utility.Utils.logError(": " + selection.get(subject));
-        de.slg.leoapp.utility.Utils.logError(": " + subject);
         this.subject = subject;
     }
 
@@ -21,12 +19,10 @@ public class Session {
     }
 
     public String getTitle() {
-        de.slg.leoapp.utility.Utils.logError(current.getContent().title);
         return current.getContent().title;
     }
 
     public String getDescription() {
-        de.slg.leoapp.utility.Utils.logError(current.getContent().description);
         return current.getContent().description;
     }
 
@@ -35,12 +31,10 @@ public class Session {
     }
 
     public boolean isAnswer() {
-        return current.getLeftTree().isEmpty() && current.getRightTree().isEmpty();
+        return !current.hasChildren();
     }
 
     public boolean isAvailable() {
-
-        de.slg.leoapp.utility.Utils.logError("NOT AVAILABLE: " + current);
         return !current.isEmpty();
     }
 
