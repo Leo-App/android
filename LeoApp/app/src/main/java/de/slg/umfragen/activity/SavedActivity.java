@@ -1,24 +1,9 @@
 package de.slg.umfragen.activity;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import de.slg.leoapp.R;
-import de.slg.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
-import de.slg.leoapp.utility.User;
-import de.slg.leoapp.utility.Utils;
-import de.slg.stundenplan.utility.Fach;
 
 public class SavedActivity extends AppCompatActivity {
-
+/*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,4 +70,5 @@ public class SavedActivity extends AppCompatActivity {
             return v;
         }
     } */
+
 }
