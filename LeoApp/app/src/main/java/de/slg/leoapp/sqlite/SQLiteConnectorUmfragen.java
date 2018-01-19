@@ -23,6 +23,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     public static final  String SURVEYS_REMOTE_ID    = "remoteid";
     public static final  String SURVEYS_ERSTELLDATUM = "erstelldatum";
     public static final  String SURVEYS_MULTIPLE     = "multiple";
+    public static final  String SURVEYS_VOTEABLE     = "voteable";
     public static final  String ANSWERS_SID          = "umfrageid";
     public static final  String ANSWERS_INHALT       = "inhalt";
     public static final  String ANSWERS_REMOTE_ID    = "remoteid";
@@ -31,7 +32,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     private static final String DATABASE_NAME        = "surveys.db";
 
     public SQLiteConnectorUmfragen(Context c) {
-        super(c, DATABASE_NAME, null, 2);
+        super(c, DATABASE_NAME, null, 4);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
                 SURVEYS_REMOTE_ID + " INTEGER NOT NULL, " +
                 SURVEYS_MULTIPLE + " TINYINT NOT NULL, " +
                 SURVEYS_ERSTELLDATUM + " TEXT NOT NULL, " +
-                SURVEYS_BESCHREIBUNG + " TEXT NOT NULL" +
+                SURVEYS_VOTEABLE + " TINYINT NOT NULL" +
                 ")");
 
         db.execSQL("CREATE TABLE " + TABLE_ANSWERS + " (" +
@@ -69,13 +70,14 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public ContentValues getSurveyContentValues(String titel, String adressat, String beschreibung, String absender, short multiple, int remoteId, long erstelldatum) {
+    public ContentValues getSurveyContentValues(String titel, String adressat, String beschreibung, String absender, short multiple, int remoteId, long erstelldatum, short voteable) {
         ContentValues values = new ContentValues();
         values.put(SURVEYS_TITEL, titel);
         values.put(SURVEYS_ADRESSAT, adressat);
         values.put(SURVEYS_ABSENDER, absender);
         values.put(SURVEYS_BESCHREIBUNG, beschreibung);
         values.put(SURVEYS_MULTIPLE, multiple);
+        values.put(SURVEYS_VOTEABLE, voteable);
         values.put(SURVEYS_ERSTELLDATUM, erstelldatum);
         values.put(SURVEYS_REMOTE_ID, remoteId);
         return values;

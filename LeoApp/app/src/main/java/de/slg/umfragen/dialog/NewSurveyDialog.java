@@ -53,6 +53,7 @@ public class NewSurveyDialog extends AlertDialog {
         super.onCreate(b);
         setContentView(R.layout.dialog_create_survey);
         initNextButton();
+        setCanceledOnTouchOutside(false);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 

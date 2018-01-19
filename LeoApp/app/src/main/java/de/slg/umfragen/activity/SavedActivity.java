@@ -25,12 +25,12 @@ public class SavedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_saved);
 
     }
-
+/*
     private String[] readFromDB() {
         SQLiteConnectorUmfragenSpeichern db = new SQLiteConnectorUmfragenSpeichern(Utils.getContext());
         SQLiteDatabase dbh = db.getWritableDatabase();
 
-        dbh.
+//        dbh.
     }
 
     private static class ListAdapter extends ArrayAdapter<Fach> {
@@ -84,5 +84,5 @@ public class SavedActivity extends AppCompatActivity {
             }
             return v;
         }
-    }
+    } */
 }

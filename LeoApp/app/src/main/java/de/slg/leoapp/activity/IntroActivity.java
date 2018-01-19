@@ -49,7 +49,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 new InfoFragmentBuilder()
                         .setTitle(R.string.app_name)
                         .setContent(R.string.intro1)
-                        .setImage(R.mipmap.leo_app_icon_weihnachten)
+                        .setImage(R.mipmap.leo_app_icon)
                         .setColor(R.color.introSlide1)
                         .build()
         );
