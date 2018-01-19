@@ -313,6 +313,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                             @Override
                             public void onDismissed(Snackbar snackbar, int event) {
                                 if (event == DISMISS_EVENT_TIMEOUT || event == DISMISS_EVENT_SWIPE) {
+                                    new de.slg.umfragen.task.SaveResultsTask().execute();
                                     new ExpandableListAdapter.deleteTask().execute(toBeDeleted.remoteId);
                                 } else {
                                     initExpandableListView();
@@ -481,7 +482,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL(Utils.DOMAIN_DEV + "survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
+                    URL updateURL = new URL(Utils.DOMAIN_DEV + "ic_create_survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));

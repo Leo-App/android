@@ -311,7 +311,7 @@ public class NewSurveyDialog extends AlertDialog {
             BufferedReader in     = null;
             StringBuilder result = new StringBuilder();
             try {
-                URL interfaceDB = new URL((Utils.DOMAIN_DEV + "survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
+                URL interfaceDB = new URL((Utils.BASE_URL_PHP + "survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
                 Utils.logError(interfaceDB.toString());
                 in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
                 String inputLine;
