@@ -481,7 +481,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL(Utils.DOMAIN_DEV + "ic_create_survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
+                    URL updateURL = new URL(Utils.DOMAIN_DEV + "survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));

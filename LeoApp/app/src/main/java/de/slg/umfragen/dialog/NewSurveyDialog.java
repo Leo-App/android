@@ -3,6 +3,7 @@ package de.slg.umfragen.dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -23,7 +24,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
+import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.utility.Utils;
 
 public class NewSurveyDialog extends AlertDialog {
@@ -38,6 +41,8 @@ public class NewSurveyDialog extends AlertDialog {
     private boolean  multiple;
     private int      to;
 
+    private boolean backPressed;
+
     public NewSurveyDialog(@NonNull Context context) {
         super(context);
         c = context;
@@ -49,6 +54,23 @@ public class NewSurveyDialog extends AlertDialog {
         setContentView(R.layout.dialog_create_survey);
         initNextButton();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressed) {
+            dismiss();
+        } else {
+            GraphicUtils.sendToast("Zum Schließen zweimal zurück drücken");
+            backPressed = true;
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    backPressed = false;
+                }
+            }, 1000);
+        }
     }
 
     private void initEditText() {
