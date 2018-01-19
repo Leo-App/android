@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "de.slg.leoapp"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 18
         versionName "beta-0.7.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -42,7 +42,7 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:11.8.0'
     compile 'com.google.firebase:firebase-perf:11.8.0'
     //Utility
-    compile 'me.dm7.barcodescanner:zxing:1.9'
+    compile 'com.journeyapps:zxing-android-embedded:3.5.0'
     compile 'com.github.apl-devs:appintro:v4.2.2'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
 

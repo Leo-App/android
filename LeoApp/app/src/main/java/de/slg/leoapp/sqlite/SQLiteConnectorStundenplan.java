@@ -18,17 +18,17 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     private static final String TABLE_STUNDEN  = "stunden";
     private static final String TABLE_GEWAEHLT = "gewaehlt";
 
-    private static final String FACH_ID             = "fid";
-    private static final String FACH_NAME           = "fname";
-    private static final String FACH_KURZEL         = "fkurz";
-    private static final String FACH_LEHRER         = "flehrer";
-    private static final String FACH_KLASSE         = "fklasse";
-    private static final String FACH_ART            = "fart";
+    private static final String FACH_ID     = "fid";
+    private static final String FACH_NAME   = "fname";
+    private static final String FACH_KURZEL = "fkurz";
+    private static final String FACH_LEHRER = "flehrer";
+    private static final String FACH_KLASSE = "fklasse";
+    private static final String FACH_ART    = "fart";
 
-    private static final String STUNDEN_TAG         = "stag";
-    private static final String STUNDEN_STUNDE      = "sstunde";
-    private static final String STUNDE_RAUM         = "sraum";
-    private static final String STUNDE_NOTIZ        = "snotiz";
+    private static final String STUNDEN_TAG    = "stag";
+    private static final String STUNDEN_STUNDE = "sstunde";
+    private static final String STUNDE_RAUM    = "sraum";
+    private static final String STUNDE_NOTIZ   = "snotiz";
 
     private static final String GEWAEHLT_SCHRIFTLICH = "gschriftlich";
 
@@ -77,7 +77,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         while (kurz.contains("  "))
             kurz = kurz.replace("  ", " ");
 
-        String selection = FACH_KURZEL + " = '" + kurz + "' AND " + FACH_LEHRER + " = '" + lehrer + "'";
+        String selection = FACH_KURZEL + " = '" + kurz + "' AND " + FACH_LEHRER + " = '" + lehrer + "' AND " + FACH_KLASSE + " = '" + klasse + "'";
         Cursor cursor    = database.query(TABLE_FAECHER, new String[]{FACH_ID}, selection, null, null, null, null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -114,7 +114,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     public void waehleFach(long fid) {
-        ContentValues values          = new ContentValues();
+        ContentValues values = new ContentValues();
         values.put(FACH_ID, fid);
         values.put(GEWAEHLT_SCHRIFTLICH, false);
         database.insert(TABLE_GEWAEHLT, null, values);
@@ -603,6 +603,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         if (cursor.getCount() > 0) {
             faecher = new String[cursor.getCount()];
             String stufe = Utils.getUserStufe();
+            Utils.logDebug(stufe);
             cursor.moveToFirst();
             for (int i = 0; !cursor.isAfterLast(); cursor.moveToNext(), i++) {
                 String kuerzel = cursor.getString(0);
@@ -614,7 +615,9 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
                 if (teil2.charAt(0) == 'L')
                     teil2 = "L";
                 kuerzel = teil1 + teil2;
-                kuerzel = kuerzel + " " + lehrer + " " + stufe;
+                kuerzel = kuerzel + " " + lehrer;
+                if (Utils.getUserPermission() != User.PERMISSION_LEHRER)
+                    kuerzel += " " + stufe;
                 faecher[i] = kuerzel;
             }
         }
@@ -627,5 +630,11 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         boolean b      = cursor.getCount() > 0;
         cursor.close();
         return b;
+    }
+
+    public void clear() {
+        database.delete(TABLE_FAECHER, null, null);
+        database.delete(TABLE_GEWAEHLT, null, null);
+        database.delete(TABLE_STUNDEN, null, null);
     }
 }

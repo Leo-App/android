@@ -9,21 +9,17 @@ import android.widget.TextView;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class FeedbackDialog extends AlertDialog {
 
     private boolean valid;
     private int     orderedMenu;
 
-    private ZXingScannerView scannerView;
-
     public FeedbackDialog(@NonNull Context context, boolean valid, int orderedMenu) {
         super(context);
 
         this.valid = valid;
         this.orderedMenu = orderedMenu;
-        this.scannerView = Utils.getController().getEssensbonActivity().getScannerView();
     }
 
     @Override
@@ -36,18 +32,10 @@ public class FeedbackDialog extends AlertDialog {
             setContentView(R.layout.dialog_invalid);
         }
 
-        setOnDismissListener(new DialogInterface.OnDismissListener() {
+        setOnDismissListener(new OnDismissListener() {
             @Override
-            public void onDismiss(DialogInterface dialog) {
-                scannerView.startCamera(0);
-            }
-        });
-
-        setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                scannerView.setResultHandler(Utils.getController().getEssensbonActivity());
-                scannerView.startCamera(0);
+            public void onDismiss(DialogInterface dialogInterface) {
+                Utils.getController().getEssensbonActivity().getIntegrator().initiateScan();
             }
         });
 

@@ -50,7 +50,6 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
                 permission = User.PERMISSION_LEHRER;
             }
 
-            //TODO!!!
             HttpURLConnection connection = (HttpURLConnection)
                     new URL(Utils.URL_PHP_SCHOOL + "verify.php")
                             .openConnection();
@@ -60,17 +59,17 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
             Utils.logDebug(code);
 
             if (code != 200) {
-                if (code == 401)
+                if (code == 401) {
                     return ResponseCode.AUTH_FAILED;
+                }
                 return ResponseCode.SERVER_FAILED;
             }
 
-            BufferedReader reader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream()
-                            )
-                    );
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            connection.getInputStream()
+                    )
+            );
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -84,14 +83,17 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
                     new URL(Utils.BASE_URL_PHP + "user/addUser.php?name=" + Utils.getUserDefaultName() + "&permission=" + permission + "&checksum=" + checksum)
                             .openConnection();
 
-            reader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    connection2
-                                            .getInputStream(), "UTF-8"));
+            reader = new BufferedReader(
+                    new InputStreamReader(
+                            connection2.getInputStream(),
+                            "UTF-8"
+                    )
+            );
+
             StringBuilder result = new StringBuilder();
-            while ((line = reader.readLine()) != null)
+            while ((line = reader.readLine()) != null) {
                 result.append(line);
+            }
             reader.close();
 
             Utils.logDebug(result.toString());

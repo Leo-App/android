@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.slg.leoapp">
 
     <uses-feature android:name="android.hardware.camera" />
@@ -11,9 +12,9 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
 
     <application
         android:allowBackup="true"
@@ -22,24 +23,25 @@
         android:roundIcon="@mipmap/leo_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <service
             android:name=".service.AuthenticatorService"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
+                <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
-
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/syncauthenticator" />
         </service>
+
+
         <service
             android:name=".service.ReceiveSyncService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
-
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
@@ -49,31 +51,33 @@
             android:name=".service.StubProvider"
             android:authorities="de.slg.leoapp"
             android:exported="false"
-            android:syncable="true" />
+            android:syncable="true"/>
 
         <service
             android:name=".service.ReceiveService"
             android:description="@string/serviceDescription"
             android:exported="false" />
-        <service
-            android:name=".service.NotificationServiceWrapper$FoodmarkService"
+        <service android:name=".service.NotificationServiceWrapper$FoodmarkService"
             android:description="@string/serviceDescription"
-            android:exported="false" />
-        <service
-            android:name=".service.NotificationServiceWrapper$TimetableService"
+            android:exported="false"
+            />
+        <service android:name=".service.NotificationServiceWrapper$TimetableService"
             android:description="@string/serviceDescription"
-            android:exported="false" />
-        <service
-            android:name=".service.NotificationServiceWrapper$StimmungsbarometerService"
+            android:exported="false"
+            />
+        <service android:name=".service.NotificationServiceWrapper$StimmungsbarometerService"
             android:description="@string/serviceDescription"
-            android:exported="false" />
-        <service
-            android:name=".service.NotificationServiceWrapper$KlausurplanService"
+            android:exported="false"
+            />
+        <service android:name=".service.NotificationServiceWrapper$KlausurplanService"
             android:description="@string/serviceDescription"
-            android:exported="false" />
+            android:exported="false"
+            />
+
         <service
             android:name=".service.AlarmStartupService"
-            android:exported="false" />
+            android:exported="false"
+            />
 
         <activity
             android:name=".Start"
@@ -137,6 +141,7 @@
             android:name="de.slg.schwarzes_brett.activity.SchwarzesBrettActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
+
         <activity
             android:name="de.slg.stundenplan.activity.StundenplanActivity"
             android:screenOrientation="portrait"
@@ -151,22 +156,25 @@
             android:name=".activity.IntroActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name="de.slg.leoapp.activity.ProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
+
         <activity
             android:name="de.slg.umfragen.activity.SurveyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
+
         <activity
             android:name="de.slg.it_problem.activity.ITActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
+
         <activity
             android:name="de.slg.essensbons.intro.EssensbonIntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
-        <activity android:name="de.slg.umfragen.activity.SavedActivity"></activity>
+
     </application>
 
 </manifest>

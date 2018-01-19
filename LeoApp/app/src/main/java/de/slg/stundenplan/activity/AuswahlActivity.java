@@ -23,13 +23,13 @@ import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.view.ActionLogActivity;
-import de.slg.stundenplan.task.FachImporter;
+import de.slg.stundenplan.task.Importer;
 import de.slg.stundenplan.utility.Fach;
 
 public class AuswahlActivity extends ActionLogActivity {
     private Menu                       menu;
     private KursAdapter                adapter;
-    private SQLiteConnectorStundenplan db;
+    private SQLiteConnectorStundenplan database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class AuswahlActivity extends ActionLogActivity {
         Utils.getController().registerAuswahlActivity(this);
         String stufe = Utils.getUserStufe();
         if (!stufe.equals("")) {
-            new FachImporter().execute();
+            new Importer().execute();
         }
         initToolbar();
         if (stufe.equals("")) {
@@ -64,11 +64,11 @@ public class AuswahlActivity extends ActionLogActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == R.id.action_speichern) {
-            db.loescheWahlen();
+            database.loescheWahlen();
             for (int id : adapter.gibMarkierteIds()) {
-                db.waehleFach(id);
-                if (db.mussSchriftlich(id))
-                    db.setzeSchriftlich(true, id);
+                database.waehleFach(id);
+                if (database.mussSchriftlich(id))
+                    database.setzeSchriftlich(true, id);
             }
         }
         finish();
@@ -79,7 +79,8 @@ public class AuswahlActivity extends ActionLogActivity {
     public void finish() {
         super.finish();
         Utils.getController().registerAuswahlActivity(null);
-        if (!Utils.getController().getStundenplanDatabase().hatGewaehlt())
+        database.close();
+        if (database.hatGewaehlt())
             Utils.getController().getStundenplanActivity().finish();
     }
 
@@ -96,7 +97,7 @@ public class AuswahlActivity extends ActionLogActivity {
     public void initListView() {
         ListView listView = findViewById(R.id.listA);
 
-        adapter = new KursAdapter(getApplicationContext(), db.getFaecher());
+        adapter = new KursAdapter(getApplicationContext(), database.getFaecher());
 
         listView.setAdapter(adapter);
 
@@ -106,7 +107,7 @@ public class AuswahlActivity extends ActionLogActivity {
                 if (view.isEnabled()) {
                     boolean  checked = adapter.toggleCheckBox(position);
                     Fach     f       = adapter.fachArray[position];
-                    double[] stunden = db.gibStunden(f.id);
+                    double[] stunden = database.gibStunden(f.id);
                     for (double d : stunden) {
                         adapter.ausgewaehlteStunden[(int) (d - 1)][(int) (d * 10 % 10 - 1)] = checked;
                     }
@@ -160,8 +161,8 @@ public class AuswahlActivity extends ActionLogActivity {
     }
 
     public void initDB() {
-        db = Utils.getController().getStundenplanDatabase();
-        if (db.getFaecher().length == 0) {
+        database = new SQLiteConnectorStundenplan(getApplicationContext());
+        if (database.getFaecher().length == 0) {
             Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes, Snackbar.LENGTH_SHORT);
             snack.show();
         }
@@ -173,11 +174,9 @@ public class AuswahlActivity extends ActionLogActivity {
         final         boolean[][]                ausgewaehlteStunden;
         private final View[]                     views;
         private final CheckBox[]                 cbs;
-        private final SQLiteConnectorStundenplan db;
 
         KursAdapter(Context context, Fach[] array) {
             super(context, R.layout.list_item_kurs, array);
-            db = Utils.getController().getStundenplanDatabase();
             fachArray = array;
             views = new View[array.length];
             cbs = new CheckBox[array.length];
@@ -202,7 +201,7 @@ public class AuswahlActivity extends ActionLogActivity {
                 tvFach.setText(current.getName());
                 tvKuerzel.setText(current.getKuerzel());
                 tvLehrer.setText(current.getLehrer());
-                checkBox.setChecked(db.istGewaehlt(current.id));
+                checkBox.setChecked(database.istGewaehlt(current.id));
 
                 if (Utils.getUserStufe().matches("[0-9]+")) {
                     tvKlasse.setVisibility(View.VISIBLE);
@@ -214,7 +213,7 @@ public class AuswahlActivity extends ActionLogActivity {
                         ausgewaehlteFaecher.append(current.getKuerzel().substring(0, 2));
                     else
                         ausgewaehlteFaecher.append(current.getKuerzel().substring(3, 6));
-                    double[] stunden = db.gibStunden(current.id);
+                    double[] stunden = database.gibStunden(current.id);
                     for (double d : stunden) {
                         ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
                     }

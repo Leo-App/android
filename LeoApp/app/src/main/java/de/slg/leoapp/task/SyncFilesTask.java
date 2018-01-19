@@ -12,9 +12,12 @@ import java.net.URL;
 
 import de.slg.leoapp.utility.Utils;
 
-public class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
+public class SyncFilesTask extends AsyncTask<Void, Void, Void> {
+    public static boolean running = false;
+
     @Override
     protected Void doInBackground(Void... voids) {
+        running = true;
         try {
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
@@ -45,6 +48,7 @@ public class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             Utils.logError(e);
         }
+
         try {
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
@@ -67,7 +71,26 @@ public class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
             );
 
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                writer.write(line.replace("L�Z", "LÜZ").replace("CH�", "CHÜ").replace("BI�", "BIÜ"));
+                writer.write(
+                        line
+                                .substring(
+                                        line.indexOf(',') + 1,
+                                        line.lastIndexOf(',')
+                                )
+                                .replace(
+                                        "L�Z",
+                                        "LÜZ")
+                                .replace(
+                                        "CH�",
+                                        "CHÜ")
+                                .replace(
+                                        "BI�",
+                                        "BIÜ")
+                                .replace(
+                                        "\"",
+                                        ""
+                                )
+                );
                 writer.newLine();
             }
 
@@ -76,6 +99,9 @@ public class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             Utils.logError(e);
         }
+
+        running = false;
+
         return null;
     }
 }

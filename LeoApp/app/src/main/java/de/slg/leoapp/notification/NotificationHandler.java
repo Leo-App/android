@@ -18,6 +18,7 @@ import de.slg.klausurplan.utility.Klausur;
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
+import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActivityStatus;
@@ -457,8 +458,9 @@ public class NotificationHandler {
         }
 
         private String getNotificationText() {
-            StringBuilder builder = new StringBuilder();
-            Fach[]        lessons = Utils.getController().getStundenplanDatabase().gewaehlteFaecherAnTag(getNextDayOfWeek());
+            SQLiteConnectorStundenplan database = new SQLiteConnectorStundenplan(Utils.getContext());
+            StringBuilder              builder  = new StringBuilder();
+            Fach[]                     lessons  = database.gewaehlteFaecherAnTag(getNextDayOfWeek());
 
             if (lessons.length == 0)
                 return Utils.getString(R.string.none);
@@ -474,6 +476,8 @@ public class NotificationHandler {
 
             if(builder.charAt(builder.length()-3) == ',')
                 builder.deleteCharAt(builder.length()-3);
+
+            database.close();
 
             return builder.toString();
         }
