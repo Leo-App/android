@@ -1,6 +1,8 @@
 package de.slg.stundenplan.task;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 
 import java.io.BufferedReader;
@@ -37,6 +39,7 @@ public class Importer extends AsyncTask<Void, Void, Void> {
                             Utils.getContext()
                                     .openFileInput(
                                             "stundenplan.txt"
+
                                     )
                     )
             );

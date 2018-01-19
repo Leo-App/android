@@ -99,6 +99,12 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return database.insert(TABLE_FAECHER, null, values);
     }
 
+    public boolean isLK(String kurzel) {
+        if (kurzel.length() > 2 && (kurzel.charAt(2) == 'L'))
+            return true;
+        return false;
+    }
+
     public void insertStunde(long fid, int tag, int stunde, String raum) {
         String selection = FACH_ID + " = " + fid + " AND " + STUNDEN_TAG + " = " + tag + " AND " + STUNDEN_STUNDE + " = " + stunde;
         Cursor cursor    = database.query(TABLE_STUNDEN, new String[]{FACH_ID}, selection, null, null, null, null);
@@ -128,7 +134,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
 
     public void setzeSchriftlich(boolean schriftlich, long fid) {
         ContentValues values = new ContentValues();
-        values.put(GEWAEHLT_SCHRIFTLICH, schriftlich ? 1 : 0);
+        values.put(GEWAEHLT_SCHRIFTLICH, schriftlich);
         database.update(TABLE_GEWAEHLT, values, FACH_ID + " = " + fid, null);
         SQLiteConnectorKlausurplan klausurplan = new SQLiteConnectorKlausurplan(context);
         klausurplan.updateStundenplan(getFachKurzel(fid), schriftlich);
@@ -565,13 +571,13 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     public boolean mussSchriftlich(long fid) {
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
+        String test = this.getFachKurzel(fid);
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER || this.isLK(this.getFachKurzel(fid))) {
+            //todo LK automatisch schriftlich -> Das muss noch besser!
             return true;
-        Cursor cursor = database.query(TABLE_FAECHER, new String[]{FACH_ART, FACH_NAME}, FACH_ID + " = " + fid, null, null, null, null);
-        cursor.moveToFirst();
-        boolean b = cursor.getCount() > 0 && (cursor.getString(0).equals("LK") || cursor.getString(1).equals(Utils.getString(R.string.deutsch)) || cursor.getString(1).equals(Utils.getString(R.string.mathe)));
-        cursor.close();
-        return b;
+        }
+
+        return false;
     }
 
     public boolean istGewaehlt(int fid) {
