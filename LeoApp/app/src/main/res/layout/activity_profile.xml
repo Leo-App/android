@@ -155,10 +155,9 @@
                             android:layout_marginStart="20dp"
                             android:layout_toLeftOf="@id/editTEA"
                             android:layout_toStartOf="@id/editTEA"
-                            android:text="MEL"
+                            android:text="-"
                             android:textColor="@android:color/black"
                             android:textSize="20sp" />
-
 
                     </RelativeLayout>
 
