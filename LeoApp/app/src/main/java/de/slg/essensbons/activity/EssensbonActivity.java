@@ -1,22 +1,15 @@
 package de.slg.essensbons.activity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
-
-import com.google.zxing.Result;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import de.slg.essensbons.activity.fragment.QRFragment;
 import de.slg.essensbons.activity.fragment.ScanFragment;
@@ -30,17 +23,14 @@ import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class EssensbonActivity extends LeoAppFeatureActivity implements ZXingScannerView.ResultHandler, TaskStatusListener {
+public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStatusListener {
 
     public static boolean mensaModeRunning;
 
-    private ZXingScannerView     scannerView;
     private ViewPager            viewPager;
     private FragmentPagerAdapter adapt;
 
-    private boolean runningScan;
     private boolean runningSync;
 
     static {
@@ -52,7 +42,6 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements ZXingSca
         super.onCreate(savedInstanceState);
         Utils.getController().registerEssensbonActivity(this);
 
-        runningScan = false;
         runningSync = false;
 
         initFragments();
@@ -123,56 +112,6 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements ZXingSca
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            if (runningScan) {
-                runningScan = false;
-                scannerView.stopCamera();
-                finish();
-                startActivity(new Intent(getApplicationContext(), EssensbonActivity.class));
-                return false;
-            }
-            return super.onKeyDown(keyCode, event);
-        } else
-            return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    protected void onPause() {
-        if (scannerView != null && scannerView.isActivated()) {
-            scannerView.stopCamera();
-            finish();
-            startActivity(new Intent(getApplicationContext(), EssensbonActivity.class));
-        } else {
-            super.onPause();
-        }
-    }
-
-    @Override
-    public void handleResult(Result result) {
-        QRReadTask task = new QRReadTask();
-        scannerView.stopCamera();
-        task.execute(result.getText());
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 0: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    runningScan = true;
-                    scannerView = new ZXingScannerView(getApplicationContext());
-                    setContentView(scannerView);
-                    scannerView.setResultHandler(this);
-                    scannerView.startCamera(EssensbonUtils.getPreferredCamera());
-                }
-            }
-        }
-    }
-
-    @Override
     public void finish() {
         super.finish();
         Utils.getController().registerEssensbonActivity(null);
@@ -182,10 +121,6 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements ZXingSca
     public void taskFinished(Object... result) {
         if (result[0] == Authenticator.NOT_VALID)
             startActivity(new Intent(this, EssensbonIntroActivity.class));
-    }
-
-    public ZXingScannerView getScannerView() {
-        return scannerView;
     }
 
     public boolean isRunningSync() {
@@ -200,26 +135,35 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements ZXingSca
         runningSync = true;
     }
 
-    public void scan() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    0);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() != null) {
+                QRReadTask task = new QRReadTask();
+                task.execute(result.getContents());
+            }
         } else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            runningScan = true;
-            scannerView = new ZXingScannerView(getApplicationContext());
-            setContentView(scannerView);
-            scannerView.setResultHandler(this);
-            scannerView.startCamera(EssensbonUtils.getPreferredCamera());
+            super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    public void scan() {
+
+        IntentIntegrator integrator = new IntentIntegrator(this);
+//        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+        integrator.setCameraId(EssensbonUtils.getPreferredCamera());
+        integrator.setOrientationLocked(true);
+        integrator.setCaptureActivity(ScanActivity.class);
+        integrator.setPrompt("");
+        integrator.initiateScan();
+
     }
 
     private void initIntro() {
         if (!Utils.getController().getPreferences().getBoolean("intro_shown_qr", true))
             startActivity(new Intent(this, EssensbonIntroActivity.class).putExtra("explanation", true));
-        else if (EssensbonUtils.isLoggedIn())
+        else if (!EssensbonUtils.isLoggedIn())
             startActivity(new Intent(this, EssensbonIntroActivity.class));
         else
             initCredentialCheck();
