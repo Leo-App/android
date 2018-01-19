@@ -1,13 +1,11 @@
 package de.slg.stundenplan.dialog;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -20,7 +18,7 @@ import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.datastructure.List;
 
-public class FinderDalog extends AlertDialog {
+public class FinderDalog extends AlertDialog implements View.OnClickListener {
     private List<String> kürzel;
 
     public FinderDalog(Activity context) {
@@ -46,10 +44,10 @@ public class FinderDalog extends AlertDialog {
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             t1.setText(Utils.getLehrerKuerzel());
 
-        a2.setOnClickListener(new ButtonClickListener());
-        a3.setOnClickListener(new ButtonClickListener());
-        a4.setOnClickListener(new ButtonClickListener());
-        a5.setOnClickListener(new ButtonClickListener());
+        a2.setOnClickListener(this);
+        a3.setOnClickListener(this);
+        a4.setOnClickListener(this);
+        a5.setOnClickListener(this);
 
         a2.getCompoundDrawables()[0].setColorFilter(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
         a3.getCompoundDrawables()[0].setColorFilter(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
@@ -133,39 +131,34 @@ public class FinderDalog extends AlertDialog {
         });
     }
 
-    private class ButtonClickListener implements View.OnClickListener {
+    @Override
+    public void onClick(View view) {
+        final TextView t2 = findViewById(R.id.text2);
+        final TextView t3 = findViewById(R.id.text3);
+        final TextView t4 = findViewById(R.id.text4);
+        final TextView t5 = findViewById(R.id.text5);
 
-        @Override
-        public void onClick(View view) {
-            final TextView t2 = findViewById(R.id.text2);
-            final TextView t3 = findViewById(R.id.text3);
-            final TextView t4 = findViewById(R.id.text4);
-            final TextView t5 = findViewById(R.id.text5);
+        final TextView a2 = findViewById(R.id.add2);
+        final TextView a3 = findViewById(R.id.add3);
+        final TextView a4 = findViewById(R.id.add4);
+        final TextView a5 = findViewById(R.id.add5);
 
-            final TextView a2 = findViewById(R.id.add2);
-            final TextView a3 = findViewById(R.id.add3);
-            final TextView a4 = findViewById(R.id.add4);
-            final TextView a5 = findViewById(R.id.add5);
-
-            if (t2.getVisibility() != View.VISIBLE) {
-                a2.setVisibility(View.INVISIBLE);
-                t2.setVisibility(View.VISIBLE);
-                t2.requestFocus();
-            } else if (t3.getVisibility() != View.VISIBLE) {
-                a3.setVisibility(View.INVISIBLE);
-                t3.setVisibility(View.VISIBLE);
-                t3.requestFocus();
-            } else if (t4.getVisibility() != View.VISIBLE) {
-                a4.setVisibility(View.INVISIBLE);
-                t4.setVisibility(View.VISIBLE);
-                t4.requestFocus();
-            } else if (t5.getVisibility() != View.VISIBLE) {
-                a5.setVisibility(View.INVISIBLE);
-                t5.setVisibility(View.VISIBLE);
-                t5.requestFocus();
-            }
-
+        if (t2.getVisibility() != View.VISIBLE) {
+            a2.setVisibility(View.INVISIBLE);
+            t2.setVisibility(View.VISIBLE);
+            t2.requestFocus();
+        } else if (t3.getVisibility() != View.VISIBLE) {
+            a3.setVisibility(View.INVISIBLE);
+            t3.setVisibility(View.VISIBLE);
+            t3.requestFocus();
+        } else if (t4.getVisibility() != View.VISIBLE) {
+            a4.setVisibility(View.INVISIBLE);
+            t4.setVisibility(View.VISIBLE);
+            t4.requestFocus();
+        } else if (t5.getVisibility() != View.VISIBLE) {
+            a5.setVisibility(View.INVISIBLE);
+            t5.setVisibility(View.VISIBLE);
+            t5.requestFocus();
         }
     }
-
 }
