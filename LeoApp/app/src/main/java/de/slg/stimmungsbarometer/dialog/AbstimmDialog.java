@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
@@ -13,7 +14,7 @@ import de.slg.stimmungsbarometer.task.SendeDaten;
 import de.slg.stimmungsbarometer.utility.Wahl;
 
 public class AbstimmDialog extends AlertDialog {
-    private       int      voteid            = 0;
+    private int voteid = 0;
     private View        confirm;
     private ImageButton very_satisfied;
     private ImageButton satisfied;
@@ -31,6 +32,16 @@ public class AbstimmDialog extends AlertDialog {
         setContentView(R.layout.dialog_abstimmen);
         initSmileys();
         initSendButton();
+
+        TextView textView = findViewById(R.id.textView);
+        textView.setText(
+                Utils.getController()
+                        .getPreferences()
+                        .getString(
+                                "stimmungsbarometer_frage",
+                                "Wie geht es dir?"
+                        )
+        );
     }
 
     private void initSmileys() {

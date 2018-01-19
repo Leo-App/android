@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "de.slg.leoapp"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 18
         versionName "beta-0.7.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

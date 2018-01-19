@@ -23,7 +23,7 @@ import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.view.ActionLogActivity;
-import de.slg.stundenplan.task.FachImporter;
+import de.slg.stundenplan.task.Importer;
 import de.slg.stundenplan.utility.Fach;
 
 public class AuswahlActivity extends ActionLogActivity {
@@ -38,7 +38,7 @@ public class AuswahlActivity extends ActionLogActivity {
         Utils.getController().registerAuswahlActivity(this);
         String stufe = Utils.getUserStufe();
         if (!stufe.equals("")) {
-            new FachImporter().execute();
+            new Importer().execute();
         }
         initToolbar();
         if (stufe.equals("")) {

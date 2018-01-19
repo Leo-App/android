@@ -30,7 +30,7 @@ import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
 import de.slg.stundenplan.dialog.DetailsDialog;
 import de.slg.stundenplan.dialog.FinderDalog;
-import de.slg.stundenplan.task.FachImporter;
+import de.slg.stundenplan.task.Importer;
 import de.slg.stundenplan.utility.Fach;
 
 public class StundenplanActivity extends LeoAppFeatureActivity {
@@ -43,11 +43,17 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
         Utils.getController().registerStundenplanActivity(this);
         if (!Utils.getController().getStundenplanDatabase().hatGewaehlt()) {
             if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
-                startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
+                startActivity(
+                        new Intent(
+                                getApplicationContext(),
+                                AuswahlActivity.class
+                        )
+                );
             } else {
-                new FachImporter().execute();
+                new Importer().execute();
             }
         }
+
         initTabs();
     }
 

@@ -10,6 +10,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.slg.leoapp.utility.Utils;
+
 /**
  * ActionLogActivity
  * <p>
@@ -36,6 +38,10 @@ public abstract class ActionLogActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getActivityTag());
         mFirebaseAnalytics.logEvent("ActivityStartEvent", bundle);
+
+        if (Utils.getContext() == null) {
+            Utils.getController().setContext(getApplicationContext());
+        }
     }
 
     @Override
