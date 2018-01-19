@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.GraphicUtils;
 import de.slg.leoapp.utility.Utils;

@@ -32,7 +32,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     private static final String DATABASE_NAME        = "surveys.db";
 
     public SQLiteConnectorUmfragen(Context c) {
-        super(c, DATABASE_NAME, null, 4);
+        super(c, DATABASE_NAME, null, 5);
     }
 
     @Override
@@ -43,6 +43,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
                 SURVEYS_ADRESSAT + " TEXT NOT NULL, " +
                 SURVEYS_ABSENDER + " TEXT NOT NULL, " +
                 SURVEYS_REMOTE_ID + " INTEGER NOT NULL, " +
+                SURVEYS_BESCHREIBUNG + " TEXT NOT NULL, " +
                 SURVEYS_MULTIPLE + " TINYINT NOT NULL, " +
                 SURVEYS_ERSTELLDATUM + " TEXT NOT NULL, " +
                 SURVEYS_VOTEABLE + " TINYINT NOT NULL" +

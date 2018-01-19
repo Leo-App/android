@@ -218,13 +218,14 @@ public class SurveyActivity extends LeoAppFeatureActivity {
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             groupList.add(cursor.getInt(6));
-
+            Utils.logError(cursor.getInt(6));
             Cursor            cursorAnswers = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_ANSWERS, new String[]{SQLiteConnectorUmfragen.ANSWERS_INHALT, SQLiteConnectorUmfragen.ANSWERS_REMOTE_ID, SQLiteConnectorUmfragen.ANSWERS_SELECTED}, SQLiteConnectorUmfragen.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
             ArrayList<String> answers       = new ArrayList<>();
 
             boolean voted = false;
 
             for (cursorAnswers.moveToFirst(); !cursorAnswers.isAfterLast(); cursorAnswers.moveToNext()) {
+                Utils.logError("ANSWERS");
                 answers.add(cursorAnswers.getString(0) + "_;_" + cursorAnswers.getString(1) + "_;_" + cursorAnswers.getInt(2));
                 voted = voted || cursorAnswers.getInt(2) == 1;
             }
@@ -572,7 +573,8 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL(Utils.DOMAIN_DEV + "survey/deleteSurvey.php?ic_create_survey=" + params[0]);
+                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/deleteSurvey.php?survey=" + params[0]);
+                    Utils.logError(updateURL);
                     BufferedReader reader =
                             new BufferedReader(
                                     new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
