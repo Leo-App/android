@@ -16,9 +16,9 @@ import java.io.InputStreamReader;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorStundenplanFinder;
-import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.datastructure.List;
 
 public class FinderDalog extends AlertDialog {
     private List<String> kürzel;
@@ -129,18 +129,36 @@ public class FinderDalog extends AlertDialog {
                 }
 
                 try {
-                    SQLiteConnectorStundenplanFinder db = new SQLiteConnectorStundenplanFinder(getContext());
+                    SQLiteConnectorStundenplanFinder database = new SQLiteConnectorStundenplanFinder(getContext());
 
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(
-                                            Utils.getContext().openFileInput("stundenplan.txt")));
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(
+                                    Utils.getContext()
+                                            .openFileInput(
+                                                    "stundenplan.txt"
+                                            )
+                            )
+                    );
+
                     for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                        String[] fach = line.replace("\"", "").split(",");
-                        if (kürzel.contains(fach[2])) {
-                            db.insertStunde(Integer.parseInt(fach[5]), Integer.parseInt(fach[6]));
+                        String[] fach = line.split(",");
+
+                        String lehrer = fach[1];
+                        String tag    = fach[4];
+                        String stunde = fach[5];
+
+                        if (kürzel.contains(lehrer)) {
+                            database.insertStunde(
+                                    Integer.parseInt(
+                                            tag
+                                    ),
+                                    Integer.parseInt(
+                                            stunde
+                                    )
+                            );
                         }
                     }
+
                     reader.close();
 
                     findViewById(R.id.add2).setVisibility(View.GONE);
@@ -155,10 +173,10 @@ public class FinderDalog extends AlertDialog {
                     ok.setVisibility(View.GONE);
 
                     TextView t = findViewById(R.id.textView);
-                    t.setText(db.gibFreistundenZeiten());
+                    t.setText(database.gibFreistundenZeiten());
 
-                    db.clear();
-                    db.close();
+                    database.clear();
+                    database.close();
                 } catch (IOException e) {
                     Utils.logError(e);
                 }
