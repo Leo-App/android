@@ -482,7 +482,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL(Utils.DOMAIN_DEV + "survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
+                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
                     Utils.logError(updateURL);
                     BufferedReader reader =
                             new BufferedReader(
