@@ -193,8 +193,8 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
             @Override
             public void run() {
                 View scrollView = findViewById(R.id.scrollView);
-                int  height;
-                while ((height = scrollView.getHeight()) == 0)
+                int  height, width;
+                while ((height = scrollView.getHeight()) == 0 || (width = scrollView.getWidth()) == 0)
                     ;
 
                 viewWoche.setMinimumHeight(height * 4 / 5);
@@ -210,6 +210,13 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
                 container.addView(cardMonat, layoutParams);
                 container.addView(cardJahr, layoutParams);
                 container.addView(cardAlles, layoutParams);
+
+                final LinearLayout.LayoutParams layoutParamsTitle = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParamsTitle.setMargins(width / 128, height / 128, width / 128, height / 128);
+                titleWoche.setLayoutParams(layoutParamsTitle);
+                titleMonat.setLayoutParams(layoutParamsTitle);
+                titleJahr.setLayoutParams(layoutParamsTitle);
+                titleAlles.setLayoutParams(layoutParamsTitle);
             }
         });
     }
@@ -251,7 +258,6 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
 
         viewAlles.setData(sqLiteConnector.getAverage());
         viewAlles.invalidate();
-
     }
 
     private class StartTask extends AsyncTask<Void, Void, ResponseCode> {
@@ -261,10 +267,12 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
                 URLConnection connection = new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/ergebnisse.php?uid=" + Utils.getUserID())
                         .openConnection();
 
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        connection.getInputStream(), "UTF-8"));
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                connection.getInputStream()
+                        )
+                );
+
                 String        line;
                 StringBuilder builder = new StringBuilder();
                 while ((line = reader.readLine()) != null) {

@@ -23,10 +23,10 @@ public class StatistikView extends View {
     private       Bitmap       bitmapIch, bitmapSchueler, bitmapLehrer, bitmapAlle;
     private final Canvas canvasBack;
     private final Canvas canvasIch, canvasSchueler, canvasLehrer, canvasAlle;
-    private final Paint paint;
-    boolean recreateCharts;
-    private boolean isInitialized;
-    private float   baseLineY, baseLineX, abstandX, abstandY, radius;
+    private final Paint   paint;
+    private       boolean recreateCharts;
+    private       boolean isInitialized;
+    private       float   baseLineY, baseLineX, abstandX, abstandY, radius;
 
     public StatistikView(Context context) {
         super(context);
@@ -56,6 +56,12 @@ public class StatistikView extends View {
             canvas.drawBitmap(bitmapAlle, 0, 0, paint);
     }
 
+    @Override
+    public void invalidate() {
+        recreateCharts = true;
+        super.invalidate();
+    }
+
     private void init() {
         height = getHeight();
         width = getWidth();
@@ -64,9 +70,9 @@ public class StatistikView extends View {
         abstandY = baseLineY * 99 / 400;
         baseLineX = width / 20;
         radius = 8;
-        if (bitmapIch == null || bitmapSchueler == null || bitmapLehrer == null || bitmapAlle == null) {
-            createCharts();
-        }
+
+        createCharts();
+
         if (bitmapBack == null) {
             bitmapBack = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
             canvasBack.setBitmap(bitmapBack);

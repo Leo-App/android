@@ -1,4 +1,4 @@
-/*package de.slg.umfragen.activity;
+package de.slg.umfragen.activity;
 
 import android.support.v7.app.AppCompatActivity;
 
@@ -70,5 +70,4 @@ public class SavedActivity extends AppCompatActivity {
             return v;
         }
     } */
-
 }

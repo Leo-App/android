@@ -56,6 +56,12 @@ public class StatistikViewBalken extends View {
             canvas.drawBitmap(bitmapAlle, 0, 0, paint);
     }
 
+    @Override
+    public void invalidate() {
+        recreateCharts = true;
+        super.invalidate();
+    }
+
     public void setData(Ergebnis[] data) {
         this.data = data;
     }
