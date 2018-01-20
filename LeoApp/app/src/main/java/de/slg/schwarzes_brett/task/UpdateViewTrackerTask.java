@@ -17,7 +17,7 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
             remote = cur;
             try {
                 URLConnection connection =
-                        new URL(Utils.BASE_URL_PHP + "updateViewTracker.php?remote=" + remote)
+                        new URL(Utils.BASE_URL_PHP + "schwarzesBrett/updateViewTracker.php?remote=" + remote)
                                 .openConnection();
 
                 connection.getInputStream();
