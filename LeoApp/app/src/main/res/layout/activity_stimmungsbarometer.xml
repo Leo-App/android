@@ -74,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imageViewIch"
                         android:layout_toRightOf="@+id/imageViewIch"
                         android:text="@string/me"
@@ -105,6 +106,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imageViewSchueler"
                         android:layout_toRightOf="@+id/imageViewSchueler"
                         android:text="@string/students"
@@ -136,6 +138,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imageViewLehrer"
                         android:layout_toRightOf="@+id/imageViewLehrer"
                         android:text="@string/lehrer"
@@ -167,6 +170,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imageViewAlle"
                         android:layout_toRightOf="@+id/imageViewAlle"
                         android:text="@string/all"
@@ -191,7 +195,7 @@
             android:layout_marginRight="10dp"
             android:clickable="true"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_edit"/>
+            app:srcCompat="@drawable/ic_edit" />
 
     </RelativeLayout>
 
@@ -201,6 +205,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/layout_navigation_header"
-        app:menu="@menu/navigation"/>
+        app:menu="@menu/navigation" />
 
 </android.support.v4.widget.DrawerLayout>
