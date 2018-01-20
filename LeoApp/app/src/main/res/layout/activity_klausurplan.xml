@@ -2,12 +2,12 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/snack"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
     <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer"
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -34,7 +34,7 @@
                 android:layout_below="@+id/toolbar" />
 
             <ProgressBar
-                android:id="@+id/progressBar4"
+                android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,11 +42,11 @@
                 android:visibility="gone" />
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabAdd"
+                android:id="@+id/floatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="20dp"
@@ -55,7 +55,7 @@
                 app:backgroundTint="@color/colorAccent"
                 app:layout_anchor="@id/listViewKlausuren"
                 app:layout_anchorGravity="bottom|right|end"
-                app:srcCompat="@drawable/ic_add"/>
+                app:srcCompat="@drawable/ic_add" />
 
         </RelativeLayout>
 

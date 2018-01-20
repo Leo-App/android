@@ -119,7 +119,7 @@ public class FinderDalog extends AlertDialog implements View.OnClickListener {
                     t5.setVisibility(View.GONE);
                     ok.setVisibility(View.GONE);
 
-                    TextView t = findViewById(R.id.textView);
+                    TextView t = findViewById(R.id.titleKlausur);
                     t.setText(database.gibFreistundenZeiten());
 
                     database.clear();

@@ -159,14 +159,14 @@ public class ChatActivity extends ActionLogActivity {
             }
         };
 
-        rvMessages = findViewById(R.id.recyclerViewMessages);
+        rvMessages = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvMessages.setLayoutManager(layoutManager);
         refreshUI(true, true);
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.actionBarChat);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(cname);
         setSupportActionBar(toolbar);

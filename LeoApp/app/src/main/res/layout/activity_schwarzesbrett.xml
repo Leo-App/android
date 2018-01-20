@@ -3,14 +3,14 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/snackbar"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v4.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/drawer"
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -23,7 +23,7 @@
             tools:mainActivity=".MainActivity">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/actionBarSchwarzesBrett"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentLeft="true"
@@ -35,10 +35,10 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/noEntries"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/actionBarSchwarzesBrett"
+                android:layout_below="@id/toolbar"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="@string/no_entries"
@@ -49,13 +49,13 @@
                 android:visibility="gone" />
 
             <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/refresh"
+                android:id="@+id/SwipeRefreshLayout"
                 android:layout_width="match_parent"
-                android:layout_below="@id/actionBarSchwarzesBrett"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_below="@id/toolbar">
 
                 <ExpandableListView
-                    android:id="@+id/eintraege"
+                    android:id="@+id/epanddableListView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentBottom="true">
@@ -73,13 +73,13 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="20dp"
-                android:visibility="gone"
                 android:adjustViewBounds="true"
                 android:clickable="true"
                 android:scaleType="fitCenter"
                 android:tint="@android:color/white"
+                android:visibility="gone"
                 app:fabSize="normal"
-                app:srcCompat="@drawable/ic_add"/>
+                app:srcCompat="@drawable/ic_add" />
 
         </RelativeLayout>
 

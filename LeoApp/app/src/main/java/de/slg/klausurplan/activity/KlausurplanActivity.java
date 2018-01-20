@@ -163,7 +163,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
     }
 
     private void initSnackbar() {
-        snackbar = Snackbar.make(findViewById(R.id.snack), getString(R.string.snackbar_gelöscht), Snackbar.LENGTH_LONG);
+        snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), getString(R.string.snackbar_gelöscht), Snackbar.LENGTH_LONG);
         snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         snackbar.setAction(getString(R.string.snackbar_undo), new View.OnClickListener() {
             @Override
@@ -187,7 +187,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
     }
 
     private void initAddButton() {
-        FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
+        FloatingActionButton fabAdd = findViewById(R.id.floatingActionButton);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,7 +242,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
         @Override
         protected void onPreExecute() {
-            findViewById(R.id.progressBar4).setVisibility(View.VISIBLE);
+            findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -273,7 +273,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            findViewById(R.id.progressBar4).setVisibility(View.GONE);
+            findViewById(R.id.progressBar).setVisibility(View.GONE);
             refresh();
         }
 

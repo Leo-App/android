@@ -45,7 +45,7 @@ public class AbstimmActivity extends ActionLogActivity {
         if (Utils.getController().getMainActivity() != null && Utils.getController().getMainActivity().abstimmDialog != null)
             Utils.getController().getMainActivity().abstimmDialog.dismiss();
 
-        TextView textView = findViewById(R.id.textView);
+        TextView textView = findViewById(R.id.titleKlausur);
         textView.setText(Utils.getController().getPreferences().getString("stimmungsbarometer_frage", getString(R.string.how_are_you)));
 
         initListView();

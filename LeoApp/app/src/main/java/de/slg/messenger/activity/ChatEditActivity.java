@@ -106,7 +106,7 @@ public class ChatEditActivity extends ActionLogActivity {
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.actionBarEditChat);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(cname);
         setSupportActionBar(toolbar);
@@ -151,7 +151,7 @@ public class ChatEditActivity extends ActionLogActivity {
 
     private void initSettings() {
         mode = "";
-        notifications = findViewById(R.id.switch1);
+        notifications = findViewById(R.id.notifications);
         notifications.setChecked(!Utils.getController().getMessengerDatabase().isMute(cid));
 
         final View name = findViewById(R.id.changeName);

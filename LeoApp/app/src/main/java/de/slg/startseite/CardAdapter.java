@@ -28,7 +28,6 @@ import de.slg.startseite.activity.MainActivity;
 import de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity;
 import de.slg.stundenplan.activity.StundenplanActivity;
 import de.slg.umfragen.activity.SurveyActivity;
-import de.slg.vertretung.WrapperSubstitutionActivity;
 
 /**
  * CardAdapter
@@ -145,19 +144,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                     @Override
                     public void onClick(View v) {
                             Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StundenplanActivity.class));
-                    }
-                };
-                break;
-            case SUBSTITUTION:
-                cards.append(c = new Card(type));
-                c.title = Utils.getString(R.string.title_subst);
-                c.desc = Utils.getString(R.string.summary_info_subst);
-                c.enabled = Utils.isVerified();
-                c.icon = R.mipmap.icon_vertretung;
-                c.buttonListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), WrapperSubstitutionActivity.class));
                     }
                 };
                 break;

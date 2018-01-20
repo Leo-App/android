@@ -21,7 +21,7 @@
             android:paddingRight="20dp">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/titleKlausur"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -39,7 +39,7 @@
                 android:id="@+id/textViewDatum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textView"
+                android:layout_below="@id/titleKlausur"
                 android:layout_centerHorizontal="true"
                 android:layout_marginEnd="3dp"
                 android:layout_marginLeft="3dp"
@@ -80,7 +80,7 @@
                 android:indeterminateTintMode="src_in" />
 
             <TextView
-                android:id="@+id/textViewMenu"
+                android:id="@+id/titleNotiz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageView"
@@ -98,7 +98,7 @@
                 android:id="@+id/textViewMenuDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textViewMenu"
+                android:layout_below="@+id/titleNotiz"
                 android:layout_centerHorizontal="true"
                 android:layout_marginEnd="3dp"
                 android:layout_marginLeft="3dp"

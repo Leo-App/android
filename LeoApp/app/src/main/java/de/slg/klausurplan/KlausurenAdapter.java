@@ -48,7 +48,7 @@ public class KlausurenAdapter extends ArrayAdapter<Klausur> {
         }
 
         String[]       parts    = current.getTitel().split(" ");
-        final TextView fach     = v.findViewById(R.id.textView);
+        final TextView fach     = v.findViewById(R.id.titleKlausur);
         final TextView kursinfo = v.findViewById(R.id.textViewKursInfo);
         final TextView stufe    = v.findViewById(R.id.textViewStufe);
         final TextView datum    = v.findViewById(R.id.textViewDate);

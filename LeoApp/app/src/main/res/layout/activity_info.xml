@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarInfo"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -21,7 +21,7 @@
         android:gravity="center">
 
         <TextView
-            android:id="@+id/textView3Info"
+            android:id="@+id/titleInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -34,7 +34,7 @@
             android:id="@+id/textView6Info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView3Info"
+            android:layout_below="@id/titleInfo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             android:text="@string/info_screen_first"

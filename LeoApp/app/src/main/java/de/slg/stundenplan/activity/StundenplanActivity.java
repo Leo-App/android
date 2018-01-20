@@ -169,7 +169,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
                 }
             }
         };
-        ViewPager viewPager = findViewById(R.id.viPager);
+        ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
 
         int dayOfWeek = new GregorianCalendar().get(Calendar.DAY_OF_WEEK);

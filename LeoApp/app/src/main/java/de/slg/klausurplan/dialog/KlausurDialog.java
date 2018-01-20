@@ -87,7 +87,7 @@ public class KlausurDialog extends AppCompatDialog {
     }
 
     private void initSnackbarTitel() {
-        snackbarTitle = Snackbar.make(findViewById(R.id.snack), getContext().getString(R.string.snackbar_missing_title), Snackbar.LENGTH_LONG);
+        snackbarTitle = Snackbar.make(findViewById(R.id.coordinatorLayout), getContext().getString(R.string.snackbar_missing_title), Snackbar.LENGTH_LONG);
         snackbarTitle.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         snackbarTitle.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
             @Override
@@ -98,7 +98,7 @@ public class KlausurDialog extends AppCompatDialog {
     }
 
     private void initSnackbarDatum() {
-        snackbarDate = Snackbar.make(findViewById(R.id.snack), getContext().getString(R.string.snackbar_date_invalid), Snackbar.LENGTH_LONG);
+        snackbarDate = Snackbar.make(findViewById(R.id.coordinatorLayout), getContext().getString(R.string.snackbar_date_invalid), Snackbar.LENGTH_LONG);
         snackbarDate.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         snackbarDate.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
             @Override

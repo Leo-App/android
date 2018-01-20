@@ -2,9 +2,7 @@ package de.slg.essensbons.activity.fragment;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,6 @@ import java.util.Date;
 
 import de.slg.essensbons.activity.EssensbonActivity;
 import de.slg.essensbons.task.QRWriteTask;
-import de.slg.essensbons.utility.EssensbonUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.Utils;
@@ -45,7 +42,7 @@ public class QRFragment extends Fragment implements TaskStatusListener {
         TextView t = viewReference.findViewById(R.id.textViewDatum);
         t.bringToFront();
 
-        t2 = viewReference.findViewById(R.id.textViewMenu);
+        t2 = viewReference.findViewById(R.id.titleNotiz);
         t2.bringToFront();
 
         t3 = viewReference.findViewById(R.id.textViewMenuDetails);
@@ -91,18 +88,18 @@ public class QRFragment extends Fragment implements TaskStatusListener {
 
         if (result != null) {
             ((ImageView) viewReference.findViewById(R.id.imageView)).setImageBitmap(result);
-            ((TextView) viewReference.findViewById(R.id.textViewMenu)).setText(getString(R.string.qr_display_menu, menu));
+            ((TextView) viewReference.findViewById(R.id.titleNotiz)).setText(getString(R.string.qr_display_menu, menu));
             ((TextView) viewReference.findViewById(R.id.textViewMenuDetails)).setText(description);
-            viewReference.findViewById(R.id.textViewMenu).setVisibility(View.VISIBLE);
+            viewReference.findViewById(R.id.titleNotiz).setVisibility(View.VISIBLE);
             viewReference.findViewById(R.id.imageView).setVisibility(View.VISIBLE);
             viewReference.findViewById(R.id.textViewMenuDetails).setVisibility(View.VISIBLE);
         } else {
             ((ImageView) viewReference.findViewById(R.id.imageView)).setImageResource(R.drawable.ic_qrcode_crossedout);
-            ((TextView) viewReference.findViewById(R.id.textViewMenu)).setText(Utils.getString(R.string.qr_display_not_ordered));
+            ((TextView) viewReference.findViewById(R.id.titleNotiz)).setText(Utils.getString(R.string.qr_display_not_ordered));
             ((TextView) viewReference.findViewById(R.id.textViewDatum)).setText(Utils.getString(R.string.no_order));
 
-            viewReference.findViewById(R.id.textViewMenu).setVisibility(View.VISIBLE);
-            viewReference.findViewById(R.id.textView).setVisibility(View.INVISIBLE);
+            viewReference.findViewById(R.id.titleNotiz).setVisibility(View.VISIBLE);
+            viewReference.findViewById(R.id.titleKlausur).setVisibility(View.INVISIBLE);
             viewReference.findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
             viewReference.findViewById(R.id.textViewMenuDetails).setVisibility(View.INVISIBLE);
         }
