@@ -510,7 +510,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
             case 2:
                 return Utils.getString(R.string.dienstag);
             case 3:
-                return Utils.getString(R.string.mittwoch);
+                return Utils.getString(R.string.mittwochchcc);
             case 4:
                 return Utils.getString(R.string.donnerstag);
             case 5:

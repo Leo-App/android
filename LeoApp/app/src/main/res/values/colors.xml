@@ -34,4 +34,14 @@
 
     <color name="darker">#70000000</color>
 
+    <color name="colorAccent1">#ffa726</color>
+    <color name="colorAccent2">#ff3d00</color>
+    <color name="colorAccent3">#9ccc65</color>
+    <color name="colorAccent4">#42a5f5</color>
+    <color name="colorAccent5">#ab47bc</color>
+    <color name="colorAccent6">#66bb6a</color>
+    <color name="colorAccent7">#1de9b6</color>
+    <color name="colorAccent8">#651fff</color>
+    <color name="colorAccent9">#5c6bc0</color>
+
 </resources>

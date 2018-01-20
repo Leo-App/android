@@ -214,7 +214,7 @@
     <string name="month">Month</string>
     <string name="months">Months</string>
     <string name="year">Year</string>
-    <string name="stunden">Choose Courses</string>
+    <string name="stunden">Choose courses</string>
     <string name="bearbeiten">Edit</string>
     <string name="speichern">Save</string>
     <string name="mo">Mo</string>
@@ -246,7 +246,7 @@
     <string name="musik">Music</string>
     <string name="montag">Monday</string>
     <string name="dienstag">Tueseday</string>
-    <string name="mittwoch">Wednesday</string>
+    <string name="mittwochchcc">Wednesday</string>
     <string name="donnerstag">Thursday</string>
     <string name="freitag">Friday</string>
     <string name="zeit">Time</string>
@@ -439,7 +439,7 @@
     <string name="intro3_title">Enhance communication</string>
     <string name="intro4_title">Everything in one app</string>
     <string name="intro5_title">Click!</string>
-    <string name="createCourse">Create new Course</string>
+    <string name="createCourse">Create new course</string>
     <string name="so">Su</string>
     <string name="sa">Sa</string>
     <string name="search_user">Search user</string>
@@ -463,7 +463,7 @@
 
     <string name="saved_as">Saved as</string>
     <string name="open">Open</string>
-    <string name="course" translatable="false">Fächer</string>
+    <string name="course">Course</string>
     <string name="how_are_you">How are you?</string>
     <string name="network">Network</string>
     <string name="computer">Computer</string>
@@ -503,4 +503,38 @@
     <string name="leave_chat_question">Are you sure that you want to leave this chat?</string>
     <string name="title_randstundenfinder">Free period finder</string>
 
+    <string-array name="weekdays">
+        <item>Choose day</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
+    <string-array name="hours_start" translatable="false">
+        <item>-</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="hours_end" translatable="false">
+        <item>-</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
 </resources>

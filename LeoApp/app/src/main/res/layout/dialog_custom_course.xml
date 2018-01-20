@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title_new_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/createCourse"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <EditText
+        android:id="@+id/course_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/title_new_course"
+        android:layout_alignStart="@+id/title_new_course"
+        android:layout_below="@+id/title_new_course"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/course"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/tile_teacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+android:layout_below="@+id/course_name"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/lehrer"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <EditText
+        android:id="@+id/lehrer_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/title_new_course"
+        android:layout_alignStart="@+id/title_new_course"
+        android:layout_below="@+id/tile_teacher"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/lehrer"
+        android:textSize="15sp" />
+
+
+    <Button
+        android:id="@+id/buttonDialog1"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableLayout"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/buttonDialog2"
+        android:layout_toStartOf="@+id/buttonDialog2"
+        android:text="@string/cancel"
+        android:textAllCaps="true" />
+
+    <Button
+        android:id="@+id/buttonDialog2"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonDialog1"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:enabled="false"
+        android:text="@string/confirm"
+        android:textAllCaps="true" />
+
+    <TextView
+        android:id="@+id/title_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/lehrer_edit"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/zeit"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/title_time">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:prompt="Choose weekday"
+                android:entries="@array/weekdays"
+                android:spinnerMode="dialog" />
+
+            <Space
+                android:layout_width="7dp"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/spinner1_time_begin"
+                android:layout_height="wrap_content"
+                android:entries="@array/hours_start"
+                android:spinnerMode="dialog" />
+
+            <Spinner
+                android:id="@+id/spinner1_time_end"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:entries="@array/hours_end"
+                android:spinnerMode="dialog" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:prompt="Choose weekday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/weekdays"
+                android:spinnerMode="dialog" />
+
+            <Space
+                android:layout_width="7dp"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/spinner2_time_begin"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:entries="@array/hours_start"
+                android:spinnerMode="dialog" />
+
+            <Spinner
+                android:id="@+id/spinner2_time_end"
+                android:layout_width="wrap_content"
+
+                android:layout_height="match_parent"
+                android:entries="@array/hours_end"
+                android:spinnerMode="dialog" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/spinner3"
+                android:layout_width="151dp"
+                android:layout_height="wrap_content"
+                android:entries="@array/weekdays"
+                android:prompt="Choose weekday"
+                android:spinnerMode="dialog" />
+
+            <Space
+                android:layout_width="7dp"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/spinner3_time_begin"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:entries="@array/hours_start"
+                android:spinnerMode="dialog" />
+
+            <Spinner
+                android:id="@+id/spinner3_time_end"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:entries="@array/hours_end"
+                android:spinnerMode="dialog" />
+        </TableRow>
+
+
+    </TableLayout>
+
+</RelativeLayout>

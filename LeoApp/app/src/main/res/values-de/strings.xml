@@ -24,7 +24,7 @@
     <string name="nolessons">Kein Unterricht :)</string>
 
     <string name="verification_title">Verifizieren</string>
-    <string name="verification_desc">Um die LeoApp nutzen zu können, musst Du dich verifizieren. Melde dich dazu hier mit den Zugangsdaten Deines Schulaccounts an.</string>
+    <string name="verification_desc">Um die LeoApp nutzen zu können, musst Du Dich verifizieren. Melde Dich dazu hier mit den Zugangsdaten Deines Schulaccounts an.</string>
 
     <string name="drawer_placeholder_name">Benutzername</string>
     <string name="drawer_placeholder_grade">Stufe</string>
@@ -95,10 +95,10 @@
 
 
     <!-- Startseite -->
-    <string name="summary_info_auth">Einige Funktionen benötigen eine Verifizierung. Verifiziere dich hier.</string>
+    <string name="summary_info_auth">Einige Funktionen benötigen eine Verifizierung. Verifiziere Dich hier.</string>
 
     <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Nachdem Du in den Einstellungen Deine Zugangsdaten angegeben hast, brauchst Du nur noch den anschließend generierten QR-Code vorzuzeigen und Du erhälst Dein bestelltes Menü.</string>
-    <string name="summary_info_testplan">Hier findest Du eine Sammlung Deiner anstehenden Klausuren. Ergänze Dein Profil um die Filterfunktion zu verwenden oder füge Deine eigenen Einträge hinzu.</string>
+    <string name="summary_info_testplan">Hier findest Du eine Sammlung Deiner anstehenden Klausuren. Ergänze Dein Profil, um die Filterfunktion zu verwenden, oder füge Deine eigenen Einträge hinzu.</string>
     <string name="summary_info_messenger">Mithilfe dieser Funktion kannst Du mit Deinen Klassenkameraden und Lehrern kommunizieren, ohne dass diese Deine Telefonnummer erfahren. Du kannst in Gruppen oder privat chatten. Deinen Benutzernamen kannst Du in den Einstellungen ändern.</string>
     <string name="summary_info_tutoring">Brauchst Du Nachhilfe in einem Fach? Bitte einfach darum in der Nachhilfebörse!</string>
     <string name="summary_info_news">Hier stehen alle wichtigen Neuigkeiten über Dein Schulleben.</string>
@@ -190,7 +190,7 @@
     <string name="new_entry_title">Titel</string>
     <string name="new_entry_content">Inhalt</string>
     <string name="to">Addressat</string>
-    <string name="info_add_entry">Benutze des Web-Interface für mehr Optionen</string>
+    <string name="info_add_entry">Benutze das Web-Interface für mehr Optionen</string>
     <string name="download_description_news">Schwarzes Brett - Download</string>
 
 
@@ -230,7 +230,7 @@
     <string name="musik">Musik</string>
     <string name="montag">Montag</string>
     <string name="dienstag">Dienstag</string>
-    <string name="mittwoch">Mittwoch</string>
+    <string name="mittwochchcc">Mittwoch</string>
     <string name="donnerstag">Donnerstag</string>
     <string name="freitag">Freitag</string>
     <string name="zeit">Zeit</string>
@@ -272,7 +272,7 @@
     <string name="survey_deleted">Umfrage gelöscht</string>
     <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
     <string name="survey_description_content">Beschreibe Dein Anliegen in einigen Worten.</string>
-    <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für Deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
+    <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für Deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktive Umfrage haben.</string>
     <string name="survey_new_answer">Antwort</string>
     <string name="title_description_to">An wen ist Deine Umfrage gerichtet?</string>
     <string name="title_survey_answers">Antwortmöglichkeiten</string>
@@ -310,7 +310,7 @@
     <string name="settings_summary_fade">Scan-Informationen automatisch ausblenden</string>
     <string name="settings_title_fade_time">Zeitspanne</string>
     <string name="settings_title_camera">Frontkamera benutzen</string>
-    <string name="settings_summary_camera">Frontkamera zum scannen benutzen</string>
+    <string name="settings_summary_camera">Frontkamera zum Scannen benutzen</string>
     <string name="settings_summary_mode">MensaMode&#8482; für Mensa-Personal</string>
     <string name="settings_title_notification">Benachrichtigungen erhalten</string>
     <string name="settings_summary_notification">Benachrichtigungen bei fehlender Synchronisierung erhalten</string>
@@ -336,7 +336,7 @@
     <string name="settings_summary_network">Nur über WLAN aktualisieren</string>
     <string name="settings_title_network">Nur WLAN</string>
     <string name="settings_summary_interval_subst">In welchen Abständen soll der Plan aktualisiert werden?</string>
-    <string name="settings_title_interval_subst">Interval</string>
+    <string name="settings_title_interval_subst">Intervall</string>
     <string name="settings_summary_filter_subst">Plan filtern</string>
     <string name="settings_title_filter_subst">Filter</string>
     <string name="settings_summary_filterby_level">Nach Stufe filtern</string>
@@ -466,5 +466,15 @@
     <string name="exp_date">Ablaufdatum</string>
     <string name="sent">Gesendet</string>
     <string name="qr_scan_title">Essensbon Scannen</string>
+    <string name="course">Fach</string>
+
+    <string-array name="weekdays">
+        <item>Tag auswählen</item>
+        <item>Montag</item>
+        <item>Dienstag</item>
+        <item>Mittwoch</item>
+        <item>Donnerstag</item>
+        <item>Freitag</item>
+    </string-array>
 
 </resources>
