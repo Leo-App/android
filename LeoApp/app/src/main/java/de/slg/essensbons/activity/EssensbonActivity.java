@@ -60,7 +60,7 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
 
     @Override
     protected int getDrawerLayoutId() {
-        return R.id.drawer;
+        return R.id.drawerLayout;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
 
     @Override
     protected int getToolbarTextId() {
-        return (int) R.id.foodmarks;
+        return R.string.title_foodmarks;
     }
 
     @Override

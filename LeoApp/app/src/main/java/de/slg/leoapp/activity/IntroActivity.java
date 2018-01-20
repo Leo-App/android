@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import com.github.paolorotolo.appintro.AppIntro2;
 
 import de.slg.leoapp.R;
+import de.slg.leoapp.Start;
 import de.slg.leoapp.activity.fragment.AbstractOrderedFragment;
 import de.slg.leoapp.activity.fragment.InfoFragmentBuilder;
 import de.slg.leoapp.activity.fragment.VerificationFragment;
@@ -237,6 +238,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 new SyncVoteTask().execute();
                 new SyncFilesTask().execute();
                 new SyncQuestionTask().execute();
+                Start.startReceiveService();
 
                 break;
         }
