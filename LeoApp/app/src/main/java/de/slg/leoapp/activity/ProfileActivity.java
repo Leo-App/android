@@ -102,7 +102,7 @@ public class ProfileActivity extends LeoAppFeatureActivity {
         kuerzel.setText(Utils.getLehrerKuerzel());
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
             stufeProfil.setText("-");
-            findViewById(R.id.card_viewTEA).setVisibility(View.VISIBLE);
+            findViewById(R.id.cardViewLehrer).setVisibility(View.VISIBLE);
             findViewById(R.id.editTEA).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

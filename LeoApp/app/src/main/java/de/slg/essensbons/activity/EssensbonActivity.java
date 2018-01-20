@@ -157,7 +157,7 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
     }
 
     private void initFragments() {
-        viewPager = findViewById(R.id.pager);
+        viewPager = findViewById(R.id.viewPager);
         adapt = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             private final QRFragment fragment1 = new QRFragment();

@@ -50,7 +50,7 @@ public class MessengerActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getToolbarId() {
-        return R.id.actionBarOverview;
+        return R.id.toolbar;
     }
 
     @Override

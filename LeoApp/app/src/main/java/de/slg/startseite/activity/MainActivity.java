@@ -139,7 +139,7 @@ public class MainActivity extends LeoAppFeatureActivity {
 
                 initFeatureCards();
 
-                findViewById(R.id.card_viewMain).setVisibility(View.GONE);
+                findViewById(R.id.cardViewMain).setVisibility(View.GONE);
 
                 getSupportActionBar().setTitle(getString(R.string.cards_customize));
                 getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
@@ -210,9 +210,9 @@ public class MainActivity extends LeoAppFeatureActivity {
 
             initFeatureCards();
 
-            findViewById(R.id.card_viewMain).setVisibility(View.VISIBLE);
+            findViewById(R.id.cardViewMain).setVisibility(View.VISIBLE);
             if (!Utils.getController().getPreferences().getBoolean("pref_key_dont_remind_me", false) && !Utils.isVerified())
-                findViewById(R.id.card_view0).setVisibility(View.VISIBLE);
+                findViewById(R.id.cardView0).setVisibility(View.VISIBLE);
 
             getSupportActionBar().setTitle(getString(R.string.title_home));
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);

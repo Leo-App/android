@@ -82,8 +82,8 @@ public class ResultDialog extends AlertDialog {
 
         ProgressBar p1 = findViewById(R.id.progressBar1);
         ProgressBar p2 = findViewById(R.id.progressBar2);
-        ProgressBar p3 = findViewById(R.id.progressBar3);
-        ProgressBar p4 = findViewById(R.id.progressBar4);
+        ProgressBar p3 = findViewById(R.id.progressBar);
+        ProgressBar p4 = findViewById(R.id.progressBar);
         ProgressBar p5 = findViewById(R.id.progressBar5);
         progressBars = new ProgressBar[]{p1, p2, p3, p4, p5};
 

@@ -27,7 +27,7 @@ public class FeedbackDialog extends AlertDialog {
         super.onCreate(savedInstanceState);
         if (valid) {
             setContentView(R.layout.dialog_valid);
-            ((TextView) findViewById(R.id.textView4)).setText(Utils.getContext().getString(R.string.dialog_desc_valid, orderedMenu));
+            ((TextView) findViewById(R.id.textViewMenu)).setText(Utils.getContext().getString(R.string.dialog_desc_valid, orderedMenu));
         } else {
             setContentView(R.layout.dialog_invalid);
         }

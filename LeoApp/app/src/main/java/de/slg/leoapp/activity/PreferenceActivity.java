@@ -262,7 +262,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbarSettings);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
         toolbar.setTitle(R.string.title_settings);
         setSupportActionBar(toolbar);

@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titleKlausur"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -21,9 +21,9 @@
         android:id="@+id/feature_request_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_below="@+id/textView"
+        android:layout_alignLeft="@+id/titleKlausur"
+        android:layout_alignStart="@+id/titleKlausur"
+        android:layout_below="@+id/titleKlausur"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:hint="@string/feature_request"

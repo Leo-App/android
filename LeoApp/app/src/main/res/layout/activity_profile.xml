@@ -40,7 +40,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:id="@+id/card_view0"
+                        android:id="@+id/cardView0"
                         android:layout_height="wrap_content">
 
                         <ImageView
@@ -55,10 +55,10 @@
       <!--          </android.support.v7.widget.CardView> -->
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/card_view1"
+                    android:id="@+id/cardViewName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/card_view0"
+                    android:layout_below="@id/cardView0"
                     android:layout_marginTop="15dp">
 
                     <RelativeLayout
@@ -109,10 +109,10 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/card_viewTEA"
+                    android:id="@+id/cardViewLehrer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/card_view1"
+                    android:layout_below="@id/cardViewName"
                     android:layout_gravity="center"
                     android:visibility="gone"
                     android:layout_marginTop="15dp">
@@ -164,10 +164,10 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/card_view2"
+                    android:id="@+id/cardViewDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/card_viewTEA"
+                    android:layout_below="@id/cardViewLehrer"
                     android:layout_gravity="center"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="15dp">
@@ -182,22 +182,22 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="5dp"
-                            android:textSize="13sp"
                             android:text="@string/settings_title_username"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/defaultName"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
-                            android:gravity="center_vertical"
                             android:layout_below="@id/descDef"
-                            android:textSize="17sp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
                             android:text=""
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp" />
 
                         <TextView
                             android:id="@+id/descStufe"
@@ -206,22 +206,22 @@
                             android:layout_below="@id/defaultName"
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="15dp"
-                            android:textSize="13sp"
                             android:text="@string/grade"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/stufeProfil"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
-                            android:gravity="center_vertical"
                             android:layout_below="@id/descStufe"
-                            android:textSize="17sp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
                             android:text=""
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp" />
 
                         <TextView
                             android:id="@+id/descSurvey"
@@ -230,35 +230,35 @@
                             android:layout_below="@id/stufeProfil"
                             android:layout_marginLeft="20dp"
                             android:layout_marginTop="15dp"
-                            android:textSize="13sp"
                             android:text="@string/running_survey"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/surveyActual"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
-                            android:gravity="center_vertical"
                             android:layout_below="@id/descSurvey"
-                            android:textSize="17sp"
+                            android:layout_marginBottom="10dp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:gravity="center_vertical"
                             android:text=""
-                            android:textColor="@android:color/black" />
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp" />
 
                         <ImageView
                             android:id="@+id/toSurvey"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            app:srcCompat="@drawable/ic_arrow_right"
-                            android:tint="@android:color/black"
-                            android:layout_alignTop="@+id/surveyActual"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginEnd="5dp"
+                            android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true" />
+                            android:layout_alignTop="@+id/surveyActual"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginRight="10dp"
+                            android:tint="@android:color/black"
+                            app:srcCompat="@drawable/ic_arrow_right" />
 
                     </RelativeLayout>
 

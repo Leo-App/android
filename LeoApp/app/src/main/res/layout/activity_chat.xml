@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/actionBarChat"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:background="@color/colorPrimary"
@@ -21,13 +21,13 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewMessages"
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/relativeLayout4"
+            android:layout_above="@+id/relativeLayout"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/actionBarChat"
+            android:layout_below="@+id/toolbar"
             android:background="@color/colorChatBackground"
             android:paddingBottom="2dp"
             android:scrollbars="vertical"
@@ -36,7 +36,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <ProgressBar
-            android:id="@+id/progressBar3"
+            android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             android:visibility="gone" />
 
         <RelativeLayout
-            android:id="@+id/relativeLayout4"
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

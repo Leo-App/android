@@ -110,7 +110,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getToolbarId() {
-        return R.id.actionBarUmfragen;
+        return R.id.toolbar;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     private void initExpandableListView() {
         createGroupList();
 
-        expandableListView = findViewById(R.id.eintraege);
+        expandableListView = findViewById(R.id.expandableListView);
 
         ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(entriesMap, groupList);
         expandableListView.setAdapter(expandableListAdapter);
@@ -163,15 +163,15 @@ public class SurveyActivity extends LeoAppFeatureActivity {
         });
 
         if (groupList.size() == 0) {
-            findViewById(R.id.textView6).setVisibility(View.VISIBLE);
+            findViewById(R.id.noEntries).setVisibility(View.VISIBLE);
         } else {
-            findViewById(R.id.textView6).setVisibility(View.GONE);
+            findViewById(R.id.noEntries).setVisibility(View.GONE);
         }
     }
 
     private void initButton() {
 
-        button2 = findViewById(R.id.floatingActionButtonSurvey);
+        button2 = findViewById(R.id.floatingActionButton);
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,7 +182,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     }
 
     private void initSwipeToRefresh() {
-        final SwipeRefreshLayout swipeLayout = findViewById(R.id.refresh);
+        final SwipeRefreshLayout swipeLayout = findViewById(R.id.swipeRefreshLayout);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -270,7 +270,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
             convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_alt, null);
-            TextView textView = convertView.findViewById(R.id.textView);
+            TextView textView = convertView.findViewById(R.id.titleKlausur);
             textView.setText((String) getGroup(groupPosition));
             TextView textViewStufe = convertView.findViewById(R.id.textViewStufe);
             textViewStufe.setText(getSurvey(groupPosition).to);
@@ -365,7 +365,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 ((TextView) convertView.findViewById(R.id.metadata)).setText(getString(R.string.meta_id_placeholder, getSurvey(groupPosition).remoteId));
             } else if (childPosition == 1) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
-                ((TextView) convertView.findViewById(R.id.textView)).setText(getSurvey(groupPosition).description);
+                ((TextView) convertView.findViewById(R.id.titleKlausur)).setText(getSurvey(groupPosition).description);
             } else {
                 convertView = getLayoutInflater().inflate(getSurvey(groupPosition).multiple ?
                         R.layout.list_item_expandable_child_survey_multiple :

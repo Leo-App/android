@@ -34,7 +34,7 @@ public class AbstimmDialog extends AlertDialog {
         initSmileys();
         initSendButton();
 
-        TextView textView = findViewById(R.id.textView);
+        TextView textView = findViewById(R.id.titleKlausur);
         textView.setText(
                 Utils.getController()
                         .getPreferences()

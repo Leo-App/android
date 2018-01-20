@@ -133,7 +133,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getToolbarId() {
-        return R.id.actionBarSchwarzesBrett;
+        return R.id.toolbar;
     }
 
     @Override
@@ -189,7 +189,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
     }
 
     private void initSwipeToRefresh() {
-        final SwipeRefreshLayout swipeLayout = findViewById(R.id.refresh);
+        final SwipeRefreshLayout swipeLayout = findViewById(R.id.swipeRefreshLayout);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -217,7 +217,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
     private void initExpandableListView() {
         createGroupList();
 
-        ExpandableListView expandableListView = findViewById(R.id.eintraege);
+        ExpandableListView expandableListView = findViewById(R.id.expandableListView);
 
         ExpandableListAdapter expandableListAdapter = Utils.getUserPermission() > User.PERMISSION_SCHUELER
                 ? new ExpandableListAdapter(entriesMap, groupList, createViewList())
@@ -245,9 +245,9 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
         });
 
         if (groupList.size() == 0) {
-            findViewById(R.id.textView6).setVisibility(View.VISIBLE);
+            findViewById(R.id.noEntries).setVisibility(View.VISIBLE);
         } else {
-            findViewById(R.id.textView6).setVisibility(View.GONE);
+            findViewById(R.id.noEntries).setVisibility(View.GONE);
         }
     }
 
@@ -349,7 +349,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
             convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
-            TextView textView = convertView.findViewById(R.id.textView);
+            TextView textView = convertView.findViewById(R.id.titleKlausur);
             textView.setText((String) getGroup(groupPosition));
             TextView textViewStufe = convertView.findViewById(R.id.textViewStufe);
             textViewStufe.setText(eintraege.get(titel.get(groupPosition)).get(0));
@@ -376,12 +376,12 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
             if (isLastChild) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
 
-                final TextView textViewDate = convertView.findViewById(R.id.textView);
+                final TextView textViewDate = convertView.findViewById(R.id.titleKlausur);
                 textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
             } else if (childPosition == 0) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
 
-                final TextView textView = convertView.findViewById(R.id.textView);
+                final TextView textView = convertView.findViewById(R.id.titleKlausur);
                 textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
             } else {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
@@ -406,7 +406,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
                 iv.setColorFilter(Color.rgb(0x00, 0x91, 0xea));
                 iv.setOnClickListener(listener);
 
-                final TextView textView = convertView.findViewById(R.id.textView);
+                final TextView textView = convertView.findViewById(R.id.titleKlausur);
                 textView.setText(location.substring(location.lastIndexOf('/') + 1));
                 textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 textView.setOnClickListener(listener);

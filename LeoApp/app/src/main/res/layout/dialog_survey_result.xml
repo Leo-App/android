@@ -136,7 +136,7 @@
         />
 
     <ProgressBar
-        android:id="@+id/progressBar3"
+        android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="15dp"
@@ -153,7 +153,7 @@
         android:id="@+id/percent3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/progressBar3"
+        android:layout_alignBottom="@+id/progressBar"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="23dp"
@@ -173,7 +173,7 @@
         />
 
     <ProgressBar
-        android:id="@+id/progressBar4"
+        android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="15dp"
@@ -190,7 +190,7 @@
         android:id="@+id/percent4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/progressBar4"
+        android:layout_alignBottom="@+id/progressBar"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="23dp"

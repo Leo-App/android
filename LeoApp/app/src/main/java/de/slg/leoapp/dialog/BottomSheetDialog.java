@@ -58,7 +58,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         super.setupDialog(dialog, style);
         View contentView = View.inflate(getContext(), R.layout.dialog_bottom_sheet, null);
         ((TextView) contentView.findViewById(R.id.textView1)).setText(title);
-        ((TextView) contentView.findViewById(R.id.textView10)).setText(content);
+        ((TextView) contentView.findViewById(R.id.textView)).setText(content);
         dialog.setContentView(contentView);
     }
 }

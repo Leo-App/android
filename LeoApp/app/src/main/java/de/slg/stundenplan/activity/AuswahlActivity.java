@@ -80,8 +80,11 @@ public class AuswahlActivity extends ActionLogActivity {
     public void finish() {
         super.finish();
         Utils.getController().registerAuswahlActivity(null);
-        if (database.hatGewaehlt())
+        if (!database.hatGewaehlt()) {
             Utils.getController().getStundenplanActivity().finish();
+        } else {
+            Utils.getController().getStundenplanActivity().refreshUI();
+        }
         database.close();
     }
 
@@ -96,7 +99,7 @@ public class AuswahlActivity extends ActionLogActivity {
     }
 
     public void initListView() {
-        ListView listView = findViewById(R.id.listA);
+        ListView listView = findViewById(R.id.listView);
 
         adapter = new KursAdapter(getApplicationContext(), database.getFaecher());
 
