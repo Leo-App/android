@@ -88,6 +88,11 @@ public class ScanActivity extends ActionLogActivity implements TaskStatusListene
     }
 
     @Override
+    public void taskStarts() {
+
+    }
+
+    @Override
     public void taskFinished(Object... params) {
         boolean result = (boolean) params[0];
 

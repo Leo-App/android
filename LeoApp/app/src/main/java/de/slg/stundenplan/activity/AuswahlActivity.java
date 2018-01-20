@@ -155,6 +155,11 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
     }
 
     @Override
+    public void taskStarts() {
+
+    }
+
+    @Override
     public void taskFinished(Object... params) {
         initListView();
         findViewById(R.id.progressBar).setVisibility(View.GONE);
