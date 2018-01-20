@@ -71,7 +71,7 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getDrawerLayoutId() {
-        return R.id.drawer;
+        return R.id.drawerLayout;
     }
 
     @Override

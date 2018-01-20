@@ -46,8 +46,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     private AppCompatDelegate mDelegate; //Downwards compatibility
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
@@ -70,25 +68,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         super.onResume();
         initNotificationPreference();
         navigationView.setCheckedItem(R.id.settings);
-    }
-
-    private void initNotificationPreference() {
-        if (pref.getBoolean("pref_key_notification_essensqr", true)
-                && pref.getBoolean("pref_key_notification_test", false)
-                && pref.getBoolean("pref_key_notification_messenger", true)
-                && pref.getBoolean("pref_key_notification_news", true)
-                && pref.getBoolean("pref_key_notification_survey", false)
-                && pref.getBoolean("pref_key_notification_schedule", false))
-            findPreference("pref_key_notifications").setSummary(getString(R.string.settings_title_notification_all));
-        else if (!pref.getBoolean("pref_key_notification_essensqr", true)
-                && !pref.getBoolean("pref_key_notification_test", false)
-                && !pref.getBoolean("pref_key_notification_messenger", true)
-                && !pref.getBoolean("pref_key_notification_news", true)
-                && !pref.getBoolean("pref_key_notification_survey", false)
-                && !pref.getBoolean("pref_key_notification_schedule", false))
-            findPreference("pref_key_notifications").setSummary(getString(R.string.settings_title_notification_none));
-        else
-            findPreference("pref_key_notifications").setSummary(getString(R.string.settings_title_notification_custom));
     }
 
     @Override
@@ -179,11 +158,29 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         Utils.getController().registerPreferenceActivity(null);
     }
 
+    private void initNotificationPreference() {
+        if (pref.getBoolean("pref_key_notification_essensqr", true)
+                && pref.getBoolean("pref_key_notification_test", false)
+                && pref.getBoolean("pref_key_notification_messenger", true)
+                && pref.getBoolean("pref_key_notification_news", true)
+                && pref.getBoolean("pref_key_notification_survey", false)
+                && pref.getBoolean("pref_key_notification_schedule", false))
+            findPreference("pref_key_notifications").setSummary(getString(R.string.settings_title_notification_all));
+        else if (!pref.getBoolean("pref_key_notification_essensqr", true)
+                && !pref.getBoolean("pref_key_notification_test", false)
+                && !pref.getBoolean("pref_key_notification_messenger", true)
+                && !pref.getBoolean("pref_key_notification_news", true)
+                && !pref.getBoolean("pref_key_notification_survey", false)
+                && !pref.getBoolean("pref_key_notification_schedule", false))
+            findPreference("pref_key_notifications").setSummary(getString(R.string.settings_title_notification_none));
+        else
+            findPreference("pref_key_notifications").setSummary(getString(R.string.settings_title_notification_custom));
+    }
+
     private void initPreferenceChanges() {
         pref = getPreferenceScreen().getSharedPreferences();
 
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        hideProgressBar();
 
         findPreference("pref_key_version_app").setSummary(Utils.getAppVersionName());
 
@@ -272,7 +269,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     }
 
     private void initNavigationView() {
-        drawerLayout = findViewById(R.id.drawer);
+        drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
 
         navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
@@ -355,15 +352,10 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         getDelegate().invalidateOptionsMenu();
     }
 
-    public void hideProgressBar() {
-        findViewById(R.id.progressBar2).setVisibility(View.GONE);
-    }
-
     private AppCompatDelegate getDelegate() {
         if (mDelegate == null) {
             mDelegate = AppCompatDelegate.create(this, null);
         }
         return mDelegate;
     }
-
 }
