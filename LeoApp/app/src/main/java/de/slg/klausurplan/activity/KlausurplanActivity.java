@@ -46,9 +46,9 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         super.onCreate(savedInstanceState);
         Utils.getController().registerKlausurplanActivity(this);
 
+        databaseStundenplan = new SQLiteConnectorStundenplan(getApplicationContext());
         if (!de.slg.klausurplan.utility.Utils.databaseExists(getApplicationContext())) {
             database = new SQLiteConnectorKlausurplan(getApplicationContext());
-            databaseStundenplan = new SQLiteConnectorStundenplan(getApplicationContext());
             new Importer().execute();
         } else {
             database = new SQLiteConnectorKlausurplan(getApplicationContext());
@@ -249,7 +249,14 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
             try {
                 database.deleteAllDownloaded();
 
-                reader = new BufferedReader(new InputStreamReader(getApplicationContext().openFileInput("klausurplan.xml")));
+                reader = new BufferedReader(
+                        new InputStreamReader(
+                                getApplicationContext()
+                                        .openFileInput(
+                                                "klausurplan.xml"
+                                        )
+                        )
+                );
                 year = getYear();
                 String line;
                 while ((line = reader.readLine()) != null) {

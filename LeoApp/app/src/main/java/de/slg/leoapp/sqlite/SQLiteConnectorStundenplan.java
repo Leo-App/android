@@ -101,10 +101,8 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return database.insert(TABLE_FAECHER, null, values);
     }
 
-    public boolean isLK(String kurzel) {
-        if (kurzel.length() > 2 && (kurzel.charAt(2) == 'L'))
-            return true;
-        return false;
+    private boolean isLK(String kurzel) {
+        return kurzel.length() > 2 && (kurzel.charAt(2) == 'L');
     }
 
     public void insertStunde(long fid, int tag, int stunde, String raum) {
@@ -573,13 +571,14 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     public boolean mussSchriftlich(long fid) {
-        String test = this.getFachKurzel(fid);
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER || this.isLK(this.getFachKurzel(fid))) {
-            //todo LK automatisch schriftlich -> Das muss noch besser!
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
             return true;
-        }
 
-        return false;
+        Cursor cursor = database.query(TABLE_FAECHER, new String[]{FACH_ART, FACH_NAME}, FACH_ID + " = " + fid, null, null, null, null);
+        cursor.moveToFirst();
+        boolean b = cursor.getCount() > 0 && (cursor.getString(0).equals("LK"));
+        cursor.close();
+        return b;
     }
 
     public boolean istGewaehlt(int fid) {

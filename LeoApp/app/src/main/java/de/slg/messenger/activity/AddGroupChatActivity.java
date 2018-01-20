@@ -111,12 +111,12 @@ public class AddGroupChatActivity extends ActionLogActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                chatnameSet = s.length() > 0;
-                confirm.setVisible(chatnameSet && usersSelected);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                chatnameSet = s.toString().length() > 0;
+                confirm.setVisible(chatnameSet && usersSelected);
             }
         });
     }
@@ -171,6 +171,7 @@ public class AddGroupChatActivity extends ActionLogActivity {
                         selected--;
 
                     usersSelected = (selected > 0);
+                    confirm.setVisible(chatnameSet && usersSelected);
                 }
             });
 
