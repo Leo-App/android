@@ -20,6 +20,7 @@ import de.slg.leoapp.task.SyncVoteTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.schwarzes_brett.task.UpdateViewTrackerTask;
+import de.slg.schwarzes_brett.utility.SchwarzesBrettUtils;
 import de.slg.startseite.activity.MainActivity;
 
 public class Start extends Activity {
@@ -44,7 +45,7 @@ public class Start extends Activity {
 
     private void runUpdateTasks() {
         if (Utils.checkNetwork()) {
-            ArrayList<Integer> cachedViews = de.slg.schwarzes_brett.utility.Utils.getCachedIDs();
+            ArrayList<Integer> cachedViews = SchwarzesBrettUtils.getCachedIDs();
             new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
 
             if (Utils.isVerified()) {

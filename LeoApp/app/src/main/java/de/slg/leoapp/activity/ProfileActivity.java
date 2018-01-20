@@ -18,6 +18,7 @@ import de.slg.leoapp.task.UpdateNameTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
+import de.slg.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slg.umfragen.activity.SurveyActivity;
 
 /**
@@ -178,7 +179,7 @@ public class ProfileActivity extends LeoAppFeatureActivity {
 
     private void setProfilePicture() {
         final ImageView profilePic = findViewById(R.id.profilePic);
-        final int       res        = de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource();
+        final int       res        = StimmungsbarometerUtils.getCurrentMoodRessource();
 
         profilePic.setImageResource(res);
         switch (res) {

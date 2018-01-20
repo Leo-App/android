@@ -14,6 +14,7 @@ import de.slg.leoapp.utility.datastructure.List;
 import de.slg.messenger.utility.Assoziation;
 import de.slg.messenger.utility.Chat;
 import de.slg.messenger.utility.Message;
+import de.slg.messenger.utility.MessengerUtils;
 
 import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_DELETED;
 import static de.slg.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_ID;
@@ -64,7 +65,7 @@ public class SQLiteConnectorMessenger {
             values.put(MESSAGE_DATE, m.mdate.getTime());
             values.put(CHAT_ID, m.cid);
             values.put(USER_ID, m.uid);
-            values.put(MESSAGE_READ, m.uid == Utils.getUserID() || m.cid == de.slg.messenger.utility.Utils.currentlyDisplayedChat() ? 1 : 0);
+            values.put(MESSAGE_READ, m.uid == Utils.getUserID() || m.cid == MessengerUtils.currentlyDisplayedChat() ? 1 : 0);
             values.put(MESSAGE_DELETED, 0);
             insert(TABLE_MESSAGES, values);
             if (m.uid == Utils.getUserID()) {
@@ -111,7 +112,7 @@ public class SQLiteConnectorMessenger {
         String selection = MESSAGE_READ + " = 0 AND " +
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
-                CHAT_MUTE + " = 0 AND " + TABLE_MESSAGES + "." + CHAT_ID + " != " + de.slg.messenger.utility.Utils.currentlyDisplayedChat();
+                CHAT_MUTE + " = 0 AND " + TABLE_MESSAGES + "." + CHAT_ID + " != " + MessengerUtils.currentlyDisplayedChat();
         Cursor    cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID + ", " + MESSAGE_DATE);
         Message[] array  = new Message[cursor.getCount()];
         cursor.moveToFirst();
@@ -123,7 +124,7 @@ public class SQLiteConnectorMessenger {
     }
 
     public boolean hasUnreadMessages() {
-        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_READ + " = 0 AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + de.slg.messenger.utility.Utils.currentlyDisplayedChat(), null);
+        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_READ + " = 0 AND " + USER_ID + " != " + Utils.getUserID() + " AND " + CHAT_ID + " != " + MessengerUtils.currentlyDisplayedChat(), null);
         boolean b      = cursor.getCount() > 0;
         cursor.close();
         return b;
@@ -136,7 +137,7 @@ public class SQLiteConnectorMessenger {
                 USER_ID + " != " + Utils.getUserID() + " AND " +
                 TABLE_MESSAGES + "." + CHAT_ID + " = " + TABLE_CHATS + "." + CHAT_ID + " AND " +
                 CHAT_MUTE + " = 0 AND " +
-                TABLE_MESSAGES + "." + CHAT_ID + " != " + de.slg.messenger.utility.Utils.currentlyDisplayedChat();
+                TABLE_MESSAGES + "." + CHAT_ID + " != " + MessengerUtils.currentlyDisplayedChat();
         Cursor cursor = query(table, columns, selection, TABLE_MESSAGES + "." + CHAT_ID);
         cursor.moveToFirst();
 

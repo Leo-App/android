@@ -19,7 +19,7 @@ import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
  * @since 0.6.1
  */
 
-public abstract class Utils {
+public abstract class KlausurplanUtils {
     public static long findeNächsteKlausur(Klausur[] klausuren) {
         Date heute = new Date();
         for (Klausur aKlausuren : klausuren) {

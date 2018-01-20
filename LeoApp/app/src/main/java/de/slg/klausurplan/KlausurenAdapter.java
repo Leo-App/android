@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import de.slg.klausurplan.utility.Klausur;
+import de.slg.klausurplan.utility.KlausurplanUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 
@@ -38,10 +39,10 @@ public class KlausurenAdapter extends ArrayAdapter<Klausur> {
 
         Klausur current = klausuren[position];
 
-        if (position == 0 || !de.slg.klausurplan.utility.Utils.isSameWeek(klausuren[position - 1].getDatum(), current.getDatum())) {
+        if (position == 0 || !KlausurplanUtils.isSameWeek(klausuren[position - 1].getDatum(), current.getDatum())) {
             TextView woche = v.findViewById(R.id.textViewWoche);
             woche.setVisibility(View.VISIBLE);
-            woche.setText(de.slg.klausurplan.utility.Utils.getWeek(current.getDatum()));
+            woche.setText(KlausurplanUtils.getWeek(current.getDatum()));
         } else {
             v.findViewById(R.id.textViewWoche).setVisibility(View.GONE);
         }

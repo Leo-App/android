@@ -11,6 +11,7 @@ import android.widget.TextView;
 import de.slg.leoapp.R;
 import de.slg.leoapp.utility.Utils;
 import de.slg.stimmungsbarometer.task.SendeDaten;
+import de.slg.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slg.stimmungsbarometer.utility.Wahl;
 
 public class AbstimmDialog extends AlertDialog {
@@ -106,7 +107,7 @@ public class AbstimmDialog extends AlertDialog {
             public void onClick(View view) {
                 if (confirm.isEnabled()) {
                     new SendeDaten().execute(new Wahl(voteid, Utils.getUserID()));
-                    de.slg.stimmungsbarometer.utility.Utils.setLastVote(voteid);
+                    StimmungsbarometerUtils.setLastVote(voteid);
                     dismiss();
                 }
             }

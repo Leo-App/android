@@ -2,7 +2,7 @@ package de.slg.schwarzes_brett.utility;
 
 import java.util.ArrayList;
 
-public abstract class Utils {
+public abstract class SchwarzesBrettUtils {
 
     public static long getLatestSchwarzesBrettDate() {
         return de.slg.leoapp.utility.Utils.getController().getPreferences().getLong("pref_key_general_last_notification_schwarzes_brett", 0);

@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.slg.klausurplan.utility.Klausur;
+import de.slg.klausurplan.utility.KlausurplanUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slg.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
@@ -24,9 +25,12 @@ import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.ActivityStatus;
 import de.slg.messenger.utility.Chat;
 import de.slg.messenger.utility.Message;
+import de.slg.schwarzes_brett.utility.SchwarzesBrettUtils;
 import de.slg.startseite.activity.MainActivity;
 import de.slg.stimmungsbarometer.activity.AbstimmActivity;
+import de.slg.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slg.stundenplan.utility.Fach;
+import de.slg.umfragen.utility.UmfragenUtils;
 
 /**
  * NotificationHandler.
@@ -151,7 +155,7 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            if (Utils.getController().getPreferences().getBoolean("pref_key_notification_test", true) && de.slg.klausurplan.utility.Utils.databaseExists(context)) {
+            if (Utils.getController().getPreferences().getBoolean("pref_key_notification_test", true) && KlausurplanUtils.databaseExists(context)) {
                 SQLiteConnectorKlausurplan db = new SQLiteConnectorKlausurplan(context);
                 Klausur                    k  = db.getNextExam();
                 db.close();
@@ -275,7 +279,7 @@ public class NotificationHandler {
         public void send() {
             if (isActive()) {
                 notificationManager.notify(ID_SCHWARZES_BRETT, notification);
-                de.slg.schwarzes_brett.utility.Utils.notifiedSchwarzesBrett(latest);
+                SchwarzesBrettUtils.notifiedSchwarzesBrett(latest);
             }
         }
 
@@ -298,7 +302,7 @@ public class NotificationHandler {
             dbh.close();
             db.close();
 
-            return latest > de.slg.schwarzes_brett.utility.Utils.getLatestSchwarzesBrettDate();
+            return latest > SchwarzesBrettUtils.getLatestSchwarzesBrettDate();
         }
     }
 
@@ -344,7 +348,7 @@ public class NotificationHandler {
         public void send() {
             if (isActive()) {
                 notificationManager.notify(ID_UMFRAGEN, notification);
-                de.slg.umfragen.utility.Utils.notifiedSurvey(latest);
+                UmfragenUtils.notifiedSurvey(latest);
             }
         }
 
@@ -367,7 +371,7 @@ public class NotificationHandler {
             dbh.close();
             db.close();
 
-            return latest > de.slg.umfragen.utility.Utils.getLatestSurveyDate();
+            return latest > UmfragenUtils.getLatestSurveyDate();
         }
     }
 
@@ -415,7 +419,7 @@ public class NotificationHandler {
 
         private boolean isActive() {
             return Utils.getController().getPreferences().getBoolean("pref_key_notification_survey", false)
-                    && de.slg.stimmungsbarometer.utility.Utils.syncVote();
+                    && StimmungsbarometerUtils.syncVote();
         }
     }
 
