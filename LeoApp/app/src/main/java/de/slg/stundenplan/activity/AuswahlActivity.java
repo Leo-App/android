@@ -23,6 +23,7 @@ import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.view.ActionLogActivity;
+import de.slg.stundenplan.dialog.CreateCourseDialog;
 import de.slg.stundenplan.task.Importer;
 import de.slg.stundenplan.utility.Fach;
 
@@ -105,6 +106,9 @@ public class AuswahlActivity extends ActionLogActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0) {
+                    new CreateCourseDialog(AuswahlActivity.this).show();
+                }
                 if (view.isEnabled()) {
                     boolean  checked = adapter.toggleCheckBox(position);
                     Fach     f       = adapter.fachArray[position];
@@ -189,8 +193,13 @@ public class AuswahlActivity extends ActionLogActivity {
         @Override
         public View getView(int position, View view, @NonNull ViewGroup parent) {
             if (views[position] == null) {
-                views[position] = getLayoutInflater().inflate(R.layout.list_item_kurs, null);
-                views[position].setEnabled(true);
+                if(position==0) {
+                    views[position] = getLayoutInflater().inflate(R.layout.list_item_new_kurs, null);
+                    views[position].setEnabled(true);
+                } else {
+                    views[position] = getLayoutInflater().inflate(R.layout.list_item_kurs, null);
+                    views[position].setEnabled(true);
+                }
 
                 TextView tvFach    = views[position].findViewById(R.id.fach_auswahl);
                 TextView tvKuerzel = views[position].findViewById(R.id.kürzel_auswahl);
