@@ -26,6 +26,7 @@ import java.util.GregorianCalendar;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.view.LeoAppFeatureActivity;
@@ -34,7 +35,7 @@ import de.slg.stundenplan.dialog.FinderDalog;
 import de.slg.stundenplan.task.Importer;
 import de.slg.stundenplan.utility.Fach;
 
-public class StundenplanActivity extends LeoAppFeatureActivity {
+public class StundenplanActivity extends LeoAppFeatureActivity implements TaskStatusListener {
     private WochentagFragment[]        fragments;
     private SQLiteConnectorStundenplan database;
 
@@ -54,7 +55,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
                         )
                 );
             } else {
-                new Importer().execute();
+                new Importer().addListener(this).execute();
             }
         }
 
@@ -185,6 +186,12 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
             f.refreshUI();
     }
 
+    @Override
+    public void taskFinished(Object... params) {
+        refreshUI();
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
+    }
+
     public static class WochentagFragment extends Fragment {
         private View                       root;
         private Fach[]                     fachArray;
@@ -252,18 +259,18 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
 
     private static class StundenAdapter extends ArrayAdapter<Fach> {
         private final Context cont;
-        private final Fach[]  fachAd;
+        private final Fach[]  faecher;
 
         StundenAdapter(Context pCont, Fach[] pFach) {
             super(pCont, R.layout.list_item_schulstunde, pFach);
             cont = pCont;
-            fachAd = pFach;
+            faecher = pFach;
         }
 
         @NonNull
         @Override
         public View getView(int position, View v, @NonNull ViewGroup parent) {
-            if (position < fachAd.length && fachAd[0] != null) {
+            if (position < faecher.length && faecher[0] != null) {
                 if (v == null) {
                     LayoutInflater layoutInflater = (LayoutInflater) cont.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     v = layoutInflater.inflate(R.layout.list_item_schulstunde, null);
@@ -275,27 +282,31 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
                 TextView tvStunde = v.findViewById(R.id.stunde_wt);
                 TextView tvNotiz  = v.findViewById(R.id.notiz);
 
-                if (fachAd[position] != null) {
-                    if (fachAd[position].getName() != null && fachAd[position].getNotiz() != null && fachAd[position].getName().equals("") && !fachAd[position].getNotiz().equals("")) {
-                        tvNotiz.setText(fachAd[position].getNotiz());
+                Fach f          = faecher[position];
+                int  permission = Utils.getUserPermission();
+
+                if (f != null) {
+                    if (f.getName() != null && f.getNotiz() != null && f.getName().equals("") && !f.getNotiz().equals("")) {
+                        tvNotiz.setText(f.getNotiz());
                         tvFach.setVisibility(View.INVISIBLE);
                         tvLehrer.setVisibility(View.INVISIBLE);
                         tvRaum.setVisibility(View.INVISIBLE);
                         tvNotiz.setVisibility(View.VISIBLE);
                     } else {
-                        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
-                            tvFach.setText(fachAd[position].getName() + ' ' + fachAd[position].getKuerzel());
-                        else
-                            tvFach.setText(fachAd[position].getName());
+                        if (permission == User.PERMISSION_LEHRER) {
+                            tvFach.setText(f.getName() + ' ' + f.getKuerzel());
+                        } else {
+                            tvFach.setText(f.getName());
+                        }
                     }
-                    if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
-                        tvLehrer.setText(fachAd[position].getKlasse());
+                    if (permission == User.PERMISSION_LEHRER) {
+                        tvLehrer.setText(f.getKlasse());
                     } else {
-                        tvLehrer.setText(fachAd[position].getLehrer());
+                        tvLehrer.setText(f.getLehrer());
                     }
-                    tvRaum.setText(fachAd[position].getRaum());
-                    tvStunde.setText(fachAd[position].getStundenName());
-                    if (fachAd[position].getSchriftlich() && Utils.getUserPermission() != User.PERMISSION_LEHRER) {
+                    tvRaum.setText(f.getRaum());
+                    tvStunde.setText(f.getStundenName());
+                    if (f.getSchriftlich() && Utils.getUserPermission() != User.PERMISSION_LEHRER) {
                         v.findViewById(R.id.iconSchriftlich).setVisibility(View.VISIBLE);
                     }
                 }

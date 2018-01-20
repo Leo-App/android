@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,31 +17,35 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import de.slg.leoapp.R;
-import de.slg.leoapp.activity.PreferenceActivity;
 import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.stundenplan.task.Importer;
 import de.slg.stundenplan.utility.Fach;
 
-public class AuswahlActivity extends ActionLogActivity {
+public class AuswahlActivity extends ActionLogActivity implements TaskStatusListener {
     private Menu                       menu;
     private KursAdapter                adapter;
     private SQLiteConnectorStundenplan database;
+    private int                        anzahl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auswahl);
+
         Utils.getController().registerAuswahlActivity(this);
-        String stufe = Utils.getUserStufe();
-        if (!stufe.equals("")) {
-            new Importer().execute();
-        }
+
+        database = new SQLiteConnectorStundenplan(getApplicationContext());
+
         initToolbar();
-        if (stufe.equals("")) {
-            initSnackbarNoGrade();
+
+        if (!database.hatGewaehlt()) {
+            new Importer().addListener(this).execute();
+        } else {
+            initListView();
         }
     }
 
@@ -53,11 +56,11 @@ public class AuswahlActivity extends ActionLogActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.stundenplan_auswahl, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_speichern);
+        menuItem.setVisible(anzahl > 0);
+
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.stundenplan_auswahl, this.menu);
-        MenuItem menuItem = this.menu.findItem(R.id.action_speichern);
-        menuItem.setVisible(false);
-        menuItem.setEnabled(false);
         return true;
     }
 
@@ -80,11 +83,12 @@ public class AuswahlActivity extends ActionLogActivity {
     public void finish() {
         super.finish();
         Utils.getController().registerAuswahlActivity(null);
+
+        Utils.getController().getStundenplanActivity().refreshUI();
         if (!database.hatGewaehlt()) {
             Utils.getController().getStundenplanActivity().finish();
-        } else {
-            Utils.getController().getStundenplanActivity().refreshUI();
         }
+
         database.close();
     }
 
@@ -138,46 +142,30 @@ public class AuswahlActivity extends ActionLogActivity {
         refresh();
     }
 
-    private void initSnackbarNoGrade() {
-        final Snackbar snackbar = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes2, Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction(getString(R.string.snackbar_select), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snackbar.dismiss();
-                startActivity(new Intent(getApplicationContext(), PreferenceActivity.class));
-            }
-        });
-        snackbar.show();
-    }
-
     private void refresh() {
         adapter.refresh();
-        int anzahl = adapter.gibAnzahlAusgewaehlte();
-        if (anzahl > 0 && menu != null) {
-            MenuItem item = menu.findItem(R.id.action_speichern);
-            item.setVisible(true);
-            item.setEnabled(true);
+        anzahl = adapter.gibAnzahlAusgewaehlte();
+        if (menu != null) {
+            menu.findItem(R.id.action_speichern).setVisible(anzahl > 0);
         }
         if (anzahl == 1)
             getSupportActionBar().setTitle(R.string.one_course_sel);
         else
-            getSupportActionBar().setTitle(getString(R.string.multiple_course_selected ,anzahl));
+            getSupportActionBar().setTitle(getString(R.string.multiple_course_selected, anzahl));
     }
 
-    public void initDB() {
-        database = new SQLiteConnectorStundenplan(getApplicationContext());
-        if (database.getFaecher().length == 0) {
-            Snackbar snack = Snackbar.make(findViewById(R.id.relative), R.string.SnackBarMes, Snackbar.LENGTH_SHORT);
-            snack.show();
-        }
+    @Override
+    public void taskFinished(Object... params) {
+        initListView();
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
     }
 
     private class KursAdapter extends ArrayAdapter<Fach> {
-        final         Fach[]                     fachArray;
-        final         List<String>               ausgewaehlteFaecher;
-        final         boolean[][]                ausgewaehlteStunden;
-        private final View[]                     views;
-        private final CheckBox[]                 cbs;
+        final         Fach[]       fachArray;
+        final         List<String> ausgewaehlteFaecher;
+        final         boolean[][]  ausgewaehlteStunden;
+        private final View[]       views;
+        private final CheckBox[]   cbs;
 
         KursAdapter(Context context, Fach[] array) {
             super(context, R.layout.list_item_kurs, array);

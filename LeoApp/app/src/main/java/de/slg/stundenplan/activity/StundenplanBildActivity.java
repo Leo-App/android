@@ -12,8 +12,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import java.io.ByteArrayOutputStream;
@@ -39,29 +37,12 @@ public class StundenplanBildActivity extends ActionLogActivity {
         setContentView(R.layout.activity_stundenplan_image);
         Utils.getController().registerStundenplanBildActivity(this);
         view = findViewById(R.id.image);
-        //initToolbar();
         initFabSAVE();
     }
 
     @Override
     protected String getActivityTag() {
         return "StundenplanBildActivity";
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.stundenplan_image, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        } else if (item.getItemId() == R.id.action_save) {
-            saveImage();
-        }
-        return true;
     }
 
     @Override
@@ -90,16 +71,6 @@ public class StundenplanBildActivity extends ActionLogActivity {
             }
         }
     }
-
-    /*private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.yourTimeTable));
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }*/
 
     public void saveImage() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

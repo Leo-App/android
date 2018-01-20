@@ -1,26 +1,21 @@
 package de.slg.stundenplan.task;
 
-import android.os.AsyncTask;
 import android.view.View;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 import de.slg.leoapp.R;
 import de.slg.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slg.leoapp.task.SyncFilesTask;
+import de.slg.leoapp.task.general.VoidCallbackTask;
 import de.slg.leoapp.utility.User;
 import de.slg.leoapp.utility.Utils;
 
-public class Importer extends AsyncTask<Void, Void, Void> {
+public class Importer extends VoidCallbackTask<Void> {
     @Override
     protected void onPreExecute() {
-        File file = new File(Utils.getContext().getFilesDir(), "stundenplan.txt");
-        if (file.exists()) {
-            new SyncFilesTask().execute();
-        }
         Utils.getController().getActiveActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
     }
 
@@ -95,17 +90,5 @@ public class Importer extends AsyncTask<Void, Void, Void> {
             Utils.logError(e);
         }
         return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        if (Utils.getController().getAuswahlActivity() != null) {
-            Utils.getController().getAuswahlActivity().initDB();
-            Utils.getController().getAuswahlActivity().initListView();
-        }
-        if (Utils.getController().getStundenplanActivity() != null) {
-            Utils.getController().getStundenplanActivity().refreshUI();
-        }
-        Utils.getController().getActiveActivity().findViewById(R.id.progressBar).setVisibility(View.GONE);
     }
 }

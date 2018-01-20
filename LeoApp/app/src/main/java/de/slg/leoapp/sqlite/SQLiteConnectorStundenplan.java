@@ -101,10 +101,6 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return database.insert(TABLE_FAECHER, null, values);
     }
 
-    private boolean isLK(String kurzel) {
-        return kurzel.length() > 2 && (kurzel.charAt(2) == 'L');
-    }
-
     public void insertStunde(long fid, int tag, int stunde, String raum) {
         String selection = FACH_ID + " = " + fid + " AND " + STUNDEN_TAG + " = " + tag + " AND " + STUNDEN_STUNDE + " = " + stunde;
         Cursor cursor    = database.query(TABLE_STUNDEN, new String[]{FACH_ID}, selection, null, null, null, null);
