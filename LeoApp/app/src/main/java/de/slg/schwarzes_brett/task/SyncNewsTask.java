@@ -85,7 +85,8 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void v) {
         if (layout != null) {
             layout.setRefreshing(false);
-            Utils.getController().getSchwarzesBrettActivity().refreshUI();
         }
+        if(Utils.getController().getSchwarzesBrettActivity() != null)
+            Utils.getController().getSchwarzesBrettActivity().refreshUI();
     }
 }

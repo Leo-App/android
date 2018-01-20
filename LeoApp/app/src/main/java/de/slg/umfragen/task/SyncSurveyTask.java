@@ -109,7 +109,9 @@ public class SyncSurveyTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void v) {
         if (layout != null) {
             layout.setRefreshing(false);
-            Utils.getController().getSurveyActivity().refreshUI();
         }
+
+        if(Utils.getController().getSurveyActivity() != null)
+            Utils.getController().getSurveyActivity().refreshUI();
     }
 }
