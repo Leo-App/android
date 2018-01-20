@@ -215,7 +215,7 @@ public class NewEntryDialog extends AlertDialog {
         protected void onPostExecute(Boolean b) {
             if (b) {
                 dismiss();
-                Toast.makeText(Utils.getContext(), "Gesendet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Utils.getContext(), R.string.sent, Toast.LENGTH_SHORT).show();
             } else {
                 final Snackbar snack = Snackbar.make(findViewById(R.id.dialog_entry), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
                 snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));

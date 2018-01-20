@@ -103,7 +103,7 @@
                 android:layout_alignStart="@+id/title_details"
                 android:layout_below="@+id/content"
                 android:layout_marginTop="15dp"
-                android:text="@string/date"
+                android:text="@string/exp_date"
                 android:textColor="@color/colorText"
                 android:textSize="18sp" />
 

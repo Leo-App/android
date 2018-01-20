@@ -190,8 +190,8 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:clickable="true"
-            android:visibility="visible"
-            app:srcCompat="@drawable/ic_edit" />
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_edit"/>
 
     </RelativeLayout>
 
@@ -201,8 +201,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/layout_navigation_header"
-        app:menu="@menu/navigation">
-
-    </android.support.design.widget.NavigationView>
+        app:menu="@menu/navigation"/>
 
 </android.support.v4.widget.DrawerLayout>

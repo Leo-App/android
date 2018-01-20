@@ -69,7 +69,7 @@
     <string name="snackbar_gelöscht">Alle Klausuren gelöscht</string>
     <string name="snackbar_undo">Rückgängig</string>
     <string name="snackbar_no_connection_info">Keine Internetverbindung</string>
-    <string name="snackbar_no_connection_button">Ausblenden</string>
+
     <string name="settings_snackbar_username_taken">Dieser Nutzername ist bereits vergeben</string>
     <string name="snackbar_no_connection_info_check">Keine Internetverbindung zum Überprüfen der Daten</string>
     <string name="snackbar_not_correct_info">Login-Daten nicht korrekt</string>
@@ -106,7 +106,7 @@
     <string name="summary_info_schedule">Wähle Deine belegten Kurse aus und Dir wird ein automatischer Stundenplan generiert. Diesen kannst Du natürlich noch anpassen.</string>
     <string name="summary_info_subst">Deine Vertretungen für heute und morgen</string>
 
-    <string name="button_card_dismiss">Ausblenden</string>
+
     <string name="add_card">Karte hinzufügen</string>
     <string name="button_add">Hinzufügen</string>
     <string name="selector_card">Karte(n) hinzufügen</string>
@@ -416,12 +416,12 @@
     <string name="running_survey">Laufende Umfrage</string>
     <string name="token">Kürzel</string>
     <string name="grade">Stufe</string>
-    <string name="me">me</string>
-    <string name="students">Students</string>
-    <string name="all">All</string>
-    <string name="not_show_again">Do not show again</string>
+    <string name="me">Ich</string>
+    <string name="students">Schüler</string>
+    <string name="all">Alle</string>
+    <string name="not_show_again">"Nicht nochmal anzeigen "</string>
     <string name="skip">Überspringen</string>
-    <string name="leave_chat_question">Bist Du sicher, dass Du diesen Chat verlassen möchtest?</string>
+    <string name="leave_chat_question">Bist du sicher, dass du diesen Chat verlassen möchtest?</string>
     <string name="search_term">Suchbegriff</string>
     <string name="first">Als oberstes</string>
     <string name="user">Benutzer</string>
@@ -461,5 +461,10 @@
     <string name="friends">Freunde/Bekannte</string>
     <string name="particular_occasion">besonderer Anlass</string>
     <string name="other">Sonstiges</string>
+    <string name="dismiss">Ausblenden</string>
+    <string name="title">Titel</string>
+    <string name="exp_date">Ablaufdatum</string>
+    <string name="sent">Gesendet</string>
+    <string name="qr_scan_title">Essensbon Scannen</string>
 
 </resources>
