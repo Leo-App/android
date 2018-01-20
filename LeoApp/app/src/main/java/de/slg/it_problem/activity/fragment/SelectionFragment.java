@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import de.slg.it_problem.activity.ITActivity;
 import de.slg.it_problem.utility.FragmentType;
 import de.slg.it_problem.utility.Subject;
-import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.R;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.GraphicUtils;
-import de.slg.leoapp.utility.Utils;
 
 // TODO abc123$
 

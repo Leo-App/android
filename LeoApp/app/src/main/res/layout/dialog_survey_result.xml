@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/snackbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -15,7 +16,8 @@
         android:layout_marginRight="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        app:srcCompat="@drawable/ic_survey_result"/>
+        app:srcCompat="@drawable/ic_survey_result"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/title_details"
@@ -23,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/imageView2"
+        android:layout_toEndOf="@id/imageView2"
         android:text="@string/results"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -31,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/imageView2"
+        android:layout_alignStart="@id/imageView2"
         android:layout_below="@id/imageView2"
         android:layout_marginTop="20dp"
         android:textColor="@android:color/black"
@@ -42,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/imageView2"
+        android:layout_alignStart="@id/imageView2"
         android:layout_below="@id/question"
         android:layout_marginTop="25dp"
         android:textColor="@android:color/black"
@@ -53,6 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/imageView2"
+        android:layout_alignStart="@id/imageView2"
         android:layout_below="@id/votes"
         android:layout_marginTop="30dp"
         android:textColor="@android:color/black"
@@ -90,6 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/imageView2"
+        android:layout_alignStart="@id/imageView2"
         android:layout_below="@id/answer1"
         android:layout_marginTop="35dp"
         android:textColor="@android:color/black"
@@ -107,6 +114,8 @@
         android:layout_below="@+id/answer2"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="60dp"
         android:layout_marginTop="5dp"
         android:visibility="gone"
         android:foregroundTint="@color/colorPrimary" />
@@ -128,6 +137,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/imageView2"
+        android:layout_alignStart="@id/imageView2"
         android:layout_below="@id/answer2"
         android:layout_marginTop="35dp"
         android:textColor="@android:color/black"
@@ -145,6 +155,8 @@
         android:layout_below="@+id/answer3"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="60dp"
         android:layout_marginTop="5dp"
         android:visibility="gone"
         android:foregroundTint="@color/colorPrimary" />
@@ -182,6 +194,8 @@
         android:layout_below="@+id/answer4"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:visibility="gone"
         android:foregroundTint="@color/colorPrimary" />
@@ -202,6 +216,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/imageView2"
+        android:layout_alignStart="@id/imageView2"
         android:layout_below="@id/answer4"
         android:layout_marginTop="35dp"
         android:textColor="@android:color/black"
@@ -261,6 +276,7 @@
         android:layout_centerInParent="true"
         android:tint="@color/colorTextGreyed"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_chart_bar" />
+        app:srcCompat="@drawable/ic_chart_bar"
+        tools:ignore="ContentDescription" />
 
 </RelativeLayout>

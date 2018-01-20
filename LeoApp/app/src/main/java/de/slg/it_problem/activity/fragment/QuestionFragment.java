@@ -14,8 +14,8 @@ import de.slg.it_problem.activity.ITActivity;
 import de.slg.it_problem.task.ImageSynchronizerTask;
 import de.slg.it_problem.utility.FragmentType;
 import de.slg.it_problem.utility.Session;
-import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.R;
+import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.Utils;
 
 public class QuestionFragment extends Fragment implements TaskStatusListener {

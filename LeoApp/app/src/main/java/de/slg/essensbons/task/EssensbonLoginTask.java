@@ -9,8 +9,8 @@ import java.security.NoSuchAlgorithmException;
 
 import de.slg.essensbons.utility.Authenticator;
 import de.slg.essensbons.utility.EssensbonUtils;
-import de.slg.leoapp.task.general.VoidCallbackTask;
 import de.slg.leoapp.task.general.TaskStatusListener;
+import de.slg.leoapp.task.general.VoidCallbackTask;
 import de.slg.leoapp.utility.Utils;
 
 public class EssensbonLoginTask extends VoidCallbackTask<Authenticator> {
