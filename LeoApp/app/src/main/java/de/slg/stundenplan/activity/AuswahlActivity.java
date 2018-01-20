@@ -72,6 +72,7 @@ public class AuswahlActivity extends ActionLogActivity {
             }
         }
         finish();
+        startActivity(new Intent(this,StundenplanActivity.class));
         return true;
     }
 
