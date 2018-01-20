@@ -4,8 +4,6 @@
     <string name="qr_intro_title1">QR - Foodmarks</string>
     <string name="qr_intro_desc1">This feature simplifies the issue of food during lunch.</string>
 
-    <string name="qr_scan_title">Essensbon Scannen</string>
-
     <string name="qr_intro_titleVerification" translatable="false">Log in</string>
     <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
         lunch.leo-ac.de credentials.</string>
@@ -15,7 +13,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <string name="title_it_problem">Problem Solver</string>
+    <string name="title_it_problem">IT Problem Solver</string>
 
     <string name="nolessons">No lessons today :)</string>
 
@@ -209,6 +207,7 @@
     <string name="to">To</string>
     <string name="info_add_entry">Consider using the web interface for more options</string>
     <string name="download_description_news">Pin Board - Download</string>
+    <string name="exp_date">Expiration date</string>
 
 
     <!-- Stundenplan -->
@@ -423,8 +422,7 @@
     <string name="mint">STEM</string>
     <string name="näh">Sewing</string>
     <string name="desc_coming_soon">In the near future, new features will be added.</string>
-    <string name="title_randstundenfinder">Randstundenfinder</string>
-    <string name="add_teacher">Lehrerkürzel hinzufügen</string>
+    <string name="add_teacher">Add teacher token</string>
     <string name="title_survey_news">Surveys</string>
     <string name="profil">Your Profile</string>
     <string name="sg">Very good</string>
@@ -450,18 +448,17 @@
     <string name="survey_description_answers">Add up to five answer possibilities</string>
     <string name="running_survey">Running survey</string>
     <string name="token">Token</string>
-    <string name="grade">grade</string>
-    <string name="me">me</string>
+    <string name="grade">Grade</string>
+    <string name="me">Me</string>
     <string name="students">Students</string>
     <string name="all">All</string>
     <string name="not_show_again">Do not show again</string>
     <string name="skip">Skip</string>
-    <string name="leave_chat_question">Bist du sicher, dass du diesen Chat verlassen möchtest?</string>
     <string name="beamer" translatable="false">Beamer</string>
     <string name="search_term">Search term</string>
-    <string name="first">Als oberstes</string>
-    <string name="user">Benutzer</string>
-    <string name="sort">Sortieren</string>
+    <string name="first">First</string>
+    <string name="user">User</string>
+    <string name="sort">Sort</string>
     <string name="version_code" translatable="false">Version: %1$s (%2$s )</string>
 
     <string name="saved_as">Saved as</string>
@@ -470,7 +467,7 @@
     <string name="how_are_you">How are you?</string>
     <string name="network">Network</string>
     <string name="computer">Computer</string>
-    <string name="error_later">s</string>
+    <string name="error_later">Something went wrong. Please try again later.</string>
     <string name="voted_sucessfully">Voted sucessfully</string>
     <string name="chats">Chats</string>
     <string name="users">Users</string>
@@ -501,5 +498,9 @@
     <string name="friends">Friends</string>
     <string name="particular_occasion">Particular occasion</string>
     <string name="other">Other</string>
+    <string name="sent">Sent</string>
+    <string name="qr_scan_title">"Scan "</string>
+    <string name="leave_chat_question">Are you sure that you want to leave this chat?</string>
+    <string name="title_randstundenfinder">Free period finder</string>
 
 </resources>
