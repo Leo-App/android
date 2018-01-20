@@ -243,9 +243,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
     }
 
     private void cancel(final AbstractOrderedFragment oldFragment) {
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 ignoreSlideChange = true;

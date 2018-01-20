@@ -129,6 +129,9 @@ public class ResultDialog extends AlertDialog {
             answers[i].setVisibility(View.VISIBLE);
             progressBars[i].setVisibility(View.VISIBLE);
 
+            if (votes == 0)
+                continue;
+
             ObjectAnimator animation = ObjectAnimator.ofInt(progressBars[i], "progress", entries[i].getValue() * 100 / votes);
             animation.setDuration(1250);
             animation.setInterpolator(new DecelerateInterpolator());
