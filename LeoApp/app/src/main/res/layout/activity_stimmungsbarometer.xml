@@ -24,8 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/cardView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/toolbar">
 
             <LinearLayout
@@ -45,157 +43,154 @@
             android:layout_alignParentBottom="true"
             app:cardElevation="10dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_gravity="bottom"
+                android:gravity="bottom">
 
-                <RelativeLayout
-                    android:id="@+id/layoutIch"
+                <LinearLayout
+                    android:id="@+id/layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="4dp">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/imageViewIch"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_centerVertical="true"
-                        android:scaleType="center"
-                        android:tint="@color/tint_ich"
-                        app:srcCompat="@drawable/background_profile_picture" />
-
-                    <TextView
-                        android:id="@+id/textViewIch"
+                    <LinearLayout
+                        android:id="@+id/layoutIch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@+id/imageViewIch"
-                        android:layout_toRightOf="@+id/imageViewIch"
-                        android:text="@string/me"
-                        android:textColor="@color/tint_ich"
-                        android:textSize="16sp" />
+                        android:gravity="center_vertical"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="4dp">
 
-                </RelativeLayout>
+                        <ImageView
+                            android:id="@+id/imageViewIch"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:scaleType="center"
+                            android:tint="@color/tint_ich"
+                            app:srcCompat="@drawable/background_profile_picture" />
 
-                <RelativeLayout
-                    android:id="@+id/layoutSchueler"
-                    android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/textViewIch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/me"
+                            android:textColor="@color/tint_ich"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutSchueler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="4dp">
+
+                        <ImageView
+                            android:id="@+id/imageViewSchueler"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:tint="@color/tint_schueler"
+                            app:srcCompat="@drawable/background_profile_picture" />
+
+                        <TextView
+                            android:id="@+id/textViewSchueler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/students"
+                            android:textColor="@color/tint_schueler"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutLehrer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="4dp">
+
+                        <ImageView
+                            android:id="@+id/imageViewLehrer"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:tint="@color/tint_lehrer"
+                            app:srcCompat="@drawable/background_profile_picture" />
+
+                        <TextView
+                            android:id="@+id/textViewLehrer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/lehrer"
+                            android:textColor="@color/tint_lehrer"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutAlle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="4dp">
+
+                        <ImageView
+                            android:id="@+id/imageViewAlle"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:tint="@color/tint_alle"
+                            app:srcCompat="@drawable/background_profile_picture" />
+
+                        <TextView
+                            android:id="@+id/textViewAlle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:text="@string/all"
+                            android:textColor="@color/tint_alle"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/changeQuestion"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="4dp">
+                    android:layout_alignBottom="@id/layout"
+                    android:layout_alignRight="@id/layout"
+                    android:layout_alignEnd="@id/layout"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:clickable="true"
+                    android:visibility="visible"
+                    app:srcCompat="@drawable/ic_edit" />
 
-                    <ImageView
-                        android:id="@+id/imageViewSchueler"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_centerVertical="true"
-                        android:tint="@color/tint_schueler"
-                        app:srcCompat="@drawable/background_profile_picture" />
-
-                    <TextView
-                        android:id="@+id/textViewSchueler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@+id/imageViewSchueler"
-                        android:layout_toRightOf="@+id/imageViewSchueler"
-                        android:text="@string/students"
-                        android:textColor="@color/tint_schueler"
-                        android:textSize="16sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/layoutLehrer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="4dp">
-
-                    <ImageView
-                        android:id="@+id/imageViewLehrer"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_centerVertical="true"
-                        android:tint="@color/tint_lehrer"
-                        app:srcCompat="@drawable/background_profile_picture" />
-
-                    <TextView
-                        android:id="@+id/textViewLehrer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@+id/imageViewLehrer"
-                        android:layout_toRightOf="@+id/imageViewLehrer"
-                        android:text="@string/lehrer"
-                        android:textColor="@color/tint_lehrer"
-                        android:textSize="16sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/layoutAlle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingTop="4dp">
-
-                    <ImageView
-                        android:id="@+id/imageViewAlle"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_centerVertical="true"
-                        android:tint="@color/tint_alle"
-                        app:srcCompat="@drawable/background_profile_picture" />
-
-                    <TextView
-                        android:id="@+id/textViewAlle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_toEndOf="@+id/imageViewAlle"
-                        android:layout_toRightOf="@+id/imageViewAlle"
-                        android:text="@string/all"
-                        android:textColor="@color/tint_alle"
-                        android:textSize="16sp" />
-
-                </RelativeLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </android.support.v7.widget.CardView>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/changeQuestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/cardView"
-            android:layout_alignEnd="@id/cardView"
-            android:layout_alignRight="@id/cardView"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:clickable="true"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_edit" />
 
     </RelativeLayout>
 
