@@ -102,6 +102,9 @@ public class StundenplanActivity extends LeoAppFeatureActivity {
         if (Utils.getUserPermission() == User.PERMISSION_SCHUELER) {
             menu.findItem(R.id.action_randstunde).setVisible(false);
         }
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
+            menu.findItem(R.id.action_edit).setVisible(false);
+        }
         return true;
     }
 

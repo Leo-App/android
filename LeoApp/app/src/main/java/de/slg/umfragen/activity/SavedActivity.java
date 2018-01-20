@@ -3,8 +3,8 @@ package de.slg.umfragen.activity;
 import android.support.v7.app.AppCompatActivity;
 
 public class SavedActivity extends AppCompatActivity {
-/*
-    @Override
+
+ /*   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved);
@@ -69,6 +69,6 @@ public class SavedActivity extends AppCompatActivity {
             }
             return v;
         }
-    } */
-
+    }
+*/
 }
