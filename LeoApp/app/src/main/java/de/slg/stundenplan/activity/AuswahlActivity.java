@@ -106,7 +106,7 @@ public class AuswahlActivity extends ActionLogActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0) {
+                if(position==0 ) {
                     new CreateCourseDialog(AuswahlActivity.this).show();
                 }
                 if (view.isEnabled()) {
@@ -193,56 +193,56 @@ public class AuswahlActivity extends ActionLogActivity {
         @Override
         public View getView(int position, View view, @NonNull ViewGroup parent) {
             if (views[position] == null) {
-                if(position==0) {
+                if (position == 0 && views[position] == null) {
                     views[position] = getLayoutInflater().inflate(R.layout.list_item_new_kurs, null);
                     views[position].setEnabled(true);
                 } else {
                     views[position] = getLayoutInflater().inflate(R.layout.list_item_kurs, null);
                     views[position].setEnabled(true);
-                }
 
-                TextView tvFach    = views[position].findViewById(R.id.fach_auswahl);
-                TextView tvKuerzel = views[position].findViewById(R.id.kürzel_auswahl);
-                TextView tvLehrer  = views[position].findViewById(R.id.lehrer_auswahl);
-                TextView tvKlasse  = views[position].findViewById(R.id.klasse_auswahl);
-                CheckBox checkBox  = views[position].findViewById(R.id.checkBox);
-                Fach     current   = fachArray[position];
+                    TextView tvFach = views[position].findViewById(R.id.fach_auswahl);
+                    TextView tvKuerzel = views[position].findViewById(R.id.kürzel_auswahl);
+                    TextView tvLehrer = views[position].findViewById(R.id.lehrer_auswahl);
+                    TextView tvKlasse = views[position].findViewById(R.id.klasse_auswahl);
+                    CheckBox checkBox = views[position].findViewById(R.id.checkBox);
+                    Fach current = fachArray[position];
 
-                tvFach.setText(current.getName());
-                tvKuerzel.setText(current.getKuerzel());
-                tvLehrer.setText(current.getLehrer());
-                checkBox.setChecked(database.istGewaehlt(current.id));
+                    tvFach.setText(current.getName());
+                    tvKuerzel.setText(current.getKuerzel());
+                    tvLehrer.setText(current.getLehrer());
+                    checkBox.setChecked(database.istGewaehlt(current.id));
 
-                if (Utils.getUserStufe().matches("[0-9]+")) {
-                    tvKlasse.setVisibility(View.VISIBLE);
-                    tvKlasse.setText(current.getKlasse());
-                }
-
-                if (checkBox.isChecked()) {
-                    if (!current.getKuerzel().startsWith("IB"))
-                        ausgewaehlteFaecher.append(current.getKuerzel().substring(0, 2));
-                    else
-                        ausgewaehlteFaecher.append(current.getKuerzel().substring(3, 6));
-                    double[] stunden = database.gibStunden(current.id);
-                    for (double d : stunden) {
-                        ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
+                    if (Utils.getUserStufe().matches("[0-9]+")) {
+                        tvKlasse.setVisibility(View.VISIBLE);
+                        tvKlasse.setText(current.getKlasse());
                     }
-                    tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                    tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                    tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                } else if (ausgewaehlteStunden[current.getTag() - 1][current.getStunde() - 1] || (current.getKuerzel().startsWith("IB") ? ausgewaehlteFaecher.contains(current.getKuerzel().substring(3, 6)) : ausgewaehlteFaecher.contains(current.getKuerzel().substring(0, 2)))) {
-                    views[position].setEnabled(false);
-                    tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
-                    tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
-                    tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+
+                    if (checkBox.isChecked()) {
+                        if (!current.getKuerzel().startsWith("IB"))
+                            ausgewaehlteFaecher.append(current.getKuerzel().substring(0, 2));
+                        else
+                            ausgewaehlteFaecher.append(current.getKuerzel().substring(3, 6));
+                        double[] stunden = database.gibStunden(current.id);
+                        for (double d : stunden) {
+                            ausgewaehlteStunden[(int) (d) - 1][(int) (d * 10 % 10) - 1] = true;
+                        }
+                        tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                        tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                        tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                    } else if (ausgewaehlteStunden[current.getTag() - 1][current.getStunde() - 1] || (current.getKuerzel().startsWith("IB") ? ausgewaehlteFaecher.contains(current.getKuerzel().substring(3, 6)) : ausgewaehlteFaecher.contains(current.getKuerzel().substring(0, 2)))) {
+                        views[position].setEnabled(false);
+                        tvFach.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+                        tvKuerzel.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+                        tvLehrer.setTextColor(ContextCompat.getColor(getContext(), R.color.colorTextGreyed));
+                    }
+                    cbs[position] = checkBox;
                 }
-                cbs[position] = checkBox;
             }
             return views[position];
         }
 
         void refresh() {
-            for (int i = 0; i < views.length; i++) {
+            for (int i = 1; i < views.length; i++) {
                 if (views[i] != null) {
                     Fach     current   = fachArray[i];
                     CheckBox c         = cbs[i];
@@ -279,7 +279,7 @@ public class AuswahlActivity extends ActionLogActivity {
 
         int[] gibMarkierteIds() {
             List<Integer> liste = new List<>();
-            for (int i = 0; i < fachArray.length; i++)
+            for (int i = 1; i < fachArray.length; i++)
                 if (views[i] != null && ((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked())
                     liste.append(fachArray[i].id);
             int[] ids = new int[liste.size()];
