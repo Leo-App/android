@@ -172,9 +172,9 @@
             android:layout_alignBottom="@id/layoutAlle"
             android:layout_alignEnd="@id/layoutAlle"
             android:layout_alignRight="@id/layoutAlle"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:clickable="true"
             android:visibility="gone"
             app:srcCompat="@drawable/ic_edit"/>

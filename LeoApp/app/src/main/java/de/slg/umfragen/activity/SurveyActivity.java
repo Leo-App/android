@@ -225,7 +225,6 @@ public class SurveyActivity extends LeoAppFeatureActivity {
             boolean voted = false;
 
             for (cursorAnswers.moveToFirst(); !cursorAnswers.isAfterLast(); cursorAnswers.moveToNext()) {
-                Utils.logError("ANSWERS");
                 answers.add(cursorAnswers.getString(0) + "_;_" + cursorAnswers.getString(1) + "_;_" + cursorAnswers.getInt(2));
                 voted = voted || cursorAnswers.getInt(2) == 1;
             }
