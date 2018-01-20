@@ -34,6 +34,7 @@ import de.slg.messenger.activity.MessengerActivity;
 import de.slg.schwarzes_brett.activity.SchwarzesBrettActivity;
 import de.slg.startseite.activity.MainActivity;
 import de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity;
+import de.slg.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slg.stundenplan.activity.StundenplanActivity;
 import de.slg.umfragen.activity.SurveyActivity;
 
@@ -339,7 +340,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             grade.setText(Utils.getUserStufe());
 
         ImageView mood = navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
+        mood.setImageResource(StimmungsbarometerUtils.getCurrentMoodRessource());
     }
 
     private ActionBar getSupportActionBar() {

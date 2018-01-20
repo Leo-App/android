@@ -41,6 +41,7 @@ import de.slg.schwarzes_brett.dialog.NewEntryDialog;
 import de.slg.schwarzes_brett.task.FileDownloadTask;
 import de.slg.schwarzes_brett.task.SyncNewsTask;
 import de.slg.schwarzes_brett.task.UpdateViewTrackerTask;
+import de.slg.schwarzes_brett.utility.SchwarzesBrettUtils;
 
 /**
  * SchwarzesBrettActivity.
@@ -228,7 +229,7 @@ public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 int remoteID = getRemoteId(groupPosition);
                 Utils.logError(remoteID);
-                if (Utils.getUserPermission() == User.PERMISSION_LEHRER || de.slg.schwarzes_brett.utility.Utils.messageAlreadySeen(remoteID))
+                if (Utils.getUserPermission() == User.PERMISSION_LEHRER || SchwarzesBrettUtils.messageAlreadySeen(remoteID))
                     return false;
                 String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
                 if (!cache.equals(""))

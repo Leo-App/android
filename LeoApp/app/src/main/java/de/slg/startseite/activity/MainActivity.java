@@ -35,6 +35,7 @@ import de.slg.startseite.CardAdapter;
 import de.slg.startseite.CardType;
 import de.slg.startseite.dialog.CardAddDialog;
 import de.slg.stimmungsbarometer.dialog.AbstimmDialog;
+import de.slg.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slg.umfragen.activity.SurveyActivity;
 
 /**
@@ -241,7 +242,7 @@ public class MainActivity extends LeoAppFeatureActivity {
             grade.setText(Utils.getUserStufe());
 
         ImageView mood = getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
+        mood.setImageResource(StimmungsbarometerUtils.getCurrentMoodRessource());
 
         Utils.getNotificationManager().cancel(NotificationHandler.ID_STIMMUNGSBAROMETER);
         Utils.getNotificationManager().cancel(NotificationHandler.ID_STUNDENPLAN);
@@ -429,7 +430,7 @@ public class MainActivity extends LeoAppFeatureActivity {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         ImageView mood = getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
-                        mood.setImageResource(de.slg.stimmungsbarometer.utility.Utils.getCurrentMoodRessource());
+                        mood.setImageResource(StimmungsbarometerUtils.getCurrentMoodRessource());
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

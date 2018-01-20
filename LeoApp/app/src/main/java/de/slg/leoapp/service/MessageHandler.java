@@ -8,6 +8,7 @@ import de.slg.leoapp.utility.datastructure.Queue;
 import de.slg.messenger.utility.Assoziation;
 import de.slg.messenger.utility.Chat;
 import de.slg.messenger.utility.Message;
+import de.slg.messenger.utility.MessengerUtils;
 
 class MessageHandler extends Thread {
     private Queue<String> messagesQueue;
@@ -50,7 +51,7 @@ class MessageHandler extends Thread {
                     int    uid   = Integer.parseInt(parts[5]);
 
                     Utils.getController().getMessengerDatabase().insertMessage(new Message(mid, mtext, mdate, cid, uid));
-                    if (uid != Utils.getUserID() && cid != de.slg.messenger.utility.Utils.currentlyDisplayedChat())
+                    if (uid != Utils.getUserID() && cid != MessengerUtils.currentlyDisplayedChat())
                         new NotificationHandler.MessengerNotification().send();
 
                     refresh();

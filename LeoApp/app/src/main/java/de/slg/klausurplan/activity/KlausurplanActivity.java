@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import de.slg.klausurplan.KlausurenAdapter;
 import de.slg.klausurplan.dialog.KlausurDialog;
 import de.slg.klausurplan.utility.Klausur;
+import de.slg.klausurplan.utility.KlausurplanUtils;
 import de.slg.leoapp.R;
 import de.slg.leoapp.notification.NotificationHandler;
 import de.slg.leoapp.sqlite.SQLiteConnectorKlausurplan;
@@ -47,7 +48,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         Utils.getController().registerKlausurplanActivity(this);
 
         databaseStundenplan = new SQLiteConnectorStundenplan(getApplicationContext());
-        if (!de.slg.klausurplan.utility.Utils.databaseExists(getApplicationContext())) {
+        if (!KlausurplanUtils.databaseExists(getApplicationContext())) {
             database = new SQLiteConnectorKlausurplan(getApplicationContext());
             new Importer().execute();
         } else {
@@ -108,7 +109,7 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
         if (mi.getItemId() == R.id.action_delete) {
             confirmDelete = true;
             snackbar.show();
-            listView.setAdapter(new KlausurenAdapter(getApplicationContext(), database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_CREATED), de.slg.klausurplan.utility.Utils.findeNächsteKlausur(klausuren)));
+            listView.setAdapter(new KlausurenAdapter(getApplicationContext(), database.getExams(SQLiteConnectorKlausurplan.WHERE_ONLY_CREATED), KlausurplanUtils.findeNächsteKlausur(klausuren)));
         }
         return true;
     }
@@ -209,9 +210,9 @@ public class KlausurplanActivity extends LeoAppFeatureActivity {
 
     private void refresh() {
         refreshArray();
-        listView.setAdapter(new KlausurenAdapter(getApplicationContext(), klausuren, de.slg.klausurplan.utility.Utils.findeNächsteKlausur(klausuren)));
+        listView.setAdapter(new KlausurenAdapter(getApplicationContext(), klausuren, KlausurplanUtils.findeNächsteKlausur(klausuren)));
 
-        listView.setSelection(de.slg.klausurplan.utility.Utils.findeNächsteWoche(klausuren));
+        listView.setSelection(KlausurplanUtils.findeNächsteWoche(klausuren));
     }
 
     private void refreshArray() {

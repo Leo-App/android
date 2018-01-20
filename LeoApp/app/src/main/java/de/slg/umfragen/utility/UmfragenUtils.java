@@ -10,7 +10,7 @@ package de.slg.umfragen.utility;
  * @since 0.6.2
  */
 
-public class Utils {
+public class UmfragenUtils {
 
     public static long getLatestSurveyDate() {
         return de.slg.leoapp.utility.Utils.getController().getPreferences().getLong("pref_key_general_last_notification_survey_students", 0);

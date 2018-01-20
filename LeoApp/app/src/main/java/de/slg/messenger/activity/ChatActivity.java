@@ -22,6 +22,7 @@ import de.slg.leoapp.view.ActionLogActivity;
 import de.slg.messenger.MessageAdapter;
 import de.slg.messenger.utility.Chat;
 import de.slg.messenger.utility.Message;
+import de.slg.messenger.utility.MessengerUtils;
 
 public class ChatActivity extends ActionLogActivity {
     private int           cid;
@@ -91,13 +92,13 @@ public class ChatActivity extends ActionLogActivity {
     protected void onResume() {
         super.onResume();
         refreshUI(false, true);
-        de.slg.messenger.utility.Utils.setCurrentlyDisplayedChat(cid);
+        MessengerUtils.setCurrentlyDisplayedChat(cid);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        de.slg.messenger.utility.Utils.setCurrentlyDisplayedChat(-1);
+        MessengerUtils.setCurrentlyDisplayedChat(-1);
         if (cid != -1) {
             Utils.getController().getMessengerDatabase().setMessagesRead(cid);
         }

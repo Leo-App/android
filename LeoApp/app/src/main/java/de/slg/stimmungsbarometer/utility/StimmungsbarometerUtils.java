@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import de.slg.leoapp.R;
 
-public abstract class Utils {
+public abstract class StimmungsbarometerUtils {
 
     public static boolean syncVote() {
         return !getLastVoteDate().equals(getCurrentDate());
