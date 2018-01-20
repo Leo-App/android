@@ -239,6 +239,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     }
 
     public void refreshUI() {
+        Utils.logError("REFRESH");
         initExpandableListView();
     }
 
