@@ -12,6 +12,7 @@ import de.slg.leoapp.utility.Utils;
 import de.slg.leoapp.utility.WebDAVConnector;
 
 public class SyncGradeTask extends AsyncTask<Void, Void, Void> {
+
     @Override
     protected Void doInBackground(Void... params) {
 

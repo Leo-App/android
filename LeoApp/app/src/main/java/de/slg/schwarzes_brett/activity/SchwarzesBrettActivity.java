@@ -50,7 +50,7 @@ import de.slg.schwarzes_brett.utility.SchwarzesBrettUtils;
  * Einzelne Einträge lassen sich für mehr Informationen aufklappen. Mit einem ausreichenden Permissionlevel wird ein FAB mit der Option, neue Einträge zu verfassen, angezeigt.
  *
  * @author Gianni, Kim, Moritz.
- * @version 2017.1811
+ * @version 2018.2001
  * @since 0.0.1
  */
 public class SchwarzesBrettActivity extends LeoAppFeatureActivity {

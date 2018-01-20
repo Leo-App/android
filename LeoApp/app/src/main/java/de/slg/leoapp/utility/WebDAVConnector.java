@@ -53,6 +53,8 @@ public class WebDAVConnector {
         this.currentDirectory = "";
     }
 
+    //TODO: Lehrer: Heimatverzeichnis, Schüler: PrivatSchueler ... / Meine Gruppen Wenn Benutzername Länger als 6 buchstaben ist, SChülerverzeichnis sonst Lehrerverzeichnis
+
     /**
      * Gibt eine Liste der Inhalte des aktuellen Verzeichnisses zurück.
      *
@@ -77,6 +79,7 @@ public class WebDAVConnector {
                 if (newIndex > i) {
                     i = newIndex;
                     String toAppend = result.substring(i, result.indexOf('<', i));
+                    Utils.logError(toAppend);
                     if (toAppend.contains("/D:href>")) //Temporärer Fix
                         continue;
                     files.append(toAppend);

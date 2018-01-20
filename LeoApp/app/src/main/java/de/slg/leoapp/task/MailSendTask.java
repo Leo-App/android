@@ -6,9 +6,9 @@ import java.io.UnsupportedEncodingException;
 
 import javax.mail.MessagingException;
 
-import de.slg.leoapp.utility.datastructure.List;
 import de.slg.leoapp.utility.MailClient;
 import de.slg.leoapp.utility.Utils;
+import de.slg.leoapp.utility.datastructure.List;
 
 public class MailSendTask extends AsyncTask<String, Void, Void> {
     @Override
