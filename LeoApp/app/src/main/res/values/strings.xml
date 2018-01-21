@@ -139,7 +139,7 @@
     <string name="info_screen_first" translatable="false">VersionPlaceholder</string>
     <string name="info_screen_second">Developed in the informatics project course 2017 by students of the SLG</string>
     <string name="info_screen_third" translatable="false">St. Leonhard Gymnasium</string>
-    <string name="info_screen_fourth">No responsibility is be taken for the accuracy of any information</string>
+    <string name="info_screen_fourth">No responsibility is taken for the correctness and completeness of any information.</string>
     <string name="info_screen_fifth">Developer</string>
 
 
@@ -458,7 +458,7 @@
     <string name="first">First</string>
     <string name="user">User</string>
     <string name="sort">Sort</string>
-    <string name="version_code" translatable="false">Version: %1$s (%2$s )</string>
+    <string name="version_code" translatable="false">Version: %1$s (%2$d)</string>
 
     <string name="saved_as">Saved as</string>
     <string name="open">Open</string>
