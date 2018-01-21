@@ -394,7 +394,7 @@
     <string name="umfragen">Umfragen</string>
     <string name="stundenanzeige">Stunden</string>
     <string name="beschreibungUmfrage">Erfahre die Meinungen Deiner Mitschüler zu von Dir gewählten Themen und nimm selbst an Umfragen teil.</string>
-    <string name="intro5">Tippe lange auf einen Feature Button, um mehr darüber zu erfahren.</string>
+    <string name="intro5">Tippe lange auf einen Feature-Button, um mehr darüber zu erfahren.</string>
     <string name="intro4">Dein Stundenplan und Deine nächsten Klassenarbeiten sind nur noch zwei Klicks entfernt!</string>
     <string name="intro3">Mit dem Messenger einfach Deine Lehrer und Freunde kontaktieren, ohne Deine Nummer preiszugeben.</string>
     <string name="intro2">Zeige Deinen digitalen Essensbon einfach dem Mensapersonal und Du bekommst Dein Essen!</string>
@@ -410,7 +410,7 @@
     <string name="no_entries">Keine Einträge</string>
     <string name="search_user">Benutzer suchen</string>
     <string name="participants">Teilnehmer</string>
-    <string name="choose_subject">Choose your subject.</string>
+    <string name="choose_subject">Wähle Dein Fach.</string>
     <string name="sa">Sa</string>
     <string name="so">So</string>
     <string name="running_survey">Laufende Umfrage</string>

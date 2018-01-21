@@ -102,7 +102,7 @@ android:layout_below="@+id/course_name"
                 android:id="@+id/spinner1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:prompt="Choose weekday"
+                android:prompt="@string/choose_weekday"
                 android:entries="@array/weekdays"
                 android:spinnerMode="dialog" />
 
@@ -131,7 +131,7 @@ android:layout_below="@+id/course_name"
 
             <Spinner
                 android:id="@+id/spinner2"
-                android:prompt="Choose weekday"
+                android:prompt="@string/choose_weekday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:entries="@array/weekdays"
@@ -167,7 +167,7 @@ android:layout_below="@+id/course_name"
                 android:layout_width="151dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/weekdays"
-                android:prompt="Choose weekday"
+                android:prompt="@string/choose_weekday"
                 android:spinnerMode="dialog" />
 
             <Space

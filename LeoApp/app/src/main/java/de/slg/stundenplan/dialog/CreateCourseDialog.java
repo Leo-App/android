@@ -17,7 +17,8 @@ public class CreateCourseDialog extends AlertDialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dialog_custom_course);
     }
 
 }

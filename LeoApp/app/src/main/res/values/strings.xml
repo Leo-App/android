@@ -444,7 +444,7 @@
     <string name="sa">Sa</string>
     <string name="search_user">Search user</string>
     <string name="participants">Participants</string>
-    <string name="choose_subject">Choose your subject</string>
+    <string name="choose_subject">Choose your subject.</string>
     <string name="survey_description_answers">Add up to five answer possibilities</string>
     <string name="running_survey">Running survey</string>
     <string name="token">Token</string>
@@ -537,4 +537,7 @@
         <item>9</item>
         <item>10</item>
     </string-array>
+    <string name="choose_weekday">Choose weekday</string>
+
+
 </resources>
