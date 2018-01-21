@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.slg.leoapp">
+    package="de.slgdev.leoapp">
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -25,7 +25,7 @@
         android:theme="@style/AppTheme">
 
         <service
-            android:name=".service.AuthenticatorService"
+            android:name="de.slgdev.leoapp.service.AuthenticatorService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
@@ -37,7 +37,7 @@
 
 
         <service
-            android:name=".service.ReceiveSyncService"
+            android:name="de.slgdev.leoapp.service.ReceiveSyncService"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -48,39 +48,39 @@
         </service>
 
         <provider
-            android:name=".service.StubProvider"
-            android:authorities="de.slg.leoapp"
+            android:name="de.slgdev.leoapp.service.StubProvider"
+            android:authorities="de.slgdev.leoapp"
             android:exported="false"
             android:syncable="true"/>
 
         <service
-            android:name=".service.ReceiveService"
+            android:name="de.slgdev.leoapp.service.ReceiveService"
             android:description="@string/serviceDescription"
             android:exported="false" />
-        <service android:name=".service.NotificationServiceWrapper$FoodmarkService"
+        <service android:name="de.slgdev.leoapp.service.NotificationServiceWrapper$FoodmarkService"
             android:description="@string/serviceDescription"
             android:exported="false"
             />
-        <service android:name=".service.NotificationServiceWrapper$TimetableService"
+        <service android:name="de.slgdev.leoapp.service.NotificationServiceWrapper$TimetableService"
             android:description="@string/serviceDescription"
             android:exported="false"
             />
-        <service android:name=".service.NotificationServiceWrapper$StimmungsbarometerService"
+        <service android:name="de.slgdev.leoapp.service.NotificationServiceWrapper$StimmungsbarometerService"
             android:description="@string/serviceDescription"
             android:exported="false"
             />
-        <service android:name=".service.NotificationServiceWrapper$KlausurplanService"
+        <service android:name="de.slgdev.leoapp.service.NotificationServiceWrapper$KlausurplanService"
             android:description="@string/serviceDescription"
             android:exported="false"
             />
 
         <service
-            android:name=".service.AlarmStartupService"
+            android:name="de.slgdev.leoapp.service.AlarmStartupService"
             android:exported="false"
             />
 
         <activity
-            android:name=".Start"
+            android:name="de.slgdev.leoapp.Start"
             android:screenOrientation="portrait"
             android:theme="@style/StartTheme">
             <intent-filter>
@@ -90,92 +90,92 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.PreferenceActivity"
+            android:name="de.slgdev.leoapp.activity.PreferenceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name=".activity.NotificationPreferenceActivity"
+            android:name="de.slgdev.leoapp.activity.NotificationPreferenceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.startseite.activity.MainActivity"
+            android:name="de.slgdev.startseite.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.vertretung.WrapperSubstitutionActivity"
+            android:name="de.slgdev.vertretung.WrapperSubstitutionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name=".activity.InfoActivity"
+            android:name="de.slgdev.leoapp.activity.InfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.messenger.activity.MessengerActivity"
+            android:name="de.slgdev.messenger.activity.MessengerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.messenger.activity.ChatActivity"
+            android:name="de.slgdev.messenger.activity.ChatActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.messenger.activity.AddGroupChatActivity"
+            android:name="de.slgdev.messenger.activity.AddGroupChatActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.messenger.activity.ChatEditActivity"
+            android:name="de.slgdev.messenger.activity.ChatEditActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.essensbons.activity.EssensbonActivity"
+            android:name="de.slgdev.essensbons.activity.EssensbonActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.stimmungsbarometer.activity.StimmungsbarometerActivity"
+            android:name="de.slgdev.stimmungsbarometer.activity.StimmungsbarometerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.stimmungsbarometer.activity.AbstimmActivity"
+            android:name="de.slgdev.stimmungsbarometer.activity.AbstimmActivity"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme" />
         <activity
-            android:name="de.slg.klausurplan.activity.KlausurplanActivity"
+            android:name="de.slgdev.klausurplan.activity.KlausurplanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.schwarzes_brett.activity.SchwarzesBrettActivity"
+            android:name="de.slgdev.schwarzes_brett.activity.SchwarzesBrettActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 
         <activity
-            android:name="de.slg.stundenplan.activity.StundenplanActivity"
+            android:name="de.slgdev.stundenplan.activity.StundenplanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.stundenplan.activity.StundenplanBildActivity"
+            android:name="de.slgdev.stundenplan.activity.StundenplanBildActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="de.slg.stundenplan.activity.AuswahlActivity"
+            android:name="de.slgdev.stundenplan.activity.AuswahlActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.IntroActivity"
+            android:name="de.slgdev.leoapp.activity.IntroActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.slg.leoapp.activity.ProfileActivity"
+            android:name="de.slgdev.leoapp.activity.ProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 
         <activity
-            android:name="de.slg.umfragen.activity.SurveyActivity"
+            android:name="de.slgdev.umfragen.activity.SurveyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 
         <activity
-            android:name="de.slg.it_problem.activity.ITActivity"
+            android:name="de.slgdev.it_problem.activity.ITActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 
         <activity
-            android:name="de.slg.essensbons.intro.EssensbonIntroActivity"
+            android:name="de.slgdev.essensbons.intro.EssensbonIntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slg.essensbons.activity.ScanActivity"
+            android:name="de.slgdev.essensbons.activity.ScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ScanTheme" />
 

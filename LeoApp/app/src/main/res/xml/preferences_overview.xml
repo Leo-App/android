@@ -38,7 +38,7 @@
             android:summary="@string/settings_summary_fade"
             android:title="@string/settings_title_fade" />
 
-        <de.slg.essensbons.NumberPickerPreference
+        <de.slgdev.essensbons.NumberPickerPreference
             android:enabled="false"
             android:key="pref_key_qr_autofade_time"
             android:summary="@string/settings_summary_fade_time"
@@ -50,7 +50,7 @@
         android:key="pref_key_storage_settings"
         android:title="@string/title_testplan">
 
-        <de.slg.klausurplan.NumberPickerPreference
+        <de.slgdev.klausurplan.NumberPickerPreference
             android:key="pref_key_delete"
             android:persistent="true"
             android:summary="@string/settings_summary_testplan_time"

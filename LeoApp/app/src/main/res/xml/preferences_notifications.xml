@@ -9,7 +9,7 @@
             android:key="pref_key_notification_essensqr"
             android:summary="@string/settings_summary_notification"
             android:title="@string/settings_title_notification" />
-        <de.slg.essensbons.TimePickerPreference
+        <de.slgdev.essensbons.TimePickerPreference
             android:key="pref_key_notification_time_foodmarks"
             android:summary="@string/settings_summary_notification_time"
             android:title="@string/settings_title_notification_time" />
@@ -23,7 +23,7 @@
             android:key="pref_key_notification_test"
             android:summary="@string/settings_summary_notification_test"
             android:title="@string/settings_title_notification" />
-        <de.slg.essensbons.TimePickerPreference
+        <de.slgdev.essensbons.TimePickerPreference
             android:key="pref_key_notification_time_test"
             android:summary="@string/settings_summary_notification_time"
             android:title="@string/settings_title_notification_time" />
@@ -57,7 +57,7 @@
             android:key="pref_key_notification_survey"
             android:summary="@string/settings_summary_notification_survey"
             android:title="@string/settings_title_notification" />
-        <de.slg.essensbons.TimePickerPreference
+        <de.slgdev.essensbons.TimePickerPreference
             android:key="pref_key_notification_time_survey"
             android:summary="@string/settings_summary_notification_time"
             android:title="@string/settings_title_notification_time" />
@@ -71,7 +71,7 @@
             android:key="pref_key_notification_schedule"
             android:summary="@string/settings_summary_notification_schedule"
             android:title="@string/settings_title_notification" />
-        <de.slg.essensbons.TimePickerPreference
+        <de.slgdev.essensbons.TimePickerPreference
             android:key="pref_key_notification_time_schedule"
             android:summary="@string/settings_summary_notification_time"
             android:title="@string/settings_title_notification_time" />
