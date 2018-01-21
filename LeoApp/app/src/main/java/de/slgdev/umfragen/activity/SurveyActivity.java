@@ -39,6 +39,7 @@ import de.slgdev.leoapp.view.LeoAppFeatureActivity;
 import de.slgdev.schwarzes_brett.utility.ResponseCode;
 import de.slgdev.umfragen.dialog.NewSurveyDialog;
 import de.slgdev.umfragen.dialog.ResultDialog;
+import de.slgdev.umfragen.task.SaveResultTask;
 import de.slgdev.umfragen.task.SyncSurveyTask;
 import de.slgdev.umfragen.utility.Survey;
 
@@ -314,7 +315,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                             @Override
                             public void onDismissed(Snackbar snackbar, int event) {
                                 if (event == DISMISS_EVENT_TIMEOUT || event == DISMISS_EVENT_SWIPE) {
-             //                       new de.slg.umfragen.task.SaveResultsTask().execute();
+                                    new SaveResultTask(toBeDeleted).execute();
                                     new ExpandableListAdapter.deleteTask().execute(toBeDeleted.remoteId);
                                 } else {
                                     initExpandableListView();
@@ -323,7 +324,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
 
                             @Override
                             public void onShown(Snackbar snackbar) {
-
+                                //STUB
                             }
                         });
                         snackbar2.show();

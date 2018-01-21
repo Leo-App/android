@@ -11,16 +11,18 @@ import java.util.ArrayList;
  * @version 2017.1111
  * @since 0.5.9
  */
+@SuppressWarnings("all")
 public final class Survey {
 
+    public final int      id;
     public final int      remoteId;
     public final String   title;
     public final String   description;
     public final String   to;
     public final String[] answers;
     public final boolean  multiple;
-    final        int      id;
-    public       boolean  voted;
+
+    public boolean voted;
 
     /**
      * Konstruktor. Instanziiert die Attribute der Umfrage mit den entsprechenden Parametern.

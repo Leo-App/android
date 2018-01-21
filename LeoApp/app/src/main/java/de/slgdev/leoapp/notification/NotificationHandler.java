@@ -464,7 +464,7 @@ public class NotificationHandler {
         private String getNotificationText() {
             SQLiteConnectorStundenplan database = new SQLiteConnectorStundenplan(Utils.getContext());
             StringBuilder              builder  = new StringBuilder();
-            Fach[]                     lessons  = database.gewaehlteFaecherAnTag(getNextDayOfWeek());
+            Fach[]                     lessons  = database.getChosenSubjectsAtDay(getNextDayOfWeek());
 
             if (lessons.length == 0)
                 return Utils.getString(R.string.none);

@@ -215,14 +215,14 @@ public class StundenplanActivity extends LeoAppFeatureActivity implements TaskSt
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         if (fachArray[position].id <= 0) {
                             database.freistunde(tag, position + 1);
-                            fachArray[position] = database.getFach(tag, position + 1);
+                            fachArray[position] = database.getSubject(tag, position + 1);
                             view.invalidate();
                         }
                         DetailsDialog dialog = new DetailsDialog(getActivity());
                         dialog.show();
                         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                        dialog.init(database.getFach(tag, position + 1));
+                        dialog.init(database.getSubject(tag, position + 1));
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
@@ -243,7 +243,7 @@ public class StundenplanActivity extends LeoAppFeatureActivity implements TaskSt
 
         private void refreshUI() {
             if (listView != null) {
-                fachArray = database.gewaehlteFaecherAnTag(tag);
+                fachArray = database.getChosenSubjectsAtDay(tag);
                 if (fachArray.length == 0)
                     root.findViewById(R.id.nolessons).setVisibility(View.VISIBLE);
                 else

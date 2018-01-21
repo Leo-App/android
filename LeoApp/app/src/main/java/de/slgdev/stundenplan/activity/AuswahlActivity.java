@@ -67,11 +67,11 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         if (mi.getItemId() == R.id.action_speichern) {
-            database.loescheWahlen();
+            database.deleteSelection();
             for (int id : adapter.gibMarkierteIds()) {
-                database.waehleFach(id);
+                database.chooseSubject(id);
                 if (database.mussSchriftlich(id))
-                    database.setzeSchriftlich(true, id);
+                    database.setWritten(true, id);
             }
         }
         finish();
@@ -105,7 +105,7 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
     public void initListView() {
         ListView listView = findViewById(R.id.listView);
 
-        adapter = new KursAdapter(getApplicationContext(), database.getFaecher());
+        adapter = new KursAdapter(getApplicationContext(), database.getSubjects());
 
         listView.setAdapter(adapter);
 

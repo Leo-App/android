@@ -75,7 +75,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertFach(String kurz, String lehrer, String klasse) {
+    public long insertSubject(String kurz, String lehrer, String klasse) {
         while (kurz.contains("  "))
             kurz = kurz.replace("  ", " ");
 
@@ -95,13 +95,13 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         else
             values.put(FACH_ART, "GK");
         values.put(FACH_KURZEL, kurz);
-        values.put(FACH_NAME, getFachname(kurz)); //Hier brauchen wir jetzt doch das ganze Kürzel!
+        values.put(FACH_NAME, getSubjectName(kurz)); //Hier brauchen wir jetzt doch das ganze Kürzel!
         values.put(FACH_LEHRER, lehrer);
         values.put(FACH_KLASSE, klasse);
         return database.insert(TABLE_FAECHER, null, values);
     }
 
-    public void insertStunde(long fid, int tag, int stunde, String raum) {
+    public void insertLesson(long fid, int tag, int stunde, String raum) {
         String selection = FACH_ID + " = " + fid + " AND " + STUNDEN_TAG + " = " + tag + " AND " + STUNDEN_STUNDE + " = " + stunde;
         Cursor cursor    = database.query(TABLE_STUNDEN, new String[]{FACH_ID}, selection, null, null, null, null);
         if (cursor.getCount() == 0) {
@@ -115,47 +115,47 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         cursor.close();
     }
 
-    public void waehleFach(long fid) {
+    public void chooseSubject(long fid) {
         ContentValues values = new ContentValues();
         values.put(FACH_ID, fid);
         values.put(GEWAEHLT_SCHRIFTLICH, false);
         database.insert(TABLE_GEWAEHLT, null, values);
     }
 
-    public void setzeNotiz(String notiz, int fid, int tag, int stunde) {
+    public void setNote(String notiz, int fid, int tag, int stunde) {
         ContentValues values = new ContentValues();
         values.put(STUNDE_NOTIZ, notiz);
         database.update(TABLE_STUNDEN, values, FACH_ID + " = " + fid + " AND " + STUNDEN_TAG + " = " + tag + " AND " + STUNDEN_STUNDE + " = " + stunde, null);
     }
 
-    public void setzeSchriftlich(boolean schriftlich, long fid) {
+    public void setWritten(boolean schriftlich, long fid) {
         ContentValues values = new ContentValues();
         values.put(GEWAEHLT_SCHRIFTLICH, schriftlich);
         database.update(TABLE_GEWAEHLT, values, FACH_ID + " = " + fid, null);
         SQLiteConnectorKlausurplan klausurplan = new SQLiteConnectorKlausurplan(context);
-        klausurplan.updateStundenplan(getFachKurzel(fid), schriftlich);
+        klausurplan.updateStundenplan(getSubjectAbbreviation(fid), schriftlich);
         klausurplan.close();
     }
 
-    public void loescheWahlen() {
+    public void deleteSelection() {
         database.delete(TABLE_GEWAEHLT, null, null);
     }
 
-    public Fach[] getFaecher() {
+    public Fach[] getSubjects() {
         String   table     = TABLE_FAECHER + ", " + TABLE_STUNDEN;
         String[] columns   = {TABLE_FAECHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_KLASSE, STUNDE_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
         String   selection = TABLE_FAECHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_ART + " != 'FREI'";
         Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_NAME);
-        Fach[]   faecher   = new Fach[cursor.getCount()];
+        Fach[]   subjects   = new Fach[cursor.getCount()];
         int      i         = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
-            faecher[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8));
+            subjects[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8));
         }
         cursor.close();
-        return faecher;
+        return subjects;
     }
 
-    public Fach[] gewaehlteFaecherAnTag(int tag) {
+    public Fach[] getChosenSubjectsAtDay(int tag) {
         String table = TABLE_FAECHER + ", " + TABLE_GEWAEHLT + ", " + TABLE_STUNDEN;
         String[] columns = {TABLE_FAECHER + "." + FACH_ID,
                 FACH_KURZEL,
@@ -187,7 +187,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return faecher;
     }
 
-    public Fach getFach(int tag, int stunde) {
+    public Fach getSubject(int tag, int stunde) {
         String table = TABLE_FAECHER + ", " + TABLE_GEWAEHLT + ", " + TABLE_STUNDEN;
         String[] columns = {TABLE_FAECHER + "." + FACH_ID,
                 FACH_KURZEL,
@@ -222,7 +222,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return f;
     }
 
-    private String getFachKurzel(long fid) {
+    private String getSubjectAbbreviation(long fid) {
         Cursor cursor = database.query(TABLE_FAECHER, new String[]{FACH_KURZEL, FACH_LEHRER}, FACH_ID + " = " + fid, null, null, null, null);
         String s      = null;
         if (cursor.getCount() > 0) {
@@ -241,7 +241,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return s;
     }
 
-    private String getFachname(String kuerzel) {
+    private String getSubjectName(String kuerzel) {
         String stufe = Utils.getUserStufe();
         if (kuerzel.startsWith("L-") || kuerzel.matches("L[0-9]")) {
             return context.getString(R.string.latein);
@@ -261,34 +261,34 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
                 }
                 String hilfskuerzel = kuerzel.substring(0, kuerzel.length() - 1);
                 if (hilfskuerzel.endsWith("ZG")) {
-                    return fachnameOberstufe(hilfskuerzel.substring(0, 2)) + ' ' + context.getString(R.string.ZK);
+                    return getSubjectNameOberstufe(hilfskuerzel.substring(0, 2)) + ' ' + context.getString(R.string.ZK);
                 }
                 if (hilfskuerzel.endsWith("P")) {
-                    return fachnameOberstufe(hilfskuerzel.substring(0, 2)) + ' ' + context.getString(R.string.Projektk);
+                    return getSubjectNameOberstufe(hilfskuerzel.substring(0, 2)) + ' ' + context.getString(R.string.Projektk);
                 }
                 if (hilfskuerzel.endsWith("VTF")) {
-                    return fachnameOberstufe(hilfskuerzel.charAt(1) + " ") + ' ' + context.getString(R.string.Vertiefung);
+                    return getSubjectNameOberstufe(hilfskuerzel.charAt(1) + " ") + ' ' + context.getString(R.string.Vertiefung);
                 }
             }
-            return this.fachnameOberstufe(kuerzel.substring(0, 2));
+            return this.getSubjectNameOberstufe(kuerzel.substring(0, 2));
         } else if (!stufe.equals("")) {
             if (kuerzel.length() > 2) {
                 if (kuerzel.contains("-")) {
                     int i = kuerzel.indexOf('-');
-                    return fachnameUnterstufe(kuerzel.substring(0, i));
+                    return getSubjectNameUnterstufe(kuerzel.substring(0, i));
                 }
                 if (kuerzel.length() == 3 && kuerzel.endsWith("F")) {
-                    return fachnameUnterstufe(kuerzel.substring(0, 2));
+                    return getSubjectNameUnterstufe(kuerzel.substring(0, 2));
                 }
                 if (kuerzel.toUpperCase().endsWith("DF")) {
                     if (kuerzel.startsWith("PK")) {
                         return context.getString(R.string.PoWi);
                     }
-                    return fachnameUnterstufe(kuerzel.substring(0, 2));
+                    return getSubjectNameUnterstufe(kuerzel.substring(0, 2));
                 }
                 if (kuerzel.endsWith("FÖ")) {
                     int i = kuerzel.indexOf("FÖ");
-                    return fachnameUnterstufe(kuerzel.substring(0, i));
+                    return getSubjectNameUnterstufe(kuerzel.substring(0, i));
                 }
                 if (kuerzel.startsWith("LÜZ")) {
                     return context.getString(R.string.lüz);
@@ -298,7 +298,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
                     if (kuerzel.charAt(2) == ' ') {
                         teil = kuerzel.substring(3);
                     }
-                    return context.getString(R.string.ag) + fachnameAG(teil);
+                    return context.getString(R.string.ag) + getSubjectNameAG(teil);
                 }
                 if (kuerzel.equals("SOZ")) {
                     return context.getString(R.string.Soz);
@@ -307,12 +307,12 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
                     return context.getString(R.string.schwimmen);
                 }
             }
-            return this.fachnameUnterstufe(kuerzel);
+            return this.getSubjectNameUnterstufe(kuerzel);
         }
         return kuerzel;
     }
 
-    private String fachnameUnterstufe(String teil) {
+    private String getSubjectNameUnterstufe(String teil) {
         switch (teil.toUpperCase()) {
             case "F":
                 return context.getString(R.string.franze);
@@ -356,7 +356,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return "";
     }
 
-    private String fachnameAG(String teil) {
+    private String getSubjectNameAG(String teil) {
         switch (teil.toUpperCase()) {
             case "RT":
                 return context.getString(R.string.rt);
@@ -396,8 +396,8 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return teil;
     }
 
-    private String fachnameOberstufe(String teil) {
-        switch (teil.toUpperCase()) {
+    private String getSubjectNameOberstufe(String abbr) {
+        switch (abbr.toUpperCase()) {
             case "M ":
                 return context.getString(R.string.mathe);
             case "D ":
@@ -447,12 +447,12 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
             case "SP":
                 return context.getString(R.string.sport);
         }
-        if (teil.matches("S[0-9]"))
+        if (abbr.matches("S[0-9]"))
             return context.getString(R.string.spanisch);
         return "";
     }
 
-    public String gibZeiten(Fach f) {
+    public String getTimes(Fach f) {
         String condition, table;
         if (f.id == 0) {
             table = TABLE_STUNDEN + ", " + TABLE_FAECHER;
@@ -474,12 +474,12 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
                     if (woche[i][j] == 1) {
                         if (builder.length() > 0)
                             builder.append(System.getProperty("line.separator"));
-                        builder.append(tagToString(i + 1))
+                        builder.append(dayToString(i + 1))
                                 .append(": ");
-                        String zeit    = stundeToString(j + 1);
+                        String zeit    = lessonToString(j + 1);
                         String stunden = " (" + (j + 1) + '.';
                         if (j < woche[i].length - 1 && woche[i][j + 1] == 1) {
-                            zeit = zeit.substring(0, 8) + stundeToString(j + 2).substring(8);
+                            zeit = zeit.substring(0, 8) + lessonToString(j + 2).substring(8);
                             stunden += " - " + (j + 2) + '.';
                         }
                         stunden += " Stunde)";
@@ -495,11 +495,11 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return builder.toString();
     }
 
-    public String gibZeit(int tag, int stunde) {
-        return tagToString(tag) + ": " + stundeToString(stunde) + " (" + (stunde + 1) + ". Stunde)";
+    public String getTime(int tag, int stunde) {
+        return dayToString(tag) + ": " + lessonToString(stunde) + " (" + (stunde + 1) + ". Stunde)";
     }
 
-    private String tagToString(int tag) {
+    private String dayToString(int tag) {
         switch (tag) {
             case 1:
                 return Utils.getString(R.string.montag);
@@ -516,7 +516,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         }
     }
 
-    private String stundeToString(int pStunde) {
+    private String lessonToString(int pStunde) {
         switch (pStunde) {
             case 1:
                 return "08:00 - 08:45";
@@ -544,7 +544,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     public void freistunde(int tag, int stunde) {
-        Fach prev = getFach(tag, stunde);
+        Fach prev = getSubject(tag, stunde);
         if (prev == null) {
             ContentValues values = new ContentValues();
             values.put(FACH_NAME, "");

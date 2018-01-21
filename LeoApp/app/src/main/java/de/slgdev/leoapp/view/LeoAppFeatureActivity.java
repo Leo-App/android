@@ -13,6 +13,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -206,6 +207,17 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
 
         ImageView mood = navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(StimmungsbarometerUtils.getCurrentMoodRessource());
+        mood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                startActivity(new Intent(LeoAppFeatureActivity.this, ProfileActivity.class));
+
+                if (getNavigationHighlightId() != R.id.startseite) {
+                    finish();
+                }
+            }
+        });
     }
 
     /**

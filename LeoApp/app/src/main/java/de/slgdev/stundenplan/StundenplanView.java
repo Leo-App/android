@@ -111,7 +111,7 @@ public class StundenplanView extends View {
         SQLiteConnectorStundenplan database         = new SQLiteConnectorStundenplan(getContext());
         Fach[][]                   gewaehlteFaecher = new Fach[5][];
         for (int i = 0; i < gewaehlteFaecher.length; i++) {
-            gewaehlteFaecher[i] = database.gewaehlteFaecherAnTag(i + 1);
+            gewaehlteFaecher[i] = database.getChosenSubjectsAtDay(i + 1);
         }
         database.close();
         for (int i = 1; i < 10; i++) {

@@ -1,5 +1,7 @@
 package de.slgdev.leoapp.utility.datastructure;
 
+import android.support.annotation.NonNull;
+
 import java.util.Iterator;
 
 /**
@@ -415,6 +417,7 @@ public class List<ContentType> implements Iterable<ContentType> {
      * @return Iterator
      */
     @Override
+    @NonNull
     public Iterator<ContentType> iterator() {
         current = null;
         return new Iterator<ContentType>() {

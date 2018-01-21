@@ -53,10 +53,10 @@ public class DetailsDialog extends AlertDialog {
                 if (!fach.getKuerzel().equals("FREI")) {
                     boolean b = cbSchrift.isChecked();
                     fach.setzeSchriftlich(b);
-                    database.setzeSchriftlich(b, fach.id);
+                    database.setWritten(b, fach.id);
                 }
                 fach.setzeNotiz(notiz);
-                database.setzeNotiz(notiz, fach.id, fach.getTag(), fach.getStunde());
+                database.setNote(notiz, fach.id, fach.getTag(), fach.getStunde());
                 dismiss();
             }
         });
@@ -77,7 +77,7 @@ public class DetailsDialog extends AlertDialog {
     private void initDetails() {
         if (!fach.getKuerzel().equals("FREI")) {
             title.setText(fach.getName() + " " + fach.getKuerzel().substring(2));
-            tvZeit.setText(database.gibZeiten(fach));
+            tvZeit.setText(database.getTimes(fach));
             tvRaum.setText(fach.getRaum());
             tvLehrer.setText(fach.getLehrer());
             etNotiz.setText(fach.getNotiz());
@@ -90,7 +90,7 @@ public class DetailsDialog extends AlertDialog {
             cbSchrift.setVisibility(View.GONE);
             findViewById(R.id.raum_details).setVisibility(View.GONE);
             findViewById(R.id.lehrer_details).setVisibility(View.GONE);
-            tvZeit.setText(database.gibZeit(fach.getTag(), fach.getStunde()));
+            tvZeit.setText(database.getTime(fach.getTag(), fach.getStunde()));
             etNotiz.setText(fach.getNotiz());
         }
     }

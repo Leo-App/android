@@ -55,7 +55,7 @@ public class Importer extends VoidCallbackTask<Void> {
 
                 if (stufe.replace("0", "").startsWith(Utils.getUserStufe()) || Utils.getUserPermission() == User.PERMISSION_LEHRER) {
                     if (!letzterKurs.equals(kurs) || !letzterLehrer.equals(lehrer) || !letzteStufe.equals(stufe)) {
-                        letzteID = database.insertFach(
+                        letzteID = database.insertSubject(
                                 kurs,
                                 lehrer,
                                 stufe
@@ -65,13 +65,13 @@ public class Importer extends VoidCallbackTask<Void> {
                         letzteStufe = stufe;
 
                         if (Utils.getUserPermission() == User.PERMISSION_LEHRER && Utils.getLehrerKuerzel().toUpperCase().equals(lehrer.toUpperCase())) {
-                            database.waehleFach(letzteID);
-                            database.setzeSchriftlich(true, letzteID);
+                            database.chooseSubject(letzteID);
+                            database.setWritten(true, letzteID);
                         }
                     }
 
                     database
-                            .insertStunde(
+                            .insertLesson(
                                     letzteID,
                                     Integer.parseInt(
                                             tag

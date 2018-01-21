@@ -31,8 +31,11 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     private static final String ANSWERS_ID           = "id";
     private static final String DATABASE_NAME        = "surveys.db";
 
+    private SQLiteDatabase database;
+
     public SQLiteConnectorUmfragen(Context c) {
         super(c, DATABASE_NAME, null, 5);
+        database = getWritableDatabase();
     }
 
     @Override
@@ -69,6 +72,17 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
+    }
+
+    @Override
+    public synchronized void close() {
+        database.close();
+        super.close();
+    }
+
+    public void deleteSurvey(int remoteID) {
+        database.execSQL("DELETE FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS + " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + remoteID);
+        database.execSQL("DELETE FROM " + SQLiteConnectorUmfragen.TABLE_ANSWERS + " WHERE " + SQLiteConnectorUmfragen.ANSWERS_SID + " = (SELECT " + SQLiteConnectorUmfragen.SURVEYS_ID + " FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS + " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + remoteID + ")");
     }
 
     public ContentValues getSurveyContentValues(String titel, String adressat, String beschreibung, String absender, short multiple, int remoteId, long erstelldatum, short voteable) {

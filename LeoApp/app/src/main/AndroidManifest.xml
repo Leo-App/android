@@ -101,10 +101,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
         <activity
-            android:name="de.slgdev.vertretung.WrapperSubstitutionActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MainActivitiesTheme" />
-        <activity
             android:name="de.slgdev.leoapp.activity.InfoActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -167,6 +163,10 @@
 
         <activity
             android:name="de.slgdev.it_problem.activity.ITActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
+
+        <activity android:name="de.slgdev.umfragen.activity.ResultActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
 
