@@ -232,8 +232,9 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                             .putBoolean("pref_key_notification_news", false)
                             .putBoolean("pref_key_notification_schedule", false)
                             .apply();
+                } else {
+                    new SyncGradeTask().execute();
                 }
-                new SyncGradeTask().execute();
                 new SyncUserTask(fragment).registerListener(this).execute();
                 new SyncVoteTask().execute();
                 new SyncFilesTask().execute();

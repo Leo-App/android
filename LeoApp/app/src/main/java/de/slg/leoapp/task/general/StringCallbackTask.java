@@ -5,9 +5,10 @@ import android.os.AsyncTask;
 import de.slg.leoapp.utility.datastructure.List;
 
 /**
- * VoidCallbackTask.
+ * StringCallbackTask.
  *
- * Klasse für AsyncTasks, die ihren Status an Listener mitteilen müssen.
+ * Klasse für AsyncTasks, die ihren Status an Listener mitteilen müssen und String als
+ * Eingangsdatentyp hat.
  *
  * @param <OutputType> Datentyp des Ergebnisobjekts
  *
