@@ -66,6 +66,11 @@ public class SelectionFragment extends Fragment implements TaskStatusListener {
     }
 
     @Override
+    public void taskStarts() {
+
+    }
+
+    @Override
     public void taskFinished(Object... params) {
         initButtons();
     }

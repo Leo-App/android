@@ -4,34 +4,19 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 
 import de.slg.leoapp.sqlite.SQLiteConnectorEssensbons;
+import de.slg.leoapp.task.general.StringCallbackTask;
 import de.slg.leoapp.task.general.TaskStatusListener;
 import de.slg.leoapp.utility.Utils;
-import de.slg.leoapp.utility.datastructure.List;
 
-public class QRReadTask extends AsyncTask<String, Void, Boolean> {
+public class QRReadTask extends StringCallbackTask<Boolean> {
     private int orderedMenu;
     private SQLiteDatabase dbh;
-
-    private final List<TaskStatusListener> listeners;
-
-
-    public final AsyncTask<String, Void, Boolean> addListener(TaskStatusListener listener) {
-        listeners.append(listener);
-        return this;
-    }
-
-    protected final List<TaskStatusListener> getListeners() {
-        return listeners;
-    }
 
     public QRReadTask() {
         SQLiteConnectorEssensbons db = new SQLiteConnectorEssensbons(Utils.getContext());
         dbh = db.getWritableDatabase();
-
-        listeners = new List<>();
     }
 
     @Override

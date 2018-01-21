@@ -77,6 +77,11 @@ public class QRFragment extends Fragment implements TaskStatusListener {
     }
 
     @Override
+    public void taskStarts() {
+
+    }
+
+    @Override
     public void taskFinished(Object... params) {
 
         ProgressBar spinner = viewReference.findViewById(R.id.progressBar1);

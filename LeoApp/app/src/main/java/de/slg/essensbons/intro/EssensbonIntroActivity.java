@@ -114,6 +114,11 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
     }
 
     @Override
+    public void taskStarts() {
+
+    }
+
+    @Override
     public void taskFinished(Object... result) {
         running = false;
         verificationFragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);

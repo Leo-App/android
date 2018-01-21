@@ -117,6 +117,11 @@ public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStat
     }
 
     @Override
+    public void taskStarts() {
+
+    }
+
+    @Override
     public void taskFinished(Object... result) {
         if (result[0] == Authenticator.NOT_VALID)
             startActivity(new Intent(this, EssensbonIntroActivity.class));
