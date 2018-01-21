@@ -85,7 +85,7 @@ public class ITActivity extends LeoAppFeatureActivity {
 
     @Override
     public void onBackPressed() {
-        if (getCurrentSession() != null) {
+        if (currentSession != null) {
             currentSession = null;
             resetFragments();
         } else {
