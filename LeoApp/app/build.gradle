@@ -4,7 +4,7 @@ apply plugin: 'com.google.firebase.firebase-perf'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "de.slg.leoapp"
+        applicationId "de.slgdev.leoapp"
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 20

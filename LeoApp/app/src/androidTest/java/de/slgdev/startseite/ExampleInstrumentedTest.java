@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("de.slg.leoapp", appContext.getPackageName());
+        assertEquals("de.slgdev.leoapp", appContext.getPackageName());
     }
 }

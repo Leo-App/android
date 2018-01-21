@@ -90,7 +90,7 @@ public class Start extends Activity {
     private void initSyncAdapter() {
         ContentResolver.addPeriodicSync(
                 createSyncAccount(),
-                "de.slg.leoapp",
+                "de.slgdev.leoapp",
                 Bundle.EMPTY,
                 10*60);
     }
@@ -100,17 +100,17 @@ public class Start extends Activity {
         Account[] accounts;
 
         try {
-            accounts = am.getAccountsByType("de.slg.leoapp");
+            accounts = am.getAccountsByType("de.slgdev.leoapp");
         } catch (SecurityException e) {
             accounts = new Account[0];
         }
         if (accounts.length > 0) {
             return accounts[0];
         }
-        Account newAccount = new Account("default_account", "de.slg.leoapp");
+        Account newAccount = new Account("default_account", "de.slgdev.leoapp");
         if (am.addAccountExplicitly(newAccount, "pass1", null)) {
-            ContentResolver.setIsSyncable(newAccount, "de.slg.leoapp", 1);
-            ContentResolver.setSyncAutomatically(newAccount, "de.slg.leoapp", true);
+            ContentResolver.setIsSyncable(newAccount, "de.slgdev.leoapp", 1);
+            ContentResolver.setSyncAutomatically(newAccount, "de.slgdev.leoapp", true);
         } else {
             newAccount = null;
         }
