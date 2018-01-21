@@ -32,7 +32,7 @@ public class InfoActivity extends ActionLogActivity {
         String version = pInfo.versionName;
         int    verCode = pInfo.versionCode;
 
-        ((TextView) findViewById(R.id.textView6Info)).setText(getString(R.string.version_code));
+        ((TextView) findViewById(R.id.textView6Info)).setText(getString(R.string.version_code, version, verCode));
 
     }
 
