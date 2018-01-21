@@ -53,8 +53,6 @@ public class WebDAVConnector {
         this.currentDirectory = "";
     }
 
-    //TODO: Lehrer: Heimatverzeichnis, Schüler: PrivatSchueler ... / Meine Gruppen Wenn Benutzername Länger als 6 buchstaben ist, SChülerverzeichnis sonst Lehrerverzeichnis
-
     /**
      * Gibt eine Liste der Inhalte des aktuellen Verzeichnisses zurück.
      *

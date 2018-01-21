@@ -52,15 +52,18 @@ public class ResultDialog extends AlertDialog {
     private TextView      t1;
     private TextView      t2;
 
+    private String to;
+
     /**
      * Konstruktor.
      *
      * @param context Context-Objekt
      * @param id      Umfrage-ID, für die die Ergebnisse angezeigt werden sollen.
      */
-    public ResultDialog(@NonNull Context context, int id) {
+    public ResultDialog(@NonNull Context context, int id, String to) {
         super(context);
         this.id = id;
+        this.to = to;
     }
 
     /**
@@ -181,7 +184,7 @@ public class ResultDialog extends AlertDialog {
                     return ResponseCode.NO_CONNECTION;
                 }
 
-                URL            updateURL = new URL(Utils.BASE_URL_PHP + "survey/getAllResults.php?survey=" + id);
+                URL            updateURL = new URL(Utils.BASE_URL_PHP + "survey/getAllResults.php?survey=" + id +  "&to=" + to);
                 BufferedReader reader    = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
 
                 Utils.logError(updateURL);

@@ -43,10 +43,9 @@
     </string>
 
     <string name="dialog_changelog">
-        - Changelog-Dialog überarbeitet \n
-        - Verifizierung überarbeitet \n
-        - Messenger gefixt! \n
-        - Einige Notifications gefixt
+        - Bugfixes \n
+        - IT - Problemlöser implementiert \n
+        - Weihnachtslogos entfernt \n
     </string>
 
     <string name="none">Keine</string>

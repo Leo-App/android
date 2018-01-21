@@ -357,7 +357,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            showResultDialog(getSurvey(groupPosition).remoteId);
+                            showResultDialog(getSurvey(groupPosition).remoteId, getSurvey(groupPosition).to);
                         }
                     });
                 }
@@ -404,8 +404,8 @@ public class SurveyActivity extends LeoAppFeatureActivity {
             return convertView;
         }
 
-        private void showResultDialog(int id) {
-            new ResultDialog(SurveyActivity.this, id).show();
+        private void showResultDialog(int id, String to) {
+            new ResultDialog(SurveyActivity.this, id, to).show();
         }
 
         @Override
@@ -534,7 +534,7 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showResultDialog(remoteid);
+                                showResultDialog(remoteid, s.to);
                             }
                         });
                         Toast.makeText(Utils.getContext(), R.string.voted_sucessfully, Toast.LENGTH_SHORT).show();
