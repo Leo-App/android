@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDialog;
@@ -14,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -23,6 +25,7 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slgdev.leoapp.utility.Utils;
 
 public class KlausurDialog extends AppCompatDialog {
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
 
     private Klausur  currentKlausur;
     private EditText eingabeFach;
@@ -32,9 +35,12 @@ public class KlausurDialog extends AppCompatDialog {
     private Snackbar snackbarDate;
     private Snackbar snackbarTitle;
 
+    private CoordinatorLayout coordinatorLayout;
+
     public KlausurDialog(@NonNull Activity context, @NonNull Klausur klausur) {
         super(context);
         currentKlausur = klausur;
+        coordinatorLayout = context.findViewById(R.id.coordinatorLayout);
     }
 
     @Override
@@ -87,7 +93,7 @@ public class KlausurDialog extends AppCompatDialog {
     }
 
     private void initSnackbarTitel() {
-        snackbarTitle = Snackbar.make(findViewById(R.id.coordinatorLayout), getContext().getString(R.string.snackbar_missing_title), Snackbar.LENGTH_LONG);
+        snackbarTitle = Snackbar.make(coordinatorLayout, getContext().getString(R.string.snackbar_missing_title), Snackbar.LENGTH_LONG);
         snackbarTitle.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         snackbarTitle.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
             @Override
@@ -98,7 +104,7 @@ public class KlausurDialog extends AppCompatDialog {
     }
 
     private void initSnackbarDatum() {
-        snackbarDate = Snackbar.make(findViewById(R.id.coordinatorLayout), getContext().getString(R.string.snackbar_date_invalid), Snackbar.LENGTH_LONG);
+        snackbarDate = Snackbar.make(coordinatorLayout, getContext().getString(R.string.snackbar_date_invalid), Snackbar.LENGTH_LONG);
         snackbarDate.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         snackbarDate.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
             @Override
@@ -114,7 +120,7 @@ public class KlausurDialog extends AppCompatDialog {
         eingabeNotiz = findViewById(R.id.eingabeNotiz);
 
         eingabeFach.setText(currentKlausur.getTitel());
-        eingabeDatum.setText(Klausur.dateFormat.format(currentKlausur.getDatum()));
+        eingabeDatum.setText(dateFormat.format(currentKlausur.getDatum()));
         eingabeNotiz.setText(currentKlausur.getNotiz());
     }
 
