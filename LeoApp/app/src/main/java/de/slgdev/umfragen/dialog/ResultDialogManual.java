@@ -2,11 +2,8 @@ package de.slgdev.umfragen.dialog;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -15,18 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import de.slgdev.leoapp.R;
-import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.schwarzes_brett.utility.ResponseCode;
 
 import static android.view.View.GONE;
 
@@ -41,18 +30,14 @@ import static android.view.View.GONE;
  */
 public class ResultDialogManual extends AlertDialog {
 
-    private int       id;
-    private AsyncTask asyncTask;
-
     private TextView[]    answers;
     private TextView[]    percentages;
     private ProgressBar[] progressBars;
-    private ProgressBar   load;
     private Button        b1;
     private TextView      t1;
-    private TextView      t2;
 
-    private String to;
+    private String description;
+    private HashMap<String, Integer> answerMap;
 
     /**
      * Konstruktor.
@@ -61,8 +46,8 @@ public class ResultDialogManual extends AlertDialog {
      */
     public ResultDialogManual(@NonNull Context context, String description, HashMap<String, Integer> answers) {
         super(context);
-        this.id = id;
-        this.to = to;
+        this.description = description;
+        answerMap = answers;
     }
 
     /**
@@ -76,10 +61,7 @@ public class ResultDialogManual extends AlertDialog {
         setContentView(R.layout.dialog_survey_result_simplified);
 
         b1 = findViewById(R.id.buttonOK);
-
         t1 = findViewById(R.id.question);
-
-        load = findViewById(R.id.progressBarLoading);
 
         ProgressBar p1 = findViewById(R.id.progressBar1);
         ProgressBar p2 = findViewById(R.id.progressBar2);
@@ -108,21 +90,33 @@ public class ResultDialogManual extends AlertDialog {
             cur.setVisibility(View.GONE);
 
         t1.setVisibility(View.INVISIBLE);
-        t2.setVisibility(View.INVISIBLE);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
-                stopLoading();
             }
         });
 
-        asyncTask = new SyncResults().execute();
+        initLayout();
+    }
+
+    private void initLayout() {
+        t1.setVisibility(View.VISIBLE);
+        t1.setText(description);
+        animateChanges(answerMap.size(), answerMap, getSumVotes());
+    }
+
+    private int getSumVotes() {
+        int sum = 0;
+        for (Map.Entry<String, Integer> entry : answerMap.entrySet()) {
+            sum += entry.getValue();
+        }
+        return sum;
     }
 
     @SuppressWarnings("unchecked")
-    private void animateChanges(int amount, HashMap<String, Integer> answerMap, int target, int votes) {
+    private void animateChanges(int amount, HashMap<String, Integer> answerMap, int votes) {
 
         Map.Entry<String, Integer>[] entries = answerMap.entrySet().toArray(new Map.Entry[0]);
         for (int i = 0; i < amount; i++) {
@@ -147,103 +141,6 @@ public class ResultDialogManual extends AlertDialog {
         for (int i = amount; i < answers.length; i++) {
             answers[i].setVisibility(GONE);
         }
-
-        double        percentage = (double) votes * 100d / (double) target;
-        DecimalFormat df         = new DecimalFormat("####0.00");
-
-        t2.setText(Utils.getContext().getString(R.string.statistics_result, votes, target, df.format(percentage)));
     }
 
-    private void stopLoading() {
-        asyncTask.cancel(true);
-    }
-
-    private class SyncResults extends AsyncTask<Void, Void, ResponseCode> {
-
-        private int                            amountAnswers;
-        private int                            target;
-        private int                            sumVotes;
-        private String                         title;
-        private LinkedHashMap<String, Integer> answerResults;
-
-        @Override
-        protected ResponseCode doInBackground(Void... params) {
-            try {
-                if (!Utils.checkNetwork()) {
-                    return ResponseCode.NO_CONNECTION;
-                }
-
-                URL            updateURL = new URL(Utils.BASE_URL_PHP + "survey/getAllResults.php?survey=" + id +  "&to=" + to);
-                BufferedReader reader    = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
-
-                Utils.logError(updateURL);
-
-                String        cur;
-                StringBuilder result = new StringBuilder();
-                while ((cur = reader.readLine()) != null) {
-                    result.append(cur);
-                }
-
-                String resString = result.toString();
-                if (resString.contains("-ERR"))
-                    return ResponseCode.SERVER_ERROR;
-
-                String[] data = resString.split("_;;_");
-
-                target = Integer.parseInt(data[0]);
-                title = data[2];
-                sumVotes = Integer.parseInt(data[3]);
-
-                String[] answers = data[1].split("_next_");
-
-                amountAnswers = answers.length;
-                answerResults = new LinkedHashMap<>();
-
-                for (String s : answers) {
-                    answerResults.put(s.split("_;_")[0], Integer.parseInt(s.split("_;_")[1]));
-                }
-            } catch (IOException e) {
-                Utils.logError(e);
-            }
-
-            return ResponseCode.SUCCESS;
-        }
-
-        @Override
-        protected void onPostExecute(ResponseCode b) {
-            load.setVisibility(GONE);
-            switch (b) {
-                case NO_CONNECTION:
-                    findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
-                    final Snackbar snack = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
-                    snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                    snack.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            snack.dismiss();
-                        }
-                    });
-                    snack.show();
-                    break;
-                case SERVER_ERROR:
-                    findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
-                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), Utils.getString(R.string.error_later), Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                    snackbar.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            snackbar.dismiss();
-                        }
-                    });
-                    snackbar.show();
-                    break;
-                case SUCCESS:
-                    t1.setText(title);
-                    t1.setVisibility(View.VISIBLE);
-                    t2.setVisibility(View.VISIBLE);
-                    animateChanges(amountAnswers, answerResults, target, sumVotes);
-                    break;
-            }
-        }
-    }
 }

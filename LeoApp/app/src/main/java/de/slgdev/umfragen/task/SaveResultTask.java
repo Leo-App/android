@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
 import de.slgdev.leoapp.utility.ResponseCode;
@@ -44,7 +43,7 @@ public class SaveResultTask extends AsyncTask<Void, Void, ResponseCode> {
 
                 String[] answers = data[1].split("_next_");
 
-                HashMap<String, Integer> answerResults = new LinkedHashMap<>();
+                HashMap<String, Integer> answerResults = new HashMap<>();
 
                 for (String s : answers) {
                     answerResults.put(s.split("_;_")[0], Integer.parseInt(s.split("_;_")[1]));
