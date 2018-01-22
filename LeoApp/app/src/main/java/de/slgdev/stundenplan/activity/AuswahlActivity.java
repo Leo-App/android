@@ -75,7 +75,7 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
             }
         }
         finish();
-        startActivity(new Intent(this, StundenplanActivity.class));
+  //      startActivity(new Intent(this, StundenplanActivity.class)); TODO: Testen, sollte aber ein mehrfaches Öffnen der Stundenplanactivity verhindern
         return true;
     }
 
@@ -156,7 +156,7 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
 
     @Override
     public void taskStarts() {
-
+        //STUB
     }
 
     @Override
