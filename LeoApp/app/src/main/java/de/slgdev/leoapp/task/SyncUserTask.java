@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
@@ -38,13 +37,17 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
         try {
             StringBuilder builder = new StringBuilder();
 
-            URLConnection connection = new URL(Utils.BASE_URL_PHP + "user/updateUser.php?name=" + Utils.getUserDefaultName())
-                    .openConnection();
-
-            BufferedReader reader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream()));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            new URL(
+                                    Utils.BASE_URL_PHP + "user/" +
+                                            "updateUser.php?" +
+                                            "name=" + Utils.getUserDefaultName()
+                            )
+                                    .openConnection()
+                                    .getInputStream()
+                    )
+            );
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -86,13 +89,11 @@ public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
 
     @Override
     protected void onPostExecute(ResponseCode code) {
-
         if (fragment == null)
             return;
 
         for (VerificationListener l : listeners) {
             l.onSynchronisationProcessed(code, fragment);
         }
-
     }
 }

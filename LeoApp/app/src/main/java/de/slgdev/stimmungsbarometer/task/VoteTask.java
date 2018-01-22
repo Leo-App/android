@@ -11,7 +11,7 @@ import java.net.URLConnection;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.stimmungsbarometer.utility.Wahl;
 
-public class SendeDaten extends AsyncTask<Wahl, Void, Void> {
+public class VoteTask extends AsyncTask<Wahl, Void, Void> {
     @Override
     protected Void doInBackground(Wahl... wahls) {
         if (wahls[0] != null) {

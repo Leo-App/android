@@ -22,7 +22,8 @@ public class SyncFilesTask extends AsyncTask<Void, Void, Void> {
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             new URL(
-                                    Utils.BASE_URL_PHP + "klausurplan/aktuell.xml"
+                                    Utils.BASE_URL_PHP + "klausurplan/" +
+                                            "aktuell.xml"
                             )
                                     .openConnection()
                                     .getInputStream()

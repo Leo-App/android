@@ -1,4 +1,4 @@
-package de.slgdev.leoapp.task;
+package de.slgdev.stimmungsbarometer.task;
 
 import android.os.AsyncTask;
 

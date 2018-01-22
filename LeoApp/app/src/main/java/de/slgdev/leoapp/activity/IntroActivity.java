@@ -16,11 +16,6 @@ import de.slgdev.leoapp.activity.fragment.AbstractOrderedFragment;
 import de.slgdev.leoapp.activity.fragment.InfoFragmentBuilder;
 import de.slgdev.leoapp.activity.fragment.VerificationFragment;
 import de.slgdev.leoapp.task.RegistrationTask;
-import de.slgdev.leoapp.task.SyncFilesTask;
-import de.slgdev.leoapp.task.SyncGradeTask;
-import de.slgdev.leoapp.task.SyncQuestionTask;
-import de.slgdev.leoapp.task.SyncUserTask;
-import de.slgdev.leoapp.task.SyncVoteTask;
 import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.User;
@@ -205,7 +200,6 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
 
     @Override
     public void onVerificationProcessed(ResponseCode response, Fragment fragment) {
-
         switch (response) {
             case NO_CONNECTION:
                 GraphicUtils.sendToast(R.string.snackbar_no_connection_info);
@@ -221,7 +215,6 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                 GraphicUtils.sendToast(getString(R.string.error_later));
                 fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
-
                 break;
             case SUCCESS:
                 if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
@@ -232,13 +225,10 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                             .putBoolean("pref_key_notification_news", false)
                             .putBoolean("pref_key_notification_schedule", false)
                             .apply();
-                } else {
-                    new SyncGradeTask().execute();
                 }
-                new SyncUserTask(fragment).registerListener(this).execute();
-                new SyncVoteTask().execute();
-                new SyncFilesTask().execute();
-                new SyncQuestionTask().execute();
+
+                Start.runUpdateTasks();
+
                 Start.startReceiveService();
 
                 break;
@@ -246,17 +236,19 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
     }
 
     private void cancel(final AbstractOrderedFragment oldFragment) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ignoreSlideChange = true;
-                getPager().setCurrentItem(oldFragment.getPosition());
-            }
-        }, 1);
+        new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        ignoreSlideChange = true;
+                        getPager().setCurrentItem(oldFragment.getPosition());
+                    }
+                },
+                1
+        );
     }
 
     private void startVerification(AbstractOrderedFragment oldFragment) {
-
         if (running)
             return;
 
@@ -282,7 +274,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
         Utils.setUserPassword(userPassword);
 
         RegistrationTask task = new RegistrationTask();
-        task.registerListener(this);
+        task.addListener(this);
         task.execute(oldFragment);
     }
 }

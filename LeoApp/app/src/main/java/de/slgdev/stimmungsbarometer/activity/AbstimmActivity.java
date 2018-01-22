@@ -17,7 +17,7 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.ActionLogActivity;
-import de.slgdev.stimmungsbarometer.task.SendeDaten;
+import de.slgdev.stimmungsbarometer.task.VoteTask;
 import de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slgdev.stimmungsbarometer.utility.Wahl;
 
@@ -124,7 +124,7 @@ public class AbstimmActivity extends ActionLogActivity {
             @Override
             public void onClick(View view) {
                 if (confirm.isEnabled()) {
-                    new SendeDaten().execute(new Wahl(voteid, userid));
+                    new VoteTask().execute(new Wahl(voteid, userid));
                     StimmungsbarometerUtils.setLastVote(voteid);
                     finish();
                 }

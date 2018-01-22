@@ -1,6 +1,5 @@
 package de.slgdev.stimmungsbarometer.activity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.CardView;
@@ -10,33 +9,27 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.GregorianCalendar;
-
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.dialog.EditTextDialog;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorStimmungsbarometer;
+import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppFeatureActivity;
-import de.slgdev.stimmungsbarometer.utility.Ergebnis;
+import de.slgdev.stimmungsbarometer.task.SendQuestionTask;
+import de.slgdev.stimmungsbarometer.task.SyncVoteResultsTask;
 import de.slgdev.stimmungsbarometer.view.StatistikView;
 import de.slgdev.stimmungsbarometer.view.StatistikViewBalken;
 
-public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
+public class StimmungsbarometerActivity extends LeoAppFeatureActivity implements TaskStatusListener {
     public static boolean drawI;
     public static boolean drawS;
     public static boolean drawL;
     public static boolean drawA;
 
-    private SQLiteConnectorStimmungsbarometer sqLiteConnector;
+    private SQLiteConnectorStimmungsbarometer database;
 
     private StatistikView       viewWoche;
     private StatistikView       viewMonat;
@@ -55,13 +48,13 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
         drawL = true;
         drawA = true;
 
-        sqLiteConnector = new SQLiteConnectorStimmungsbarometer(getApplicationContext());
+        database = new SQLiteConnectorStimmungsbarometer(getApplicationContext());
 
         initScrollView();
         initLayouts();
         initEditButton();
 
-        new StartTask().execute();
+        new SyncVoteResultsTask(getApplicationContext()).addListener(this).execute();
     }
 
     @Override
@@ -103,6 +96,19 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
     public void finish() {
         super.finish();
         Utils.getController().registerStimmungsbarometerActivity(null);
+    }
+
+    @Override
+    public void taskStarts() {
+
+    }
+
+    @Override
+    public void taskFinished(Object... params) {
+        if (params[0] == ResponseCode.SERVER_FAILED) {
+            Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+        }
+        updateViews();
     }
 
     private void initLayouts() {
@@ -154,13 +160,13 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
 
     private void initScrollView() {
         viewWoche = new StatistikView(getApplicationContext());
-        viewWoche.setData(sqLiteConnector.getData(0));
+        viewWoche.setData(database.getData(0));
         viewMonat = new StatistikView(getApplicationContext());
-        viewMonat.setData(sqLiteConnector.getData(1));
+        viewMonat.setData(database.getData(1));
         viewJahr = new StatistikView(getApplicationContext());
-        viewJahr.setData(sqLiteConnector.getData(2));
+        viewJahr.setData(database.getData(2));
         viewAlles = new StatistikViewBalken(getApplicationContext());
-        viewAlles.setData(sqLiteConnector.getAverage());
+        viewAlles.setData(database.getAverage());
 
         final CardView cardWoche = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
         cardWoche.setCardElevation(GraphicUtils.dpToPx(4));
@@ -247,174 +253,16 @@ public class StimmungsbarometerActivity extends LeoAppFeatureActivity {
     }
 
     private void updateViews() {
-        viewWoche.setData(sqLiteConnector.getData(0));
+        viewWoche.setData(database.getData(0));
         viewWoche.invalidate();
 
-        viewMonat.setData(sqLiteConnector.getData(1));
+        viewMonat.setData(database.getData(1));
         viewMonat.invalidate();
 
-        viewJahr.setData(sqLiteConnector.getData(2));
+        viewJahr.setData(database.getData(2));
         viewJahr.invalidate();
 
-        viewAlles.setData(sqLiteConnector.getAverage());
+        viewAlles.setData(database.getAverage());
         viewAlles.invalidate();
-    }
-
-    private class StartTask extends AsyncTask<Void, Void, ResponseCode> {
-        @Override
-        protected ResponseCode doInBackground(Void... params) {
-            try {
-                URLConnection connection = new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/ergebnisse.php?uid=" + Utils.getUserID())
-                        .openConnection();
-
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(
-                                connection.getInputStream()
-                        )
-                );
-
-                String        line;
-                StringBuilder builder = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-                reader.close();
-
-                String result = builder.toString();
-                if (result.startsWith("-")) {
-                    throw new IOException(result);
-                }
-
-                String[] e = builder.toString().split("_abschnitt_");
-
-                String[] splitI = e[0].split("_next_");
-                String[] splitS = e[1].split("_next_");
-                String[] splitL = e[2].split("_next_");
-                String[] splitA = e[3].split("_next_");
-
-                for (String aSplitI : splitI) {
-                    String[] current = aSplitI.split(";");
-                    if (current.length == 2) {
-                        String[] date = current[1].replace('.', '_').split("_");
-                        sqLiteConnector.insert(
-                                new Ergebnis(
-                                        new GregorianCalendar(
-                                                Integer.parseInt(date[2]),
-                                                Integer.parseInt(date[1]) - 1,
-                                                Integer.parseInt(date[0])
-                                        ).getTime(),
-                                        Double.parseDouble(current[0]),
-                                        true,
-                                        false,
-                                        false,
-                                        false
-                                )
-                        );
-                    }
-                }
-
-                for (String split : splitS) {
-                    String[] current = split.split(";");
-                    if (current.length == 2) {
-                        String[] date = current[1].replace('.', '_').split("_");
-                        sqLiteConnector.insert(
-                                new Ergebnis(
-                                        new GregorianCalendar(
-                                                Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])
-                                        ).getTime(),
-                                        Double.parseDouble(current[0]),
-                                        false,
-                                        true,
-                                        false,
-                                        false
-                                )
-                        );
-                    }
-                }
-
-                for (String aSplitL : splitL) {
-                    String[] current = aSplitL.split(";");
-                    if (current.length == 2) {
-                        String[] date = current[1].replace('.', '_').split("_");
-                        sqLiteConnector.insert(
-                                new Ergebnis(
-                                        new GregorianCalendar(
-                                                Integer.parseInt(date[2]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0])
-                                        ).getTime(),
-                                        Double.parseDouble(current[0]),
-                                        false,
-                                        false,
-                                        true,
-                                        false
-                                )
-                        );
-                    }
-                }
-
-                for (String aSplitA : splitA) {
-                    String[] current = aSplitA.split(";");
-                    if (current.length == 2) {
-                        String[] date = current[1].replace('.', '_').split("_");
-                        sqLiteConnector.insert(
-                                new Ergebnis(
-                                        new GregorianCalendar(
-                                                Integer.parseInt(date[2]),
-                                                Integer.parseInt(date[1]) - 1,
-                                                Integer.parseInt(date[0])
-                                        ).getTime(),
-                                        Double.parseDouble(current[0]),
-                                        false,
-                                        false,
-                                        false,
-                                        true
-                                )
-                        );
-                    }
-                }
-            } catch (IOException e) {
-                Utils.logError(e);
-                e.printStackTrace();
-                return ResponseCode.SERVER_FAILED;
-            }
-
-            return ResponseCode.SUCCESS;
-        }
-
-        @Override
-        protected void onPostExecute(ResponseCode v) {
-            if (v == ResponseCode.SERVER_FAILED) {
-                Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
-            }
-            updateViews();
-        }
-    }
-
-    private class SendQuestionTask extends AsyncTask<String, Void, Void> {
-        @Override
-        protected Void doInBackground(String... params) {
-            try {
-                URLConnection connection = new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/newQuestion.php?qtext=" + URLEncoder.encode(params[0], "UTF-8"))
-                        .openConnection();
-
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        connection.getInputStream(), "UTF-8"));
-
-                String        line;
-                StringBuilder builder = new StringBuilder();
-
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-
-                reader.close();
-
-                Utils.logDebug(builder);
-            } catch (IOException e) {
-                Utils.logError(e);
-            }
-            return null;
-        }
     }
 }

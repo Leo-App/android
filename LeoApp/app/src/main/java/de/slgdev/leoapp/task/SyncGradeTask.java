@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.WebDAVConnector;
@@ -43,16 +42,17 @@ public class SyncGradeTask extends AsyncTask<Void, Void, Void> {
 
         try {
 
-            URLConnection connection =
-                    new URL(
-                            Utils.BASE_URL_PHP + "user/updateKlasse.php?uid=" + Utils.getUserID() + "&uklasse=" + grade
-                    )
-                            .openConnection();
-
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(
-                                    connection.getInputStream()
+                                    new URL(
+                                            Utils.BASE_URL_PHP + "user/" +
+                                                    "updateKlasse.php?" +
+                                                    "uid=" + Utils.getUserID() + "&" +
+                                                    "uklasse=" + grade
+                                    )
+                                            .openConnection()
+                                            .getInputStream()
                             )
                     );
 

@@ -6,11 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorEssensbons;
-import de.slgdev.leoapp.task.general.StringCallbackTask;
+import de.slgdev.leoapp.task.general.ObjectCallbackTask;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.Utils;
 
-public class QRReadTask extends StringCallbackTask<Boolean> {
+public class QRReadTask extends ObjectCallbackTask<Boolean> {
     private int orderedMenu;
     private SQLiteDatabase dbh;
 
@@ -20,18 +20,20 @@ public class QRReadTask extends StringCallbackTask<Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(String... params) {
+    protected Boolean doInBackground(Object... params) {
 
-        if (checkValid(params[0])) {
+        String scanResult = (String) params[0];
 
-            Utils.logDebug(params[0]);
+        if (checkValid(scanResult)) {
 
-            String[] parts = params[0].split("-");
+            Utils.logDebug(scanResult);
+
+            String[] parts = scanResult.split("-");
             String day = parts[2].substring(0, 2);
             String month = parts[2].substring(2, 4);
             String year = parts[2].substring(4, 7);
 
-            orderedMenu = Integer.parseInt(String.valueOf(params[0].charAt(8)));
+            orderedMenu = Integer.parseInt(String.valueOf(scanResult.charAt(8)));
 
             String[] projection = {
                     SQLiteConnectorEssensbons.SCAN_DATE,
@@ -53,7 +55,7 @@ public class QRReadTask extends StringCallbackTask<Boolean> {
             if (cursor.getCount() == 0) {
                 cursor.close();
                 ContentValues values = new ContentValues();
-                values.put(SQLiteConnectorEssensbons.SCAN_CUSTOMERID, params[0].split("-")[0]);
+                values.put(SQLiteConnectorEssensbons.SCAN_CUSTOMERID, scanResult.split("-")[0]);
                 values.put(SQLiteConnectorEssensbons.SCAN_DATE, "2" + year + "-" + month + "-" + day);
                 dbh.insert(SQLiteConnectorEssensbons.TABLE_SCAN, null, values);
                 return true;

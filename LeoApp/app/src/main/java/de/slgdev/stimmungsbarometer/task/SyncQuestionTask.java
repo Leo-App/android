@@ -1,27 +1,24 @@
-package de.slgdev.leoapp.task;
-
-import android.os.AsyncTask;
+package de.slgdev.stimmungsbarometer.task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 
+import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.Utils;
 
-public class SyncQuestionTask extends AsyncTask<Void, Void, Void> {
+public class SyncQuestionTask extends VoidCallbackTask<Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            URLConnection connection = new URL(
-                    Utils.BASE_URL_PHP + "stimmungsbarometer/getQuestion.php"
-            )
-                    .openConnection();
-
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
-                            connection.getInputStream(),
+                            new URL(
+                                    Utils.BASE_URL_PHP + "stimmungsbarometer/getQuestion.php"
+                            )
+                                    .openConnection()
+                                    .getInputStream(),
                             "UTF-8"
                     )
             );
@@ -32,8 +29,6 @@ public class SyncQuestionTask extends AsyncTask<Void, Void, Void> {
                 builder.append(line);
             }
             reader.close();
-
-            Utils.logDebug(builder);
 
             Utils.getController().getPreferences()
                     .edit()

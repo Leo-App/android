@@ -10,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import de.slgdev.leoapp.R;
@@ -26,43 +25,48 @@ public class UpdateNameTask extends AsyncTask<String, Void, ReturnValues> {
 
     @Override
     protected ReturnValues doInBackground(String... params) {
-        BufferedReader in     = null;
-        String         result = "";
-        if (!Utils.checkNetwork())
+        if (!Utils.checkNetwork()) {
             return ReturnValues.NO_CONNECTION;
-        try {
-            int    id       = Utils.getUserID();
-            String username = URLEncoder.encode(Utils.getUserName(), "UTF-8");
-            URLConnection connection =
-                    new URL(Utils.BASE_URL_PHP + "user/updateUsername.php?uid=" + id + "&uname=" + username)
-                            .openConnection();
+        }
 
-            in = null;
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                if (!inputLine.contains("<"))
-                    result += inputLine;
+        try {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            new URL(
+                                    Utils.BASE_URL_PHP + "user/" +
+                                            "updateUsername.php?" +
+                                            "uid=" + Utils.getUserID() + "&" +
+                                            "uname=" + URLEncoder.encode(Utils.getUserName(), "UTF-8")
+                            )
+                                    .openConnection()
+                                    .getInputStream(),
+                            "UTF-8"
+                    )
+            );
+
+            StringBuilder builder = new StringBuilder();
+            String        line;
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
             }
-            in.close();
+
+            reader.close();
+
+            String result = builder.toString();
+
+            if (result.startsWith("-")) {
+                if (result.startsWith("-username")) {
+                    return ReturnValues.USERNAME_TAKEN;
+                }
+
+                return ReturnValues.ERROR;
+            }
+
+            return ReturnValues.SUCCESSFUL;
         } catch (IOException e) {
             Utils.logError(e);
             return ReturnValues.ERROR;
-        } finally {
-            if (in != null)
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    Utils.logError(e);
-                }
         }
-        if (result.startsWith("-")) {
-            if (result.startsWith("-username")) {
-                return ReturnValues.USERNAME_TAKEN;
-            }
-            return ReturnValues.ERROR;
-        }
-        return ReturnValues.SUCCESSFUL;
     }
 
     @Override

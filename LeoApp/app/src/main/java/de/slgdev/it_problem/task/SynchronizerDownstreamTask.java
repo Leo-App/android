@@ -19,7 +19,7 @@ import de.slgdev.leoapp.utility.datastructure.List;
 public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
 
     private Hashtable<String, DecisionTree> decisionTreeMap;
-    private List<TaskStatusListener> listeners;
+    private List<TaskStatusListener>        listeners;
 
     public SynchronizerDownstreamTask(Hashtable<String, DecisionTree> decisionTreeMap) {
         this.decisionTreeMap = decisionTreeMap;
@@ -37,16 +37,22 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
             SQLiteDatabase dbh = db.getWritableDatabase();
 
             for (String subject : subjects) {
-
                 try {
-
-                    URL updateURL = new URL(Utils.BASE_URL_PHP + "/itbaum/get.php?subject=" + subject);
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(
+                                    new URL(
+                                            Utils.BASE_URL_PHP + "itbaum/" +
+                                                    "get.php?" +
+                                                    "subject=" + subject
+                                    )
+                                            .openConnection()
+                                            .getInputStream(),
+                                    "UTF-8"
+                            )
+                    );
 
                     StringBuilder builder = new StringBuilder();
-                    String line;
+                    String        line;
                     while ((line = reader.readLine()) != null)
                         builder.append(line);
                     reader.close();
@@ -56,15 +62,24 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
                     if (result.startsWith("-"))
                         continue;
 
-                    dbh.insertWithOnConflict(SQLiteConnectorITProblem.TABLE_DECISIONS, null, db.getContentValues(subject, result.substring(0, result.length() - 1)), SQLiteDatabase.CONFLICT_REPLACE);
-
+                    dbh.insertWithOnConflict(
+                            SQLiteConnectorITProblem.TABLE_DECISIONS,
+                            null,
+                            db.getContentValues(
+                                    subject,
+                                    result.substring(
+                                            0,
+                                            result.length() - 1
+                                    )
+                            ),
+                            SQLiteDatabase.CONFLICT_REPLACE
+                    );
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
             dbh.close();
-
         }
 
         SQLiteDatabase dbh = db.getReadableDatabase();
@@ -74,12 +89,19 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
                 + ", "
                 + SQLiteConnectorITProblem.DECISIONS_CONTENT
                 + " FROM "
-                + SQLiteConnectorITProblem.TABLE_DECISIONS, null);
+                        + SQLiteConnectorITProblem.TABLE_DECISIONS,
+                null
+        );
 
         c.moveToFirst();
 
-        while (!c.isAfterLast())  {
-            decisionTreeMap.put(c.getString(0), new DecisionTree(c.getString(1)));
+        while (!c.isAfterLast()) {
+            decisionTreeMap.put(
+                    c.getString(0),
+                    new DecisionTree(
+                            c.getString(1)
+                    )
+            );
             c.moveToNext();
         }
 
@@ -107,9 +129,8 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
             if (decisionTreeMap.get(cur) == null) {
                 decisionTreeMap.put(cur, new DecisionTree());
             }
-            Utils.logError(cur+": "+decisionTreeMap.get(cur));
+            Utils.logError(cur + ": " + decisionTreeMap.get(cur));
         }
     }
-
 }
 

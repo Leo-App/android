@@ -96,18 +96,26 @@ public class StatistikViewBalken extends View {
         bitmapAlle = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         canvasAlle.setBitmap(bitmapAlle);
 
-        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorIch));
-        de.slgdev.leoapp.utility.Utils.logDebug("value ich = " + data[0].value);
-        de.slgdev.leoapp.utility.Utils.logDebug("value sch = " + data[1].value);
-        de.slgdev.leoapp.utility.Utils.logDebug("value leh = " + data[2].value);
-        de.slgdev.leoapp.utility.Utils.logDebug("value all = " + data[3].value);
-        canvasIch.drawRect(baseLineX, (float) (baseLineY - (5 - data[0].value) * abstandY), baseLineX + breite, baseLineY, paint);
-        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorSchueler));
-        canvasSchueler.drawRect(baseLineX + breite + abstandX, (float) (baseLineY - (5 - data[1].value) * abstandY), baseLineX + breite + abstandX + breite, baseLineY, paint);
-        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorLehrer));
-        canvasLehrer.drawRect(baseLineX + (breite + abstandX) * 2, (float) (baseLineY - (5 - data[2].value) * abstandY), baseLineX + (breite + abstandX) * 2 + breite, baseLineY, paint);
-        paint.setColor(ContextCompat.getColor(getContext(), R.color.colorAlle));
-        canvasAlle.drawRect(baseLineX + (breite + abstandX) * 3, (float) (baseLineY - (5 - data[3].value) * abstandY), baseLineX + (breite + abstandX) * 3 + breite, baseLineY, paint);
+        if (data[0].value >= 1 && data[0].value <= 5) {
+            paint.setColor(ContextCompat.getColor(getContext(), R.color.colorIch));
+            canvasIch.drawRect(baseLineX, (float) (baseLineY - (5 - data[0].value) * abstandY), baseLineX + breite, baseLineY, paint);
+        }
+
+        if (data[1].value >= 1 && data[1].value <= 5) {
+            paint.setColor(ContextCompat.getColor(getContext(), R.color.colorSchueler));
+            canvasSchueler.drawRect(baseLineX + breite + abstandX, (float) (baseLineY - (5 - data[1].value) * abstandY), baseLineX + breite + abstandX + breite, baseLineY, paint);
+        }
+
+        if (data[2].value >= 1 && data[2].value <= 5) {
+            paint.setColor(ContextCompat.getColor(getContext(), R.color.colorLehrer));
+            canvasLehrer.drawRect(baseLineX + (breite + abstandX) * 2, (float) (baseLineY - (5 - data[2].value) * abstandY), baseLineX + (breite + abstandX) * 2 + breite, baseLineY, paint);
+        }
+
+        if (data[3].value >= 1 && data[3].value <= 5) {
+            paint.setColor(ContextCompat.getColor(getContext(), R.color.colorAlle));
+            canvasAlle.drawRect(baseLineX + (breite + abstandX) * 3, (float) (baseLineY - (5 - data[3].value) * abstandY), baseLineX + (breite + abstandX) * 3 + breite, baseLineY, paint);
+        }
+
         recreateCharts = false;
     }
 

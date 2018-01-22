@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.User;
@@ -29,7 +28,6 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
 
     @Override
     protected ResponseCode doInBackground(Fragment... params) {
-
         origin = params[0];
 
         String username = Utils.getUserDefaultName();
@@ -56,7 +54,6 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 
             int code = connection.getResponseCode();
-            Utils.logDebug(code);
 
             if (code != 200) {
                 if (code == 401) {
@@ -77,28 +74,30 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
             }
             reader.close();
 
-            Utils.logDebug(checksum);
-
-            URLConnection connection2 =
-                    new URL(Utils.BASE_URL_PHP + "user/addUser.php?name=" + Utils.getUserDefaultName() + "&permission=" + permission + "&checksum=" + checksum)
-                            .openConnection();
-
             reader = new BufferedReader(
                     new InputStreamReader(
-                            connection2.getInputStream(),
+                            new URL(
+                                    Utils.BASE_URL_PHP + "user/" +
+                                            "addUser.php?" +
+                                            "name=" + Utils.getUserDefaultName() + "&" +
+                                            "permission=" + permission + "&" +
+                                            "checksum=" + checksum
+                            )
+                                    .openConnection()
+                                    .getInputStream(),
                             "UTF-8"
                     )
             );
 
-            StringBuilder result = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             while ((line = reader.readLine()) != null) {
-                result.append(line);
+                builder.append(line);
             }
             reader.close();
 
-            Utils.logDebug(result.toString());
+            Utils.logDebug(builder.toString());
 
-            if (result.toString().startsWith("+")) {
+            if (builder.toString().startsWith("+")) {
                 return ResponseCode.SUCCESS;
             }
         } catch (IOException e) {
@@ -108,7 +107,7 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
         return ResponseCode.SERVER_FAILED;
     }
 
-    public void registerListener(VerificationListener listener) {
+    public void addListener(VerificationListener listener) {
         listeners.append(listener);
     }
 

@@ -16,7 +16,7 @@ import de.slgdev.leoapp.utility.datastructure.List;
  * @since 0.7.2
  * @version 2018.1601
  */
-public abstract class StringCallbackTask<OutputType> extends AsyncTask<String, Void, OutputType> {
+public abstract class ObjectCallbackTask<OutputType> extends AsyncTask<Object, Void, OutputType> {
 
     private final List<TaskStatusListener> listeners;
 
@@ -24,7 +24,7 @@ public abstract class StringCallbackTask<OutputType> extends AsyncTask<String, V
         listeners = new List<>();
     }
 
-    public final StringCallbackTask addListener(TaskStatusListener listener) {
+    public final ObjectCallbackTask addListener(TaskStatusListener listener) {
         listeners.append(listener);
         return this;
     }

@@ -303,36 +303,46 @@ public class NewSurveyDialog extends AlertDialog {
             StringBuilder answerString = new StringBuilder(answers[0]);
 
             for (int i = 1; i < 5; i++) {
-                if(answers[i].equals(""))
+                if (answers[i].equals(""))
                     continue;
                 answerString.append("_;_").append(answers[i]);
             }
 
-            BufferedReader in     = null;
-            StringBuilder result = new StringBuilder();
             try {
-                URL interfaceDB = new URL((Utils.BASE_URL_PHP + "survey/addSurvey.php?id=" + Utils.getUserID() + "&to=" + to + "&title=" + title + "&desc=" + description + "&mult=" + (multiple ? 1 : 0) + "&answers=" + answerString).replace(" ", "%20"));
-                Utils.logError(interfaceDB.toString());
-                in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    if (!inputLine.contains("<"))
-                        result.append(inputLine);
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                new URL(
+                                        (Utils.BASE_URL_PHP + "survey/" +
+                                                "addSurvey.php?" +
+                                                "id=" + Utils.getUserID() + "&" +
+                                                "to=" + to + "&" +
+                                                "title=" + title + "&" +
+                                                "desc=" + description + "&" +
+                                                "mult=" + (multiple ? 1 : 0) + "&" +
+                                                "answers=" + answerString)
+                                                .replace(
+                                                        " ",
+                                                        "%20"
+                                                )
+                                )
+                                        .openConnection()
+                                        .getInputStream()
+                        )
+                );
+
+                StringBuilder builder = new StringBuilder();
+                String        line;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
                 }
-                in.close();
+
+                reader.close();
+
+                return !builder.toString().startsWith("-");
             } catch (IOException e) {
                 Utils.logError(e);
                 return false;
-            } finally {
-                if (in != null)
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        Utils.logError(e);
-                        return false;
-                    }
             }
-            return !result.toString().startsWith("-");
         }
 
         @Override

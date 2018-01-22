@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -191,7 +190,12 @@ public class SurveyActivity extends LeoAppFeatureActivity {
             }
         });
 
-        swipeLayout.setColorSchemeColors(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
+        swipeLayout.setColorSchemeColors(
+                ContextCompat.getColor(
+                        getApplicationContext(),
+                        R.color.colorPrimary
+                )
+        );
     }
 
     private void createGroupList() {
@@ -205,34 +209,124 @@ public class SurveyActivity extends LeoAppFeatureActivity {
         switch (stufe) {
             case "":
             case "TEA":
-                cursor = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_SURVEYS, new String[]{SQLiteConnectorUmfragen.SURVEYS_ADRESSAT, SQLiteConnectorUmfragen.SURVEYS_TITEL, SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG, SQLiteConnectorUmfragen.SURVEYS_ABSENDER, SQLiteConnectorUmfragen.SURVEYS_MULTIPLE, SQLiteConnectorUmfragen.SURVEYS_ID, SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID, SQLiteConnectorUmfragen.SURVEYS_VOTEABLE}, null, null, null, null, null);
+                cursor = sqLiteDatabase.query(
+                        SQLiteConnectorUmfragen.TABLE_SURVEYS,
+                        new String[]{
+                                SQLiteConnectorUmfragen.SURVEYS_ADRESSAT,
+                                SQLiteConnectorUmfragen.SURVEYS_TITEL,
+                                SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG,
+                                SQLiteConnectorUmfragen.SURVEYS_ABSENDER,
+                                SQLiteConnectorUmfragen.SURVEYS_MULTIPLE,
+                                SQLiteConnectorUmfragen.SURVEYS_ID,
+                                SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID,
+                                SQLiteConnectorUmfragen.SURVEYS_VOTEABLE
+                        },
+                        null,
+                        null,
+                        null,
+                        null,
+                        null);
                 break;
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_SURVEYS, new String[]{SQLiteConnectorUmfragen.SURVEYS_ADRESSAT, SQLiteConnectorUmfragen.SURVEYS_TITEL, SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG, SQLiteConnectorUmfragen.SURVEYS_ABSENDER, SQLiteConnectorUmfragen.SURVEYS_MULTIPLE, SQLiteConnectorUmfragen.SURVEYS_ID, SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID, SQLiteConnectorUmfragen.SURVEYS_VOTEABLE}, SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
+                cursor = sqLiteDatabase.query(
+                        SQLiteConnectorUmfragen.TABLE_SURVEYS,
+                        new String[]{
+                                SQLiteConnectorUmfragen.SURVEYS_ADRESSAT,
+                                SQLiteConnectorUmfragen.SURVEYS_TITEL,
+                                SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG,
+                                SQLiteConnectorUmfragen.SURVEYS_ABSENDER,
+                                SQLiteConnectorUmfragen.SURVEYS_MULTIPLE,
+                                SQLiteConnectorUmfragen.SURVEYS_ID,
+                                SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID,
+                                SQLiteConnectorUmfragen.SURVEYS_VOTEABLE
+                        },
+                        SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
+                                " = '" + stufe + "'" +
+                                " OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
+                                " = 'Sek II'" +
+                                " OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
+                                " = 'Alle'" +
+                                " OR " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID +
+                                " = " + Utils.getUserID(),
+                        null,
+                        null,
+                        null,
+                        null
+                );
                 break;
             default:
-                cursor = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_SURVEYS, new String[]{SQLiteConnectorUmfragen.SURVEYS_ADRESSAT, SQLiteConnectorUmfragen.SURVEYS_TITEL, SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG, SQLiteConnectorUmfragen.SURVEYS_ABSENDER, SQLiteConnectorUmfragen.SURVEYS_MULTIPLE, SQLiteConnectorUmfragen.SURVEYS_ID, SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID, SQLiteConnectorUmfragen.SURVEYS_VOTEABLE}, SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT + " = 'Alle' OR " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
+                cursor = sqLiteDatabase.query(
+                        SQLiteConnectorUmfragen.TABLE_SURVEYS,
+                        new String[]{
+                                SQLiteConnectorUmfragen.SURVEYS_ADRESSAT,
+                                SQLiteConnectorUmfragen.SURVEYS_TITEL,
+                                SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG,
+                                SQLiteConnectorUmfragen.SURVEYS_ABSENDER,
+                                SQLiteConnectorUmfragen.SURVEYS_MULTIPLE,
+                                SQLiteConnectorUmfragen.SURVEYS_ID,
+                                SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID,
+                                SQLiteConnectorUmfragen.SURVEYS_VOTEABLE
+                        },
+                        SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
+                                " = '" + stufe + "'" +
+                                " OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
+                                " = 'Sek I'" +
+                                " OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
+                                " = 'Alle'" +
+                                " OR " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID +
+                                " = " + Utils.getUserID(),
+                        null,
+                        null,
+                        null,
+                        null
+                );
                 break;
         }
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             groupList.add(cursor.getInt(6));
             Utils.logError(cursor.getInt(6));
-            Cursor            cursorAnswers = sqLiteDatabase.query(SQLiteConnectorUmfragen.TABLE_ANSWERS, new String[]{SQLiteConnectorUmfragen.ANSWERS_INHALT, SQLiteConnectorUmfragen.ANSWERS_REMOTE_ID, SQLiteConnectorUmfragen.ANSWERS_SELECTED}, SQLiteConnectorUmfragen.ANSWERS_SID + " = " + cursor.getInt(5), null, null, null, null);
-            ArrayList<String> answers       = new ArrayList<>();
+            Cursor cursorAnswers = sqLiteDatabase.query(
+                    SQLiteConnectorUmfragen.TABLE_ANSWERS,
+                    new String[]{
+                            SQLiteConnectorUmfragen.ANSWERS_INHALT,
+                            SQLiteConnectorUmfragen.ANSWERS_REMOTE_ID,
+                            SQLiteConnectorUmfragen.ANSWERS_SELECTED
+                    },
+                    SQLiteConnectorUmfragen.ANSWERS_SID +
+                            " = " + cursor.getInt(5),
+                    null,
+                    null,
+                    null,
+                    null
+            );
+            ArrayList<String> answers = new ArrayList<>();
 
             boolean voted = false;
 
             for (cursorAnswers.moveToFirst(); !cursorAnswers.isAfterLast(); cursorAnswers.moveToNext()) {
-                answers.add(cursorAnswers.getString(0) + "_;_" + cursorAnswers.getString(1) + "_;_" + cursorAnswers.getInt(2));
+                answers.add(
+                        cursorAnswers.getString(0) + "_;_"
+                                + cursorAnswers.getString(1) + "_;_"
+                                + cursorAnswers.getInt(2)
+                );
                 voted = voted || cursorAnswers.getInt(2) == 1;
             }
 
             cursorAnswers.close();
 
-            Survey s = new Survey(cursor.getInt(5), cursor.getInt(6), cursor.getString(1), cursor.getString(2), cursor.getInt(4) != 0, voted || cursor.getInt(7) == 0, cursor.getString(0), answers);
+            Survey s = new Survey(
+                    cursor.getInt(5),
+                    cursor.getInt(6),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getInt(4) != 0,
+                    voted || cursor.getInt(7) == 0,
+                    cursor.getString(0),
+                    answers
+            );
             entriesMap.put(cursor.getInt(6), s);
         }
 
@@ -484,20 +578,32 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/addResult.php?user=" + Utils.getUserID() + "&answer=" + params[0]);
-                    Utils.logError(updateURL);
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
+
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(
+                                    new URL(
+                                            Utils.BASE_URL_PHP + "survey/" +
+                                                    "addResult.php?" +
+                                                    "user=" + Utils.getUserID() + "&" +
+                                                    "answer=" + params[0]
+                                    )
+                                            .openConnection()
+                                            .getInputStream(),
+                                    "UTF-8"
+                            )
+                    );
 
                     StringBuilder builder = new StringBuilder();
                     String        line;
-                    while ((line = reader.readLine()) != null)
+                    while ((line = reader.readLine()) != null) {
                         builder.append(line);
+                    }
+
                     reader.close();
 
-                    if (builder.toString().startsWith("-"))
+                    if (builder.toString().startsWith("-")) {
                         return ResponseCode.SERVER_ERROR;
+                    }
                 } catch (IOException e) {
                     Utils.logError(e);
                     return ResponseCode.SERVER_ERROR;
@@ -546,11 +652,11 @@ public class SurveyActivity extends LeoAppFeatureActivity {
 
                         s.voted = true;
 
-                        for(int i = 0; i < s.answers.length; i++) {
-                            String cur = s.answers[i];
+                        for (int i = 0; i < s.answers.length; i++) {
+                            String   cur   = s.answers[i];
                             String[] parts = cur.split("_;_");
-                            if(Integer.parseInt(parts[1]) == id)
-                                s.answers[i] = parts[0]+"_;_"+parts[1]+"_;_"+1;
+                            if (Integer.parseInt(parts[1]) == id)
+                                s.answers[i] = parts[0] + "_;_" + parts[1] + "_;_" + 1;
                         }
 
                         break;
@@ -569,26 +675,47 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 SQLiteConnectorUmfragen db  = new SQLiteConnectorUmfragen(getApplicationContext());
                 SQLiteDatabase          dbh = db.getWritableDatabase();
 
-                dbh.execSQL("DELETE FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS + " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + params[0]);
-                dbh.execSQL("DELETE FROM " + SQLiteConnectorUmfragen.TABLE_ANSWERS + " WHERE " + SQLiteConnectorUmfragen.ANSWERS_SID + " = (SELECT " + SQLiteConnectorUmfragen.SURVEYS_ID + " FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS + " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + params[0] + ")");
+                dbh.execSQL(
+                        "DELETE FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS +
+                                " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID +
+                                " = " + params[0]);
+                dbh.execSQL(
+                        "DELETE FROM " + SQLiteConnectorUmfragen.TABLE_ANSWERS +
+                                " WHERE " + SQLiteConnectorUmfragen.ANSWERS_SID +
+                                " = (" +
+                                "SELECT " + SQLiteConnectorUmfragen.SURVEYS_ID +
+                                " FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS +
+                                " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID +
+                                " = " + params[0] +
+                                ")");
 
                 dbh.close();
 
                 try {
-                    URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/deleteSurvey.php?survey=" + params[0]);
-                    Utils.logError(updateURL);
-                    BufferedReader reader =
-                            new BufferedReader(
-                                    new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(
+                                    new URL(
+                                            Utils.BASE_URL_PHP + "survey/" +
+                                                    "deleteSurvey.php?" +
+                                                    "survey=" + params[0]
+                                    )
+                                            .openConnection()
+                                            .getInputStream(),
+                                    "UTF-8"
+                            )
+                    );
 
                     StringBuilder builder = new StringBuilder();
                     String        line;
-                    while ((line = reader.readLine()) != null)
+                    while ((line = reader.readLine()) != null) {
                         builder.append(line);
+                    }
+
                     reader.close();
 
-                    if (builder.toString().startsWith("-"))
+                    if (builder.toString().startsWith("-")) {
                         return ResponseCode.SERVER_ERROR;
+                    }
                 } catch (IOException e) {
                     Utils.logError(e);
                     return ResponseCode.SERVER_ERROR;

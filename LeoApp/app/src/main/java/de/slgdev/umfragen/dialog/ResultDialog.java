@@ -166,8 +166,8 @@ public class ResultDialog extends AlertDialog {
      * Diese private Klasse ruft die Ergebnisse der Umfrage mit der übergebenen ID ab. Dazu werden die Ergebnisse eines PHP Skripts abgerufen und ausgewertet.
      *
      * @author Gianni
-     * @since 0.5.6
      * @version 2017.0512
+     * @since 0.5.6
      */
     private class SyncResults extends AsyncTask<Void, Void, ResponseCode> {
 
@@ -184,22 +184,30 @@ public class ResultDialog extends AlertDialog {
                     return ResponseCode.NO_CONNECTION;
                 }
 
-                URL            updateURL = new URL(Utils.BASE_URL_PHP + "survey/getAllResults.php?survey=" + id +  "&to=" + to);
-                BufferedReader reader    = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                new URL(
+                                        Utils.BASE_URL_PHP + "survey/" +
+                                                "getAllResults.php?" +
+                                                "survey=" + id + "&" +
+                                                "to=" + to
+                                )
+                                        .openConnection()
+                                        .getInputStream()
+                        )
+                );
 
-                Utils.logError(updateURL);
-
-                String        cur;
-                StringBuilder result = new StringBuilder();
-                while ((cur = reader.readLine()) != null) {
-                    result.append(cur);
+                StringBuilder builder = new StringBuilder();
+                String        line;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
                 }
 
-                String resString = result.toString();
-                if (resString.contains("-ERR"))
+                String result = builder.toString();
+                if (result.contains("-ERR"))
                     return ResponseCode.SERVER_ERROR;
 
-                String[] data = resString.split("_;;_");
+                String[] data = result.split("_;;_");
 
                 target = Integer.parseInt(data[0]);
                 title = data[2];

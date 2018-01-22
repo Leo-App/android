@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.stimmungsbarometer.task.SendeDaten;
+import de.slgdev.stimmungsbarometer.task.VoteTask;
 import de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slgdev.stimmungsbarometer.utility.Wahl;
 
@@ -106,7 +106,7 @@ public class AbstimmDialog extends AlertDialog {
             @Override
             public void onClick(View view) {
                 if (confirm.isEnabled()) {
-                    new SendeDaten().execute(new Wahl(voteid, Utils.getUserID()));
+                    new VoteTask().execute(new Wahl(voteid, Utils.getUserID()));
                     StimmungsbarometerUtils.setLastVote(voteid);
                     dismiss();
                 }
