@@ -16,7 +16,7 @@ import de.slgdev.it_problem.utility.datastructure.DecisionTree;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.exception.SubjectNotKnownException;
-import de.slgdev.leoapp.view.LeoAppFeatureActivity;
+import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 
 /**
  * ITActivity
@@ -27,7 +27,7 @@ import de.slgdev.leoapp.view.LeoAppFeatureActivity;
  * @version 2017.2912
  * @since 0.7.2
  */
-public class ITActivity extends LeoAppFeatureActivity {
+public class ITActivity extends LeoAppNavigationActivity {
 
     private Session currentSession;
     private String subject;

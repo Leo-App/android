@@ -29,13 +29,13 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.LeoAppFeatureActivity;
+import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.stundenplan.dialog.DetailsDialog;
 import de.slgdev.stundenplan.dialog.FinderDalog;
 import de.slgdev.stundenplan.task.Importer;
 import de.slgdev.stundenplan.utility.Fach;
 
-public class StundenplanActivity extends LeoAppFeatureActivity implements TaskStatusListener {
+public class StundenplanActivity extends LeoAppNavigationActivity implements TaskStatusListener {
     private WochentagFragment[]        fragments;
     private SQLiteConnectorStundenplan database;
 

@@ -111,6 +111,13 @@ public class SQLiteConnectorUmfragenSpeichern extends SQLiteOpenHelper {
         }
     }
 
+    public int getAmount() {
+        Cursor c = database.query(TABLE_SAVED, null, null, null, null, null, null);
+        int size = c.getCount();
+        c.close();
+        return size;
+    }
+
     private ContentValues getSurveyContentValues(String titel, String description) {
         ContentValues values = new ContentValues();
         values.put(SURVEYS_TITEL, titel);
@@ -125,4 +132,5 @@ public class SQLiteConnectorUmfragenSpeichern extends SQLiteOpenHelper {
         values.put(ANSWERS_VOTES, votes);
         return values;
     }
+
 }

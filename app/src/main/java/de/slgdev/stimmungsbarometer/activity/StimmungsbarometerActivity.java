@@ -17,13 +17,13 @@ import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.LeoAppFeatureActivity;
+import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.stimmungsbarometer.task.SendQuestionTask;
 import de.slgdev.stimmungsbarometer.task.SyncVoteResultsTask;
 import de.slgdev.stimmungsbarometer.view.StatistikView;
 import de.slgdev.stimmungsbarometer.view.StatistikViewBalken;
 
-public class StimmungsbarometerActivity extends LeoAppFeatureActivity implements TaskStatusListener {
+public class StimmungsbarometerActivity extends LeoAppNavigationActivity implements TaskStatusListener {
     public static boolean drawI;
     public static boolean drawS;
     public static boolean drawL;

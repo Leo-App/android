@@ -36,7 +36,7 @@ import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.LeoAppFeatureActivity;
+import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.schwarzes_brett.dialog.NewEntryDialog;
 import de.slgdev.schwarzes_brett.task.FileDownloadTask;
 import de.slgdev.schwarzes_brett.task.SyncNewsTask;
@@ -53,7 +53,7 @@ import de.slgdev.schwarzes_brett.utility.SchwarzesBrettUtils;
  * @version 2018.2001
  * @since 0.0.1
  */
-public class SchwarzesBrettActivity extends LeoAppFeatureActivity {
+public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
     private static SQLiteConnectorSchwarzesBrett sqLiteConnector;

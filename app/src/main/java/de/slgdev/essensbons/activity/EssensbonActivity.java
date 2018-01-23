@@ -21,9 +21,9 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.LeoAppFeatureActivity;
+import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 
-public class EssensbonActivity extends LeoAppFeatureActivity implements TaskStatusListener {
+public class EssensbonActivity extends LeoAppNavigationActivity implements TaskStatusListener {
 
     public static boolean mensaModeRunning;
 

@@ -13,12 +13,12 @@ import android.widget.Toast;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.LeoAppFeatureActivity;
+import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.messenger.activity.fragment.ChatsFragment;
 import de.slgdev.messenger.activity.fragment.SearchFragment;
 import de.slgdev.messenger.activity.fragment.UserFragment;
 
-public class MessengerActivity extends LeoAppFeatureActivity {
+public class MessengerActivity extends LeoAppNavigationActivity {
     private ChatsFragment  cFragment;
     private UserFragment   uFragment;
     private SearchFragment sFragment;

@@ -465,5 +465,6 @@
     <string name="exp_date">Ablaufdatum</string>
     <string name="sent">Gesendet</string>
     <string name="qr_scan_title">Essensbon Scannen</string>
+    <string name="title_survey_result">Abgeschlossene Umfragen</string>
 
 </resources>

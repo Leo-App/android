@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -33,8 +35,9 @@ import java.util.Map;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
+import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.LeoAppFeatureActivity;
+import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.schwarzes_brett.utility.ResponseCode;
 import de.slgdev.umfragen.dialog.NewSurveyDialog;
 import de.slgdev.umfragen.dialog.ResultDialog;
@@ -52,7 +55,7 @@ import de.slgdev.umfragen.utility.Survey;
  * @version 2017.1111
  * @since 0.5.6
  */
-public class SurveyActivity extends LeoAppFeatureActivity {
+public class SurveyActivity extends LeoAppNavigationActivity {
 
     private static SQLiteConnectorUmfragen sqLiteConnector;
     private static SQLiteDatabase          sqLiteDatabase;
@@ -124,6 +127,28 @@ public class SurveyActivity extends LeoAppFeatureActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.umfragen, menu);
+        menu.findItem(R.id.action_save).setVisible(false);
+
+        SQLiteConnectorUmfragenSpeichern db = new SQLiteConnectorUmfragenSpeichern(this);
+
+        if (db.getAmount() > 0) {
+            menu.findItem(R.id.action_save).setVisible(true);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem mi) {
+        if (mi.getItemId() == R.id.action_save) {
+            startActivity(new Intent(this, ResultActivity.class));
+        }
+        return super.onOptionsItemSelected(mi);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         Utils.getNotificationManager().cancel(NotificationHandler.ID_UMFRAGEN);
@@ -173,22 +198,12 @@ public class SurveyActivity extends LeoAppFeatureActivity {
 
         button2 = findViewById(R.id.floatingActionButton);
 
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new NewSurveyDialog(SurveyActivity.this).show();
-            }
-        });
+        button2.setOnClickListener(v -> new NewSurveyDialog(SurveyActivity.this).show());
     }
 
     private void initSwipeToRefresh() {
         final SwipeRefreshLayout swipeLayout = findViewById(R.id.swipeRefreshLayout);
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new SyncSurveyTask(swipeLayout).execute();
-            }
-        });
+        swipeLayout.setOnRefreshListener(() -> new SyncSurveyTask(swipeLayout).execute());
 
         swipeLayout.setColorSchemeColors(
                 ContextCompat.getColor(
@@ -387,74 +402,55 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 final ImageButton delete = convertView.findViewById(R.id.delete);
                 final ImageButton share  = convertView.findViewById(R.id.share);
 
-                delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final Survey toBeDeleted = getSurvey(groupPosition);
+                delete.setOnClickListener(v -> {
+                    final Survey toBeDeleted = getSurvey(groupPosition);
 
-                        umfragen.remove(ids.get(groupPosition));
-                        ids.remove(groupPosition);
-                        notifyDataSetChanged();
+                    umfragen.remove(ids.get(groupPosition));
+                    ids.remove(groupPosition);
+                    notifyDataSetChanged();
 
-                        final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.survey_deleted), Snackbar.LENGTH_SHORT);
-                        snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar2.setAction(Utils.getContext().getString(R.string.snackbar_undo), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar2.dismiss();
+                    final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.coordinatorLayout), Utils.getString(R.string.survey_deleted), Snackbar.LENGTH_SHORT);
+                    snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
+                    snackbar2.setAction(Utils.getContext().getString(R.string.snackbar_undo), v1 -> snackbar2.dismiss());
+                    snackbar2.addCallback(new Snackbar.Callback() {
+
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            if (event == DISMISS_EVENT_TIMEOUT || event == DISMISS_EVENT_SWIPE) {
+                                new SaveResultTask(toBeDeleted).execute();
+                                new deleteTask().execute(toBeDeleted.remoteId);
+                            } else {
+                                initExpandableListView();
                             }
-                        });
-                        snackbar2.addCallback(new Snackbar.Callback() {
+                        }
 
-                            @Override
-                            public void onDismissed(Snackbar snackbar, int event) {
-                                if (event == DISMISS_EVENT_TIMEOUT || event == DISMISS_EVENT_SWIPE) {
-                                    new SaveResultTask(toBeDeleted).execute();
-                                    new ExpandableListAdapter.deleteTask().execute(toBeDeleted.remoteId);
-                                } else {
-                                    initExpandableListView();
-                                }
-                            }
-
-                            @Override
-                            public void onShown(Snackbar snackbar) {
-                                //STUB
-                            }
-                        });
-                        snackbar2.show();
-                    }
+                        @Override
+                        public void onShown(Snackbar snackbar) {
+                            //STUB
+                        }
+                    });
+                    snackbar2.show();
                 });
 
-                share.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, Utils.getContext().getString(R.string.share_text, getSurvey(groupPosition).title));
-                        sendIntent.setType("text/plain");
-                        startActivity(Intent.createChooser(sendIntent, Utils.getString(R.string.share)));
-                    }
+                share.setOnClickListener(v -> {
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, Utils.getContext().getString(R.string.share_text, getSurvey(groupPosition).title));
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent, Utils.getString(R.string.share)));
                 });
 
                 if (!getSurvey(groupPosition).voted) {
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            for (TextView textView : checkboxes.get(getSurvey(groupPosition).remoteId)) {
-                                CompoundButton rb = (CompoundButton) textView;
-                                if (rb.isChecked())
-                                    new SendVoteTask(button, getSurvey(groupPosition)).execute((Integer) rb.getTag(), getSurvey(groupPosition).remoteId);
-                            }
+                    button.setOnClickListener(v -> {
+                        for (TextView textView : checkboxes.get(getSurvey(groupPosition).remoteId)) {
+                            CompoundButton rb = (CompoundButton) textView;
+                            if (rb.isChecked())
+                                new SendVoteTask(button, getSurvey(groupPosition)).execute((Integer) rb.getTag(), getSurvey(groupPosition).remoteId);
                         }
                     });
                 } else {
                     button.setText(Utils.getString(R.string.result));
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showResultDialog(getSurvey(groupPosition).remoteId, getSurvey(groupPosition).to);
-                        }
-                    });
+                    button.setOnClickListener(v -> showResultDialog(getSurvey(groupPosition).remoteId, getSurvey(groupPosition).to));
                 }
             } else if (childPosition == 0) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_survey_meta, null);
@@ -475,15 +471,12 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                 t.setTag(Integer.parseInt(option.split("_;_")[1]));
                 t.setChecked(option.split("_;_")[2].equals("1"));
                 t.setEnabled(!getSurvey(groupPosition).voted);
-                t.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!getSurvey(groupPosition).voted && !getSurvey(groupPosition).multiple) {
-                            for (TextView textView : checkboxes.get(getSurvey(groupPosition).remoteId)) {
-                                RadioButton rb = (RadioButton) textView;
-                                if (!rb.equals(t))
-                                    rb.setChecked(false);
-                            }
+                t.setOnClickListener(v -> {
+                    if (!getSurvey(groupPosition).voted && !getSurvey(groupPosition).multiple) {
+                        for (TextView textView : checkboxes.get(getSurvey(groupPosition).remoteId)) {
+                            RadioButton rb = (RadioButton) textView;
+                            if (!rb.equals(t))
+                                rb.setChecked(false);
                         }
                     }
                 });
@@ -617,33 +610,18 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                     case NO_CONNECTION:
                         final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar.setAction(Utils.getContext().getString(R.string.confirm), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                            }
-                        });
+                        snackbar.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar.dismiss());
                         snackbar.show();
                         break;
                     case SERVER_ERROR:
                         final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), R.string.error_later, Snackbar.LENGTH_SHORT);
                         snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar2.setAction(Utils.getContext().getString(R.string.confirm), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar2.dismiss();
-                            }
-                        });
+                        snackbar2.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar2.dismiss());
                         snackbar2.show();
                         break;
                     case SUCCESS:
                         b.setText(Utils.getString(R.string.result));
-                        b.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showResultDialog(remoteid, s.to);
-                            }
-                        });
+                        b.setOnClickListener(v -> showResultDialog(remoteid, s.to));
                         Toast.makeText(Utils.getContext(), R.string.voted_sucessfully, Toast.LENGTH_SHORT).show();
 
                         for (CompoundButton c : checkboxes.get(remoteid)) {
@@ -729,23 +707,13 @@ public class SurveyActivity extends LeoAppFeatureActivity {
                     case NO_CONNECTION:
                         final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_SHORT);
                         snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar.setAction(Utils.getContext().getString(R.string.confirm), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                            }
-                        });
+                        snackbar.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar.dismiss());
                         snackbar.show();
                         break;
                     case SERVER_ERROR:
                         final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), getString(R.string.error_later), Snackbar.LENGTH_SHORT);
                         snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar2.setAction(Utils.getContext().getString(R.string.confirm), new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar2.dismiss();
-                            }
-                        });
+                        snackbar2.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar2.dismiss());
                         snackbar2.show();
                         break;
                     case SUCCESS:

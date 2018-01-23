@@ -17,7 +17,7 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.task.UpdateNameTask;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.LeoAppFeatureActivity;
+import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slgdev.umfragen.activity.SurveyActivity;
 
@@ -33,7 +33,7 @@ import de.slgdev.umfragen.activity.SurveyActivity;
  * @since 0.5.8
  */
 
-public class ProfileActivity extends LeoAppFeatureActivity {
+public class ProfileActivity extends LeoAppNavigationActivity {
     private EditTextDialog dialog;
 
     @Override

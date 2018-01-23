@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -13,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +33,7 @@ import de.slgdev.stundenplan.activity.StundenplanActivity;
 import de.slgdev.umfragen.activity.SurveyActivity;
 
 /**
- * LeoAppFeatureActivity.
+ * LeoAppNavigationActivity.
  * <p>
  * Abstrakte Subklasse von ActionLogActivity. Erweitert die Logging Funktionalität um Methoden zum Einrichten der Toolbar und des Navigationdrawers.
  * Dementsprechend sollte diese Klasse nur von Activities verwendet werden, bei denen ein Navigationdrawer sinnvoll/erwünscht ist. Bei den übrigen Activities muss dann
@@ -47,7 +45,7 @@ import de.slgdev.umfragen.activity.SurveyActivity;
  * @since 0.6.0
  */
 
-public abstract class LeoAppFeatureActivity extends ActionLogActivity {
+public abstract class LeoAppNavigationActivity extends ActionLogActivity {
     private NavigationView navigationView;
     private DrawerLayout   drawerLayout;
 
@@ -136,64 +134,60 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
 
         navigationView.setCheckedItem(getNavigationHighlightId());
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            drawerLayout.closeDrawers();
 
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-
-                if (menuItem.getItemId() == getNavigationHighlightId())
-                    return true;
-
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensbonActivity.class);
-                        break;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), MessengerActivity.class);
-                        break;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan:
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                        break;
-                    case R.id.startseite:
-                        i = null;
-                        break;
-                    case R.id.umfragen:
-                        i = new Intent(getApplicationContext(), SurveyActivity.class);
-                        break;
-                    case R.id.itsolver:
-                        i = new Intent(getApplicationContext(), ITActivity.class);
-                        break;
-                    case R.id.settings:
-                        i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                        break;
-                    case R.id.profile:
-                        i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        break;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-
-                if (i != null) {
-                    startActivity(i);
-                }
-                if (getNavigationHighlightId() != R.id.startseite) {
-                    finish();
-                }
-
+            if (menuItem.getItemId() == getNavigationHighlightId())
                 return true;
+
+            Intent i;
+            switch (menuItem.getItemId()) {
+                case R.id.foodmarks:
+                    i = new Intent(getApplicationContext(), EssensbonActivity.class);
+                    break;
+                case R.id.messenger:
+                    i = new Intent(getApplicationContext(), MessengerActivity.class);
+                    break;
+                case R.id.newsboard:
+                    i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
+                    break;
+                case R.id.stundenplan:
+                    i = new Intent(getApplicationContext(), StundenplanActivity.class);
+                    break;
+                case R.id.barometer:
+                    i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
+                    break;
+                case R.id.klausurplan:
+                    i = new Intent(getApplicationContext(), KlausurplanActivity.class);
+                    break;
+                case R.id.startseite:
+                    i = null;
+                    break;
+                case R.id.umfragen:
+                    i = new Intent(getApplicationContext(), SurveyActivity.class);
+                    break;
+                case R.id.itsolver:
+                    i = new Intent(getApplicationContext(), ITActivity.class);
+                    break;
+                case R.id.settings:
+                    i = new Intent(getApplicationContext(), PreferenceActivity.class);
+                    break;
+                case R.id.profile:
+                    i = new Intent(getApplicationContext(), ProfileActivity.class);
+                    break;
+                default:
+                    i = new Intent(getApplicationContext(), MainActivity.class);
+                    Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
+
+            if (i != null) {
+                startActivity(i);
+            }
+            if (getNavigationHighlightId() != R.id.startseite) {
+                finish();
+            }
+
+            return true;
         });
 
         TextView username = navigationView.getHeaderView(0).findViewById(R.id.username);
@@ -207,15 +201,12 @@ public abstract class LeoAppFeatureActivity extends ActionLogActivity {
 
         ImageView mood = navigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mood.setImageResource(StimmungsbarometerUtils.getCurrentMoodRessource());
-        mood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.closeDrawers();
-                startActivity(new Intent(LeoAppFeatureActivity.this, ProfileActivity.class));
+        mood.setOnClickListener(view -> {
+            drawerLayout.closeDrawers();
+            startActivity(new Intent(LeoAppNavigationActivity.this, ProfileActivity.class));
 
-                if (getNavigationHighlightId() != R.id.startseite) {
-                    finish();
-                }
+            if (getNavigationHighlightId() != R.id.startseite) {
+                finish();
             }
         });
     }

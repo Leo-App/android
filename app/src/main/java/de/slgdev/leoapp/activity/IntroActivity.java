@@ -16,6 +16,7 @@ import de.slgdev.leoapp.activity.fragment.AbstractOrderedFragment;
 import de.slgdev.leoapp.activity.fragment.InfoFragmentBuilder;
 import de.slgdev.leoapp.activity.fragment.VerificationFragment;
 import de.slgdev.leoapp.task.RegistrationTask;
+import de.slgdev.leoapp.task.SyncUserTask;
 import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.User;
@@ -163,20 +164,10 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
             cancel(oldFragment);
         } else if (newFragment.getPosition() == VERIFICATION_SLIDE) {
             ImageButton nextButton = findViewById(R.id.next);
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startVerification(newFragment);
-                }
-            });
+            nextButton.setOnClickListener(v -> startVerification(newFragment));
         } else {
             ImageButton nextButton = findViewById(R.id.next);
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getPager().setCurrentItem(getPager().getCurrentItem() + 1);
-                }
-            });
+            nextButton.setOnClickListener(v -> getPager().setCurrentItem(getPager().getCurrentItem() + 1));
         }
     }
 
@@ -227,8 +218,9 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                             .apply();
                 }
 
-                Start.runUpdateTasks();
+                new SyncUserTask(fragment).registerListener(this).execute();
 
+                Start.runUpdateTasks();
                 Start.startReceiveService();
 
                 break;
@@ -237,12 +229,9 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
 
     private void cancel(final AbstractOrderedFragment oldFragment) {
         new Handler().postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        ignoreSlideChange = true;
-                        getPager().setCurrentItem(oldFragment.getPosition());
-                    }
+                () -> {
+                    ignoreSlideChange = true;
+                    getPager().setCurrentItem(oldFragment.getPosition());
                 },
                 1
         );

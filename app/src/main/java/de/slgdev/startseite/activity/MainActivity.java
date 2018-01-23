@@ -28,7 +28,7 @@ import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.task.MailSendTask;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.LeoAppFeatureActivity;
+import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.messenger.activity.MessengerActivity;
 import de.slgdev.schwarzes_brett.activity.SchwarzesBrettActivity;
 import de.slgdev.startseite.CardAdapter;
@@ -48,7 +48,7 @@ import de.slgdev.umfragen.activity.SurveyActivity;
  * @version 2017.1111
  * @since 0.0.1
  */
-public class MainActivity extends LeoAppFeatureActivity {
+public class MainActivity extends LeoAppNavigationActivity {
     public static boolean        editing;
     public        AbstimmDialog  abstimmDialog;
     private       CardAdapter    mAdapter;

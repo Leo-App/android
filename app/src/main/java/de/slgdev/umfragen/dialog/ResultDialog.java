@@ -112,12 +112,9 @@ public class ResultDialog extends AlertDialog {
         t1.setVisibility(View.INVISIBLE);
         t2.setVisibility(View.INVISIBLE);
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                stopLoading();
-            }
+        b1.setOnClickListener(v -> {
+            dismiss();
+            stopLoading();
         });
 
         asyncTask = new SyncResults().execute();
@@ -223,6 +220,7 @@ public class ResultDialog extends AlertDialog {
                 }
             } catch (IOException e) {
                 Utils.logError(e);
+                return ResponseCode.SERVER_ERROR;
             }
 
             return ResponseCode.SUCCESS;
@@ -236,24 +234,14 @@ public class ResultDialog extends AlertDialog {
                     findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
                     final Snackbar snack = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
                     snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                    snack.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            snack.dismiss();
-                        }
-                    });
+                    snack.setAction(getContext().getString(R.string.confirm), v -> snack.dismiss());
                     snack.show();
                     break;
                 case SERVER_ERROR:
                     findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
                     final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), Utils.getString(R.string.error_later), Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                    snackbar.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            snackbar.dismiss();
-                        }
-                    });
+                    snackbar.setAction(getContext().getString(R.string.confirm), v -> snackbar.dismiss());
                     snackbar.show();
                     break;
                 case SUCCESS:

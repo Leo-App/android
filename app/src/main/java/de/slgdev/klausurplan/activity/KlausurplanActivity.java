@@ -37,9 +37,9 @@ import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
-import de.slgdev.leoapp.view.LeoAppFeatureActivity;
+import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 
-public class KlausurplanActivity extends LeoAppFeatureActivity implements TaskStatusListener {
+public class KlausurplanActivity extends LeoAppNavigationActivity implements TaskStatusListener {
     private ListView                   listView;
     private Klausur[]                  klausuren;
     private Snackbar                   snackbar;

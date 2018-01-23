@@ -1,6 +1,5 @@
 package de.slgdev.leoapp.task;
 
-import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 
 import java.io.BufferedReader;
@@ -8,12 +7,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.VerificationListener;
 import de.slgdev.leoapp.utility.datastructure.List;
 
-public class SyncUserTask extends AsyncTask<Void, Void, ResponseCode> {
+public class SyncUserTask extends VoidCallbackTask<ResponseCode> {
 
     private List<VerificationListener> listeners;
     private Fragment                   fragment;
