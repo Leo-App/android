@@ -75,13 +75,13 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
         String     dateS      = dateFormat.format(date);
         dateS = dateS.substring(0, 4) + dateS.substring(5);
 
-        int cur = Integer.parseInt(dateS)+id;
-        int mod = cur%97;
-        int fin = 98-mod;
+        int cur = Integer.parseInt(dateS) + id;
+        int mod = cur % 97;
+        int fin = 98 - mod;
 
         String formattedChecksum = String.format("%02d", fin);
 
-        String code = id+"-"+"M"+menu+"-"+dateS+"-"+formattedChecksum;
+        String code = id + "-" + "M" + menu + "-" + dateS + "-" + formattedChecksum;
 
         return createNewQR(code);
     }
@@ -93,7 +93,6 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
             l.taskFinished(result, menu, description);
 
         dbh.close();
-
     }
 
     private boolean hasActiveInternetConnection() {
@@ -136,124 +135,127 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
         cursor.moveToNext();
 
         String desc = String.valueOf(cursor.getString(cursor.getColumnIndex(SQLiteConnectorEssensbons.ORDER_DESCR)));
-        short menu = cursor.getShort(cursor.getColumnIndex(SQLiteConnectorEssensbons.ORDER_MENU));
-        short id = cursor.getShort(cursor.getColumnIndex(SQLiteConnectorEssensbons.ORDER_ID));
+        short  menu = cursor.getShort(cursor.getColumnIndex(SQLiteConnectorEssensbons.ORDER_MENU));
+        short  id   = cursor.getShort(cursor.getColumnIndex(SQLiteConnectorEssensbons.ORDER_ID));
 
-        Order  o = new Order(id, date, menu, desc);
+        Order o = new Order(id, date, menu, desc);
         cursor.close();
         return o;
     }
 
     private void saveNewestEntries() {
 
-        BufferedReader in    = null;
-        StringBuilder result = new StringBuilder();
-
         try {
-            URL interfaceDB = new URL(Utils.URL_LUNCH_LEO + "qr_database.php?id=" + EssensbonUtils.getCustomerId()
-                    + "&auth=2SnDS7GBdHf5sd");
 
-            Utils.logDebug(interfaceDB.toString());
-            in = null;
-            in = new BufferedReader(new InputStreamReader(interfaceDB.openStream()));
-            String inputLine;
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            new URL(
+                                    Utils.URL_LUNCH_LEO + "qr_database.php?" +
+                                            "id=" + EssensbonUtils.getCustomerId() + "&" +
+                                            "auth=2SnDS7GBdHf5sd"
+                            )
+                                    .openConnection()
+                                    .getInputStream()
+                    )
+            );
 
-            while ((inputLine = in.readLine()) != null) {
-                if (!inputLine.contains("<"))
-                    result.append(inputLine);
+            StringBuilder builder = new StringBuilder();
+            String        line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.contains("<"))
+                    builder.append(line);
             }
-            in.close();
 
-        } catch (IOException e) {
-            Utils.logError(e);
-            return;
-        } finally {
-            if (in != null)
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    Utils.logError(e);
-                }
-        }
+            reader.close();
 
-        EncryptionManager encryptionManager = new EncryptionManager();
-        try {
-            result = new StringBuilder(new String(encryptionManager.decrypt(result.toString())));
-        } catch (Exception e) {
-            Utils.logError(e);
-        }
-        String[]   data = result.toString().split("_next_");
-        DateFormat df   = new SimpleDateFormat("yyyy-mm-dd", Locale.GERMANY);
+            String result = builder.toString();
 
-        Date highest = null;
+            EncryptionManager encryptionManager = new EncryptionManager();
+            try {
+                builder = new StringBuilder(
+                        new String(
+                                encryptionManager.decrypt(
+                                        result
+                                )
+                        )
+                );
+            } catch (Exception e) {
+                Utils.logError(e);
+            }
+            String[]   data       = builder.toString().split("_next_");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd", Locale.GERMANY);
 
-        try {
-            highest = df.parse("1900-01-01");
-        } catch (ParseException e) {
-            Utils.logError(e);
-        }
-
-        int amount = 0;
-
-        for (String s : data) {
-            if (!s.contains("_seperator_"))
-                continue;
-
-            ContentValues values = new ContentValues();
-            amount++;
+            Date highest = null;
 
             try {
-                Date d = df.parse(s.split("_seperator_")[0]);
-                if (d.after(highest))
-                    highest = d;
+                highest = dateFormat.parse("1900-01-01");
             } catch (ParseException e) {
                 Utils.logError(e);
             }
 
-            String[] parts = s.split("_separator_");
+            int amount = 0;
 
-            values.put(SQLiteConnectorEssensbons.ORDER_ID, parts[0]);
-            values.put(SQLiteConnectorEssensbons.ORDER_DATE, parts[1]);
-            values.put(SQLiteConnectorEssensbons.ORDER_MENU, parts[2]);
-            values.put(SQLiteConnectorEssensbons.ORDER_DESCR, parts[3]);
+            for (String s : data) {
+                if (!s.contains("_seperator_"))
+                    continue;
 
-            try {
-                dbh.insert(SQLiteConnectorEssensbons.TABLE_ORDERS, null, values);
-            } catch (Exception e) {
-                Utils.logError(e);
+                ContentValues values = new ContentValues();
+                amount++;
+
+                try {
+                    Date d = dateFormat.parse(s.split("_seperator_")[0]);
+                    if (d.after(highest))
+                        highest = d;
+                } catch (ParseException e) {
+                    Utils.logError(e);
+                }
+
+                String[] parts = s.split("_separator_");
+
+                values.put(SQLiteConnectorEssensbons.ORDER_ID, parts[0]);
+                values.put(SQLiteConnectorEssensbons.ORDER_DATE, parts[1]);
+                values.put(SQLiteConnectorEssensbons.ORDER_MENU, parts[2]);
+                values.put(SQLiteConnectorEssensbons.ORDER_DESCR, parts[3]);
+
+                try {
+                    dbh.insert(SQLiteConnectorEssensbons.TABLE_ORDERS, null, values);
+                } catch (Exception e) {
+                    Utils.logError(e);
+                }
             }
+
+            String dateString = dateFormat.format(highest);
+
+            if (dateString == null)
+                return;
+
+            Cursor c = dbh.rawQuery("SELECT "
+                    + SQLiteConnectorEssensbons.ORDER_ID
+                    + " FROM "
+                    + SQLiteConnectorEssensbons.TABLE_ORDERS
+                    + " WHERE " + SQLiteConnectorEssensbons.ORDER_DATE + " = "
+                    + dateString, null);
+
+            c.moveToFirst();
+
+            if (c.getCount() == 0)
+                return;
+
+            dbh.execSQL("INSERT INTO " + SQLiteConnectorEssensbons.TABLE_STATISTICS
+                    + " (" + SQLiteConnectorEssensbons.STATISTICS_SYNCDATE + ", "
+                    + SQLiteConnectorEssensbons.STATISTICS_AMOUNT + ", "
+                    + SQLiteConnectorEssensbons.STATISTICS_LASTORDER
+                    + ") VALUES ('" + dateFormat.format(new Date()) + "', " + amount + ", " + c.getInt(0) + ")");
+
+            c.close();
+        } catch (IOException e) {
+            Utils.logError(e);
         }
-
-        String dateString = df.format(highest);
-
-        if (dateString == null)
-            return;
-
-
-        Cursor c = dbh.rawQuery("SELECT "
-                + SQLiteConnectorEssensbons.ORDER_ID
-                + " FROM "
-                + SQLiteConnectorEssensbons.TABLE_ORDERS
-                + " WHERE " + SQLiteConnectorEssensbons.ORDER_DATE + " = "
-                + dateString, null);
-
-        c.moveToFirst();
-
-        if (c.getCount() == 0)
-            return;
-
-        dbh.execSQL("INSERT INTO " + SQLiteConnectorEssensbons.TABLE_STATISTICS
-                + " (" + SQLiteConnectorEssensbons.STATISTICS_SYNCDATE + ", "
-                + SQLiteConnectorEssensbons.STATISTICS_AMOUNT + ", "
-                + SQLiteConnectorEssensbons.STATISTICS_LASTORDER
-                + ") VALUES ('" + df.format(new Date()) + "', " + amount + ", " + c.getInt(0) + ")");
-
-        c.close();
     }
 
     private Bitmap createNewQR(String s) {
         MultiFormatWriter mFW = new MultiFormatWriter();
-        Bitmap bM = null;
+        Bitmap            bM  = null;
 
         int px = (int) GraphicUtils.dpToPx(250);
 

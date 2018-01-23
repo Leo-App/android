@@ -6,15 +6,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.ChatEditActivity;
 
-/**
- * Created by Moritz on 08.12.2017.
- */
 public class SendChatname extends AsyncTask<String, Void, Void> {
     private final int              cid;
     private       ChatEditActivity chatEditActivity;
@@ -33,21 +29,27 @@ public class SendChatname extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... params) {
         if (Utils.checkNetwork()) {
             try {
-                URLConnection connection = new URL(generateURL(params[0]))
-                        .openConnection();
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                new URL(
+                                        generateURL(params[0])
+                                )
+                                        .openConnection()
+                                        .getInputStream(),
+                                "UTF-8"
+                        )
+                );
 
-                BufferedReader reader =
-                        new BufferedReader(
-                                new InputStreamReader(
-                                        connection.getInputStream(), "UTF-8"));
                 StringBuilder builder = new StringBuilder();
                 String        line;
                 while ((line = reader.readLine()) != null) {
                     builder.append(line);
                 }
+
                 reader.close();
-                Utils.logDebug(builder.toString());
-                chatEditActivity.setCname(params[0]);
+
+                if (builder.charAt(0) != '-')
+                    chatEditActivity.setCname(params[0]);
             } catch (Exception e) {
                 Utils.logError(e);
             }
