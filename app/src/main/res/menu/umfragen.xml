@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_save"
-        app:icon="@drawable/ic_save_folder"
+        android:icon="@drawable/ic_save_folder"
         android:title="@string/toolbar_name_info"
         app:showAsAction="ifRoom" />
 </menu>

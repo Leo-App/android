@@ -187,12 +187,20 @@ public class ResultDialog extends AlertDialog {
                                         Utils.BASE_URL_PHP + "survey/" +
                                                 "getAllResults.php?" +
                                                 "survey=" + id + "&" +
-                                                "to=" + to
+                                                "to=" + to.replace(" ", "%20")
+
                                 )
                                         .openConnection()
                                         .getInputStream()
                         )
                 );
+
+                Utils.logError((
+                        Utils.BASE_URL_PHP + "survey/" +
+                                "getAllResults.php?" +
+                                "survey=" + id + "&" +
+                                "to=" + to
+                ).replace(" ", "%20"));
 
                 StringBuilder builder = new StringBuilder();
                 String        line;
@@ -239,7 +247,7 @@ public class ResultDialog extends AlertDialog {
                     break;
                 case SERVER_ERROR:
                     findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
-                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.wrapper), Utils.getString(R.string.error_later), Snackbar.LENGTH_SHORT);
+                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.error_later), Snackbar.LENGTH_SHORT);
                     snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
                     snackbar.setAction(getContext().getString(R.string.confirm), v -> snackbar.dismiss());
                     snackbar.show();
