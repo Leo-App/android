@@ -23,6 +23,8 @@ public class SaveResultTask extends AsyncTask<Void, Void, ResponseCode> {
         this.survey = survey;
     }
 
+    //TODO: Check if empty description is "" or null
+
     @Override
     protected ResponseCode doInBackground(Void... voids) {
 
