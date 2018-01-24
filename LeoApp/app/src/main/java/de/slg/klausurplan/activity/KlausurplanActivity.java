@@ -348,10 +348,8 @@ public class KlausurplanActivity extends LeoAppFeatureActivity implements TaskSt
                                 ""
                         );
 
-                if (!substring.contains("<entry namest=\"c3\" nameend=\"c5\">")) {
-                    if (!substring.startsWith("EF")) {
-                        zeile(substring);
-                    }
+                if (!substring.contains("<entry namest=\"c3\" nameend=\"c5\">") && !substring.startsWith("EF")) {
+                    zeile(substring);
                 }
             }
         }
@@ -442,6 +440,9 @@ public class KlausurplanActivity extends LeoAppFeatureActivity implements TaskSt
                             "\\s",
                             ""
                     );
+
+            if (s.contains("COU") || s.contains("KKG"))
+                Utils.logDebug(s);
 
             List<String> list = new List<>();
             for (String c : s.split(";")) {
