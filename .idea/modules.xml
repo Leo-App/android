@@ -3,9 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LeoApp.iml" filepath="$PROJECT_DIR$/LeoApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Projektkurs.iml" filepath="$PROJECT_DIR$/Projektkurs.iml" />
+      <module fileurl="file://C:\Users\Moritz\Documents\LeoApp\LeoApp.iml" filepath="C:\Users\Moritz\Documents\LeoApp\LeoApp.iml" />
+      <module fileurl="file://C:\Users\Moritz\Documents\LeoApp\Projektkurs.iml" filepath="C:\Users\Moritz\Documents\LeoApp\Projektkurs.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Moritz\Documents\LeoApp\app\app.iml" filepath="C:\Users\Moritz\Documents\LeoApp\app\app.iml" />
     </modules>
   </component>
 </project>
