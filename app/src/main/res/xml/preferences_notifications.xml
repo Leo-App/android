@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/title_foodmarks">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_key_notification_essensqr"
+            android:summary="@string/settings_summary_notification"
+            android:title="@string/settings_title_notification" />
+        <de.slgdev.essensbons.TimePickerPreference
+            android:key="pref_key_notification_time_foodmarks"
+            android:summary="@string/settings_summary_notification_time"
+            android:title="@string/settings_title_notification_time" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/title_testplan">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_key_notification_test"
+            android:summary="@string/settings_summary_notification_test"
+            android:title="@string/settings_title_notification" />
+        <de.slgdev.essensbons.TimePickerPreference
+            android:key="pref_key_notification_time_test"
+            android:summary="@string/settings_summary_notification_time"
+            android:title="@string/settings_title_notification_time" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/title_messenger">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_key_notification_messenger"
+            android:summary="@string/settings_summary_notification_messenger"
+            android:title="@string/settings_title_notification" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/title_news">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_key_notification_news"
+            android:summary="@string/settings_summary_notification_messenger"
+            android:title="@string/settings_title_notification" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/title_survey">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_key_notification_survey"
+            android:summary="@string/settings_summary_notification_survey"
+            android:title="@string/settings_title_notification" />
+        <de.slgdev.essensbons.TimePickerPreference
+            android:key="pref_key_notification_time_survey"
+            android:summary="@string/settings_summary_notification_time"
+            android:title="@string/settings_title_notification_time" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/title_plan">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_key_notification_schedule"
+            android:summary="@string/settings_summary_notification_schedule"
+            android:title="@string/settings_title_notification" />
+        <de.slgdev.essensbons.TimePickerPreference
+            android:key="pref_key_notification_time_schedule"
+            android:summary="@string/settings_summary_notification_time"
+            android:title="@string/settings_title_notification_time" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/title_survey_news">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_key_notification_survey_students"
+            android:summary="@string/settings_summary_notification_survey_students"
+            android:title="@string/settings_title_notification" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

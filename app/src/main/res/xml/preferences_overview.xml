@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="pref_key_general_settings"
+        android:title="@string/settings_category_general">
+
+        <Preference
+            android:key="pref_key_notifications"
+            android:summary="@string/settings_title_notification"
+            android:title="@string/title_settings_notifications" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_storage_settings"
+        android:title="@string/title_foodmarks">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_key_mensa_mode"
+            android:summary="@string/settings_summary_mode"
+            android:title="@string/settings_title_mode" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_key_qr_camera"
+            android:summary="@string/settings_summary_camera"
+            android:title="@string/settings_title_camera" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_key_qr_sync"
+            android:summary="@string/settings_summary_sync"
+            android:title="@string/settings_title_sync" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_key_qr_autofade"
+            android:summary="@string/settings_summary_fade"
+            android:title="@string/settings_title_fade" />
+
+        <de.slgdev.essensbons.NumberPickerPreference
+            android:enabled="false"
+            android:key="pref_key_qr_autofade_time"
+            android:summary="@string/settings_summary_fade_time"
+            android:title="@string/settings_title_fade_time" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_storage_settings"
+        android:title="@string/title_testplan">
+
+        <de.slgdev.klausurplan.NumberPickerPreference
+            android:key="pref_key_delete"
+            android:persistent="true"
+            android:summary="@string/settings_summary_testplan_time"
+            android:title="@string/settings_title_testplan_time" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_key_test_timetable_sync"
+            android:summary="@string/settings_summary_filterby_schedule"
+            android:title="@string/settings_title_test_timetable" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_storage_settings"
+        android:title="@string/title_messenger">
+
+        <Preference
+            android:key="pref_key_sync_messenger"
+            android:summary="@string/settings_summary_messenger_sync"
+            android:title="@string/settings_title_messenger_sync" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_key_info_settings"
+        android:title="@string/settings_category_info">
+
+        <Preference
+            android:key="pref_key_email"
+            android:summary="@string/settings_summary_contact"
+            android:title="@string/settings_title_contact" />
+
+        <Preference
+            android:key="pref_key_version_app"
+            android:summary="@string/settings_summary_version"
+            android:title="@string/settings_title_version" />
+
+        <Preference
+            android:key="pref_key_about"
+            android:summary="@string/summary_about"
+            android:title="@string/toolbar_name_info" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

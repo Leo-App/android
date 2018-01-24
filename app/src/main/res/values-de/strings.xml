@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+
+    <string name="title_it_problem">IT-Problemlöser</string>
+
+    <!-- TODO Translate -->
+
+    <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
+        lunch.leo-ac.de credentials.</string>
+
+    <string name="qr_intro_title1">QR - Essensbons</string>
+    <string name="qr_intro_desc1">Diese Funktion erleichtert die Essensausgabe in der Mensa.</string>
+
+    <string name="cancel">Abbrechen</string>
+    <string name="error">Entschuldige, etwas ist schief gelaufen</string>
+    <string name="hours_settings_template">%1$s Uhr</string>
+
+    <string name="intro_finished_title">Fertig!</string>
+    <string name="intro_finished_desc">Du bist verifiziert und kannst nun die App nutzen! :)</string>
+
+    <string name="nolessons">Kein Unterricht :)</string>
+
+    <string name="verification_title">Verifizieren</string>
+    <string name="verification_desc">Um die LeoApp nutzen zu können, musst Du dich verifizieren. Melde dich dazu hier mit den Zugangsdaten Deines Schulaccounts an.</string>
+
+    <string name="drawer_placeholder_name">Benutzername</string>
+    <string name="drawer_placeholder_grade">Stufe</string>
+
+    <string name="dialog_betatest">
+        Danke,dass Du uns hilfst, unsere App zu testen. Rückmeldung kannst Du uns entweder über die Bugreport Option im Menü, per EMail an app@leo-ac.de oder
+        natürlich persönlich geben. Solltest Du noch Fragen haben, kannst Du uns gerne kontaktieren. Viel Spaß!
+    </string>
+    <string name="dialog_comingsoon">
+        Wir arbeiten natürlich immer an einer möglichst optimalen Apperfahrung, haben aber schon neue Ideen, die wir implementieren wollen. So planen wir den Vertretungsplan,
+        eine Nachhilfebörse und einen Termin/Hausaufgabenplaner hinzuzufügen. Selbstverständlich berücksichtigen wir aber auch eure Vorschläge, teilt sie uns ruhig mit!
+    </string>
+    <string name="dialog_qrfoodmarks">
+        Wir testen zurzeit das neue Essensbonsystem intern mit dem Mensapersonal, es wird also bald zur Verfügung stehen. Natürlich kannst Du es auch schon selber - wenn auch sehr begrenzt - testen.\n
+        Danke für Deine Geduld :)
+    </string>
+
+    <string name="dialog_changelog">
+        - Bugfixes \n
+        - IT - Problemlöser implementiert \n
+        - Weihnachtslogos entfernt \n
+    </string>
+
+    <string name="none">Keine</string>
+
+    <string name="settings_title_customid">Kundennummer</string>
+    <string name="notification_test_content">Du schreibst morgen eine Klausur!</string>
+
+    <string name="settings_summary_notification_survey_students">Benachrichtigungen bei neuen Umfragen erhalten</string>
+
+    <!-- Action -->
+    <string name="action_save">Speichern</string>
+    <string name="action_delete">Löschen</string>
+    <string name="action_load">Klausurplan herunterladen</string>
+    <string name="action_delete_all">Heruntergeladene Klausuren löschen</string>
+    <string name="action_leave_chat">Chat verlassen</string>
+
+
+    <!-- Snackbar -->
+    <string name="snackbar_ungültig">Fach oder Datum ungültig</string>
+    <string name="snackbar_gelöscht">Alle Klausuren gelöscht</string>
+    <string name="snackbar_undo">Rückgängig</string>
+    <string name="snackbar_no_connection_info">Keine Internetverbindung</string>
+
+    <string name="settings_snackbar_username_taken">Dieser Nutzername ist bereits vergeben</string>
+    <string name="snackbar_no_connection_info_check">Keine Internetverbindung zum Überprüfen der Daten</string>
+    <string name="snackbar_not_correct_info">Login-Daten nicht korrekt</string>
+    <string name="SnackBarMes">Plan konnte nicht heruntergeladen werden</string>
+    <string name="SnackBarMes2">Keine Stufe ausgewählt</string>
+    <string name="snackbar_select">Auswählen</string>
+    <string name="snackbar_date_invalid">Datum ungültig</string>
+    <string name="snackbar_missing_title">Bitte gib ein Fach ein</string>
+
+
+    <!-- Menu titles -->
+    <string name="title_home">Startseite</string>
+    <string name="title_foodmarks">Essensbons</string>
+    <string name="title_testplan">Klausurplan</string>
+    <string name="title_tutoring">Nachhilfebörse</string>
+    <string name="title_news">Schwarzes Brett</string>
+    <string name="title_survey">Stimmungsbarometer</string>
+    <string name="title_plan">Stundenplan</string>
+    <string name="title_subst">Vertretungsplan</string>
+
+    <string name="title_settings">Einstellungen</string>
+    <string name="title_settings_notifications">Benachrichtigungen</string>
+
+
+    <!-- Startseite -->
+    <string name="summary_info_auth">Einige Funktionen benötigen eine Verifizierung. Verifiziere dich hier.</string>
+
+    <string name="summary_info_foodmark">Diese Funktion digitalisert die Essensausgabe in der Mensa. Nachdem Du in den Einstellungen Deine Zugangsdaten angegeben hast, brauchst Du nur noch den anschließend generierten QR-Code vorzuzeigen und Du erhälst Dein bestelltes Menü.</string>
+    <string name="summary_info_testplan">Hier findest Du eine Sammlung Deiner anstehenden Klausuren. Ergänze Dein Profil um die Filterfunktion zu verwenden oder füge Deine eigenen Einträge hinzu.</string>
+    <string name="summary_info_messenger">Mithilfe dieser Funktion kannst Du mit Deinen Klassenkameraden und Lehrern kommunizieren, ohne dass diese Deine Telefonnummer erfahren. Du kannst in Gruppen oder privat chatten. Deinen Benutzernamen kannst Du in den Einstellungen ändern.</string>
+    <string name="summary_info_tutoring">Brauchst Du Nachhilfe in einem Fach? Bitte einfach darum in der Nachhilfebörse!</string>
+    <string name="summary_info_news">Hier stehen alle wichtigen Neuigkeiten über Dein Schulleben.</string>
+    <string name="summary_info_survey">Hier kannst Du jeden Tag Deine Stimmung angeben und auch die der gesamten Schule sehen.</string>
+    <string name="summary_info_schedule">Wähle Deine belegten Kurse aus und Dir wird ein automatischer Stundenplan generiert. Diesen kannst Du natürlich noch anpassen.</string>
+    <string name="summary_info_subst">Deine Vertretungen für heute und morgen</string>
+
+
+    <string name="add_card">Karte hinzufügen</string>
+    <string name="button_add">Hinzufügen</string>
+    <string name="selector_card">Karte(n) hinzufügen</string>
+
+    <string name="button_info_try">Ausprobieren</string>
+
+    <string name="title_info_auth_failed">Du bist noch nicht verifiziert</string>
+    <string name="title_info_auth">Du bist verifiziert</string>
+
+    <string name="summary_about">Informationen über diese Anwendung</string>
+    <string name="cards_customize">Anpassen</string>
+    <string name="thank_you_feature">Danke für Dein Feedback</string>
+
+    <string name="set_changes">Speichern</string>
+    <string name="feature_request">Beschreibe Deinen Vorschlag</string>
+    <string name="feature_request_title">Verbesserungsvorschlag</string>
+    <string name="cards_quick">Schnellzugriffe</string>
+    <string name="discard">Ausblenden</string>
+    <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>
+
+
+    <!-- Info -->
+    <string name="toolbar_name_info">Über die App</string>
+    <string name="info_screen_title">LeoApp für Android</string>
+    <string name="info_screen_second">Entwickelt im Projektkurs Informatik 2017</string>
+    <string name="info_screen_fourth">Alle Angaben ohne Gewähr</string>
+    <string name="info_screen_fifth">Entwickler</string>
+
+
+    <!-- EssensQR -->
+    <string name="toolbar_scan">Scannen!</string>
+    <string name="button_scan">Scannen</string>
+    <string name="qr_display_title">Deine Bestellung für heute, den</string>
+    <string name="qr_display_menu">Menü %1$d</string>
+    <string name="dialog_desc_valid">Bestelltes Menü: \t %1$d</string>
+    <string name="qr_display_not_ordered">Für heute liegt keine Bestellung vor</string>
+    <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe Deine Anmeldedaten in den Einstellungen</string>
+    <string name="explain_desc_1">Mit dieser Funktion lassen sich die QR-Codes der Essensbestellung überprüfen.</string>
+    <string name="explain_title_2">Schritt 1</string>
+    <string name="explain_desc_2">Klicke auf den \"Scannen\"-Button und halte den grün umrandeten Bereich über den zu scannenden QR-Code.</string>
+    <string name="explain_title_3">Schritt 2</string>
+    <string name="explain_desc_3">War das Scannen erfolgreich, erhältst Du alle wichtigen Informationen: Dein bestelltes Menü und ob der QR-Code bereits eingelöst, d. h. von diesem Gerät bereits gescannt, wurde.</string>
+    <string name="invalidId">User-ID ungültig</string>
+    <string name="popup_code_not_valid">QR-Code ist ungültig oder auf diesem Gerät bereits eingelöst</string>
+    <string name="notification_summary_notif">Du hast Deine Bestellung noch nicht synchronisiert</string>
+    <string name="login_success">Erfolgreich eingeloggt</string>
+    <string name="no_order">Keine Bestellung</string>
+    <string name="not_loggedin">Nicht eingeloggt</string>
+    <string name="minutes">Minuten</string>
+    <string name="hour">Stunde</string>
+    <string name="hours">Stunden</string>
+
+
+    <!-- Klausurplan -->
+    <string name="exam">Klausur</string>
+    <string name="subject">Fach</string>
+    <string name="date">Datum</string>
+    <string name="note">Note</string>
+    <string name="week">Woche</string>
+
+
+    <!-- Messenger -->
+    <string name="title_new_groupchat">Neuer Gruppenchat</string>
+    <string name="serviceDescription">Empfängt Nachrichten</string>
+    <string name="need_internet">Dafür brauchst Du eine Internetverbindung</string>
+    <string name="queue">Warteschlange</string>
+    <string name="edit_chat">Chatnamen ändern</string>
+    <string name="add_user">Mitglieder hinzufügen</string>
+    <string name="remove_users">Benutzer entfernen</string>
+    <string name="messenger_notification_title">Neue Nachrichten!</string>
+    <string name="today">Heute</string>
+    <string name="yesterday">Gestern</string>
+
+
+    <!-- Nachhilfebörse -->
+    <string name="tutoring_title_new">Neue Anzeige</string>
+
+
+    <!-- Schwarzes Brett -->
+    <string name="new_entry">Neuer Eintrag</string>
+    <string name="new_entry_title">Titel</string>
+    <string name="new_entry_content">Inhalt</string>
+    <string name="to">Addressat</string>
+    <string name="info_add_entry">Benutze des Web-Interface für mehr Optionen</string>
+    <string name="download_description_news">Schwarzes Brett - Download</string>
+
+
+    <!-- Stundenplan -->
+    <string name="month">Monat</string>
+    <string name="months">Monate</string>
+    <string name="year">Jahr</string>
+    <string name="stunden">Kurse auswählen</string>
+    <string name="bearbeiten">Bearbeiten</string>
+    <string name="speichern">Speichern</string>
+    <string name="mo">Mo</string>
+    <string name="di">Di</string>
+    <string name="mi">Mi</string>
+    <string name="don">Do</string>
+    <string name="fr">Fr</string>
+    <string name="menu_stundenplan_name">Kurse bearbeiten</string>
+    <string name="mathe">Mathe</string>
+    <string name="deutsch">Deutsch</string>
+    <string name="latein">Latein</string>
+    <string name="franze">Französisch</string>
+    <string name="englisch">Englisch</string>
+    <string name="spanisch">Spanisch</string>
+    <string name="bili">Geschichte Bilingual</string>
+    <string name="geschichte">Geschichte</string>
+    <string name="geo">Erdkunde</string>
+    <string name="sowi">SoWi</string>
+    <string name="pada">Pädagogik</string>
+    <string name="reliKat">Katholische Religion</string>
+    <string name="reliEv">Evangelische Religion</string>
+    <string name="philo">Philosophie</string>
+    <string name="info">Informatik</string>
+    <string name="chemie">Chemie</string>
+    <string name="physik">Physik</string>
+    <string name="bio">Biologie</string>
+    <string name="literatur">Literatur</string>
+    <string name="kunst">Kunst</string>
+    <string name="musik">Musik</string>
+    <string name="montag">Montag</string>
+    <string name="dienstag">Dienstag</string>
+    <string name="mittwoch">Mittwoch</string>
+    <string name="donnerstag">Donnerstag</string>
+    <string name="freitag">Freitag</string>
+    <string name="zeit">Zeit</string>
+    <string name="raum">Raum</string>
+    <string name="lehrer">Lehrer</string>
+    <string name="schriftlich">Schriftlich</string>
+    <string name="notizen">Notizen</string>
+    <string name="mache_bild">Anzeigen</string>
+    <string name="seconds">Sekunden</string>
+    <string name="vokal">Vokalpraxis</string>
+    <string name="Förder">Förderkurs</string>
+    <string name="schwimmen">Schwimmen</string>
+    <string name="später">Später</string>
+    <string name="free_hour">Freistunde</string>
+    <string name="Projektk">Projektkurs</string>
+    <string name="Vertiefung">Vertiefung</string>
+    <string name="Soz">Soziales Lernen</string>
+    <string name="ag">AG:</string>
+    <string name="sport">Sport</string>
+    <string name="politik">Politik</string>
+    <string name="niederländisch">Niederländisch</string>
+    <string name="PoWi">Politik</string>
+    <string name="GeZK">Geschichte ZK</string>
+    <string name="SoWiZ">Sozialwissenschaften ZK</string>
+    <string name="Diff">Differenzierung</string>
+    <string name="yourTimeTable">Dein Stundenplan</string>
+    <string name="createCourse">Neuen Kurs hinzufügen</string>
+
+
+    <!-- Umfragen -->
+    <string name="meta_id_placeholder">"Umfrage-ID: #%1$d "</string>
+    <string name="button_next">Weiter</string>
+    <string name="result">Ergebnis</string>
+    <string name="results">Ergebnisse</string>
+    <string name="send_survey">Senden</string>
+    <string name="statistics_result">%1$d von %2$d Stimmen (%3$s Prozent)</string>
+    <string name="survey">Umfrage: </string>
+    <string name="survey_checkbox_answers">Mehrere Möglichkeiten auswählbar</string>
+    <string name="survey_deleted">Umfrage gelöscht</string>
+    <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
+    <string name="survey_description_content">Beschreibe Dein Anliegen in einigen Worten.</string>
+    <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für Deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
+    <string name="survey_new_answer">Antwort</string>
+    <string name="title_description_to">An wen ist Deine Umfrage gerichtet?</string>
+    <string name="title_survey_answers">Antwortmöglichkeiten</string>
+    <string name="title_survey_content">Beschreibung (optional)</string>
+    <string name="title_survey_title">Titel</string>
+    <string name="title_survey_to">Addressat</string>
+    <string name="vote_button">Abstimmen</string>
+
+
+    <!-- Einstellungen -->
+    <string name="settings_category_general">Generell</string>
+
+    <string name="settings_title_username">Benutzername</string>
+    <string name="settings_summary_username">Der Benutzername Deines Schulaccounts</string>
+
+    <string name="settings_title_nickname">Nickname</string>
+    <string name="settings_summary_nickname">Dieser Name wird Deinen Mitschülern angezeigt</string>
+
+    <string name="settings_title_password">Passwort</string>
+    <string name="settings_summary_password">Gib hier Dein Schulpasswort ein</string>
+
+    <string name="settings_title_level">Stufe</string>
+
+    <string name="settings_toast_username_success">Benutzername geändert!</string>
+
+    <string name="settings_category_info">Kontakt &#38; Informationen</string>
+
+    <string name="settings_title_contact">Kontakt</string>
+
+    <string name="settings_summary_customid">Gib Deine lunch.leo-ac.de ID ein</string>
+
+    <string name="settings_summary_pw">Gib Dein lunch.leo-ac.de Passwort ein</string>
+    <string name="settings_summary_sync">Beim App-Start synchronisieren</string>
+    <string name="settings_title_fade">Automatisch ausblenden</string>
+    <string name="settings_summary_fade">Scan-Informationen automatisch ausblenden</string>
+    <string name="settings_title_fade_time">Zeitspanne</string>
+    <string name="settings_title_camera">Frontkamera benutzen</string>
+    <string name="settings_summary_camera">Frontkamera zum scannen benutzen</string>
+    <string name="settings_summary_mode">MensaMode&#8482; für Mensa-Personal</string>
+    <string name="settings_title_notification">Benachrichtigungen erhalten</string>
+    <string name="settings_summary_notification">Benachrichtigungen bei fehlender Synchronisierung erhalten</string>
+    <string name="settings_title_notification_time">Benachrichtigungszeit</string>
+    <string name="settings_summary_notification_time">Wann möchtest Du benachrichtigt werden?</string>
+
+    <string name="settings_summary_notification_test">Benachrichtigungen über anstehende Klausuren erhalten</string>
+    <string name="settings_summary_notification_survey">Benachrichtigungen bei fehlender Stimmung erhalten</string>
+    <string name="settings_summary_notification_schedule">Benachrichtigungen über morgigen Stundenplan erhalten</string>
+    <string name="settings_summary_notification_news">Benachrichtigungen über neue Nachrichten erhalten</string>
+
+    <string name="settings_summary_notification_messenger">Benachrichtigungen bei neuen Nachrichten erhalten</string>
+    <string name="settings_summary_testplan_time">Klausuren löschen nach</string>
+    <string name="settings_title_testplan_time">Klausuren löschen</string>
+
+    <string name="settings_name_changed">Name geändert!</string>
+
+    <string name="settings_category_subst">Vertretungsplan</string>
+    <string name="settings_summary_username_school">Gib Deinen Schulbenutzernamen ein</string>
+
+    <string name="settings_summary_password_school">Gib Dein Schulpasswort ein</string>
+    <string name="settings_summary_notification_subst">Benachrichtigungen über Vertretung erhalten</string>
+    <string name="settings_summary_network">Nur über WLAN aktualisieren</string>
+    <string name="settings_title_network">Nur WLAN</string>
+    <string name="settings_summary_interval_subst">In welchen Abständen soll der Plan aktualisiert werden?</string>
+    <string name="settings_title_interval_subst">Interval</string>
+    <string name="settings_summary_filter_subst">Plan filtern</string>
+    <string name="settings_title_filter_subst">Filter</string>
+    <string name="settings_summary_filterby_level">Nach Stufe filtern</string>
+    <string name="settings_title_filterby_level">Stufe</string>
+    <string name="settings_summary_filterby_schedule">Nach Stundenplan filtern</string>
+    <string name="settings_title_filterby_schedule">Stundenplan</string>
+    <string name="settings_title_test_timetable">Filtern</string>
+
+    <string name="settings_screen_slg_data">SLG Zugangsdaten</string>
+    <string name="settings_screen_cg_data">COU Zugangsdaten</string>
+    <string name="settings_screen_kkg_data">KKG Zugangsdaten</string>
+    <string name="settings_no_access_data">Keine Zugangsdaten nötig</string>
+
+    <string name="settings_summary_messenger_sync">Deine lokalen Nachrichten und Chats werden gelöscht und neu vom Server heruntergeladen</string>
+    <string name="settings_title_messenger_sync">Synchronisieren</string>
+
+    <string name="settings_title_reasons_survey">Gründe</string>
+    <string name="settings_summary_reasons_survey">Gründe für Deine Stimmung beim Abstimmen anzeigen</string>
+
+    <string name="settings_title_kuerzel">Lehrer-Kürzel</string>
+
+    <string name="settings_title_notification_all">Alle Benachrichtigungen erhalten</string>
+    <string name="settings_title_notification_custom">Einige Benachrichtigungen erhalten</string>
+    <string name="settings_title_notification_none">Keine Benachrichtigungen erhalten</string>
+    <string name="button_info_auth">Verifizieren</string>
+    <string name="settings_summary_fade_time">Zeitspanne bis sich das Fenster schließt</string>
+    <string name="back">Zurück</string>
+
+    <string name="error_snackbar">Es ist etwas schiefgelaufen, bitte starte die App erneut</string>
+    <string name="verification_success">Verifizierung abgeschlossen!</string>
+
+
+    <string name="kochen">Kochen</string>
+    <string name="näh">Nähen</string>
+    <string name="sani">Sanitäter</string>
+    <string name="mint">MINT</string>
+    <string name="fb">Fußball</string>
+    <string name="action_help">Hilfe</string>
+    <string name="desc_coming_soon">In nächster Zeit werden neue Funktionen kommen, die Deinen Schulalltag noch weiter verbessern werden.</string>
+    <string name="rt">Reiten</string>
+    <string name="rob">Roboter</string>
+    <string name="schach">Schach</string>
+    <string name="ztg">Schülerzeitung</string>
+    <string name="exp">Experimentieren</string>
+    <string name="klett">Klettern</string>
+    <string name="title_randstundenfinder">Freistundenfinder</string>
+    <string name="add_teacher">Lehrerkürzel hinzufügen</string>
+    <string name="title_survey_news">Umfragen</string>
+    <string name="profil">Dein Profil</string>
+    <string name="g">Gut</string>
+    <string name="m">Neutral</string>
+    <string name="s">Schlecht</string>
+    <string name="sg">Sehr gut</string>
+    <string name="ss">Sehr schlecht</string>
+    <string name="umfragen">Umfragen</string>
+    <string name="stundenanzeige">Stunden</string>
+    <string name="beschreibungUmfrage">Erfahre die Meinungen Deiner Mitschüler zu von Dir gewählten Themen und nimm selbst an Umfragen teil.</string>
+    <string name="intro5">Tippe lange auf einen Feature Button, um mehr darüber zu erfahren.</string>
+    <string name="intro4">Dein Stundenplan und Deine nächsten Klassenarbeiten sind nur noch zwei Klicks entfernt!</string>
+    <string name="intro3">Mit dem Messenger einfach Deine Lehrer und Freunde kontaktieren, ohne Deine Nummer preiszugeben.</string>
+    <string name="intro2">Zeige Deinen digitalen Essensbon einfach dem Mensapersonal und Du bekommst Dein Essen!</string>
+    <string name="intro1">Finde hier all die Dinge, die Deinen Schulalltag leichter machen werden.</string>
+    <string name="intro2_title">Abläufe vereinfachen</string>
+    <string name="intro3_title">Kommunikation verbessern</string>
+    <string name="intro4_title">Alles in einer App</string>
+    <string name="intro5_title">Tipp!</string>
+    <string name="share">Teilen</string>
+    <string name="title_name_change">Name ändern</string>
+    <string name="dialog_change_abbr">Lehrerkürzel ändern</string>
+    <string name="no_surveys">Keine Umfragen verfügbar</string>
+    <string name="no_entries">Keine Einträge</string>
+    <string name="search_user">Benutzer suchen</string>
+    <string name="participants">Teilnehmer</string>
+    <string name="choose_subject">Choose your subject.</string>
+    <string name="sa">Sa</string>
+    <string name="so">So</string>
+    <string name="running_survey">Laufende Umfrage</string>
+    <string name="token">Kürzel</string>
+    <string name="grade">Stufe</string>
+    <string name="me">Ich</string>
+    <string name="students">Schüler</string>
+    <string name="all">Alle</string>
+    <string name="not_show_again">"Nicht nochmal anzeigen "</string>
+    <string name="skip">Überspringen</string>
+    <string name="leave_chat_question">Bist du sicher, dass du diesen Chat verlassen möchtest?</string>
+    <string name="search_term">Suchbegriff</string>
+    <string name="first">Als oberstes</string>
+    <string name="user">Benutzer</string>
+    <string name="sort">Sortieren</string>
+    <string name="how_are_you">Wie geht\'s Dir?</string>
+    <string name="network">Netzwerk</string>
+    <string name="computer">Computer</string>
+    <string name="error_later">Es ist etwas schiefgelaufen, versuche es später erneut</string>
+    <string name="voted_sucessfully">Erfolgreich abgestimmt</string>
+    <string name="last_week">Letzte Woche</string>
+    <string name="last_month">Letzter Monat</string>
+    <string name="total">Gesamt</string>
+    <string name="last_year">Letztes Jahr</string>
+    <string name="change_question">Frage ändern</string>
+    <string name="new_question">Neue Frage</string>
+    <string name="chats">Chats</string>
+    <string name="users">Benutzer</string>
+    <string name="new_survey">Neue Umfrage</string>
+    <string name="vote_survey">Stimme in der neuesten Umfrage ab</string>
+    <string name="not_voted">Du hast noch nicht abgestimmt!</string>
+    <string name="vote_now">Jetzt abstimmen</string>
+    <string name="lessons_tommorrow">Deine Stunden morgen:</string>
+    <string name="new_entries">Neue Einträge</string>
+    <string name="news_pin_board">Es gibt Neuigkeiten am Schwarzen Brett</string>
+    <string name="need_title">Du musst einen Titel angeben</string>
+    <string name="min_replies">Du musst mindestens eine Antwortmöglichkeit angeben</string>
+    <string name="survey_sucessfully">Umfrage erfolgreich erstellt</string>
+    <string name="one_course_sel">1 Kurs ausgewählt</string>
+    <string name="multiple_course_selected">%1$d Kurse ausgewählt</string>
+    <string name="saved_as">Gespeichert als</string>
+    <string name="open">Öffnen</string>
+    <string name="no_solutions">Keine Lösungen verfügbar</string>
+    <string name="data_differs">Daten stimmen nicht überein</string>
+    <string name="not_in_chat">Du bist nicht in diesem Chat!</string>
+    <string name="customer_number">Kundennummer nicht im richtigen Format</string>
+    <string name="weather">Wetter</string>
+    <string name="friends">Freunde/Bekannte</string>
+    <string name="particular_occasion">besonderer Anlass</string>
+    <string name="other">Sonstiges</string>
+    <string name="dismiss">Ausblenden</string>
+    <string name="title">Titel</string>
+    <string name="exp_date">Ablaufdatum</string>
+    <string name="sent">Gesendet</string>
+    <string name="qr_scan_title">Essensbon Scannen</string>
+    <string name="title_survey_result">Abgeschlossene Umfragen</string>
+
+</resources>
