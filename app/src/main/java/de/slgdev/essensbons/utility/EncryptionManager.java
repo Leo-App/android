@@ -1,5 +1,7 @@
 package de.slgdev.essensbons.utility;
 
+import android.util.Base64;
+
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Cipher;
@@ -11,13 +13,10 @@ import de.slgdev.leoapp.utility.Utils;
 
 public class EncryptionManager {
 
-    private final IvParameterSpec ivspec;
     private final SecretKeySpec   keyspec;
     private       Cipher          cipher;
 
     public EncryptionManager() {
-        String iv = "15p60peADF4tT8u8";
-        ivspec = new IvParameterSpec(iv.getBytes());
         String secretKey = "jHsj1C4XyXpEh7L9m0cVTLPgLU5QfXvh";
         keyspec = new SecretKeySpec(secretKey.getBytes(), "AES");
         try {
@@ -45,13 +44,12 @@ public class EncryptionManager {
     public byte[] decrypt(String code) throws Exception {
         if (code == null || code.length() == 0)
             throw new Exception("Empty string");
-        byte[] decrypted;
-        try {
-            cipher.init(Cipher.DECRYPT_MODE, keyspec, ivspec);
-            decrypted = cipher.doFinal(hexToBytes(code));
-        } catch (Exception e) {
-            throw new Exception("[decrypt] " + e.getMessage());
-        }
-        return decrypted;
+        String iv = code.substring(0, 16);
+        IvParameterSpec ivspec = new IvParameterSpec(iv.getBytes());
+
+        code = code.substring(16);
+        cipher.init(Cipher.DECRYPT_MODE, keyspec, ivspec);
+
+        return cipher.doFinal(Base64.decode(code, Base64.DEFAULT));
     }
 }

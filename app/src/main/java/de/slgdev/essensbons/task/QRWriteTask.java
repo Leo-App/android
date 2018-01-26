@@ -179,6 +179,7 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
                                 )
                         )
                 );
+                Utils.logError(builder);
             } catch (Exception e) {
                 Utils.logError(e);
             }
