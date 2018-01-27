@@ -159,6 +159,11 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
                     )
             );
 
+
+            Utils.logError(Utils.URL_LUNCH_LEO + "qr_database.php?" +
+                    "id=" + EssensbonUtils.getCustomerId() + "&" +
+                    "auth=2SnDS7GBdHf5sd");
+
             StringBuilder builder = new StringBuilder();
             String        line;
             while ((line = reader.readLine()) != null) {
@@ -172,13 +177,7 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
 
             EncryptionManager encryptionManager = new EncryptionManager();
             try {
-                builder = new StringBuilder(
-                        new String(
-                                encryptionManager.decrypt(
-                                        result
-                                )
-                        )
-                );
+                builder = new StringBuilder(new String(encryptionManager.decrypt(result)));
             } catch (Exception e) {
                 Utils.logError(e);
             }
