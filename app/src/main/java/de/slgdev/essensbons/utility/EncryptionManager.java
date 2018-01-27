@@ -6,6 +6,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import de.slgdev.leoapp.utility.Utils;
+
 public class EncryptionManager {
 
     private static String key = "jHsj1C4XyXpEh7L9m0cVTLPgLU5QfXvh";
@@ -36,12 +38,11 @@ public class EncryptionManager {
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
 
             byte[] decodedEncryptedData = Base64.decode(parts[0], Base64.DEFAULT);
-
             byte[] original = cipher.doFinal(decodedEncryptedData);
 
             return new String(original);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Utils.logError(ex);
         }
 
         return null;

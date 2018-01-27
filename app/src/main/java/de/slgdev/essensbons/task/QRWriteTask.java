@@ -174,14 +174,11 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
             reader.close();
 
             String result = builder.toString();
+            String decrypted = EncryptionManager.decrypt(result)
+                    .replace("\r", " ")
+                    .replace("\t", " ");
 
-            EncryptionManager encryptionManager = new EncryptionManager();
-            try {
-                builder = new StringBuilder(new String(encryptionManager.decrypt(result)));
-            } catch (Exception e) {
-                Utils.logError(e);
-            }
-            String[]   data       = builder.toString().split("_next_");
+            String[]   data       = decrypted.split("_next_");
             DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd", Locale.GERMANY);
 
             Date highest = null;
@@ -195,14 +192,16 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
             int amount = 0;
 
             for (String s : data) {
-                if (!s.contains("_seperator_"))
+                if (!s.contains("_separator_"))
                     continue;
+
+                Utils.logError(s);
 
                 ContentValues values = new ContentValues();
                 amount++;
 
                 try {
-                    Date d = dateFormat.parse(s.split("_seperator_")[0]);
+                    Date d = dateFormat.parse(s.split("_separator_")[1]);
                     if (d.after(highest))
                         highest = d;
                 } catch (ParseException e) {
