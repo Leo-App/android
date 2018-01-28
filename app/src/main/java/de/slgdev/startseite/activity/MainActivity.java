@@ -269,6 +269,7 @@ public class MainActivity extends LeoAppNavigationActivity {
         version.setText(Utils.getAppVersionName());
 
         RecyclerView mRecyclerView = findViewById(R.id.recyclerViewCards);
+        mRecyclerView.setHasFixedSize(true);
         mAdapter = new CardAdapter();
 
         final boolean quickLayout = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
