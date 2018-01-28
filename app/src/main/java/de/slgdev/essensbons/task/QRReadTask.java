@@ -5,6 +5,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Locale;
+
 import de.slgdev.leoapp.sqlite.SQLiteConnectorEssensbons;
 import de.slgdev.leoapp.task.general.ObjectCallbackTask;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
@@ -100,7 +102,6 @@ public class QRReadTask extends ObjectCallbackTask<Boolean> {
         Utils.logDebug("passed logic date test");
 
         String subsum = "" + parts[2].substring(0, 2) + "" + parts[2].substring(4);
-        Utils.logDebug(subsum);
 
         try {
             int orderId = Integer.parseInt(parts[0]);
@@ -109,7 +110,7 @@ public class QRReadTask extends ObjectCallbackTask<Boolean> {
             int mod = checksum % 97;
             int fin = 98 - mod;
 
-            if (!String.format("%02d", fin).equals(parts[3]))
+            if (!String.format(Locale.GERMANY, "%02d", fin).equals(parts[3]))
                 return false;
 
         } catch (NumberFormatException e) {

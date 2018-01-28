@@ -1,11 +1,5 @@
 package de.slgdev.umfragen.task;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,20 +7,21 @@ import java.net.URL;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
+import de.slgdev.leoapp.task.general.ObjectCallbackTask;
 import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.schwarzes_brett.utility.ResponseCode;
 
-public class DeleteSurveyTask extends AsyncTask<Integer, Void, ResponseCode> {
+public class DeleteSurveyTask extends ObjectCallbackTask<ResponseCode> {
 
     @Override
-    protected ResponseCode doInBackground(Integer... params) {
+    protected ResponseCode doInBackground(Object... params) {
 
         if (!Utils.checkNetwork())
             return ResponseCode.NO_CONNECTION;
 
         SQLiteConnectorUmfragen db  = new SQLiteConnectorUmfragen(Utils.getContext());
-        db.deleteSurvey(params[0]);
+        db.deleteSurvey((Integer) params[0]);
         db.close();
 
         try {
@@ -53,7 +48,6 @@ public class DeleteSurveyTask extends AsyncTask<Integer, Void, ResponseCode> {
 
     @Override
     protected void onPostExecute(ResponseCode r) {
-        //TODO Maybe replace with Snackbar?
         switch (r) {
             case NO_CONNECTION:
                 GraphicUtils.sendToast(R.string.snackbar_no_connection_info);

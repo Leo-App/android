@@ -6,14 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 import de.slgdev.umfragen.utility.ResultListing;
-import de.slgdev.umfragen.utility.Survey;
 
 public class SQLiteConnectorUmfragenSpeichern extends SQLiteOpenHelper {
 
@@ -80,6 +78,8 @@ public class SQLiteConnectorUmfragenSpeichern extends SQLiteOpenHelper {
         List<ResultListing> list = new List<>();
 
         while (!c.isAfterLast()) {
+
+            Utils.logError("RESULT SET");
 
             ResultListing listing = new ResultListing(c.getString(1), c.getString(2));
             list.append(listing);

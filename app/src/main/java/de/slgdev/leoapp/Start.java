@@ -40,12 +40,7 @@ public class Start extends Activity {
 
         startServices();
 
-        startActivity(
-                new Intent(
-                        getApplicationContext(),
-                        MainActivity.class
-                )
-        );
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }
 
@@ -75,24 +70,14 @@ public class Start extends Activity {
     private void startServices() {
         if (Utils.isVerified()) {
             startReceiveService();
-            startService(
-                    new Intent(
-                            getApplicationContext(),
-                            AlarmStartupService.class
-                    )
-            );
+            startService(new Intent(getApplicationContext(), AlarmStartupService.class));
             initSyncAdapter();
         }
     }
 
     public static void startReceiveService() {
         if (Utils.checkNetwork()) {
-            Utils.getContext().startService(
-                    new Intent(
-                            Utils.getContext(),
-                            ReceiveService.class
-                    )
-            );
+            Utils.getContext().startService(new Intent(Utils.getContext(), ReceiveService.class));
         }
     }
 

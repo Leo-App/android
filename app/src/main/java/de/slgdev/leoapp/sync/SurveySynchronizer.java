@@ -60,8 +60,6 @@ public class SurveySynchronizer implements Synchronizer {
                 String[] res = s.split("_;_");
                 if (res.length >= 7) {
 
-                    Utils.logError(res[3]);
-
                     boolean voteable = res[3].equals("Alle") || ((Utils.getUserStufe().equals("Q1")
                             || Utils.getUserStufe().equals("Q2")
                             || Utils.getUserStufe().equals("EF")) && res[3].equals("Sek II")) ||

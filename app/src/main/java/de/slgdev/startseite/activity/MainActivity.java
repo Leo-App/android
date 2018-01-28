@@ -1,6 +1,5 @@
 package de.slgdev.startseite.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -175,17 +174,14 @@ public class MainActivity extends LeoAppNavigationActivity {
 
             case R.id.action_request:
                 featureRequestDialog = new EditTextDialog(this,
-                            getString(R.string.feature_request_title),
-                            getString(R.string.feature_request),
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String emailText = featureRequestDialog.getTextInput();
-                                    new MailSendTask().execute(emailText);
-                                    featureRequestDialog.dismiss();
-                                    Toast.makeText(Utils.getContext(), Utils.getString(R.string.thank_you_feature), Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                        getString(R.string.feature_request_title),
+                        getString(R.string.feature_request),
+                        v -> {
+                            String emailText = featureRequestDialog.getTextInput();
+                            new MailSendTask().execute(emailText);
+                            featureRequestDialog.dismiss();
+                            Toast.makeText(Utils.getContext(), Utils.getString(R.string.thank_you_feature), Toast.LENGTH_SHORT).show();
+                        });
 
                 featureRequestDialog.show();
                 break;
@@ -267,12 +263,7 @@ public class MainActivity extends LeoAppNavigationActivity {
     }
 
     public void initFeatureCards() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                findViewById(R.id.scrollView).scrollTo(0, 0);
-            }
-        }, 60);
+        new Handler().postDelayed(() -> findViewById(R.id.scrollView).scrollTo(0, 0), 60);
 
         TextView version = findViewById(R.id.versioncode_maincard);
         version.setText(Utils.getAppVersionName());
@@ -422,25 +413,14 @@ public class MainActivity extends LeoAppNavigationActivity {
     }
 
     public void notifyVote() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                abstimmDialog = new AbstimmDialog(MainActivity.this);
-                abstimmDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        ImageView mood = getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
-                        mood.setImageResource(StimmungsbarometerUtils.getCurrentMoodRessource());
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                abstimmDialog = null;
-                            }
-                        }, 100);
-                    }
-                });
-                abstimmDialog.show();
-            }
+        runOnUiThread(() -> {
+            abstimmDialog = new AbstimmDialog(MainActivity.this);
+            abstimmDialog.setOnDismissListener(dialog -> {
+                ImageView mood = getNavigationView().getHeaderView(0).findViewById(R.id.profile_image);
+                mood.setImageResource(StimmungsbarometerUtils.getCurrentMoodRessource());
+                new Handler().postDelayed(() -> abstimmDialog = null, 100);
+            });
+            abstimmDialog.show();
         });
     }
 }
