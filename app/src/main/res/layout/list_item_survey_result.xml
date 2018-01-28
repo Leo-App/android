@@ -18,6 +18,10 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:tint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_create_survey"
         tools:ignore="ContentDescription" />
