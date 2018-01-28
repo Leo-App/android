@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/holo_green_light">
 
     <ImageView
@@ -17,7 +17,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:adjustViewBounds="true"
-        android:src="@mipmap/app_confirm"
+        app:srcCompat="@drawable/ic_success"
         android:tint="@android:color/white" />
 
     <TextView

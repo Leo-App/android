@@ -215,11 +215,8 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
                 values.put(SQLiteConnectorEssensbons.ORDER_MENU, parts[2]);
                 values.put(SQLiteConnectorEssensbons.ORDER_DESCR, parts[3]);
 
-                try {
-                    dbh.insert(SQLiteConnectorEssensbons.TABLE_ORDERS, null, values);
-                } catch (Exception e) {
-                    Utils.logError(e);
-                }
+                dbh.insertWithOnConflict(SQLiteConnectorEssensbons.TABLE_ORDERS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+
             }
 
             String dateString = dateFormat.format(highest);

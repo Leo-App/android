@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,19 +71,21 @@ public class SQLiteConnectorUmfragenSpeichern extends SQLiteOpenHelper {
         super.close();
     }
 
-    public ResultListing[] getSavedInfos() {
+    public ArrayList<ResultListing> getSavedInfos() {
 
         Cursor c = database.query(TABLE_SAVED, null, null, null, null, null, null);
         c.moveToFirst();
 
-        List<ResultListing> list = new List<>();
+        ArrayList<ResultListing> list = new ArrayList<>();
 
         while (!c.isAfterLast()) {
 
-            Utils.logError("RESULT SET");
-
             ResultListing listing = new ResultListing(c.getString(1), c.getString(2));
-            list.append(listing);
+
+            Utils.logError(c.getString(1));
+            Utils.logError(c.getString(2));
+
+            list.add(listing);
 
             Cursor cI = database.query(TABLE_ANSWERS, null, ANSWERS_SID + " = ?", new String[]{c.getString(0)}, null, null, null);
             cI.moveToFirst();
@@ -101,7 +104,7 @@ public class SQLiteConnectorUmfragenSpeichern extends SQLiteOpenHelper {
 
         c.close();
 
-        return null;
+        return list;
     }
 
     public void addSurvey(ResultListing survey) {
