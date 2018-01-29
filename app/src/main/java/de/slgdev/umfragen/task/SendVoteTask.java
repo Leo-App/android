@@ -8,8 +8,8 @@ import java.net.URL;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.task.general.ObjectCallbackTask;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.schwarzes_brett.utility.ResponseCode;
 import de.slgdev.umfragen.utility.Survey;
 
 public class SendVoteTask extends ObjectCallbackTask<ResponseCode> {
@@ -18,7 +18,6 @@ public class SendVoteTask extends ObjectCallbackTask<ResponseCode> {
     private int groupId;
     private int tag;
 
-    //TODO: Im ListAdapter Map mit Buttons
     @Override
     protected ResponseCode doInBackground(Object... params) {
 
@@ -58,11 +57,11 @@ public class SendVoteTask extends ObjectCallbackTask<ResponseCode> {
             reader.close();
 
             if (builder.toString().startsWith("-"))
-                return ResponseCode.SERVER_ERROR;
+                return ResponseCode.SERVER_FAILED;
 
         } catch (IOException e) {
             Utils.logError(e);
-            return ResponseCode.SERVER_ERROR;
+            return ResponseCode.SERVER_FAILED;
         }
         return ResponseCode.SUCCESS;
     }

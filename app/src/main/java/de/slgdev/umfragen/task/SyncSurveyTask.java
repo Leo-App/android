@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
-import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.Utils;
 

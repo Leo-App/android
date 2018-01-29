@@ -90,7 +90,7 @@ public class NotificationHandler {
                             PendingIntent.FLAG_ONE_SHOT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_essensbons)
@@ -137,7 +137,7 @@ public class NotificationHandler {
                             resultIntent,
                             PendingIntent.FLAG_ONE_SHOT);
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_klausurplan)
@@ -191,7 +191,7 @@ public class NotificationHandler {
                             PendingIntent.FLAG_ONE_SHOT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setVibrate(new long[]{500, 250, 500})
@@ -264,7 +264,7 @@ public class NotificationHandler {
                             resultIntent,
                             PendingIntent.FLAG_ONE_SHOT);
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_schwarzes_brett)
@@ -333,7 +333,7 @@ public class NotificationHandler {
                             PendingIntent.FLAG_ONE_SHOT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_umfragen)
@@ -400,7 +400,7 @@ public class NotificationHandler {
                             PendingIntent.FLAG_ONE_SHOT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_stimmungsbarometer)
@@ -438,7 +438,7 @@ public class NotificationHandler {
         private void create() {
             String msg = getNotificationText();
 
-            notificationStundenplan = new NotificationCompat.Builder(context)
+            notificationStundenplan = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_stundenplan)

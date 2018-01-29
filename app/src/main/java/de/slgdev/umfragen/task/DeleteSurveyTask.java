@@ -9,8 +9,8 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.task.general.ObjectCallbackTask;
 import de.slgdev.leoapp.utility.GraphicUtils;
+import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.schwarzes_brett.utility.ResponseCode;
 
 public class DeleteSurveyTask extends ObjectCallbackTask<ResponseCode> {
 
@@ -38,10 +38,10 @@ public class DeleteSurveyTask extends ObjectCallbackTask<ResponseCode> {
             reader.close();
 
             if (builder.toString().startsWith("-"))
-                return ResponseCode.SERVER_ERROR;
+                return ResponseCode.SERVER_FAILED;
         } catch (IOException e) {
             Utils.logError(e);
-            return ResponseCode.SERVER_ERROR;
+            return ResponseCode.SERVER_FAILED;
         }
         return ResponseCode.SUCCESS;
     }
@@ -52,7 +52,7 @@ public class DeleteSurveyTask extends ObjectCallbackTask<ResponseCode> {
             case NO_CONNECTION:
                 GraphicUtils.sendToast(R.string.snackbar_no_connection_info);
                 break;
-            case SERVER_ERROR:
+            case SERVER_FAILED:
                 GraphicUtils.sendToast(R.string.error_later);
                 break;
             case SUCCESS:

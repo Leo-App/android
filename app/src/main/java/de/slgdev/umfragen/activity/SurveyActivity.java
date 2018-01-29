@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -23,10 +22,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -37,9 +32,9 @@ import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
-import de.slgdev.schwarzes_brett.utility.ResponseCode;
 import de.slgdev.umfragen.dialog.NewSurveyDialog;
 import de.slgdev.umfragen.dialog.ResultDialog;
 import de.slgdev.umfragen.task.SaveResultTask;
@@ -571,7 +566,7 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
                     snackbar.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar.dismiss());
                     snackbar.show();
                     break;
-                case SERVER_ERROR:
+                case SERVER_FAILED:
                     final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), R.string.error_later, Snackbar.LENGTH_SHORT);
                     snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
                     snackbar2.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar2.dismiss());

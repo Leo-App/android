@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.utility.datastructure.List;
 import de.slgdev.umfragen.utility.ResultListing;
 
 public class SQLiteConnectorUmfragenSpeichern extends SQLiteOpenHelper {
