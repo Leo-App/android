@@ -73,7 +73,7 @@
                                 android:layout_toRightOf="@+id/imageView3"
                                 android:text="@string/app_name"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="25sp" />
+                                android:textSize="30sp" />
 
                             <TextView
                                 android:id="@+id/versioncode_maincard"

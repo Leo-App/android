@@ -60,7 +60,7 @@ public abstract class EssensbonUtils {
             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
             urlc.setRequestProperty("User-Agent", "Test");
             urlc.setRequestProperty("Connection", "close");
-            urlc.setConnectTimeout(1500);
+            urlc.setConnectTimeout(500);
             urlc.connect();
             return (urlc.getResponseCode() == 200);
         } catch (IOException e) {
