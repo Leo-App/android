@@ -167,8 +167,7 @@
             android:theme="@style/MainActivitiesTheme" />
 
         <activity android:name="de.slgdev.umfragen.activity.ResultActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MainActivitiesTheme" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="de.slgdev.essensbons.intro.EssensbonIntroActivity"

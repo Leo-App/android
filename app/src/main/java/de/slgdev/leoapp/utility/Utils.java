@@ -28,17 +28,17 @@ import de.slgdev.leoapp.notification.NotificationType;
 public abstract class Utils {
 
     /**
-     * Domain zum erreichen des Dev-Servers.
+     * Domain zum Erreichen des Dev-Servers.
      */
     public static final String DOMAIN_DEV = "http://moritz.liegmanns.de/leoapp_php/";
 
     /**
-     * Basisdomain zum erreichen des LeoApp-Servers.
+     * Basisdomain zum Erreichen des LeoApp-Servers.
      */
     public static final String BASE_DOMAIN = "https://ucloud4schools.de/";
 
     /**
-     * Basisdomain zum erreichen des LeoApp-Userservers.
+     * Basisdomain zum Erreichen des LeoApp-Userservers.
      */
     public static final String BASE_DOMAIN_SCHOOL = "https://secureaccess.itac-school.de/";
 

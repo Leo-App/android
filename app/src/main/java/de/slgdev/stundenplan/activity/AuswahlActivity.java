@@ -1,7 +1,6 @@
 package de.slgdev.stundenplan.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -75,7 +74,6 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
             }
         }
         finish();
-  //      startActivity(new Intent(this, StundenplanActivity.class)); TODO: Testen, sollte aber ein mehrfaches Öffnen der Stundenplanactivity verhindern
         return true;
     }
 
