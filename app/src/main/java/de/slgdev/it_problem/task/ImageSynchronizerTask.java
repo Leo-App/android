@@ -18,7 +18,8 @@ public class ImageSynchronizerTask extends AsyncTask<String, Void, Bitmap> {
     protected Bitmap doInBackground(String... urls) {
 
         try {
-            URL url = new URL(Utils.BASE_URL_PHP+urls[0]);
+            URL url = new URL(Utils.DOMAIN_DEV+urls[0]);
+            Utils.logError(url);
             return BitmapFactory.decodeStream(url.openStream());
         } catch (IOException e) {
             Utils.logError(e);

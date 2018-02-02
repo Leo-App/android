@@ -41,7 +41,7 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
                     BufferedReader reader = new BufferedReader(
                             new InputStreamReader(
                                     new URL(
-                                            Utils.BASE_URL_PHP + "itbaum/" +
+                                            Utils.DOMAIN_DEV + "itbaum/" +
                                                     "get.php?" +
                                                     "subject=" + subject
                                     )
