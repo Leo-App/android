@@ -166,7 +166,7 @@
     <string name="popup_code_not_valid">Code is not valid or has already been scanned by this device</string>
     <string name="notification_summary_notif">You haven\'t synchronized your order yet</string>
     <string name="login_success">Login successful</string>
-    <string name="no_order">No order</string>
+    <string name="no_order">No order for today</string>
     <string name="not_loggedin">Not logged in</string>
     <string name="minutes">Minutes</string>
     <string name="hour">Hour</string>

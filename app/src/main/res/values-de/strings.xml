@@ -152,7 +152,7 @@
     <string name="popup_code_not_valid">QR-Code ist ungültig oder auf diesem Gerät bereits eingelöst</string>
     <string name="notification_summary_notif">Du hast Deine Bestellung noch nicht synchronisiert</string>
     <string name="login_success">Erfolgreich eingeloggt</string>
-    <string name="no_order">Keine Bestellung</string>
+    <string name="no_order">Keine Bestellung für heute</string>
     <string name="not_loggedin">Nicht eingeloggt</string>
     <string name="minutes">Minuten</string>
     <string name="hour">Stunde</string>
