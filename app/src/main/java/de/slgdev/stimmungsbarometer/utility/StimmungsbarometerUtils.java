@@ -33,7 +33,7 @@ public abstract class StimmungsbarometerUtils {
             case 5:
                 return R.drawable.ic_smiley_5;
             default:
-                return R.mipmap.icon_profil;
+                return R.drawable.ic_profile;
         }
     }
 

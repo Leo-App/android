@@ -41,8 +41,8 @@ import de.slgdev.umfragen.utility.UmfragenUtils;
  * @version 2017.0212
  * @since 0.6.7
  */
-
 public class NotificationHandler {
+
     public static final int ID_ESSENSBONS         = 101;
     public static final int ID_KLAUSURPLAN        = 777;
     public static final int ID_MESSENGER          = 5453;

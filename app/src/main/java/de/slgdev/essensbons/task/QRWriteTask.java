@@ -54,6 +54,9 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
     @SuppressLint("DefaultLocale")
     protected Bitmap doInBackground(Void... params) {
 
+        if (!EssensbonUtils.isLoggedIn())
+            return null;
+
         if (onAppStart) {
             if (EssensbonUtils.isAutoSyncEnabled()) {
                 if (hasActiveInternetConnection()) {

@@ -56,7 +56,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/profile"
-            android:icon="@mipmap/icon_profil"
+            android:icon="@drawable/ic_profile"
             android:title="@string/profil" />
         <item
             android:id="@+id/settings"

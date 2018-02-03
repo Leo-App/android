@@ -198,7 +198,7 @@ public class ProfileActivity extends LeoAppNavigationActivity {
             case R.drawable.ic_smiley_5:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorBadMood), PorterDuff.Mode.MULTIPLY);
                 break;
-            case R.mipmap.icon_profil:
+            case R.drawable.ic_profile:
                 profilePic.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
                 break;
         }
