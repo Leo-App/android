@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import de.slgdev.essensbons.activity.EssensbonActivity;
+import de.slgdev.it_problem.activity.ITActivity;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.dialog.InformationDialog;
@@ -49,7 +50,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         cards = new List<>();
 
         String card_config = Utils.getController().getPreferences().getString("pref_key_card_config",
-                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;COMING_SOON;");
+                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;COMING_SOON;ITPROBLEM");
 
         for (String card : card_config.split(";")) {
             if (card.length() > 0) {
@@ -97,7 +98,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.title_news);
                 c.desc = Utils.getString(R.string.summary_info_news);
                 c.enabled = Utils.isVerified();
-                c.icon = R.mipmap.icon_schwarzes_brett;
+                c.icon = R.drawable.ic_schwarzes_brett;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SchwarzesBrettActivity.class));
                 break;
             case SURVEY:
@@ -116,13 +117,21 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.icon = R.drawable.ic_stundenplan;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StundenplanActivity.class));
                 break;
-            case POLL: //Case hinzugefügt
+            case POLL:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.umfragen);
                 c.desc = Utils.getString(R.string.beschreibungUmfrage);
                 c.enabled = Utils.isVerified();
                 c.icon = R.drawable.ic_umfragen;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SurveyActivity.class));
+                break;
+            case ITPROBLEM:
+                cards.append(c = new Card(type));
+                c.title = Utils.getString(R.string.title_it_problem);
+                c.desc = Utils.getString(R.string.desc_it_problem);
+                c.enabled = Utils.isVerified();
+                c.icon = R.drawable.ic_it_problem;
+                c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), ITActivity.class));
                 break;
             case COMING_SOON:
                 cards.append(c = new Card(type));
