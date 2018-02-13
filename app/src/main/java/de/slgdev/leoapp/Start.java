@@ -24,6 +24,7 @@ import de.slgdev.stimmungsbarometer.task.SyncQuestionTask;
 import de.slgdev.stimmungsbarometer.task.SyncVoteTask;
 
 public class Start extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +54,7 @@ public class Start extends Activity {
             }
 
             new SyncQuestionTask().execute();
-
             new SyncVoteTask().execute();
-
             new SyncFilesTask().execute();
 
             ArrayList<Integer> cachedViews = SchwarzesBrettUtils.getCachedIDs();
@@ -99,10 +98,13 @@ public class Start extends Activity {
         } catch (SecurityException e) {
             accounts = new Account[0];
         }
+
         if (accounts.length > 0) {
             return accounts[0];
         }
+
         Account newAccount = new Account("default_account", "de.slgdev.leoapp");
+
         if (am.addAccountExplicitly(newAccount, "pass1", null)) {
             ContentResolver.setIsSyncable(newAccount, "de.slgdev.leoapp", 1);
             ContentResolver.setSyncAutomatically(newAccount, "de.slgdev.leoapp", true);

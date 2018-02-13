@@ -8,14 +8,13 @@ import android.os.Build;
 
 import java.util.Calendar;
 
-import de.slgdev.leoapp.service.NotificationServiceWrapper;
 import de.slgdev.leoapp.utility.Utils;
 
 public abstract class NotificationAlarmHandler {
 
     public static void updateTimetableAlarm() {
         NotificationTime time;
-        Calendar         calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         time = Utils.getNotificationTime(NotificationType.TIMETABLE);
         calendar.set(Calendar.HOUR_OF_DAY, time.hours);
         calendar.set(Calendar.MINUTE, time.minutes);
@@ -36,7 +35,7 @@ public abstract class NotificationAlarmHandler {
 
     public static void updateFoodmarkAlarm() {
         NotificationTime time;
-        Calendar         calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         time = Utils.getNotificationTime(NotificationType.FOODMARKS);
         calendar.set(Calendar.HOUR_OF_DAY, time.hours);
         calendar.set(Calendar.MINUTE, time.minutes);
@@ -57,7 +56,7 @@ public abstract class NotificationAlarmHandler {
 
     public static void updateKlausurAlarm() {
         NotificationTime time;
-        Calendar         calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         time = Utils.getNotificationTime(NotificationType.KLAUSUR);
         calendar.set(Calendar.HOUR_OF_DAY, time.hours);
         calendar.set(Calendar.MINUTE, time.minutes);
@@ -78,7 +77,7 @@ public abstract class NotificationAlarmHandler {
 
     public static void updateMoodAlarm() {
         NotificationTime time;
-        Calendar         calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         time = Utils.getNotificationTime(NotificationType.MOOD);
         calendar.set(Calendar.HOUR_OF_DAY, time.hours);
         calendar.set(Calendar.MINUTE, time.minutes);
@@ -115,68 +114,45 @@ public abstract class NotificationAlarmHandler {
         AlarmManager am = (AlarmManager) Utils.getContext().getSystemService(Context.ALARM_SERVICE);
         Utils.getController().registerAlarmManager(am);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            time = Utils.getNotificationTime(NotificationType.FOODMARKS);
-            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-            calendar.set(Calendar.MINUTE, time.minutes);
+        time = Utils.getNotificationTime(NotificationType.FOODMARKS);
+        calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+        calendar.set(Calendar.MINUTE, time.minutes);
+        am.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY,
+                Utils.getController().getFoodmarkReference()
+        );
 
-            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Utils.getController().getFoodmarkReference());
+        time = Utils.getNotificationTime(NotificationType.KLAUSUR);
+        calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+        calendar.set(Calendar.MINUTE, time.minutes);
+        am.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY,
+                Utils.getController().getKlausurplanReference()
+        );
 
-            time = Utils.getNotificationTime(NotificationType.KLAUSUR);
-            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-            calendar.set(Calendar.MINUTE, time.minutes);
-            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Utils.getController().getKlausurplanReference());
+        time = Utils.getNotificationTime(NotificationType.MOOD);
+        calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+        calendar.set(Calendar.MINUTE, time.minutes);
+        am.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY,
+                Utils.getController().getStimmungsbarometerReference()
+        );
 
-            time = Utils.getNotificationTime(NotificationType.MOOD);
-            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-            calendar.set(Calendar.MINUTE, time.minutes);
-            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Utils.getController().getStimmungsbarometerReference());
-
-            time = Utils.getNotificationTime(NotificationType.TIMETABLE);
-            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-            calendar.set(Calendar.MINUTE, time.minutes);
-            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), Utils.getController().getTimetableReference());
-        } else {
-            time = Utils.getNotificationTime(NotificationType.FOODMARKS);
-            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-            calendar.set(Calendar.MINUTE, time.minutes);
-            am.setRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY,
-                    Utils.getController().getFoodmarkReference()
-            );
-
-            time = Utils.getNotificationTime(NotificationType.KLAUSUR);
-            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-            calendar.set(Calendar.MINUTE, time.minutes);
-            am.setRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY,
-                    Utils.getController().getKlausurplanReference()
-            );
-
-            time = Utils.getNotificationTime(NotificationType.MOOD);
-            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-            calendar.set(Calendar.MINUTE, time.minutes);
-            am.setRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY,
-                    Utils.getController().getStimmungsbarometerReference()
-            );
-
-            time = Utils.getNotificationTime(NotificationType.TIMETABLE);
-            calendar.set(Calendar.HOUR_OF_DAY, time.hours);
-            calendar.set(Calendar.MINUTE, time.minutes);
-            am.setRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY,
-                    Utils.getController().getTimetableReference()
-            );
-        }
+        time = Utils.getNotificationTime(NotificationType.TIMETABLE);
+        calendar.set(Calendar.HOUR_OF_DAY, time.hours);
+        calendar.set(Calendar.MINUTE, time.minutes);
+        am.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY,
+                Utils.getController().getTimetableReference()
+        );
     }
 
     private static AlarmManager getAlarmManager() {
@@ -191,7 +167,7 @@ public abstract class NotificationAlarmHandler {
         return PendingIntent.getService(
                 Utils.getContext(),
                 0,
-                new Intent(Utils.getContext(), NotificationServiceWrapper.FoodmarkService.class),
+                new Intent(Utils.getContext(), NotificationBroadcastWrapper.FoodmarkReceiver.class),
                 PendingIntent.FLAG_NO_CREATE
         ) != null;
     }
@@ -200,28 +176,28 @@ public abstract class NotificationAlarmHandler {
         PendingIntent piFoodmarks = PendingIntent.getService(
                 Utils.getContext(),
                 0,
-                new Intent(Utils.getContext(), NotificationServiceWrapper.FoodmarkService.class),
+                new Intent(Utils.getContext(), NotificationBroadcastWrapper.FoodmarkReceiver.class),
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
         PendingIntent piTimetable = PendingIntent.getService(
                 Utils.getContext(),
                 1,
-                new Intent(Utils.getContext(), NotificationServiceWrapper.TimetableService.class),
+                new Intent(Utils.getContext(), NotificationBroadcastWrapper.TimetableReceiver.class),
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
         PendingIntent piKlausurplan = PendingIntent.getService(
                 Utils.getContext(),
                 2,
-                new Intent(Utils.getContext(), NotificationServiceWrapper.KlausurplanService.class),
+                new Intent(Utils.getContext(), NotificationBroadcastWrapper.KlausurplanReceiver.class),
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
         PendingIntent piStimmungsbarometer = PendingIntent.getService(
                 Utils.getContext(),
                 3,
-                new Intent(Utils.getContext(), NotificationServiceWrapper.StimmungsbarometerService.class),
+                new Intent(Utils.getContext(), NotificationBroadcastWrapper.StimmungsbarometerReceiver.class),
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
 
