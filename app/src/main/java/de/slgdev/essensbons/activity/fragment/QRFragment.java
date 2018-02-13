@@ -83,20 +83,21 @@ public class QRFragment extends Fragment implements TaskStatusListener {
         spinner.setVisibility(View.INVISIBLE);
 
         Bitmap result      = (Bitmap) params[0];
-        short menu         = (Short) params[1];
+        short menu         = (Short)  params[1];
         String description = (String) params[2];
-//        int displayWidth   = GraphicUtils.getDisplayWidth();
+
+        int cc = menu == 1
+                ? ContextCompat.getColor(Utils.getContext(), R.color.menu1)
+                : ContextCompat.getColor(Utils.getContext(), R.color.menu2);
+
+        int cs = ContextCompat.getColor(Utils.getContext(), R.color.colorStandardBackground);
 
         if (result != null) {
             iv1.setImageBitmap(result);
             iv1.setVisibility(View.VISIBLE);
 
-            int c = menu == 1
-                    ? ContextCompat.getColor(Utils.getContext(), R.color.menu1)
-                    : ContextCompat.getColor(Utils.getContext(), R.color.menu2);
-
-            c1.setCardBackgroundColor(c);
-            c2.setCardBackgroundColor(c);
+            c1.setCardBackgroundColor(cs);
+            c2.setCardBackgroundColor(cc);
 
             t1.setText(getString(R.string.qr_display_menu, menu));
             t2.setText(description);
@@ -110,9 +111,8 @@ public class QRFragment extends Fragment implements TaskStatusListener {
 
             t3.setText(R.string.no_order);
 
-            int c = ContextCompat.getColor(Utils.getContext(), R.color.colorStandardBackground);
-            c1.setCardBackgroundColor(c);
-            c2.setCardBackgroundColor(c);
+            c1.setCardBackgroundColor(cs);
+            c2.setCardBackgroundColor(cs);
 
             t1.setVisibility(View.GONE);
             t2.setVisibility(View.GONE);
