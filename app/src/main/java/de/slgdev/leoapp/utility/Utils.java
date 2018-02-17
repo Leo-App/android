@@ -299,10 +299,10 @@ public abstract class Utils {
     }
 
     /**
-     * Liefert die Uhrzeit, zu der eine bestimmte Notification gesendet wird.
+     * Liefert die Uhrzeit, zu der eine bestimmte LeoAppNotification gesendet wird.
      *
-     * @param type Typ der Notification
-     * @return Uhrzeit zu spezifizierter Notification
+     * @param type Typ der LeoAppNotification
+     * @return Uhrzeit zu spezifizierter LeoAppNotification
      */
     public static NotificationTime getNotificationTime(NotificationType type) {
         String   time;

@@ -22,8 +22,10 @@ import de.slgdev.leoapp.utility.Utils;
  */
 
 public class SurveySynchronizer implements Synchronizer {
+
     @Override
     public boolean run() {
+
         if(!Utils.checkNetwork())
             return false;
 

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
@@ -22,7 +21,6 @@ import de.slgdev.leoapp.utility.Utils;
  * @since 0.6.8
  * @version 2017.0712
  */
-
 public class NewsSynchronizer implements Synchronizer {
 
     @Override
@@ -80,4 +78,5 @@ public class NewsSynchronizer implements Synchronizer {
     public void postUpdate() {
         new NotificationHandler.SchwarzesBrettNotification().send();
     }
+
 }

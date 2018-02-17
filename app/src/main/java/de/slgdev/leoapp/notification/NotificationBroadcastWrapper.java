@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import de.slgdev.leoapp.sqlite.SQLiteConnectorEssensbons;
 import de.slgdev.leoapp.utility.Utils;
 
 /**
@@ -41,7 +42,12 @@ public abstract class NotificationBroadcastWrapper {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            new NotificationHandler.EssensbonsNotification().send();
+            SQLiteConnectorEssensbons sqlite = new SQLiteConnectorEssensbons(Utils.getContext());
+
+            if (!sqlite.hasOrderedForToday())
+                new NotificationHandler.EssensbonsNotification().send();
+
+            sqlite.close();
         }
 
     }
@@ -54,40 +60,5 @@ public abstract class NotificationBroadcastWrapper {
         }
 
     }
-
-    /*
-     *  private void sendNotificationIfNecessary() {
-            if (!Utils.getController().getPreferences().getBoolean("pref_key_status_loggedin", false))
-                return;
-            SQLiteConnectorEssensbons db     = new SQLiteConnectorEssensbons(this);
-            SQLiteDatabase            dbw    = db.getReadableDatabase();
-            Cursor                    cursor = dbw.rawQuery("SELECT MAX(ID) as id FROM STATISTICS", null);
-            if (cursor.getCount() == 0) {
-                cursor.close();
-                new NotificationHandler.EssensbonsNotification().send();
-                return;
-            }
-            cursor.moveToFirst();
-            int maxid = cursor.getInt(cursor.getColumnIndex("id"));
-            cursor.close();
-            cursor = dbw.rawQuery("SELECT o.DATEU as date FROM USERORDERS o JOIN STATISTICS s ON s.LASTORDER = o.ID WHERE s.ID = " + maxid, null);
-            if (cursor.getCount() == 0) {
-                cursor.close();
-                new NotificationHandler.EssensbonsNotification().send();
-                return;
-            }
-            cursor.moveToFirst();
-            String date = cursor.getString(cursor.getColumnIndex("date"));
-            cursor.close();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
-            try {
-                Date dateD = df.parse(date);
-                if (dateD.before(new Date()))
-                    new NotificationHandler.EssensbonsNotification().send();
-            } catch (ParseException e) {
-                Utils.logError(e);
-            }
-        }
-     */
 
 }
