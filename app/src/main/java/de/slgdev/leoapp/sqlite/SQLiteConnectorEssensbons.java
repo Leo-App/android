@@ -66,7 +66,9 @@ public class SQLiteConnectorEssensbons extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(String.format("DROP TABLE IF EXISTS %s, %s, %s", TABLE_ORDERS, TABLE_SCAN, TABLE_STATISTICS));
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_STATISTICS);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_ORDERS);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_SCAN);
         onCreate(db);
     }
 

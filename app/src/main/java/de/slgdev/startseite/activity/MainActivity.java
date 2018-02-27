@@ -55,11 +55,12 @@ public class MainActivity extends LeoAppNavigationActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        processIntent();
-        super.onCreate(savedInstanceState);
 
         Utils.getController().registerMainActivity(this);
         Utils.getController().setContext(getApplicationContext());
+
+        processIntent();
+        super.onCreate(savedInstanceState);
 
         initFeatureCards();
         initIntroduction();

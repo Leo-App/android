@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 import de.slgdev.leoapp.notification.NotificationHandler;
@@ -30,13 +29,11 @@ public class NewsSynchronizer implements Synchronizer {
             return false;
 
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
-                    .openConnection();
-
+            URL updateURL = new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php");
             BufferedReader reader =
                     new BufferedReader(
-                            new InputStreamReader(
-                                    connection.getInputStream(), "UTF-8"));
+                            new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
+
             StringBuilder builder = new StringBuilder();
             String        line;
             while ((line = reader.readLine()) != null)
