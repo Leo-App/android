@@ -332,6 +332,7 @@ public class SQLiteConnectorMessenger {
                 " WHERE m2." + CHAT_ID + " = c." + CHAT_ID +
                 " AND m2." + MESSAGE_DELETED + " = 0)" +
                 " WHERE c." + CHAT_DELETED + " = 0" +
+                " GROUP BY c." + CHAT_ID +
                 " ORDER BY " + CHAT_MUTE + ", " + MESSAGE_DATE + " DESC";
         Cursor cursor = rawQuery(query);
         Chat[] chats  = new Chat[cursor.getCount()];
@@ -365,6 +366,7 @@ public class SQLiteConnectorMessenger {
             chats[i] = new Chat(cid, cname, ctype, cmute, m);
         }
         cursor.close();
+
         return chats;
     }
 
