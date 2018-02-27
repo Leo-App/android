@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import de.slgdev.essensbons.activity.EssensbonActivity;
+import de.slgdev.it_problem.activity.ITActivity;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.dialog.InformationDialog;
@@ -49,7 +50,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         cards = new List<>();
 
         String card_config = Utils.getController().getPreferences().getString("pref_key_card_config",
-                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;COMING_SOON;");
+                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;COMING_SOON;ITPROBLEM");
 
         for (String card : card_config.split(";")) {
             if (card.length() > 0) {
@@ -71,41 +72,25 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_foodmarks);
                 c.desc = Utils.getString(R.string.summary_info_foodmark);
-                c.icon = R.mipmap.icon_essensbons;
+                c.icon = R.drawable.ic_essensbons;
                 c.enabled = Utils.isVerified();
-                c.buttonListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensbonActivity.class));
-                    }
-                };
-
+                c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensbonActivity.class));
                 break;
             case TESTPLAN:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_testplan);
                 c.desc = Utils.getString(R.string.summary_info_testplan);
                 c.enabled = Utils.isVerified();
-                c.icon = R.mipmap.icon_klausurplan;
-                c.buttonListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), KlausurplanActivity.class));
-                    }
-                };
+                c.icon = R.drawable.ic_klausurplan;
+                c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), KlausurplanActivity.class));
                 break;
             case MESSENGER:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_messenger);
                 c.desc = Utils.getString(R.string.summary_info_messenger);
                 c.enabled = Utils.isVerified();
-                c.icon = R.mipmap.icon_messenger;
-                c.buttonListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), MessengerActivity.class));
-                    }
-                };
+                c.icon = R.drawable.ic_messenger;
+                c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), MessengerActivity.class));
 
                 break;
             case NEWS:
@@ -113,66 +98,48 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.title_news);
                 c.desc = Utils.getString(R.string.summary_info_news);
                 c.enabled = Utils.isVerified();
-                c.icon = R.mipmap.icon_schwarzes_brett;
-                c.buttonListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SchwarzesBrettActivity.class));
-                    }
-                };
+                c.icon = R.drawable.ic_schwarzes_brett;
+                c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SchwarzesBrettActivity.class));
                 break;
             case SURVEY:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_survey);
                 c.desc = Utils.getString(R.string.summary_info_survey);
-                c.icon = R.mipmap.icon_stimmungsbarometer;
+                c.icon = R.drawable.ic_stimmungsbarometer;
                 c.enabled = Utils.isVerified();
-                c.buttonListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StimmungsbarometerActivity.class));
-                    }
-                };
+                c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StimmungsbarometerActivity.class));
                 break;
             case SCHEDULE:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_plan);
                 c.desc = Utils.getString(R.string.summary_info_schedule);
                 c.enabled = Utils.isVerified();
-                c.icon = R.mipmap.icon_stundenplan;
-                c.buttonListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StundenplanActivity.class));
-                    }
-                };
+                c.icon = R.drawable.ic_stundenplan;
+                c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StundenplanActivity.class));
                 break;
-            case POLL: //Case hinzugefügt
+            case POLL:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.umfragen);
                 c.desc = Utils.getString(R.string.beschreibungUmfrage);
                 c.enabled = Utils.isVerified();
-                c.icon = R.mipmap.icon_umfragen;
-                c.buttonListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (Utils.isVerified())
-                            Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SurveyActivity.class));
-                    }
-                };
+                c.icon = R.drawable.ic_umfragen;
+                c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SurveyActivity.class));
+                break;
+            case ITPROBLEM:
+                cards.append(c = new Card(type));
+                c.title = Utils.getString(R.string.title_it_problem);
+                c.desc = Utils.getString(R.string.desc_it_problem);
+                c.enabled = Utils.isVerified();
+                c.icon = R.drawable.ic_it_problem;
+                c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), ITActivity.class));
                 break;
             case COMING_SOON:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.coming_soon);
                 c.desc = Utils.getString(R.string.desc_coming_soon);
                 c.enabled = true;
-                c.icon = R.mipmap.icon_coming_soon;
-                c.buttonListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        new InformationDialog(Utils.getController().getActiveActivity()).setText(R.string.dialog_comingsoon).show();
-                    }
-                };
+                c.icon = R.drawable.ic_coming_soon;
+                c.buttonListener = v -> new InformationDialog(Utils.getController().getActiveActivity()).setText(R.string.dialog_comingsoon).show();
                 break;
         }
     }
@@ -218,6 +185,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         cards.toIndex(position);
         Card    c     = cards.getContent();
         boolean quick = Utils.getController().getPreferences().getBoolean("pref_key_card_config_quick", false);
+
         if (MainActivity.editing) {
             holder.wrapper.setCardElevation(15);
             holder.button.setTooltipEnabled(false);
@@ -230,10 +198,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
         if (!quick) {
             holder.title.setText(c.title);
-            if (c.title.equals(Utils.getString(R.string.coming_soon)))
-                holder.icon.setColorFilter(Color.GRAY);
-            else
-                holder.icon.setColorFilter(null);
+            holder.icon.setColorFilter(Color.GRAY);
         }
 
         if (!c.enabled) {

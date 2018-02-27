@@ -59,7 +59,7 @@
                     android:scaleType="fitCenter"
                     android:tag="FOODMARKS"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@mipmap/icon_essensbons"/>
+                    app:srcCompat="@drawable/ic_essensbons"/>
 
             </RelativeLayout>
 
@@ -87,7 +87,7 @@
                     android:scaleType="fitCenter"
                     android:tag="TESTPLAN"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@mipmap/icon_klausurplan"/>
+                    app:srcCompat="@drawable/ic_klausurplan"/>
 
             </RelativeLayout>
 
@@ -115,7 +115,7 @@
                     android:scaleType="fitCenter"
                     android:tag="MESSENGER"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@mipmap/icon_messenger"/>
+                    app:srcCompat="@drawable/ic_messenger"/>
 
             </RelativeLayout>
 
@@ -143,7 +143,7 @@
                     android:scaleType="fitCenter"
                     android:tag="NEWS"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@mipmap/icon_schwarzes_brett"/>
+                    app:srcCompat="@drawable/ic_schwarzes_brett"/>
 
             </RelativeLayout>
 
@@ -171,7 +171,7 @@
                     android:scaleType="fitCenter"
                     android:tag="POLL"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@mipmap/icon_umfragen"/>
+                    app:srcCompat="@drawable/ic_umfragen"/>
 
             </RelativeLayout>
 
@@ -199,7 +199,7 @@
                     android:scaleType="fitCenter"
                     android:tag="SURVEY"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@mipmap/icon_stimmungsbarometer"/>
+                    app:srcCompat="@drawable/ic_stimmungsbarometer"/>
 
             </RelativeLayout>
 
@@ -227,7 +227,35 @@
                     android:scaleType="fitCenter"
                     android:tag="SCHEDULE"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@mipmap/icon_stundenplan"/>
+                    app:srcCompat="@drawable/ic_stundenplan"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp">
+
+                <View
+                    android:id="@+id/highlight9"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/background_circular"
+                    android:visibility="invisible" />
+
+                <ImageButton
+                    android:id="@+id/imageButton9"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="12dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/background_smiley_bad_mood"
+                    android:contentDescription="@string/textview_placeholder"
+                    android:scaleType="fitCenter"
+                    android:tag="ITPROBLEM"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_it_problem"/>
 
             </RelativeLayout>
 

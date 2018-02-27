@@ -1,9 +1,6 @@
 package de.slgdev.umfragen.task;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,25 +8,20 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
+import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.Utils;
 
 /**
  * SyncSurveyTask.
  * <p>
- * Von {@link de.slgdev.leoapp.service.ReceiveService ReceiveService} unabhängiger Task zum aktualisieren der Umfragen, macht ein instantanes Aktualisieren möglich.
+ * Von {@link de.slgdev.leoapp.service.ReceiveService ReceiveService} unabhängiger Task zum Aktualisieren der Umfragen, macht ein instantanes Aktualisieren möglich.
  *
  * @author Gianni
  * @version 2017.1211
  * @since 0.6.0
  */
 
-public class SyncSurveyTask extends AsyncTask<Void, Void, Void> {
-
-    private SwipeRefreshLayout layout;
-
-    public SyncSurveyTask(@Nullable SwipeRefreshLayout layout) {
-        this.layout = layout;
-    }
+public class SyncSurveyTask extends VoidCallbackTask<Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
@@ -64,8 +56,6 @@ public class SyncSurveyTask extends AsyncTask<Void, Void, Void> {
                 for (String s : result) {
                     String[] res = s.split("_;_");
                     if (res.length >= 7) {
-
-                        Utils.logError(res[3]);
 
                         boolean voteable = res[3].equals("Alle") || ((Utils.getUserStufe().equals("Q1")
                                 || Utils.getUserStufe().equals("Q2")
@@ -107,11 +97,11 @@ public class SyncSurveyTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void v) {
-        if (layout != null) {
-            layout.setRefreshing(false);
-        }
 
         if(Utils.getController().getSurveyActivity() != null)
             Utils.getController().getSurveyActivity().refreshUI();
+
+        super.onPostExecute(v);
+
     }
 }

@@ -38,11 +38,13 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
     private static final int VERIFICATION_SLIDE = 5;
     private static boolean running;
     private static boolean ignoreSlideChange;
+    private static boolean dismissable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         running = false;
+        dismissable = false;
 
         //Info-Slides
         addSlide(
@@ -142,6 +144,12 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
     }
 
     @Override
+    public void onBackPressed() {
+        if(dismissable)
+           super.onBackPressed();
+    }
+
+    @Override
     public boolean onCanRequestNextPage() {
         return !running;
     }
@@ -168,6 +176,9 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
         } else {
             ImageButton nextButton = findViewById(R.id.next);
             nextButton.setOnClickListener(v -> getPager().setCurrentItem(getPager().getCurrentItem() + 1));
+
+            dismissable = newFragment.getPosition() != 0;
+
         }
     }
 

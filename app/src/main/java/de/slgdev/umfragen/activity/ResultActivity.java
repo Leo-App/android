@@ -11,6 +11,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
 import de.slgdev.leoapp.view.LeoAppLayerActivity;
@@ -62,14 +64,12 @@ public class ResultActivity extends LeoAppLayerActivity {
         listView.setAdapter(adapter);
     }
 
-    private class ResultListAdapter extends ArrayAdapter<String> {
+    private class ResultListAdapter extends ArrayAdapter<ResultListing> {
 
-        private ResultListing[] content;
         private Context context;
 
-        ResultListAdapter(@NonNull Context context, ResultListing[] content) {
-            super(context, R.layout.list_item_survey_result);
-            this.content = content;
+        ResultListAdapter(@NonNull Context context, ArrayList<ResultListing> content) {
+            super(context, R.layout.list_item_survey_result, content);
             this.context = context;
         }
 
@@ -80,10 +80,10 @@ public class ResultActivity extends LeoAppLayerActivity {
                 v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_item_survey_result, null);
             }
 
-            TextView title = findViewById(R.id.title);
-            title.setText(content[position].title);
+            TextView title = v.findViewById(R.id.title);
+            title.setText(getItem(position).title);
 
-            findViewById(R.id.wrapper).setOnClickListener(view -> new ResultDialogManual(ResultActivity.this, content[position].description, content[position].answers).show());
+            v.findViewById(R.id.wrapper).setOnClickListener(view -> new ResultDialogManual(ResultActivity.this, getItem(position).description, getItem(position).answers).show());
 
             return v;
         }

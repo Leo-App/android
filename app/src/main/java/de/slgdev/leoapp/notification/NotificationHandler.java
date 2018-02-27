@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.klausurplan.utility.Klausur;
 import de.slgdev.klausurplan.utility.KlausurplanUtils;
 import de.slgdev.leoapp.R;
@@ -41,8 +42,9 @@ import de.slgdev.umfragen.utility.UmfragenUtils;
  * @version 2017.0212
  * @since 0.6.7
  */
+@SuppressWarnings("WeakerAccess")
+public abstract class NotificationHandler {
 
-public class NotificationHandler {
     public static final int ID_ESSENSBONS         = 101;
     public static final int ID_KLAUSURPLAN        = 777;
     public static final int ID_MESSENGER          = 5453;
@@ -64,7 +66,7 @@ public class NotificationHandler {
         notificationManager = (NotificationManager) Utils.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    public static class EssensbonsNotification {
+    public static class EssensbonsNotification implements LeoAppNotification {
         private Context      context;
         private Notification notification;
 
@@ -90,7 +92,7 @@ public class NotificationHandler {
                             PendingIntent.FLAG_ONE_SHOT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_essensbons)
@@ -108,11 +110,16 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_essensqr", true);
+            return isEnabled();
         }
+
+        public static boolean isEnabled() {
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_essensqr", true) && EssensbonUtils.isLoggedIn();
+        }
+
     }
 
-    public static class KlausurplanNotification {
+    public static class KlausurplanNotification implements LeoAppNotification {
         private Context      context;
         private Notification notification;
 
@@ -137,7 +144,7 @@ public class NotificationHandler {
                             resultIntent,
                             PendingIntent.FLAG_ONE_SHOT);
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_klausurplan)
@@ -155,7 +162,7 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            if (Utils.getController().getPreferences().getBoolean("pref_key_notification_test", true) && KlausurplanUtils.databaseExists(context)) {
+            if (isEnabled() && KlausurplanUtils.databaseExists(context)) {
                 SQLiteConnectorKlausurplan db = new SQLiteConnectorKlausurplan(context);
                 Klausur                    k  = db.getNextExam();
                 db.close();
@@ -163,9 +170,13 @@ public class NotificationHandler {
             }
             return false;
         }
+
+        public static boolean isEnabled() {
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_test", true);
+        }
     }
 
-    public static class MessengerNotification {
+    public static class MessengerNotification implements LeoAppNotification {
         private Context      context;
         private Notification notification;
 
@@ -191,7 +202,7 @@ public class NotificationHandler {
                             PendingIntent.FLAG_ONE_SHOT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setVibrate(new long[]{500, 250, 500})
@@ -232,13 +243,18 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true)
+            return isEnabled()
                     && Utils.getController().getMessengerActivity() == null
                     && Utils.getController().getMessengerDatabase().hasUnreadMessages();
         }
+
+        public static boolean isEnabled() {
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true);
+        }
+
     }
 
-    public static class SchwarzesBrettNotification {
+    public static class SchwarzesBrettNotification implements LeoAppNotification {
         private static long         latest;
         private        Context      context;
         private        Notification notification;
@@ -264,7 +280,7 @@ public class NotificationHandler {
                             resultIntent,
                             PendingIntent.FLAG_ONE_SHOT);
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_schwarzes_brett)
@@ -284,10 +300,14 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true)
+            return isEnabled()
                     && hasUnreadNews()
                     && (Utils.getController().getSchwarzesBrettActivity() == null
                     || Utils.getController().getSchwarzesBrettActivity().getStatus() != ActivityStatus.ACTIVE);
+        }
+
+        public static boolean isEnabled() {
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_news", true);
         }
 
         private boolean hasUnreadNews() {
@@ -306,7 +326,7 @@ public class NotificationHandler {
         }
     }
 
-    public static class UmfrageNotification {
+    public static class UmfrageNotification implements LeoAppNotification {
         private static long         latest;
         private        Context      context;
         private        Notification notification;
@@ -333,7 +353,7 @@ public class NotificationHandler {
                             PendingIntent.FLAG_ONE_SHOT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_umfragen)
@@ -353,10 +373,14 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_survey_students", true)
+            return isEnabled()
                     && hasUnreadNews()
                     && (Utils.getController().getSurveyActivity() == null
                     || Utils.getController().getSurveyActivity().getStatus() != ActivityStatus.ACTIVE);
+        }
+
+        public static boolean isEnabled() {
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_survey_students", true);
         }
 
         private boolean hasUnreadNews() {
@@ -375,7 +399,7 @@ public class NotificationHandler {
         }
     }
 
-    public static class StimmungsbarometerNotification {
+    public static class StimmungsbarometerNotification implements LeoAppNotification {
         private Context      context;
         private Notification notification;
 
@@ -400,7 +424,7 @@ public class NotificationHandler {
                             PendingIntent.FLAG_ONE_SHOT
                     );
 
-            notification = new NotificationCompat.Builder(context)
+            notification = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_stimmungsbarometer)
@@ -418,12 +442,16 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_survey", false)
-                    && StimmungsbarometerUtils.syncVote();
+            return isEnabled() && StimmungsbarometerUtils.syncVote();
         }
+
+        public static boolean isEnabled() {
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_survey", false);
+        }
+
     }
 
-    public static class StundenplanNotification {
+    public static class StundenplanNotification implements LeoAppNotification {
         private Context      context;
         private Notification notificationStundenplan;
 
@@ -438,7 +466,7 @@ public class NotificationHandler {
         private void create() {
             String msg = getNotificationText();
 
-            notificationStundenplan = new NotificationCompat.Builder(context)
+            notificationStundenplan = new NotificationCompat.Builder(context, "leoapp_notification")
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setLargeIcon(getNotificationIcon())
                     .setSmallIcon(R.mipmap.icon_stundenplan)
@@ -457,8 +485,11 @@ public class NotificationHandler {
         }
 
         private boolean isActive() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_schedule", false) &&
-                    getNextDayOfWeek() <= 5;
+            return isEnabled() && getNextDayOfWeek() <= 5;
+        }
+
+        public static boolean isEnabled() {
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_schedule", false);
         }
 
         private String getNotificationText() {

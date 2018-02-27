@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -23,10 +22,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,12 +31,14 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
+import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
-import de.slgdev.schwarzes_brett.utility.ResponseCode;
 import de.slgdev.umfragen.dialog.NewSurveyDialog;
 import de.slgdev.umfragen.dialog.ResultDialog;
 import de.slgdev.umfragen.task.SaveResultTask;
+import de.slgdev.umfragen.task.SendVoteTask;
 import de.slgdev.umfragen.task.SyncSurveyTask;
 import de.slgdev.umfragen.utility.Survey;
 
@@ -55,7 +52,7 @@ import de.slgdev.umfragen.utility.Survey;
  * @version 2017.1111
  * @since 0.5.6
  */
-public class SurveyActivity extends LeoAppNavigationActivity {
+public class SurveyActivity extends LeoAppNavigationActivity implements TaskStatusListener {
 
     private static SQLiteConnectorUmfragen sqLiteConnector;
     private static SQLiteDatabase          sqLiteDatabase;
@@ -160,6 +157,19 @@ public class SurveyActivity extends LeoAppNavigationActivity {
         return "SurveyActivity";
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        Utils.getController().registerSurveyActivity(null);
+    }
+
+    @Override
+    public void taskFinished(Object... params) {
+        SwipeRefreshLayout swipeLayout = findViewById(R.id.swipeRefreshLayout);
+        swipeLayout.setRefreshing(false);
+    }
+
+
     private void initExpandableListView() {
         createGroupList();
 
@@ -203,7 +213,7 @@ public class SurveyActivity extends LeoAppNavigationActivity {
 
     private void initSwipeToRefresh() {
         final SwipeRefreshLayout swipeLayout = findViewById(R.id.swipeRefreshLayout);
-        swipeLayout.setOnRefreshListener(() -> new SyncSurveyTask(swipeLayout).execute());
+        swipeLayout.setOnRefreshListener(() -> new SyncSurveyTask().addListener(this).execute());
 
         swipeLayout.setColorSchemeColors(
                 ContextCompat.getColor(
@@ -349,31 +359,31 @@ public class SurveyActivity extends LeoAppNavigationActivity {
     }
 
     public void refreshUI() {
-        Utils.logError("REFRESH");
         initExpandableListView();
     }
 
     private void receive() {
-        new SyncSurveyTask(null).execute();
+        new SyncSurveyTask().execute();
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        Utils.getController().registerSurveyActivity(null);
+    public void taskStarts() {
+        // stub
     }
 
-    private class ExpandableListAdapter extends BaseExpandableListAdapter {
+    private class ExpandableListAdapter extends BaseExpandableListAdapter implements TaskStatusListener {
 
         private final Map<Integer, Survey> umfragen;
         private final List<Integer>        ids;
 
         private LinkedHashMap<Integer, List<CompoundButton>> checkboxes;
+        private LinkedHashMap<Integer, Button> buttons;
 
         ExpandableListAdapter(Map<Integer, Survey> umfragen, List<Integer> ids) {
             this.umfragen = umfragen;
             this.ids = ids;
             this.checkboxes = new LinkedHashMap<>();
+            this.buttons    = new LinkedHashMap<>();
         }
 
         @SuppressLint("SetTextI18n")
@@ -402,6 +412,8 @@ public class SurveyActivity extends LeoAppNavigationActivity {
                 final ImageButton delete = convertView.findViewById(R.id.delete);
                 final ImageButton share  = convertView.findViewById(R.id.share);
 
+                buttons.put(groupPosition, button);
+
                 delete.setOnClickListener(v -> {
                     final Survey toBeDeleted = getSurvey(groupPosition);
 
@@ -418,7 +430,6 @@ public class SurveyActivity extends LeoAppNavigationActivity {
                         public void onDismissed(Snackbar snackbar, int event) {
                             if (event == DISMISS_EVENT_TIMEOUT || event == DISMISS_EVENT_SWIPE) {
                                 new SaveResultTask(toBeDeleted).execute();
-                                new deleteTask().execute(toBeDeleted.remoteId);
                             } else {
                                 initExpandableListView();
                             }
@@ -445,7 +456,7 @@ public class SurveyActivity extends LeoAppNavigationActivity {
                         for (TextView textView : checkboxes.get(getSurvey(groupPosition).remoteId)) {
                             CompoundButton rb = (CompoundButton) textView;
                             if (rb.isChecked())
-                                new SendVoteTask(button, getSurvey(groupPosition)).execute((Integer) rb.getTag(), getSurvey(groupPosition).remoteId);
+                                new SendVoteTask().addListener(this).execute(groupPosition, getSurvey(groupPosition), rb.getTag());
                         }
                     });
                 } else {
@@ -540,185 +551,49 @@ public class SurveyActivity extends LeoAppNavigationActivity {
             return umfragen.get(ids.get(groupPosition));
         }
 
-        private class SendVoteTask extends AsyncTask<Integer, Void, ResponseCode> {
+        @Override
+        public void taskFinished(Object... params) {
 
-            private Button b;
-            private Survey s;
-            private int    id;
-            private int    remoteid;
+            ResponseCode r = (ResponseCode) params[0];
+            Survey s = (Survey) params[1];
+            int tag     = (int) params[2];
+            int groupId = (int) params[3];
 
-            SendVoteTask(Button b, Survey s) {
-                this.b = b;
-                this.s = s;
-            }
+            switch (r) {
+                case NO_CONNECTION:
+                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_SHORT);
+                    snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
+                    snackbar.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar.dismiss());
+                    snackbar.show();
+                    break;
+                case SERVER_FAILED:
+                    final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), R.string.error_later, Snackbar.LENGTH_SHORT);
+                    snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
+                    snackbar2.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar2.dismiss());
+                    snackbar2.show();
+                    break;
+                case SUCCESS:
 
-            @Override
-            protected ResponseCode doInBackground(Integer... params) {
+                    Button b = buttons.get(groupId);
 
-                if (!Utils.checkNetwork())
-                    return ResponseCode.NO_CONNECTION;
+                    b.setText(Utils.getString(R.string.result));
+                    b.setOnClickListener(v -> showResultDialog(s.remoteId, s.to));
+                    Toast.makeText(Utils.getContext(), R.string.voted_sucessfully, Toast.LENGTH_SHORT).show();
 
-                id = params[0];
-                remoteid = params[1];
-
-                SQLiteConnectorUmfragen db  = new SQLiteConnectorUmfragen(getApplicationContext());
-                SQLiteDatabase          dbh = db.getWritableDatabase();
-
-                dbh.execSQL("UPDATE " + SQLiteConnectorUmfragen.TABLE_ANSWERS
-                        + " SET " + SQLiteConnectorUmfragen.ANSWERS_SELECTED + " = 1"
-                        + " WHERE " + SQLiteConnectorUmfragen.ANSWERS_REMOTE_ID + " = " + id);
-
-                dbh.close();
-
-                try {
-
-                    BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(
-                                    new URL(
-                                            Utils.BASE_URL_PHP + "survey/" +
-                                                    "addResult.php?" +
-                                                    "user=" + Utils.getUserID() + "&" +
-                                                    "answer=" + params[0]
-                                    )
-                                            .openConnection()
-                                            .getInputStream(),
-                                    "UTF-8"
-                            )
-                    );
-
-                    StringBuilder builder = new StringBuilder();
-                    String        line;
-                    while ((line = reader.readLine()) != null) {
-                        builder.append(line);
+                    for (CompoundButton c : checkboxes.get(s.remoteId)) {
+                        c.setEnabled(false);
                     }
 
-                    reader.close();
+                    s.voted = true;
 
-                    if (builder.toString().startsWith("-")) {
-                        return ResponseCode.SERVER_ERROR;
-                    }
-                } catch (IOException e) {
-                    Utils.logError(e);
-                    return ResponseCode.SERVER_ERROR;
-                }
-                return ResponseCode.SUCCESS;
-            }
-
-            @Override
-            protected void onPostExecute(ResponseCode r) {
-                switch (r) {
-                    case NO_CONNECTION:
-                        final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_SHORT);
-                        snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar.dismiss());
-                        snackbar.show();
-                        break;
-                    case SERVER_ERROR:
-                        final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), R.string.error_later, Snackbar.LENGTH_SHORT);
-                        snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar2.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar2.dismiss());
-                        snackbar2.show();
-                        break;
-                    case SUCCESS:
-                        b.setText(Utils.getString(R.string.result));
-                        b.setOnClickListener(v -> showResultDialog(remoteid, s.to));
-                        Toast.makeText(Utils.getContext(), R.string.voted_sucessfully, Toast.LENGTH_SHORT).show();
-
-                        for (CompoundButton c : checkboxes.get(remoteid)) {
-                            c.setEnabled(false);
-                        }
-
-                        s.voted = true;
-
-                        for (int i = 0; i < s.answers.length; i++) {
-                            String   cur   = s.answers[i];
-                            String[] parts = cur.split("_;_");
-                            if (Integer.parseInt(parts[1]) == id)
-                                s.answers[i] = parts[0] + "_;_" + parts[1] + "_;_" + 1;
-                        }
-
-                        break;
-                }
-            }
-        }
-
-        private class deleteTask extends AsyncTask<Integer, Void, ResponseCode> {
-
-            @Override
-            protected ResponseCode doInBackground(Integer... params) {
-
-                if (!Utils.checkNetwork())
-                    return ResponseCode.NO_CONNECTION;
-
-                SQLiteConnectorUmfragen db  = new SQLiteConnectorUmfragen(getApplicationContext());
-                SQLiteDatabase          dbh = db.getWritableDatabase();
-
-                dbh.execSQL(
-                        "DELETE FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS +
-                                " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID +
-                                " = " + params[0]);
-                dbh.execSQL(
-                        "DELETE FROM " + SQLiteConnectorUmfragen.TABLE_ANSWERS +
-                                " WHERE " + SQLiteConnectorUmfragen.ANSWERS_SID +
-                                " = (" +
-                                "SELECT " + SQLiteConnectorUmfragen.SURVEYS_ID +
-                                " FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS +
-                                " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID +
-                                " = " + params[0] +
-                                ")");
-
-                dbh.close();
-
-                try {
-                    BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(
-                                    new URL(
-                                            Utils.BASE_URL_PHP + "survey/" +
-                                                    "deleteSurvey.php?" +
-                                                    "survey=" + params[0]
-                                    )
-                                            .openConnection()
-                                            .getInputStream(),
-                                    "UTF-8"
-                            )
-                    );
-
-                    StringBuilder builder = new StringBuilder();
-                    String        line;
-                    while ((line = reader.readLine()) != null) {
-                        builder.append(line);
+                    for (int i = 0; i < s.answers.length; i++) {
+                        String   cur   = s.answers[i];
+                        String[] parts = cur.split("_;_");
+                        if (Integer.parseInt(parts[1]) == tag)
+                            s.answers[i] = parts[0] + "_;_" + parts[1] + "_;_" + 1;
                     }
 
-                    reader.close();
-
-                    if (builder.toString().startsWith("-")) {
-                        return ResponseCode.SERVER_ERROR;
-                    }
-                } catch (IOException e) {
-                    Utils.logError(e);
-                    return ResponseCode.SERVER_ERROR;
-                }
-                return ResponseCode.SUCCESS;
-            }
-
-            @Override
-            protected void onPostExecute(ResponseCode r) {
-                switch (r) {
-                    case NO_CONNECTION:
-                        final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_SHORT);
-                        snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar.dismiss());
-                        snackbar.show();
-                        break;
-                    case SERVER_ERROR:
-                        final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.snackbar), getString(R.string.error_later), Snackbar.LENGTH_SHORT);
-                        snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                        snackbar2.setAction(Utils.getContext().getString(R.string.confirm), v -> snackbar2.dismiss());
-                        snackbar2.show();
-                        break;
-                    case SUCCESS:
-                        break;
-                }
+                    break;
             }
         }
     }

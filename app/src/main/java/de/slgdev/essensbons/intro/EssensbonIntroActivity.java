@@ -17,6 +17,7 @@ import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.activity.fragment.AbstractOrderedFragment;
 import de.slgdev.leoapp.activity.fragment.InfoFragmentBuilder;
+import de.slgdev.leoapp.notification.NotificationAlarmHandler;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.Utils;
@@ -95,26 +96,11 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
             cancel(oldFragment);
         } else if (newFragment.getPosition() == verificationSlide) {
             ImageButton nextButton = findViewById(R.id.next);
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    logIn();
-                }
-            });
+            nextButton.setOnClickListener(v -> logIn());
         } else {
             ImageButton nextButton = findViewById(R.id.next);
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getPager().setCurrentItem(getPager().getCurrentItem() + 1);
-                }
-            });
+            nextButton.setOnClickListener(v -> getPager().setCurrentItem(getPager().getCurrentItem() + 1));
         }
-
-    }
-
-    @Override
-    public void taskStarts() {
 
     }
 
@@ -137,6 +123,7 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
                 ignoreSlideChange = true;
                 getPager().setCurrentItem(verificationSlide + 1);
                 EssensbonUtils.setLoginStatus(true);
+                NotificationAlarmHandler.updateFoodmarkAlarm();
                 break;
         }
     }

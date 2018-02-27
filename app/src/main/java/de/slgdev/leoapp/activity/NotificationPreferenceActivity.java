@@ -46,18 +46,22 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
             case "pref_key_notification_essensqr":
                 Preference qrtime = findPreference("pref_key_notification_time_foodmarks");
                 qrtime.setEnabled(sharedPreferences.getBoolean(key, false));
+                NotificationAlarmHandler.updateFoodmarkAlarm();
                 break;
             case "pref_key_notification_test":
                 Preference testtime = findPreference("pref_key_notification_time_test");
                 testtime.setEnabled(sharedPreferences.getBoolean(key, false));
+                NotificationAlarmHandler.updateKlausurAlarm();
                 break;
             case "pref_key_notification_survey":
                 Preference surveytime = findPreference("pref_key_notification_time_survey");
                 surveytime.setEnabled(sharedPreferences.getBoolean(key, false));
+                NotificationAlarmHandler.updateMoodAlarm();
                 break;
             case "pref_key_notification_schedule":
                 Preference scheduletime = findPreference("pref_key_notification_time_schedule");
                 scheduletime.setEnabled(sharedPreferences.getBoolean(key, false));
+                NotificationAlarmHandler.updateTimetableAlarm();
                 break;
             case "pref_key_notification_time_foodmarks":
                 qrtime = findPreference("pref_key_notification_time_foodmarks");

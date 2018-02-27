@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -21,7 +22,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.Locale;
+import java.util.Map;
 
 import de.slgdev.essensbons.utility.EncryptionManager;
 import de.slgdev.essensbons.utility.EssensbonUtils;
@@ -54,12 +57,14 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
         if (!EssensbonUtils.isLoggedIn())
             return null;
 
-        if (hasActiveInternetConnection()) {
-            if (onAppStart) {
-                if (EssensbonUtils.isAutoSyncEnabled())
+        if (onAppStart) {
+            if (EssensbonUtils.isAutoSyncEnabled()) {
+                if (hasActiveInternetConnection()) {
                     saveNewestEntries();
-            } else
-                saveNewestEntries();
+                }
+            }
+        } else if (hasActiveInternetConnection()) {
+            saveNewestEntries();
         }
 
         Order act = getRecentEntry();
@@ -100,7 +105,7 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
             urlc.setRequestProperty("User-Agent", "Test");
             urlc.setRequestProperty("Connection", "close");
-            urlc.setConnectTimeout(1500);
+            urlc.setConnectTimeout(500);
             urlc.connect();
             return urlc.getResponseCode() == 200;
         } catch (IOException e) {
@@ -113,7 +118,9 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
                 SQLiteConnectorEssensbons.ORDER_DATE,
                 SQLiteConnectorEssensbons.ORDER_MENU,
                 SQLiteConnectorEssensbons.ORDER_DESCR,
+                SQLiteConnectorEssensbons.ORDER_ID
         };
+
         DateFormat dateFormat    = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
         Date       date          = new Date();
         String     selection     = SQLiteConnectorEssensbons.ORDER_DATE + " = ?";
@@ -159,6 +166,11 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
                     )
             );
 
+
+            Utils.logError(Utils.URL_LUNCH_LEO + "qr_database.php?" +
+                    "id=" + EssensbonUtils.getCustomerId() + "&" +
+                    "auth=2SnDS7GBdHf5sd");
+
             StringBuilder builder = new StringBuilder();
             String        line;
             while ((line = reader.readLine()) != null) {
@@ -169,20 +181,11 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
             reader.close();
 
             String result = builder.toString();
+            String decrypted = EncryptionManager.decrypt(result)
+                    .replace("\r", " ")
+                    .replace("\t", " ");
 
-            EncryptionManager encryptionManager = new EncryptionManager();
-            try {
-                builder = new StringBuilder(
-                        new String(
-                                encryptionManager.decrypt(
-                                        result
-                                )
-                        )
-                );
-            } catch (Exception e) {
-                Utils.logError(e);
-            }
-            String[]   data       = builder.toString().split("_next_");
+            String[]   data       = decrypted.split("_next_");
             DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd", Locale.GERMANY);
 
             Date highest = null;
@@ -196,14 +199,14 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
             int amount = 0;
 
             for (String s : data) {
-                if (!s.contains("_seperator_"))
+                if (!s.contains("_separator_"))
                     continue;
 
                 ContentValues values = new ContentValues();
                 amount++;
 
                 try {
-                    Date d = dateFormat.parse(s.split("_seperator_")[0]);
+                    Date d = dateFormat.parse(s.split("_separator_")[1]);
                     if (d.after(highest))
                         highest = d;
                 } catch (ParseException e) {
@@ -217,11 +220,8 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
                 values.put(SQLiteConnectorEssensbons.ORDER_MENU, parts[2]);
                 values.put(SQLiteConnectorEssensbons.ORDER_DESCR, parts[3]);
 
-                try {
-                    dbh.insert(SQLiteConnectorEssensbons.TABLE_ORDERS, null, values);
-                } catch (Exception e) {
-                    Utils.logError(e);
-                }
+                dbh.insertWithOnConflict(SQLiteConnectorEssensbons.TABLE_ORDERS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+
             }
 
             String dateString = dateFormat.format(highest);
@@ -257,10 +257,13 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
         MultiFormatWriter mFW = new MultiFormatWriter();
         Bitmap            bM  = null;
 
-        int px = (int) GraphicUtils.dpToPx(250);
+        int px = (int) (GraphicUtils.getDisplayWidth()*0.9f);
+        Map<EncodeHintType, Object> hints = new EnumMap<>(EncodeHintType.class);
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        hints.put(EncodeHintType.MARGIN, 2); /* default = 4 */
 
         try {
-            BitMatrix bitM = mFW.encode(s, BarcodeFormat.QR_CODE, px, px);
+            BitMatrix bitM = mFW.encode(s, BarcodeFormat.QR_CODE, px, px, hints);
             bM = Bitmap.createBitmap(px, px, Bitmap.Config.ARGB_8888);
             for (int i = 0; i < px; i++) {
                 for (int j = 0; j < px; j++) {

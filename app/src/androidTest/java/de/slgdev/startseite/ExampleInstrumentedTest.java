@@ -7,7 +7,10 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import de.slgdev.leoapp.sync.NewsSynchronizer;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -20,7 +23,9 @@ public class ExampleInstrumentedTest {
     public void useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
-
         assertEquals("de.slgdev.leoapp", appContext.getPackageName());
+
+        NewsSynchronizer synchronizerN = new NewsSynchronizer();
+        assertTrue("NewsSynchronizer does not work properly", synchronizerN.run());
     }
 }

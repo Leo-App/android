@@ -7,8 +7,8 @@ android {
         applicationId "de.slgdev.leoapp"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 20
-        versionName "beta-0.7.4"
+        versionCode 21
+        versionName "beta-0.7.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -51,5 +51,6 @@ dependencies {
     compile 'com.github.apl-devs:appintro:v4.2.2'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.22'
 }
 apply plugin: 'com.google.gms.google-services'

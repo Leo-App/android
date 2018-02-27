@@ -57,22 +57,6 @@
             android:name="de.slgdev.leoapp.service.ReceiveService"
             android:description="@string/serviceDescription"
             android:exported="false" />
-        <service android:name="de.slgdev.leoapp.service.NotificationServiceWrapper$FoodmarkService"
-            android:description="@string/serviceDescription"
-            android:exported="false"
-            />
-        <service android:name="de.slgdev.leoapp.service.NotificationServiceWrapper$TimetableService"
-            android:description="@string/serviceDescription"
-            android:exported="false"
-            />
-        <service android:name="de.slgdev.leoapp.service.NotificationServiceWrapper$StimmungsbarometerService"
-            android:description="@string/serviceDescription"
-            android:exported="false"
-            />
-        <service android:name="de.slgdev.leoapp.service.NotificationServiceWrapper$KlausurplanService"
-            android:description="@string/serviceDescription"
-            android:exported="false"
-            />
 
         <service
             android:name="de.slgdev.leoapp.service.AlarmStartupService"
@@ -167,8 +151,7 @@
             android:theme="@style/MainActivitiesTheme" />
 
         <activity android:name="de.slgdev.umfragen.activity.ResultActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MainActivitiesTheme" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="de.slgdev.essensbons.intro.EssensbonIntroActivity"
@@ -178,6 +161,11 @@
             android:name="de.slgdev.essensbons.activity.ScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ScanTheme" />
+
+        <receiver android:name=".notification.NotificationBroadcastWrapper$KlausurplanReceiver" />
+        <receiver android:name=".notification.NotificationBroadcastWrapper$FoodmarkReceiver" />
+        <receiver android:name=".notification.NotificationBroadcastWrapper$StimmungsbarometerReceiver" />
+        <receiver android:name=".notification.NotificationBroadcastWrapper$TimetableReceiver" />
 
     </application>
 

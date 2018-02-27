@@ -14,7 +14,7 @@
         android:layout_height="40dp"
         android:background="@drawable/background_profile_picture"
         android:tint="@color/colorPrimary"
-        app:srcCompat="@mipmap/icon_profil"/>
+        app:srcCompat="@drawable/ic_profile"/>
 
     <TextView
         android:id="@+id/username"
@@ -35,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/username"
+        android:layout_alignStart="@id/username"
         android:layout_below="@id/username"
         android:layout_marginTop="2dp"
         android:text="Benutzername, Stufe"

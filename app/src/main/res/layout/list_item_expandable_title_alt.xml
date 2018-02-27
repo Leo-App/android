@@ -12,8 +12,10 @@
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:tint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_create_survey"/>
 
@@ -23,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/icon"
+        android:layout_toStartOf="@id/icon"
         android:gravity="center"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
@@ -37,6 +40,7 @@
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
         android:layout_toLeftOf="@id/textViewStufe"
+        android:layout_toStartOf="@id/textViewStufe"
         android:textColor="@color/colorText"
         android:textSize="18sp"
         android:textStyle="normal|bold" />

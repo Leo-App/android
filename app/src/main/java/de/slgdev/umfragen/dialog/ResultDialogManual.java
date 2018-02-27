@@ -91,12 +91,7 @@ public class ResultDialogManual extends AlertDialog {
 
         t1.setVisibility(View.INVISIBLE);
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        b1.setOnClickListener(v -> dismiss());
 
         initLayout();
     }

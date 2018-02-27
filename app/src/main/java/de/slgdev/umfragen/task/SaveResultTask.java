@@ -30,7 +30,12 @@ public class SaveResultTask extends AsyncTask<Void, Void, ResponseCode> {
         try {
             if (Utils.checkNetwork()) {
 
-                URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/getAllResults.php?survey=" + survey.remoteId + "&to=" + survey.to);
+                URL updateURL = new URL(Utils.BASE_URL_PHP
+                        + "survey/getAllResults.php?survey="
+                        + survey.remoteId
+                        + "&to="
+                        + survey.to.replace(" ", "%20"));
+
                 BufferedReader reader = new BufferedReader(new InputStreamReader(updateURL.openConnection().getInputStream()));
 
                 String cur;

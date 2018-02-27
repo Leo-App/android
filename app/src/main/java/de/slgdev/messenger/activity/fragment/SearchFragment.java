@@ -245,7 +245,7 @@ public class SearchFragment extends Fragment {
                 User u = (User) current;
                 username.setText(u.uname);
                 userdefault.setText(u.udefaultname + ", " + u.ustufe);
-                icon.setImageResource(R.mipmap.icon_profil);
+                icon.setImageResource(R.drawable.ic_profile);
             } else {
                 Chat c = (Chat) current;
                 username.setText(c.cname);

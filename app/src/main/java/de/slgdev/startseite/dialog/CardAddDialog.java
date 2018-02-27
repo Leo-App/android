@@ -51,7 +51,8 @@ public class CardAddDialog extends AlertDialog {
                 findViewById(R.id.imageButton5),
                 findViewById(R.id.imageButton6),
                 findViewById(R.id.imageButton7),
-                findViewById(R.id.imageButton8)
+                findViewById(R.id.imageButton8),
+                findViewById(R.id.imageButton9)
         };
 
         backgrounds = new View[]{
@@ -62,7 +63,8 @@ public class CardAddDialog extends AlertDialog {
                 findViewById(R.id.highlight5),
                 findViewById(R.id.highlight6),
                 findViewById(R.id.highlight7),
-                findViewById(R.id.highlight8)
+                findViewById(R.id.highlight8),
+                findViewById(R.id.highlight9)
         };
 
         initOptions();
@@ -73,53 +75,42 @@ public class CardAddDialog extends AlertDialog {
         for (int i = 0; i < buttons.length; i++) {
             final ImageButton b  = buttons[i];
             final View vb = backgrounds[i];
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            b.setOnClickListener(v -> {
 
-                    if(vb.getTag() != null) {
-                        checkedItems--;
-                        b.setColorFilter(ContextCompat.getColor(mainActivity, R.color.colorPrimary));
-                        vb.setVisibility(View.INVISIBLE);
-                        vb.setTag(null);
-                    } else {
-                        checkedItems++;
-                        b.setColorFilter(ContextCompat.getColor(mainActivity, android.R.color.white));
-                        vb.setVisibility(View.VISIBLE);
-                        vb.setTag(true);
-                    }
-
-                    if(checkedItems > 0)
-                        findViewById(R.id.buttonDialog2).setEnabled(true);
-                    else
-                        findViewById(R.id.buttonDialog2).setEnabled(false);
-
+                if(vb.getTag() != null) {
+                    checkedItems--;
+                    b.setColorFilter(ContextCompat.getColor(mainActivity, R.color.colorPrimary));
+                    vb.setVisibility(View.INVISIBLE);
+                    vb.setTag(null);
+                } else {
+                    checkedItems++;
+                    b.setColorFilter(ContextCompat.getColor(mainActivity, android.R.color.white));
+                    vb.setVisibility(View.VISIBLE);
+                    vb.setTag(true);
                 }
+
+                if(checkedItems > 0)
+                    findViewById(R.id.buttonDialog2).setEnabled(true);
+                else
+                    findViewById(R.id.buttonDialog2).setEnabled(false);
+
             });
         }
     }
 
     private void initSendButton() {
-        findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
+        findViewById(R.id.buttonDialog1).setOnClickListener(v -> dismiss());
+        findViewById(R.id.buttonDialog2).setOnClickListener(v -> {
+            for (int i = 0; i < buttons.length; i++) {
+
+                ImageButton b = buttons[i];
+                View vb = backgrounds[i];
+
+                if(vb.getTag() != null)
+                    mainActivity.addCard(CardType.valueOf(b.getTag().toString()));
+
             }
-        });
-        findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < buttons.length; i++) {
-
-                    ImageButton b = buttons[i];
-                    View vb = backgrounds[i];
-
-                    if(vb.getTag() != null)
-                        mainActivity.addCard(CardType.valueOf(b.getTag().toString()));
-
-                }
-                dismiss();
-            }
+            dismiss();
         });
     }
 }

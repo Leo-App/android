@@ -85,6 +85,10 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
         database.execSQL("DELETE FROM " + SQLiteConnectorUmfragen.TABLE_ANSWERS + " WHERE " + SQLiteConnectorUmfragen.ANSWERS_SID + " = (SELECT " + SQLiteConnectorUmfragen.SURVEYS_ID + " FROM " + SQLiteConnectorUmfragen.TABLE_SURVEYS + " WHERE " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + remoteID + ")");
     }
 
+    public void setAnswerSelected(int id) {
+        database.execSQL("UPDATE " + SQLiteConnectorUmfragen.TABLE_ANSWERS + " SET " + SQLiteConnectorUmfragen.ANSWERS_SELECTED + " = 1" + " WHERE " + SQLiteConnectorUmfragen.ANSWERS_REMOTE_ID + " = " + id);
+    }
+
     public ContentValues getSurveyContentValues(String titel, String adressat, String beschreibung, String absender, short multiple, int remoteId, long erstelldatum, short voteable) {
         ContentValues values = new ContentValues();
         values.put(SURVEYS_TITEL, titel);

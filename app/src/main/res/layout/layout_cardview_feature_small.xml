@@ -3,6 +3,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_preset"
     android:layout_width="match_parent"
     android:layout_height="60dp"
@@ -18,13 +19,6 @@
         android:minHeight="200dp"
         android:padding="15dp">
 
-       <!-- <Button
-            android:id="@+id/buttonCard"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:background="@android:color/transparent" /> -->
-
         <ImageView
             android:id="@+id/info_card_icon"
             android:layout_width="25dp"
@@ -35,7 +29,8 @@
             card_view:srcCompat="@mipmap/icon_essensbons"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/info_title0"
@@ -47,7 +42,6 @@
             android:layout_toLeftOf="@id/info_card_icon"
             android:layout_toStartOf="@+id/info_card_icon"
             android:text="@string/textview_placeholder"
-            android:textAppearance="@android:style/TextAppearance.Material.Large"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             android:layout_alignParentLeft="true"

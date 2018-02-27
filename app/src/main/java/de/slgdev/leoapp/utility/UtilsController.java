@@ -377,7 +377,7 @@ public class UtilsController {
     }
 
     /**
-     * @return Aktive NotificationPreference-Activity (Notification Einstellungen)
+     * @return Aktive NotificationPreference-Activity (LeoAppNotification Einstellungen)
      */
     public NotificationPreferenceActivity getNotificationPreferenceActivity() {
         return notificationPreferenceActivity;

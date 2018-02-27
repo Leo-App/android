@@ -22,8 +22,10 @@ import de.slgdev.leoapp.utility.Utils;
  */
 
 public class SurveySynchronizer implements Synchronizer {
+
     @Override
     public boolean run() {
+
         if(!Utils.checkNetwork())
             return false;
 
@@ -59,8 +61,6 @@ public class SurveySynchronizer implements Synchronizer {
             for (String s : result) {
                 String[] res = s.split("_;_");
                 if (res.length >= 7) {
-
-                    Utils.logError(res[3]);
 
                     boolean voteable = res[3].equals("Alle") || ((Utils.getUserStufe().equals("Q1")
                             || Utils.getUserStufe().equals("Q2")

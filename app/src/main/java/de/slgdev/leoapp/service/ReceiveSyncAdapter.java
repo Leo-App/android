@@ -28,7 +28,6 @@ class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
 
     {
         synchronizers = new Synchronizer[]{new NewsSynchronizer(), new SurveySynchronizer()};
-        Utils.logDebug("INSTANCE INITIALIZER");
     }
 
     ReceiveSyncAdapter(Context context, boolean autoInitialize) {
@@ -41,12 +40,8 @@ class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Utils.logDebug("SYNC STARTED");
         for(Synchronizer s : synchronizers)
             if(s.run())
                 s.postUpdate();
-//        if (Utils.getController().getReceiveService() == null)
-//            Start.startReceiveService();
-//        Utils.getController().getReceiveService().startSocketIfNotRunning();
     }
 }

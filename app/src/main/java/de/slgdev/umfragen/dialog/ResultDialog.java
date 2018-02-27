@@ -2,7 +2,6 @@ package de.slgdev.umfragen.dialog;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -15,18 +14,17 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import de.slgdev.leoapp.R;
+import de.slgdev.leoapp.task.general.ObjectCallbackTask;
+import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.schwarzes_brett.utility.ResponseCode;
+import de.slgdev.umfragen.task.SyncResultTask;
 
 import static android.view.View.GONE;
 
@@ -39,10 +37,10 @@ import static android.view.View.GONE;
  * @version 2017.2110
  * @since 0.5.6
  */
-public class ResultDialog extends AlertDialog {
+public class ResultDialog extends AlertDialog implements TaskStatusListener {
 
     private int       id;
-    private AsyncTask asyncTask;
+    private ObjectCallbackTask asyncTask;
 
     private TextView[]    answers;
     private TextView[]    percentages;
@@ -117,7 +115,8 @@ public class ResultDialog extends AlertDialog {
             stopLoading();
         });
 
-        asyncTask = new SyncResults().execute();
+        asyncTask = new SyncResultTask();
+        asyncTask.addListener(this).execute(id, to);
     }
 
     @SuppressWarnings("unchecked")
@@ -157,108 +156,42 @@ public class ResultDialog extends AlertDialog {
         asyncTask.cancel(true);
     }
 
-    /**
-     * Ergebnissynchronisations-Task
-     * <p>
-     * Diese private Klasse ruft die Ergebnisse der Umfrage mit der übergebenen ID ab. Dazu werden die Ergebnisse eines PHP Skripts abgerufen und ausgewertet.
-     *
-     * @author Gianni
-     * @version 2017.0512
-     * @since 0.5.6
-     */
-    private class SyncResults extends AsyncTask<Void, Void, ResponseCode> {
+    @Override
+    @SuppressWarnings("unchecked")
+    public void taskFinished(Object... params) {
 
-        private int                            amountAnswers;
-        private int                            target;
-        private int                            sumVotes;
-        private String                         title;
-        private LinkedHashMap<String, Integer> answerResults;
+        ResponseCode responseCode = (ResponseCode) params[0];
 
-        @Override
-        protected ResponseCode doInBackground(Void... params) {
-            try {
-                if (!Utils.checkNetwork()) {
-                    return ResponseCode.NO_CONNECTION;
-                }
+        int amountAnswers = (int) params[1];
+        LinkedHashMap<String, Integer> answerResults = (LinkedHashMap<String, Integer>) params[2];
+        int target = (int) params[3];
+        int sumVotes = (int) params[4];
+        String title = (String) params[5];
 
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(
-                                new URL(
-                                        Utils.BASE_URL_PHP + "survey/" +
-                                                "getAllResults.php?" +
-                                                "survey=" + id + "&" +
-                                                "to=" + to.replace(" ", "%20")
+        load.setVisibility(View.GONE);
 
-                                )
-                                        .openConnection()
-                                        .getInputStream()
-                        )
-                );
-
-                Utils.logError((
-                        Utils.BASE_URL_PHP + "survey/" +
-                                "getAllResults.php?" +
-                                "survey=" + id + "&" +
-                                "to=" + to
-                ).replace(" ", "%20"));
-
-                StringBuilder builder = new StringBuilder();
-                String        line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-
-                String result = builder.toString();
-                if (result.contains("-ERR"))
-                    return ResponseCode.SERVER_ERROR;
-
-                String[] data = result.split("_;;_");
-
-                target = Integer.parseInt(data[0]);
-                title = data[2];
-                sumVotes = Integer.parseInt(data[3]);
-
-                String[] answers = data[1].split("_next_");
-
-                amountAnswers = answers.length;
-                answerResults = new LinkedHashMap<>();
-
-                for (String s : answers) {
-                    answerResults.put(s.split("_;_")[0], Integer.parseInt(s.split("_;_")[1]));
-                }
-            } catch (IOException e) {
-                Utils.logError(e);
-                return ResponseCode.SERVER_ERROR;
-            }
-
-            return ResponseCode.SUCCESS;
-        }
-
-        @Override
-        protected void onPostExecute(ResponseCode b) {
-            load.setVisibility(GONE);
-            switch (b) {
-                case NO_CONNECTION:
-                    findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
-                    final Snackbar snack = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
-                    snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                    snack.setAction(getContext().getString(R.string.confirm), v -> snack.dismiss());
-                    snack.show();
-                    break;
-                case SERVER_ERROR:
-                    findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
-                    final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.error_later), Snackbar.LENGTH_SHORT);
-                    snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                    snackbar.setAction(getContext().getString(R.string.confirm), v -> snackbar.dismiss());
-                    snackbar.show();
-                    break;
-                case SUCCESS:
-                    t1.setText(title);
-                    t1.setVisibility(View.VISIBLE);
-                    t2.setVisibility(View.VISIBLE);
-                    animateChanges(amountAnswers, answerResults, target, sumVotes);
-                    break;
-            }
+        switch (responseCode) {
+            case NO_CONNECTION:
+                findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
+                final Snackbar snack = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
+                snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                snack.setAction(getContext().getString(R.string.confirm), v -> snack.dismiss());
+                snack.show();
+                break;
+            case NOT_SENT:
+            case SERVER_FAILED:
+                findViewById(R.id.imageViewError).setVisibility(View.VISIBLE);
+                final Snackbar snackbar = Snackbar.make(findViewById(R.id.snackbar), Utils.getString(R.string.error_later), Snackbar.LENGTH_SHORT);
+                snackbar.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                snackbar.setAction(getContext().getString(R.string.confirm), v -> snackbar.dismiss());
+                snackbar.show();
+                break;
+            case SUCCESS:
+                t1.setText(title);
+                t1.setVisibility(View.VISIBLE);
+                t2.setVisibility(View.VISIBLE);
+                animateChanges(amountAnswers, answerResults, target, sumVotes);
+                break;
         }
     }
 }

@@ -6,6 +6,8 @@
     <string name="qr_intro_title1">QR - Foodmarks</string>
     <string name="qr_intro_desc1">This feature simplifies the issue of food during lunch.</string>
 
+    <string name="desc_it_problem">Helps you to fix any problem concerning classroom technology</string>
+
     <string name="qr_intro_titleVerification" translatable="false">Log in</string>
     <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
         lunch.leo-ac.de credentials.</string>
@@ -166,7 +168,7 @@
     <string name="popup_code_not_valid">Code is not valid or has already been scanned by this device</string>
     <string name="notification_summary_notif">You haven\'t synchronized your order yet</string>
     <string name="login_success">Login successful</string>
-    <string name="no_order">No order</string>
+    <string name="no_order">No order for today</string>
     <string name="not_loggedin">Not logged in</string>
     <string name="minutes">Minutes</string>
     <string name="hour">Hour</string>
