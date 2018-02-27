@@ -1,4 +1,4 @@
-package de.slgdev.messenger;
+package de.slgdev.messenger.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

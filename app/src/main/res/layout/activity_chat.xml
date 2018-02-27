@@ -18,7 +18,7 @@
             android:background="@color/colorPrimary"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
@@ -50,8 +50,10 @@
             android:layout_alignParentBottom="true"
             android:background="@android:color/background_light"
             android:paddingBottom="2dp"
+            android:paddingEnd="6dp"
             android:paddingLeft="4dp"
             android:paddingRight="6dp"
+            android:paddingStart="4dp"
             android:paddingTop="8dp">
 
             <EditText
@@ -61,15 +63,17 @@
                 android:layout_toLeftOf="@+id/sendButton"
                 android:layout_toStartOf="@+id/sendButton"
                 android:inputType="textMultiLine|textCapSentences"
-                android:maxHeight="80dp" />
+                android:maxHeight="80dp"/>
 
             <ImageButton
                 android:id="@+id/sendButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@id/inputMessage"
                 android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/background_send_button"
                 android:tint="@color/colorAccent"
                 app:srcCompat="@drawable/ic_send"/>
