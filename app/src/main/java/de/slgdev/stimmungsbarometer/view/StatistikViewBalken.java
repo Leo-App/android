@@ -23,10 +23,9 @@ public class StatistikViewBalken extends View {
     private Bitmap     bitmapIch, bitmapSchueler, bitmapLehrer, bitmapAlle;
     private final Canvas canvasBack;
     private final Canvas canvasIch, canvasSchueler, canvasLehrer, canvasAlle;
-    private final Paint paint;
-    boolean recreateCharts;
-    private boolean isInitialized;
-    private float   baseLineY, baseLineX, abstandX, abstandY, breite;
+    private final Paint   paint;
+    private       boolean isInitialized;
+    private       float   baseLineY, baseLineX, abstandX, abstandY, breite;
 
     public StatistikViewBalken(Context context) {
         super(context);
@@ -41,29 +40,34 @@ public class StatistikViewBalken extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        if (!isInitialized)
+        if (!isInitialized) {
             init();
-        if (recreateCharts)
-            createCharts();
+        }
+
         canvas.drawBitmap(bitmapBack, 0, 0, paint);
-        if (drawI)
+
+        if (drawI) {
             canvas.drawBitmap(bitmapIch, 0, 0, paint);
-        if (drawS)
+        }
+        if (drawS) {
             canvas.drawBitmap(bitmapSchueler, 0, 0, paint);
-        if (drawL)
+        }
+        if (drawL) {
             canvas.drawBitmap(bitmapLehrer, 0, 0, paint);
-        if (drawA)
+        }
+        if (drawA) {
             canvas.drawBitmap(bitmapAlle, 0, 0, paint);
+        }
     }
 
     @Override
     public void invalidate() {
-        recreateCharts = true;
         super.invalidate();
     }
 
     public void setData(Ergebnis[] data) {
         this.data = data;
+        createCharts();
     }
 
     private void init() {
@@ -86,37 +90,37 @@ public class StatistikViewBalken extends View {
         isInitialized = true;
     }
 
-    private void createCharts() {
-        bitmapIch = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        canvasIch.setBitmap(bitmapIch);
-        bitmapSchueler = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        canvasSchueler.setBitmap(bitmapSchueler);
-        bitmapLehrer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        canvasLehrer.setBitmap(bitmapLehrer);
-        bitmapAlle = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        canvasAlle.setBitmap(bitmapAlle);
+    public void createCharts() {
+        if (width != 0 && height != 0) {
+            bitmapIch = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasIch.setBitmap(bitmapIch);
+            bitmapSchueler = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasSchueler.setBitmap(bitmapSchueler);
+            bitmapLehrer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasLehrer.setBitmap(bitmapLehrer);
+            bitmapAlle = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasAlle.setBitmap(bitmapAlle);
 
-        if (data[0].value >= 1 && data[0].value <= 5) {
-            paint.setColor(ContextCompat.getColor(getContext(), R.color.colorIch));
-            canvasIch.drawRect(baseLineX, (float) (baseLineY - (5 - data[0].value) * abstandY), baseLineX + breite, baseLineY, paint);
+            if (data[0].value >= 1 && data[0].value <= 5) {
+                paint.setColor(ContextCompat.getColor(getContext(), R.color.colorIch));
+                canvasIch.drawRect(baseLineX, (float) (baseLineY - (5 - data[0].value) * abstandY), baseLineX + breite, baseLineY, paint);
+            }
+
+            if (data[1].value >= 1 && data[1].value <= 5) {
+                paint.setColor(ContextCompat.getColor(getContext(), R.color.colorSchueler));
+                canvasSchueler.drawRect(baseLineX + breite + abstandX, (float) (baseLineY - (5 - data[1].value) * abstandY), baseLineX + breite + abstandX + breite, baseLineY, paint);
+            }
+
+            if (data[2].value >= 1 && data[2].value <= 5) {
+                paint.setColor(ContextCompat.getColor(getContext(), R.color.colorLehrer));
+                canvasLehrer.drawRect(baseLineX + (breite + abstandX) * 2, (float) (baseLineY - (5 - data[2].value) * abstandY), baseLineX + (breite + abstandX) * 2 + breite, baseLineY, paint);
+            }
+
+            if (data[3].value >= 1 && data[3].value <= 5) {
+                paint.setColor(ContextCompat.getColor(getContext(), R.color.colorAlle));
+                canvasAlle.drawRect(baseLineX + (breite + abstandX) * 3, (float) (baseLineY - (5 - data[3].value) * abstandY), baseLineX + (breite + abstandX) * 3 + breite, baseLineY, paint);
+            }
         }
-
-        if (data[1].value >= 1 && data[1].value <= 5) {
-            paint.setColor(ContextCompat.getColor(getContext(), R.color.colorSchueler));
-            canvasSchueler.drawRect(baseLineX + breite + abstandX, (float) (baseLineY - (5 - data[1].value) * abstandY), baseLineX + breite + abstandX + breite, baseLineY, paint);
-        }
-
-        if (data[2].value >= 1 && data[2].value <= 5) {
-            paint.setColor(ContextCompat.getColor(getContext(), R.color.colorLehrer));
-            canvasLehrer.drawRect(baseLineX + (breite + abstandX) * 2, (float) (baseLineY - (5 - data[2].value) * abstandY), baseLineX + (breite + abstandX) * 2 + breite, baseLineY, paint);
-        }
-
-        if (data[3].value >= 1 && data[3].value <= 5) {
-            paint.setColor(ContextCompat.getColor(getContext(), R.color.colorAlle));
-            canvasAlle.drawRect(baseLineX + (breite + abstandX) * 3, (float) (baseLineY - (5 - data[3].value) * abstandY), baseLineX + (breite + abstandX) * 3 + breite, baseLineY, paint);
-        }
-
-        recreateCharts = false;
     }
 
     private void drawBackground() {

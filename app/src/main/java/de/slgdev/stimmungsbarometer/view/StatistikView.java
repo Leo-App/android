@@ -24,7 +24,6 @@ public class StatistikView extends View {
     private final Canvas canvasBack;
     private final Canvas canvasIch, canvasSchueler, canvasLehrer, canvasAlle;
     private final Paint   paint;
-    private       boolean recreateCharts;
     private       boolean isInitialized;
     private       float   baseLineY, baseLineX, abstandX, abstandY, radius;
 
@@ -41,24 +40,27 @@ public class StatistikView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        if (!isInitialized)
+        if (!isInitialized) {
             init();
-        if (recreateCharts)
-            createCharts();
+        }
+
         canvas.drawBitmap(bitmapBack, 0, 0, paint);
-        if (drawI)
+        if (drawI) {
             canvas.drawBitmap(bitmapIch, 0, 0, paint);
-        if (drawS)
+        }
+        if (drawS) {
             canvas.drawBitmap(bitmapSchueler, 0, 0, paint);
-        if (drawL)
+        }
+        if (drawL) {
             canvas.drawBitmap(bitmapLehrer, 0, 0, paint);
-        if (drawA)
+        }
+        if (drawA) {
             canvas.drawBitmap(bitmapAlle, 0, 0, paint);
+        }
     }
 
     @Override
     public void invalidate() {
-        recreateCharts = true;
         super.invalidate();
     }
 
@@ -81,25 +83,24 @@ public class StatistikView extends View {
         isInitialized = true;
     }
 
-    private void createCharts() {
-        if (data[3].length > 1)
-            abstandX = width * 9 / ((data[3].length - 1) * 10);
-        else
-            abstandX = width * 9 / 10;
-        bitmapIch = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        canvasIch.setBitmap(bitmapIch);
-        bitmapSchueler = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        canvasSchueler.setBitmap(bitmapSchueler);
-        bitmapLehrer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        canvasLehrer.setBitmap(bitmapLehrer);
-        bitmapAlle = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        canvasAlle.setBitmap(bitmapAlle);
-        if (data == null) {
-            recreateCharts = true;
-        } else {
-            drawPoints();
-            drawGraphs();
-            recreateCharts = false;
+    public void createCharts() {
+        if (height != 0 && width != 0) {
+            if (data[3].length > 1)
+                abstandX = width * 9 / ((data[3].length - 1) * 10);
+            else
+                abstandX = width * 9 / 10;
+            bitmapIch = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasIch.setBitmap(bitmapIch);
+            bitmapSchueler = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasSchueler.setBitmap(bitmapSchueler);
+            bitmapLehrer = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasLehrer.setBitmap(bitmapLehrer);
+            bitmapAlle = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            canvasAlle.setBitmap(bitmapAlle);
+            if (data != null) {
+                drawPoints();
+                drawGraphs();
+            }
         }
     }
 
@@ -190,5 +191,6 @@ public class StatistikView extends View {
 
     public void setData(Ergebnis[][] data) {
         this.data = data;
+        createCharts();
     }
 }
