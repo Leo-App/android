@@ -107,8 +107,9 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
     public void taskFinished(Object... params) {
         if (params[0] == ResponseCode.SERVER_FAILED) {
             Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+        } else {
+            updateViews();
         }
-        updateViews();
     }
 
     private void initLayouts() {
@@ -118,43 +119,31 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         final View lA = findViewById(R.id.layoutAlle);
         lI.findViewById(R.id.textViewIch).setEnabled(drawI);
         lI.findViewById(R.id.imageViewIch).setEnabled(drawI);
-        lI.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Utils.isVerified()) {
-                    drawI = !drawI;
-                    v.findViewById(R.id.textViewIch).setEnabled(drawI);
-                    v.findViewById(R.id.imageViewIch).setEnabled(drawI);
-                    updateViews();
-                }
+        lI.setOnClickListener(v -> {
+            if (Utils.isVerified()) {
+                drawI = !drawI;
+                v.findViewById(R.id.textViewIch).setEnabled(drawI);
+                v.findViewById(R.id.imageViewIch).setEnabled(drawI);
+                refreshViews();
             }
         });
-        lS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawS = !drawS;
-                v.findViewById(R.id.textViewSchueler).setEnabled(drawS);
-                v.findViewById(R.id.imageViewSchueler).setEnabled(drawS);
-                updateViews();
-            }
+        lS.setOnClickListener(v -> {
+            drawS = !drawS;
+            v.findViewById(R.id.textViewSchueler).setEnabled(drawS);
+            v.findViewById(R.id.imageViewSchueler).setEnabled(drawS);
+            refreshViews();
         });
-        lL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawL = !drawL;
-                v.findViewById(R.id.textViewLehrer).setEnabled(drawL);
-                v.findViewById(R.id.imageViewLehrer).setEnabled(drawL);
-                updateViews();
-            }
+        lL.setOnClickListener(v -> {
+            drawL = !drawL;
+            v.findViewById(R.id.textViewLehrer).setEnabled(drawL);
+            v.findViewById(R.id.imageViewLehrer).setEnabled(drawL);
+            refreshViews();
         });
-        lA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawA = !drawA;
-                v.findViewById(R.id.textViewAlle).setEnabled(drawA);
-                v.findViewById(R.id.imageViewAlle).setEnabled(drawA);
-                updateViews();
-            }
+        lA.setOnClickListener(v -> {
+            drawA = !drawA;
+            v.findViewById(R.id.textViewAlle).setEnabled(drawA);
+            v.findViewById(R.id.imageViewAlle).setEnabled(drawA);
+            refreshViews();
         });
     }
 
@@ -195,35 +184,32 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         final ViewGroup layoutAlles = cardAlles.findViewById(R.id.layout);
         layoutAlles.addView(viewAlles);
 
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                View scrollView = findViewById(R.id.scrollView);
-                int  height, width;
-                while ((height = scrollView.getHeight()) == 0 || (width = scrollView.getWidth()) == 0)
-                    ;
+        new Handler().post(() -> {
+            View scrollView = findViewById(R.id.scrollView);
+            int  height, width;
+            while ((height = scrollView.getHeight()) == 0 || (width = scrollView.getWidth()) == 0)
+                ;
 
-                viewWoche.setMinimumHeight(height * 4 / 5);
-                viewMonat.setMinimumHeight(height * 4 / 5);
-                viewJahr.setMinimumHeight(height * 4 / 5);
-                viewAlles.setMinimumHeight(height * 4 / 5);
+            viewWoche.setMinimumHeight(height * 4 / 5);
+            viewMonat.setMinimumHeight(height * 4 / 5);
+            viewJahr.setMinimumHeight(height * 4 / 5);
+            viewAlles.setMinimumHeight(height * 4 / 5);
 
-                final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(0, height / 64, 0, height / 64);
+            final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(0, height / 64, 0, height / 64);
 
-                final LinearLayout container = findViewById(R.id.linearLayout);
-                container.addView(cardWoche, layoutParams);
-                container.addView(cardMonat, layoutParams);
-                container.addView(cardJahr, layoutParams);
-                container.addView(cardAlles, layoutParams);
+            final LinearLayout container = findViewById(R.id.linearLayout);
+            container.addView(cardWoche, layoutParams);
+            container.addView(cardMonat, layoutParams);
+            container.addView(cardJahr, layoutParams);
+            container.addView(cardAlles, layoutParams);
 
-                final LinearLayout.LayoutParams layoutParamsTitle = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                layoutParamsTitle.setMargins(width / 128, height / 128, width / 128, height / 128);
-                titleWoche.setLayoutParams(layoutParamsTitle);
-                titleMonat.setLayoutParams(layoutParamsTitle);
-                titleJahr.setLayoutParams(layoutParamsTitle);
-                titleAlles.setLayoutParams(layoutParamsTitle);
-            }
+            final LinearLayout.LayoutParams layoutParamsTitle = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParamsTitle.setMargins(width / 128, height / 128, width / 128, height / 128);
+            titleWoche.setLayoutParams(layoutParamsTitle);
+            titleMonat.setLayoutParams(layoutParamsTitle);
+            titleJahr.setLayoutParams(layoutParamsTitle);
+            titleAlles.setLayoutParams(layoutParamsTitle);
         });
     }
 
@@ -231,38 +217,37 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         if (Utils.getUserPermission() >= User.PERMISSION_LEHRER) {
             View edit = findViewById(R.id.changeQuestion);
             edit.setVisibility(View.VISIBLE);
-            edit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog = new EditTextDialog(
-                            StimmungsbarometerActivity.this,
-                            getString(R.string.change_question),
-                            getString(R.string.new_question),
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    new SendQuestionTask().execute(dialog.getTextInput());
-                                    dialog.dismiss();
-                                }
-                            }
-                    );
-                    dialog.show();
-                }
+            edit.setOnClickListener(v -> {
+                dialog = new EditTextDialog(
+                        StimmungsbarometerActivity.this,
+                        getString(R.string.change_question),
+                        getString(R.string.new_question),
+                        v1 -> {
+                            new SendQuestionTask().execute(dialog.getTextInput());
+                            dialog.dismiss();
+                        }
+                );
+                dialog.show();
             });
         }
     }
 
     private void updateViews() {
+        updateViewData();
+        refreshViews();
+    }
+
+    private void updateViewData() {
         viewWoche.setData(database.getData(0));
-        viewWoche.invalidate();
-
         viewMonat.setData(database.getData(1));
-        viewMonat.invalidate();
-
         viewJahr.setData(database.getData(2));
-        viewJahr.invalidate();
-
         viewAlles.setData(database.getAverage());
+    }
+
+    private void refreshViews() {
+        viewWoche.invalidate();
+        viewMonat.invalidate();
+        viewJahr.invalidate();
         viewAlles.invalidate();
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_enabled="false">
+    <item android:state_enabled="true">
         <shape>
             <solid android:color="@color/colorTabIndicator" />
             <corners android:bottomLeftRadius="0dp" android:radius="6dp" />
@@ -9,7 +9,7 @@
         </shape>
     </item>
 
-    <item android:state_enabled="true">
+    <item android:state_enabled="false">
         <shape>
             <solid android:color="@color/colorAccent" />
             <corners android:bottomRightRadius="0dp" android:radius="6dp" />

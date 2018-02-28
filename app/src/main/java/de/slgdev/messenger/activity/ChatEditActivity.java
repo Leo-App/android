@@ -19,7 +19,7 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.ActionLogActivity;
-import de.slgdev.messenger.UserAdapter;
+import de.slgdev.messenger.view.UserAdapter;
 import de.slgdev.messenger.task.AddUser;
 import de.slgdev.messenger.task.RemoveUser;
 import de.slgdev.messenger.task.SendChatname;
