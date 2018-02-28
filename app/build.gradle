@@ -16,10 +16,10 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
+            debuggable false
         }
         debug {
-            debuggable true
+            debuggable false
         }
     }
     buildToolsVersion '26.0.2'

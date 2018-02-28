@@ -43,9 +43,7 @@
     </string>
 
     <string name="dialog_changelog">
-        - Bugfixes \n
-        - IT - Problemlöser implementiert \n
-        - Weihnachtslogos entfernt \n
+        - Bugfixes \n- IT - Problemlöser implementiert \n- Weihnachtslogos entfernt \n
     </string>
 
     <string name="none">Keine</string>
@@ -466,5 +464,6 @@
     <string name="sent">Gesendet</string>
     <string name="qr_scan_title">Essensbon Scannen</string>
     <string name="title_survey_result">Abgeschlossene Umfragen</string>
+    <string name="desc_it_problem">Hilft dabei, alle technischen Probleme im Klassenraum zu lösen</string>
 
 </resources>
