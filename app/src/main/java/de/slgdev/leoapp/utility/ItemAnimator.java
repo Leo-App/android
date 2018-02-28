@@ -11,7 +11,6 @@ import android.view.View;
  * @version 2017.2310
  * @since 0.5.6
  */
-
 @SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class ItemAnimator<ContentType extends View> {
 
@@ -91,5 +90,6 @@ public abstract class ItemAnimator<ContentType extends View> {
                 }
             }
         }
+
     }
 }

@@ -11,6 +11,7 @@ package de.slgdev.leoapp.utility;
  */
 @SuppressWarnings("unused")
 public final class User {
+
     public static final int PERMISSION_UNVERIFIZIERT = 0;
     public static final int PERMISSION_SCHUELER      = 1;
     public static final int PERMISSION_LEHRER        = 2;

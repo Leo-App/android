@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -99,38 +98,30 @@ public class NewEntryDialog extends AlertDialog {
     }
 
     private void initButtons() {
-        findViewById(R.id.buttonDel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
+        findViewById(R.id.buttonDel).setOnClickListener(v -> dismiss());
+
+        findViewById(R.id.buttonSave).setOnClickListener(v -> {
+            final TextView title = findViewById(R.id.title_edittext);
+
+            final TextView content = findViewById(R.id.content);
+            final TextView date    = findViewById(R.id.eingabeDatum);
+
+            final String     OLD_FORMAT = "dd-MM-yyyy";
+            final String     NEW_FORMAT = "yyyy-MM-dd";
+            String           newDate;
+            SimpleDateFormat sdf        = new SimpleDateFormat(OLD_FORMAT, Locale.GERMANY);
+            String           dateString = date.getText().toString();
+            Date             d          = null;
+            try {
+                d = sdf.parse(dateString);
+            } catch (ParseException e) {
+                Utils.logError(e);
             }
-        });
-
-        findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final TextView title = findViewById(R.id.title_edittext);
-
-                final TextView content = findViewById(R.id.content);
-                final TextView date    = findViewById(R.id.eingabeDatum);
-
-                final String     OLD_FORMAT = "dd-MM-yyyy";
-                final String     NEW_FORMAT = "yyyy-MM-dd";
-                String           newDate;
-                SimpleDateFormat sdf        = new SimpleDateFormat(OLD_FORMAT, Locale.GERMANY);
-                String           dateString = date.getText().toString();
-                Date             d          = null;
-                try {
-                    d = sdf.parse(dateString);
-                } catch (ParseException e) {
-                    Utils.logError(e);
-                }
-                sdf.applyPattern(NEW_FORMAT);
-                newDate = sdf.format(d);
-                Spinner spinner = findViewById(R.id.spinner2);
-                Utils.logError(spinner.getSelectedItem().toString());
-                new SendEntryTask().execute(title.getText().toString(), content.getText().toString(), newDate, spinner.getSelectedItem().toString());
-            }
+            sdf.applyPattern(NEW_FORMAT);
+            newDate = sdf.format(d);
+            Spinner spinner = findViewById(R.id.spinner2);
+            Utils.logError(spinner.getSelectedItem().toString());
+            new SendEntryTask().execute(title.getText().toString(), content.getText().toString(), newDate, spinner.getSelectedItem().toString());
         });
     }
 
@@ -138,12 +129,7 @@ public class NewEntryDialog extends AlertDialog {
         ImageButton dateButton = findViewById(R.id.imageButton);
         TextView    dateText   = findViewById(R.id.eingabeDatum);
         setDateTimeField(dateText);
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog.show();
-            }
-        };
+        View.OnClickListener listener = v -> datePickerDialog.show();
         dateButton.setOnClickListener(listener);
         dateText.setOnClickListener(listener);
     }
@@ -151,13 +137,10 @@ public class NewEntryDialog extends AlertDialog {
     private void setDateTimeField(final TextView t) {
         final Calendar         newCalendar   = Calendar.getInstance();
         final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
-        datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                t.setText(dateFormatter.format(newDate.getTime()));
-            }
+        datePickerDialog = new DatePickerDialog(getContext(), (view, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth);
+            t.setText(dateFormatter.format(newDate.getTime()));
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
@@ -179,10 +162,13 @@ public class NewEntryDialog extends AlertDialog {
      * @since 0.5.6
      */
     private class SendEntryTask extends AsyncTask<String, Void, Boolean> {
+
         @Override
         protected Boolean doInBackground(String... params) {
+
             if (!Utils.checkNetwork())
                 return false;
+
             try {
                 for (int i = 0; i < params.length; i++) {
                     params[i] = params[i]
@@ -235,12 +221,7 @@ public class NewEntryDialog extends AlertDialog {
             } else {
                 final Snackbar snack = Snackbar.make(findViewById(R.id.dialog_entry), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
                 snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                snack.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snack.dismiss();
-                    }
-                });
+                snack.setAction(getContext().getString(R.string.confirm), v -> snack.dismiss());
                 snack.show();
             }
         }

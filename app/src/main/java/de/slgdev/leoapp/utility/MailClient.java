@@ -22,6 +22,7 @@ import de.slgdev.leoapp.utility.datastructure.List;
  * @since 0.5.5
  */
 public class MailClient {
+
     private final String       fromEmail;
     private final String       fromPassword;
     private final List<String> toEmailList;
