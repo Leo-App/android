@@ -102,7 +102,7 @@ public class ReceiveService extends Service {
     }
 
     public void send(Chat chat) {
-        String s = "c+ " + chat.ctype.toString().toUpperCase().charAt(0) + ';' + chat.cname;
+        String s = "c+ '" + chat.ctype.toString().toUpperCase().charAt(0) + "';" + chat.cname;
         send(s);
     }
 

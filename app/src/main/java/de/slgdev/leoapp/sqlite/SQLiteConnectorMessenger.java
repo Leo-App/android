@@ -343,7 +343,7 @@ public class SQLiteConnectorMessenger {
             Chat.ChatType ctype = Chat.ChatType.valueOf(cursor.getString(2));
             boolean       cmute = cursor.getInt(3) == 1;
 
-            if (ctype.equals(Chat.ChatType.PRIVATE)) {
+            if (ctype.equals(Chat.ChatType.PRIVATE) && cname.matches("[0-9]{4} - [0-9]{4}")) {
                 String[] split = cname.split(" - ");
                 if (split[0].equals(String.valueOf(Utils.getUserID()))) {
                     cname = getUname(Integer.parseInt(split[1]));

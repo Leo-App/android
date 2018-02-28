@@ -166,13 +166,13 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         final CardView cardAlles = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
         cardAlles.setCardElevation(GraphicUtils.dpToPx(4));
 
-        final TextView titleWoche = cardWoche.findViewById(R.id.titleKlausur);
+        final TextView titleWoche = cardWoche.findViewById(R.id.title);
         titleWoche.setText(R.string.last_week);
-        final TextView titleMonat = cardMonat.findViewById(R.id.titleKlausur);
+        final TextView titleMonat = cardMonat.findViewById(R.id.title);
         titleMonat.setText(R.string.last_month);
-        final TextView titleJahr = cardJahr.findViewById(R.id.titleKlausur);
+        final TextView titleJahr = cardJahr.findViewById(R.id.title);
         titleJahr.setText(R.string.last_year);
-        final TextView titleAlles = cardAlles.findViewById(R.id.titleKlausur);
+        final TextView titleAlles = cardAlles.findViewById(R.id.title);
         titleAlles.setText(R.string.total);
 
         final ViewGroup layoutWoche = cardWoche.findViewById(R.id.layout);
