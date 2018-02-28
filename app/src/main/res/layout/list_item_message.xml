@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/colorAccentTransparent"
+        android:minWidth="90dp"
+        android:padding="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:text="DD.MM.YY"
+        android:textAlignment="center"
+        android:textAppearance="@style/TabTextAppearance"
+        android:textColor="@color/colorTabIndicator"/>
+
+    <LinearLayout
+        android:id="@+id/chatbubblewrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewDate"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingBottom="1dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="1dp"
+        android:weightSum="4">
+
+        <LinearLayout
+            android:id="@+id/chatbubblewrapper2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/chatbubble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_chatbubble"
+                android:paddingBottom="1dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="1dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/absender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="Absender"
+                        android:textColor="@color/colorText"
+                        android:textSize="13sp"/>
+
+                    <de.slgdev.messenger.view.MessageTextView
+                        android:id="@+id/nachricht"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nachrichtaaaaaaa aaaaaaa aaaaa aaaa"
+                        android:textColor="@color/colorText"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/datumRight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:lines="1"
+                        android:text="HH:MM:SS"
+                        android:textColor="@color/colorText"
+                        android:textSize="11sp"/>
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="bottom|end"
+                    android:indeterminateTint="@android:color/white"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:theme="@style/ProgressBar"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

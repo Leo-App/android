@@ -1,0 +1,74 @@
+package de.slgdev.messenger.view;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.TextView;
+
+import de.slgdev.leoapp.R;
+import de.slgdev.leoapp.utility.User;
+
+public class UserAdapter extends ArrayAdapter<User> {
+    private final int            resId;
+    private final User[]         users;
+    private final LayoutInflater inflater;
+    private final View[]         views;
+
+    public UserAdapter(Context context, User[] users) {
+        super(context, R.layout.list_item_user, users);
+        this.resId = R.layout.list_item_user;
+        this.users = users;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.views = new View[users.length];
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, View v, @NonNull ViewGroup parent) {
+        if (v == null) {
+            v = inflater.inflate(resId, null);
+        }
+        final TextView username    = v.findViewById(R.id.username);
+        final TextView userdefault = v.findViewById(R.id.userdefault);
+        username.setText(users[position].uname);
+        userdefault.setText(users[position].udefaultname + ", " + users[position].ustufe);
+        v.findViewById(R.id.checkBox).setVisibility(View.VISIBLE);
+        views[position] = v;
+        return v;
+    }
+
+    /**
+     * Zählt die ausgewählten Benutzer
+     *
+     * @return Anzahl der ausgewählten Benutzer
+     */
+    public int selectCount() {
+        int count = 0;
+        for (int i = 0; i < users.length; i++) {
+            if (views[i] != null && ((CheckBox) views[i].findViewById(R.id.checkBox)).isChecked())
+                count++;
+        }
+        return count;
+    }
+
+    /**
+     * Erstellt ein Array der ausgewählten Benutzer
+     *
+     * @return {@link User}-Array
+     */
+    public User[] getSelected() {
+        User[] result = new User[selectCount()];
+        int    i1     = 0;
+        for (int i = 0; i < result.length; i++, i1++) {
+            while (i1 < views.length && (views[i1] == null || !((CheckBox) views[i1].findViewById(R.id.checkBox)).isChecked()))
+                i1++;
+            if (i1 < views.length)
+                result[i] = users[i1];
+        }
+        return result;
+    }
+}

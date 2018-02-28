@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollViewScan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewTitle_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="36dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/explain_title_1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textViewDesc_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewTitle_1"
+                android:layout_alignStart="@+id/textViewTitle_1"
+                android:layout_below="@+id/textViewTitle_1"
+                android:layout_marginRight="36dp"
+                android:layout_marginTop="26dp"
+                android:text="@string/explain_desc_1"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/textViewTitle_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewDesc_1"
+                android:layout_alignStart="@+id/textViewDesc_1"
+                android:layout_below="@+id/textViewDesc_1"
+                android:layout_marginTop="35dp"
+                android:text="@string/explain_title_2"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textViewDesc_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewTitle_2"
+                android:layout_alignStart="@+id/textViewTitle_2"
+                android:layout_below="@+id/textViewTitle_2"
+                android:layout_marginRight="36dp"
+                android:layout_marginTop="26dp"
+                android:text="@string/explain_desc_2"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/textViewTitle_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewDesc_2"
+                android:layout_alignStart="@+id/textViewDesc_2"
+                android:layout_below="@+id/textViewDesc_2"
+                android:layout_marginTop="35dp"
+                android:text="@string/explain_title_3"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textViewDesc_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/textViewTitle_3"
+                android:layout_alignStart="@+id/textViewTitle_3"
+                android:layout_below="@+id/textViewTitle_3"
+                android:layout_marginRight="36dp"
+                android:layout_marginTop="26dp"
+                android:text="@string/explain_desc_3"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/scan_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:background="@color/colorPrimary"
+        android:drawableLeft="@drawable/ic_qrcode_scan"
+        android:drawableStart="@drawable/ic_qrcode_scan"
+        android:elevation="4dp"
+        android:padding="12dp"
+        android:text="@string/button_scan"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
+
+</RelativeLayout>
