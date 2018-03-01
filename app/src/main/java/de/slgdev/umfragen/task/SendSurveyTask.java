@@ -44,6 +44,7 @@ public class SendSurveyTask extends ObjectCallbackTask<ResponseCode> {
                                             "desc=" + description + "&" +
                                             "mult=" + (multiple ? 1 : 0) + "&" +
                                             "answers=" + answerString)
+                                            .replace("%", "%25")
                                             .replace(
                                                     " ",
                                                     "%20"
