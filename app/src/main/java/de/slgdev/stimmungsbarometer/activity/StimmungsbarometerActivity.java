@@ -20,8 +20,8 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.stimmungsbarometer.task.SendQuestionTask;
 import de.slgdev.stimmungsbarometer.task.SyncVoteResultsTask;
-import de.slgdev.stimmungsbarometer.view.GraphView;
 import de.slgdev.stimmungsbarometer.view.ColumnView;
+import de.slgdev.stimmungsbarometer.view.GraphView;
 
 public class StimmungsbarometerActivity extends LeoAppNavigationActivity implements TaskStatusListener {
     public static boolean drawI;
@@ -233,15 +233,11 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
     }
 
     private void updateViews() {
-        updateViewData();
-        refreshViews();
-    }
-
-    private void updateViewData() {
         viewWoche.setData(database.getData(0));
         viewMonat.setData(database.getData(1));
         viewJahr.setData(database.getData(2));
         viewAlles.setData(database.getAverage());
+        refreshViews();
     }
 
     private void refreshViews() {
