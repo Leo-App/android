@@ -19,7 +19,7 @@ android {
             debuggable false
         }
         debug {
-            debuggable false
+            debuggable true
         }
     }
     buildToolsVersion '26.0.2'
