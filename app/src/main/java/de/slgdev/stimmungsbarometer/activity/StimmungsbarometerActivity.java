@@ -187,8 +187,7 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         new Handler().post(() -> {
             View scrollView = findViewById(R.id.scrollView);
             int  height, width;
-            while ((height = scrollView.getHeight()) == 0 || (width = scrollView.getWidth()) == 0)
-                ;
+            while ((height = scrollView.getHeight()) == 0 || (width = scrollView.getWidth()) == 0);
 
             viewWoche.setMinimumHeight(height * 4 / 5);
             viewMonat.setMinimumHeight(height * 4 / 5);

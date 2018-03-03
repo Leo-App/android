@@ -21,6 +21,7 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 
 public class Importer extends VoidCallbackTask<Void> {
+
     private final SQLiteConnectorKlausurplan database;
 
     private BufferedReader reader;

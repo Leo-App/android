@@ -6,6 +6,8 @@
 
     <string name="title_it_problem">IT-Problemlöser</string>
 
+    <string name="no_exams">Keine Klausuren!</string>
+
     <!-- TODO Translate -->
 
     <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your

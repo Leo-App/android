@@ -3,6 +3,8 @@
 
     <string name="title_survey_result">Saved Results</string>
 
+    <string name="no_exams">No exams!</string>
+
     <string name="qr_intro_title1">QR - Foodmarks</string>
     <string name="qr_intro_desc1">This feature simplifies the issue of food during lunch.</string>
 
