@@ -57,15 +57,13 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
         if (!EssensbonUtils.isLoggedIn())
             return null;
 
-        NetworkPerformance performance = Utils.getNetworkPerformance();
-
         if (onAppStart) {
             if (EssensbonUtils.isAutoSyncEnabled()) {
-                if (performance == NetworkPerformance.MEDIOCRE || performance == NetworkPerformance.EXCELLENT) {
+                if (EssensbonUtils.fastConnectionAvailable()) {
                     saveNewestEntries();
                 }
             }
-        } else if (performance == NetworkPerformance.MEDIOCRE || performance == NetworkPerformance.EXCELLENT) {
+        } else if (EssensbonUtils.fastConnectionAvailable()) {
             saveNewestEntries();
         }
 
