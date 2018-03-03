@@ -20,8 +20,8 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.stimmungsbarometer.task.SendQuestionTask;
 import de.slgdev.stimmungsbarometer.task.SyncVoteResultsTask;
-import de.slgdev.stimmungsbarometer.view.StatistikView;
-import de.slgdev.stimmungsbarometer.view.StatistikViewBalken;
+import de.slgdev.stimmungsbarometer.view.ColumnView;
+import de.slgdev.stimmungsbarometer.view.GraphView;
 
 public class StimmungsbarometerActivity extends LeoAppNavigationActivity implements TaskStatusListener {
     public static boolean drawI;
@@ -31,10 +31,10 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
 
     private SQLiteConnectorStimmungsbarometer database;
 
-    private StatistikView       viewWoche;
-    private StatistikView       viewMonat;
-    private StatistikView       viewJahr;
-    private StatistikViewBalken viewAlles;
+    private GraphView  viewWoche;
+    private GraphView  viewMonat;
+    private GraphView  viewJahr;
+    private ColumnView viewAlles;
 
     private EditTextDialog dialog;
 
@@ -148,13 +148,13 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
     }
 
     private void initScrollView() {
-        viewWoche = new StatistikView(getApplicationContext());
+        viewWoche = new GraphView(getApplicationContext());
         viewWoche.setData(database.getData(0));
-        viewMonat = new StatistikView(getApplicationContext());
+        viewMonat = new GraphView(getApplicationContext());
         viewMonat.setData(database.getData(1));
-        viewJahr = new StatistikView(getApplicationContext());
+        viewJahr = new GraphView(getApplicationContext());
         viewJahr.setData(database.getData(2));
-        viewAlles = new StatistikViewBalken(getApplicationContext());
+        viewAlles = new ColumnView(getApplicationContext());
         viewAlles.setData(database.getAverage());
 
         final CardView cardWoche = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
@@ -232,15 +232,11 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
     }
 
     private void updateViews() {
-        updateViewData();
-        refreshViews();
-    }
-
-    private void updateViewData() {
         viewWoche.setData(database.getData(0));
         viewMonat.setData(database.getData(1));
         viewJahr.setData(database.getData(2));
         viewAlles.setData(database.getAverage());
+        refreshViews();
     }
 
     private void refreshViews() {

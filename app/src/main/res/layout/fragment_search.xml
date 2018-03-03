@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/search_term"
             android:inputType="textPersonName"
-            android:maxLines="1" />
+            android:maxLines="1"/>
 
     </RelativeLayout>
 
@@ -32,24 +32,25 @@
         android:layout_height="0.75dp"
         android:layout_below="@id/relativeLayout2"
 
-        android:orientation="horizontal" />
+        android:orientation="horizontal"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/linearLayout2"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"/>
 
     <android.support.v7.widget.CardView
         android:id="@+id/sortCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@id/relativeLayout2"
-        android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
         app:cardElevation="2dp">
 
         <RelativeLayout
@@ -67,7 +68,7 @@
                 android:text="@string/first"
                 android:textColor="@color/colorText"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/buttonFirst"
@@ -75,14 +76,14 @@
                 android:layout_height="28dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginStart="20dp"
-                android:layout_toRightOf="@id/textView7"
                 android:layout_toEndOf="@id/textView7"
+                android:layout_toRightOf="@id/textView7"
                 android:background="@drawable/background_sort_buttons"
                 android:text="@string/settings_title_nickname"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <RelativeLayout
                 android:id="@+id/relativeLayout5"
@@ -99,7 +100,7 @@
                     android:text="@string/sort"
                     android:textColor="@color/colorText"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <Button
                     android:id="@+id/buttonName"
@@ -112,21 +113,21 @@
                     android:text="@string/user"
                     android:textColor="@color/colorAccent"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <ImageButton
                     android:id="@+id/buttonNameUpDown"
                     android:layout_width="wrap_content"
                     android:layout_height="28dp"
                     android:layout_alignTop="@+id/buttonName"
-                    android:layout_toRightOf="@+id/buttonName"
                     android:layout_toEndOf="@+id/buttonName"
+                    android:layout_toRightOf="@+id/buttonName"
                     android:adjustViewBounds="true"
                     android:background="@drawable/background_sort_buttons"
                     android:scaleType="fitCenter"
                     android:tint="@color/colorAccent"
                     app:srcCompat="@drawable/ic_expand_more"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription"/>
 
                 <Button
                     android:id="@+id/buttonGrade"
@@ -135,14 +136,14 @@
                     android:layout_alignTop="@id/buttonName"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_toRightOf="@id/buttonNameUpDown"
                     android:layout_toEndOf="@id/buttonNameUpDown"
+                    android:layout_toRightOf="@id/buttonNameUpDown"
                     android:background="@drawable/background_sort_buttons"
                     android:text="@string/grade"
                     android:textAlignment="center"
                     android:textColor="@color/colorAccent"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
             </RelativeLayout>
 

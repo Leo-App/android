@@ -49,7 +49,7 @@ public class SearchFragment extends Fragment {
             data = de.slgdev.leoapp.utility.Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, USER_STUFE + ", " + name);
             initRecyclerView();
             initSearch();
-            initSort();
+            //            initSort();
         }
         initialized = true;
         return view;
