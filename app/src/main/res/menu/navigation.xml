@@ -62,5 +62,9 @@
             android:id="@+id/settings"
             android:icon="@mipmap/icon_settings"
             android:title="@string/title_settings" />
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/ic_info"
+            android:title="@string/toolbar_name_info" />
     </group>
 </menu>

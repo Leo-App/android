@@ -115,7 +115,7 @@
                     android:scaleType="fitCenter"
                     android:tag="MESSENGER"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_messenger"/>
+                    app:srcCompat="@drawable/ic_messenger" />
 
             </RelativeLayout>
 
@@ -232,6 +232,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/restricted"
                 android:layout_width="80dp"
                 android:layout_height="80dp">
 
@@ -255,7 +256,7 @@
                     android:scaleType="fitCenter"
                     android:tag="ITPROBLEM"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_it_problem"/>
+                    app:srcCompat="@drawable/ic_it_problem" />
 
             </RelativeLayout>
 

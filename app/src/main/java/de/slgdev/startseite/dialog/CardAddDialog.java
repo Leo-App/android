@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import de.slgdev.leoapp.R;
+import de.slgdev.leoapp.utility.User;
+import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.startseite.CardType;
 import de.slgdev.startseite.activity.MainActivity;
 
@@ -66,6 +68,9 @@ public class CardAddDialog extends AlertDialog {
                 findViewById(R.id.highlight8),
                 findViewById(R.id.highlight9)
         };
+
+        if (Utils.getUserPermission()-2 < User.PERMISSION_LEHRER)
+            findViewById(R.id.restricted).setVisibility(View.GONE);
 
         initOptions();
         initSendButton();
