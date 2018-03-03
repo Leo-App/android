@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.slgdev.leoapp.R;
+import de.slgdev.leoapp.utility.Utils;
 
 public abstract class StimmungsbarometerUtils {
 
@@ -38,17 +39,24 @@ public abstract class StimmungsbarometerUtils {
     }
 
     private static String getLastVoteDate() {
-        return de.slgdev.leoapp.utility.Utils.getController().getPreferences().getString("pref_key_general_last_vote", "00.00");
+        return Utils.getController().getPreferences().getString("pref_key_general_last_vote", "00.00");
     }
 
     public static int getLastVote() {
-        return de.slgdev.leoapp.utility.Utils.getController().getPreferences().getInt("pref_key_general_vote_id", -1);
+        return Utils.getController().getPreferences().getInt("pref_key_general_vote_id", -1);
     }
 
     public static void setLastVote(int vote) {
-        de.slgdev.leoapp.utility.Utils.getController().getPreferences().edit()
+        Utils.getController().getPreferences().edit()
                 .putString("pref_key_general_last_vote", getCurrentDate())
                 .putInt("pref_key_general_vote_id", vote)
                 .apply();
     }
+
+    public static String getCurrentQuestion() {
+        return Utils.getController()
+                .getPreferences()
+                .getString("stimmungsbarometer_frage","Wie geht es dir?");
+    }
+
 }

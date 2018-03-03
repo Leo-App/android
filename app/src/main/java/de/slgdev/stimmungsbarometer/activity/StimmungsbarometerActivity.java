@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.stimmungsbarometer.task.SendQuestionTask;
 import de.slgdev.stimmungsbarometer.task.SyncVoteResultsTask;
+import de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slgdev.stimmungsbarometer.view.ColumnView;
 import de.slgdev.stimmungsbarometer.view.GraphView;
 
@@ -99,11 +101,6 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
     }
 
     @Override
-    public void taskStarts() {
-
-    }
-
-    @Override
     public void taskFinished(Object... params) {
         if (params[0] == ResponseCode.SERVER_FAILED) {
             Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
@@ -113,36 +110,34 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
     }
 
     private void initLayouts() {
-        final View lI = findViewById(R.id.layoutIch);
-        final View lS = findViewById(R.id.layoutSchueler);
-        final View lL = findViewById(R.id.layoutLehrer);
-        final View lA = findViewById(R.id.layoutAlle);
-        lI.findViewById(R.id.textViewIch).setEnabled(drawI);
-        lI.findViewById(R.id.imageViewIch).setEnabled(drawI);
+        final CheckBox lI = findViewById(R.id.layoutIch);
+        final CheckBox lS = findViewById(R.id.layoutSchueler);
+        final CheckBox lL = findViewById(R.id.layoutLehrer);
+        final CheckBox lA = findViewById(R.id.layoutAlle);
+
+        lI.setChecked(drawI);
+        lS.setChecked(drawS);
+        lL.setChecked(drawL);
+        lA.setChecked(drawA);
+
         lI.setOnClickListener(v -> {
-            if (Utils.isVerified()) {
-                drawI = !drawI;
-                v.findViewById(R.id.textViewIch).setEnabled(drawI);
-                v.findViewById(R.id.imageViewIch).setEnabled(drawI);
-                refreshViews();
-            }
+            drawI = !drawI;
+            lI.setBackgroundColor(drawI ? getResources().getColor(R.color.colorIch) : getResources().getColor(android.R.color.darker_gray));
+            refreshViews();
         });
         lS.setOnClickListener(v -> {
             drawS = !drawS;
-            v.findViewById(R.id.textViewSchueler).setEnabled(drawS);
-            v.findViewById(R.id.imageViewSchueler).setEnabled(drawS);
+            lS.setBackgroundColor(drawS ? getResources().getColor(R.color.colorSchueler) : getResources().getColor(android.R.color.darker_gray));
             refreshViews();
         });
         lL.setOnClickListener(v -> {
             drawL = !drawL;
-            v.findViewById(R.id.textViewLehrer).setEnabled(drawL);
-            v.findViewById(R.id.imageViewLehrer).setEnabled(drawL);
+            lL.setBackgroundColor(drawL ? getResources().getColor(R.color.colorLehrer) : getResources().getColor(android.R.color.darker_gray));
             refreshViews();
         });
         lA.setOnClickListener(v -> {
             drawA = !drawA;
-            v.findViewById(R.id.textViewAlle).setEnabled(drawA);
-            v.findViewById(R.id.imageViewAlle).setEnabled(drawA);
+            lA.setBackgroundColor(drawA ? getResources().getColor(R.color.colorAlle) : getResources().getColor(android.R.color.darker_gray));
             refreshViews();
         });
     }
@@ -222,11 +217,13 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
                         getString(R.string.change_question),
                         getString(R.string.new_question),
                         v1 -> {
-                            new SendQuestionTask().execute(dialog.getTextInput());
+                            if (!dialog.getTextInput().equals(StimmungsbarometerUtils.getCurrentQuestion()))
+                                new SendQuestionTask().execute();
                             dialog.dismiss();
                         }
                 );
                 dialog.show();
+                dialog.setTextInput(StimmungsbarometerUtils.getCurrentQuestion());
             });
         }
     }

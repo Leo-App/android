@@ -32,7 +32,6 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorEssensbons;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.GraphicUtils;
-import de.slgdev.leoapp.utility.NetworkPerformance;
 import de.slgdev.leoapp.utility.Utils;
 
 public class QRWriteTask extends VoidCallbackTask<Bitmap> {

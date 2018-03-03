@@ -53,12 +53,7 @@ public class EditTextDialog extends AlertDialog {
 
         ((TextView) findViewById(R.id.titel)).setText(title);
 
-        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        findViewById(R.id.cancel).setOnClickListener(v -> dismiss());
         findViewById(R.id.ok).setOnClickListener(action);
 
         initWindowParams();
@@ -75,6 +70,7 @@ public class EditTextDialog extends AlertDialog {
 
     /**
      * Setzt den Inhalt des Textfeldes auf einen übergebenen Input.
+     * Muss nach {@link EditTextDialog#show()} aufgerufen werden, um NPEs zu vermeiden.
      *
      * @param input Neuer Text
      */
