@@ -27,7 +27,7 @@ public class SendChatname extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... params) {
-        if (Utils.checkNetwork()) {
+        if (Utils.isNetworkAvailable()) {
             try {
                 BufferedReader reader = new BufferedReader(
                         new InputStreamReader(

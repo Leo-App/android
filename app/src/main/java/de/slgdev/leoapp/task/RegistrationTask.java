@@ -36,7 +36,7 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
         StringBuilder checksum = new StringBuilder();
         boolean       teacher  = username.length() == 6;
 
-        if (!Utils.checkNetwork()) {
+        if (!Utils.isNetworkAvailable()) {
             return ResponseCode.NO_CONNECTION;
         }
 

@@ -10,7 +10,7 @@ class SendMessages extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         Message[] array = Utils.getController().getMessengerDatabase().getQueuedMessages();
         for (Message m : array) {
-            if (Utils.checkNetwork()) {
+            if (Utils.isNetworkAvailable()) {
                 Utils.getController().getReceiveService().send(m);
                 Utils.getController().getMessengerDatabase().dequeueMessage(m.mid);
             }

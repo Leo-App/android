@@ -32,7 +32,7 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
 
         SQLiteConnectorITProblem db = new SQLiteConnectorITProblem(Utils.getContext());
 
-        if (Utils.checkNetwork()) {
+        if (Utils.isNetworkAvailable()) {
 
             SQLiteDatabase dbh = db.getWritableDatabase();
 

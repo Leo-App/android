@@ -16,7 +16,6 @@ import com.google.zxing.common.BitMatrix;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,6 +32,7 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorEssensbons;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.GraphicUtils;
+import de.slgdev.leoapp.utility.NetworkPerformance;
 import de.slgdev.leoapp.utility.Utils;
 
 public class QRWriteTask extends VoidCallbackTask<Bitmap> {
@@ -57,13 +57,15 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
         if (!EssensbonUtils.isLoggedIn())
             return null;
 
+        NetworkPerformance performance = Utils.getNetworkPerformance();
+
         if (onAppStart) {
             if (EssensbonUtils.isAutoSyncEnabled()) {
-                if (hasActiveInternetConnection()) {
+                if (performance == NetworkPerformance.MEDIOCRE || performance == NetworkPerformance.EXCELLENT) {
                     saveNewestEntries();
                 }
             }
-        } else if (hasActiveInternetConnection()) {
+        } else if (performance == NetworkPerformance.MEDIOCRE || performance == NetworkPerformance.EXCELLENT) {
             saveNewestEntries();
         }
 
@@ -98,19 +100,6 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
             l.taskFinished(result, menu, description);
 
         dbh.close();
-    }
-
-    private boolean hasActiveInternetConnection() {
-        try {
-            HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
-            urlc.setRequestProperty("User-Agent", "Test");
-            urlc.setRequestProperty("Connection", "close");
-            urlc.setConnectTimeout(500);
-            urlc.connect();
-            return urlc.getResponseCode() == 200;
-        } catch (IOException e) {
-            return false;
-        }
     }
 
     private Order getRecentEntry() {
