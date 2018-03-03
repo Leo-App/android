@@ -15,7 +15,7 @@ public class MailSendTask extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... strings) {
         String requestText = strings[0];
 
-        if (!Utils.checkNetwork()) {
+        if (!Utils.isNetworkAvailable()) {
             Utils.getController().getPreferences()
                     .edit()
                     .putString("pref_key_request_cached", requestText)

@@ -6,7 +6,7 @@ class QueueThread extends Thread {
     @Override
     public void run() {
         while (Utils.getController().getMessengerDatabase().hasQueuedMessages())
-            if (Utils.checkNetwork())
+            if (Utils.isNetworkAvailable())
                 new SendMessages().execute();
     }
 }

@@ -15,7 +15,7 @@ public class SendSurveyTask extends ObjectCallbackTask<ResponseCode> {
     @Override
     protected ResponseCode doInBackground(Object... params) {
 
-        if (!Utils.checkNetwork())
+        if (!Utils.isNetworkAvailable())
             return ResponseCode.NO_CONNECTION;
 
         String title = (String) params[0];

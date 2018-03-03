@@ -24,7 +24,6 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.ActivityStatus;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 
 public class KlausurplanActivity extends LeoAppNavigationActivity implements TaskStatusListener {
@@ -194,6 +193,7 @@ public class KlausurplanActivity extends LeoAppNavigationActivity implements Tas
                 if (confirmDelete) {
                     database.deleteAllDownloaded();
                     refreshArray();
+                    initTextViewInfo();
                 } else {
                     refresh();
                 }
@@ -227,7 +227,6 @@ public class KlausurplanActivity extends LeoAppNavigationActivity implements Tas
     private void refresh() {
         refreshArray();
         listView.setAdapter(new KlausurenAdapter(getApplicationContext(), klausuren, KlausurplanUtils.findeNächsteKlausur(klausuren)));
-
         listView.setSelection(KlausurplanUtils.findeNächsteWoche(klausuren));
     }
 

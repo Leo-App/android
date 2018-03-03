@@ -34,7 +34,7 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        if (Utils.checkNetwork()) {
+        if (Utils.isNetworkAvailable()) {
             try {
                 URLConnection connection = new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
                         .openConnection();

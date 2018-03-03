@@ -28,7 +28,7 @@ public class SaveResultTask extends AsyncTask<Void, Void, ResponseCode> {
     protected ResponseCode doInBackground(Void... voids) {
 
         try {
-            if (Utils.checkNetwork()) {
+            if (Utils.isNetworkAvailable()) {
 
                 URL updateURL = new URL(Utils.BASE_URL_PHP
                         + "survey/getAllResults.php?survey="

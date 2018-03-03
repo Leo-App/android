@@ -15,7 +15,7 @@ public class SyncGradeTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
-        if (!Utils.checkNetwork())
+        if (!Utils.isNetworkAvailable())
             return null;
 
         String name = Utils.getUserDefaultName();

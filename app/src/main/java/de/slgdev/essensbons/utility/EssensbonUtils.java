@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import de.slgdev.leoapp.utility.NetworkPerformance;
 import de.slgdev.leoapp.utility.Utils;
 
 public abstract class EssensbonUtils {
@@ -54,18 +55,9 @@ public abstract class EssensbonUtils {
         Utils.getController().getPreferences().edit().putBoolean("pref_key_status_loggedin", b).apply();
     }
 
-    @WorkerThread
     public static boolean fastConnectionAvailable() {
-        try {
-            HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
-            urlc.setRequestProperty("User-Agent", "Test");
-            urlc.setRequestProperty("Connection", "close");
-            urlc.setConnectTimeout(500);
-            urlc.connect();
-            return (urlc.getResponseCode() == 200);
-        } catch (IOException e) {
-            return false;
-        }
+        NetworkPerformance performance = Utils.getNetworkPerformance();
+        return performance == NetworkPerformance.MEDIOCRE || performance == NetworkPerformance.EXCELLENT;
     }
 
 }

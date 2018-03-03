@@ -73,7 +73,7 @@ public class MessengerActivity extends LeoAppNavigationActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.action_add) {
-            if (Utils.checkNetwork()) {
+            if (Utils.isNetworkAvailable()) {
                 startActivity(new Intent(getApplicationContext(), AddGroupChatActivity.class));
             } else {
                 //TODO vielleicht offline verfügbar

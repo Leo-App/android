@@ -208,7 +208,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 );
                 stopService(intent);
                 startService(intent);
-                return Utils.checkNetwork();
+                return Utils.isNetworkAvailable();
             }
         });
 

@@ -25,7 +25,7 @@ public class UpdateNameTask extends AsyncTask<String, Void, ReturnValues> {
 
     @Override
     protected ReturnValues doInBackground(String... params) {
-        if (!Utils.checkNetwork()) {
+        if (!Utils.isNetworkAvailable()) {
             return ReturnValues.NO_CONNECTION;
         }
 
