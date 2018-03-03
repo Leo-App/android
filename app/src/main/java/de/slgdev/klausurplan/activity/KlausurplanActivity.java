@@ -187,7 +187,11 @@ public class KlausurplanActivity extends LeoAppNavigationActivity implements Tas
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
                 super.onDismissed(snackbar, event);
-                if (confirmDelete && Utils.getController().getActiveActivity().equals(Utils.getController().getKlausurplanActivity())) {
+
+                if (!Utils.getController().getActiveActivity().equals(Utils.getController().getKlausurplanActivity()))
+                    return;
+
+                if (confirmDelete) {
                     database.deleteAllDownloaded();
                     refreshArray();
                 } else {
