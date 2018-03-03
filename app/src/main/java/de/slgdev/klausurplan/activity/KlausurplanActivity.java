@@ -24,6 +24,7 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
+import de.slgdev.leoapp.view.ActivityStatus;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 
 public class KlausurplanActivity extends LeoAppNavigationActivity implements TaskStatusListener {
@@ -186,7 +187,7 @@ public class KlausurplanActivity extends LeoAppNavigationActivity implements Tas
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
                 super.onDismissed(snackbar, event);
-                if (confirmDelete) {
+                if (confirmDelete && Utils.getController().getKlausurplanActivity().getStatus() == ActivityStatus.ACTIVE) {
                     database.deleteAllDownloaded();
                     refreshArray();
                 } else {
