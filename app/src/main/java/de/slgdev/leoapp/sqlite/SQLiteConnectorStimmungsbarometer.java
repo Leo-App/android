@@ -121,7 +121,7 @@ public class SQLiteConnectorStimmungsbarometer extends SQLiteOpenHelper {
         String   groupBy = null;
         if (zeitraum == 2) {
             groupBy = ERGEBNIS_DATUM_MONAT + ", " + ERGEBNIS_DATUM_JAHR;
-            columns = new String[]{"AVG(" + ERGEBNIS_WERT + ")", ERGEBNIS_DATUM};
+            columns = new String[]{"AVG(" + ERGEBNIS_WERT + ")", ERGEBNIS_DATUM_JAHR, ERGEBNIS_DATUM_MONAT};
         }
 
         Cursor cursorIch = database.query(
@@ -170,7 +170,7 @@ public class SQLiteConnectorStimmungsbarometer extends SQLiteOpenHelper {
             if (zeitraum == 2) {
                 ich.append(
                         new Ergebnis(
-                                parse(cursorIch.getString(1).substring(0, 8) + "01"),
+                                parse(cursorIch.getString(1) + '-' + cursorIch.getString(2) + "-01"),
                                 cursorIch.getDouble(0),
                                 true,
                                 false,
@@ -197,7 +197,7 @@ public class SQLiteConnectorStimmungsbarometer extends SQLiteOpenHelper {
             if (zeitraum == 2) {
                 schueler.append(
                         new Ergebnis(
-                                parse(cursorSchueler.getString(1).substring(0, 8) + "01"),
+                                parse(cursorSchueler.getString(1) + '-' + cursorSchueler.getString(2) + "-01"),
                                 cursorSchueler.getDouble(0),
                                 false,
                                 true,
@@ -224,7 +224,7 @@ public class SQLiteConnectorStimmungsbarometer extends SQLiteOpenHelper {
             if (zeitraum == 2) {
                 lehrer.append(
                         new Ergebnis(
-                                parse(cursorLehrer.getString(1).substring(0, 8) + "01"),
+                                parse(cursorLehrer.getString(1) + '-' + cursorLehrer.getString(2) + "-01"),
                                 cursorLehrer.getDouble(0),
                                 false,
                                 false,
@@ -251,7 +251,7 @@ public class SQLiteConnectorStimmungsbarometer extends SQLiteOpenHelper {
             if (zeitraum == 2) {
                 alle.append(
                         new Ergebnis(
-                                parse(cursorAlle.getString(1).substring(0, 8) + "01"),
+                                parse(cursorAlle.getString(1) + '-' + cursorAlle.getString(2) + "-01"),
                                 cursorAlle.getDouble(0),
                                 false,
                                 false,
@@ -286,12 +286,13 @@ public class SQLiteConnectorStimmungsbarometer extends SQLiteOpenHelper {
         lehrer.toFirst();
         alle.toFirst();
 
+        int field  = Calendar.DAY_OF_YEAR;
         int amount = -1;
         if (zeitraum == 2) {
-            amount = -30;
+            field = Calendar.MONTH;
         }
 
-        for (Calendar c = new GregorianCalendar(); c.getTime().after(last); c.add(Calendar.DAY_OF_YEAR, amount)) {
+        for (Calendar c = new GregorianCalendar(); c.getTime().after(last); c.add(field, amount)) {
             if (zeitraum == 2) {
                 c.set(Calendar.DAY_OF_MONTH, 1);
             }
