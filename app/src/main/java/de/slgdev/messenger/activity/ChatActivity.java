@@ -303,7 +303,7 @@ public class ChatActivity extends ActionLogActivity {
             if (activity.cid == -1) {
                 assert oUid != -1;
 
-                if (Utils.checkNetwork()) {
+                if (Utils.isNetworkAvailable()) {
 
                     service.send(new Chat(0, oUid + " - " + Utils.getUserID(), Chat.ChatType.PRIVATE));
 
@@ -315,7 +315,7 @@ public class ChatActivity extends ActionLogActivity {
                 }
             }
 
-            if (Utils.checkNetwork()) {
+            if (Utils.isNetworkAvailable()) {
                 Message[] mOld = activity.messagesArray;
                 activity.messagesArray = new Message[mOld.length + 1];
                 System.arraycopy(mOld, 0, activity.messagesArray, 0, mOld.length);

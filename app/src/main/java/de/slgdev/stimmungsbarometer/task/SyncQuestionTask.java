@@ -9,14 +9,13 @@ import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.Utils;
 
 public class SyncQuestionTask extends VoidCallbackTask<Void> {
+
     @Override
     protected Void doInBackground(Void... params) {
         try {
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
-                            new URL(
-                                    Utils.BASE_URL_PHP + "stimmungsbarometer/getQuestion.php"
-                            )
+                            new URL(Utils.BASE_URL_PHP + "stimmungsbarometer/getQuestion.php")
                                     .openConnection()
                                     .getInputStream(),
                             "UTF-8"
@@ -25,9 +24,11 @@ public class SyncQuestionTask extends VoidCallbackTask<Void> {
 
             StringBuilder builder = new StringBuilder();
             String        line;
+
             while ((line = reader.readLine()) != null) {
                 builder.append(line);
             }
+
             reader.close();
 
             Utils.getController().getPreferences()
@@ -39,4 +40,5 @@ public class SyncQuestionTask extends VoidCallbackTask<Void> {
         }
         return null;
     }
+
 }

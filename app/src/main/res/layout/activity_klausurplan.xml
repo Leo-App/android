@@ -27,11 +27,22 @@
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+            <TextView
+                android:id="@+id/emptyexams"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_exams"
+                android:layout_below="@id/toolbar"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_marginTop="20dp"/>
+
             <ListView
                 android:id="@+id/listViewKlausuren"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/toolbar" />
+                android:layout_below="@id/toolbar" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -50,7 +61,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:clickable="true"
+                android:focusable="true"
                 android:scaleType="fitCenter"
                 app:backgroundTint="@color/colorAccent"
                 app:layout_anchor="@id/listViewKlausuren"

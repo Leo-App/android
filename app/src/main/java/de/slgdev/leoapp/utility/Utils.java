@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.StringRes;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 
@@ -79,8 +80,9 @@ public abstract class Utils {
      * Prüft, ob das aktuelle Gerät mit dem Internet verbunden ist.
      *
      * @return true, falls eine aktive Netzwerkverbindung besteht; false, falls nicht
+     * @see Utils#getNetworkPerformance()
      */
-    public static boolean checkNetwork() {
+    public static boolean isNetworkAvailable() {
         ConnectivityManager c = (ConnectivityManager) getController().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (c != null) {
             NetworkInfo n = c.getActiveNetworkInfo();
@@ -89,6 +91,43 @@ public abstract class Utils {
             }
         }
         return false;
+    }
+
+    /**
+     * Gibt die Geschwindigkeit der aktuellen Internetverbindung zurück.
+     *
+     * @return Aktuelle Netzwerkperformance, NOT_AVAILABLE wenn kein Internet verfügbar.
+     */
+    public static NetworkPerformance getNetworkPerformance() {
+        ConnectivityManager c = (ConnectivityManager) getController().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = c.getActiveNetworkInfo();
+        if (info.getType() == ConnectivityManager.TYPE_WIFI) {
+            return NetworkPerformance.EXCELLENT;
+        } else if (info.getType() == ConnectivityManager.TYPE_MOBILE) {
+            switch (info.getSubtype()) {
+                case TelephonyManager.NETWORK_TYPE_GPRS:
+                case TelephonyManager.NETWORK_TYPE_EDGE:
+                case TelephonyManager.NETWORK_TYPE_CDMA:
+                case TelephonyManager.NETWORK_TYPE_1xRTT:
+                case TelephonyManager.NETWORK_TYPE_IDEN:
+                    return NetworkPerformance.INSUFFICIENT;
+                case TelephonyManager.NETWORK_TYPE_UMTS:
+                case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                case TelephonyManager.NETWORK_TYPE_HSDPA:
+                case TelephonyManager.NETWORK_TYPE_HSUPA:
+                case TelephonyManager.NETWORK_TYPE_HSPA:
+                case TelephonyManager.NETWORK_TYPE_EVDO_B:
+                case TelephonyManager.NETWORK_TYPE_EHRPD:
+                case TelephonyManager.NETWORK_TYPE_HSPAP:
+                    return NetworkPerformance.MEDIOCRE;
+                case TelephonyManager.NETWORK_TYPE_LTE:
+                    return NetworkPerformance.EXCELLENT;
+                default:
+                    return isNetworkAvailable() ? NetworkPerformance.INSUFFICIENT : NetworkPerformance.NOT_AVAILABLE;
+            }
+        }
+        return isNetworkAvailable() ? NetworkPerformance.INSUFFICIENT : NetworkPerformance.NOT_AVAILABLE;
     }
 
     /**
@@ -288,7 +327,7 @@ public abstract class Utils {
     }
 
     /**
-     * Konvertiert die Verifizierungsdaten des Users in ein Basic-Authentification Format.
+     * Konvertiert Anmeldedaten bestehend aus Nutzername und Passwort in ein Basic-Authentification Format.
      *
      * @param user Angegebener Nutzername des Schulaccounts.
      * @param pass Angegebenes Passwort.

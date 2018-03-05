@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -19,9 +18,10 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.ActionLogActivity;
 import de.slgdev.stimmungsbarometer.task.VoteTask;
 import de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils;
-import de.slgdev.stimmungsbarometer.utility.Wahl;
+import de.slgdev.stimmungsbarometer.utility.Vote;
 
 public class AbstimmActivity extends ActionLogActivity {
+
     private final String[] gruende           = {getString(R.string.weather), getString(R.string.course), getString(R.string.lehrer), getString(R.string.friends), getString(R.string.exam), getString(R.string.particular_occasion), getString(R.string.other)};
     private final int      userid            = Utils.getUserID();
     private       int      voteid            = 0;
@@ -65,69 +65,51 @@ public class AbstimmActivity extends ActionLogActivity {
         dissatisfied = findViewById(R.id.imageButtonD);
         bad_mood = findViewById(R.id.imageButtonB);
 
-        very_satisfied.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.setEnabled(true);
-                listView.setClickable(true);
-                refreshButtons();
-                very_satisfied.setEnabled(false);
-                voteid = 1;
-            }
+        very_satisfied.setOnClickListener(v -> {
+            confirm.setEnabled(true);
+            listView.setClickable(true);
+            refreshButtons();
+            very_satisfied.setEnabled(false);
+            voteid = 1;
         });
-        satisfied.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.setEnabled(true);
-                listView.setClickable(true);
-                refreshButtons();
-                satisfied.setEnabled(false);
-                voteid = 2;
-            }
+        satisfied.setOnClickListener(v -> {
+            confirm.setEnabled(true);
+            listView.setClickable(true);
+            refreshButtons();
+            satisfied.setEnabled(false);
+            voteid = 2;
         });
-        neutral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.setEnabled(true);
-                listView.setClickable(true);
-                refreshButtons();
-                neutral.setEnabled(false);
-                voteid = 3;
-            }
+        neutral.setOnClickListener(v -> {
+            confirm.setEnabled(true);
+            listView.setClickable(true);
+            refreshButtons();
+            neutral.setEnabled(false);
+            voteid = 3;
         });
-        dissatisfied.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.setEnabled(true);
-                listView.setClickable(true);
-                refreshButtons();
-                dissatisfied.setEnabled(false);
-                voteid = 4;
-            }
+        dissatisfied.setOnClickListener(v -> {
+            confirm.setEnabled(true);
+            listView.setClickable(true);
+            refreshButtons();
+            dissatisfied.setEnabled(false);
+            voteid = 4;
         });
-        bad_mood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.setEnabled(true);
-                listView.setClickable(true);
-                refreshButtons();
-                bad_mood.setEnabled(false);
-                voteid = 5;
-            }
+        bad_mood.setOnClickListener(v -> {
+            confirm.setEnabled(true);
+            listView.setClickable(true);
+            refreshButtons();
+            bad_mood.setEnabled(false);
+            voteid = 5;
         });
     }
 
     private void initSendButton() {
         confirm = findViewById(R.id.buttonDialog2);
         confirm.setEnabled(false);
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (confirm.isEnabled()) {
-                    new VoteTask().execute(new Wahl(voteid, userid));
-                    StimmungsbarometerUtils.setLastVote(voteid);
-                    finish();
-                }
+        confirm.setOnClickListener(view -> {
+            if (confirm.isEnabled()) {
+                new VoteTask().execute(new Vote(voteid, userid));
+                StimmungsbarometerUtils.setLastVote(voteid);
+                finish();
             }
         });
 
@@ -140,19 +122,16 @@ public class AbstimmActivity extends ActionLogActivity {
             listView.setClickable(false);
             listView.setVisibility(View.VISIBLE);
             listView.setAdapter(new ListAdapterGrund(getApplicationContext(), gruende));
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    if (listView.isClickable()) {
-                        if (ausgewählterGrund.equals(gruende[i])) {
-                            view.setSelected(false);
-                            ausgewählterGrund = "";
-                            view.findViewById(R.id.textViewGrund).setSelected(false);
-                        } else {
-                            view.setSelected(true);
-                            ausgewählterGrund = gruende[i];
-                            view.findViewById(R.id.textViewGrund).setSelected(true);
-                        }
+            listView.setOnItemClickListener((adapterView, view, i, l) -> {
+                if (listView.isClickable()) {
+                    if (ausgewählterGrund.equals(gruende[i])) {
+                        view.setSelected(false);
+                        ausgewählterGrund = "";
+                        view.findViewById(R.id.textViewGrund).setSelected(false);
+                    } else {
+                        view.setSelected(true);
+                        ausgewählterGrund = gruende[i];
+                        view.findViewById(R.id.textViewGrund).setSelected(true);
                     }
                 }
             });

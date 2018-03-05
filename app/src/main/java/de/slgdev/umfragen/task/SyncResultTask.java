@@ -35,7 +35,7 @@ public class SyncResultTask extends ObjectCallbackTask<ResponseCode> {
         String to = (String) params[1];
 
         try {
-            if (!Utils.checkNetwork()) {
+            if (!Utils.isNetworkAvailable()) {
                 return ResponseCode.NO_CONNECTION;
             }
 

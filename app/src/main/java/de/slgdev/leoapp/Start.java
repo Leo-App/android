@@ -46,7 +46,7 @@ public class Start extends Activity {
     }
 
     public static void runUpdateTasks() {
-        if (Utils.checkNetwork()) {
+        if (Utils.isNetworkAvailable()) {
             new SyncUserTask().execute();
 
             if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
@@ -75,7 +75,7 @@ public class Start extends Activity {
     }
 
     public static void startReceiveService() {
-        if (Utils.checkNetwork()) {
+        if (Utils.isNetworkAvailable()) {
             Utils.getContext().startService(new Intent(Utils.getContext(), ReceiveService.class));
         }
     }

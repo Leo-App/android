@@ -20,6 +20,7 @@ import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.dialog.InformationDialog;
 import de.slgdev.leoapp.utility.GraphicUtils;
+import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 import de.slgdev.leoapp.view.InfoButton;
@@ -49,8 +50,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     {
         cards = new List<>();
 
+        String defaultTeacher = "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;ITPROBLEM;COMING_SOON";
+        String defaultStudent = "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;COMING_SOON";
+
         String card_config = Utils.getController().getPreferences().getString("pref_key_card_config",
-                "FOODMARKS;TESTPLAN;MESSENGER;NEWS;SURVEY;SCHEDULE;POLL;COMING_SOON;ITPROBLEM");
+                Utils.getUserPermission() >= User.PERMISSION_LEHRER ? defaultTeacher : defaultStudent);
 
         for (String card : card_config.split(";")) {
             if (card.length() > 0) {

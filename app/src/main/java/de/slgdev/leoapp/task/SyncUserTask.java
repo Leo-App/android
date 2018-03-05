@@ -30,7 +30,7 @@ public class SyncUserTask extends VoidCallbackTask<ResponseCode> {
 
     @Override
     protected ResponseCode doInBackground(Void... params) {
-        if (!Utils.checkNetwork()) {
+        if (!Utils.isNetworkAvailable()) {
             return ResponseCode.NO_CONNECTION;
         }
 

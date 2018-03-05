@@ -9,14 +9,14 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.stimmungsbarometer.utility.Wahl;
+import de.slgdev.stimmungsbarometer.utility.Vote;
 
-public class VoteTask extends AsyncTask<Wahl, Void, Void> {
+public class VoteTask extends AsyncTask<Vote, Void, Void> {
     @Override
-    protected Void doInBackground(Wahl... wahls) {
-        if (wahls[0] != null) {
+    protected Void doInBackground(Vote... votes) {
+        if (votes[0] != null) {
             try {
-                Wahl w = wahls[0];
+                Vote w = votes[0];
                 URLConnection connection = new URL(de.slgdev.leoapp.utility.Utils.BASE_URL_PHP + "stimmungsbarometer/vote.php?vid=" + w.voteid + "&uid=" + w.userid)
                         .openConnection();
 

@@ -27,6 +27,7 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 
 public class KlausurplanActivity extends LeoAppNavigationActivity implements TaskStatusListener {
+
     private ListView                   listView;
     private Klausur[]                  klausuren;
     private Snackbar                   snackbar;
@@ -53,6 +54,8 @@ public class KlausurplanActivity extends LeoAppNavigationActivity implements Tas
         initSnackbar();
 
         refresh();
+
+        initTextViewInfo();
     }
 
     @Override
@@ -183,9 +186,14 @@ public class KlausurplanActivity extends LeoAppNavigationActivity implements Tas
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
                 super.onDismissed(snackbar, event);
+
+                if (!Utils.getController().getActiveActivity().equals(Utils.getController().getKlausurplanActivity()))
+                    return;
+
                 if (confirmDelete) {
                     database.deleteAllDownloaded();
                     refreshArray();
+                    initTextViewInfo();
                 } else {
                     refresh();
                 }
@@ -209,10 +217,16 @@ public class KlausurplanActivity extends LeoAppNavigationActivity implements Tas
         });
     }
 
+    private void initTextViewInfo() {
+        if (listView.getAdapter().getCount() == 0)
+            findViewById(R.id.emptyexams).setVisibility(View.VISIBLE);
+        else
+            findViewById(R.id.emptyexams).setVisibility(View.GONE);
+    }
+
     private void refresh() {
         refreshArray();
         listView.setAdapter(new KlausurenAdapter(getApplicationContext(), klausuren, KlausurplanUtils.findeNächsteKlausur(klausuren)));
-
         listView.setSelection(KlausurplanUtils.findeNächsteWoche(klausuren));
     }
 

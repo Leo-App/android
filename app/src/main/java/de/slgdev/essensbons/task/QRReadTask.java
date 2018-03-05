@@ -13,6 +13,7 @@ import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.Utils;
 
 public class QRReadTask extends ObjectCallbackTask<Boolean> {
+
     private int orderedMenu;
     private SQLiteDatabase dbh;
 

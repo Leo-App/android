@@ -17,7 +17,7 @@ public class DeleteSurveyTask extends ObjectCallbackTask<ResponseCode> {
     @Override
     protected ResponseCode doInBackground(Object... params) {
 
-        if (!Utils.checkNetwork())
+        if (!Utils.isNetworkAvailable())
             return ResponseCode.NO_CONNECTION;
 
         SQLiteConnectorUmfragen db  = new SQLiteConnectorUmfragen(Utils.getContext());

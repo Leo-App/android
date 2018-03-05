@@ -20,6 +20,7 @@ import de.slgdev.essensbons.activity.EssensbonActivity;
 import de.slgdev.it_problem.activity.ITActivity;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
+import de.slgdev.leoapp.activity.InfoActivity;
 import de.slgdev.leoapp.activity.PreferenceActivity;
 import de.slgdev.leoapp.activity.ProfileActivity;
 import de.slgdev.leoapp.utility.User;
@@ -133,6 +134,7 @@ public abstract class LeoAppNavigationActivity extends ActionLogActivity {
         navigationView = findViewById(getNavigationId());
 
         navigationView.setCheckedItem(getNavigationHighlightId());
+        navigationView.getMenu().findItem(R.id.itsolver).setVisible(Utils.getUserPermission() >= User.PERMISSION_LEHRER);
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             drawerLayout.closeDrawers();
@@ -175,8 +177,11 @@ public abstract class LeoAppNavigationActivity extends ActionLogActivity {
                 case R.id.profile:
                     i = new Intent(getApplicationContext(), ProfileActivity.class);
                     break;
+                case R.id.about:
+                    i = new Intent(getApplicationContext(), InfoActivity.class);
+                    break;
                 default:
-                    i = new Intent(getApplicationContext(), MainActivity.class);
+                    i = null;
                     Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
 

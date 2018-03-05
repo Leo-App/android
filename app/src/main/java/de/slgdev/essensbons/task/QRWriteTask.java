@@ -16,7 +16,6 @@ import com.google.zxing.common.BitMatrix;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -59,11 +58,11 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
 
         if (onAppStart) {
             if (EssensbonUtils.isAutoSyncEnabled()) {
-                if (hasActiveInternetConnection()) {
+                if (EssensbonUtils.fastConnectionAvailable()) {
                     saveNewestEntries();
                 }
             }
-        } else if (hasActiveInternetConnection()) {
+        } else if (EssensbonUtils.fastConnectionAvailable()) {
             saveNewestEntries();
         }
 
@@ -98,19 +97,6 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
             l.taskFinished(result, menu, description);
 
         dbh.close();
-    }
-
-    private boolean hasActiveInternetConnection() {
-        try {
-            HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.lunch.leo-ac.de").openConnection());
-            urlc.setRequestProperty("User-Agent", "Test");
-            urlc.setRequestProperty("Connection", "close");
-            urlc.setConnectTimeout(500);
-            urlc.connect();
-            return urlc.getResponseCode() == 200;
-        } catch (IOException e) {
-            return false;
-        }
     }
 
     private Order getRecentEntry() {

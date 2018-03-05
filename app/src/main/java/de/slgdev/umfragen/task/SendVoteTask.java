@@ -21,7 +21,7 @@ public class SendVoteTask extends ObjectCallbackTask<ResponseCode> {
     @Override
     protected ResponseCode doInBackground(Object... params) {
 
-        if (!Utils.checkNetwork())
+        if (!Utils.isNetworkAvailable())
             return ResponseCode.NO_CONNECTION;
 
         groupId = (Integer) params[0];

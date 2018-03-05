@@ -238,7 +238,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
                         .edit()
                         .putString("pref_key_cache_vieweditems", cache + "1:" + remoteID)
                         .apply();
-                if (Utils.checkNetwork())
+                if (Utils.isNetworkAvailable())
                     new UpdateViewTrackerTask().execute(remoteID);
                 return false;
             }

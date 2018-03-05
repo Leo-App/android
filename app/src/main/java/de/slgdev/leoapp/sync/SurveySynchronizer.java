@@ -26,7 +26,7 @@ public class SurveySynchronizer implements Synchronizer {
     @Override
     public boolean run() {
 
-        if(!Utils.checkNetwork())
+        if(!Utils.isNetworkAvailable())
             return false;
 
         try {

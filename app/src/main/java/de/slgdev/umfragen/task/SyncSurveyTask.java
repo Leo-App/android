@@ -25,7 +25,7 @@ public class SyncSurveyTask extends VoidCallbackTask<Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        if (Utils.checkNetwork()) {
+        if (Utils.isNetworkAvailable()) {
             try {
                 URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/getSurveys.php");
                 BufferedReader reader =

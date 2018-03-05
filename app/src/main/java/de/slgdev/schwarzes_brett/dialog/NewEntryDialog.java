@@ -166,7 +166,7 @@ public class NewEntryDialog extends AlertDialog {
         @Override
         protected Boolean doInBackground(String... params) {
 
-            if (!Utils.checkNetwork())
+            if (!Utils.isNetworkAvailable())
                 return false;
 
             try {

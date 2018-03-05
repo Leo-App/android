@@ -12,7 +12,7 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.stimmungsbarometer.task.VoteTask;
 import de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils;
-import de.slgdev.stimmungsbarometer.utility.Wahl;
+import de.slgdev.stimmungsbarometer.utility.Vote;
 
 public class AbstimmDialog extends AlertDialog {
     private int voteid = 0;
@@ -35,14 +35,7 @@ public class AbstimmDialog extends AlertDialog {
         initSendButton();
 
         TextView textView = findViewById(R.id.titleKlausur);
-        textView.setText(
-                Utils.getController()
-                        .getPreferences()
-                        .getString(
-                                "stimmungsbarometer_frage",
-                                "Wie geht es dir?"
-                        )
-        );
+        textView.setText(StimmungsbarometerUtils.getCurrentQuestion());
     }
 
     private void initSmileys() {
@@ -52,73 +45,50 @@ public class AbstimmDialog extends AlertDialog {
         dissatisfied = findViewById(R.id.imageButtonD);
         bad_mood = findViewById(R.id.imageButtonB);
 
-        very_satisfied.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.setEnabled(true);
-                refreshButtons();
-                very_satisfied.setEnabled(false);
-                voteid = 1;
-            }
+        very_satisfied.setOnClickListener(v -> {
+            confirm.setEnabled(true);
+            refreshButtons();
+            very_satisfied.setEnabled(false);
+            voteid = 1;
         });
-        satisfied.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.setEnabled(true);
-                refreshButtons();
-                satisfied.setEnabled(false);
-                voteid = 2;
-            }
+        satisfied.setOnClickListener(v -> {
+            confirm.setEnabled(true);
+            refreshButtons();
+            satisfied.setEnabled(false);
+            voteid = 2;
         });
-        neutral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.setEnabled(true);
-                refreshButtons();
-                neutral.setEnabled(false);
-                voteid = 3;
-            }
+        neutral.setOnClickListener(v -> {
+            confirm.setEnabled(true);
+            refreshButtons();
+            neutral.setEnabled(false);
+            voteid = 3;
         });
-        dissatisfied.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.setEnabled(true);
-                refreshButtons();
-                dissatisfied.setEnabled(false);
-                voteid = 4;
-            }
+        dissatisfied.setOnClickListener(v -> {
+            confirm.setEnabled(true);
+            refreshButtons();
+            dissatisfied.setEnabled(false);
+            voteid = 4;
         });
-        bad_mood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirm.setEnabled(true);
-                refreshButtons();
-                bad_mood.setEnabled(false);
-                voteid = 5;
-            }
+        bad_mood.setOnClickListener(v -> {
+            confirm.setEnabled(true);
+            refreshButtons();
+            bad_mood.setEnabled(false);
+            voteid = 5;
         });
     }
 
     private void initSendButton() {
         confirm = findViewById(R.id.buttonDialog2);
         confirm.setEnabled(false);
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (confirm.isEnabled()) {
-                    new VoteTask().execute(new Wahl(voteid, Utils.getUserID()));
-                    StimmungsbarometerUtils.setLastVote(voteid);
-                    dismiss();
-                }
-            }
-        });
-
-        findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        confirm.setOnClickListener(view -> {
+            if (confirm.isEnabled()) {
+                new VoteTask().execute(new Vote(voteid, Utils.getUserID()));
+                StimmungsbarometerUtils.setLastVote(voteid);
                 dismiss();
             }
         });
+
+        findViewById(R.id.buttonDialog1).setOnClickListener(v -> dismiss());
     }
 
     private void refreshButtons() {
