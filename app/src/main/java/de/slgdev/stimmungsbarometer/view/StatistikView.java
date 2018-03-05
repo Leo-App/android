@@ -29,16 +29,11 @@ public abstract class StatistikView extends View {
     private Bitmap bitmapSchueler;
     private Bitmap bitmapLehrer;
     private Bitmap bitmapAlle;
+
     final   Canvas canvasIch;
     final   Canvas canvasSchueler;
     final   Canvas canvasLehrer;
     final   Canvas canvasAlle;
-
-    final int colorIch;
-    final int colorSchueler;
-    final int colorLehrer;
-    final int colorAlle;
-    final int colorTransparent;
 
     private final PorterDuffColorFilter filterIch;
     private final PorterDuffColorFilter filterSchueler;
@@ -49,9 +44,11 @@ public abstract class StatistikView extends View {
 
     int   height;
     int   width;
-    float baseLineY;
+
     float baseLineX;
     float abstandX;
+
+    float baseLineY;
     float abstandY;
 
     public StatistikView(Context context) {
@@ -74,41 +71,32 @@ public abstract class StatistikView extends View {
 
         paint = new Paint();
 
-        colorIch = ContextCompat.getColor(
-                getContext(),
-                R.color.colorIch
-        );
-        colorSchueler = ContextCompat.getColor(
-                getContext(),
-                R.color.colorSchueler
-        );
-        colorLehrer = ContextCompat.getColor(
-                getContext(),
-                R.color.colorLehrer
-        );
-        colorAlle = ContextCompat.getColor(
-                getContext(),
-                R.color.colorAlle
-        );
-        colorTransparent = ContextCompat.getColor(
-                getContext(),
-                android.R.color.transparent
-        );
-
         filterIch = new PorterDuffColorFilter(
-                colorIch,
+                ContextCompat.getColor(
+                        getContext(),
+                        R.color.colorIch
+                ),
                 PorterDuff.Mode.SRC_ATOP
         );
         filterSchueler = new PorterDuffColorFilter(
-                colorSchueler,
+                ContextCompat.getColor(
+                        getContext(),
+                        R.color.colorSchueler
+                ),
                 PorterDuff.Mode.SRC_ATOP
         );
         filterLehrer = new PorterDuffColorFilter(
-                colorLehrer,
+                ContextCompat.getColor(
+                        getContext(),
+                        R.color.colorLehrer
+                ),
                 PorterDuff.Mode.SRC_ATOP
         );
         filterAlle = new PorterDuffColorFilter(
-                colorAlle,
+                ContextCompat.getColor(
+                        getContext(),
+                        R.color.colorAlle
+                ),
                 PorterDuff.Mode.SRC_ATOP
         );
 
@@ -221,7 +209,7 @@ public abstract class StatistikView extends View {
                 );
                 canvasIch.setBitmap(bitmapIch);
             } else {
-                bitmapIch.eraseColor(colorTransparent);
+                bitmapIch.eraseColor(0);
             }
 
             if (bitmapSchueler == null) {
@@ -232,7 +220,7 @@ public abstract class StatistikView extends View {
                 );
                 canvasSchueler.setBitmap(bitmapSchueler);
             } else {
-                bitmapSchueler.eraseColor(colorTransparent);
+                bitmapSchueler.eraseColor(0);
             }
 
             if (bitmapLehrer == null) {
@@ -243,7 +231,7 @@ public abstract class StatistikView extends View {
                 );
                 canvasLehrer.setBitmap(bitmapLehrer);
             } else {
-                bitmapLehrer.eraseColor(colorTransparent);
+                bitmapLehrer.eraseColor(0);
             }
 
             if (bitmapAlle == null) {
@@ -254,7 +242,7 @@ public abstract class StatistikView extends View {
                 );
                 canvasAlle.setBitmap(bitmapAlle);
             } else {
-                bitmapAlle.eraseColor(colorTransparent);
+                bitmapAlle.eraseColor(0);
             }
 
             redraw();
