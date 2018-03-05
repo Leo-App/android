@@ -116,6 +116,12 @@ public abstract class StatistikView extends View {
         }
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        heightMeasureSpec = widthMeasureSpec * 4 / 3;
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
     @CallSuper
     void init() {
         height = getHeight();

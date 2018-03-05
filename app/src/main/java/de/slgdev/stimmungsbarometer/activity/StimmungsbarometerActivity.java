@@ -1,11 +1,9 @@
 package de.slgdev.stimmungsbarometer.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -157,60 +155,39 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         viewAlles = new ColumnView(getApplicationContext());
         viewAlles.setData(database.getAverage());
 
-        final CardView cardWoche = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
+        ViewGroup container = findViewById(R.id.linearLayout);
+
+        CardView cardWoche = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, container, false);
         cardWoche.setCardElevation(GraphicUtils.dpToPx(4));
-        final CardView cardMonat = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
-        cardMonat.setCardElevation(GraphicUtils.dpToPx(4));
-        final CardView cardJahr = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
-        cardJahr.setCardElevation(GraphicUtils.dpToPx(4));
-        final CardView cardAlles = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, null);
-        cardAlles.setCardElevation(GraphicUtils.dpToPx(4));
-
-        final TextView titleWoche = cardWoche.findViewById(R.id.title);
+        TextView titleWoche = cardWoche.findViewById(R.id.title);
         titleWoche.setText(R.string.last_week);
-        final TextView titleMonat = cardMonat.findViewById(R.id.title);
-        titleMonat.setText(R.string.last_month);
-        final TextView titleJahr = cardJahr.findViewById(R.id.title);
-        titleJahr.setText(R.string.last_year);
-        final TextView titleAlles = cardAlles.findViewById(R.id.title);
-        titleAlles.setText(R.string.total);
-
-        final ViewGroup layoutWoche = cardWoche.findViewById(R.id.layout);
+        ViewGroup layoutWoche = cardWoche.findViewById(R.id.layout);
         layoutWoche.addView(viewWoche);
-        final ViewGroup layoutMonat = cardMonat.findViewById(R.id.layout);
+        container.addView(cardWoche);
+
+        CardView cardMonat = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, container, false);
+        cardMonat.setCardElevation(GraphicUtils.dpToPx(4));
+        TextView titleMonat = cardMonat.findViewById(R.id.title);
+        titleMonat.setText(R.string.last_month);
+        ViewGroup layoutMonat = cardMonat.findViewById(R.id.layout);
         layoutMonat.addView(viewMonat);
-        final ViewGroup layoutJahr = cardJahr.findViewById(R.id.layout);
+        container.addView(cardMonat);
+
+        CardView cardJahr = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, container, false);
+        cardJahr.setCardElevation(GraphicUtils.dpToPx(4));
+        TextView titleJahr = cardJahr.findViewById(R.id.title);
+        titleJahr.setText(R.string.last_year);
+        ViewGroup layoutJahr = cardJahr.findViewById(R.id.layout);
         layoutJahr.addView(viewJahr);
-        final ViewGroup layoutAlles = cardAlles.findViewById(R.id.layout);
+        container.addView(cardJahr);
+
+        CardView cardAlles = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, container, false);
+        cardAlles.setCardElevation(GraphicUtils.dpToPx(4));
+        TextView titleAlles = cardAlles.findViewById(R.id.title);
+        titleAlles.setText(R.string.total);
+        ViewGroup layoutAlles = cardAlles.findViewById(R.id.layout);
         layoutAlles.addView(viewAlles);
-
-        new Handler().post(() -> {
-            View scrollView = findViewById(R.id.scrollView);
-            int  height, width;
-            while ((height = scrollView.getHeight()) == 0 || (width = scrollView.getWidth()) == 0)
-                ;
-
-            viewWoche.setMinimumHeight(height * 4 / 5);
-            viewMonat.setMinimumHeight(height * 4 / 5);
-            viewJahr.setMinimumHeight(height * 4 / 5);
-            viewAlles.setMinimumHeight(height * 4 / 5);
-
-            final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0, height / 64, 0, height / 64);
-
-            final LinearLayout container = findViewById(R.id.linearLayout);
-            container.addView(cardWoche, layoutParams);
-            container.addView(cardMonat, layoutParams);
-            container.addView(cardJahr, layoutParams);
-            container.addView(cardAlles, layoutParams);
-
-            final LinearLayout.LayoutParams layoutParamsTitle = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParamsTitle.setMargins(width / 128, height / 128, width / 128, height / 128);
-            titleWoche.setLayoutParams(layoutParamsTitle);
-            titleMonat.setLayoutParams(layoutParamsTitle);
-            titleJahr.setLayoutParams(layoutParamsTitle);
-            titleAlles.setLayoutParams(layoutParamsTitle);
-        });
+        container.addView(cardAlles);
     }
 
     private void initEditButton() {
