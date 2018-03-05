@@ -1,18 +1,14 @@
 package de.slgdev.stimmungsbarometer.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.dialog.EditTextDialog;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorStimmungsbarometer;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
-import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
@@ -34,7 +30,7 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
     private GraphView  viewWoche;
     private GraphView  viewMonat;
     private GraphView  viewJahr;
-    private ColumnView viewAlles;
+    private ColumnView viewGesamt;
 
     private EditTextDialog dialog;
 
@@ -43,15 +39,15 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         super.onCreate(savedInstanceState);
         Utils.getController().registerStimmungsbarometerActivity(this);
 
-        drawI = Utils.isVerified();
+        drawI = true;
         drawS = true;
         drawL = true;
         drawA = true;
 
         database = new SQLiteConnectorStimmungsbarometer(getApplicationContext());
 
-        initScrollView();
-        initLayouts();
+        initStatisticViews();
+        initCheckboxes();
         initEditButton();
 
         new SyncVoteResultsTask(getApplicationContext()).addListener(this).execute();
@@ -106,13 +102,13 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
     @Override
     public void taskFinished(Object... params) {
         if (params[0] == ResponseCode.SERVER_FAILED) {
-            Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.error_sync, Toast.LENGTH_SHORT).show();
         } else {
             updateViews();
         }
     }
 
-    private void initLayouts() {
+    private void initCheckboxes() {
         final CheckBox lI = findViewById(R.id.layoutIch);
         final CheckBox lS = findViewById(R.id.layoutSchueler);
         final CheckBox lL = findViewById(R.id.layoutLehrer);
@@ -145,49 +141,18 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         });
     }
 
-    private void initScrollView() {
-        viewWoche = new GraphView(getApplicationContext());
+    private void initStatisticViews() {
+        viewWoche = findViewById(R.id.viewWoche);
         viewWoche.setData(database.getData(0));
-        viewMonat = new GraphView(getApplicationContext());
+
+        viewMonat = findViewById(R.id.viewMonat);
         viewMonat.setData(database.getData(1));
-        viewJahr = new GraphView(getApplicationContext());
+
+        viewJahr = findViewById(R.id.viewJahr);
         viewJahr.setData(database.getData(2));
-        viewAlles = new ColumnView(getApplicationContext());
-        viewAlles.setData(database.getAverage());
 
-        ViewGroup container = findViewById(R.id.linearLayout);
-
-        CardView cardWoche = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, container, false);
-        cardWoche.setCardElevation(GraphicUtils.dpToPx(4));
-        TextView titleWoche = cardWoche.findViewById(R.id.title);
-        titleWoche.setText(R.string.last_week);
-        ViewGroup layoutWoche = cardWoche.findViewById(R.id.layout);
-        layoutWoche.addView(viewWoche);
-        container.addView(cardWoche);
-
-        CardView cardMonat = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, container, false);
-        cardMonat.setCardElevation(GraphicUtils.dpToPx(4));
-        TextView titleMonat = cardMonat.findViewById(R.id.title);
-        titleMonat.setText(R.string.last_month);
-        ViewGroup layoutMonat = cardMonat.findViewById(R.id.layout);
-        layoutMonat.addView(viewMonat);
-        container.addView(cardMonat);
-
-        CardView cardJahr = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, container, false);
-        cardJahr.setCardElevation(GraphicUtils.dpToPx(4));
-        TextView titleJahr = cardJahr.findViewById(R.id.title);
-        titleJahr.setText(R.string.last_year);
-        ViewGroup layoutJahr = cardJahr.findViewById(R.id.layout);
-        layoutJahr.addView(viewJahr);
-        container.addView(cardJahr);
-
-        CardView cardAlles = (CardView) getLayoutInflater().inflate(R.layout.card_view_vertical, container, false);
-        cardAlles.setCardElevation(GraphicUtils.dpToPx(4));
-        TextView titleAlles = cardAlles.findViewById(R.id.title);
-        titleAlles.setText(R.string.total);
-        ViewGroup layoutAlles = cardAlles.findViewById(R.id.layout);
-        layoutAlles.addView(viewAlles);
-        container.addView(cardAlles);
+        viewGesamt = findViewById(R.id.viewGesamt);
+        viewGesamt.setData(database.getAverage());
     }
 
     private void initEditButton() {
@@ -215,7 +180,7 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         viewWoche.setData(database.getData(0));
         viewMonat.setData(database.getData(1));
         viewJahr.setData(database.getData(2));
-        viewAlles.setData(database.getAverage());
+        viewGesamt.setData(database.getAverage());
         refreshViews();
     }
 
@@ -223,6 +188,6 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         viewWoche.invalidate();
         viewMonat.invalidate();
         viewJahr.invalidate();
-        viewAlles.invalidate();
+        viewGesamt.invalidate();
     }
 }

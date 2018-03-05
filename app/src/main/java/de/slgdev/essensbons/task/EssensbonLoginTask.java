@@ -11,7 +11,6 @@ import de.slgdev.essensbons.utility.Authenticator;
 import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
-import de.slgdev.leoapp.utility.NetworkPerformance;
 import de.slgdev.leoapp.utility.Utils;
 
 public class EssensbonLoginTask extends VoidCallbackTask<Authenticator> {

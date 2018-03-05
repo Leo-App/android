@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -27,16 +29,21 @@ public abstract class StatistikView extends View {
     private Bitmap bitmapSchueler;
     private Bitmap bitmapLehrer;
     private Bitmap bitmapAlle;
-    final Canvas canvasIch;
-    final Canvas canvasSchueler;
-    final Canvas canvasLehrer;
-    final Canvas canvasAlle;
+    final   Canvas canvasIch;
+    final   Canvas canvasSchueler;
+    final   Canvas canvasLehrer;
+    final   Canvas canvasAlle;
 
     final int colorIch;
     final int colorSchueler;
     final int colorLehrer;
     final int colorAlle;
     final int colorTransparent;
+
+    private final PorterDuffColorFilter filterIch;
+    private final PorterDuffColorFilter filterSchueler;
+    private final PorterDuffColorFilter filterLehrer;
+    private final PorterDuffColorFilter filterAlle;
 
     final Paint paint;
 
@@ -88,6 +95,23 @@ public abstract class StatistikView extends View {
                 android.R.color.transparent
         );
 
+        filterIch = new PorterDuffColorFilter(
+                colorIch,
+                PorterDuff.Mode.SRC_ATOP
+        );
+        filterSchueler = new PorterDuffColorFilter(
+                colorSchueler,
+                PorterDuff.Mode.SRC_ATOP
+        );
+        filterLehrer = new PorterDuffColorFilter(
+                colorLehrer,
+                PorterDuff.Mode.SRC_ATOP
+        );
+        filterAlle = new PorterDuffColorFilter(
+                colorAlle,
+                PorterDuff.Mode.SRC_ATOP
+        );
+
         isInitialized = false;
     }
 
@@ -100,26 +124,36 @@ public abstract class StatistikView extends View {
             createCharts();
         }
 
+        paint.setColorFilter(null);
         canvas.drawBitmap(bitmapBack, 0, 0, paint);
 
         if (drawI) {
+            paint.setColorFilter(filterIch);
             canvas.drawBitmap(bitmapIch, 0, 0, paint);
         }
         if (drawS) {
+            paint.setColorFilter(filterSchueler);
             canvas.drawBitmap(bitmapSchueler, 0, 0, paint);
         }
         if (drawL) {
+            paint.setColorFilter(filterLehrer);
             canvas.drawBitmap(bitmapLehrer, 0, 0, paint);
         }
         if (drawA) {
+            paint.setColorFilter(filterAlle);
             canvas.drawBitmap(bitmapAlle, 0, 0, paint);
         }
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        heightMeasureSpec = widthMeasureSpec * 4 / 3;
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(
+                widthMeasureSpec,
+                MeasureSpec.makeMeasureSpec(
+                        MeasureSpec.getSize(widthMeasureSpec) / 8 * 7,
+                        MeasureSpec.AT_MOST
+                )
+        );
     }
 
     @CallSuper
@@ -127,8 +161,8 @@ public abstract class StatistikView extends View {
         height = getHeight();
         width = getWidth();
 
-        baseLineY = height * 99 / 100;
-        abstandY = baseLineY * 99 / 400;
+        baseLineY = height - 10;
+        abstandY = (height - 20) / 4;
 
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
 
@@ -183,7 +217,7 @@ public abstract class StatistikView extends View {
                 bitmapIch = Bitmap.createBitmap(
                         width,
                         height,
-                        Bitmap.Config.ARGB_8888
+                        Bitmap.Config.ALPHA_8
                 );
                 canvasIch.setBitmap(bitmapIch);
             } else {
@@ -194,7 +228,7 @@ public abstract class StatistikView extends View {
                 bitmapSchueler = Bitmap.createBitmap(
                         width,
                         height,
-                        Bitmap.Config.ARGB_8888
+                        Bitmap.Config.ALPHA_8
                 );
                 canvasSchueler.setBitmap(bitmapSchueler);
             } else {
@@ -205,7 +239,7 @@ public abstract class StatistikView extends View {
                 bitmapLehrer = Bitmap.createBitmap(
                         width,
                         height,
-                        Bitmap.Config.ARGB_8888
+                        Bitmap.Config.ALPHA_8
                 );
                 canvasLehrer.setBitmap(bitmapLehrer);
             } else {
@@ -216,7 +250,7 @@ public abstract class StatistikView extends View {
                 bitmapAlle = Bitmap.createBitmap(
                         width,
                         height,
-                        Bitmap.Config.ARGB_8888
+                        Bitmap.Config.ALPHA_8
                 );
                 canvasAlle.setBitmap(bitmapAlle);
             } else {

@@ -1,11 +1,5 @@
 package de.slgdev.essensbons.utility;
 
-import android.support.annotation.WorkerThread;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import de.slgdev.leoapp.utility.NetworkPerformance;
 import de.slgdev.leoapp.utility.Utils;
 

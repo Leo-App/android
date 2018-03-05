@@ -65,6 +65,6 @@
         <item
             android:id="@+id/about"
             android:icon="@drawable/ic_info"
-            android:title="@string/toolbar_name_info" />
+            android:title="@string/toolbar_name_info"/>
     </group>
 </menu>

@@ -99,8 +99,8 @@ public abstract class Utils {
      * @return Aktuelle Netzwerkperformance, NOT_AVAILABLE wenn kein Internet verfügbar.
      */
     public static NetworkPerformance getNetworkPerformance() {
-        ConnectivityManager c = (ConnectivityManager) getController().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = c.getActiveNetworkInfo();
+        ConnectivityManager c    = (ConnectivityManager) getController().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo         info = c.getActiveNetworkInfo();
         if (info.getType() == ConnectivityManager.TYPE_WIFI) {
             return NetworkPerformance.EXCELLENT;
         } else if (info.getType() == ConnectivityManager.TYPE_MOBILE) {

@@ -25,7 +25,7 @@ public class NewsSynchronizer implements Synchronizer {
     @Override
     public boolean run() {
 
-        if(!Utils.isNetworkAvailable())
+        if (!Utils.isNetworkAvailable())
             return false;
 
         try {

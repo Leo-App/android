@@ -18,6 +18,7 @@
 
     <string name="cancel">Abbrechen</string>
     <string name="error">Entschuldige, etwas ist schief gelaufen</string>
+    <string name="error_sync">Aktualisierung fehlgeschlagen</string>
     <string name="hours_settings_template">%1$s Uhr</string>
 
     <string name="intro_finished_title">Fertig!</string>
