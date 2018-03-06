@@ -87,7 +87,7 @@ public class WebDAVConnector {
             return files;
         } catch (IOException e) {
             Utils.logError(e);
-            return null;
+            return new List<>();
         }
     }
 
