@@ -54,6 +54,7 @@ import de.slgdev.schwarzes_brett.utility.SchwarzesBrettUtils;
  * @since 0.0.1
  */
 public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
+
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
     private static SQLiteConnectorSchwarzesBrett sqLiteConnector;
@@ -190,12 +191,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
     private void initSwipeToRefresh() {
         final SwipeRefreshLayout swipeLayout = findViewById(R.id.swipeRefreshLayout);
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new SyncNewsTask(swipeLayout).execute();
-            }
-        });
+        swipeLayout.setOnRefreshListener(() -> new SyncNewsTask(swipeLayout).execute());
 
         swipeLayout.setColorSchemeColors(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null));
     }
@@ -205,12 +201,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER || Utils.getUserPermission() == User.PERMISSION_ADMIN) {
             button.setVisibility(View.VISIBLE);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new NewEntryDialog(SchwarzesBrettActivity.this).show();
-                }
-            });
+            button.setOnClickListener(v -> new NewEntryDialog(SchwarzesBrettActivity.this).show());
         }
     }
 
@@ -224,24 +215,21 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
                 : new ExpandableListAdapter(entriesMap, groupList);
         expandableListView.setAdapter(expandableListAdapter);
 
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                int remoteID = getRemoteId(groupPosition);
-                Utils.logError(remoteID);
-                if (Utils.getUserPermission() == User.PERMISSION_LEHRER || SchwarzesBrettUtils.messageAlreadySeen(remoteID))
-                    return false;
-                String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
-                if (!cache.equals(""))
-                    cache += "-";
-                Utils.getController().getPreferences()
-                        .edit()
-                        .putString("pref_key_cache_vieweditems", cache + "1:" + remoteID)
-                        .apply();
-                if (Utils.isNetworkAvailable())
-                    new UpdateViewTrackerTask().execute(remoteID);
+        expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
+            int remoteID = getRemoteId(groupPosition);
+            Utils.logError(remoteID);
+            if (Utils.getUserPermission() == User.PERMISSION_LEHRER || SchwarzesBrettUtils.messageAlreadySeen(remoteID))
                 return false;
-            }
+            String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
+            if (!cache.equals(""))
+                cache += "-";
+            Utils.getController().getPreferences()
+                    .edit()
+                    .putString("pref_key_cache_vieweditems", cache + "1:" + remoteID)
+                    .apply();
+            if (Utils.isNetworkAvailable())
+                new UpdateViewTrackerTask().execute(remoteID);
+            return false;
         });
 
         if (groupList.size() == 0) {
@@ -388,16 +376,13 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
                 final String location = eintraege.get(titel.get(groupPosition)).get(3);
 
-                final View.OnClickListener listener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        rawLocation = location;
+                final View.OnClickListener listener = v -> {
+                    rawLocation = location;
 
-                        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(SchwarzesBrettActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-                        } else {
-                            new FileDownloadTask().execute(rawLocation);
-                        }
+                    if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(SchwarzesBrettActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                    } else {
+                        new FileDownloadTask().execute(rawLocation);
                     }
                 };
 
