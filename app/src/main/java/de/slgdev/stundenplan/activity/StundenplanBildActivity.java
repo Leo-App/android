@@ -28,6 +28,7 @@ import de.slgdev.leoapp.view.ActionLogActivity;
 import de.slgdev.stundenplan.StundenplanView;
 
 public class StundenplanBildActivity extends ActionLogActivity {
+
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
     private StundenplanView view;
 
@@ -53,12 +54,7 @@ public class StundenplanBildActivity extends ActionLogActivity {
 
     public void initFabSAVE() {
         FloatingActionButton fabSAVE = findViewById(R.id.fabSAVE);
-        fabSAVE.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveImage();
-            }
-        });
+        fabSAVE.setOnClickListener(view -> saveImage());
     }
 
     @Override
@@ -87,15 +83,12 @@ public class StundenplanBildActivity extends ActionLogActivity {
                 outputStream.write(bytes.toByteArray());
                 outputStream.close();
                 final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), getString(R.string.saved_as) + getFilename(), Snackbar.LENGTH_LONG);
-                snackbar.setAction(R.string.open, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(Uri.fromFile(image), "image/jpeg");
-                        if (intent.resolveActivity(getPackageManager()) != null) {
-                            startActivity(intent);
-                        }
+                snackbar.setAction(R.string.open, v -> {
+                    snackbar.dismiss();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(image), "image/jpeg");
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent);
                     }
                 });
                 snackbar.show();
