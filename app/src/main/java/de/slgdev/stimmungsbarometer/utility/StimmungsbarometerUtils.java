@@ -56,7 +56,7 @@ public abstract class StimmungsbarometerUtils {
     public static String getCurrentQuestion() {
         return Utils.getController()
                 .getPreferences()
-                .getString("stimmungsbarometer_frage","Wie geht es dir?");
+                .getString("stimmungsbarometer_frage", "Wie geht es dir?");
     }
 
 }

@@ -19,10 +19,10 @@ import de.slgdev.leoapp.Start;
 import de.slgdev.leoapp.service.ReceiveService;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.ActionLogActivity;
-import de.slgdev.messenger.view.MessageAdapter;
 import de.slgdev.messenger.utility.Chat;
 import de.slgdev.messenger.utility.Message;
 import de.slgdev.messenger.utility.MessengerUtils;
+import de.slgdev.messenger.view.MessageAdapter;
 
 public class ChatActivity extends ActionLogActivity {
     private int           cid;

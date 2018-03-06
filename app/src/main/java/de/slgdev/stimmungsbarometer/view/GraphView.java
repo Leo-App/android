@@ -43,19 +43,19 @@ public class GraphView extends StatistikView {
             for (int i = 0; i < data[3].length; i++) {
                 Paint p = new Paint();
                 if (i < data[0].length && data[0][i].value > 0) {
-                    p.setColor(colorIch);
+                    //p.setColor(colorIch);
                     canvasIch.drawCircle(width - (baseLineX + i * abstandX), (float) (baseLineY - (5 - data[0][i].value) * abstandY), radius, p);
                 }
                 if (i < data[1].length && data[1][i].value > 0) {
-                    p.setColor(colorSchueler);
+                    //p.setColor(colorSchueler);
                     canvasSchueler.drawCircle(width - (baseLineX + i * abstandX), (float) (baseLineY - (5 - data[1][i].value) * abstandY), radius, p);
                 }
                 if (i < data[2].length && data[2][i].value > 0) {
-                    p.setColor(colorLehrer);
+                    //p.setColor(colorLehrer);
                     canvasLehrer.drawCircle(width - (baseLineX + i * abstandX), (float) (baseLineY - (5 - data[2][i].value) * abstandY), radius, p);
                 }
                 if (i < data[3].length && data[3][i].value > 0) {
-                    p.setColor(colorAlle);
+                    //p.setColor(colorAlle);
                     canvasAlle.drawCircle(width - (baseLineX + i * abstandX), (float) (baseLineY - (5 - data[3][i].value) * abstandY), radius, p);
                 }
             }
@@ -69,28 +69,28 @@ public class GraphView extends StatistikView {
                 p.setStrokeWidth(radius);
                 if (i < data[0].length && data[0][i].value > 0) {
                     if (data[0][previousIch].value > 0) {
-                        p.setColor(colorIch);
+                        //p.setColor(colorIch);
                         canvasIch.drawLine(width - (baseLineX + previousIch * abstandX), (float) (baseLineY - (5 - data[0][previousIch].value) * abstandY), width - (baseLineX + i * abstandX), (float) (baseLineY - (5 - data[0][i].value) * abstandY), p);
                     }
                     previousIch = i;
                 }
                 if (i < data[1].length && data[1][i].value > 0) {
                     if (data[1][previousSchueler].value > 0) {
-                        p.setColor(colorSchueler);
+                        //p.setColor(colorSchueler);
                         canvasSchueler.drawLine(width - (baseLineX + previousSchueler * abstandX), (float) (baseLineY - (5 - data[1][previousSchueler].value) * abstandY), width - (baseLineX + i * abstandX), (float) (baseLineY - (5 - data[1][i].value) * abstandY), p);
                     }
                     previousSchueler = i;
                 }
                 if (i < data[2].length && data[2][i].value > 0) {
                     if (data[2][previousLehrer].value > 0) {
-                        p.setColor(colorLehrer);
+                        //p.setColor(colorLehrer);
                         canvasLehrer.drawLine(width - (baseLineX + previousLehrer * abstandX), (float) (baseLineY - (5 - data[2][previousLehrer].value) * abstandY), width - (baseLineX + i * abstandX), (float) (baseLineY - (5 - data[2][i].value) * abstandY), p);
                     }
                     previousLehrer = i;
                 }
                 if (i < data[3].length && data[3][i].value > 0) {
                     if (data[3][previousAlle].value > 0) {
-                        p.setColor(colorAlle);
+                        //p.setColor(colorAlle);
                         canvasAlle.drawLine(width - (baseLineX + previousAlle * abstandX), (float) (baseLineY - (5 - data[3][previousAlle].value) * abstandY), width - (baseLineX + i * abstandX), (float) (baseLineY - (5 - data[3][i].value) * abstandY), p);
                     }
                     previousAlle = i;

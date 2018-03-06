@@ -38,15 +38,11 @@ public class WebDAVConnector {
     public WebDAVConnector(final String name, final String password) {
 
         connection = new OkHttpClient.Builder()
-                .authenticator(new Authenticator() {
-                    @Nullable
-                    @Override
-                    public Request authenticate(@NonNull Route route, @NonNull Response response) throws IOException {
-                        String credentials = Credentials.basic(name, password);
-                        return response.request().newBuilder()
-                                .header("Authorization", credentials)
-                                .build();
-                    }
+                .authenticator((route, response) -> {
+                    String credentials = Credentials.basic(name, password);
+                    return response.request().newBuilder()
+                            .header("Authorization", credentials)
+                            .build();
                 })
                 .build();
 
@@ -87,7 +83,7 @@ public class WebDAVConnector {
             return files;
         } catch (IOException e) {
             Utils.logError(e);
-            return null;
+            return new List<>();
         }
     }
 

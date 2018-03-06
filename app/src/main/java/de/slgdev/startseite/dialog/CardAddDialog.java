@@ -69,7 +69,7 @@ public class CardAddDialog extends AlertDialog {
                 findViewById(R.id.highlight9)
         };
 
-        if (Utils.getUserPermission()-2 < User.PERMISSION_LEHRER)
+        if (Utils.getUserPermission() - 2 < User.PERMISSION_LEHRER)
             findViewById(R.id.restricted).setVisibility(View.GONE);
 
         initOptions();

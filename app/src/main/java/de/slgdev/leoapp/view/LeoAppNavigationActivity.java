@@ -27,7 +27,6 @@ import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.MessengerActivity;
 import de.slgdev.schwarzes_brett.activity.SchwarzesBrettActivity;
-import de.slgdev.startseite.activity.MainActivity;
 import de.slgdev.stimmungsbarometer.activity.StimmungsbarometerActivity;
 import de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slgdev.stundenplan.activity.StundenplanActivity;

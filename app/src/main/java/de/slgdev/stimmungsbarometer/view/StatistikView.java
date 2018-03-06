@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -27,24 +29,26 @@ public abstract class StatistikView extends View {
     private Bitmap bitmapSchueler;
     private Bitmap bitmapLehrer;
     private Bitmap bitmapAlle;
-    final Canvas canvasIch;
-    final Canvas canvasSchueler;
-    final Canvas canvasLehrer;
-    final Canvas canvasAlle;
 
-    final int colorIch;
-    final int colorSchueler;
-    final int colorLehrer;
-    final int colorAlle;
-    final int colorTransparent;
+    final   Canvas canvasIch;
+    final   Canvas canvasSchueler;
+    final   Canvas canvasLehrer;
+    final   Canvas canvasAlle;
+
+    private final PorterDuffColorFilter filterIch;
+    private final PorterDuffColorFilter filterSchueler;
+    private final PorterDuffColorFilter filterLehrer;
+    private final PorterDuffColorFilter filterAlle;
 
     final Paint paint;
 
     int   height;
     int   width;
-    float baseLineY;
+
     float baseLineX;
     float abstandX;
+
+    float baseLineY;
     float abstandY;
 
     public StatistikView(Context context) {
@@ -67,25 +71,33 @@ public abstract class StatistikView extends View {
 
         paint = new Paint();
 
-        colorIch = ContextCompat.getColor(
-                getContext(),
-                R.color.colorIch
+        filterIch = new PorterDuffColorFilter(
+                ContextCompat.getColor(
+                        getContext(),
+                        R.color.colorIch
+                ),
+                PorterDuff.Mode.SRC_ATOP
         );
-        colorSchueler = ContextCompat.getColor(
-                getContext(),
-                R.color.colorSchueler
+        filterSchueler = new PorterDuffColorFilter(
+                ContextCompat.getColor(
+                        getContext(),
+                        R.color.colorSchueler
+                ),
+                PorterDuff.Mode.SRC_ATOP
         );
-        colorLehrer = ContextCompat.getColor(
-                getContext(),
-                R.color.colorLehrer
+        filterLehrer = new PorterDuffColorFilter(
+                ContextCompat.getColor(
+                        getContext(),
+                        R.color.colorLehrer
+                ),
+                PorterDuff.Mode.SRC_ATOP
         );
-        colorAlle = ContextCompat.getColor(
-                getContext(),
-                R.color.colorAlle
-        );
-        colorTransparent = ContextCompat.getColor(
-                getContext(),
-                android.R.color.transparent
+        filterAlle = new PorterDuffColorFilter(
+                ContextCompat.getColor(
+                        getContext(),
+                        R.color.colorAlle
+                ),
+                PorterDuff.Mode.SRC_ATOP
         );
 
         isInitialized = false;
@@ -100,20 +112,36 @@ public abstract class StatistikView extends View {
             createCharts();
         }
 
+        paint.setColorFilter(null);
         canvas.drawBitmap(bitmapBack, 0, 0, paint);
 
         if (drawI) {
+            paint.setColorFilter(filterIch);
             canvas.drawBitmap(bitmapIch, 0, 0, paint);
         }
         if (drawS) {
+            paint.setColorFilter(filterSchueler);
             canvas.drawBitmap(bitmapSchueler, 0, 0, paint);
         }
         if (drawL) {
+            paint.setColorFilter(filterLehrer);
             canvas.drawBitmap(bitmapLehrer, 0, 0, paint);
         }
         if (drawA) {
+            paint.setColorFilter(filterAlle);
             canvas.drawBitmap(bitmapAlle, 0, 0, paint);
         }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(
+                widthMeasureSpec,
+                MeasureSpec.makeMeasureSpec(
+                        MeasureSpec.getSize(widthMeasureSpec) / 8 * 7,
+                        MeasureSpec.AT_MOST
+                )
+        );
     }
 
     @CallSuper
@@ -121,8 +149,8 @@ public abstract class StatistikView extends View {
         height = getHeight();
         width = getWidth();
 
-        baseLineY = height * 99 / 100;
-        abstandY = baseLineY * 99 / 400;
+        baseLineY = height - 10;
+        abstandY = (height - 20) / 4;
 
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
 
@@ -177,44 +205,44 @@ public abstract class StatistikView extends View {
                 bitmapIch = Bitmap.createBitmap(
                         width,
                         height,
-                        Bitmap.Config.ARGB_8888
+                        Bitmap.Config.ALPHA_8
                 );
                 canvasIch.setBitmap(bitmapIch);
             } else {
-                bitmapIch.eraseColor(colorTransparent);
+                bitmapIch.eraseColor(0);
             }
 
             if (bitmapSchueler == null) {
                 bitmapSchueler = Bitmap.createBitmap(
                         width,
                         height,
-                        Bitmap.Config.ARGB_8888
+                        Bitmap.Config.ALPHA_8
                 );
                 canvasSchueler.setBitmap(bitmapSchueler);
             } else {
-                bitmapSchueler.eraseColor(colorTransparent);
+                bitmapSchueler.eraseColor(0);
             }
 
             if (bitmapLehrer == null) {
                 bitmapLehrer = Bitmap.createBitmap(
                         width,
                         height,
-                        Bitmap.Config.ARGB_8888
+                        Bitmap.Config.ALPHA_8
                 );
                 canvasLehrer.setBitmap(bitmapLehrer);
             } else {
-                bitmapLehrer.eraseColor(colorTransparent);
+                bitmapLehrer.eraseColor(0);
             }
 
             if (bitmapAlle == null) {
                 bitmapAlle = Bitmap.createBitmap(
                         width,
                         height,
-                        Bitmap.Config.ARGB_8888
+                        Bitmap.Config.ALPHA_8
                 );
                 canvasAlle.setBitmap(bitmapAlle);
             } else {
-                bitmapAlle.eraseColor(colorTransparent);
+                bitmapAlle.eraseColor(0);
             }
 
             redraw();
