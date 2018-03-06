@@ -246,6 +246,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             viewList.add(cursor.getInt(0));
         }
+
         cursor.close();
         return viewList;
     }
@@ -280,31 +281,19 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
 
-            String[] children;
+            childList = new ArrayList<>();
 
-            if (cursor.getString(5).equals("null")) {
-                children = new String[]{cursor.getString(0),
-                        cursor.getString(2),
-                        simpleDateFormat.format(erstelldatum) +
-                                " - " + simpleDateFormat.format(ablaufdatum)
-                };
-            } else {
-                children = new String[]{cursor.getString(0),
-                        cursor.getString(2),
-                        simpleDateFormat.format(erstelldatum) +
-                                " - " + simpleDateFormat.format(ablaufdatum),
-                        cursor.getString(5)};
-            }
+            childList.add(cursor.getString(0));
+            childList.add(cursor.getString(2).replace("\\\\", "\n"));
+            childList.add(simpleDateFormat.format(erstelldatum) +
+                    " - " + simpleDateFormat.format(ablaufdatum));
 
-            loadChildren(children);
+            if (!cursor.getString(5).equals("null"))
+                childList.add(cursor.getString(5));
+
             entriesMap.put(cursor.getString(1), childList);
         }
         cursor.close();
-    }
-
-    private void loadChildren(String[] children) {
-        childList = new ArrayList<>();
-        Collections.addAll(childList, children);
     }
 
     private void receive() {
@@ -316,6 +305,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
     }
 
     private class ExpandableListAdapter extends BaseExpandableListAdapter {
+
         private final Map<String, List<String>> eintraege;
         private final List<String>              titel;
         @Nullable
@@ -363,12 +353,10 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
             if (isLastChild) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
-
                 final TextView textViewDate = convertView.findViewById(R.id.titleKlausur);
                 textViewDate.setText(eintraege.get(titel.get(groupPosition)).get(2));
             } else if (childPosition == 0) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child, null);
-
                 final TextView textView = convertView.findViewById(R.id.titleKlausur);
                 textView.setText(eintraege.get(titel.get(groupPosition)).get(1));
             } else {

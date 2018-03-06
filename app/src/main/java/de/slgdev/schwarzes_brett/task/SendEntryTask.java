@@ -38,9 +38,9 @@ public class SendEntryTask extends ObjectCallbackTask<Boolean> {
                         .replace("Ö", "_Oe_")
                         .replace("Ü", "_Ue_")
                         .replace("ß", "_ss_")
-                        .replace(" ", "%20")
+                        .replace("\n", "\\\\")
                         .replace("%", "%25")
-                        .replace("\n", "\\\\\\\\");
+                        .replace(" ", "%20");
             }
 
             BufferedReader reader = new BufferedReader(
