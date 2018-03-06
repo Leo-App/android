@@ -51,7 +51,7 @@ public class StundenplanActivity extends LeoAppNavigationActivity implements Tas
             if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
                 startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
             } else {
-                
+
                 if (!Utils.isNetworkAvailable() || Utils.getNetworkPerformance() == NetworkPerformance.INSUFFICIENT)
                     GraphicUtils.sendToast(R.string.need_internet);
 
