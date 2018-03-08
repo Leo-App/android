@@ -23,6 +23,7 @@ import de.slgdev.leoapp.utility.Utils;
  */
 @SuppressWarnings("unused")
 class ReceiveSyncAdapter extends AbstractThreadedSyncAdapter {
+
     private Synchronizer[] synchronizers;
     private static final String TAG = ReceiveSyncAdapter.class.getSimpleName();
 
