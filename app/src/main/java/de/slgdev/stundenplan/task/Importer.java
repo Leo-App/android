@@ -16,6 +16,7 @@ import de.slgdev.leoapp.utility.Utils;
 public class Importer extends VoidCallbackTask<Void> {
     @Override
     protected void onPreExecute() {
+        super.onPreExecute();
         Utils.getController().getActiveActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
     }
 
