@@ -21,6 +21,7 @@ import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 import de.slgdev.leoapp.view.ActionLogActivity;
+import de.slgdev.leoapp.view.ActivityStatus;
 import de.slgdev.stundenplan.task.Importer;
 import de.slgdev.stundenplan.utility.Fach;
 
@@ -157,8 +158,10 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
 
     @Override
     public void taskFinished(Object... params) {
-        initListView();
-        findViewById(R.id.progressBar).setVisibility(View.GONE);
+        if (getStatus() == ActivityStatus.ACTIVE) {
+            initListView();
+            findViewById(R.id.progressBar).setVisibility(View.GONE);
+        }
     }
 
     private class KursAdapter extends ArrayAdapter<Fach> {
