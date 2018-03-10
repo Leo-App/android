@@ -8,13 +8,15 @@ public class Entry {
 
     public final String title;
     public final String content;
-    public final Date createdate;
-    public final Date expirydate;
+    private final Date createdate;
+    private final Date expirydate;
     public final String to;
     public final String file;
     public int views;
+    public final int id;
 
-    public Entry(String to, String title, String content, int views, Date createdate, Date expirydate, String file) {
+    public Entry(int id, String to, String title, String content, int views, Date createdate, Date expirydate, String file) {
+        this.id = id;
         this.to = to;
         this.title = title;
         this.content = content;
