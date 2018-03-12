@@ -34,6 +34,7 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
+import de.slgdev.leoapp.view.ActivityStatus;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.umfragen.dialog.NewSurveyDialog;
 import de.slgdev.umfragen.dialog.ResultDialog;
@@ -56,10 +57,11 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
 
     private static SQLiteConnectorUmfragen sqLiteConnector;
     private static SQLiteDatabase          sqLiteDatabase;
-    private        ExpandableListView      expandableListView;
-    private        List<Integer>           groupList;
-    private        Map<Integer, Survey>    entriesMap;
-    private        View                    button2;
+
+    private ExpandableListView   expandableListView;
+    private List<Integer>        groupList;
+    private Map<Integer, Survey> entriesMap;
+    private View                 button2;
 
     private int previousVisibleItem = 0;
 
@@ -181,7 +183,7 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
         expandableListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
+                //STUB
             }
 
             @Override
@@ -205,9 +207,7 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
     }
 
     private void initButton() {
-
         button2 = findViewById(R.id.floatingActionButton);
-
         button2.setOnClickListener(v -> new NewSurveyDialog(SurveyActivity.this).show());
     }
 
@@ -366,11 +366,6 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
         new SyncSurveyTask().execute();
     }
 
-    @Override
-    public void taskStarts() {
-        // stub
-    }
-
     private class ExpandableListAdapter extends BaseExpandableListAdapter implements TaskStatusListener {
 
         private final Map<Integer, Survey> umfragen;
@@ -423,16 +418,26 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
 
                     final Snackbar snackbar2 = Snackbar.make(findViewById(R.id.coordinatorLayout), Utils.getString(R.string.survey_deleted), Snackbar.LENGTH_SHORT);
                     snackbar2.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
-                    snackbar2.setAction(Utils.getContext().getString(R.string.snackbar_undo), v1 -> snackbar2.dismiss());
+                    snackbar2.setAction(Utils.getContext().getString(R.string.snackbar_undo), v1 -> {});
                     snackbar2.addCallback(new Snackbar.Callback() {
 
                         @Override
                         public void onDismissed(Snackbar snackbar, int event) {
-                            if (event == DISMISS_EVENT_TIMEOUT || event == DISMISS_EVENT_SWIPE) {
-                                new SaveResultTask(toBeDeleted).execute();
-                            } else {
+
+                            if (event == DISMISS_EVENT_ACTION)
                                 initExpandableListView();
-                            }
+                            else
+                                new SaveResultTask(toBeDeleted)
+                                        .addListener(params -> {
+                                            if (Utils.getController().getSurveyActivity() == null) {
+                                                sqLiteDatabase.close();
+                                                sqLiteConnector.close();
+                                                sqLiteDatabase = null;
+                                                sqLiteConnector = null;
+                                            }
+                                        })
+                                        .execute();
+
                         }
 
                         @Override

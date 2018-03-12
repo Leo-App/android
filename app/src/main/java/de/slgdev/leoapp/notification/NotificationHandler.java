@@ -301,6 +301,7 @@ public abstract class NotificationHandler {
 
         private boolean isActive() {
             return isEnabled()
+                    && Utils.isVerified()
                     && hasUnreadNews()
                     && (Utils.getController().getSchwarzesBrettActivity() == null
                     || Utils.getController().getSchwarzesBrettActivity().getStatus() != ActivityStatus.ACTIVE);
@@ -374,6 +375,7 @@ public abstract class NotificationHandler {
 
         private boolean isActive() {
             return isEnabled()
+                    && Utils.isVerified()
                     && hasUnreadNews()
                     && (Utils.getController().getSurveyActivity() == null
                     || Utils.getController().getSurveyActivity().getStatus() != ActivityStatus.ACTIVE);

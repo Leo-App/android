@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -31,6 +32,7 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.schwarzes_brett.dialog.NewEntryDialog;
+import de.slgdev.schwarzes_brett.task.DeleteEntryTask;
 import de.slgdev.schwarzes_brett.task.FileDownloadTask;
 import de.slgdev.schwarzes_brett.task.SyncNewsTask;
 import de.slgdev.schwarzes_brett.task.UpdateViewTrackerTask;
@@ -57,38 +59,6 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
     private List<Entry> entries;
 
     private String rawLocation;
-
-    private static int getRemoteId(int position) {
-        //Maybe cache already transformed ids to avoid excessive RAM usage
-        if (sqLiteConnector == null)
-            sqLiteConnector = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
-        if (sqLiteDatabase == null)
-            sqLiteDatabase = sqLiteConnector.getReadableDatabase();
-        String stufe = Utils.getUserStufe();
-
-        Cursor cursor;
-
-        switch (stufe) {
-            case "":
-            case "TEA":
-                return -1;
-            case "EF":
-            case "Q1":
-            case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID}, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
-                break;
-            default:
-                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID, SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL, SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG}, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
-                break;
-        }
-
-        cursor.moveToPosition(position);
-        if (cursor.getCount() <= position)
-            return -1;
-        int ret = cursor.getInt(0);
-        cursor.close();
-        return ret;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,15 +117,6 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        sqLiteDatabase.close();
-        sqLiteConnector.close();
-        sqLiteDatabase = null;
-        sqLiteConnector = null;
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
         receive();
@@ -178,6 +139,12 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
     @Override
     public void finish() {
         super.finish();
+
+        sqLiteDatabase.close();
+        sqLiteConnector.close();
+        sqLiteDatabase = null;
+        sqLiteConnector = null;
+
         Utils.getController().registerSchwarzesBrettActivity(null);
     }
 
@@ -206,8 +173,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
         expandableListView.setAdapter(expandableListAdapter);
 
         expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
-            int remoteID = getRemoteId(groupPosition);
-            Utils.logError(remoteID);
+            int remoteID = entries.toIndex(groupPosition).getContent().id;
             if (Utils.getUserPermission() == User.PERMISSION_LEHRER || SchwarzesBrettUtils.messageAlreadySeen(remoteID))
                 return false;
             String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
@@ -237,15 +203,74 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
         switch (stufe) {
             case "":
             case "TEA":
-                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL, SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG, SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS}, null, null, null, null, null);
+                cursor = sqLiteDatabase.query(
+                        SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
+                        new String[]{
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                );
                 break;
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL, SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG, SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS}, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(
+                        SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
+                        new String[]{
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
+                        SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT
+                                + " = '" + stufe +
+                                "' OR "
+                                + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                " = 'Sek II' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                " = 'Alle'",
+                        null,
+                        null,
+                        null,
+                        null
+                );
                 break;
             default:
-                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL, SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG, SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS}, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(
+                        SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
+                        new String[]{
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
+                        SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                " = '" + stufe.charAt(1) +
+                                "' OR " +
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                " = 'Sek I' OR " +
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                " = 'Alle'",
+                        null,
+                        null,
+                        null,
+                        null
+                );
                 break;
         }
 
@@ -256,6 +281,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
             Date ablaufdatum  = new Date(cursor.getLong(4));
 
             Entry entry = new Entry(
+                    cursor.getInt(7),
                     cursor.getString(0),
                     cursor.getString(1),
                     cursor.getString(2).replace("\\\\", "\n"),
@@ -307,9 +333,11 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
                 textViewViews.setText(viewString);
 
             } else {
+
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) textViewStufe.getLayoutParams();
                 params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 textViewStufe.setLayoutParams(params);
+
             }
 
             return convertView;
@@ -323,6 +351,52 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt, null);
                 final TextView textViewDate = convertView.findViewById(R.id.titleKlausur);
                 textViewDate.setText(entries.toIndex(groupPosition).getContent().getFormattedDates());
+
+                final ImageView button = convertView.findViewById(R.id.delete);
+
+                if (Utils.getUserPermission() < User.PERMISSION_LEHRER)
+                    button.setVisibility(View.GONE);
+
+                button.setOnClickListener(v -> {
+
+                    entries.toIndex(groupPosition).remove();
+                    notifyDataSetChanged();
+
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.entry_deleted, Snackbar.LENGTH_SHORT);
+
+                    snackbar.setActionTextColor(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary));
+                    snackbar.setAction(Utils.getContext().getString(R.string.snackbar_undo), v1 -> {});
+                    snackbar.addCallback(new Snackbar.Callback() {
+
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+
+                            if (event == DISMISS_EVENT_ACTION)
+                                initExpandableListView();
+                            else
+                                new DeleteEntryTask()
+                                        .addListener(params -> {
+                                            if (Utils.getController().getSchwarzesBrettActivity() == null) {
+                                                sqLiteDatabase.close();
+                                                sqLiteConnector.close();
+                                                sqLiteDatabase = null;
+                                                sqLiteConnector = null;
+                                            }
+                                        })
+                                        .execute(entries.toIndex(groupPosition).getContent().id);
+
+                        }
+
+                        @Override
+                        public void onShown(Snackbar snackbar) {
+                            //stub
+                        }
+
+                    });
+
+                    snackbar.show();
+
+                });
 
             } else if (childPosition == 0) {
 
