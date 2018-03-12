@@ -2,6 +2,7 @@
 <resources>
 
     <string name="title_survey_result">Saved Results</string>
+    <string name="entry_deleted">Entry deleted</string>
 
     <string name="no_exams">No exams!</string>
 
