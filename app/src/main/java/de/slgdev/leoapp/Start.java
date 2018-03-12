@@ -47,15 +47,24 @@ public class Start extends Activity {
 
     public static void runUpdateTasks() {
         if (Utils.isNetworkAvailable()) {
-            new SyncUserTask().execute();
+ //           new SyncUserTask().execute();
 
-            if (Utils.getUserPermission() != User.PERMISSION_LEHRER)
+    /*        if (Utils.getUserPermission() != User.PERMISSION_LEHRER)
                 new SyncGradeTask().execute();
             else
                 Utils.getController().getPreferences()
                         .edit()
                         .putString("pref_key_general_klasse", "TEA")
                         .apply();
+*/
+            //TODO DEBUG vvvvvv
+
+            Utils.getController().getPreferences()
+                    .edit()
+                    .putString("pref_key_general_klasse", "05f")
+                    .apply();
+
+            //TODO ENTFERNEN ^^^^
 
             new SyncQuestionTask().execute();
             new SyncVoteTask().execute();

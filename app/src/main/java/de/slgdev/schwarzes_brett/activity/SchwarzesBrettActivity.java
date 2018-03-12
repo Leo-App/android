@@ -139,12 +139,6 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
     @Override
     public void finish() {
         super.finish();
-
-        sqLiteDatabase.close();
-        sqLiteConnector.close();
-        sqLiteDatabase = null;
-        sqLiteConnector = null;
-
         Utils.getController().registerSchwarzesBrettActivity(null);
     }
 

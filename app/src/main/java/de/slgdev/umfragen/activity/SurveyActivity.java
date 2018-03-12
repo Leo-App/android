@@ -82,17 +82,6 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
         initButton();
         initExpandableListView();
         initSwipeToRefresh();
-
-        if (getIntent().getExtras() != null) {
-            int i = 0;
-            for (Map.Entry<Integer, Survey> entry : entriesMap.entrySet()) {
-                if (entry.getValue().remoteId == Utils.getUserID()) {
-                    expandableListView.expandGroup(i);
-                    break;
-                }
-                i++;
-            }
-        }
     }
 
     @Override
@@ -295,7 +284,7 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
                                 SQLiteConnectorUmfragen.SURVEYS_VOTEABLE
                         },
                         SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
-                                " = '" + stufe + "'" +
+                                " = '" + stufe.charAt(1) + "'" +
                                 " OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
                                 " = 'Sek I'" +
                                 " OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
@@ -363,7 +352,20 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
     }
 
     private void receive() {
-        new SyncSurveyTask().execute();
+        new SyncSurveyTask()
+                .addListener(params -> {
+                    if (getIntent().getExtras() != null) {
+                        int i = 0;
+                        for (Map.Entry<Integer, Survey> entry : entriesMap.entrySet()) {
+                            if (entry.getValue().remoteId == Utils.getUserID()) {
+                                expandableListView.expandGroup(i);
+                                break;
+                            }
+                            i++;
+                        }
+                    }
+                })
+                .execute();
     }
 
     private class ExpandableListAdapter extends BaseExpandableListAdapter implements TaskStatusListener {
