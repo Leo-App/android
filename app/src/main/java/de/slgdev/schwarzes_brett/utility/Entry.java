@@ -8,8 +8,8 @@ public class Entry {
 
     public final String title;
     public final String content;
-    public final Date createdate;
-    public final Date expirydate;
+    private final Date createdate;
+    private final Date expirydate;
     public final String to;
     public final String file;
     public int views;
