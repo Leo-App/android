@@ -49,9 +49,13 @@ public class Start extends Activity {
         if (Utils.isNetworkAvailable()) {
             new SyncUserTask().execute();
 
-            if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
+            if (Utils.getUserPermission() != User.PERMISSION_LEHRER)
                 new SyncGradeTask().execute();
-            }
+            else
+                Utils.getController().getPreferences()
+                        .edit()
+                        .putString("pref_key_general_klasse", "TEA")
+                        .apply();
 
             new SyncQuestionTask().execute();
             new SyncVoteTask().execute();

@@ -35,37 +35,42 @@ public class SyncGradeTask extends AsyncTask<Void, Void, Void> {
         String levelFile = webDAVConnector.getDirContent().getObjectAt(0);
         String grade     = levelFile.split("%20")[0];
 
-        Utils.getController().getPreferences()
-                .edit()
-                .putString("pref_key_general_klasse", levelFile.split("%20")[0])
-                .apply();
+        if (!Utils.getUserStufe().equals(grade)) {
 
-        try {
+            Utils.getController().getPreferences()
+                    .edit()
+                    .putString("pref_key_general_klasse", levelFile.split("%20")[0])
+                    .apply();
 
-            BufferedReader reader =
-                    new BufferedReader(
-                            new InputStreamReader(
-                                    new URL(
-                                            Utils.BASE_URL_PHP + "user/" +
-                                                    "updateKlasse.php?" +
-                                                    "uid=" + Utils.getUserID() + "&" +
-                                                    "uklasse=" + grade
-                                    )
-                                            .openConnection()
-                                            .getInputStream()
-                            )
-                    );
+            try {
 
-            String        line;
-            StringBuilder builder = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
+                BufferedReader reader =
+                        new BufferedReader(
+                                new InputStreamReader(
+                                        new URL(
+                                                Utils.BASE_URL_PHP + "user/" +
+                                                        "updateKlasse.php?" +
+                                                        "uid=" + Utils.getUserID() + "&" +
+                                                        "uklasse=" + grade
+                                        )
+                                                .openConnection()
+                                                .getInputStream()
+                                )
+                        );
+
+                String line;
+                StringBuilder builder = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+                reader.close();
+
+                Utils.logDebug(builder);
+            } catch (IOException e) {
+                Utils.logError(e);
             }
-            reader.close();
 
-            Utils.logDebug(builder);
-        } catch (IOException e) {
-            Utils.logError(e);
         }
         return null;
     }

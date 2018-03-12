@@ -255,6 +255,7 @@ public abstract class NotificationHandler {
     }
 
     public static class SchwarzesBrettNotification implements LeoAppNotification {
+
         private static long         latest;
         private        Context      context;
         private        Notification notification;
@@ -328,6 +329,7 @@ public abstract class NotificationHandler {
     }
 
     public static class UmfrageNotification implements LeoAppNotification {
+
         private static long         latest;
         private        Context      context;
         private        Notification notification;
@@ -402,6 +404,7 @@ public abstract class NotificationHandler {
     }
 
     public static class StimmungsbarometerNotification implements LeoAppNotification {
+
         private Context      context;
         private Notification notification;
 
@@ -454,6 +457,7 @@ public abstract class NotificationHandler {
     }
 
     public static class StundenplanNotification implements LeoAppNotification {
+
         private Context      context;
         private Notification notificationStundenplan;
 

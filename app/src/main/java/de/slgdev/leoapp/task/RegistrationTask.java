@@ -113,8 +113,7 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
 
     @Override
     protected void onPostExecute(ResponseCode code) {
-        for (VerificationListener l : listeners) {
+        for (VerificationListener l : listeners)
             l.onVerificationProcessed(code, origin);
-        }
     }
 }
