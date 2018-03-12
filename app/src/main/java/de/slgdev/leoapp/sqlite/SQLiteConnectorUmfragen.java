@@ -112,7 +112,36 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     }
 
     public long getLatestSurveyDate(SQLiteDatabase db) {
-        Cursor cursor = db.query(TABLE_SURVEYS, new String[]{SURVEYS_ERSTELLDATUM}, null, null, null, null, SURVEYS_ERSTELLDATUM + " DESC");
+
+        String stufe = Utils.getUserStufe();
+        String selection;
+        switch (stufe) {
+            case "":
+            case "TEA":
+                selection = null;
+                break;
+            case "EF":
+            case "Q1":
+            case "Q2":
+                selection = SURVEYS_ADRESSAT
+                        + " = '" + stufe +
+                        "' OR "
+                        + SURVEYS_ADRESSAT +
+                        " = 'Sek II' OR " + SURVEYS_ADRESSAT +
+                        " = 'Alle'";
+                break;
+            default:
+                selection = SURVEYS_ADRESSAT +
+                        " = '" + stufe.charAt(1) +
+                        "' OR " +
+                        SURVEYS_ADRESSAT +
+                        " = 'Sek I' OR " +
+                        SURVEYS_ADRESSAT +
+                        " = 'Alle'";
+                break;
+        }
+
+        Cursor cursor = db.query(TABLE_SURVEYS, new String[]{SURVEYS_ERSTELLDATUM}, selection, null, null, null, SURVEYS_ERSTELLDATUM + " DESC");
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             long l = cursor.getLong(0);

@@ -68,7 +68,36 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
     }
 
     public long getLatestEntryDate(SQLiteDatabase db) {
-        Cursor cursor = db.query(TABLE_EINTRAEGE, new String[]{EINTRAEGE_ERSTELLDATUM}, null, null, null, null, EINTRAEGE_ERSTELLDATUM + " DESC");
+
+        String stufe = Utils.getUserStufe();
+        String selection;
+        switch (stufe) {
+            case "":
+            case "TEA":
+                selection = null;
+                break;
+            case "EF":
+            case "Q1":
+            case "Q2":
+                selection = EINTRAEGE_ADRESSAT
+                        + " = '" + stufe +
+                        "' OR "
+                        + EINTRAEGE_ADRESSAT +
+                        " = 'Sek II' OR " + EINTRAEGE_ADRESSAT +
+                        " = 'Alle'";
+                break;
+            default:
+                selection = EINTRAEGE_ADRESSAT +
+                        " = '" + stufe.charAt(1) +
+                        "' OR " +
+                        EINTRAEGE_ADRESSAT +
+                        " = 'Sek I' OR " +
+                        EINTRAEGE_ADRESSAT +
+                        " = 'Alle'";
+                break;
+        }
+
+        Cursor cursor = db.query(TABLE_EINTRAEGE, new String[]{EINTRAEGE_ERSTELLDATUM}, selection, null, null, null, EINTRAEGE_ERSTELLDATUM + " DESC");
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             long l = cursor.getLong(0);
