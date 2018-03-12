@@ -30,7 +30,6 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
-import de.slgdev.leoapp.view.ActivityStatus;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.schwarzes_brett.dialog.NewEntryDialog;
 import de.slgdev.schwarzes_brett.task.DeleteEntryTask;
@@ -225,10 +224,53 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
             case "EF":
             case "Q1":
             case "Q2":
-                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL, SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG, SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS, SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID}, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Sek II' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(
+                        SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
+                        new String[]{
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
+                        SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT
+                                + " = '" + stufe +
+                                "' OR "
+                                + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                " = 'Sek II' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                " = 'Alle'",
+                        null,
+                        null,
+                        null,
+                        null
+                );
                 break;
             default:
-                cursor = sqLiteDatabase.query(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, new String[]{SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL, SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG, SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS, SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID}, SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = '" + stufe + "' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Sek I' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT + " = 'Alle'", null, null, null, null);
+                cursor = sqLiteDatabase.query(
+                        SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
+                        new String[]{
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
+                        SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                " = '" + stufe.charAt(1) +
+                                "' OR " +
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                " = 'Sek I' OR " +
+                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                " = 'Alle'",
+                        null,
+                        null,
+                        null,
+                        null
+                );
                 break;
         }
 
