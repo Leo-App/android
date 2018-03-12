@@ -45,28 +45,20 @@ public class DetailsDialog extends AlertDialog {
         cbSchrift = findViewById(R.id.checkBox_schriftlich);
         title = findViewById(R.id.title_details);
 
-        findViewById(R.id.buttonSav).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etNotiz.getWindowToken(), 0);
-                String notiz = etNotiz.getText().toString();
-                if (!fach.getKuerzel().equals("FREI")) {
-                    boolean b = cbSchrift.isChecked();
-                    fach.setzeSchriftlich(b);
-                    database.setWritten(b, fach.id);
-                }
-                fach.setzeNotiz(notiz);
-                database.setNote(notiz, fach.id, fach.getTag(), fach.getStunde());
-                dismiss();
+        findViewById(R.id.buttonSav).setOnClickListener(view -> {
+            ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(etNotiz.getWindowToken(), 0);
+            String notiz = etNotiz.getText().toString();
+            if (!fach.getKuerzel().equals("FREI")) {
+                boolean b = cbSchrift.isChecked();
+                fach.setzeSchriftlich(b);
+                database.setWritten(b, fach.id);
             }
+            fach.setzeNotiz(notiz);
+            database.setNote(notiz, fach.id, fach.getTag(), fach.getStunde());
+            dismiss();
         });
 
-        setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                database.close();
-            }
-        });
+        setOnDismissListener(dialogInterface -> database.close());
     }
 
     public void init(Fach inFach) {

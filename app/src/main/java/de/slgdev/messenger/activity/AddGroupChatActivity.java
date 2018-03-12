@@ -159,20 +159,17 @@ public class AddGroupChatActivity extends ActionLogActivity {
             v.findViewById(R.id.checkBox).setVisibility(View.GONE);
 
             final int finalI = i;
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selection[finalI] = !selection[finalI];
-                    v.setSelected(selection[finalI]);
+            v.setOnClickListener(v1 -> {
+                selection[finalI] = !selection[finalI];
+                v1.setSelected(selection[finalI]);
 
-                    if (selection[finalI])
-                        selected++;
-                    else
-                        selected--;
+                if (selection[finalI])
+                    selected++;
+                else
+                    selected--;
 
-                    usersSelected = (selected > 0);
-                    confirm.setVisible(chatnameSet && usersSelected);
-                }
+                usersSelected = (selected > 0);
+                confirm.setVisible(chatnameSet && usersSelected);
             });
 
             container.addView(v);
