@@ -54,7 +54,7 @@ public class Importer extends VoidCallbackTask<Void> {
                 String tag    = fach[4];
                 String stunde = fach[5];
 
-                if (stufe.replace("0", "").startsWith(Utils.getUserStufe()) || Utils.getUserPermission() == User.PERMISSION_LEHRER) {
+                if (stufe.startsWith(Utils.getUserStufe()) || Utils.getUserPermission() == User.PERMISSION_LEHRER) {
                     if (!letzterKurs.equals(kurs) || !letzterLehrer.equals(lehrer) || !letzteStufe.equals(stufe)) {
                         letzteID = database.insertSubject(
                                 kurs,
@@ -71,17 +71,16 @@ public class Importer extends VoidCallbackTask<Void> {
                         }
                     }
 
-                    database
-                            .insertLesson(
-                                    letzteID,
-                                    Integer.parseInt(
-                                            tag
-                                    ),
-                                    Integer.parseInt(
-                                            stunde
-                                    ),
-                                    raum
-                            );
+                    database.insertLesson(
+                            letzteID,
+                            Integer.parseInt(
+                                    tag
+                            ),
+                            Integer.parseInt(
+                                    stunde
+                            ),
+                            raum
+                    );
                 }
             }
 
