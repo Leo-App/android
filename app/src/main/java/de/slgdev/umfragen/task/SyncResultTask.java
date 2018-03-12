@@ -77,6 +77,7 @@ public class SyncResultTask extends ObjectCallbackTask<ResponseCode> {
             for (String s : answers) {
                 answerResults.put(s.split("_;_")[0], Integer.parseInt(s.split("_;_")[1]));
             }
+
         } catch (IOException e) {
             Utils.logError(e);
             return ResponseCode.NOT_SENT;

@@ -2,29 +2,21 @@ package de.slgdev.essensbons.activity.fragment;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import de.slgdev.essensbons.activity.EssensbonActivity;
 import de.slgdev.essensbons.task.QRWriteTask;
-import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
-import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.Utils;
 
 public class QRFragment extends Fragment implements TaskStatusListener {

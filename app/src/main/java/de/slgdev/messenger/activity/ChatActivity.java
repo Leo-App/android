@@ -120,43 +120,34 @@ public class ChatActivity extends ActionLogActivity {
         selected = new boolean[messagesArray.length];
         hasSelected = false;
 
-        longClickListener = new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                int index = rvMessages.getChildLayoutPosition(v);
-                if (messagesArray[index].mdate.getTime() > 0) {
-                    hasSelected = true;
-                    delete.setVisible(true);
-                    v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
-                    selected[index] = true;
-                    v.setOnClickListener(disableListener);
-                    return true;
-                }
-                return false;
+        longClickListener = v -> {
+            int index = rvMessages.getChildLayoutPosition(v);
+            if (messagesArray[index].mdate.getTime() > 0) {
+                hasSelected = true;
+                delete.setVisible(true);
+                v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
+                selected[index] = true;
+                v.setOnClickListener(disableListener);
+                return true;
+            }
+            return false;
+        };
+
+        clickListener = v -> {
+            int index = rvMessages.getChildLayoutPosition(v);
+            if (hasSelected && messagesArray[index].mdate.getTime() > 0) {
+                v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
+                selected[index] = true;
+                v.setOnClickListener(disableListener);
             }
         };
 
-        clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int index = rvMessages.getChildLayoutPosition(v);
-                if (hasSelected && messagesArray[index].mdate.getTime() > 0) {
-                    v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentTransparent));
-                    selected[index] = true;
-                    v.setOnClickListener(disableListener);
-                }
-            }
-        };
-
-        disableListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
-                selected[rvMessages.getChildLayoutPosition(v)] = false;
-                v.setOnLongClickListener(longClickListener);
-                v.setOnClickListener(clickListener);
-                setHasSelected();
-            }
+        disableListener = v -> {
+            v.findViewById(R.id.chatbubblewrapper).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
+            selected[rvMessages.getChildLayoutPosition(v)] = false;
+            v.setOnLongClickListener(longClickListener);
+            v.setOnClickListener(clickListener);
+            setHasSelected();
         };
 
         rvMessages = findViewById(R.id.recyclerView);
@@ -174,14 +165,9 @@ public class ChatActivity extends ActionLogActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         if (ctype != Chat.ChatType.PRIVATE && Utils.getController().getMessengerDatabase().userInChat(Utils.getUserID(), cid)) {
-            toolbar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivityForResult(new Intent(getApplicationContext(), ChatEditActivity.class)
-                            .putExtra("cid", cid)
-                            .putExtra("cname", cname), 1);
-                }
-            });
+            toolbar.setOnClickListener(v -> startActivityForResult(new Intent(getApplicationContext(), ChatEditActivity.class)
+                    .putExtra("cid", cid)
+                    .putExtra("cname", cname), 1));
         }
     }
 
@@ -189,12 +175,7 @@ public class ChatActivity extends ActionLogActivity {
         etMessage = findViewById(R.id.inputMessage);
 
         ImageButton sendButton = findViewById(R.id.sendButton);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMessage();
-            }
-        });
+        sendButton.setOnClickListener(view -> sendMessage());
 
         if (ctype == Chat.ChatType.GROUP && !Utils.getController().getMessengerDatabase().userInChat(Utils.getUserID(), cid)) {
             etMessage.setEnabled(false);
@@ -204,12 +185,7 @@ public class ChatActivity extends ActionLogActivity {
     }
 
     private String getMessage() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                message = etMessage.getText().toString();
-            }
-        });
+        runOnUiThread(() -> message = etMessage.getText().toString());
 
         while (message.length() > 0 && message.charAt(0) == ' ')
             message = message.substring(1);
@@ -238,13 +214,10 @@ public class ChatActivity extends ActionLogActivity {
             System.arraycopy(sOld, 0, selected, 0, sOld.length > selected.length ? selected.length : sOld.length);
         }
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                rvMessages.swapAdapter(new MessageAdapter(getApplicationContext(), messagesArray, clickListener, longClickListener, selected, ctype), false);
-                if (scroll)
-                    rvMessages.scrollToPosition(messagesArray.length - 1);
-            }
+        runOnUiThread(() -> {
+            rvMessages.swapAdapter(new MessageAdapter(getApplicationContext(), messagesArray, clickListener, longClickListener, selected, ctype), false);
+            if (scroll)
+                rvMessages.scrollToPosition(messagesArray.length - 1);
         });
     }
 

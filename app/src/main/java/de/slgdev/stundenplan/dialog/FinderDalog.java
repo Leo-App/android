@@ -55,78 +55,75 @@ public class FinderDalog extends AlertDialog implements View.OnClickListener {
         a5.getCompoundDrawables()[0].setColorFilter(ContextCompat.getColor(Utils.getContext(), R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
 
         final View ok = findViewById(R.id.buttonOK);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                kürzel = new List<>();
-                if (t1.getText().length() > 0) {
-                    kürzel.append(t1.getText().toString().toUpperCase());
-                }
-                if (t2.getText().length() > 0) {
-                    kürzel.append(t2.getText().toString().toUpperCase());
-                }
-                if (t3.getText().length() > 0) {
-                    kürzel.append(t3.getText().toString().toUpperCase());
-                }
-                if (t4.getText().length() > 0) {
-                    kürzel.append(t4.getText().toString().toUpperCase());
-                }
-                if (t5.getText().length() > 0) {
-                    kürzel.append(t5.getText().toString().toUpperCase());
-                }
+        ok.setOnClickListener(v -> {
+            kürzel = new List<>();
+            if (t1.getText().length() > 0) {
+                kürzel.append(t1.getText().toString().toUpperCase());
+            }
+            if (t2.getText().length() > 0) {
+                kürzel.append(t2.getText().toString().toUpperCase());
+            }
+            if (t3.getText().length() > 0) {
+                kürzel.append(t3.getText().toString().toUpperCase());
+            }
+            if (t4.getText().length() > 0) {
+                kürzel.append(t4.getText().toString().toUpperCase());
+            }
+            if (t5.getText().length() > 0) {
+                kürzel.append(t5.getText().toString().toUpperCase());
+            }
 
-                try {
-                    SQLiteConnectorStundenplanFinder database = new SQLiteConnectorStundenplanFinder(getContext());
+            try {
+                SQLiteConnectorStundenplanFinder database = new SQLiteConnectorStundenplanFinder(getContext());
 
-                    BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(
-                                    Utils.getContext()
-                                            .openFileInput(
-                                                    "stundenplan.txt"
-                                            )
-                            )
-                    );
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                Utils.getContext()
+                                        .openFileInput(
+                                                "stundenplan.txt"
+                                        )
+                        )
+                );
 
-                    for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                        String[] fach = line.split(",");
+                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                    String[] fach = line.split(",");
 
-                        String lehrer = fach[1];
-                        String tag    = fach[4];
-                        String stunde = fach[5];
+                    String lehrer = fach[1];
+                    String tag    = fach[4];
+                    String stunde = fach[5];
 
-                        if (kürzel.contains(lehrer)) {
-                            database.insertStunde(
-                                    Integer.parseInt(
-                                            tag
-                                    ),
-                                    Integer.parseInt(
-                                            stunde
-                                    )
-                            );
-                        }
+                    if (kürzel.contains(lehrer)) {
+                        database.insertStunde(
+                                Integer.parseInt(
+                                        tag
+                                ),
+                                Integer.parseInt(
+                                        stunde
+                                )
+                        );
                     }
-
-                    reader.close();
-
-                    findViewById(R.id.add2).setVisibility(View.GONE);
-                    findViewById(R.id.add3).setVisibility(View.GONE);
-                    findViewById(R.id.add4).setVisibility(View.GONE);
-                    findViewById(R.id.add5).setVisibility(View.GONE);
-                    t1.setVisibility(View.GONE);
-                    t2.setVisibility(View.GONE);
-                    t3.setVisibility(View.GONE);
-                    t4.setVisibility(View.GONE);
-                    t5.setVisibility(View.GONE);
-                    ok.setVisibility(View.GONE);
-
-                    TextView t = findViewById(R.id.titleKlausur);
-                    t.setText(database.gibFreistundenZeiten());
-
-                    database.clear();
-                    database.close();
-                } catch (IOException e) {
-                    Utils.logError(e);
                 }
+
+                reader.close();
+
+                findViewById(R.id.add2).setVisibility(View.GONE);
+                findViewById(R.id.add3).setVisibility(View.GONE);
+                findViewById(R.id.add4).setVisibility(View.GONE);
+                findViewById(R.id.add5).setVisibility(View.GONE);
+                t1.setVisibility(View.GONE);
+                t2.setVisibility(View.GONE);
+                t3.setVisibility(View.GONE);
+                t4.setVisibility(View.GONE);
+                t5.setVisibility(View.GONE);
+                ok.setVisibility(View.GONE);
+
+                TextView t = findViewById(R.id.titleKlausur);
+                t.setText(database.gibFreistundenZeiten());
+
+                database.clear();
+                database.close();
+            } catch (IOException e) {
+                Utils.logError(e);
             }
         });
     }

@@ -158,12 +158,7 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
 
             addSlide(verificationFragment);
 
-            findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    logIn();
-                }
-            });
+            findViewById(R.id.next).setOnClickListener(view -> logIn());
         }
 
         addSlide(
@@ -180,12 +175,9 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
     private void cancel(final AbstractOrderedFragment oldFragment) {
 
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ignoreSlideChange = true;
-                getPager().setCurrentItem(oldFragment.getPosition());
-            }
+        handler.postDelayed(() -> {
+            ignoreSlideChange = true;
+            getPager().setCurrentItem(oldFragment.getPosition());
         }, 1);
     }
 

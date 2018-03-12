@@ -10,6 +10,8 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slgdev.leoapp.task.SyncFilesTask;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
+import de.slgdev.leoapp.utility.GraphicUtils;
+import de.slgdev.leoapp.utility.NetworkPerformance;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 
@@ -23,8 +25,7 @@ public class Importer extends VoidCallbackTask<Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            while (SyncFilesTask.running)
-                ;
+            while (SyncFilesTask.running);
 
             SQLiteConnectorStundenplan database = new SQLiteConnectorStundenplan(Utils.getContext());
 

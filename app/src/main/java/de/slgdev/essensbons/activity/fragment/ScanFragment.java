@@ -22,17 +22,7 @@ public class ScanFragment extends Fragment {
         final Button scan = rootView.findViewById(R.id.scan_button);
 
         final Handler handler = new Handler();
-        final Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                scan.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        activityReference.scan();
-                    }
-                });
-            }
-        };
+        final Runnable r = () -> scan.setOnClickListener(v -> activityReference.scan());
         handler.postDelayed(r, 100);
 
         if (EssensbonUtils.mensaModeEnabled())

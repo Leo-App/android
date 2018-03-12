@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp">
@@ -11,8 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
         android:tint="@color/colorPrimary"
         app:srcCompat="@mipmap/icon_stundenplan"/>
 
@@ -28,5 +31,16 @@
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
         android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:tint="@android:color/holo_red_dark"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/ic_delete"
+        tools:ignore="ContentDescription" />
 
 </RelativeLayout>

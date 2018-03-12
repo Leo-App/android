@@ -468,5 +468,6 @@
     <string name="qr_scan_title">Essensbon Scannen</string>
     <string name="title_survey_result">Abgeschlossene Umfragen</string>
     <string name="desc_it_problem">Hilft dabei, alle technischen Probleme im Klassenraum zu lösen</string>
+    <string name="tooltip_qr">Platziere den QR-Code innerhalb des Rechtecks</string>
 
 </resources>

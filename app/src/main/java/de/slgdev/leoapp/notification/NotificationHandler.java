@@ -255,6 +255,7 @@ public abstract class NotificationHandler {
     }
 
     public static class SchwarzesBrettNotification implements LeoAppNotification {
+
         private static long         latest;
         private        Context      context;
         private        Notification notification;
@@ -301,6 +302,7 @@ public abstract class NotificationHandler {
 
         private boolean isActive() {
             return isEnabled()
+                    && Utils.isVerified()
                     && hasUnreadNews()
                     && (Utils.getController().getSchwarzesBrettActivity() == null
                     || Utils.getController().getSchwarzesBrettActivity().getStatus() != ActivityStatus.ACTIVE);
@@ -327,6 +329,7 @@ public abstract class NotificationHandler {
     }
 
     public static class UmfrageNotification implements LeoAppNotification {
+
         private static long         latest;
         private        Context      context;
         private        Notification notification;
@@ -374,6 +377,7 @@ public abstract class NotificationHandler {
 
         private boolean isActive() {
             return isEnabled()
+                    && Utils.isVerified()
                     && hasUnreadNews()
                     && (Utils.getController().getSurveyActivity() == null
                     || Utils.getController().getSurveyActivity().getStatus() != ActivityStatus.ACTIVE);
@@ -400,6 +404,7 @@ public abstract class NotificationHandler {
     }
 
     public static class StimmungsbarometerNotification implements LeoAppNotification {
+
         private Context      context;
         private Notification notification;
 
@@ -452,6 +457,7 @@ public abstract class NotificationHandler {
     }
 
     public static class StundenplanNotification implements LeoAppNotification {
+
         private Context      context;
         private Notification notificationStundenplan;
 

@@ -125,24 +125,21 @@ public class ChatEditActivity extends ActionLogActivity {
         uRemove = new UserAdapter(getApplicationContext(), usersInChat);
         uAdd = new UserAdapter(getApplicationContext(), usersNotInChat);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final CheckBox checkBox = view.findViewById(R.id.checkBox);
-                final TextView username = view.findViewById(R.id.username);
-                checkBox.setChecked(!checkBox.isChecked());
-                int color = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
-                if (!checkBox.isChecked())
-                    color = ContextCompat.getColor(getApplicationContext(), R.color.colorText);
-                username.setTextColor(color);
-                switch (mode) {
-                    case "add":
-                        confirm.setVisible(uAdd.selectCount() > 0);
-                        break;
-                    case "remove":
-                        confirm.setVisible(uRemove.selectCount() > 0);
-                        break;
-                }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            final CheckBox checkBox = view.findViewById(R.id.checkBox);
+            final TextView username = view.findViewById(R.id.username);
+            checkBox.setChecked(!checkBox.isChecked());
+            int color = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
+            if (!checkBox.isChecked())
+                color = ContextCompat.getColor(getApplicationContext(), R.color.colorText);
+            username.setTextColor(color);
+            switch (mode) {
+                case "add":
+                    confirm.setVisible(uAdd.selectCount() > 0);
+                    break;
+                case "remove":
+                    confirm.setVisible(uRemove.selectCount() > 0);
+                    break;
             }
         });
 
@@ -155,63 +152,41 @@ public class ChatEditActivity extends ActionLogActivity {
         notifications.setChecked(!Utils.getController().getMessengerDatabase().isMute(cid));
 
         final View name = findViewById(R.id.changeName);
-        name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialogChatname();
-            }
-        });
+        name.setOnClickListener(v -> showDialogChatname());
 
         add = findViewById(R.id.addUser);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mode = "add";
-                scrollView.setVisibility(View.GONE);
-                listView.setAdapter(uAdd);
-            }
+        add.setOnClickListener(v -> {
+            mode = "add";
+            scrollView.setVisibility(View.GONE);
+            listView.setAdapter(uAdd);
         });
         if (usersNotInChat.length == 0) {
             add.setVisibility(View.GONE);
         }
 
         remove = findViewById(R.id.removeUser);
-        remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mode = "remove";
-                scrollView.setVisibility(View.GONE);
-                listView.setAdapter(uRemove);
-            }
+        remove.setOnClickListener(v -> {
+            mode = "remove";
+            scrollView.setVisibility(View.GONE);
+            listView.setAdapter(uRemove);
         });
         if (usersInChat.length == 0) {
             remove.setVisibility(View.GONE);
         }
 
         final View leave = findViewById(R.id.leaveChat);
-        leave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog dialog = new AlertDialog.Builder(ChatEditActivity.this).create();
-                View              view   = getLayoutInflater().inflate(R.layout.dialog_confirm_leave_chat, null);
-                view.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                view.findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        removeUsers(Utils.getCurrentUser());
-                        finish();
-                        Utils.getController().getChatActivity().finish();
-                        dialog.dismiss();
-                    }
-                });
-                dialog.setView(view);
-                dialog.show();
-            }
+        leave.setOnClickListener(v -> {
+            final AlertDialog dialog = new AlertDialog.Builder(ChatEditActivity.this).create();
+            View              view   = getLayoutInflater().inflate(R.layout.dialog_confirm_leave_chat, null);
+            view.findViewById(R.id.buttonDialog1).setOnClickListener(v1 -> dialog.dismiss());
+            view.findViewById(R.id.buttonDialog2).setOnClickListener(v12 -> {
+                removeUsers(Utils.getCurrentUser());
+                finish();
+                Utils.getController().getChatActivity().finish();
+                dialog.dismiss();
+            });
+            dialog.setView(view);
+            dialog.show();
         });
     }
 
@@ -261,18 +236,10 @@ public class ChatEditActivity extends ActionLogActivity {
         final TextView textView = v.findViewById(R.id.etChatname);
         textView.setText(cname);
 
-        v.findViewById(R.id.buttonDialog1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        v.findViewById(R.id.buttonDialog2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SendChatname(ChatEditActivity.this, cid).execute(textView.getText().toString());
-                dialog.dismiss();
-            }
+        v.findViewById(R.id.buttonDialog1).setOnClickListener(v1 -> dialog.dismiss());
+        v.findViewById(R.id.buttonDialog2).setOnClickListener(v12 -> {
+            new SendChatname(ChatEditActivity.this, cid).execute(textView.getText().toString());
+            dialog.dismiss();
         });
 
         dialog.setView(v);

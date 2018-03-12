@@ -1,7 +1,6 @@
 package de.slgdev.essensbons.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -109,23 +108,15 @@ public class ScanActivity extends ActionLogActivity implements TaskStatusListene
 
         if (EssensbonUtils.isAutoFadeEnabled()) {
             new Handler().postDelayed(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            dialog.dismiss();
-                        }
-                    },
+                    dialog::dismiss,
                     EssensbonUtils.getFadeTime() * 1000
             );
         }
 
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                capture.onResume();
-                capture.decode();
-                vb.cancel();
-            }
+        dialog.setOnDismissListener(dialogInterface -> {
+            capture.onResume();
+            capture.decode();
+            vb.cancel();
         });
 
         dialog.show();
@@ -158,7 +149,7 @@ public class ScanActivity extends ActionLogActivity implements TaskStatusListene
 
     private void initTooltip() {
         TextView tooltip = findViewById(R.id.tooltip);
-        tooltip.setText("Platziere den QR-Code innerhalb des Rechtecks");
+        tooltip.setText(R.string.tooltip_qr);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tooltip.getLayoutParams();
         params.setMargins(0, 0, 0, GraphicUtils.getDisplayHeight() / 4);
         tooltip.setLayoutParams(params);

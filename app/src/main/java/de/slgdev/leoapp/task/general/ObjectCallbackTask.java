@@ -7,8 +7,8 @@ import de.slgdev.leoapp.utility.datastructure.List;
 /**
  * StringCallbackTask.
  *
- * Klasse für AsyncTasks, die ihren Status an Listener mitteilen müssen und String als
- * Eingangsdatentyp hat.
+ * Klasse für AsyncTasks, die ihren Status an Listener mitteilen müssen und einen
+ * Eingangsdatentyp haben.
  *
  * @param <OutputType> Datentyp des Ergebnisobjekts
  *

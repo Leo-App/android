@@ -1,7 +1,5 @@
 package de.slgdev.umfragen.task;
 
-import android.os.AsyncTask;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,12 +7,13 @@ import java.net.URL;
 import java.util.HashMap;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
+import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.umfragen.utility.ResultListing;
 import de.slgdev.umfragen.utility.Survey;
 
-public class SaveResultTask extends AsyncTask<Void, Void, ResponseCode> {
+public class SaveResultTask extends VoidCallbackTask<ResponseCode> {
 
     private Survey survey;
 
@@ -40,9 +39,9 @@ public class SaveResultTask extends AsyncTask<Void, Void, ResponseCode> {
 
                 String cur;
                 StringBuilder result = new StringBuilder();
-                while ((cur = reader.readLine()) != null) {
+                while ((cur = reader.readLine()) != null)
                     result.append(cur);
-                }
+
 
                 String resString = result.toString();
 
@@ -82,7 +81,9 @@ public class SaveResultTask extends AsyncTask<Void, Void, ResponseCode> {
             case NOT_SENT:
                 break;
             case SUCCESS:
-                new DeleteSurveyTask().execute(survey.remoteId);
+                new DeleteSurveyTask()
+                        .addListener(getListeners().toFirst().getContent())
+                        .execute(survey.remoteId);
                 break;
 
         }

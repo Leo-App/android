@@ -30,7 +30,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.slgdev.leoapp.R;
+import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.Utils;
+import de.slgdev.schwarzes_brett.task.SendEntryTask;
 
 /**
  * Nachrichtendialog
@@ -40,7 +42,7 @@ import de.slgdev.leoapp.utility.Utils;
  * @version 2017.2410
  * @since 0.5.5
  */
-public class NewEntryDialog extends AlertDialog {
+public class NewEntryDialog extends AlertDialog implements TaskStatusListener {
 
     private DatePickerDialog datePickerDialog;
 
@@ -121,7 +123,7 @@ public class NewEntryDialog extends AlertDialog {
             newDate = sdf.format(d);
             Spinner spinner = findViewById(R.id.spinner2);
             Utils.logError(spinner.getSelectedItem().toString());
-            new SendEntryTask().execute(title.getText().toString(), content.getText().toString(), newDate, spinner.getSelectedItem().toString());
+            new SendEntryTask().addListener(this).execute(title.getText().toString(), content.getText().toString(), newDate, spinner.getSelectedItem().toString());
         });
     }
 
@@ -153,77 +155,17 @@ public class NewEntryDialog extends AlertDialog {
         s.setAdapter(adapter);
     }
 
-    /**
-     * Nachrichten-Task
-     * <p>
-     * Sendet neue Nachricht an Remote-Datenbank
-     *
-     * @version 2017.2711
-     * @since 0.5.6
-     */
-    private class SendEntryTask extends AsyncTask<String, Void, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-
-            if (!Utils.isNetworkAvailable())
-                return false;
-
-            try {
-                for (int i = 0; i < params.length; i++) {
-                    params[i] = params[i]
-                            .replace("ä", "_ae_")
-                            .replace("ö", "_oe_")
-                            .replace("ü", "_ue_")
-                            .replace("Ä", "_Ae_")
-                            .replace("Ö", "_Oe_")
-                            .replace("Ü", "_Ue_")
-                            .replace("ß", "_ss_");
-                }
-
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(
-                                new URL(
-                                        (Utils.BASE_URL_PHP + "schwarzes_brett/_php/" +
-                                                "newEntry.php?" +
-                                                "to=" + params[3] + "&" +
-                                                "title=" + params[0] + "&" +
-                                                "content=" + params[1] + "&" +
-                                                "date=" + params[2])
-                                                .replace(
-                                                        " ",
-                                                        "%20"
-                                                )
-                                )
-                                        .openConnection()
-                                        .getInputStream()
-                        )
-                );
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    Utils.logError(line);
-                }
-
-                reader.close();
-            } catch (IOException e) {
-                Utils.logError(e);
-                return false;
-            }
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean b) {
-            if (b) {
-                dismiss();
-                Toast.makeText(Utils.getContext(), R.string.sent, Toast.LENGTH_SHORT).show();
-            } else {
-                final Snackbar snack = Snackbar.make(findViewById(R.id.dialog_entry), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
-                snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                snack.setAction(getContext().getString(R.string.confirm), v -> snack.dismiss());
-                snack.show();
-            }
+    @Override
+    public void taskFinished(Object... b) {
+        if ((Boolean) b[0]) {
+            dismiss();
+            Toast.makeText(Utils.getContext(), R.string.sent, Toast.LENGTH_SHORT).show();
+        } else {
+            final Snackbar snack = Snackbar.make(findViewById(R.id.dialog_entry), Utils.getString(R.string.snackbar_no_connection_info), Snackbar.LENGTH_LONG);
+            snack.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+            snack.setAction(getContext().getString(R.string.confirm), v -> snack.dismiss());
+            snack.show();
         }
     }
+
 }
