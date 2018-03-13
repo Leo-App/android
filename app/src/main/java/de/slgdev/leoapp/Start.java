@@ -57,6 +57,7 @@ public class Start extends Activity {
                         .putString("pref_key_general_klasse", "TEA")
                         .apply();
 
+
             new SyncQuestionTask().execute();
             new SyncVoteTask().execute();
             new SyncFilesTask().execute();
