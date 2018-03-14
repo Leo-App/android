@@ -115,6 +115,17 @@ public class SQLiteConnectorStimmungsbarometer extends SQLiteOpenHelper {
         cursor.close();
     }
 
+    public boolean isEmpty() {
+        String count = "SELECT count(*) FROM " + TABLE_ERGEBNISSE;
+        Cursor cursor1 = database.rawQuery(count, null);
+        cursor1.moveToFirst();
+        int count1 = cursor1.getInt(0);
+        if(count1==0) {
+            return true;
+        }
+        return false;
+    }
+
     public Ergebnis[][] getData(int zeitraum) {
         String[] columns = new String[]{ERGEBNIS_WERT, ERGEBNIS_DATUM};
         String   where   = ERGEBNIS_DATUM + " > '" + getDate(zeitraum) + "'";

@@ -46,6 +46,10 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         drawA = true;
 
         database = new SQLiteConnectorStimmungsbarometer(getApplicationContext());
+        if(!database.isEmpty()) {
+            ProgressBar pb = findViewById(R.id.progressBarL1);
+            pb.setVisibility(View.GONE);
+        }
 
         initStatisticViews();
         initCheckboxes();
