@@ -8,6 +8,8 @@
 
     <string name="no_exams">Keine Klausuren!</string>
 
+    <string name="name_too_long">Dein Name darf nicht länger als 20 Zeichen sein</string>
+
     <string name="please_read">Weitere Informationen! Bitte lesen :)</string>
     <string name="intro_info">
         <![CDATA[
