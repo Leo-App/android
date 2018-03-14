@@ -3,6 +3,7 @@ package de.slgdev.stimmungsbarometer.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import de.slgdev.leoapp.R;
@@ -104,6 +105,8 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         if (params[0] == ResponseCode.SERVER_FAILED) {
             Toast.makeText(getApplicationContext(), R.string.error_sync, Toast.LENGTH_SHORT).show();
         } else {
+            ProgressBar pb = findViewById(R.id.progressBarL1);
+            pb.setVisibility(View.GONE);
             updateViews();
         }
     }

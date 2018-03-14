@@ -23,7 +23,7 @@ public class DeleteEntryTask extends ObjectCallbackTask<ResponseCode> {
                             new InputStreamReader(
                                     new URL(
                                             Utils.BASE_URL_PHP + "schwarzesBrett/" +
-                                                    "deleteSurvey.php?" +
+                                                    "deleteEntry.php?" +
                                                     "id=" + objects[0]
                                     )
                                             .openConnection()

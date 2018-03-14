@@ -87,6 +87,7 @@ public class QRFragment extends Fragment implements TaskStatusListener {
         if (result != null) {
             iv1.setImageBitmap(result);
             iv1.setVisibility(View.VISIBLE);
+            iv2.setVisibility(View.GONE);
 
             c1.setCardBackgroundColor(cs);
             c2.setCardBackgroundColor(cc);
