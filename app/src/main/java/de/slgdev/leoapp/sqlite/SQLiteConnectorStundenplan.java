@@ -12,6 +12,7 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.stundenplan.utility.Fach;
 
 public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
+
     private static final String DATABASE_NAME = "stundenplan";
 
     private static final String TABLE_FAECHER  = "faecher";
@@ -313,7 +314,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     private String getSubjectNameUnterstufe(String teil) {
-        switch (teil.toUpperCase()) {
+        switch (teil.toUpperCase().replace(" ", "")) {
             case "F":
                 return context.getString(R.string.franze);
             case "MA":
@@ -357,7 +358,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     private String getSubjectNameAG(String teil) {
-        switch (teil.toUpperCase()) {
+        switch (teil.toUpperCase().replace(" ", "")) {
             case "RT":
                 return context.getString(R.string.rt);
             case "KL":
