@@ -76,8 +76,9 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     public long insertSubject(String kurz, String lehrer, String klasse) {
-        while (kurz.contains("  "))
+        while (kurz.contains("  ")) {
             kurz = kurz.replace("  ", " ");
+        }
 
         String selection = FACH_KURZEL + " = '" + kurz + "' AND " + FACH_LEHRER + " = '" + lehrer + "' AND " + FACH_KLASSE + " = '" + klasse + "'";
         Cursor cursor    = database.query(TABLE_FAECHER, new String[]{FACH_ID}, selection, null, null, null, null);
@@ -90,12 +91,13 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         cursor.close();
 
         ContentValues values = new ContentValues();
-        if (kurz.length() > 2 && (kurz.charAt(2) == 'L' || kurz.charAt(2) == 'Z'))
+        if (kurz.length() > 2 && (kurz.charAt(2) == 'L' || kurz.charAt(2) == 'Z')) {
             values.put(FACH_ART, kurz.charAt(2) + "K");
-        else
+        } else {
             values.put(FACH_ART, "GK");
+        }
         values.put(FACH_KURZEL, kurz);
-        values.put(FACH_NAME, getSubjectName(kurz)); //Hier brauchen wir jetzt doch das ganze Kürzel!
+        values.put(FACH_NAME, getSubjectName(kurz));
         values.put(FACH_LEHRER, lehrer);
         values.put(FACH_KLASSE, klasse);
         return database.insert(TABLE_FAECHER, null, values);
@@ -145,12 +147,25 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         String   table     = TABLE_FAECHER + ", " + TABLE_STUNDEN;
         String[] columns   = {TABLE_FAECHER + "." + FACH_ID, FACH_KURZEL, FACH_NAME, FACH_ART, FACH_LEHRER, FACH_KLASSE, STUNDE_RAUM, STUNDEN_TAG, STUNDEN_STUNDE};
         String   selection = TABLE_FAECHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + FACH_ART + " != 'FREI'";
-        Cursor   cursor    = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_NAME);
-        Fach[]   subjects   = new Fach[cursor.getCount()];
-        int      i         = 0;
+
+        Cursor cursor = database.query(table, columns, selection, null, FACH_KURZEL, null, FACH_NAME);
+
+        Fach[] subjects = new Fach[cursor.getCount()];
+
+        int i = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
-            subjects[i] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8));
+            subjects[i] = new Fach(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""),
+                    cursor.getString(4),
+                    cursor.getString(5),
+                    cursor.getString(6),
+                    cursor.getInt(7),
+                    cursor.getInt(8)
+            );
         }
+
         cursor.close();
         return subjects;
     }
@@ -168,21 +183,27 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
                 GEWAEHLT_SCHRIFTLICH,
                 STUNDE_NOTIZ};
         String selection = TABLE_FAECHER + "." + FACH_ID + " = " + TABLE_STUNDEN + "." + FACH_ID + " AND " + TABLE_FAECHER + "." + FACH_ID + " = " + TABLE_GEWAEHLT + "." + FACH_ID + " AND " + TABLE_STUNDEN + "." + STUNDEN_TAG + " = " + tag;
-        Cursor cursor    = database.query(table, columns, selection, null, null, null, STUNDEN_STUNDE);
-        Fach[] faecher   = new Fach[0];
+
+        Cursor cursor = database.query(table, columns, selection, null, null, null, STUNDEN_STUNDE);
+
+        Fach[] faecher = new Fach[0];
+
         if (cursor.getCount() > 0) {
             cursor.moveToLast();
             faecher = new Fach[cursor.getInt(7)];
+
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 faecher[cursor.getInt(7) - 1] = new Fach(cursor.getInt(0), cursor.getString(1), cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""), cursor.getString(4), cursor.getString(5), cursor.getString(6), tag, cursor.getInt(7));
                 faecher[cursor.getInt(7) - 1].setzeNotiz(cursor.getString(9));
                 faecher[cursor.getInt(7) - 1].setzeSchriftlich(cursor.getInt(8) == 1);
             }
+
             for (int i = 0; i < faecher.length; i++) {
                 if (faecher[i] == null)
                     faecher[i] = new Fach(0, "", "", "", "", "", tag, i + 1);
             }
         }
+
         cursor.close();
         return faecher;
     }
@@ -204,39 +225,52 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
                 + " AND " + TABLE_STUNDEN + "." + FACH_ID + " = " + TABLE_FAECHER + "." + FACH_ID
                 + " AND " + TABLE_STUNDEN + "." + STUNDEN_TAG + " = " + tag
                 + " AND " + TABLE_STUNDEN + "." + STUNDEN_STUNDE + " = " + stunde;
+
         Cursor cursor = database.query(table, columns, selection, null, null, null, null);
-        Fach   f      = null;
+
+        Fach f = null;
+
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
-            f = new Fach(cursor.getInt(0),
+            f = new Fach(
+                    cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2) + (cursor.getString(3).equals("LK") ? " LK" : ""),
                     cursor.getString(4),
                     cursor.getString(5),
                     cursor.getString(6),
-                    tag, stunde);
+                    tag,
+                    stunde
+            );
             f.setzeNotiz(cursor.getString(10));
             f.setzeSchriftlich(cursor.getInt(9) == 1);
         }
+
         cursor.close();
         return f;
     }
 
     private String getSubjectAbbreviation(long fid) {
         Cursor cursor = database.query(TABLE_FAECHER, new String[]{FACH_KURZEL, FACH_LEHRER}, FACH_ID + " = " + fid, null, null, null, null);
-        String s      = null;
+
+        String s = null;
+
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
+
             String kurzel = cursor.getString(0);
             String lehrer = cursor.getString(1);
             String teil1  = kurzel.substring(0, 2);
             String teil2  = kurzel.substring(2, 4);
+
             if (teil1.charAt(1) != ' ')
                 teil1 += ' ';
             if (teil2.charAt(0) == 'L')
                 teil2 = "L";
+
             s = teil1 + teil2 + " " + lehrer + " " + Utils.getUserStufe();
         }
+
         cursor.close();
         return s;
     }
@@ -246,7 +280,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         if (kuerzel.startsWith("L-") || kuerzel.matches("L[0-9]")) {
             return context.getString(R.string.latein);
         }
-        if (!stufe.matches("[0-9]{1,2}")) {
+        if (!stufe.matches("[0-9]{1,2}[abcf]")) {
             if (kuerzel.length() > 4) {
                 if (kuerzel.equals("GEF")) {
                     return context.getString(R.string.bili);
@@ -461,8 +495,11 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
             table = TABLE_STUNDEN;
             condition = FACH_ID + " = " + f.id;
         }
-        Cursor        cursor  = database.query(table, new String[]{STUNDEN_TAG, STUNDEN_STUNDE}, condition, null, null, null, STUNDEN_TAG + ", " + STUNDEN_STUNDE);
+
+        Cursor cursor = database.query(table, new String[]{STUNDEN_TAG, STUNDEN_STUNDE}, condition, null, null, null, STUNDEN_TAG + ", " + STUNDEN_STUNDE);
+
         StringBuilder builder = new StringBuilder();
+
         if (cursor.getCount() > 0) {
             int[][] woche = new int[5][10];
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -472,10 +509,12 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
             for (int i = 0; i < woche.length; i++) {
                 for (int j = 0; j < woche[i].length; j++) {
                     if (woche[i][j] == 1) {
-                        if (builder.length() > 0)
+                        if (builder.length() > 0) {
                             builder.append(System.getProperty("line.separator"));
+                        }
                         builder.append(dayToString(i + 1))
                                 .append(": ");
+
                         String zeit    = lessonToString(j + 1);
                         String stunden = " (" + (j + 1) + '.';
                         if (j < woche[i].length - 1 && woche[i][j + 1] == 1) {
@@ -492,6 +531,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         } else {
             cursor.close();
         }
+
         return builder.toString();
     }
 
@@ -512,7 +552,7 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
             case 5:
                 return Utils.getString(R.string.freitag);
             default:
-                return Utils.getString(R.string.montag);
+                return "";
         }
     }
 
@@ -544,21 +584,23 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     public void freistunde(int tag, int stunde) {
-        Fach prev = getSubject(tag, stunde);
-        if (prev == null) {
+        if (getSubject(tag, stunde) == null) {
             ContentValues values = new ContentValues();
+
             values.put(FACH_NAME, "");
             values.put(FACH_ART, "FREI");
             values.put(FACH_LEHRER, "");
             values.put(FACH_KURZEL, "FREI");
             values.put(FACH_KLASSE, "");
             int fid = (int) database.insert(TABLE_FAECHER, null, values);
+
             values.clear();
             values.put(FACH_ID, fid);
             values.put(STUNDEN_TAG, tag);
             values.put(STUNDEN_STUNDE, stunde);
             values.put(STUNDE_RAUM, "");
             database.insert(TABLE_STUNDEN, null, values);
+
             values.clear();
             values.put(FACH_ID, fid);
             values.put(GEWAEHLT_SCHRIFTLICH, 0);
@@ -567,21 +609,29 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     public boolean mussSchriftlich(long fid) {
-        if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
+        if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
             return true;
+        }
 
         Cursor cursor = database.query(TABLE_FAECHER, new String[]{FACH_ART, FACH_NAME}, FACH_ID + " = " + fid, null, null, null, null);
+
         cursor.moveToFirst();
         boolean b = cursor.getCount() > 0 && (cursor.getString(0).equals("LK"));
+
         cursor.close();
+
         return b;
     }
 
     public boolean istGewaehlt(int fid) {
-        String  selection = FACH_ID + " = " + fid;
-        Cursor  cursor    = database.query(TABLE_GEWAEHLT, new String[]{FACH_ID}, selection, null, null, null, null);
-        boolean b         = cursor.getCount() > 0;
+        String selection = FACH_ID + " = " + fid;
+
+        Cursor cursor = database.query(TABLE_GEWAEHLT, new String[]{FACH_ID}, selection, null, null, null, null);
+
+        boolean b = cursor.getCount() > 0;
+
         cursor.close();
+
         return b;
     }
 
@@ -629,9 +679,12 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
     }
 
     public boolean hatGewaehlt() {
-        Cursor  cursor = database.query(TABLE_GEWAEHLT, new String[]{FACH_ID}, null, null, null, null, null);
-        boolean b      = cursor.getCount() > 0;
+        Cursor cursor = database.query(TABLE_GEWAEHLT, new String[]{FACH_ID}, null, null, null, null, null);
+
+        boolean b = cursor.getCount() > 0;
+
         cursor.close();
+
         return b;
     }
 
