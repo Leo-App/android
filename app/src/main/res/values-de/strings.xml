@@ -8,6 +8,26 @@
 
     <string name="no_exams">Keine Klausuren!</string>
 
+    <string name="please_read">Weitere Informationen! Bitte lesen :)</string>
+    <string name="intro_info">
+        <![CDATA[
+            <h3>Allgemeines</h3>
+            In den ersten Versionen kann es zu kleineren Fehlern kommen, wir bitten, darüber hinwegzusehen. <br/>
+            Bei Features wie den (anonymen) Umfragen verlassen wir uns auf Eure Vernunft. Sollte es
+            jedoch zu einem Missbrauch kommen, ist es dennoch möglich, auf den Autor zu schließen.
+
+            <h3>Messenger</h3>
+            Der Messenger ist in dieser Version aufgrund von Startschwierigkeiten noch nicht verfügbar. Wir arbeiten aber daran, dass Ihr ihn
+            im nächsten Update in vollem Umfang benutzen könnt!
+
+            <h3>Viel Spaß!</h3>
+            Fragen könnt Ihr gerne Herrn Meltzow stellen oder uns über <i>app@leo-ac.de</i> kontaktieren.<br/>
+
+                - Euer LeoApp Team
+
+        ]]>
+    </string>
+
     <!-- TODO Translate -->
 
     <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
