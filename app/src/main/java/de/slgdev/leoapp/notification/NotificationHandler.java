@@ -491,7 +491,8 @@ public abstract class NotificationHandler {
         }
 
         private boolean isActive() {
-            return isEnabled() && getNextDayOfWeek() <= 5;
+            SQLiteConnectorStundenplan db = new SQLiteConnectorStundenplan(Utils.getContext());
+            return isEnabled() && getNextDayOfWeek() <= 5 && db.hatGewaehlt();
         }
 
         public static boolean isEnabled() {
@@ -505,7 +506,7 @@ public abstract class NotificationHandler {
 
             if (lessons.length == 0)
                 return Utils.getString(R.string.none);
-
+//TODO Architecture
             for (int i = 0; i < lessons.length; i++) {
                 if (lessons[i].getName().length() > 0 && (i == 0 || !lessons[i].getName().equals(lessons[i - 1].getName()))) {
                     builder.append(lessons[i].getName());
@@ -517,6 +518,10 @@ public abstract class NotificationHandler {
 
             if(builder.charAt(builder.length()-3) == ',')
                 builder.deleteCharAt(builder.length()-3);
+
+            if(builder.charAt(builder.length()-2) == ',')
+                builder.deleteCharAt(builder.length()-2);
+
 
             database.close();
 

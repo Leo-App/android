@@ -46,6 +46,7 @@ import de.slgdev.umfragen.activity.SurveyActivity;
  */
 
 public abstract class LeoAppNavigationActivity extends ActionLogActivity {
+
     private NavigationView navigationView;
     private DrawerLayout   drawerLayout;
 

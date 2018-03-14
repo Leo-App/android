@@ -229,7 +229,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                             .apply();
                 }
 
-                new SyncUserTask(fragment).registerListener(this).execute();
+                new SyncUserTask(fragment).registerSynchronisationListener(this).execute();
 
                 Start.runUpdateTasks();
                 Start.startReceiveService();
