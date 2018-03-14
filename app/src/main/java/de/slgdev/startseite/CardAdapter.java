@@ -92,10 +92,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_messenger);
                 c.desc = Utils.getString(R.string.summary_info_messenger);
-                c.enabled = Utils.isVerified();
+                c.enabled = false; //TODO Utils.isVerified();
                 c.icon = R.drawable.ic_messenger;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), MessengerActivity.class));
-
                 break;
             case NEWS:
                 cards.append(c = new Card(type));
@@ -210,9 +209,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 holder.title.setTextColor(Color.GRAY);
             }
             holder.icon.setColorFilter(Color.GRAY);
-        }
+        } else
+            holder.button.setOnClickListener(c.buttonListener);
 
-        holder.button.setOnClickListener(c.buttonListener);
         holder.icon.setImageResource(c.icon);
     }
 
