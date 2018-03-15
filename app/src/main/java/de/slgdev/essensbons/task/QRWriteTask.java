@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -72,9 +73,11 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
 
         menu = act.getMenu();
         description = act.getDescr();
-        short id = act.getId();
+        int id = act.getId();
 
-        DateFormat dateFormat = new SimpleDateFormat("ddMMyyy", Locale.GERMAN);
+        Utils.logDebug("ID: "+act.getId());
+
+        DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy", Locale.GERMAN);
         Date       date       = new Date();
         String     dateS      = dateFormat.format(date);
         dateS = dateS.substring(0, 4) + dateS.substring(5);
@@ -83,7 +86,7 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
         int mod = cur % 97;
         int fin = 98 - mod;
 
-        String formattedChecksum = String.format("%02d", fin);
+        String formattedChecksum = String.format(Locale.GERMANY, "%02d", fin);
 
         String code = id + "-" + "M" + menu + "-" + dateS + "-" + formattedChecksum;
 
@@ -99,13 +102,8 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
         dbh.close();
     }
 
+    @Nullable
     private Order getRecentEntry() {
-        String[] projection = {
-                SQLiteConnectorEssensbons.ORDER_DATE,
-                SQLiteConnectorEssensbons.ORDER_MENU,
-                SQLiteConnectorEssensbons.ORDER_DESCR,
-                SQLiteConnectorEssensbons.ORDER_ID
-        };
 
         DateFormat dateFormat    = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
         Date       date          = new Date();
@@ -114,7 +112,11 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
 
         Cursor cursor = dbh.query(
                 SQLiteConnectorEssensbons.TABLE_ORDERS,
-                projection,
+                new String[]{
+                        SQLiteConnectorEssensbons.ORDER_ID,
+                        SQLiteConnectorEssensbons.ORDER_MENU,
+                        SQLiteConnectorEssensbons.ORDER_DESCR
+                },
                 selection,
                 selectionArgs,
                 null,
@@ -127,9 +129,9 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
 
         cursor.moveToNext();
 
-        String desc = String.valueOf(cursor.getString(cursor.getColumnIndex(SQLiteConnectorEssensbons.ORDER_DESCR)));
-        short  menu = cursor.getShort(cursor.getColumnIndex(SQLiteConnectorEssensbons.ORDER_MENU));
-        short  id   = cursor.getShort(cursor.getColumnIndex(SQLiteConnectorEssensbons.ORDER_ID));
+        int    id   = cursor.getInt(0);
+        short  menu = cursor.getShort(1);
+        String desc = String.valueOf(cursor.getString(2));
 
         Order o = new Order(id, date, menu, desc);
         cursor.close();
@@ -185,6 +187,7 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
             int amount = 0;
 
             for (String s : data) {
+
                 if (!s.contains("_separator_"))
                     continue;
 

@@ -27,6 +27,7 @@ import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.view.ActionLogActivity;
 
 public class ScanActivity extends ActionLogActivity implements TaskStatusListener {
+
     private CaptureManager       capture;
     private DecoratedBarcodeView barcodeScannerView;
 
@@ -84,11 +85,6 @@ public class ScanActivity extends ActionLogActivity implements TaskStatusListene
     @Override
     protected String getActivityTag() {
         return "scan-activity";
-    }
-
-    @Override
-    public void taskStarts() {
-
     }
 
     @Override

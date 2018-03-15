@@ -75,11 +75,6 @@ public class QuestionFragment extends Fragment implements TaskStatusListener {
     }
 
     @Override
-    public void taskStarts() {
-
-    }
-
-    @Override
     public void taskFinished(Object... images) {
         if (progressBar != null && image != null) {
             progressBar.setVisibility(View.GONE);

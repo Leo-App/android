@@ -151,11 +151,6 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
     }
 
     @Override
-    public void taskStarts() {
-        //STUB
-    }
-
-    @Override
     public void taskFinished(Object... params) {
         if (getStatus() == ActivityStatus.ACTIVE) {
             initListView();
