@@ -353,6 +353,8 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
                 button.setOnClickListener(v -> {
 
+                    final int deletedID = entries.toIndex(groupPosition).getContent().id;
+
                     entries.toIndex(groupPosition).remove();
                     notifyDataSetChanged();
 
@@ -377,7 +379,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
                                                 sqLiteConnector = null;
                                             }
                                         })
-                                        .execute(entries.toIndex(groupPosition).getContent().id);
+                                        .execute(deletedID);
 
                         }
 

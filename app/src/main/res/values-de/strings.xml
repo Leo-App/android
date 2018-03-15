@@ -493,5 +493,6 @@
     <string name="desc_it_problem">Hilft dabei, alle technischen Probleme im Klassenraum zu lösen</string>
     <string name="tooltip_qr">Platziere den QR-Code innerhalb des Rechtecks</string>
     <string name="entry_deleted">Eintrag gelöscht</string>
+    <string name="profile_level_teacher">Lehrer</string>
 
 </resources>

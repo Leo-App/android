@@ -528,5 +528,6 @@
     <string name="name_too_long">Your name cannot be longer than 20 characters</string>
     <string name="please_read">Additional information! Please read :)</string>
     <string name="tooltip_qr">Place the QR Code within the rectangle</string>
+    <string name="profile_level_teacher">Teacher</string>
 
 </resources>

@@ -102,7 +102,7 @@ public class ProfileActivity extends LeoAppNavigationActivity {
         stufeProfil.setText(Utils.getUserStufe());
         kuerzel.setText(Utils.getLehrerKuerzel());
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
-            stufeProfil.setText("-");
+            stufeProfil.setText(R.string.profile_level_teacher);
             findViewById(R.id.cardViewLehrer).setVisibility(View.VISIBLE);
             findViewById(R.id.editTEA).setOnClickListener(v -> {
                 dialog =
