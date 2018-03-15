@@ -74,7 +74,7 @@ public class Start extends Activity {
 
     private void startServices() {
         if (Utils.isVerified()) {
-            startReceiveService();
+   //         startReceiveService(); TODO
             startService(new Intent(getApplicationContext(), AlarmStartupService.class));
             initSyncAdapter();
         }
