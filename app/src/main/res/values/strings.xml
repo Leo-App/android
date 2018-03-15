@@ -54,6 +54,7 @@
 
     <string name="intro_finished_title">All set!</string>
     <string name="intro_finished_desc">You are now verified and able to use the app in its entirety! Maybe you can start by visiting your profile</string>
+    <string name="introqr_finished_desc">You are now logged in and able to use the QR-Foodmark system in its entirety!</string>
 
     <string name="share">Share</string>
     <string name="umfragen">Surveys</string>

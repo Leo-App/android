@@ -70,6 +70,8 @@
         - Release!
     </string>
 
+    <string name="introqr_finished_desc">Du bist angemeldet und kannst nun das Essensbon-Feature vollständig nutzen!</string>
+
     <string name="none">Keine</string>
 
     <string name="settings_title_customid">Kundennummer</string>

@@ -14,6 +14,7 @@ import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.leoapp.R;
 
 public class ScanFragment extends Fragment {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout rootView = (RelativeLayout) inflater.inflate(R.layout.fragment_scan, container, false);
