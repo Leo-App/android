@@ -5,7 +5,7 @@
     <string name="no">Nein</string>
 
     <string name="title_it_problem">IT-Problemlöser</string>
-
+    <string name="beamer">Beamer</string>
     <string name="no_exams">Keine Klausuren!</string>
 
     <string name="name_too_long">Dein Name darf nicht länger als 20 Zeichen sein</string>
@@ -30,10 +30,9 @@
         ]]>
     </string>
 
-    <!-- TODO Translate -->
-
-    <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
-        lunch.leo-ac.de credentials.</string>
+    <string name="qr_intro_descVerification">
+        Um die QR-Essensbons nutzen zu können, musst du dich hier mit deinen lunch.leo-ac.de Anmeldedaten anmelden.
+    </string>
 
     <string name="qr_intro_title1">QR - Essensbons</string>
     <string name="qr_intro_desc1">Diese Funktion erleichtert die Essensausgabe in der Mensa.</string>
@@ -491,5 +490,6 @@
     <string name="title_survey_result">Abgeschlossene Umfragen</string>
     <string name="desc_it_problem">Hilft dabei, alle technischen Probleme im Klassenraum zu lösen</string>
     <string name="tooltip_qr">Platziere den QR-Code innerhalb des Rechtecks</string>
+    <string name="entry_deleted">Eintrag gelöscht</string>
 
 </resources>

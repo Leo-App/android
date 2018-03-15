@@ -4,6 +4,23 @@
     <string name="title_survey_result">Saved Results</string>
     <string name="entry_deleted">Entry deleted</string>
 
+    <string name="intro_info">
+        <![CDATA[
+            <h3>General</h3>
+            You may encounter small bugs in the first versions, we hope you can overlook those. <br/>
+            With (anonymous) features like surveys we trust your reason. However, it is still possible to identify
+            the author on misuse.
+
+            <h3>Messenger</h3>
+            Due to some difficulties, the Messenger isn\'t available in this version of the LeoApp. We expect
+            that you will be able to use it in the near future though.
+
+            <h3>Have fun!</h3>
+            If you have any questions, you can ask Mr. Meltzow or contact us via <i>app@leo-ac.de</i>
+
+        ]]>
+    </string>
+
     <string name="no_exams">No exams!</string>
 
     <string name="qr_intro_title1">QR - Foodmarks</string>
@@ -355,7 +372,7 @@
     <string name="settings_summary_notification_news">Notify me about new entries</string>
 
     <string name="settings_summary_notification_messenger">Notify me about new messages</string>
-    <string name="settings_summary_testplan_time">Delete exams after...</string>
+    <string name="settings_summary_testplan_time">Delete exams after &#8230;</string>
     <string name="settings_title_testplan_time">Delete test</string>
 
     <string name="settings_name_changed">Name changed!</string>
@@ -459,7 +476,7 @@
     <string name="all">All</string>
     <string name="not_show_again">Do not show again</string>
     <string name="skip">Skip</string>
-    <string name="beamer" translatable="false">Beamer</string>
+    <string name="beamer">Projector</string>
     <string name="search_term">Search term</string>
     <string name="first">First</string>
     <string name="user">User</string>
@@ -473,7 +490,7 @@
     <string name="network">Network</string>
     <string name="computer">Computer</string>
     <string name="error_later">Something went wrong. Please try again later.</string>
-    <string name="voted_sucessfully">Voted sucessfully</string>
+    <string name="voted_sucessfully">Voted successfully</string>
     <string name="chats">Chats</string>
     <string name="users">Users</string>
 
@@ -488,7 +505,7 @@
     <string name="vote_survey">Participate in the latest survey</string>
     <string name="not_voted">You did not voted yet</string>
     <string name="vote_now">Vote now</string>
-    <string name="lessons_tommorrow">Your lessons tommorrow</string>
+    <string name="lessons_tommorrow">Your lessons tomorrow</string>
     <string name="new_entries">New entry</string>
     <string name="news_pin_board">New entries on the pin board</string>
     <string name="need_title">Please specify a title</string>
@@ -507,5 +524,8 @@
     <string name="qr_scan_title">"Scan "</string>
     <string name="leave_chat_question">Are you sure that you want to leave this chat?</string>
     <string name="title_randstundenfinder">Free period finder</string>
+    <string name="name_too_long">Your name cannot be longer than 20 characters</string>
+    <string name="please_read">Additional information! Please read :)</string>
+    <string name="tooltip_qr">Place the QR Code within the rectangle</string>
 
 </resources>

@@ -249,7 +249,8 @@ public abstract class NotificationHandler {
         }
 
         public static boolean isEnabled() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true);
+           // return Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true); //TODO Messenger
+            return false;
         }
 
     }
