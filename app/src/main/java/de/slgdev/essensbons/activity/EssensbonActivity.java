@@ -191,6 +191,10 @@ public class EssensbonActivity extends LeoAppNavigationActivity implements TaskS
 
     }
 
+    public void refresh() {
+        ((QRFragment) adapt.getItem(0)).synchronize(false);
+    }
+
     private void initCredentialCheck() {
         EssensbonLoginTask task = new EssensbonLoginTask();
         task.addListener(this).execute();

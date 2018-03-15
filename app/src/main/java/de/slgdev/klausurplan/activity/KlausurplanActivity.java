@@ -224,7 +224,7 @@ public class KlausurplanActivity extends LeoAppNavigationActivity implements Tas
             findViewById(R.id.emptyexams).setVisibility(View.GONE);
     }
 
-    private void refresh() {
+    protected void refresh() {
         refreshArray();
         listView.setAdapter(new KlausurenAdapter(getApplicationContext(), klausuren, KlausurplanUtils.findeNächsteKlausur(klausuren)));
         listView.setSelection(KlausurplanUtils.findeNächsteWoche(klausuren));

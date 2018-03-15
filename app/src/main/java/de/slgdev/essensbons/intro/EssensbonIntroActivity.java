@@ -124,6 +124,7 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
                 getPager().setCurrentItem(verificationSlide + 1);
                 EssensbonUtils.setLoginStatus(true);
                 NotificationAlarmHandler.updateFoodmarkAlarm();
+                Utils.getController().getEssensbonActivity().refresh();
                 break;
         }
     }

@@ -57,6 +57,14 @@ public abstract class ActionLogActivity extends AppCompatActivity {
     }
 
     /**
+     * Aktualisiert die Activity oder lädt wichtige Informationen neu. Kann/sollte überschrieben werden.
+     */
+    protected void refresh() {
+        finish();
+        startActivity(getIntent());
+    }
+
+    /**
      * Gibt den aktuellen Status der Activity zurück.
      *
      * @return Activitystatus
