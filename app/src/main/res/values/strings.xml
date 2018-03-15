@@ -75,7 +75,7 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        - Bugfixes \n- Design changes \n- Improved navigation \n- IT-Solver is now teachers only
+        - Release!
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
