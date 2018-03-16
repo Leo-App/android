@@ -106,7 +106,8 @@
     <string name="summary_info_auth">In order to use some of the features, you need to be verified. You can do so by clicking the button below.</string>
     <string name="summary_info_foodmark">This feature is used to confirm your lunch order digitally. Just show the QR-Code to the mensa staff.</string>
     <string name="summary_info_testplan">This is an automatically generated plan for your tests. You can filter them by configuring your settings or add your own assignments</string>
-    <string name="summary_info_messenger">Use this feature to communicate with your classmates or teachers without them knowing your mobile number. You can add group chats or chat normally. Your username can be changed in the settings</string>
+    <!-- <string name="summary_info_messenger">Use this feature to communicate with your classmates or teachers without them knowing your mobile number. You can add group chats or chat normally. Your username can be changed in the settings</string> -->
+    <string name="summary_info_messenger">The messenger is not yet ready to use. We are working to fix it as soon as possible.</string>
     <string name="summary_info_tutoring">In need of a tutor or a student? Just add a message to the tutoring board!</string>
     <string name="summary_info_news">You can find all relevant news concerning your scholar life on the LeoApp-Newsboard</string>
     <string name="summary_info_survey">You can choose your current mood daily and see some statistics</string>
