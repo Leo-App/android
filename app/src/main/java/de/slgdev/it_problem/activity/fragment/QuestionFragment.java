@@ -63,26 +63,15 @@ public class QuestionFragment extends Fragment implements TaskStatusListener {
     }
 
     private void initButtons() {
-        viewReference.findViewById(R.id.buttonYes).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sessionReference.answerYes();
-                refresh();
-            }
+        viewReference.findViewById(R.id.buttonYes).setOnClickListener(v -> {
+            sessionReference.answerYes();
+            refresh();
         });
 
-        viewReference.findViewById(R.id.buttonNo).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sessionReference.answerNo();
-                refresh();
-            }
+        viewReference.findViewById(R.id.buttonNo).setOnClickListener(v -> {
+            sessionReference.answerNo();
+            refresh();
         });
-    }
-
-    @Override
-    public void taskStarts() {
-
     }
 
     @Override

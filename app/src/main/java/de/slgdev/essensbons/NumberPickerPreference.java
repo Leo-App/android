@@ -15,6 +15,7 @@ import android.widget.NumberPicker;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.Utils;
 
+@SuppressWarnings("unused")
 public class NumberPickerPreference extends DialogPreference {
     private static final int     MAX_VALUE           = 10;
     private static final int     MIN_VALUE           = 2;

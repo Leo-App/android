@@ -3,6 +3,7 @@ package de.slgdev.stimmungsbarometer.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import de.slgdev.leoapp.R;
@@ -45,6 +46,10 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         drawA = true;
 
         database = new SQLiteConnectorStimmungsbarometer(getApplicationContext());
+        if(!database.isEmpty()) {
+            ProgressBar pb = findViewById(R.id.progressBarL1);
+            pb.setVisibility(View.GONE);
+        }
 
         initStatisticViews();
         initCheckboxes();
@@ -95,15 +100,12 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
     }
 
     @Override
-    public void taskStarts() {
-
-    }
-
-    @Override
     public void taskFinished(Object... params) {
         if (params[0] == ResponseCode.SERVER_FAILED) {
             Toast.makeText(getApplicationContext(), R.string.error_sync, Toast.LENGTH_SHORT).show();
         } else {
+            ProgressBar pb = findViewById(R.id.progressBarL1);
+            pb.setVisibility(View.GONE);
             updateViews();
         }
     }

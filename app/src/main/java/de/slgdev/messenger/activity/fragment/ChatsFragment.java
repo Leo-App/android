@@ -39,19 +39,16 @@ public class ChatsFragment extends Fragment {
         selected = -1;
         rvChats = view.findViewById(R.id.recyclerView);
 
-        chatClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int  position    = rvChats.getChildAdapterPosition(view);
-                Chat clickedChat = chatArray[position];
-                startActivity(new Intent(getContext(), ChatActivity.class)
-                        .putExtra("cid", clickedChat.cid)
-                        .putExtra("cname", clickedChat.cname)
-                        .putExtra("ctype", clickedChat.ctype.toString()));
-                view.findViewById(R.id.notify).setVisibility(View.GONE);
-                view.findViewById(R.id.imageButtonDelete).setVisibility(View.GONE);
-                view.findViewById(R.id.imageButtonMute).setVisibility(View.GONE);
-            }
+        chatClickListener = view -> {
+            int  position    = rvChats.getChildAdapterPosition(view);
+            Chat clickedChat = chatArray[position];
+            startActivity(new Intent(getContext(), ChatActivity.class)
+                    .putExtra("cid", clickedChat.cid)
+                    .putExtra("cname", clickedChat.cname)
+                    .putExtra("ctype", clickedChat.ctype.toString()));
+            view.findViewById(R.id.notify).setVisibility(View.GONE);
+            view.findViewById(R.id.imageButtonDelete).setVisibility(View.GONE);
+            view.findViewById(R.id.imageButtonMute).setVisibility(View.GONE);
         };
 
         chatLongClickListener = new View.OnLongClickListener() {
@@ -91,12 +88,9 @@ public class ChatsFragment extends Fragment {
     public void refreshUI() {
         chatArray = Utils.getController().getMessengerDatabase().getChats();
         if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (rvChats != null)
-                        rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), chatArray, chatClickListener, chatLongClickListener), false);
-                }
+            getActivity().runOnUiThread(() -> {
+                if (rvChats != null)
+                    rvChats.swapAdapter(new ChatAdapter(getActivity().getLayoutInflater(), chatArray, chatClickListener, chatLongClickListener), false);
             });
         }
     }
@@ -161,22 +155,16 @@ public class ChatsFragment extends Fragment {
                     buttonDelete.setVisibility(View.VISIBLE);
                     buttonMute.setVisibility(View.VISIBLE);
                 }
-                buttonDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Utils.getController().getMessengerDatabase().deleteChat(c.cid);
-                        selected = -1;
-                        previousPosition = -1;
-                        Utils.getController().getMessengerActivity().notifyUpdate();
-                    }
+                buttonDelete.setOnClickListener(v12 -> {
+                    Utils.getController().getMessengerDatabase().deleteChat(c.cid);
+                    selected = -1;
+                    previousPosition = -1;
+                    Utils.getController().getMessengerActivity().notifyUpdate();
                 });
-                buttonMute.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Utils.getController().getMessengerDatabase().muteChat(c.cid, !c.cmute);
-                        selected = -1;
-                        Utils.getController().getMessengerActivity().notifyUpdate();
-                    }
+                buttonMute.setOnClickListener(v1 -> {
+                    Utils.getController().getMessengerDatabase().muteChat(c.cid, !c.cmute);
+                    selected = -1;
+                    Utils.getController().getMessengerActivity().notifyUpdate();
                 });
             }
         }

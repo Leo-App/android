@@ -21,24 +21,9 @@ public class CreateCourseDialog extends AppCompatDialog {
         contentView1 = getLayoutInflater().inflate(R.layout.dialog_create_course, null);
         contentView2 = getLayoutInflater().inflate(R.layout.dialog_create_course_lessons, null);
 
-        contentView1.findViewById(R.id.buttonNext).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setContentView(contentView2);
-            }
-        });
-        contentView2.findViewById(R.id.buttonBack).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setContentView(contentView1);
-            }
-        });
-        contentView2.findViewById(R.id.buttonSave).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
-            }
-        });
+        contentView1.findViewById(R.id.buttonNext).setOnClickListener(v -> setContentView(contentView2));
+        contentView2.findViewById(R.id.buttonBack).setOnClickListener(v -> setContentView(contentView1));
+        contentView2.findViewById(R.id.buttonSave).setOnClickListener(v -> {});
 
         setContentView(contentView1);
     }

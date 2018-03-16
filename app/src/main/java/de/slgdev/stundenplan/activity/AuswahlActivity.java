@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -26,6 +25,7 @@ import de.slgdev.stundenplan.task.Importer;
 import de.slgdev.stundenplan.utility.Fach;
 
 public class AuswahlActivity extends ActionLogActivity implements TaskStatusListener {
+
     private Menu                       menu;
     private KursAdapter                adapter;
     private SQLiteConnectorStundenplan database;
@@ -108,30 +108,27 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
 
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (view.isEnabled()) {
-                    boolean  checked = adapter.toggleCheckBox(position);
-                    Fach     f       = adapter.fachArray[position];
-                    double[] stunden = database.gibStunden(f.id);
-                    for (double d : stunden) {
-                        adapter.ausgewaehlteStunden[(int) (d - 1)][(int) (d * 10 % 10 - 1)] = checked;
-                    }
-                    if (checked)
-                        if (!f.getKuerzel().startsWith("IB"))
-                            adapter.ausgewaehlteFaecher.append(f.getKuerzel().substring(0, 2));
-                        else
-                            adapter.ausgewaehlteFaecher.append(f.getKuerzel().substring(3, 6));
-                    else {
-                        if (!f.getKuerzel().startsWith("IB"))
-                            adapter.ausgewaehlteFaecher.contains(f.getKuerzel().substring(0, 2));
-                        else
-                            adapter.ausgewaehlteFaecher.contains(f.getKuerzel().substring(3, 6));
-                        adapter.ausgewaehlteFaecher.remove();
-                    }
-                    refresh();
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            if (view.isEnabled()) {
+                boolean  checked = adapter.toggleCheckBox(position);
+                Fach     f       = adapter.fachArray[position];
+                double[] stunden = database.gibStunden(f.id);
+                for (double d : stunden) {
+                    adapter.ausgewaehlteStunden[(int) (d - 1)][(int) (d * 10 % 10 - 1)] = checked;
                 }
+                if (checked)
+                    if (!f.getKuerzel().startsWith("IB"))
+                        adapter.ausgewaehlteFaecher.append(f.getKuerzel().substring(0, 2));
+                    else
+                        adapter.ausgewaehlteFaecher.append(f.getKuerzel().substring(3, 6));
+                else {
+                    if (!f.getKuerzel().startsWith("IB"))
+                        adapter.ausgewaehlteFaecher.contains(f.getKuerzel().substring(0, 2));
+                    else
+                        adapter.ausgewaehlteFaecher.contains(f.getKuerzel().substring(3, 6));
+                    adapter.ausgewaehlteFaecher.remove();
+                }
+                refresh();
             }
         });
 
@@ -141,7 +138,7 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
         refresh();
     }
 
-    private void refresh() {
+    protected void refresh() {
         adapter.refresh();
         anzahl = adapter.gibAnzahlAusgewaehlte();
         if (menu != null) {
@@ -151,11 +148,6 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
             getSupportActionBar().setTitle(R.string.one_course_sel);
         else
             getSupportActionBar().setTitle(getString(R.string.multiple_course_selected, anzahl));
-    }
-
-    @Override
-    public void taskStarts() {
-        //STUB
     }
 
     @Override

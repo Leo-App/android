@@ -23,6 +23,7 @@
             android:id="@+id/messenger"
             android:checked="false"
             android:icon="@mipmap/icon_messenger"
+            android:enabled="false"
             android:title="@string/title_messenger" />
         <item
             android:id="@+id/newsboard"

@@ -1,7 +1,6 @@
 package de.slgdev.stundenplan.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +25,8 @@ import java.util.GregorianCalendar;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.utility.GraphicUtils;
+import de.slgdev.leoapp.utility.NetworkPerformance;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
@@ -36,6 +36,7 @@ import de.slgdev.stundenplan.task.Importer;
 import de.slgdev.stundenplan.utility.Fach;
 
 public class StundenplanActivity extends LeoAppNavigationActivity implements TaskStatusListener {
+
     private WochentagFragment[]        fragments;
     private SQLiteConnectorStundenplan database;
 
@@ -48,13 +49,12 @@ public class StundenplanActivity extends LeoAppNavigationActivity implements Tas
 
         if (!database.hatGewaehlt()) {
             if (Utils.getUserPermission() != User.PERMISSION_LEHRER) {
-                startActivity(
-                        new Intent(
-                                getApplicationContext(),
-                                AuswahlActivity.class
-                        )
-                );
+                startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
             } else {
+
+                if (!Utils.isNetworkAvailable() || Utils.getNetworkPerformance() == NetworkPerformance.INSUFFICIENT)
+                    GraphicUtils.sendToast(R.string.need_internet);
+
                 new Importer().addListener(this).execute();
             }
         }
@@ -108,7 +108,7 @@ public class StundenplanActivity extends LeoAppNavigationActivity implements Tas
         }
         return true;
     }
-
+//Test
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
@@ -187,11 +187,6 @@ public class StundenplanActivity extends LeoAppNavigationActivity implements Tas
     }
 
     @Override
-    public void taskStarts() {
-
-    }
-
-    @Override
     public void taskFinished(Object... params) {
         refreshUI();
         findViewById(R.id.progressBar).setVisibility(View.GONE);
@@ -210,26 +205,18 @@ public class StundenplanActivity extends LeoAppNavigationActivity implements Tas
                 root = layIn.inflate(R.layout.fragment_wochentag, container, false);
 
                 listView = root.findViewById(R.id.listW);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (fachArray[position].id <= 0) {
-                            database.freistunde(tag, position + 1);
-                            fachArray[position] = database.getSubject(tag, position + 1);
-                            view.invalidate();
-                        }
-                        DetailsDialog dialog = new DetailsDialog(getActivity());
-                        dialog.show();
-                        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                        dialog.init(database.getSubject(tag, position + 1));
-                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                Utils.getController().getStundenplanActivity().refreshUI();
-                            }
-                        });
+                listView.setOnItemClickListener((parent, view, position, id) -> {
+                    if (fachArray[position].id <= 0) {
+                        database.freistunde(tag, position + 1);
+                        fachArray[position] = database.getSubject(tag, position + 1);
+                        view.invalidate();
                     }
+                    DetailsDialog dialog = new DetailsDialog(getActivity());
+                    dialog.show();
+                    dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    dialog.init(database.getSubject(tag, position + 1));
+                    dialog.setOnDismissListener(dialog1 -> Utils.getController().getStundenplanActivity().refreshUI());
                 });
             }
             return root;

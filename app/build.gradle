@@ -7,8 +7,8 @@ android {
         applicationId "de.slgdev.leoapp"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 24
-        versionName "beta-0.7.8"
+        versionCode 26
+        versionName "release-1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

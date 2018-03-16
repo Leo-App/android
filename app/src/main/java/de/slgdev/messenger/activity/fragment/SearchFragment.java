@@ -57,24 +57,21 @@ public class SearchFragment extends Fragment {
 
     private void initRecyclerView() {
         rvSearch = view.findViewById(R.id.recyclerViewSearch);
-        clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = rvSearch.getChildAdapterPosition(v);
-                if (data[position] instanceof User) {
-                    User clickedUser = (User) data[position];
-                    startActivity(new Intent(getContext(), ChatActivity.class)
-                            .putExtra("uid", clickedUser.uid)
-                            .putExtra("cid", Utils.getController().getMessengerDatabase().getChatWith(clickedUser.uid))
-                            .putExtra("cname", clickedUser.uname)
-                            .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
-                } else {
-                    Chat clickedChat = (Chat) data[position];
-                    startActivity(new Intent(getContext(), ChatActivity.class)
-                            .putExtra("cid", clickedChat.cid)
-                            .putExtra("cname", clickedChat.cname)
-                            .putExtra("ctype", Chat.ChatType.GROUP.toString()));
-                }
+        clickListener = v -> {
+            int position = rvSearch.getChildAdapterPosition(v);
+            if (data[position] instanceof User) {
+                User clickedUser = (User) data[position];
+                startActivity(new Intent(getContext(), ChatActivity.class)
+                        .putExtra("uid", clickedUser.uid)
+                        .putExtra("cid", Utils.getController().getMessengerDatabase().getChatWith(clickedUser.uid))
+                        .putExtra("cname", clickedUser.uname)
+                        .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
+            } else {
+                Chat clickedChat = (Chat) data[position];
+                startActivity(new Intent(getContext(), ChatActivity.class)
+                        .putExtra("cid", clickedChat.cid)
+                        .putExtra("cname", clickedChat.cname)
+                        .putExtra("ctype", Chat.ChatType.GROUP.toString()));
             }
         };
 
@@ -112,32 +109,26 @@ public class SearchFragment extends Fragment {
         expanded = false;
         view.findViewById(R.id.sortCard).setVisibility(View.GONE);
         final FloatingActionButton expand = view.findViewById(R.id.floatingActionButton);
-        expand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expanded = !expanded;
-                if (expanded) {
-                    expand.setImageResource(R.drawable.ic_expand_less);
-                    SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.VISIBLE);
-                } else {
-                    expand.setImageResource(R.drawable.ic_expand_more);
-                    SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.GONE);
-                }
+        expand.setOnClickListener(v -> {
+            expanded = !expanded;
+            if (expanded) {
+                expand.setImageResource(R.drawable.ic_expand_less);
+                SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.VISIBLE);
+            } else {
+                expand.setImageResource(R.drawable.ic_expand_more);
+                SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.GONE);
             }
         });
         final Button first = view.findViewById(R.id.buttonFirst);
-        first.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (chatsFirst) {
-                    first.setText(getString(R.string.user));
-                    chatsFirst = false;
-                } else {
-                    first.setText(getString(R.string.chats));
-                    chatsFirst = true;
-                }
-                refreshUI();
+        first.setOnClickListener(v -> {
+            if (chatsFirst) {
+                first.setText(getString(R.string.user));
+                chatsFirst = false;
+            } else {
+                first.setText(getString(R.string.chats));
+                chatsFirst = true;
             }
+            refreshUI();
         });
         if (!chatsFirst) {
             first.setText(R.string.users);
@@ -145,18 +136,15 @@ public class SearchFragment extends Fragment {
             first.setText(R.string.chats);
         }
         final Button sortName = view.findViewById(R.id.buttonName);
-        sortName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (name.equals(USER_DEFAULTNAME)) {
-                    name = USER_NAME;
-                    sortName.setText(getString(R.string.settings_title_nickname));
-                } else {
-                    name = USER_DEFAULTNAME;
-                    sortName.setText(getString(R.string.settings_title_username));
-                }
-                refreshUI();
+        sortName.setOnClickListener(v -> {
+            if (name.equals(USER_DEFAULTNAME)) {
+                name = USER_NAME;
+                sortName.setText(getString(R.string.settings_title_nickname));
+            } else {
+                name = USER_DEFAULTNAME;
+                sortName.setText(getString(R.string.settings_title_username));
             }
+            refreshUI();
         });
         if (!name.equals(USER_DEFAULTNAME)) {
             sortName.setText(getString(R.string.settings_title_nickname));
@@ -164,18 +152,15 @@ public class SearchFragment extends Fragment {
             sortName.setText(getString(R.string.settings_title_username));
         }
         final ImageButton nameUpDown = view.findViewById(R.id.buttonNameUpDown);
-        nameUpDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nameDesc) {
-                    nameDesc = false;
-                    nameUpDown.setImageResource(R.drawable.ic_expand_less);
-                } else {
-                    nameDesc = true;
-                    nameUpDown.setImageResource(R.drawable.ic_expand_more);
-                }
-                refreshUI();
+        nameUpDown.setOnClickListener(v -> {
+            if (nameDesc) {
+                nameDesc = false;
+                nameUpDown.setImageResource(R.drawable.ic_expand_less);
+            } else {
+                nameDesc = true;
+                nameUpDown.setImageResource(R.drawable.ic_expand_more);
             }
+            refreshUI();
         });
         if (!nameDesc) {
             nameUpDown.setImageResource(R.drawable.ic_expand_less);
@@ -183,17 +168,14 @@ public class SearchFragment extends Fragment {
             nameUpDown.setImageResource(R.drawable.ic_expand_more);
         }
         final Button grade = view.findViewById(R.id.buttonGrade);
-        grade.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                grade.setActivated(groupGrade);
-                if (groupGrade)
-                    grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
-                else
-                    grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-                groupGrade = !groupGrade;
-                refreshUI();
-            }
+        grade.setOnClickListener(v -> {
+            grade.setActivated(groupGrade);
+            if (groupGrade)
+                grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
+            else
+                grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            groupGrade = !groupGrade;
+            refreshUI();
         });
         grade.setActivated(!groupGrade);
         if (!groupGrade)
@@ -204,19 +186,16 @@ public class SearchFragment extends Fragment {
 
     public void refreshUI() {
         if (getActivity() != null && initialized) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (rvSearch != null) {
-                        String orderUser = "";
-                        if (groupGrade)
-                            orderUser = USER_STUFE + ", ";
-                        orderUser += name;
-                        if (nameDesc)
-                            orderUser += " DESC";
-                        data = Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, orderUser);
-                        rvSearch.swapAdapter(new HybridAdapter(getActivity().getLayoutInflater()), false);
-                    }
+            getActivity().runOnUiThread(() -> {
+                if (rvSearch != null) {
+                    String orderUser = "";
+                    if (groupGrade)
+                        orderUser = USER_STUFE + ", ";
+                    orderUser += name;
+                    if (nameDesc)
+                        orderUser += " DESC";
+                    data = Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, orderUser);
+                    rvSearch.swapAdapter(new HybridAdapter(getActivity().getLayoutInflater()), false);
                 }
             });
         }

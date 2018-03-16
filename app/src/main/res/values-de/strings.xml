@@ -5,13 +5,34 @@
     <string name="no">Nein</string>
 
     <string name="title_it_problem">IT-Problemlöser</string>
-
+    <string name="beamer">Beamer</string>
     <string name="no_exams">Keine Klausuren!</string>
 
-    <!-- TODO Translate -->
+    <string name="name_too_long">Dein Name darf nicht länger als 20 Zeichen sein</string>
 
-    <string name="qr_intro_descVerification">In order to profit from the QR - Code functionality, it is necessary for you to log in with your
-        lunch.leo-ac.de credentials.</string>
+    <string name="please_read">Weitere Informationen! Bitte lesen :)</string>
+    <string name="intro_info">
+        <![CDATA[
+            <h3>Allgemeines</h3>
+            In den ersten Versionen kann es zu kleineren Fehlern kommen, wir bitten, darüber hinwegzusehen. <br/>
+            Bei Features wie den (anonymen) Umfragen verlassen wir uns auf Eure Vernunft. Sollte es
+            jedoch zu einem Missbrauch kommen, ist es dennoch möglich, auf den Autor zu schließen.
+
+            <h3>Messenger</h3>
+            Der Messenger ist in dieser Version aufgrund von Startschwierigkeiten noch nicht verfügbar. Wir arbeiten aber daran, dass Ihr ihn
+            im nächsten Update in vollem Umfang benutzen könnt!
+
+            <h3>Viel Spaß!</h3>
+            Fragen könnt Ihr gerne Herrn Meltzow stellen oder uns über <i>app@leo-ac.de</i> kontaktieren.<br/>
+
+                - Euer LeoApp Team
+
+        ]]>
+    </string>
+
+    <string name="qr_intro_descVerification">
+        Um die QR-Essensbons nutzen zu können, musst du dich hier mit deinen lunch.leo-ac.de Anmeldedaten anmelden.
+    </string>
 
     <string name="qr_intro_title1">QR - Essensbons</string>
     <string name="qr_intro_desc1">Diese Funktion erleichtert die Essensausgabe in der Mensa.</string>
@@ -46,8 +67,10 @@
     </string>
 
     <string name="dialog_changelog">
-        - Bugfixes \n- IT - Designänderungen \n- Navigation verbessert \n- IT-Problemlöser ist nun Lehrerfeature
+        - Release!
     </string>
+
+    <string name="introqr_finished_desc">Du bist angemeldet und kannst nun das Essensbon-Feature vollständig nutzen!</string>
 
     <string name="none">Keine</string>
 
@@ -468,5 +491,8 @@
     <string name="qr_scan_title">Essensbon Scannen</string>
     <string name="title_survey_result">Abgeschlossene Umfragen</string>
     <string name="desc_it_problem">Hilft dabei, alle technischen Probleme im Klassenraum zu lösen</string>
+    <string name="tooltip_qr">Platziere den QR-Code innerhalb des Rechtecks</string>
+    <string name="entry_deleted">Eintrag gelöscht</string>
+    <string name="profile_level_teacher">Lehrer</string>
 
 </resources>

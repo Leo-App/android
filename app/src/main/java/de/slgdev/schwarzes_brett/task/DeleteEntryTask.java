@@ -1,4 +1,4 @@
-package de.slgdev.umfragen.task;
+package de.slgdev.schwarzes_brett.task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,40 +6,34 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import de.slgdev.leoapp.R;
-import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.task.general.ObjectCallbackTask;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
 
-public class DeleteSurveyTask extends ObjectCallbackTask<ResponseCode> {
+public class DeleteEntryTask extends ObjectCallbackTask<ResponseCode> {
 
     @Override
-    protected ResponseCode doInBackground(Object... params) {
-
-        if (!Utils.isNetworkAvailable())
-            return ResponseCode.NO_CONNECTION;
-
-        SQLiteConnectorUmfragen db  = new SQLiteConnectorUmfragen(Utils.getContext());
-        db.deleteSurvey((Integer) params[0]);
-        db.close();
+    protected ResponseCode doInBackground(Object[] objects) {
 
         try {
-            URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/deleteSurvey.php?survey=" + params[0]);
-            Utils.logError(updateURL);
             BufferedReader reader =
                     new BufferedReader(
-                            new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
+                            new InputStreamReader(
+                                    new URL(
+                                            Utils.BASE_URL_PHP + "schwarzesBrett/" +
+                                                    "deleteEntry.php?" +
+                                                    "id=" + objects[0]
+                                    )
+                                            .openConnection()
+                                            .getInputStream()
+                            )
+                    );
 
-            StringBuilder builder = new StringBuilder();
-            String        line;
-            while ((line = reader.readLine()) != null)
-                builder.append(line);
-            reader.close();
-
-            if (builder.toString().startsWith("-"))
+            if (reader.readLine().startsWith("-"))
                 return ResponseCode.SERVER_FAILED;
+
         } catch (IOException e) {
             Utils.logError(e);
             return ResponseCode.NOT_SENT;
@@ -65,4 +59,5 @@ public class DeleteSurveyTask extends ObjectCallbackTask<ResponseCode> {
                 break;
         }
     }
+
 }

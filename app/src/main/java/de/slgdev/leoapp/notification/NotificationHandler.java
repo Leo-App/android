@@ -249,12 +249,14 @@ public abstract class NotificationHandler {
         }
 
         public static boolean isEnabled() {
-            return Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true);
+           // return Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true); //TODO Messenger
+            return false;
         }
 
     }
 
     public static class SchwarzesBrettNotification implements LeoAppNotification {
+
         private static long         latest;
         private        Context      context;
         private        Notification notification;
@@ -301,6 +303,7 @@ public abstract class NotificationHandler {
 
         private boolean isActive() {
             return isEnabled()
+                    && Utils.isVerified()
                     && hasUnreadNews()
                     && (Utils.getController().getSchwarzesBrettActivity() == null
                     || Utils.getController().getSchwarzesBrettActivity().getStatus() != ActivityStatus.ACTIVE);
@@ -327,6 +330,7 @@ public abstract class NotificationHandler {
     }
 
     public static class UmfrageNotification implements LeoAppNotification {
+
         private static long         latest;
         private        Context      context;
         private        Notification notification;
@@ -374,6 +378,7 @@ public abstract class NotificationHandler {
 
         private boolean isActive() {
             return isEnabled()
+                    && Utils.isVerified()
                     && hasUnreadNews()
                     && (Utils.getController().getSurveyActivity() == null
                     || Utils.getController().getSurveyActivity().getStatus() != ActivityStatus.ACTIVE);
@@ -400,6 +405,7 @@ public abstract class NotificationHandler {
     }
 
     public static class StimmungsbarometerNotification implements LeoAppNotification {
+
         private Context      context;
         private Notification notification;
 
@@ -452,6 +458,7 @@ public abstract class NotificationHandler {
     }
 
     public static class StundenplanNotification implements LeoAppNotification {
+
         private Context      context;
         private Notification notificationStundenplan;
 
@@ -485,7 +492,8 @@ public abstract class NotificationHandler {
         }
 
         private boolean isActive() {
-            return isEnabled() && getNextDayOfWeek() <= 5;
+            SQLiteConnectorStundenplan db = new SQLiteConnectorStundenplan(Utils.getContext());
+            return isEnabled() && getNextDayOfWeek() <= 5 && db.hatGewaehlt();
         }
 
         public static boolean isEnabled() {
@@ -499,7 +507,7 @@ public abstract class NotificationHandler {
 
             if (lessons.length == 0)
                 return Utils.getString(R.string.none);
-
+//TODO Architecture
             for (int i = 0; i < lessons.length; i++) {
                 if (lessons[i].getName().length() > 0 && (i == 0 || !lessons[i].getName().equals(lessons[i - 1].getName()))) {
                     builder.append(lessons[i].getName());
@@ -511,6 +519,10 @@ public abstract class NotificationHandler {
 
             if(builder.charAt(builder.length()-3) == ',')
                 builder.deleteCharAt(builder.length()-3);
+
+            if(builder.charAt(builder.length()-2) == ',')
+                builder.deleteCharAt(builder.length()-2);
+
 
             database.close();
 

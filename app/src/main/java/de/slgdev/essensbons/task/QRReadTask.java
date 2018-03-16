@@ -76,7 +76,9 @@ public class QRReadTask extends ObjectCallbackTask<Boolean> {
     private boolean checkValid(String s) {
         String[] parts = s.split("-");
 
+        Utils.logDebug(s);
         Utils.logDebug("passed no test yet");
+
 
         if (parts.length != 4)
             return false;
@@ -102,11 +104,9 @@ public class QRReadTask extends ObjectCallbackTask<Boolean> {
         }
         Utils.logDebug("passed logic date test");
 
-        String subsum = "" + parts[2].substring(0, 2) + "" + parts[2].substring(4);
-
         try {
             int orderId = Integer.parseInt(parts[0]);
-            int checksum = Integer.parseInt(subsum) + orderId;
+            int checksum = Integer.parseInt(parts[2]) + orderId;
 
             int mod = checksum % 97;
             int fin = 98 - mod;

@@ -69,12 +69,7 @@ public final class InformationDialog extends AlertDialog {
         setContentView(R.layout.dialog_general);
 
         ((TextView) findViewById(R.id.textView)).setText(text);
-        findViewById(R.id.buttonOK).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        findViewById(R.id.buttonOK).setOnClickListener(v -> dismiss());
     }
 
     /**

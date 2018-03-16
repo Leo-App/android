@@ -51,16 +51,13 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
      * @param residContent Beschreibung des Tooltips als Stringressource
      */
     public void addTooltip(@StringRes final int residTitle, @StringRes final int residContent) {
-        b.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(!isTooltipEnabled())
-                    return true;
+        b.setOnLongClickListener(v -> {
+            if(!isTooltipEnabled())
+                return true;
 
-                BottomSheetDialog dialog = new BottomSheetDialog();
-                dialog.setTitle(Utils.getString(residTitle)).setContent(Utils.getString(residContent)).show(Utils.getController().getActiveActivity().getSupportFragmentManager(), dialog.getTag());
-                return false;
-            }
+            BottomSheetDialog dialog = new BottomSheetDialog();
+            dialog.setTitle(Utils.getString(residTitle)).setContent(Utils.getString(residContent)).show(Utils.getController().getActiveActivity().getSupportFragmentManager(), dialog.getTag());
+            return false;
         });
     }
 
@@ -71,16 +68,13 @@ public class InfoButton implements Drawable.Callback, KeyEvent.Callback {
      * @param content Beschreibung des Tooltips
      */
     public void addTooltip(final String text, final String content) {
-        b.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(!isTooltipEnabled())
-                    return true;
+        b.setOnLongClickListener(v -> {
+            if(!isTooltipEnabled())
+                return true;
 
-                BottomSheetDialog dialog = new BottomSheetDialog();
-                dialog.setTitle(text).setContent(content).show(Utils.getController().getActiveActivity().getSupportFragmentManager(), dialog.getTag());
-                return false;
-            }
+            BottomSheetDialog dialog = new BottomSheetDialog();
+            dialog.setTitle(text).setContent(content).show(Utils.getController().getActiveActivity().getSupportFragmentManager(), dialog.getTag());
+            return false;
         });
     }
 

@@ -198,63 +198,48 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 .apply();
 
         Preference syncPref = findPreference("pref_key_sync_messenger");
-        syncPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Utils.getController().getMessengerDatabase().clear();
-                Intent intent = new Intent(
-                        getApplicationContext(),
-                        ReceiveService.class
-                );
-                stopService(intent);
-                startService(intent);
-                return Utils.isNetworkAvailable();
-            }
+        syncPref.setOnPreferenceClickListener(preference -> {
+            Utils.getController().getMessengerDatabase().clear();
+            Intent intent = new Intent(
+                    getApplicationContext(),
+                    ReceiveService.class
+            );
+            stopService(intent);
+            startService(intent);
+            return Utils.isNetworkAvailable();
         });
 
         Preference email = findPreference("pref_key_email");
-        email.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@leo-ac.de"});
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                }
-                return true;
+        email.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@leo-ac.de"});
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
             }
+            return true;
         });
 
         Preference notifications = findPreference("pref_key_notifications");
-        notifications.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getApplicationContext(), NotificationPreferenceActivity.class));
-                return true;
-            }
+        notifications.setOnPreferenceClickListener(preference -> {
+            startActivity(new Intent(getApplicationContext(), NotificationPreferenceActivity.class));
+            return true;
         });
 
         Preference version = findPreference("pref_key_version_app");
-        version.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                AlertDialog dialog = new AlertDialog.Builder(PreferenceActivity.this).create();
-                View        view   = getLayoutInflater().inflate(R.layout.dialog_changelog, null);
-                ((TextView) view.findViewById(R.id.version_textview)).setText(Utils.getAppVersionName());
-                dialog.setView(view);
-                dialog.show();
-                return true;
-            }
+        version.setOnPreferenceClickListener(preference -> {
+            AlertDialog dialog = new AlertDialog.Builder(PreferenceActivity.this).create();
+            View        view   = getLayoutInflater().inflate(R.layout.dialog_changelog, null);
+            ((TextView) view.findViewById(R.id.version_textview)).setText(Utils.getAppVersionName());
+            dialog.setView(view);
+            dialog.show();
+            return true;
         });
 
         Preference about = findPreference("pref_key_about");
-        about.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                startActivity(new Intent(getApplicationContext(), InfoActivity.class));
-                return true;
-            }
+        about.setOnPreferenceClickListener(preference -> {
+            startActivity(new Intent(getApplicationContext(), InfoActivity.class));
+            return true;
         });
     }
 
@@ -272,59 +257,50 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
 
-        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.foodmarks).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.barometer).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.umfragen).setEnabled(Utils.isVerified());
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            drawerLayout.closeDrawers();
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-
-                Intent i;
-                switch (menuItem.getItemId()) {
-                    case R.id.foodmarks:
-                        i = new Intent(getApplicationContext(), EssensbonActivity.class);
-                        break;
-                    case R.id.messenger:
-                        i = new Intent(getApplicationContext(), MessengerActivity.class);
-                        break;
-                    case R.id.newsboard:
-                        i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                        break;
-                    case R.id.stundenplan:
-                        i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                        break;
-                    case R.id.barometer:
-                        i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                        break;
-                    case R.id.klausurplan:
-                        i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                        break;
-                    case R.id.startseite:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        break;
-                    case R.id.umfragen:
-                        i = new Intent(getApplicationContext(), SurveyActivity.class);
-                        break;
-                    case R.id.settings:
-                        return true;
-                    case R.id.profile:
-                        i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        break;
-                    default:
-                        i = new Intent(getApplicationContext(), MainActivity.class);
-                        Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                if (i != null)
-                    startActivity(i);
-                return true;
+            Intent i;
+            switch (menuItem.getItemId()) {
+                case R.id.foodmarks:
+                    i = new Intent(getApplicationContext(), EssensbonActivity.class);
+                    break;
+                case R.id.messenger:
+                    i = new Intent(getApplicationContext(), MessengerActivity.class);
+                    break;
+                case R.id.newsboard:
+                    i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
+                    break;
+                case R.id.stundenplan:
+                    i = new Intent(getApplicationContext(), StundenplanActivity.class);
+                    break;
+                case R.id.barometer:
+                    i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
+                    break;
+                case R.id.klausurplan:
+                    i = new Intent(getApplicationContext(), KlausurplanActivity.class);
+                    break;
+                case R.id.startseite:
+                    i = new Intent(getApplicationContext(), MainActivity.class);
+                    break;
+                case R.id.umfragen:
+                    i = new Intent(getApplicationContext(), SurveyActivity.class);
+                    break;
+                case R.id.settings:
+                    return true;
+                case R.id.profile:
+                    i = new Intent(getApplicationContext(), ProfileActivity.class);
+                    break;
+                case R.id.about:
+                    i = new Intent(getApplicationContext(), InfoActivity.class);
+                    break;
+                default:
+                    i = new Intent(getApplicationContext(), MainActivity.class);
+                    Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
+            if (i != null)
+                startActivity(i);
+            return true;
         });
 
         TextView username = navigationView.getHeaderView(0).findViewById(R.id.username);

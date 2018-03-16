@@ -10,7 +10,6 @@ import android.os.Bundle;
 import de.slgdev.leoapp.sync.NewsSynchronizer;
 import de.slgdev.leoapp.sync.SurveySynchronizer;
 import de.slgdev.leoapp.sync.Synchronizer;
-import de.slgdev.leoapp.utility.Utils;
 
 /**
  * ReceiveSyncAdapter.

@@ -34,17 +34,14 @@ public class UserFragment extends Fragment {
 
     private void initRecyclerView() {
         rvUsers = view.findViewById(R.id.recyclerView);
-        userClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int  position    = rvUsers.getChildAdapterPosition(view);
-                User clickedUser = userArray[position];
-                startActivity(new Intent(getContext(), ChatActivity.class)
-                        .putExtra("uid", clickedUser.uid)
-                        .putExtra("cid", Utils.getController().getMessengerDatabase().getChatWith(clickedUser.uid))
-                        .putExtra("cname", clickedUser.uname)
-                        .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
-            }
+        userClickListener = view -> {
+            int  position    = rvUsers.getChildAdapterPosition(view);
+            User clickedUser = userArray[position];
+            startActivity(new Intent(getContext(), ChatActivity.class)
+                    .putExtra("uid", clickedUser.uid)
+                    .putExtra("cid", Utils.getController().getMessengerDatabase().getChatWith(clickedUser.uid))
+                    .putExtra("cname", clickedUser.uname)
+                    .putExtra("ctype", Chat.ChatType.PRIVATE.toString()));
         };
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -62,12 +59,9 @@ public class UserFragment extends Fragment {
     public void refreshUI() {
         userArray = Utils.getController().getMessengerDatabase().getUsers();
         if (getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (rvUsers != null)
-                        rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), userArray, userClickListener), false);
-                }
+            getActivity().runOnUiThread(() -> {
+                if (rvUsers != null)
+                    rvUsers.swapAdapter(new UserAdapter(getActivity().getLayoutInflater(), userArray, userClickListener), false);
             });
         }
     }

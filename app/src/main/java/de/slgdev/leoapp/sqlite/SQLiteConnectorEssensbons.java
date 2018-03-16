@@ -37,7 +37,7 @@ public class SQLiteConnectorEssensbons extends SQLiteOpenHelper {
     private final SQLiteDatabase database;
 
     public SQLiteConnectorEssensbons(Context context) {
-        super(context, DATABASE_NAME, null, 4);
+        super(context, DATABASE_NAME, null, 5);
         database = getWritableDatabase();
     }
 
@@ -47,7 +47,7 @@ public class SQLiteConnectorEssensbons extends SQLiteOpenHelper {
                 + TABLE_ORDERS + " ("
                 + ORDER_ID + " INTEGER PRIMARY KEY NOT NULL, "
                 + ORDER_DATE + " date NOT NULL, "
-                + ORDER_MENU + " tinyint NOT NULL, "
+                + ORDER_MENU + " INTEGER NOT NULL, "
                 + ORDER_DESCR + " text NOT NULL)");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS "

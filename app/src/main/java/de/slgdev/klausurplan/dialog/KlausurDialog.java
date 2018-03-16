@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import de.slgdev.klausurplan.utility.Klausur;
 import de.slgdev.leoapp.R;
@@ -25,7 +26,8 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorKlausurplan;
 import de.slgdev.leoapp.utility.Utils;
 
 public class KlausurDialog extends AppCompatDialog {
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
+
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy", Locale.GERMANY);
 
     private Klausur  currentKlausur;
     private EditText eingabeFach;
@@ -53,65 +55,46 @@ public class KlausurDialog extends AppCompatDialog {
         initSnackbarDatum();
 
         findViewById(R.id.buttonExamDel).setEnabled(currentKlausur.getId() != 0);
-        findViewById(R.id.buttonExamDel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                delete();
-                dismiss();
-            }
+        findViewById(R.id.buttonExamDel).setOnClickListener(view -> {
+            delete();
+            dismiss();
         });
 
-        findViewById(R.id.buttonExamSave).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(eingabeFach.getWindowToken(), 0);
-                if (currentKlausur != null) {
-                    if (eingabeFach.getText().length() == 0) {
-                        snackbarTitle.show();
-                    } else if (eingabeDatum.getText().length() < 8 || getDate(eingabeDatum.getText().toString()) == null) {
-                        snackbarDate.show();
-                    } else {
-                        save();
-                        dismiss();
-                    }
+        findViewById(R.id.buttonExamSave).setOnClickListener(view -> {
+            ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(eingabeFach.getWindowToken(), 0);
+            if (currentKlausur != null) {
+                if (eingabeFach.getText().length() == 0) {
+                    snackbarTitle.show();
+                } else if (eingabeDatum.getText().length() < 8 || getDate(eingabeDatum.getText().toString()) == null) {
+                    snackbarDate.show();
+                } else {
+                    save();
+                    dismiss();
                 }
             }
         });
 
-        findViewById(R.id.calendarPickerButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar c      = Calendar.getInstance();
-                int      mYear  = c.get(Calendar.YEAR);
-                int      mMonth = c.get(Calendar.MONTH);
-                int      mDay   = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dialog = new DatePickerDialog(getContext(),
-                        new mDateSetListener(), mYear, mMonth, mDay);
-                dialog.show();
-            }
+        findViewById(R.id.calendarPickerButton).setOnClickListener(v -> {
+            Calendar c      = Calendar.getInstance();
+            int      mYear  = c.get(Calendar.YEAR);
+            int      mMonth = c.get(Calendar.MONTH);
+            int      mDay   = c.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog dialog = new DatePickerDialog(getContext(),
+                    new mDateSetListener(), mYear, mMonth, mDay);
+            dialog.show();
         });
     }
 
     private void initSnackbarTitel() {
         snackbarTitle = Snackbar.make(coordinatorLayout, getContext().getString(R.string.snackbar_missing_title), Snackbar.LENGTH_LONG);
         snackbarTitle.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-        snackbarTitle.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snackbarTitle.dismiss();
-            }
-        });
+        snackbarTitle.setAction(getContext().getString(R.string.confirm), v -> snackbarTitle.dismiss());
     }
 
     private void initSnackbarDatum() {
         snackbarDate = Snackbar.make(coordinatorLayout, getContext().getString(R.string.snackbar_date_invalid), Snackbar.LENGTH_LONG);
         snackbarDate.setActionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-        snackbarDate.setAction(getContext().getString(R.string.confirm), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snackbarDate.dismiss();
-            }
-        });
+        snackbarDate.setAction(getContext().getString(R.string.confirm), v -> snackbarDate.dismiss());
     }
 
     private void initEditTexts() {

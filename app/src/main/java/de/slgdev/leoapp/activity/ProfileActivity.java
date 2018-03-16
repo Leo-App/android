@@ -15,6 +15,7 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.dialog.EditTextDialog;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.task.UpdateNameTask;
+import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
@@ -101,62 +102,58 @@ public class ProfileActivity extends LeoAppNavigationActivity {
         stufeProfil.setText(Utils.getUserStufe());
         kuerzel.setText(Utils.getLehrerKuerzel());
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
-            stufeProfil.setText("-");
+            stufeProfil.setText(R.string.profile_level_teacher);
             findViewById(R.id.cardViewLehrer).setVisibility(View.VISIBLE);
-            findViewById(R.id.editTEA).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog =
-                            new EditTextDialog(ProfileActivity.this,
-                                    getString(R.string.dialog_change_abbr),
-                                    getString(R.string.settings_title_kuerzel),
-                                    new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            Utils.getController().getPreferences().edit()
-                                                    .putString("pref_key_kuerzel_general", dialog.getTextInput())
-                                                    .apply();
-                                            initProfil();
-                                            initNavigationDrawer();
-                                            kuerzel.setText(Utils.getLehrerKuerzel());
-                                            dialog.dismiss();
-                                        }
-                                    });
-
-                    dialog.show();
-
-                    dialog.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-                    dialog.setTextInput(Utils.getLehrerKuerzel());
-                }
-            });
-        }
-
-        setProfilePicture();
-
-        findViewById(R.id.editProfil).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            findViewById(R.id.editTEA).setOnClickListener(v -> {
                 dialog =
                         new EditTextDialog(ProfileActivity.this,
-                                getString(R.string.title_name_change),
-                                getString(R.string.settings_title_nickname),
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        UpdateNameTask task = new UpdateNameTask(Utils.getUserName());
-                                        Utils.getController().getPreferences().edit()
-                                                .putString("pref_key_general_name", dialog.getTextInput())
-                                                .apply();
-                                        task.execute();
-                                        dialog.dismiss();
-                                    }
+                                getString(R.string.dialog_change_abbr),
+                                getString(R.string.settings_title_kuerzel),
+                                v1 -> {
+                                    Utils.getController().getPreferences().edit()
+                                            .putString("pref_key_kuerzel_general", dialog.getTextInput())
+                                            .apply();
+                                    initProfil();
+                                    initNavigationDrawer();
+                                    kuerzel.setText(Utils.getLehrerKuerzel());
+                                    dialog.dismiss();
                                 });
 
                 dialog.show();
 
                 dialog.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-                dialog.setTextInput(Utils.getUserName());
-            }
+                dialog.setTextInput(Utils.getLehrerKuerzel());
+            });
+        }
+
+        setProfilePicture();
+
+        findViewById(R.id.editProfil).setOnClickListener(v -> {
+            dialog =
+                    new EditTextDialog(ProfileActivity.this,
+                            getString(R.string.title_name_change),
+                            getString(R.string.settings_title_nickname),
+                            v12 -> {
+                                String name = dialog.getTextInput();
+                                UpdateNameTask task = new UpdateNameTask(Utils.getUserName());
+
+                                if (name.length() > 20) {
+                                    GraphicUtils.sendToast(R.string.name_too_long);
+                                } else {
+                                    Utils.getController().getPreferences().edit()
+                                            .putString("pref_key_general_name", name)
+                                            .apply();
+
+                                    task.execute();
+                                }
+
+                                dialog.dismiss();
+                            });
+
+            dialog.show();
+
+            dialog.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+            dialog.setTextInput(Utils.getUserName());
         });
 
         String surveyTitle = getCurrentSurvey();
@@ -166,14 +163,11 @@ public class ProfileActivity extends LeoAppNavigationActivity {
         }
 
         survey.setText(surveyTitle);
-        findViewById(R.id.toSurvey).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, SurveyActivity.class);
-                intent.putExtra("redirect", true);
-                startActivity(intent);
-                finish();
-            }
+        findViewById(R.id.toSurvey).setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, SurveyActivity.class);
+            intent.putExtra("redirect", true);
+            startActivity(intent);
+            finish();
         });
     }
 

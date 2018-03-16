@@ -3,7 +3,6 @@ package de.slgdev.leoapp.task;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -103,36 +102,21 @@ public class UpdateNameTask extends AsyncTask<String, Void, ReturnValues> {
     private void showSnackbar() {
         final Snackbar cS = Snackbar.make(Utils.getController().getProfileActivity().getCoordinatorLayout(), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
-        cS.setAction(Utils.getString(R.string.dismiss), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cS.dismiss();
-            }
-        });
+        cS.setAction(Utils.getString(R.string.dismiss), v -> cS.dismiss());
         cS.show();
     }
 
     private void showSnackbar2() {
         final Snackbar cS = Snackbar.make(Utils.getController().getProfileActivity().getCoordinatorLayout(), R.string.settings_snackbar_username_taken, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
-        cS.setAction(Utils.getString(R.string.dismiss), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cS.dismiss();
-            }
-        });
+        cS.setAction(Utils.getString(R.string.dismiss), v -> cS.dismiss());
         cS.show();
     }
 
     private void showSnackbar3() {
         final Snackbar cS = Snackbar.make(Utils.getController().getProfileActivity().getCoordinatorLayout(), R.string.error, Snackbar.LENGTH_LONG);
         cS.setActionTextColor(Color.WHITE);
-        cS.setAction(Utils.getString(R.string.dismiss), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cS.dismiss();
-            }
-        });
+        cS.setAction(Utils.getString(R.string.dismiss), v -> cS.dismiss());
         cS.show();
     }
 }

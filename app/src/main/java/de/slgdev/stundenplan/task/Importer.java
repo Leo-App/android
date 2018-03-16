@@ -23,8 +23,7 @@ public class Importer extends VoidCallbackTask<Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            while (SyncFilesTask.running)
-                ;
+            while (SyncFilesTask.running);
 
             SQLiteConnectorStundenplan database = new SQLiteConnectorStundenplan(Utils.getContext());
 
@@ -54,34 +53,36 @@ public class Importer extends VoidCallbackTask<Void> {
                 String tag    = fach[4];
                 String stunde = fach[5];
 
-                if (stufe.replace("0", "").startsWith(Utils.getUserStufe()) || Utils.getUserPermission() == User.PERMISSION_LEHRER) {
-                    if (!letzterKurs.equals(kurs) || !letzterLehrer.equals(lehrer) || !letzteStufe.equals(stufe)) {
-                        letzteID = database.insertSubject(
-                                kurs,
-                                lehrer,
-                                stufe
-                        );
-                        letzterKurs = kurs;
-                        letzterLehrer = lehrer;
-                        letzteStufe = stufe;
+                if (stufe.startsWith(Utils.getUserStufe()) || Utils.getUserPermission() == User.PERMISSION_LEHRER) {
+                    if (!kurs.contains("AG") && !kurs.contains("IFP") && !kurs.contains("LÜZ") && !kurs.contains("+")) {
 
-                        if (Utils.getUserPermission() == User.PERMISSION_LEHRER && Utils.getLehrerKuerzel().toUpperCase().equals(lehrer.toUpperCase())) {
-                            database.chooseSubject(letzteID);
-                            database.setWritten(true, letzteID);
-                        }
-                    }
-
-                    database
-                            .insertLesson(
-                                    letzteID,
-                                    Integer.parseInt(
-                                            tag
-                                    ),
-                                    Integer.parseInt(
-                                            stunde
-                                    ),
-                                    raum
+                        if (!letzterKurs.equals(kurs) || !letzterLehrer.equals(lehrer) || !letzteStufe.equals(stufe)) {
+                            letzteID = database.insertSubject(
+                                    kurs,
+                                    lehrer,
+                                    stufe
                             );
+                            letzterKurs = kurs;
+                            letzterLehrer = lehrer;
+                            letzteStufe = stufe;
+
+                            if (Utils.getUserPermission() == User.PERMISSION_LEHRER && Utils.getLehrerKuerzel().toUpperCase().equals(lehrer.toUpperCase())) {
+                                database.chooseSubject(letzteID);
+                                database.setWritten(true, letzteID);
+                            }
+                        }
+
+                        database.insertLesson(
+                                letzteID,
+                                Integer.parseInt(
+                                        tag
+                                ),
+                                Integer.parseInt(
+                                        stunde
+                                ),
+                                raum
+                        );
+                    }
                 }
             }
 

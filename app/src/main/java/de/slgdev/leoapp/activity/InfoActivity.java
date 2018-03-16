@@ -2,24 +2,34 @@ package de.slgdev.leoapp.activity;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.ActionLogActivity;
+import de.slgdev.leoapp.view.LeoAppLayerActivity;
 
-public class InfoActivity extends ActionLogActivity {
+public class InfoActivity extends LeoAppLayerActivity {
     @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);
-        setContentView(R.layout.activity_info);
-
-        initToolbar();
         initVersionCode();
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_info;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return R.id.toolbar;
+    }
+
+    @Override
+    protected int getToolbarTextId() {
+        return R.string.toolbar_name_info;
     }
 
     private void initVersionCode() {
@@ -33,17 +43,6 @@ public class InfoActivity extends ActionLogActivity {
         int    verCode = pInfo.versionCode;
 
         ((TextView) findViewById(R.id.textView6Info)).setText(getString(R.string.version_code, version, verCode));
-
-    }
-
-    private void initToolbar() {
-        Toolbar myToolbar = findViewById(R.id.toolbar);
-        myToolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(getString(R.string.toolbar_name_info));
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -53,6 +52,7 @@ public class InfoActivity extends ActionLogActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
         finish();
         return true;
     }
