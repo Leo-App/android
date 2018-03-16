@@ -178,7 +178,6 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
             nextButton.setOnClickListener(v -> getPager().setCurrentItem(getPager().getCurrentItem() + 1));
 
             dismissable = newFragment.getPosition() != 0;
-
         }
     }
 

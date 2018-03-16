@@ -228,6 +228,7 @@ public class KlausurplanActivity extends LeoAppNavigationActivity implements Tas
         refreshArray();
         listView.setAdapter(new KlausurenAdapter(getApplicationContext(), klausuren, KlausurplanUtils.findeNächsteKlausur(klausuren)));
         listView.setSelection(KlausurplanUtils.findeNächsteWoche(klausuren));
+        initTextViewInfo();
     }
 
     private void refreshArray() {
