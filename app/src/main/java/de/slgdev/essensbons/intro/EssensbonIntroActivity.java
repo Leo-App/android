@@ -124,6 +124,7 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
                 getPager().setCurrentItem(verificationSlide + 1);
                 EssensbonUtils.setLoginStatus(true);
                 NotificationAlarmHandler.updateFoodmarkAlarm();
+                Utils.getController().getEssensbonActivity().refresh();
                 break;
         }
     }
@@ -164,7 +165,7 @@ public class EssensbonIntroActivity extends AppIntro2 implements TaskStatusListe
         addSlide(
                 new InfoFragmentBuilder()
                         .setTitle(R.string.intro_finished_title)
-                        .setContent(R.string.intro_finished_desc)
+                        .setContent(R.string.introqr_finished_desc)
                         .setImage(R.drawable.intro_finished)
                         .setPosition(verificationSlide + 1)
                         .setColor(R.color.colorSatisfied)

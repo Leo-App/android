@@ -15,6 +15,8 @@ public abstract class NotificationAlarmHandler {
 
         getAlarmManager().cancel(Utils.getController().getTimetableReference());
 
+        Utils.logError(NotificationHandler.StundenplanNotification.isEnabled());
+
         if (NotificationHandler.StundenplanNotification.isEnabled()) {
 
             NotificationTime time;
@@ -26,6 +28,7 @@ public abstract class NotificationAlarmHandler {
             if (calendar.getTimeInMillis() < System.currentTimeMillis())
                 calendar.add(Calendar.DATE, 1);
 
+            Utils.logError(calendar.getTimeInMillis() + " - " + System.currentTimeMillis());
             getAlarmManager().setRepeating(
                     AlarmManager.RTC_WAKEUP,
                     calendar.getTimeInMillis(),
@@ -40,6 +43,8 @@ public abstract class NotificationAlarmHandler {
 
         getAlarmManager().cancel(Utils.getController().getFoodmarkReference());
 
+        Utils.logError(NotificationHandler.EssensbonsNotification.isEnabled());
+
         if (NotificationHandler.EssensbonsNotification.isEnabled()) {
 
             NotificationTime time;
@@ -48,6 +53,7 @@ public abstract class NotificationAlarmHandler {
             calendar.set(Calendar.HOUR_OF_DAY, time.hours);
             calendar.set(Calendar.MINUTE, time.minutes);
 
+            Utils.logError(calendar.getTimeInMillis() + " - " + System.currentTimeMillis());
             if (calendar.getTimeInMillis() < System.currentTimeMillis())
                 calendar.add(Calendar.DATE, 1);
 
@@ -66,6 +72,8 @@ public abstract class NotificationAlarmHandler {
 
         getAlarmManager().cancel(Utils.getController().getKlausurplanReference());
 
+        Utils.logError(NotificationHandler.KlausurplanNotification.isEnabled());
+
         if (NotificationHandler.KlausurplanNotification.isEnabled()) {
 
             NotificationTime time;
@@ -74,6 +82,7 @@ public abstract class NotificationAlarmHandler {
             calendar.set(Calendar.HOUR_OF_DAY, time.hours);
             calendar.set(Calendar.MINUTE, time.minutes);
 
+            Utils.logError(calendar.getTimeInMillis() + " - " + System.currentTimeMillis());
             if (calendar.getTimeInMillis() < System.currentTimeMillis())
                 calendar.add(Calendar.DATE, 1);
 
@@ -91,6 +100,8 @@ public abstract class NotificationAlarmHandler {
 
         getAlarmManager().cancel(Utils.getController().getStimmungsbarometerReference());
 
+        Utils.logError(NotificationHandler.StimmungsbarometerNotification.isEnabled());
+
         if (NotificationHandler.StimmungsbarometerNotification.isEnabled()) {
 
             NotificationTime time;
@@ -98,6 +109,8 @@ public abstract class NotificationAlarmHandler {
             time = Utils.getNotificationTime(NotificationType.MOOD);
             calendar.set(Calendar.HOUR_OF_DAY, time.hours);
             calendar.set(Calendar.MINUTE, time.minutes);
+
+            Utils.logError(calendar.getTimeInMillis() + " - " + System.currentTimeMillis());
 
             if (calendar.getTimeInMillis() < System.currentTimeMillis())
                 calendar.add(Calendar.DATE, 1);
@@ -139,32 +152,32 @@ public abstract class NotificationAlarmHandler {
     }
 
     private static void initServiceIntents() {
-        PendingIntent piFoodmarks = PendingIntent.getService(
+        PendingIntent piFoodmarks = PendingIntent.getBroadcast(
                 Utils.getContext(),
                 0,
                 new Intent(Utils.getContext(), NotificationBroadcastWrapper.FoodmarkReceiver.class),
-                PendingIntent.FLAG_UPDATE_CURRENT
+                0
         );
 
-        PendingIntent piTimetable = PendingIntent.getService(
+        PendingIntent piTimetable = PendingIntent.getBroadcast(
                 Utils.getContext(),
                 1,
                 new Intent(Utils.getContext(), NotificationBroadcastWrapper.TimetableReceiver.class),
-                PendingIntent.FLAG_UPDATE_CURRENT
+                0
         );
 
-        PendingIntent piKlausurplan = PendingIntent.getService(
+        PendingIntent piKlausurplan = PendingIntent.getBroadcast(
                 Utils.getContext(),
                 2,
                 new Intent(Utils.getContext(), NotificationBroadcastWrapper.KlausurplanReceiver.class),
-                PendingIntent.FLAG_UPDATE_CURRENT
+                0
         );
 
-        PendingIntent piStimmungsbarometer = PendingIntent.getService(
+        PendingIntent piStimmungsbarometer = PendingIntent.getBroadcast(
                 Utils.getContext(),
                 3,
                 new Intent(Utils.getContext(), NotificationBroadcastWrapper.StimmungsbarometerReceiver.class),
-                PendingIntent.FLAG_UPDATE_CURRENT
+                0
         );
 
         Utils.getController().registerFoodmarkNotificationReference(piFoodmarks);

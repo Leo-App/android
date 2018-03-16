@@ -10,7 +10,6 @@ import android.os.Bundle;
 import java.util.ArrayList;
 
 import de.slgdev.leoapp.service.AlarmStartupService;
-import de.slgdev.leoapp.service.ReceiveService;
 import de.slgdev.leoapp.task.MailSendTask;
 import de.slgdev.leoapp.task.SyncFilesTask;
 import de.slgdev.leoapp.task.SyncGradeTask;
@@ -47,16 +46,17 @@ public class Start extends Activity {
 
     public static void runUpdateTasks() {
         if (Utils.isNetworkAvailable()) {
-            new SyncUserTask().execute();
-
-            if (Utils.getUserPermission() != User.PERMISSION_LEHRER)
-                new SyncGradeTask().execute();
-            else
-                Utils.getController().getPreferences()
-                        .edit()
-                        .putString("pref_key_general_klasse", "TEA")
-                        .apply();
-
+            new SyncUserTask()
+                    .addListener(params -> {
+                        if (Utils.getUserPermission() != User.PERMISSION_LEHRER)
+                            new SyncGradeTask().execute();
+                        else
+                            Utils.getController().getPreferences()
+                                    .edit()
+                                    .putString("pref_key_general_klasse", "TEA")
+                                    .apply();
+                    })
+                    .execute();
 
             new SyncQuestionTask().execute();
             new SyncVoteTask().execute();
@@ -73,16 +73,16 @@ public class Start extends Activity {
 
     private void startServices() {
         if (Utils.isVerified()) {
-            startReceiveService();
+   //         startReceiveService(); TODO
             startService(new Intent(getApplicationContext(), AlarmStartupService.class));
             initSyncAdapter();
         }
     }
 
     public static void startReceiveService() {
-        if (Utils.isNetworkAvailable()) {
-            Utils.getContext().startService(new Intent(Utils.getContext(), ReceiveService.class));
-        }
+  //      if (Utils.isNetworkAvailable()) {
+  //          Utils.getContext().startService(new Intent(Utils.getContext(), ReceiveService.class));
+  //      }
     }
 
     private void initSyncAdapter() {

@@ -17,6 +17,7 @@ import de.slgdev.leoapp.utility.datastructure.List;
 import de.slgdev.stimmungsbarometer.utility.Ergebnis;
 
 public class SQLiteConnectorStimmungsbarometer extends SQLiteOpenHelper {
+
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
 
     private static final String DATABASE_NAME = "Stimmungsbarometer";
@@ -113,6 +114,13 @@ public class SQLiteConnectorStimmungsbarometer extends SQLiteOpenHelper {
         }
 
         cursor.close();
+    }
+
+    public boolean isEmpty() {
+        Cursor c = database.query(TABLE_ERGEBNISSE, null, null, null, null, null, null);
+        int size = c.getCount();
+        c.close();
+        return size == 0;
     }
 
     public Ergebnis[][] getData(int zeitraum) {

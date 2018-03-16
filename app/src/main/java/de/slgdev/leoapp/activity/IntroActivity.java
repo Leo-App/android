@@ -13,6 +13,7 @@ import com.github.paolorotolo.appintro.AppIntro2;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.Start;
 import de.slgdev.leoapp.activity.fragment.AbstractOrderedFragment;
+import de.slgdev.leoapp.activity.fragment.DisclaimerFragmentBuilder;
 import de.slgdev.leoapp.activity.fragment.InfoFragmentBuilder;
 import de.slgdev.leoapp.activity.fragment.VerificationFragment;
 import de.slgdev.leoapp.task.RegistrationTask;
@@ -35,7 +36,7 @@ import de.slgdev.leoapp.utility.VerificationListener;
 
 public class IntroActivity extends AppIntro2 implements VerificationListener {
 
-    private static final int VERIFICATION_SLIDE = 5;
+    private static final int VERIFICATION_SLIDE = 6;
     private static boolean running;
     private static boolean ignoreSlideChange;
     private static boolean dismissable;
@@ -89,6 +90,14 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                         .setContent(R.string.intro5)
                         .setImage(R.drawable.intro_ic5)
                         .setColor(R.color.introSlide1)
+                        .build()
+        );
+
+        addSlide(
+                new DisclaimerFragmentBuilder()
+                        .setTitle(R.string.please_read)
+                        .setContent(R.string.intro_info)
+                        .setColor(R.color.introSlide3)
                         .build()
         );
 
@@ -228,7 +237,7 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                             .apply();
                 }
 
-                new SyncUserTask(fragment).registerListener(this).execute();
+                new SyncUserTask(fragment).registerSynchronisationListener(this).execute();
 
                 Start.runUpdateTasks();
                 Start.startReceiveService();

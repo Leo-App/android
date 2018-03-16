@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
@@ -82,13 +83,17 @@ public class SyncUserTask extends VoidCallbackTask<ResponseCode> {
         return ResponseCode.SERVER_FAILED;
     }
 
-    public SyncUserTask registerListener(VerificationListener listener) {
+    public SyncUserTask registerSynchronisationListener(VerificationListener listener) {
         listeners.append(listener);
         return this;
     }
 
     @Override
     protected void onPostExecute(ResponseCode code) {
+
+        for (TaskStatusListener l : getListeners())
+            l.taskFinished();
+
         if (fragment == null)
             return;
 

@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -139,7 +138,7 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
         refresh();
     }
 
-    private void refresh() {
+    protected void refresh() {
         adapter.refresh();
         anzahl = adapter.gibAnzahlAusgewaehlte();
         if (menu != null) {
@@ -149,11 +148,6 @@ public class AuswahlActivity extends ActionLogActivity implements TaskStatusList
             getSupportActionBar().setTitle(R.string.one_course_sel);
         else
             getSupportActionBar().setTitle(getString(R.string.multiple_course_selected, anzahl));
-    }
-
-    @Override
-    public void taskStarts() {
-        //STUB
     }
 
     @Override

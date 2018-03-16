@@ -257,14 +257,6 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
 
-        navigationView.getMenu().findItem(R.id.newsboard).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.messenger).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.klausurplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.stundenplan).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.foodmarks).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.barometer).setEnabled(Utils.isVerified());
-        navigationView.getMenu().findItem(R.id.umfragen).setEnabled(Utils.isVerified());
-
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             drawerLayout.closeDrawers();
 
@@ -298,6 +290,9 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                     return true;
                 case R.id.profile:
                     i = new Intent(getApplicationContext(), ProfileActivity.class);
+                    break;
+                case R.id.about:
+                    i = new Intent(getApplicationContext(), InfoActivity.class);
                     break;
                 default:
                     i = new Intent(getApplicationContext(), MainActivity.class);

@@ -46,45 +46,53 @@ public class NotificationPreferenceActivity extends android.preference.Preferenc
             case "pref_key_notification_essensqr":
                 Preference qrtime = findPreference("pref_key_notification_time_foodmarks");
                 qrtime.setEnabled(sharedPreferences.getBoolean(key, false));
+                Utils.logError("ESSENSBONS");
                 NotificationAlarmHandler.updateFoodmarkAlarm();
                 break;
             case "pref_key_notification_test":
                 Preference testtime = findPreference("pref_key_notification_time_test");
                 testtime.setEnabled(sharedPreferences.getBoolean(key, false));
+                Utils.logError("klausur");
                 NotificationAlarmHandler.updateKlausurAlarm();
                 break;
             case "pref_key_notification_survey":
                 Preference surveytime = findPreference("pref_key_notification_time_survey");
                 surveytime.setEnabled(sharedPreferences.getBoolean(key, false));
+                Utils.logError("stimmungsbarometer");
                 NotificationAlarmHandler.updateMoodAlarm();
                 break;
             case "pref_key_notification_schedule":
                 Preference scheduletime = findPreference("pref_key_notification_time_schedule");
                 scheduletime.setEnabled(sharedPreferences.getBoolean(key, false));
+                Utils.logError("schedule");
                 NotificationAlarmHandler.updateTimetableAlarm();
                 break;
             case "pref_key_notification_time_foodmarks":
                 qrtime = findPreference("pref_key_notification_time_foodmarks");
                 String value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_foodmarks", "-");
                 qrtime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                Utils.logError("ESSENSBONS");
                 NotificationAlarmHandler.updateFoodmarkAlarm();
                 break;
             case "pref_key_notification_time_test":
                 testtime = findPreference("pref_key_notification_time_test");
                 value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_test", "-");
                 testtime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                Utils.logError("klausur");
                 NotificationAlarmHandler.updateKlausurAlarm();
                 break;
             case "pref_key_notification_time_survey":
                 surveytime = findPreference("pref_key_notification_time_survey");
                 value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_survey", "-");
                 surveytime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                Utils.logError("stimmungsbarometer");
                 NotificationAlarmHandler.updateMoodAlarm();
                 break;
             case "pref_key_notification_time_schedule":
                 scheduletime = findPreference("pref_key_notification_time_schedule");
                 value = getPreferenceScreen().getSharedPreferences().getString("pref_key_notification_time_schedule", "-");
                 scheduletime.setSummary(Utils.getContext().getString(R.string.hours_settings_template, toHourFormat(value)));
+                Utils.logError("schedule");
                 NotificationAlarmHandler.updateTimetableAlarm();
                 break;
         }

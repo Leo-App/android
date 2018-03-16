@@ -10,8 +10,6 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slgdev.leoapp.task.SyncFilesTask;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
-import de.slgdev.leoapp.utility.GraphicUtils;
-import de.slgdev.leoapp.utility.NetworkPerformance;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 
@@ -56,32 +54,35 @@ public class Importer extends VoidCallbackTask<Void> {
                 String stunde = fach[5];
 
                 if (stufe.startsWith(Utils.getUserStufe()) || Utils.getUserPermission() == User.PERMISSION_LEHRER) {
-                    if (!letzterKurs.equals(kurs) || !letzterLehrer.equals(lehrer) || !letzteStufe.equals(stufe)) {
-                        letzteID = database.insertSubject(
-                                kurs,
-                                lehrer,
-                                stufe
-                        );
-                        letzterKurs = kurs;
-                        letzterLehrer = lehrer;
-                        letzteStufe = stufe;
+                    if (!kurs.contains("AG") && !kurs.contains("IFP") && !kurs.contains("LÜZ") && !kurs.contains("+")) {
 
-                        if (Utils.getUserPermission() == User.PERMISSION_LEHRER && Utils.getLehrerKuerzel().toUpperCase().equals(lehrer.toUpperCase())) {
-                            database.chooseSubject(letzteID);
-                            database.setWritten(true, letzteID);
+                        if (!letzterKurs.equals(kurs) || !letzterLehrer.equals(lehrer) || !letzteStufe.equals(stufe)) {
+                            letzteID = database.insertSubject(
+                                    kurs,
+                                    lehrer,
+                                    stufe
+                            );
+                            letzterKurs = kurs;
+                            letzterLehrer = lehrer;
+                            letzteStufe = stufe;
+
+                            if (Utils.getUserPermission() == User.PERMISSION_LEHRER && Utils.getLehrerKuerzel().toUpperCase().equals(lehrer.toUpperCase())) {
+                                database.chooseSubject(letzteID);
+                                database.setWritten(true, letzteID);
+                            }
                         }
-                    }
 
-                    database.insertLesson(
-                            letzteID,
-                            Integer.parseInt(
-                                    tag
-                            ),
-                            Integer.parseInt(
-                                    stunde
-                            ),
-                            raum
-                    );
+                        database.insertLesson(
+                                letzteID,
+                                Integer.parseInt(
+                                        tag
+                                ),
+                                Integer.parseInt(
+                                        stunde
+                                ),
+                                raum
+                        );
+                    }
                 }
             }
 

@@ -15,6 +15,7 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.dialog.EditTextDialog;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.task.UpdateNameTask;
+import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
@@ -101,7 +102,7 @@ public class ProfileActivity extends LeoAppNavigationActivity {
         stufeProfil.setText(Utils.getUserStufe());
         kuerzel.setText(Utils.getLehrerKuerzel());
         if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
-            stufeProfil.setText("-");
+            stufeProfil.setText(R.string.profile_level_teacher);
             findViewById(R.id.cardViewLehrer).setVisibility(View.VISIBLE);
             findViewById(R.id.editTEA).setOnClickListener(v -> {
                 dialog =
@@ -133,11 +134,19 @@ public class ProfileActivity extends LeoAppNavigationActivity {
                             getString(R.string.title_name_change),
                             getString(R.string.settings_title_nickname),
                             v12 -> {
+                                String name = dialog.getTextInput();
                                 UpdateNameTask task = new UpdateNameTask(Utils.getUserName());
-                                Utils.getController().getPreferences().edit()
-                                        .putString("pref_key_general_name", dialog.getTextInput())
-                                        .apply();
-                                task.execute();
+
+                                if (name.length() > 20) {
+                                    GraphicUtils.sendToast(R.string.name_too_long);
+                                } else {
+                                    Utils.getController().getPreferences().edit()
+                                            .putString("pref_key_general_name", name)
+                                            .apply();
+
+                                    task.execute();
+                                }
+
                                 dialog.dismiss();
                             });
 

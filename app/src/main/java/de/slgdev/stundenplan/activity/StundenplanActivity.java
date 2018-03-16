@@ -187,11 +187,6 @@ public class StundenplanActivity extends LeoAppNavigationActivity implements Tas
     }
 
     @Override
-    public void taskStarts() {
-
-    }
-
-    @Override
     public void taskFinished(Object... params) {
         refreshUI();
         findViewById(R.id.progressBar).setVisibility(View.GONE);
