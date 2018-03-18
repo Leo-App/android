@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import de.slgdev.leoapp.R;
@@ -35,6 +36,8 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
 
     private EditTextDialog dialog;
 
+    private TextView frage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,9 @@ public class StimmungsbarometerActivity extends LeoAppNavigationActivity impleme
         initStatisticViews();
         initCheckboxes();
         initEditButton();
+
+        frage = findViewById(R.id.textViewFrage2);
+        frage.setText(de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils.getCurrentQuestion());
 
         new SyncVoteResultsTask(getApplicationContext()).addListener(this).execute();
     }
