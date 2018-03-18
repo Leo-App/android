@@ -80,7 +80,7 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        - Release!
+        + Possibility to log out from Foodmark-Feature
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
