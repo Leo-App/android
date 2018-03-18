@@ -531,6 +531,5 @@
     <string name="tooltip_qr">Place the QR Code within the rectangle</string>
     <string name="profile_level_teacher">Teacher</string>
     <string name="info_screen_names" translatable="false">Alina Behrens, Luzia Borgmann, Moritz Liegmann, Alicia Reuland, Mirko Sowa, Gianni Spitzer, Kim Winnemöller</string>
-    <string name="Question">Question:</string>
 
 </resources>
