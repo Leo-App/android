@@ -14,7 +14,7 @@ import java.util.Date;
  * ActionLogActivity
  * <p>
  * Für LeoApp-Activities angepasste Subklasse von AppCompatActivity. Loggt den Lifecycle der Activity, sodass der aktuelle Status abgerufen werden kann.
- * Loggt zusätzlich den Status von Activitystarts zu Firebase.
+ * Loggt zusätzlich den Status von Activitystarts zu Firebase. TODO Progressbar in jeder Activity
  *
  * @author Gianni
  * @version 2017.2610
@@ -22,6 +22,7 @@ import java.util.Date;
  */
 @SuppressLint("SimpleDateFormat")
 public abstract class ActionLogActivity extends AppCompatActivity {
+
     private ActivityStatus status;
 
     @Override

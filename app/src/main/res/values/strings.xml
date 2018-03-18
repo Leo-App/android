@@ -4,6 +4,10 @@
     <string name="title_survey_result">Saved Results</string>
     <string name="entry_deleted">Entry deleted</string>
 
+    <string name="pref_logout_title">Log out</string>
+    <string name="pref_logout_desc">Log out from your current lunch.leo-ac Account</string>
+    <string name="logout_confirm">Successfully logged out</string>
+
     <string name="intro_info">
         <![CDATA[
             <h3>General</h3>

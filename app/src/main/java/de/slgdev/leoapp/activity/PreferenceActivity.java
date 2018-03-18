@@ -25,9 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import de.slgdev.essensbons.activity.EssensbonActivity;
+import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.service.ReceiveService;
+import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.MessengerActivity;
@@ -239,6 +241,15 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         Preference about = findPreference("pref_key_about");
         about.setOnPreferenceClickListener(preference -> {
             startActivity(new Intent(getApplicationContext(), InfoActivity.class));
+            return true;
+        });
+
+        Preference logout = findPreference("pref_key_logout");
+        logout.setEnabled(EssensbonUtils.isLoggedIn());
+        logout.setOnPreferenceClickListener(preference -> {
+            EssensbonUtils.setLoginStatus(false);
+            GraphicUtils.sendToast(R.string.logout_confirm);
+            logout.setEnabled(false);
             return true;
         });
     }

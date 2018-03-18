@@ -44,6 +44,12 @@
             android:summary="@string/settings_summary_fade_time"
             android:title="@string/settings_title_fade_time" />
 
+        <Preference
+            android:key="pref_key_logout"
+            android:title="@string/pref_logout_title"
+            android:summary="@string/pref_logout_desc"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory

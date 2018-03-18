@@ -8,6 +8,10 @@
     <string name="beamer">Beamer</string>
     <string name="no_exams">Keine Klausuren!</string>
 
+    <string name="pref_logout_title">Abmelden</string>
+    <string name="pref_logout_desc">Melde dich von deinem aktuellen lunch.leo-ac Account ab</string>
+    <string name="logout_confirm">Erfolgreich abgemeldet</string>
+
     <string name="name_too_long">Dein Name darf nicht länger als 20 Zeichen sein</string>
 
     <string name="please_read">Weitere Informationen! Bitte lesen :)</string>
