@@ -80,7 +80,7 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        + Possibility to log out from Foodmark-Feature
+        + Possibility to log out from Foodmark-Feature\n+ Current mood-question visible in result screen
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
@@ -155,7 +155,7 @@
 
     <string name="set_changes">Save changes</string>
     <string name="feature_request">Explain your suggestion</string>
-    <string name="feature_request_title">Feature idea</string>
+    <string name="feature_request_title">Feature idea / Bugreport</string>
     <string name="cards_quick">Quick access</string>
     <string name="discard">Discard</string>
     <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>

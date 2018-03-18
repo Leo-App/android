@@ -29,6 +29,7 @@ public abstract class ActionLogActivity extends AppCompatActivity {
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         status = ActivityStatus.ACTIVE;
+//        findViewById(getProgressbarId()).setVisibility(View.GONE);
 
         DateFormat format = new SimpleDateFormat("ddMMhhmmss");
 
@@ -80,4 +81,11 @@ public abstract class ActionLogActivity extends AppCompatActivity {
      * @return Activity-Tag
      */
     protected abstract String getActivityTag();
+
+    /**
+     * Abstrakt. Muss die Id der Activity Progressbar zurückgeben.
+     *
+     * @return
+     *//*
+    protected abstract @IdRes int getProgressbarId();*/
 }
