@@ -213,8 +213,4 @@ public class ProfileActivity extends LeoAppNavigationActivity {
 
         return returnS;
     }
-
-    public View getCoordinatorLayout() {
-        return findViewById(R.id.coordinator);
-    }
 }

@@ -48,6 +48,7 @@ import de.slgdev.umfragen.activity.SurveyActivity;
  * @since 0.0.1
  */
 public class MainActivity extends LeoAppNavigationActivity {
+
     public static boolean        editing;
     public        AbstimmDialog  abstimmDialog;
     private       CardAdapter    mAdapter;

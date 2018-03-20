@@ -1,8 +1,6 @@
 package de.slgdev.leoapp.task;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -12,6 +10,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import de.slgdev.leoapp.R;
+import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.ReturnValues;
 import de.slgdev.leoapp.utility.Utils;
 
@@ -73,15 +72,15 @@ public class UpdateNameTask extends AsyncTask<String, Void, ReturnValues> {
         switch (b) {
             case USERNAME_TAKEN:
                 resetName();
-                showSnackbar2();
+                GraphicUtils.sendToast(R.string.settings_snackbar_username_taken);
                 break;
             case NO_CONNECTION:
                 resetName();
-                showSnackbar();
+                GraphicUtils.sendToast(R.string.snackbar_no_connection_info);
                 break;
             case ERROR:
                 resetName();
-                showSnackbar3();
+                GraphicUtils.sendToast(R.string.error);
                 break;
             case SUCCESSFUL:
                 Toast t = Toast.makeText(Utils.getContext(), Utils.getString(R.string.settings_toast_username_success), Toast.LENGTH_LONG);
@@ -97,26 +96,5 @@ public class UpdateNameTask extends AsyncTask<String, Void, ReturnValues> {
                 .edit()
                 .putString("pref_key_general_name", old)
                 .apply();
-    }
-
-    private void showSnackbar() {
-        final Snackbar cS = Snackbar.make(Utils.getController().getProfileActivity().getCoordinatorLayout(), R.string.snackbar_no_connection_info, Snackbar.LENGTH_LONG);
-        cS.setActionTextColor(Color.WHITE);
-        cS.setAction(Utils.getString(R.string.dismiss), v -> cS.dismiss());
-        cS.show();
-    }
-
-    private void showSnackbar2() {
-        final Snackbar cS = Snackbar.make(Utils.getController().getProfileActivity().getCoordinatorLayout(), R.string.settings_snackbar_username_taken, Snackbar.LENGTH_LONG);
-        cS.setActionTextColor(Color.WHITE);
-        cS.setAction(Utils.getString(R.string.dismiss), v -> cS.dismiss());
-        cS.show();
-    }
-
-    private void showSnackbar3() {
-        final Snackbar cS = Snackbar.make(Utils.getController().getProfileActivity().getCoordinatorLayout(), R.string.error, Snackbar.LENGTH_LONG);
-        cS.setActionTextColor(Color.WHITE);
-        cS.setAction(Utils.getString(R.string.dismiss), v -> cS.dismiss());
-        cS.show();
     }
 }
