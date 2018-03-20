@@ -321,7 +321,12 @@
     <string name="survey_checkbox_answers">Multiple options available</string>
     <string name="survey_deleted">Survey deleted</string>
     <string name="survey_description_content">Describe your survey in a few words.</string>
-    <string name="survey_description_title">Choose an informative title for your survey.</string>
+    <string name="survey_description_title">
+        <![CDATA[
+            Choose an informative title for your survey.<br/><br/>
+            <b>No insulting surveys, no violence / sexual content</b>
+        ]]>
+        </string>
     <string name="survey_new_answer">Answer</string>
     <string name="title_description_to">Who is the target audience for this survey?</string>
     <string name="title_survey_answers">Answer possibilities</string>

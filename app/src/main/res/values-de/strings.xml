@@ -72,6 +72,7 @@
 
     <string name="dialog_changelog">
         + Logout-Möglichkeit für die Essensbons\n+ Aktuelle Stimmungsbarometerfrage sichtbar im Ergebnisbildschirm
+        + Logout-Möglichkeit für die Essensbons\n+ Aktuelle Stimmungsbarometerfrage sichtbar im Ergebnisbildschirm
         \n+ Lehrer/Admins können Umfragen löschen
         \n\n- App stürzt nicht mehr ab, wenn man mit aktiviertem Flugmodus die Essensbon-Anmeldefunktion nutzt\n- Interne Bugfixes
     </string>
@@ -301,7 +302,11 @@
     <string name="survey_deleted">Umfrage gelöscht</string>
     <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
     <string name="survey_description_content">Beschreibe Dein Anliegen in einigen Worten.</string>
-    <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für Deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
+    <string name="survey_description_title">
+        <![CDATA[
+            Wähle einen aufschlussreichen und informativen Titel für Deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.<br/><br/>
+            <b>Keine beleidigenden Umfragen, keine Gewalt / sexueller Inhalt</b>
+        ]]></string>
     <string name="survey_new_answer">Antwort</string>
     <string name="title_description_to">An wen ist Deine Umfrage gerichtet?</string>
     <string name="title_survey_answers">Antwortmöglichkeiten</string>
