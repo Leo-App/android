@@ -100,14 +100,16 @@ public class QRReadTask extends ObjectCallbackTask<Boolean> {
 
             Calendar c = Calendar.getInstance();
 
-            if (c.get(Calendar.DAY_OF_MONTH) != day || c.get(Calendar.MONTH) != month)
+            Utils.logDebug("QRDay: "+day);
+            Utils.logDebug("QRMonth: "+month);
+
+
+            Utils.logDebug("CDay: "+c.get(Calendar.DAY_OF_MONTH));
+            Utils.logDebug("CMonth: "+c.get(Calendar.MONTH));
+
+            if (c.get(Calendar.DAY_OF_MONTH) != day || c.get(Calendar.MONTH)+1 != month)
                 return false;
 
-            if (day > 31 || day < 1)
-                return false;
-
-            if (month > 12 || month < 1)
-                return false;
         } catch (NumberFormatException e) {
             return false;
         }
