@@ -33,7 +33,6 @@ import de.slgdev.leoapp.utility.VerificationListener;
  * @version 2017.2312
  * @since 0.5.7
  */
-
 public class IntroActivity extends AppIntro2 implements VerificationListener {
 
     private static final int VERIFICATION_SLIDE = 6;

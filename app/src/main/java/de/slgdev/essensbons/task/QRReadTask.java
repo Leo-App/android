@@ -5,6 +5,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorEssensbons;
@@ -95,8 +97,15 @@ public class QRReadTask extends ObjectCallbackTask<Boolean> {
         try {
             int day = Integer.parseInt(parts[2].substring(0, 2));
             int month = Integer.parseInt(parts[2].substring(2, 4));
+
+            Calendar c = Calendar.getInstance();
+
+            if (c.get(Calendar.DAY_OF_MONTH) != day || c.get(Calendar.MONTH) != month)
+                return false;
+
             if (day > 31 || day < 1)
                 return false;
+
             if (month > 12 || month < 1)
                 return false;
         } catch (NumberFormatException e) {
