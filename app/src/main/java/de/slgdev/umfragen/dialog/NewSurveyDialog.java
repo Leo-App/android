@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
@@ -49,6 +51,7 @@ public class NewSurveyDialog extends AlertDialog implements TaskStatusListener {
         super.onCreate(b);
         setContentView(R.layout.dialog_create_survey);
         initNextButton();
+        initEditText();
         setCanceledOnTouchOutside(false);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
@@ -96,6 +99,7 @@ public class NewSurveyDialog extends AlertDialog implements TaskStatusListener {
         switch (stage) {
             case 0:
                 ((EditText) findViewById(R.id.content)).setText(title);
+                ((TextView) findViewById(R.id.description)).setText(Html.fromHtml(Utils.getString(R.string.survey_description_title)));
                 findViewById(R.id.content).requestFocus();
                 break;
             case 1:

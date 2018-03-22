@@ -8,6 +8,10 @@
     <string name="beamer">Beamer</string>
     <string name="no_exams">Keine Klausuren!</string>
 
+    <string name="pref_logout_title">Abmelden</string>
+    <string name="pref_logout_desc">Melde dich von deinem aktuellen lunch.leo-ac Account ab</string>
+    <string name="logout_confirm">Erfolgreich abgemeldet</string>
+
     <string name="name_too_long">Dein Name darf nicht länger als 20 Zeichen sein</string>
 
     <string name="please_read">Weitere Informationen! Bitte lesen :)</string>
@@ -67,7 +71,10 @@
     </string>
 
     <string name="dialog_changelog">
-        - Release!
+        + Logout-Möglichkeit für die Essensbons\n+ Aktuelle Stimmungsbarometerfrage sichtbar im Ergebnisbildschirm
+        + Logout-Möglichkeit für die Essensbons\n+ Aktuelle Stimmungsbarometerfrage sichtbar im Ergebnisbildschirm
+        \n+ Lehrer/Admins können Umfragen löschen
+        \n\n- App stürzt nicht mehr ab, wenn man mit aktiviertem Flugmodus die Essensbon-Anmeldefunktion nutzt\n- Interne Bugfixes
     </string>
 
     <string name="introqr_finished_desc">Du bist angemeldet und kannst nun das Essensbon-Feature vollständig nutzen!</string>
@@ -145,7 +152,7 @@
 
     <string name="set_changes">Speichern</string>
     <string name="feature_request">Beschreibe Deinen Vorschlag</string>
-    <string name="feature_request_title">Verbesserungsvorschlag</string>
+    <string name="feature_request_title">Verbesserungsvorschlag / Bugreport</string>
     <string name="cards_quick">Schnellzugriffe</string>
     <string name="discard">Ausblenden</string>
     <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>
@@ -295,7 +302,11 @@
     <string name="survey_deleted">Umfrage gelöscht</string>
     <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
     <string name="survey_description_content">Beschreibe Dein Anliegen in einigen Worten.</string>
-    <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für Deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
+    <string name="survey_description_title">
+        <![CDATA[
+            Wähle einen aufschlussreichen und informativen Titel für Deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.<br/><br/>
+            <b>Keine beleidigenden Umfragen, keine Gewalt / sexueller Inhalt</b>
+        ]]></string>
     <string name="survey_new_answer">Antwort</string>
     <string name="title_description_to">An wen ist Deine Umfrage gerichtet?</string>
     <string name="title_survey_answers">Antwortmöglichkeiten</string>

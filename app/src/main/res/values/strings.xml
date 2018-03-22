@@ -4,6 +4,10 @@
     <string name="title_survey_result">Saved Results</string>
     <string name="entry_deleted">Entry deleted</string>
 
+    <string name="pref_logout_title">Log out</string>
+    <string name="pref_logout_desc">Log out from your current lunch.leo-ac Account</string>
+    <string name="logout_confirm">Successfully logged out</string>
+
     <string name="intro_info">
         <![CDATA[
             <h3>General</h3>
@@ -76,7 +80,10 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        - Release!
+        + Possibility to log out from Foodmark-Feature\n+ Current mood-question visible in result screen
+        \n+ Teachers/Admins are able to delete surveys
+        \n\n- App doesn't crash anymore when
+        trying to log in with flightmode enabled\n- Internal Bugfixes
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
@@ -151,7 +158,7 @@
 
     <string name="set_changes">Save changes</string>
     <string name="feature_request">Explain your suggestion</string>
-    <string name="feature_request_title">Feature idea</string>
+    <string name="feature_request_title">Feature idea / Bugreport</string>
     <string name="cards_quick">Quick access</string>
     <string name="discard">Discard</string>
     <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>
@@ -314,7 +321,12 @@
     <string name="survey_checkbox_answers">Multiple options available</string>
     <string name="survey_deleted">Survey deleted</string>
     <string name="survey_description_content">Describe your survey in a few words.</string>
-    <string name="survey_description_title">Choose an informative title for your survey.</string>
+    <string name="survey_description_title">
+        <![CDATA[
+            Choose an informative title for your survey.<br/><br/>
+            <b>No insulting surveys, no violence / sexual content</b>
+        ]]>
+        </string>
     <string name="survey_new_answer">Answer</string>
     <string name="title_description_to">Who is the target audience for this survey?</string>
     <string name="title_survey_answers">Answer possibilities</string>

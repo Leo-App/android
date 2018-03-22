@@ -33,8 +33,8 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.ResponseCode;
+import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.ActivityStatus;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.umfragen.dialog.NewSurveyDialog;
 import de.slgdev.umfragen.dialog.ResultDialog;
@@ -402,7 +402,7 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
             if (isLastChild) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt2, null);
 
-                if (getSurvey(groupPosition).remoteId == Utils.getUserID())
+                if (getSurvey(groupPosition).remoteId == Utils.getUserID() || Utils.getUserPermission() >= User.PERMISSION_LEHRER)
                     convertView.findViewById(R.id.delete).setVisibility(View.VISIBLE);
 
                 final Button      button = convertView.findViewById(R.id.button);
