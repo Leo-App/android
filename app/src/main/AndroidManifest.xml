@@ -157,6 +157,7 @@
             android:name="de.slgdev.essensbons.intro.EssensbonIntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
+
         <activity
             android:name="de.slgdev.essensbons.activity.ScanActivity"
             android:screenOrientation="portrait"
