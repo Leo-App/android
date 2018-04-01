@@ -365,6 +365,7 @@ public class MainActivity extends LeoAppNavigationActivity {
 
         if (getIntent().hasExtra("start_intent")) {
             Utils.getController().closeActivities();
+            startActivity(new Intent(Utils.getContext(), MainActivity.class));
 
             int notificationTarget = getIntent().getIntExtra("start_intent", -1);
 
