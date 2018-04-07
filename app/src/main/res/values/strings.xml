@@ -306,6 +306,9 @@
     <string name="beschreibungUmfrage">Find out more about your classmates\' opinions on your chosen topics and take part in polls yourself.</string>
 
 
+    <!-- Sv-Briefkasten -->
+    <string name="letterbox_navigation_title">LetterBox</string>
+
     <!-- Einstellungen -->
     <string name="settings_category_general">General</string>
 
@@ -506,5 +509,6 @@
     <string name="qr_scan_title">"Scan "</string>
     <string name="leave_chat_question">Are you sure that you want to leave this chat?</string>
     <string name="title_randstundenfinder">Free period finder</string>
+    <string name="title_activity_briefkasten">LetterBox</string>
 
 </resources>

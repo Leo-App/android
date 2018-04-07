@@ -30,6 +30,7 @@ import de.slgdev.schwarzes_brett.activity.SchwarzesBrettActivity;
 import de.slgdev.stimmungsbarometer.activity.StimmungsbarometerActivity;
 import de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slgdev.stundenplan.activity.StundenplanActivity;
+import de.slgdev.svBriefkasten.activity.BriefkastenActivity;
 import de.slgdev.umfragen.activity.SurveyActivity;
 
 /**
@@ -178,6 +179,9 @@ public abstract class LeoAppNavigationActivity extends ActionLogActivity {
                     break;
                 case R.id.about:
                     i = new Intent(getApplicationContext(), InfoActivity.class);
+                    break;
+                case R.id.letterbox:
+                    i = new Intent(getApplicationContext(), BriefkastenActivity.class);
                     break;
                 default:
                     i = null;

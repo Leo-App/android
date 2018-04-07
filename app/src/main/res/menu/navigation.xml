@@ -49,6 +49,9 @@
             android:checked="false"
             android:icon="@mipmap/icon_it_problem"
             android:title="@string/title_it_problem" />
+        <item
+            android:id="@+id/letterbox"
+            android:title="@string/letterbox_navigation_title" />
     </group>
 
     <group

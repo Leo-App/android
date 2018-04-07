@@ -282,6 +282,10 @@
     <string name="vote_button">Abstimmen</string>
 
 
+    <!-- Sv-Briefkasten -->
+    <string name="letterbox_navigation_title">SV-Briefkasten</string>
+
+
     <!-- Einstellungen -->
     <string name="settings_category_general">Generell</string>
 
@@ -468,5 +472,6 @@
     <string name="qr_scan_title">Essensbon Scannen</string>
     <string name="title_survey_result">Abgeschlossene Umfragen</string>
     <string name="desc_it_problem">Hilft dabei, alle technischen Probleme im Klassenraum zu lösen</string>
+    <string name="title_activity_briefkasten">Briefkasten</string>
 
 </resources>
