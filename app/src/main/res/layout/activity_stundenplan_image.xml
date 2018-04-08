@@ -15,7 +15,7 @@
 
         <view
             android:id="@+id/image"
-            class="de.slgdev.stundenplan.StundenplanView"
+            class="de.slgdev.stundenplan.view.StundenplanView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
