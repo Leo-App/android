@@ -494,6 +494,5 @@
     <string name="tooltip_qr">Platziere den QR-Code innerhalb des Rechtecks</string>
     <string name="entry_deleted">Eintrag gelöscht</string>
     <string name="profile_level_teacher">Lehrer</string>
-    <string name="Question">Frage:</string>
 
 </resources>
