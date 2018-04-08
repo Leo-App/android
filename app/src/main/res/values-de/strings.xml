@@ -182,7 +182,12 @@
 
 
     <!-- Nachhilfebörse -->
-    <string name="tutoring_title_new">Neue Anzeige</string>
+    <string name="nachhilfeanbieten">Nachhilfe anbieten</string>
+    <string name="nachhilfenehmenin">Nachhilfe nehmen in</string>
+    <string name="ichNehme">Ich nehme :</string>
+    <string name="nachhilfegebenin">Du willst Nachhilfe geben in</string>
+    <string name="EUROproH">Euro/h</string>
+    <string name="weiter">Weiter</string>
 
 
     <!-- Schwarzes Brett -->

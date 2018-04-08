@@ -161,6 +161,21 @@
             android:name="de.slgdev.essensbons.activity.ScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ScanTheme" />
+        <activity
+            android:name="de.slgdev.nachhilfeboerse.activity.NachhilfeboerseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme"/>
+
+        <activity
+            android:name="de.slgdev.nachhilfeboerse.activity.Nachhilfeboerse_nachhilfegebenActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme"/>
+
+        <activity
+            android:name="de.slgdev.nachhilfeboerse.activity.Nachhilfeboerse_fertigActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme"/>
+
 
         <receiver android:name=".notification.NotificationBroadcastWrapper$KlausurplanReceiver" />
         <receiver android:name=".notification.NotificationBroadcastWrapper$FoodmarkReceiver" />

@@ -26,6 +26,7 @@ import de.slgdev.leoapp.activity.ProfileActivity;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.MessengerActivity;
+import de.slgdev.nachhilfeboerse.activity.NachhilfeboerseActivity;
 import de.slgdev.schwarzes_brett.activity.SchwarzesBrettActivity;
 import de.slgdev.stimmungsbarometer.activity.StimmungsbarometerActivity;
 import de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils;
@@ -178,6 +179,9 @@ public abstract class LeoAppNavigationActivity extends ActionLogActivity {
                     break;
                 case R.id.about:
                     i = new Intent(getApplicationContext(), InfoActivity.class);
+                    break;
+                case R.id.nachhilfeboerse:
+                    i = new Intent(getApplicationContext(), NachhilfeboerseActivity.class);
                     break;
                 default:
                     i = null;

@@ -437,6 +437,8 @@ public class List<ContentType> implements Iterable<ContentType> {
         };
     }
 
+
+
     private class Node {
         ContentType content;
         Node        next, previous;
