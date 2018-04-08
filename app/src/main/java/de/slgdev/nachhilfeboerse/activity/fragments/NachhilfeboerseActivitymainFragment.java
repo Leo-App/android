@@ -1,8 +1,8 @@
 package de.slgdev.nachhilfeboerse.activity.fragments;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,6 @@ import android.widget.Button;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.nachhilfeboerse.activity.NachhilfeboerseActivity;
 import de.slgdev.nachhilfeboerse.activity.Nachhilfeboerse_nachhilfegebenActivity;
 
 /**
@@ -19,7 +18,7 @@ import de.slgdev.nachhilfeboerse.activity.Nachhilfeboerse_nachhilfegebenActivity
 
 public class NachhilfeboerseActivitymainFragment extends Fragment {
 
-    public void NachhilfeboerseActivitymainFragment(){
+    public NachhilfeboerseActivitymainFragment(){
 
     }
 

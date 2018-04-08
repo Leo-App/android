@@ -52,6 +52,7 @@
         <item
             android:id="@+id/nachhilfeboerse"
             android:checked="false"
+            android:icon="@mipmap/icon_it_problem"
             android:title="NachhilfeBoerse"/>
     </group>
 

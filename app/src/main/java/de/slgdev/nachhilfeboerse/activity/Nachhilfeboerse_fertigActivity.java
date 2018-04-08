@@ -10,7 +10,6 @@ import de.slgdev.startseite.activity.MainActivity;
 
 import static de.slgdev.leoapp.R.layout.activity_nachhilfeboerse;
 import static de.slgdev.leoapp.R.layout.activity_nachhilfeboerse_fertig;
-import static de.slgdev.leoapp.R.layout.activity_nachhilfeboerse_nachhilfegeben;
 
 /**
  * Created by Benno on 08.04.2018.

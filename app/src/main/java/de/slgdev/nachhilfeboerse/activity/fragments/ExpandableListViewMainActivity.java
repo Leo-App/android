@@ -1,14 +1,12 @@
 package de.slgdev.nachhilfeboerse.activity.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.slgdev.leoapp.R;
@@ -16,20 +14,18 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 import de.slgdev.nachhilfeboerse.activity.Adapter.ExpendableListViewAdapter;
 
-import static de.slgdev.leoapp.R.layout.activity_nachhilfeboerse_expendablelistview;
-
 /**
  * Created by Benno on 08.04.2018.
  */
 
-public class ExpandableListViewMainActivity extends Fragment{
+public class ExpandableListViewMainActivity extends Fragment {
 
     private ExpendableListViewAdapter listAdapter ;
     private ExpandableListView listView ;
     private List<String> listDataHeader ;
     private HashMap<String,List<String>> listHash ;
 
-    public void ExpandableListViewMainActivity(){
+    public ExpandableListViewMainActivity(){
 
     }
 

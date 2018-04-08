@@ -1,28 +1,17 @@
 package de.slgdev.nachhilfeboerse.activity;
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ExpandableListView;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import de.slgdev.leoapp.R;
-import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.nachhilfeboerse.activity.fragments.ExpandableListViewMainActivity;
 import de.slgdev.nachhilfeboerse.activity.fragments.NachhilfeboerseActivitymainFragment;
 
 import static de.slgdev.leoapp.R.layout.activity_nachhilfeboerse;
-import static de.slgdev.leoapp.R.layout.activity_nachhilfeboerse_nachhilfegeben;
 
 
 public class NachhilfeboerseActivity extends LeoAppNavigationActivity{
