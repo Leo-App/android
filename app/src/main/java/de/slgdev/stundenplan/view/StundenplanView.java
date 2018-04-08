@@ -1,4 +1,4 @@
-package de.slgdev.stundenplan;
+package de.slgdev.stundenplan.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

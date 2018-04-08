@@ -636,15 +636,19 @@ public class SQLiteConnectorStundenplan extends SQLiteOpenHelper {
         return b;
     }
 
-    public double[] gibStunden(int fid) {
+    public float[] gibStunden(int fid) {
+        Utils.logDebug(fid);
         String   condition = FACH_ID + " = " + fid;
         Cursor   cursor    = database.query(TABLE_STUNDEN, new String[]{STUNDEN_TAG, STUNDEN_STUNDE}, condition, null, null, null, STUNDEN_TAG + ", " + STUNDEN_STUNDE);
-        double[] array     = new double[cursor.getCount()];
+
+        float[] array = new float[cursor.getCount()];
+
         cursor.moveToFirst();
         for (int i = 0; i < array.length; i++, cursor.moveToNext()) {
-            array[i] = cursor.getInt(0) + (cursor.getDouble(1) / 10);
+            array[i] = cursor.getInt(0) + (cursor.getFloat(1) / 100);
         }
         cursor.close();
+
         return array;
     }
 

@@ -12,7 +12,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,7 +24,7 @@ import java.util.GregorianCalendar;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.ActionLogActivity;
-import de.slgdev.stundenplan.StundenplanView;
+import de.slgdev.stundenplan.view.StundenplanView;
 
 public class StundenplanBildActivity extends ActionLogActivity {
 
