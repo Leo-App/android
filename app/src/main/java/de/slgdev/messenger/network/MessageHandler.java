@@ -1,4 +1,4 @@
-package de.slgdev.leoapp.service;
+package de.slgdev.messenger.network;
 
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.utility.User;
@@ -10,11 +10,11 @@ import de.slgdev.messenger.utility.Chat;
 import de.slgdev.messenger.utility.Message;
 import de.slgdev.messenger.utility.MessengerUtils;
 
-class MessageHandler extends Thread {
+public class MessageHandler extends Thread {
     private Queue<String> messagesQueue;
     private Queue<Chat>   newChats;
 
-    MessageHandler() {
+    public MessageHandler() {
         super();
         messagesQueue = new Queue<>();
         newChats = new Queue<>();

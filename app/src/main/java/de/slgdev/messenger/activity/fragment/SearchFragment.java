@@ -2,9 +2,7 @@ package de.slgdev.messenger.activity.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +11,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,10 +20,6 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.ChatActivity;
 import de.slgdev.messenger.utility.Chat;
 
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_DEFAULTNAME;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_NAME;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_STUFE;
-
 public class SearchFragment extends Fragment {
     public View         view;
     public RecyclerView rvSearch;
@@ -35,18 +27,18 @@ public class SearchFragment extends Fragment {
     private Object[]             data;
     private View.OnClickListener clickListener;
 
-    private boolean expanded;
+//    private boolean expanded;
 
     private String  suchbegriff = "";
-    private boolean chatsFirst  = false;
-    private String  name        = USER_DEFAULTNAME;
-    private boolean nameDesc    = false, groupGrade = true;
+//    private boolean chatsFirst  = false;
+//    private String  name        = USER_DEFAULTNAME;
+//    private boolean nameDesc    = false, groupGrade = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_search, container, false);
-            data = de.slgdev.leoapp.utility.Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, USER_STUFE + ", " + name);
+            data = de.slgdev.leoapp.utility.Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff);
             initRecyclerView();
             initSearch();
             //            initSort();
@@ -105,96 +97,98 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void initSort() {
-        expanded = false;
-        view.findViewById(R.id.sortCard).setVisibility(View.GONE);
-        final FloatingActionButton expand = view.findViewById(R.id.floatingActionButton);
-        expand.setOnClickListener(v -> {
-            expanded = !expanded;
-            if (expanded) {
-                expand.setImageResource(R.drawable.ic_expand_less);
-                SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.VISIBLE);
-            } else {
-                expand.setImageResource(R.drawable.ic_expand_more);
-                SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.GONE);
-            }
-        });
-        final Button first = view.findViewById(R.id.buttonFirst);
-        first.setOnClickListener(v -> {
-            if (chatsFirst) {
-                first.setText(getString(R.string.user));
-                chatsFirst = false;
-            } else {
-                first.setText(getString(R.string.chats));
-                chatsFirst = true;
-            }
-            refreshUI();
-        });
-        if (!chatsFirst) {
-            first.setText(R.string.users);
-        } else {
-            first.setText(R.string.chats);
-        }
-        final Button sortName = view.findViewById(R.id.buttonName);
-        sortName.setOnClickListener(v -> {
-            if (name.equals(USER_DEFAULTNAME)) {
-                name = USER_NAME;
-                sortName.setText(getString(R.string.settings_title_nickname));
-            } else {
-                name = USER_DEFAULTNAME;
-                sortName.setText(getString(R.string.settings_title_username));
-            }
-            refreshUI();
-        });
-        if (!name.equals(USER_DEFAULTNAME)) {
-            sortName.setText(getString(R.string.settings_title_nickname));
-        } else {
-            sortName.setText(getString(R.string.settings_title_username));
-        }
-        final ImageButton nameUpDown = view.findViewById(R.id.buttonNameUpDown);
-        nameUpDown.setOnClickListener(v -> {
-            if (nameDesc) {
-                nameDesc = false;
-                nameUpDown.setImageResource(R.drawable.ic_expand_less);
-            } else {
-                nameDesc = true;
-                nameUpDown.setImageResource(R.drawable.ic_expand_more);
-            }
-            refreshUI();
-        });
-        if (!nameDesc) {
-            nameUpDown.setImageResource(R.drawable.ic_expand_less);
-        } else {
-            nameUpDown.setImageResource(R.drawable.ic_expand_more);
-        }
-        final Button grade = view.findViewById(R.id.buttonGrade);
-        grade.setOnClickListener(v -> {
-            grade.setActivated(groupGrade);
-            if (groupGrade)
-                grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
-            else
-                grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-            groupGrade = !groupGrade;
-            refreshUI();
-        });
-        grade.setActivated(!groupGrade);
-        if (!groupGrade)
-            grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
-        else
-            grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
-    }
+//    private void initSort() {
+//        expanded = false;
+//        view.findViewById(R.id.sortCard).setVisibility(View.GONE);
+//        final FloatingActionButton expand = view.findViewById(R.id.floatingActionButton);
+//        expand.setOnClickListener(v -> {
+//            expanded = !expanded;
+//            if (expanded) {
+//                expand.setImageResource(R.drawable.ic_expand_less);
+//                SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.VISIBLE);
+//            } else {
+//                expand.setImageResource(R.drawable.ic_expand_more);
+//                SearchFragment.this.view.findViewById(R.id.sortCard).setVisibility(View.GONE);
+//            }
+//        });
+//        final Button first = view.findViewById(R.id.buttonFirst);
+//        first.setOnClickListener(v -> {
+//            if (chatsFirst) {
+//                first.setText(getString(R.string.user));
+//                chatsFirst = false;
+//            } else {
+//                first.setText(getString(R.string.chats));
+//                chatsFirst = true;
+//            }
+//            refreshUI();
+//        });
+//        if (!chatsFirst) {
+//            first.setText(R.string.users);
+//        } else {
+//            first.setText(R.string.chats);
+//        }
+//        final Button sortName = view.findViewById(R.id.buttonName);
+//        sortName.setOnClickListener(v -> {
+//            if (name.equals(USER_DEFAULTNAME)) {
+//                name = USER_NAME;
+//                sortName.setText(getString(R.string.settings_title_nickname));
+//            } else {
+//                name = USER_DEFAULTNAME;
+//                sortName.setText(getString(R.string.settings_title_username));
+//            }
+//            refreshUI();
+//        });
+//        if (!name.equals(USER_DEFAULTNAME)) {
+//            sortName.setText(getString(R.string.settings_title_nickname));
+//        } else {
+//            sortName.setText(getString(R.string.settings_title_username));
+//        }
+//        final ImageButton nameUpDown = view.findViewById(R.id.buttonNameUpDown);
+//        nameUpDown.setOnClickListener(v -> {
+//            if (nameDesc) {
+//                nameDesc = false;
+//                nameUpDown.setImageResource(R.drawable.ic_expand_less);
+//            } else {
+//                nameDesc = true;
+//                nameUpDown.setImageResource(R.drawable.ic_expand_more);
+//            }
+//            refreshUI();
+//        });
+//        if (!nameDesc) {
+//            nameUpDown.setImageResource(R.drawable.ic_expand_less);
+//        } else {
+//            nameUpDown.setImageResource(R.drawable.ic_expand_more);
+//        }
+//        final Button grade = view.findViewById(R.id.buttonGrade);
+//        grade.setOnClickListener(v -> {
+//            grade.setActivated(groupGrade);
+//            if (groupGrade)
+//                grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
+//            else
+//                grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+//            groupGrade = !groupGrade;
+//            refreshUI();
+//        });
+//        grade.setActivated(!groupGrade);
+//        if (!groupGrade)
+//            grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorInactive));
+//        else
+//            grade.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+//    }
 
     public void refreshUI() {
         if (getActivity() != null && initialized) {
             getActivity().runOnUiThread(() -> {
                 if (rvSearch != null) {
-                    String orderUser = "";
-                    if (groupGrade)
-                        orderUser = USER_STUFE + ", ";
-                    orderUser += name;
-                    if (nameDesc)
-                        orderUser += " DESC";
-                    data = Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff, chatsFirst, orderUser);
+//                    String orderUser = "";
+//                    if (groupGrade) {
+//                        orderUser = USER_STUFE + ", ";
+//                    }
+//                    orderUser += name;
+//                    if (nameDesc) {
+//                        orderUser += " DESC";
+//                    }
+                    data = Utils.getController().getMessengerDatabase().getSuchergebnisse(suchbegriff);
                     rvSearch.swapAdapter(new HybridAdapter(getActivity().getLayoutInflater()), false);
                 }
             });

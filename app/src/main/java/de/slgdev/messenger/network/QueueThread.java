@@ -1,8 +1,8 @@
-package de.slgdev.leoapp.service;
+package de.slgdev.messenger.network;
 
 import de.slgdev.leoapp.utility.Utils;
 
-class QueueThread extends Thread {
+public class QueueThread extends Thread {
     @Override
     public void run() {
         while (Utils.getController().getMessengerDatabase().hasQueuedMessages())

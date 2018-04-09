@@ -32,8 +32,6 @@ public class RemoveUser extends AsyncTask<User, Void, Void> {
 
     @Override
     protected Void doInBackground(User... params) {
-        service.startSocketIfNotRunning();
-
         for (User u : params) {
             service.sendRemove(new Assoziation(cid, u.uid));
         }
