@@ -57,5 +57,6 @@ public class SocketListener extends WebSocketListener {
         }
         Utils.logError(t);
         receiveService.setSocketRunning(false);
+        receiveService.startSocket();
     }
 }
