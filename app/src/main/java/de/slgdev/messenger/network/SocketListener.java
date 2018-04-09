@@ -1,5 +1,6 @@
-package de.slgdev.leoapp.service;
+package de.slgdev.messenger.network;
 
+import de.slgdev.leoapp.service.ReceiveService;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.AddGroupChatActivity;
 import de.slgdev.messenger.activity.ChatActivity;
@@ -7,18 +8,19 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
-class SocketListener extends WebSocketListener {
+public class SocketListener extends WebSocketListener {
     private ReceiveService receiveService;
     private MessageHandler messageHandler;
 
-    SocketListener(ReceiveService receiveService, MessageHandler messageHandler) {
+    public SocketListener(ReceiveService receiveService, MessageHandler messageHandler) {
         this.receiveService = receiveService;
         this.messageHandler = messageHandler;
     }
 
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
-        Utils.logDebug("Socket opened!");
+        Utils.logDebug(response.headers().toString());
+        Utils.logDebug(response.message());
         receiveService.setSocketRunning(true);
     }
 
@@ -49,8 +51,12 @@ class SocketListener extends WebSocketListener {
 
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-        Utils.logError("Socket Error");
+        if (response != null) {
+            Utils.logDebug(response.headers().toString());
+            Utils.logDebug(response.message());
+        }
         Utils.logError(t);
         receiveService.setSocketRunning(false);
+        receiveService.startSocket();
     }
 }

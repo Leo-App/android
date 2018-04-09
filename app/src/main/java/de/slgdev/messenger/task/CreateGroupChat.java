@@ -11,13 +11,13 @@ import de.slgdev.messenger.activity.ChatActivity;
 import de.slgdev.messenger.utility.Assoziation;
 import de.slgdev.messenger.utility.Chat;
 
-public class CreateChat extends AsyncTask<Integer, Void, Intent> {
+public class CreateGroupChat extends AsyncTask<Integer, Void, Intent> {
     private final String               cname;
     private final AddGroupChatActivity activity;
     private       ReceiveService       service;
     private       int                  cid;
 
-    public CreateChat(AddGroupChatActivity activity, String cname) {
+    public CreateGroupChat(AddGroupChatActivity activity, String cname) {
         this.activity = activity;
         this.cname = cname;
         this.cid = -1;
@@ -31,7 +31,6 @@ public class CreateChat extends AsyncTask<Integer, Void, Intent> {
 
     @Override
     protected Intent doInBackground(Integer... params) {
-
         service.send(new Chat(cid, cname, Chat.ChatType.GROUP));
 
         while ((cid = activity.getCid()) == -1)

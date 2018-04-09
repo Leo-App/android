@@ -1,4 +1,4 @@
-package de.slgdev.leoapp.service;
+package de.slgdev.messenger.network;
 
 import android.os.AsyncTask;
 

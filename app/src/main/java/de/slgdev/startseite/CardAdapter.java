@@ -77,14 +77,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.title_foodmarks);
                 c.desc = Utils.getString(R.string.summary_info_foodmark);
                 c.icon = R.drawable.ic_essensbons;
-                c.enabled = Utils.isVerified();
+                c.enabled = true;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), EssensbonActivity.class));
                 break;
             case TESTPLAN:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_testplan);
                 c.desc = Utils.getString(R.string.summary_info_testplan);
-                c.enabled = Utils.isVerified();
+                c.enabled = true;
                 c.icon = R.drawable.ic_klausurplan;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), KlausurplanActivity.class));
                 break;
@@ -92,7 +92,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_messenger);
                 c.desc = Utils.getString(R.string.summary_info_messenger);
-                c.enabled = false; //TODO Utils.isVerified();
+                c.enabled = true;
                 c.icon = R.drawable.ic_messenger;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), MessengerActivity.class));
                 break;
@@ -100,7 +100,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_news);
                 c.desc = Utils.getString(R.string.summary_info_news);
-                c.enabled = Utils.isVerified();
+                c.enabled = true;
                 c.icon = R.drawable.ic_schwarzes_brett;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SchwarzesBrettActivity.class));
                 break;
@@ -109,14 +109,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 c.title = Utils.getString(R.string.title_survey);
                 c.desc = Utils.getString(R.string.summary_info_survey);
                 c.icon = R.drawable.ic_stimmungsbarometer;
-                c.enabled = Utils.isVerified();
+                c.enabled = true;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StimmungsbarometerActivity.class));
                 break;
             case SCHEDULE:
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_plan);
                 c.desc = Utils.getString(R.string.summary_info_schedule);
-                c.enabled = Utils.isVerified();
+                c.enabled = true;
                 c.icon = R.drawable.ic_stundenplan;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), StundenplanActivity.class));
                 break;
@@ -124,7 +124,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.umfragen);
                 c.desc = Utils.getString(R.string.beschreibungUmfrage);
-                c.enabled = Utils.isVerified();
+                c.enabled = true;
                 c.icon = R.drawable.ic_umfragen;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), SurveyActivity.class));
                 break;
@@ -132,7 +132,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 cards.append(c = new Card(type));
                 c.title = Utils.getString(R.string.title_it_problem);
                 c.desc = Utils.getString(R.string.desc_it_problem);
-                c.enabled = Utils.isVerified();
+                c.enabled = true;
                 c.icon = R.drawable.ic_it_problem;
                 c.buttonListener = v -> Utils.getController().getMainActivity().startActivity(new Intent(Utils.getContext(), ITActivity.class));
                 break;

@@ -48,7 +48,7 @@ public abstract class Utils {
      */
     public static final String URL_TOMCAT = "ws" + BASE_DOMAIN.substring(4) + "leoapp/";
 
-    public static final String URL_TOMCAT_DEV = "ws://192.168.0.102:8080/";
+    public static final String URL_TOMCAT_DEV = "ws://192.168.178.31:8080/";
 
     /**
      * Pfad zu den PHP-Skripts auf dem Leo-Server.
