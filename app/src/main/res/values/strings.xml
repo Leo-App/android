@@ -308,6 +308,8 @@
 
     <!-- Sv-Briefkasten -->
     <string name="letterbox_navigation_title">LetterBox</string>
+    <string name="result_button">Results</string>
+    <string name="createTopic_button">Create topic</string>
 
     <!-- Einstellungen -->
     <string name="settings_category_general">General</string>

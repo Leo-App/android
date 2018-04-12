@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LeoApp.iml" filepath="$PROJECT_DIR$/LeoApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/App.iml" filepath="$PROJECT_DIR$/App.iml" />
+      <module fileurl="file://C:\Users\sili-\Desktop\App\LeoApp.iml" filepath="C:\Users\sili-\Desktop\App\LeoApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

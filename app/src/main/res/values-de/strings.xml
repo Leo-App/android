@@ -284,6 +284,8 @@
 
     <!-- Sv-Briefkasten -->
     <string name="letterbox_navigation_title">SV-Briefkasten</string>
+    <string name="result_button">Ergebnisse</string>
+    <string name="createTopic_button">Thema erstellen</string>
 
 
     <!-- Einstellungen -->
