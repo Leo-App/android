@@ -159,7 +159,11 @@
         <receiver android:name=".notification.NotificationBroadcastWrapper$StimmungsbarometerReceiver" />
         <receiver android:name=".notification.NotificationBroadcastWrapper$TimetableReceiver" />
 
-        <activity android:name="de.slgdev.svBriefkasten.activity.BriefkastenActivity"></activity>
+        <activity android:name="de.slgdev.svBriefkasten.activity.BriefkastenActivity" />
+        <activity
+            android:name="de.slgdev.svBriefkasten.activity.Thema"
+            android:label="@string/title_activity_thema"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

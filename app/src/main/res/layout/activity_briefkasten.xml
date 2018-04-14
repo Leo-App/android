@@ -39,14 +39,14 @@
 
                 <Button
                     android:id="@+id/createTopic"
-                    android:layout_width="56dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/createTopic_button" />
 
                 <Button
                     android:id="@+id/result"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/result_button" />

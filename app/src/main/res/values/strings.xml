@@ -310,6 +310,8 @@
     <string name="letterbox_navigation_title">LetterBox</string>
     <string name="result_button">Results</string>
     <string name="createTopic_button">Create topic</string>
+    <string name="createTopic_editText">Topic</string>
+    <string name="suggestion">Proposal for Solution</string>
 
     <!-- Einstellungen -->
     <string name="settings_category_general">General</string>
@@ -512,5 +514,6 @@
     <string name="leave_chat_question">Are you sure that you want to leave this chat?</string>
     <string name="title_randstundenfinder">Free period finder</string>
     <string name="title_activity_briefkasten">LetterBox</string>
+    <string name="title_activity_thema">Thema</string>
 
 </resources>
