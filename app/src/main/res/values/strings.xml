@@ -312,6 +312,7 @@
     <string name="createTopic_button">Create topic</string>
     <string name="createTopic_editText">Topic</string>
     <string name="suggestion">Proposal for Solution</string>
+    <string name="liken">Like</string>
 
     <!-- Einstellungen -->
     <string name="settings_category_general">General</string>

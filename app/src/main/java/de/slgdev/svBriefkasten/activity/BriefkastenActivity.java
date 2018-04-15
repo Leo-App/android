@@ -1,6 +1,8 @@
 package de.slgdev.svBriefkasten.activity;
 
 import android.app.ExpandableListActivity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 
@@ -29,6 +32,9 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
     private HashMap<String,List<String>> listHash;
     private Button createTopic;
     private Button results;
+    private Button likeButton;
+    private SharedPreferences sharedPref;
+    private String lastAdded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +52,7 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
         createTopic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getApplicationContext(),Thema.class));
             }
         });
 
@@ -63,6 +69,22 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
          initData();
          listAdapter = new de.slgdev.svBriefkasten.ExpandableListAdapter(this, listDataHeader,listHash);
          expandableListView.setAdapter(listAdapter);
+
+         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+             @Override
+             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                 likeButton = (Button) findViewById(R.id.likeButton);
+                 likeButton.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View view) {
+                         Intent i = new Intent(getApplicationContext(), KlausurplanActivity.class);
+                         startActivity(i);
+                     }
+                 });
+                 return true;
+             }
+         });
+
     }
 
     private void initData() {
@@ -76,6 +98,7 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
 
         List<String> eins = new ArrayList<>();
         eins.add("Ein kleiner Test");
+        eins.add("Ein zweiter Test");
 
         List<String> zwei = new ArrayList<>();
         zwei.add("Klappt das hier auch?");
@@ -92,11 +115,13 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
         listHash.put(listDataHeader.get(3), vier);
     }
 
-    public void addTopic(String s)
+    public void addTopic(String s, String solution)
     {
+        listDataHeader.add(s);
         List<String> add = new ArrayList<>();
         add.add(s);
-        listHash.put(listDataHeader.get(0), add);
+        listHash.put(listDataHeader.get(listDataHeader.size()), add);
+        lastAdded = s;
     }
 
 

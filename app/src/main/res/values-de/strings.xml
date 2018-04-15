@@ -288,6 +288,7 @@
     <string name="createTopic_button">Thema erstellen</string>
     <string name="createTopic_editText">Thema</string>
     <string name="suggestion">Lösungsvorschlag</string>
+    <string name="liken">Like</string>
 
 
     <!-- Einstellungen -->
@@ -477,5 +478,6 @@
     <string name="title_survey_result">Abgeschlossene Umfragen</string>
     <string name="desc_it_problem">Hilft dabei, alle technischen Probleme im Klassenraum zu lösen</string>
     <string name="title_activity_briefkasten">Briefkasten</string>
+    <string name="title_activity_thema">Topic</string>
 
 </resources>
