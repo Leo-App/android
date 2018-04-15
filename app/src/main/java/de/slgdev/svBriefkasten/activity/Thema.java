@@ -37,13 +37,8 @@ public class Thema extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(thema.getText().length()!=0 && loesung.getText().length()!=0) {
-                    sharedPref = getSharedPreferences("briefkasten", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("thema", thema.getText().toString());
-                    editor.putString("loesung", loesung.getText().toString());
-                    editor.apply();
 
-                    startActivity(new Intent(getApplicationContext(), BriefkastenActivity.class));
+
                 }
             }
         });
