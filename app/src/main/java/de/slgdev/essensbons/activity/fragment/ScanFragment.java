@@ -2,6 +2,7 @@ package de.slgdev.essensbons.activity.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ import de.slgdev.leoapp.R;
 public class ScanFragment extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout rootView = (RelativeLayout) inflater.inflate(R.layout.fragment_scan, container, false);
 
         final EssensbonActivity activityReference = (EssensbonActivity) getActivity();

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorEssensbons;
@@ -117,7 +116,7 @@ public class QRReadTask extends ObjectCallbackTask<Boolean> {
 
         try {
             int orderId = Integer.parseInt(parts[0]);
-            int checksum = Integer.parseInt(parts[2]) + orderId;
+            int checksum = Integer.parseInt(parts[2].substring(0, 2) + parts[2].substring(4)) + orderId;
 
             int mod = checksum % 97;
             int fin = 98 - mod;
