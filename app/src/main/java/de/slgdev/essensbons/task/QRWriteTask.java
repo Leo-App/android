@@ -80,9 +80,9 @@ public class QRWriteTask extends VoidCallbackTask<Bitmap> {
         DateFormat dateFormat = new SimpleDateFormat("ddMMyyyy", Locale.GERMAN);
         Date       date       = new Date();
         String     dateS      = dateFormat.format(date);
-        dateS = dateS.substring(0, 3) + dateS.substring(5);
+        dateS = dateS.substring(0, 4) + dateS.substring(5);
 
-        int cur = Integer.parseInt(dateS) + id;
+        int cur = Integer.parseInt(dateS.substring(0, 2) + dateS.substring(4)) + id;
         int mod = cur % 97;
         int fin = 98 - mod;
 
