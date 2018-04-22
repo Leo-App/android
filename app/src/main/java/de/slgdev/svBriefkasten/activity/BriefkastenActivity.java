@@ -59,7 +59,7 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
         results.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getApplicationContext(), ResultActivity.class));
             }
         });
     }

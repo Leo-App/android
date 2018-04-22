@@ -163,7 +163,8 @@
         <activity
             android:name="de.slgdev.svBriefkasten.activity.Thema"
             android:label="@string/title_activity_thema"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name="de.slgdev.svBriefkasten.activity.ResultActivity"></activity>
     </application>
 
 </manifest>
