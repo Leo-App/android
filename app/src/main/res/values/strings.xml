@@ -80,10 +80,7 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        + Possibility to log out from Foodmark-Feature\n+ Current mood-question visible in result screen
-        \n+ Teachers/Admins are able to delete surveys
-        \n\n- App doesn't crash anymore when
-        trying to log in with flightmode enabled\n- Internal Bugfixes
+        + Important fixes concerning Foodmark - QRCodes
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>

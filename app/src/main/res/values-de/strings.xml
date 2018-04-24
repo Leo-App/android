@@ -71,10 +71,7 @@
     </string>
 
     <string name="dialog_changelog">
-        + Logout-Möglichkeit für die Essensbons\n+ Aktuelle Stimmungsbarometerfrage sichtbar im Ergebnisbildschirm
-        + Logout-Möglichkeit für die Essensbons\n+ Aktuelle Stimmungsbarometerfrage sichtbar im Ergebnisbildschirm
-        \n+ Lehrer/Admins können Umfragen löschen
-        \n\n- App stürzt nicht mehr ab, wenn man mit aktiviertem Flugmodus die Essensbon-Anmeldefunktion nutzt\n- Interne Bugfixes
+        + Wichtiger Bugfix bzgl. Essensbon - QRCodes
     </string>
 
     <string name="introqr_finished_desc">Du bist angemeldet und kannst nun das Essensbon-Feature vollständig nutzen!</string>
