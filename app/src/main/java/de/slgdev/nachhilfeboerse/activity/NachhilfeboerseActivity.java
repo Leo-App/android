@@ -60,10 +60,8 @@ public class NachhilfeboerseActivity extends LeoAppNavigationActivity{
         String connectionString = "http://localhost/phpmyadmin/sql.php?db=Nachhilfeboerse&table=NachhilfeLehrer&token=458c4e081b19fe245786798b131ab0f0&pos=0";
         try {
             Connection conn = DriverManager.getConnection(connectionString); //establish connection
-            System.out.print(1);
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.print(2);
         }
     }
 }

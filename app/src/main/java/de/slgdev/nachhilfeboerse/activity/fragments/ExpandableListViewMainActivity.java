@@ -7,11 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.utility.datastructure.List;
 import de.slgdev.nachhilfeboerse.activity.Adapter.ExpendableListViewAdapter;
 
 /**
@@ -42,36 +43,32 @@ public class ExpandableListViewMainActivity extends Fragment {
     }
 
     private void initData() {
-        listDataHeader = new List<String>();
+        listDataHeader = new ArrayList<String>();
         listHash = new HashMap<>();
 
+        listDataHeader.add("Mathe");
+        listDataHeader.add("Deutsch");
+        listDataHeader.add("Englisch");
+        listDataHeader.add("Spanisch");
+
+        List<String> mathe = new ArrayList<>();
+        mathe.add("Benno Dill");
+
+        List<String> deutsch = new ArrayList<>();
+        deutsch.add("Silas Wiennemöller");
+
+        List<String> englisch = new ArrayList<>();
+        englisch.add("Benedikt Vidic");
+
+        List<String> spanisch = new ArrayList<>();
+        spanisch.add("Luisa Federsel");
+
+        listHash.put(listDataHeader.get(0),mathe);
+        listHash.put(listDataHeader.get(1),deutsch);
+        listHash.put(listDataHeader.get(2),englisch);
+        listHash.put(listDataHeader.get(3),spanisch);
 
 
-        listDataHeader.append("Mathe");
-        listDataHeader.append("Deutsch");
-        listDataHeader.append("Englisch");
-        listDataHeader.append("Französisch");
-
-        List<String> Mathe = new List<>();
-        Mathe.append("Benno Dill");
-        Mathe.append("Benedikt Vidic");
-
-        List<String> Deutsch = new List<>();
-        Deutsch.append("Silas Wiennemöller");
-        Deutsch.append("Luisa Federsel");
-
-        List<String> Englisch = new List<>();
-        Englisch.append("sadasf");
-        Englisch.append("asdasfasd");
-
-        List<String> Franzoesisch = new List<>();
-        Franzoesisch.append("dasdasd");
-        Franzoesisch.append("fdasdasd");
-
-        listHash.put(listDataHeader.getObjectAt(0),Mathe);
-        listHash.put(listDataHeader.getObjectAt(1),Deutsch);
-        listHash.put(listDataHeader.getObjectAt(2),Englisch);
-        listHash.put(listDataHeader.getObjectAt(3),Franzoesisch);
 
 
     }

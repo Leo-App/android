@@ -9,9 +9,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.List;
 
 import de.slgdev.leoapp.R;
-import de.slgdev.leoapp.utility.datastructure.List;
 
 
 /**
@@ -47,7 +47,7 @@ public class ExpendableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int i, int i1) {
-        return listHashMap.get(listDataHeader.getObjectAt(i)).size();
+        return listHashMap.get(listDataHeader.get(i)).size();
     }
 
     @Override
