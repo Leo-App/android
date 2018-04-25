@@ -1,6 +1,8 @@
 package de.slgdev.nachhilfeboerse.activity;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -45,7 +47,7 @@ public class NachhilfeboerseActivity extends LeoAppNavigationActivity{
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(activity_nachhilfeboerse);
-
+        initToolbar();
 
         ExpandableListViewMainActivity liste1 = new ExpandableListViewMainActivity();
         NachhilfeboerseActivitymainFragment main1 = new NachhilfeboerseActivitymainFragment();
@@ -64,4 +66,5 @@ public class NachhilfeboerseActivity extends LeoAppNavigationActivity{
             e.printStackTrace();
         }
     }
+
 }
