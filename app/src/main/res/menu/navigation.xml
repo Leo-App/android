@@ -49,6 +49,11 @@
             android:checked="false"
             android:icon="@mipmap/icon_it_problem"
             android:title="@string/title_it_problem" />
+        <item
+            android:id="@+id/bestellung"
+            android:checked="false"
+            android:icon="@mipmap/leo_app_icon_fliege"
+            android:title="Essensbestellung" />
     </group>
 
     <group

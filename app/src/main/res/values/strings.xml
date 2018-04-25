@@ -507,4 +507,6 @@
     <string name="leave_chat_question">Are you sure that you want to leave this chat?</string>
     <string name="title_randstundenfinder">Free period finder</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

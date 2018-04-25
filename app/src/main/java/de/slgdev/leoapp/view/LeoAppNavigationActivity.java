@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.slgdev.essensbestellung.activity.EssensbestellungActivity;
 import de.slgdev.essensbons.activity.EssensbonActivity;
 import de.slgdev.it_problem.activity.ITActivity;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
@@ -166,6 +167,9 @@ public abstract class LeoAppNavigationActivity extends ActionLogActivity {
                     break;
                 case R.id.umfragen:
                     i = new Intent(getApplicationContext(), SurveyActivity.class);
+                    break;
+                case R.id.bestellung:
+                    i = new Intent(getApplicationContext(), EssensbestellungActivity.class);
                     break;
                 case R.id.itsolver:
                     i = new Intent(getApplicationContext(), ITActivity.class);

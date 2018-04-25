@@ -162,6 +162,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/ScanTheme" />
 
+        <activity android:name="de.slgdev.essensbestellung.activity.EssensbestellungActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme"/>
+
         <receiver android:name=".notification.NotificationBroadcastWrapper$KlausurplanReceiver" />
         <receiver android:name=".notification.NotificationBroadcastWrapper$FoodmarkReceiver" />
         <receiver android:name=".notification.NotificationBroadcastWrapper$StimmungsbarometerReceiver" />
