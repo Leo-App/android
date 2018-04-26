@@ -47,6 +47,8 @@ public class NachhilfeboerseActivity extends LeoAppNavigationActivity{
     protected void onCreate(Bundle savedInstancesState) {
         super.onCreate(savedInstancesState);
         setContentView(activity_nachhilfeboerse);
+        initToolbar();
+        verbinden();
 
         ExpandableListViewMainActivity liste1 = new ExpandableListViewMainActivity();
         NachhilfeboerseActivitymainFragment main1 = new NachhilfeboerseActivitymainFragment();
