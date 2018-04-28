@@ -91,10 +91,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item_expandable_bestellung, null);
         }
 
-        /*TextView lblListHeader = (TextView) convertView
+        TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);*/
+        lblListHeader.setText(headerTitle);
 
         return convertView;
     }

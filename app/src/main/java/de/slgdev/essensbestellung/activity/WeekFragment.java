@@ -35,9 +35,16 @@ public class WeekFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        // preparing list data
+        prepareListData();
         View rootView = inflater.inflate(R.layout.fragment_subst, container, false);
-        ExpandableListView expListView = (ExpandableListView) rootView.findViewById(R.id.expandable_subst);
+        expListView = (ExpandableListView) rootView.findViewById(R.id.expandable_subst);
+
+        listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
 
         return inflater.inflate(R.layout.fragment_subst, container, false);
 
@@ -49,27 +56,27 @@ public class WeekFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-        // get the listview
-       // ExpandableListView expListView = (ExpandableListView) rootView.findViewById(R.id.expandable_subst);
 
-        // preparing list data
-        prepareListData();
 
-        listAdapter = new ExpandableListAdapter(Utils.getContext(), listDataHeader, listDataChild);
 
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
     }
 
 
     private void prepareListData() {
-        //listDataHeader = new List<String>();
+        listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
 
         listDataHeader.add("Montag");
-        listDataHeader.add("Dienstag");
-        listDataHeader.add("Mittwoch");
-        listDataHeader.add("Donnerstag");
+        //listDataHeader.add("Dienstag");
+        //listDataHeader.add("Mittwoch");
+        //listDataHeader.add("Donnerstag");
+
+        List<String> mon = new ArrayList<String>();
+        mon.add("test");
+        mon.add("test2");
+
+
+        listDataChild.put(listDataHeader.get(0), mon);
     }
 
     // https://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/
