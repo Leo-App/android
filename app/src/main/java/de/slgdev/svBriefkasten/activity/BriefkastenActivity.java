@@ -3,6 +3,7 @@ package de.slgdev.svBriefkasten.activity;
 import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,9 @@ import java.util.List;
 
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
+import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
+import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
+import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 
 public class BriefkastenActivity extends LeoAppNavigationActivity {
@@ -36,10 +40,18 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
     private SharedPreferences sharedPref;
     private String lastAdded;
 
+    private static SQLiteConnectorSv sqLiteConnector;
+    private static SQLiteDatabase sqLiteDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_briefkasten);
+
+        if (sqLiteConnector == null)
+            sqLiteConnector = new SQLiteConnectorSv(Utils.getContext());
+        if (sqLiteDatabase == null)
+            sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
         initExpandableListView();
         initButtons();
@@ -113,6 +125,26 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
         listHash.put(listDataHeader.get(1), zwei);
         listHash.put(listDataHeader.get(2), drei);
         listHash.put(listDataHeader.get(3), vier);
+
+        Cursor cursor;
+        cursor = sqLiteDatabase.query(sqLiteConnector.TABLE_LETTERBOX, new String[]{sqLiteConnector.LETTERBOX_TOPIC, sqLiteConnector.LETTERBOX_PROPOSAL1, sqLiteConnector.LETTERBOX_PROPOSAL2},null, null, null, null ,null);
+
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            String topic = cursor.getString(0);
+            String proposal1=cursor.getString(1);
+            String proposal2=cursor.getString(2);
+
+            listDataHeader.add(topic);
+
+            List<String> loesungen = new ArrayList<>();
+            if (proposal1 != null && proposal1 != "")
+                loesungen.add(proposal1);
+            if (proposal2 != null && proposal2 != "")
+                loesungen.add(proposal2);
+
+            listHash.put(listDataHeader.get(listDataHeader.size()),loesungen);
+        }
     }
 
     public void addTopic(String s, String solution)
@@ -120,7 +152,7 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
         listDataHeader.add(s);
         List<String> add = new ArrayList<>();
         add.add(s);
-        listHash.put(listDataHeader.get(listDataHeader.size()), add);
+        listHash.put(listDataHeader.get(0), add);
         lastAdded = s;
     }
 
@@ -158,5 +190,14 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
     @Override
     protected String getActivityTag() {
         return "SV-Activity";
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sqLiteDatabase.close();
+        sqLiteConnector.close();
+        sqLiteDatabase = null;
+        sqLiteConnector = null;
     }
 }
