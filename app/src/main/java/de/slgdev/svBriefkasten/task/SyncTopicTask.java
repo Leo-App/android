@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
 import de.slgdev.leoapp.utility.Utils;
 
