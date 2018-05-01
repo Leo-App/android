@@ -6,8 +6,11 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,6 +28,8 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
+import de.slgdev.schwarzes_brett.task.SyncNewsTask;
+import de.slgdev.svBriefkasten.task.SyncTopicTask;
 
 public class BriefkastenActivity extends LeoAppNavigationActivity {
 
@@ -47,6 +52,8 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_briefkasten);
+
+        receive();
 
         if (sqLiteConnector == null)
             sqLiteConnector = new SQLiteConnectorSv(Utils.getContext());
@@ -136,7 +143,6 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
             String proposal2=cursor.getString(2);
 
             listDataHeader.add(topic);
-
             List<String> loesungen = new ArrayList<>();
             if (proposal1 != null && proposal1 != "")
                 loesungen.add(proposal1);
@@ -154,6 +160,11 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
         add.add(s);
         listHash.put(listDataHeader.get(0), add);
         lastAdded = s;
+    }
+
+
+    private void receive() {
+        new SyncTopicTask().execute();
     }
 
 

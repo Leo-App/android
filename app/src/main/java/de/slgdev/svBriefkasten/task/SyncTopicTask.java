@@ -2,6 +2,7 @@ package de.slgdev.svBriefkasten.task;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import de.slgdev.leoapp.utility.Utils;
  */
 
 public class SyncTopicTask extends AsyncTask<Void,Void,Void> {
+
     @Override
     protected Void doInBackground(Void... voids) {
         if (Utils.isNetworkAvailable()) {
@@ -43,13 +45,13 @@ public class SyncTopicTask extends AsyncTask<Void,Void,Void> {
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
                     String[] res = s.split(";");
-                    if (res.length == 8) {
+                    //if (res.length == 3) {
                         dbh.insert(SQLiteConnectorSv.TABLE_LETTERBOX, null, db.getEntryContentValues(
                                 res[0],
                                 res[1],
                                 res[2]
                         ));
-                    }
+                    //}
                 }
                 dbh.close();
                 db.close();
