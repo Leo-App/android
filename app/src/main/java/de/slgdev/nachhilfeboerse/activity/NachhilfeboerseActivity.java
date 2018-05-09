@@ -3,10 +3,15 @@ package de.slgdev.nachhilfeboerse.activity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
@@ -48,11 +53,15 @@ public class NachhilfeboerseActivity extends LeoAppNavigationActivity{
         super.onCreate(savedInstancesState);
         setContentView(activity_nachhilfeboerse);
         initToolbar();
-        verbinden();
+
+        Button verbinden = (Button)findViewById(R.id.verbinden);
+        verbinden.setOnClickListener(view -> verbinden());
+
+
 
         ExpandableListViewMainActivity liste1 = new ExpandableListViewMainActivity();
         NachhilfeboerseActivitymainFragment main1 = new NachhilfeboerseActivitymainFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.liste, liste1).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.Liste, liste1).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.main,main1).commit();
 
     }
@@ -60,11 +69,37 @@ public class NachhilfeboerseActivity extends LeoAppNavigationActivity{
 
 
     protected void verbinden() {
-        String connectionString = "http://localhost/phpmyadmin/sql.php?db=Nachhilfeboerse&table=NachhilfeLehrer&token=458c4e081b19fe245786798b131ab0f0&pos=0";
+        String url = "http://localhost/phpmyadmin/tbl_sql.php?db=nachhilfeboerse&table=nachhilfelehrer&token=36fad40927f3256323cc34347f58545e";
+        String user = "Admin" ;
+        String pass = "geheim" ;
+        Connection con = null;
+        TextView text = (TextView)findViewById(R.id.text);
+
         try {
-            Connection conn = DriverManager.getConnection(connectionString); //establish connection
+            con = DriverManager.getConnection(url, user, pass);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+
+        if(con == null) {
+            text.setText(R.string.donnerstag);
+        } else{
+            try {
+                Statement statement = con.createStatement();
+                ResultSet resultat = statement.executeQuery("SELECT * FROM nachhilfelehrer ");
+                while (resultat.next()) {
+
+                    String result = resultat.getString(1);
+                    text.setText(result);
+
+
+                }
+                resultat.close();
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

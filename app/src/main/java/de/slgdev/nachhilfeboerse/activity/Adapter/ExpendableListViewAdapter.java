@@ -37,17 +37,17 @@ public class ExpendableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int i) {
-        return listHashMap.get(listHashMap.get(i)).size();
+        return listHashMap.get(listDataHeader.get(i)).size();
     }
 
     @Override
     public Object getGroup(int i) {
-        return listHashMap.get(i);
+        return listDataHeader.get(i);
     }
 
     @Override
     public Object getChild(int i, int i1) {
-        return listHashMap.get(listDataHeader.get(i)).size();
+        return listHashMap.get(listDataHeader.get(i)).get(i1);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ExpendableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        final String childText = (String)getChild(i,i1);
+        String childText = (String) getChild(i,i1);
         if(view == null){
             LayoutInflater inflator = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflator.inflate(R.layout.activity_nachhilfeboerse_list_item,null);
