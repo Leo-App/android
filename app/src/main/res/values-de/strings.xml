@@ -71,7 +71,8 @@
     </string>
 
     <string name="dialog_changelog">
-        + Wichtiger Bugfix bzgl. Essensbon - QRCodes
+        + Anzeigeänderungen für das Mensapersonal\n
+        + Verbesserung des Appverhaltens im Schul-WLAN
     </string>
 
     <string name="introqr_finished_desc">Du bist angemeldet und kannst nun das Essensbon-Feature vollständig nutzen!</string>
@@ -168,7 +169,7 @@
     <string name="button_scan">Scannen</string>
     <string name="qr_display_title">Deine Bestellung für heute, den</string>
     <string name="qr_display_menu">Menü %1$d</string>
-    <string name="dialog_desc_valid">Bestelltes Menü: \t %1$d</string>
+    <string name="dialog_desc_valid">Menü \t %1$d</string>
     <string name="qr_display_not_ordered">Für heute liegt keine Bestellung vor</string>
     <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe Deine Anmeldedaten in den Einstellungen</string>
     <string name="explain_desc_1">Mit dieser Funktion lassen sich die QR-Codes der Essensbestellung überprüfen.</string>
