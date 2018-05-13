@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.io.File;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import de.slgdev.leoapp.utility.Utils;
 
@@ -19,18 +21,23 @@ import de.slgdev.leoapp.utility.Utils;
 
 public class SQLiteConnectorSv extends SQLiteOpenHelper {
 
-    public static final  String TABLE_LETTERBOX        = "Letterbox";
-    public static final  String LETTERBOX_TOPIC        = "topic";
-    public static final  String LETTERBOX_PROPOSAL1        = "loesung1";
-    public static final  String LETTERBOX_PROPOSAL2        = "loesung2";
-    public static final String LETTERBOX_CREATOR        ="creator";
-    public static final String DATABASE_NAME            ="letterbox.db";
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
+
+    public static final String TABLE_LETTERBOX = "letterbox";
+    public static final String LETTERBOX_TOPIC = "topic";
+    public static final String LETTERBOX_PROPOSAL1 = "proposal1";
+    public static final String LETTERBOX_PROPOSAL2 = "proposal2";
+    public static final String LETTERBOX_CREATOR = "creator";
+    public static final String DATABASE_NAME = "letterbox";
     public static final String LETTERBOX_DateOfCreation = "dateOfCreation";
-    public static final  String LETTERBOX_ANHANG       = "anhang";
+    public static final String LETTERBOX_ANHANG = "anhang";
+
+    private final SQLiteDatabase database;
 
 
     public SQLiteConnectorSv(Context context) {
         super(context, DATABASE_NAME, null, 7);
+        database = getWritableDatabase();
     }
 
     @Override
@@ -40,8 +47,7 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
                 LETTERBOX_PROPOSAL1 + " TEXT NOT NULL, " +
                 LETTERBOX_PROPOSAL2 + " TEXT NOT NULL, " +
                 LETTERBOX_DateOfCreation + " TEXT NOT NULL, " +
-                LETTERBOX_CREATOR + " TEXT NOT NULL, " +
-                LETTERBOX_ANHANG + "VARCHAR" +
+                LETTERBOX_CREATOR + " TEXT NOT NULL " +
                 ")");
     }
 
@@ -51,14 +57,14 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public ContentValues getEntryContentValues(String topic, String proposal1, String proposal2, long dateOfCreation, String creator) {
+    public long insert(String topic, String proposal1, String proposal2, long dateOfCreation, String creator) {
         ContentValues values = new ContentValues();
         values.put(LETTERBOX_TOPIC, topic);
         values.put(LETTERBOX_PROPOSAL1, proposal1);
         values.put(LETTERBOX_PROPOSAL2, proposal2);
         values.put(LETTERBOX_DateOfCreation, dateOfCreation);
         values.put(LETTERBOX_CREATOR, creator);
-        return values;
+        return database.insert(TABLE_LETTERBOX, null, values);
     }
 
     public long getLatestEntryDate(SQLiteDatabase db) {
@@ -78,4 +84,11 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
         File dbFile = Utils.getContext().getDatabasePath(DATABASE_NAME);
         return dbFile.exists();
     }
+
+    @Override
+    public synchronized void close(){
+        super.close();
+        database.close();
+    }
 }
+

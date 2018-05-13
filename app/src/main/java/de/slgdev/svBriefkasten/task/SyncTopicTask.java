@@ -9,6 +9,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
 import de.slgdev.leoapp.utility.Utils;
@@ -19,8 +25,11 @@ import de.slgdev.leoapp.utility.Utils;
 
 public class SyncTopicTask extends AsyncTask<Void,Void,Void> {
 
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
+
     @Override
     protected Void doInBackground(Void... voids) {
+
         if (Utils.isNetworkAvailable()) {
             try {
                 URLConnection connection = new URL("http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/sync.php")
@@ -45,16 +54,9 @@ public class SyncTopicTask extends AsyncTask<Void,Void,Void> {
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
                     String[] res = s.split(";");
-                    if (res.length == 5) {
-                        dbh.insert(SQLiteConnectorSv.TABLE_LETTERBOX, null, db.getEntryContentValues(
-                                res[0],
-                                res[1],
-                                res[2],
-                                Long.parseLong(res[3] + "000"),
-                                res[4]
-                        ));
+                    db.insert(res[0], res[1], res[2],Long.parseLong(res[3] + "000"), res[4]);
                     }
-                }
+
                 dbh.close();
                 db.close();
             } catch (IOException e) {
