@@ -57,14 +57,14 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insert(String topic, String proposal1, String proposal2, long dateOfCreation, String creator) {
+    public ContentValues getEntryContentValues(String topic, String proposal1, String proposal2, long dateOfCreation, String creator) {
         ContentValues values = new ContentValues();
         values.put(LETTERBOX_TOPIC, topic);
         values.put(LETTERBOX_PROPOSAL1, proposal1);
         values.put(LETTERBOX_PROPOSAL2, proposal2);
         values.put(LETTERBOX_DateOfCreation, dateOfCreation);
         values.put(LETTERBOX_CREATOR, creator);
-        return database.insert(TABLE_LETTERBOX, null, values);
+        return values;
     }
 
     public long getLatestEntryDate(SQLiteDatabase db) {

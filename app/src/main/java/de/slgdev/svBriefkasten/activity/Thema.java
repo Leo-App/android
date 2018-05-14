@@ -29,14 +29,28 @@ public class Thema extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         thema = (EditText) findViewById(R.id.thema);
+        thema.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                thema.setText("");
+            }
+        });
 
         loesung = (EditText) findViewById(R.id.solution);
+        loesung.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loesung.setText("");
+            }
+        });
 
         create = (Button) findViewById(R.id.button_createTopic);
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(thema.getText().length()!=0 && loesung.getText().length()!=0) {
+                    String topic = thema.getText().toString();
+                    String proposal = loesung.getText().toString();
 
 
                 }

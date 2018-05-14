@@ -32,7 +32,7 @@ public class SyncTopicTask extends AsyncTask<Void,Void,Void> {
 
         if (Utils.isNetworkAvailable()) {
             try {
-                URLConnection connection = new URL("http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/sync.php")
+                URLConnection connection = new URL("https://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/sync.php")
                         .openConnection();
 
                 Utils.logError(connection);
@@ -49,12 +49,18 @@ public class SyncTopicTask extends AsyncTask<Void,Void,Void> {
                 reader.close();
                 SQLiteConnectorSv db  = new SQLiteConnectorSv(Utils.getContext());
                 SQLiteDatabase dbh = db.getWritableDatabase();
-                //dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnectorSv.TABLE_LETTERBOX + "'");
                 dbh.delete(SQLiteConnectorSv.TABLE_LETTERBOX, null, null);
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
                     String[] res = s.split(";");
-                    db.insert(res[0], res[1], res[2],Long.parseLong(res[3] + "000"), res[4]);
+                    if(res.length>=5)
+                         dbh.insert(SQLiteConnectorSv.TABLE_LETTERBOX, null , db.getEntryContentValues(
+                                 res[0],
+                                 res[1],
+                                 res[2],
+                                 Long.parseLong(res[3] + "000"),
+                                 res[4]
+                         ));
                     }
 
                 dbh.close();
