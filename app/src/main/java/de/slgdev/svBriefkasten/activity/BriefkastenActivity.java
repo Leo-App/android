@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.RadioButton;
 import android.widget.SimpleExpandableListAdapter;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
     private HashMap<String,List<String>> listHash;
     private Button createTopic;
     private Button results;
-    private Button likeButton;
+    private RadioButton likeButton;
     private SharedPreferences sharedPref;
     private String lastAdded;
 
@@ -93,14 +94,6 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
          expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
              @Override
              public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                 likeButton = (Button) findViewById(R.id.likeButton);
-                 likeButton.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View view) {
-                         Intent i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                         startActivity(i);
-                     }
-                 });
                  return true;
              }
          });
