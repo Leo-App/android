@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.RadioButton;
@@ -62,6 +63,9 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
 
         receive();
 
+        listDataHeader = new ArrayList<>();
+        listHash = new HashMap<>();
+
         initExpandableListView();
         initButtons();
     }
@@ -101,8 +105,6 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
     }
 
     private void initData() {
-        listDataHeader = new ArrayList<>();
-        listHash = new HashMap<>();
 
         /**listDataHeader.add("Hallo");
 
