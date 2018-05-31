@@ -49,7 +49,8 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
                 LETTERBOX_PROPOSAL2 + " TEXT NOT NULL, " +
                 LETTERBOX_DateOfCreation + " TEXT NOT NULL, " +
                 LETTERBOX_CREATOR + " TEXT NOT NULL, " +
-                LETTERBOX_LIKES + "TEXT NOT NULL" +
+                LETTERBOX_LIKES + "TEXT NOT NULL," +
+                LETTERBOX_ANHANG + "VARCHAR" +
                 ")");
     }
 

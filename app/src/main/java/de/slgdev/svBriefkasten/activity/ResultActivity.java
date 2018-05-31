@@ -46,7 +46,7 @@ public class ResultActivity extends AppCompatActivity {
 
     public void initELW(){
         Cursor cursor;
-        cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{sqLiteConnector.LETTERBOX_TOPIC, sqLiteConnector.LETTERBOX_PROPOSAL1, sqLiteConnector.LETTERBOX_PROPOSAL2, sqLiteConnector.LETTERBOX_DateOfCreation, sqLiteConnector.LETTERBOX_CREATOR},null, null, null, null ,sqLiteConnector.LETTERBOX_LIKES + " DESC");
+        cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{sqLiteConnector.LETTERBOX_TOPIC, sqLiteConnector.LETTERBOX_PROPOSAL1, sqLiteConnector.LETTERBOX_PROPOSAL2, sqLiteConnector.LETTERBOX_DateOfCreation, sqLiteConnector.LETTERBOX_CREATOR, sqLiteConnector.LETTERBOX_LIKES},null, null, null, null ,sqLiteConnector.LETTERBOX_LIKES + " DESC");
 
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
