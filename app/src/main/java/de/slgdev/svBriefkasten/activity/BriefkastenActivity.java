@@ -156,19 +156,6 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
         }
     }
 
-   /**public void addTopic(String s, String solution1, String solution2)
-    {
-        listDataHeader.add(s);
-        List<String> add = new ArrayList<>();
-        if(solution1!=null && solution1!="")
-            add.add(solution1);
-        if(solution2!=null && solution2!="");
-            add.add(solution2);
-        listHash.put(listDataHeader.get(0), add);
-        lastAdded = s;
-    }*/
-
-
     private void receive() {
         new SyncTopicTask().execute();
     }

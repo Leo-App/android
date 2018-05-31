@@ -6,10 +6,8 @@
     android:layout_height="match_parent"
     tools:context="de.slgdev.svBriefkasten.activity.ResultActivity">
 
-    <ListView
+    <ExpandableListView
         android:id="@+id/result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
