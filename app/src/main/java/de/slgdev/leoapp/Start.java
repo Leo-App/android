@@ -7,8 +7,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 
-import java.util.ArrayList;
-
 import de.slgdev.leoapp.service.AlarmStartupService;
 import de.slgdev.leoapp.task.MailSendTask;
 import de.slgdev.leoapp.task.SyncFilesTask;
@@ -62,8 +60,7 @@ public class Start extends Activity {
             new SyncVoteTask().execute();
             new SyncFilesTask().execute();
 
-            ArrayList<Integer> cachedViews = SchwarzesBrettUtils.getCachedIDs();
-            new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
+            new UpdateViewTrackerTask().execute(SchwarzesBrettUtils.getCachedIDs());
 
             if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
                 new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));

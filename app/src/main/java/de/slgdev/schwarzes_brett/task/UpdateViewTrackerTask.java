@@ -33,15 +33,17 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
     }
 
     private String getNewCacheString() {
-        String        cache   = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
-        String[]      items   = cache.split("-");
-        StringBuilder builder = new StringBuilder();
-        for (String s : items) {
-            if (s.matches(".+:" + remote))
-                builder.append("-0:").append(remote);
-            else
-                builder.append("-").append(s);
+        StringBuilder cache = new StringBuilder(Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", ""));
+
+        String[] split = cache.toString().split("-");
+        cache = new StringBuilder();
+        for (String s : split) {
+            if (s.equals(String.valueOf(remote)))
+                continue;
+
+            cache.append(s).append("-");
         }
-        return builder.toString().replaceFirst("-", "");
+
+        return cache.toString().endsWith("-") ? cache.toString().substring(0, cache.length()-2) : cache.toString();
     }
 }

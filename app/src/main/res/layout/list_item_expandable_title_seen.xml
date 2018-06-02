@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/textViewViews"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/background_view_amount"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textViewStufe"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/textViewViews"
+        android:layout_toStartOf="@id/textViewViews"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        />
+
+    <TextView
+        android:id="@+id/titleKlausur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingLeft="25dp"
+        android:layout_toLeftOf="@id/textViewStufe"
+        android:layout_toStartOf="@id/textViewStufe"
+        android:paddingRight="25dp"
+        android:textColor="@color/colorText"
+        android:textSize="18sp"
+        android:textStyle="normal" />
+
+</RelativeLayout>

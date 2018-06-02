@@ -387,7 +387,7 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-            convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_alt, null);
+            convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_survey, null);
             TextView textView = convertView.findViewById(R.id.titleKlausur);
             textView.setText((String) getGroup(groupPosition));
             TextView textViewStufe = convertView.findViewById(R.id.textViewStufe);

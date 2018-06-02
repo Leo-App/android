@@ -27,6 +27,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     public static final  String ANSWERS_SID          = "umfrageid";
     public static final  String ANSWERS_INHALT       = "inhalt";
     public static final  String ANSWERS_REMOTE_ID    = "remoteid";
+    public static final  String EINTRAEGE_ACCESSED   = "accessed";
     public static final  String ANSWERS_SELECTED     = "gewaehlt";
     private static final String ANSWERS_ID           = "id";
     private static final String DATABASE_NAME        = "surveys.db";
@@ -34,7 +35,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     private SQLiteDatabase database;
 
     public SQLiteConnectorUmfragen(Context c) {
-        super(c, DATABASE_NAME, null, 5);
+        super(c, DATABASE_NAME, null, 6);
         database = getWritableDatabase();
     }
 
@@ -49,7 +50,9 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
                 SURVEYS_BESCHREIBUNG + " TEXT NOT NULL, " +
                 SURVEYS_MULTIPLE + " TINYINT NOT NULL, " +
                 SURVEYS_ERSTELLDATUM + " TEXT NOT NULL, " +
-                SURVEYS_VOTEABLE + " TINYINT NOT NULL" +
+                EINTRAEGE_ACCESSED + " BOOLEAN NOT NULL, " +
+                SURVEYS_VOTEABLE + " TINYINT NOT NULL," +
+                "CONSTRAINT idswithupdate UNIQUE ("+ SURVEYS_REMOTE_ID + ", " + SURVEYS_ERSTELLDATUM +")" +
                 ")");
 
         db.execSQL("CREATE TABLE " + TABLE_ANSWERS + " (" +
@@ -99,6 +102,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
         values.put(SURVEYS_VOTEABLE, voteable);
         values.put(SURVEYS_ERSTELLDATUM, erstelldatum);
         values.put(SURVEYS_REMOTE_ID, remoteId);
+        values.put(EINTRAEGE_ACCESSED, false);
         return values;
     }
 
@@ -157,4 +161,5 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
         File dbFile = Utils.getContext().getDatabasePath(DATABASE_NAME);
         return dbFile.exists();
     }
+
 }

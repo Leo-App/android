@@ -52,26 +52,14 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
                             .append(System.getProperty("line.separator"));
                 reader.close();
                 SQLiteConnectorSchwarzesBrett db  = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
-                SQLiteDatabase                dbh = db.getWritableDatabase();
-                dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE + "'");
-                dbh.delete(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, null, null);
+
                 String[] result = builder.toString().split("_next_");
-                for (String s : result) {
-                    String[] res = s.split(";");
-                    if (res.length == 8) {
-                        dbh.insert(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, null, db.getEntryContentValues(
-                                res[0],
-                                res[1],
-                                res[2],
-                                Long.parseLong(res[3] + "000"),
-                                Long.parseLong(res[4] + "000"),
-                                Integer.parseInt(res[5]),
-                                Integer.parseInt(res[6]),
-                                res[7]
-                        ));
-                    }
-                }
-                dbh.close();
+
+                for (String s : result)
+                    db.insertEntry(s);
+
+                db.purgeOldEntries();
+
                 db.close();
             } catch (IOException e) {
                 Utils.logError(e);
