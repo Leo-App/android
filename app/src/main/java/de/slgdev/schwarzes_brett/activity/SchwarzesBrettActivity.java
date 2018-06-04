@@ -183,7 +183,6 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
             if (Utils.isNetworkAvailable())
                 new UpdateViewTrackerTask().execute(remoteID);
 
-            initExpandableListView(); //TODO check performance - OK so far
             return false;
         });
 
@@ -280,9 +279,10 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
                         @Override
                         public void onDismissed(Snackbar snackbar, int event) {
 
-                            if (event == DISMISS_EVENT_ACTION)
+                            if (event == DISMISS_EVENT_ACTION) {
                                 initExpandableListView();
-                            else
+                            } else {
+                                sqLiteConnector.deleteEntry(deletedID);
                                 new DeleteEntryTask()
                                         .addListener(params -> {
                                             if (Utils.getController().getSchwarzesBrettActivity() == null) {
@@ -291,6 +291,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
                                             }
                                         })
                                         .execute(deletedID);
+                            }
 
                         }
 

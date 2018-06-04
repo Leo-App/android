@@ -9,22 +9,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.io.File;
 import java.util.Date;
 
+import de.slgdev.leoapp.utility.StringUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 import de.slgdev.schwarzes_brett.utility.Entry;
 
 public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
 
-    public static final  String TABLE_EINTRAEGE         = "Eintraege";
-    private static final  String EINTRAEGE_TITEL        = "titel";
-    private static final  String EINTRAEGE_ADRESSAT     = "adressat";
-    private static final  String EINTRAEGE_INHALT       = "inhalt";
-    private static final  String EINTRAEGE_ANHANG       = "anhang";
-    private static final  String EINTRAEGE_ERSTELLDATUM = "erstelldatum";
-    private static final  String EINTRAEGE_ABLAUFDATUM  = "ablaufdatum";
-    private static final  String EINTRAEGE_REMOTE_ID    = "remoteid";
-    private static final  String EINTRAEGE_VIEWS        = "gesehen";
-    private static final  String EINTRAEGE_ACCESSED     = "accessed";
+    private static final String TABLE_EINTRAEGE         = "Eintraege";
+    private static final String EINTRAEGE_TITEL        = "titel";
+    private static final String EINTRAEGE_ADRESSAT     = "adressat";
+    private static final String EINTRAEGE_INHALT       = "inhalt";
+    private static final String EINTRAEGE_ANHANG       = "anhang";
+    private static final String EINTRAEGE_ERSTELLDATUM = "erstelldatum";
+    private static final String EINTRAEGE_ABLAUFDATUM  = "ablaufdatum";
+    private static final String EINTRAEGE_REMOTE_ID    = "remoteid";
+    private static final String EINTRAEGE_VIEWS        = "gesehen";
+    private static final String EINTRAEGE_ACCESSED     = "accessed";
     private static final String EINTRAEGE_ID            = "id";
     private static final String DATABASE_NAME           = "entries.db";
 
@@ -83,30 +84,44 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
         return values;
     }
 
-    public void insertEntry(String entry) {
-        String[] res = entry.split(";");
-        if (res.length == 8) {
-            database.insertWithOnConflict(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, null, getEntryContentValues(
-                    res[0],
-                    res[1],
-                    res[2],
-                    Long.parseLong(res[3] + "000"),
-                    Long.parseLong(res[4] + "000"),
-                    Integer.parseInt(res[5]),
-                    Integer.parseInt(res[6]),
-                    res[7]
-            ), SQLiteDatabase.CONFLICT_IGNORE);
+    public void insertEntry(String[] entry) {
+        database.insertWithOnConflict(TABLE_EINTRAEGE, null, getEntryContentValues(
+                entry[0],
+                entry[1],
+                entry[2],
+                Long.parseLong(entry[3] + "000"),
+                Long.parseLong(entry[4] + "000"),
+                Integer.parseInt(entry[5]),
+                Integer.parseInt(entry[6]),
+                entry[7]
+        ), SQLiteDatabase.CONFLICT_IGNORE);
 
-            ContentValues values = new ContentValues();
-            values.put(EINTRAEGE_VIEWS, Integer.parseInt(res[6]));
+        ContentValues values = new ContentValues();
+        values.put(EINTRAEGE_VIEWS, Integer.parseInt(entry[6]));
 
-            database.update(TABLE_EINTRAEGE, values, EINTRAEGE_REMOTE_ID + " = " + Integer.parseInt(res[5]), null);
-
-        }
+        database.update(TABLE_EINTRAEGE, values, EINTRAEGE_REMOTE_ID + " = " + Integer.parseInt(entry[5]), null);
     }
 
     public void purgeOldEntries() {
         database.delete(TABLE_EINTRAEGE, EINTRAEGE_ABLAUFDATUM + " < " + System.currentTimeMillis(), null);
+    }
+
+    public void deleteEntry(int remoteid) {
+        database.delete(TABLE_EINTRAEGE, EINTRAEGE_REMOTE_ID + " = " + remoteid, null);
+    }
+
+    public void deleteAllEntriesExcept(List<Integer> remoteids) {
+
+        if (remoteids.isEmpty()) {
+            database.execSQL("DELETE FROM " + TABLE_EINTRAEGE);
+            return;
+        }
+
+        String insertValues = "(" + StringUtils.join("), (", remoteids) + ")";
+
+        database.execSQL("CREATE TEMPORARY TABLE tmp (ID INTEGER)");
+        database.execSQL("INSERT INTO tmp VALUES " + insertValues);
+        database.execSQL("DELETE FROM " + TABLE_EINTRAEGE + " WHERE " + EINTRAEGE_REMOTE_ID + " NOT IN " + "(SELECT ID FROM tmp)");
     }
 
     public long getLatestEntryDate(SQLiteDatabase db) {
@@ -162,14 +177,14 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
                 cursor = database.query(
                         SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
                         new String[]{
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
+                                EINTRAEGE_ADRESSAT,
+                                EINTRAEGE_TITEL,
+                                EINTRAEGE_INHALT,
+                                EINTRAEGE_ERSTELLDATUM,
+                                EINTRAEGE_ABLAUFDATUM,
+                                EINTRAEGE_ANHANG,
+                                EINTRAEGE_VIEWS,
+                                EINTRAEGE_REMOTE_ID},
                         null,
                         null,
                         null,
@@ -183,19 +198,19 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
                 cursor = database.query(
                         SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
                         new String[]{
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
-                        SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT
+                                EINTRAEGE_ADRESSAT,
+                                EINTRAEGE_TITEL,
+                                EINTRAEGE_INHALT,
+                                EINTRAEGE_ERSTELLDATUM,
+                                EINTRAEGE_ABLAUFDATUM,
+                                EINTRAEGE_ANHANG,
+                                EINTRAEGE_VIEWS,
+                                EINTRAEGE_REMOTE_ID},
+                        EINTRAEGE_ADRESSAT
                                 + " = '" + stufe +
                                 "' OR "
-                                + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
-                                " = 'Sek II' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                + EINTRAEGE_ADRESSAT +
+                                " = 'Sek II' OR " + EINTRAEGE_ADRESSAT +
                                 " = 'Alle'",
                         null,
                         null,
@@ -205,22 +220,22 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
                 break;
             default:
                 cursor = database.query(
-                        SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
+                        TABLE_EINTRAEGE,
                         new String[]{
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
-                        SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                EINTRAEGE_ADRESSAT,
+                                EINTRAEGE_TITEL,
+                                EINTRAEGE_INHALT,
+                                EINTRAEGE_ERSTELLDATUM,
+                                EINTRAEGE_ABLAUFDATUM,
+                                EINTRAEGE_ANHANG,
+                                EINTRAEGE_VIEWS,
+                                EINTRAEGE_REMOTE_ID},
+                        EINTRAEGE_ADRESSAT +
                                 " = '" + stufe.charAt(1) +
                                 "' OR " +
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                EINTRAEGE_ADRESSAT +
                                 " = 'Sek I' OR " +
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
+                                EINTRAEGE_ADRESSAT +
                                 " = 'Alle'",
                         null,
                         null,

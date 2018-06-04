@@ -7,8 +7,8 @@ android {
         applicationId "de.slgdev.leoapp"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 29
-        versionName "release-1.0.3"
+        versionCode 30
+        versionName "release-1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -16,10 +16,10 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
+            debuggable true
         }
         debug {
-            debuggable false
+            debuggable true
         }
     }
     buildToolsVersion '27.0.3'

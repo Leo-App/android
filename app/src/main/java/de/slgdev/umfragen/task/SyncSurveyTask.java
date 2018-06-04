@@ -1,7 +1,5 @@
 package de.slgdev.umfragen.task;
 
-import android.database.sqlite.SQLiteDatabase;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,6 +8,7 @@ import java.net.URL;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.Utils;
+import de.slgdev.leoapp.utility.datastructure.List;
 
 /**
  * SyncSurveyTask.
@@ -48,45 +47,24 @@ public class SyncSurveyTask extends VoidCallbackTask<Void> {
                     resultBuilder.append(line);
                 reader.close();
 
+                List<Long> ids = new List<>();
+
                 SQLiteConnectorUmfragen db  = new SQLiteConnectorUmfragen(Utils.getContext());
-                SQLiteDatabase          dbh = db.getWritableDatabase();
-                dbh.delete(SQLiteConnectorUmfragen.TABLE_SURVEYS, null, null);
-                dbh.delete(SQLiteConnectorUmfragen.TABLE_ANSWERS, null, null);
+
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
-                    String[] res = s.split("_;_");
-                    if (res.length >= 7) {
+                    String[] parts = s.split("_;_");
 
-                        boolean voteable = res[3].equals("Alle") || ((Utils.getUserStufe().equals("Q1")
-                                || Utils.getUserStufe().equals("Q2")
-                                || Utils.getUserStufe().equals("EF")) && res[3].equals("Sek II")) ||
-                                ((!Utils.getUserStufe().equals("Q1")
-                                        || !Utils.getUserStufe().equals("Q2")
-                                        || !Utils.getUserStufe().equals("EF")) && res[3].equals("Sek I")) ||
-                                res[3].equals(Utils.getUserStufe());
+                    if (parts.length >= 7) {
+                        long id = db.addSurvey(s, resultBuilder.toString());
 
-                        long id = dbh.insert(SQLiteConnectorUmfragen.TABLE_SURVEYS, null, db.getSurveyContentValues(
-                                res[1],
-                                res[3],
-                                res[2],
-                                res[0],
-                                Short.parseShort(res[4]),
-                                Integer.parseInt(res[5]),
-                                Long.parseLong(res[6]+ "000"),
-                                voteable ? (short) 1 : (short) 0
-                        ));
-
-                        for (int i = 7; i < res.length - 1; i += 2) {
-                            dbh.insert(SQLiteConnectorUmfragen.TABLE_ANSWERS, null, db.getAnswerContentValues(
-                                    Integer.parseInt(res[i]),
-                                    res[i + 1],
-                                    id,
-                                    resultBuilder.toString().contains(res[i]) ? 1 : 0
-                            ));
-                        }
+                        if (id != -1)
+                            ids.append(id);
                     }
                 }
-                dbh.close();
+
+                db.deleteAllSurveysExcept(ids);
+
                 db.close();
             } catch (IOException e) {
                 Utils.logError(e);

@@ -43,7 +43,9 @@ public class NewsSynchronizer implements Synchronizer {
 
             String[] result = builder.toString().split("_next_");
             for (String s : result) {
-                db.insertEntry(s);
+                String[] parts = s.split(";");
+                if (parts.length == 8)
+                    db.insertEntry(parts);
             }
             db.close();
         } catch (IOException e) {

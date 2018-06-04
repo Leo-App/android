@@ -12,7 +12,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
+import de.slgdev.leoapp.utility.StringUtils;
 import de.slgdev.leoapp.utility.Utils;
+import de.slgdev.leoapp.utility.datastructure.List;
 
 /**
  * SyncNewsTask.
@@ -39,8 +41,6 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
                 URLConnection connection = new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
                         .openConnection();
 
-                Utils.logError(connection);
-
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(
@@ -54,11 +54,18 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
                 SQLiteConnectorSchwarzesBrett db  = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
 
                 String[] result = builder.toString().split("_next_");
+                List<Integer> remoteids = new List<>();
 
-                for (String s : result)
-                    db.insertEntry(s);
+                for (String s : result) {
+                    String[] parts = s.split(";");
+                    if (parts.length == 8) {
+                        remoteids.append(Integer.parseInt(parts[5]));
+                        db.insertEntry(parts);
+                    }
+                }
 
                 db.purgeOldEntries();
+                db.deleteAllEntriesExcept(remoteids);
 
                 db.close();
             } catch (IOException e) {
