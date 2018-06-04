@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -37,6 +38,7 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.umfragen.dialog.NewSurveyDialog;
 import de.slgdev.umfragen.dialog.ResultDialog;
+import de.slgdev.umfragen.dialog.UserInformationDialog;
 import de.slgdev.umfragen.task.SaveResultTask;
 import de.slgdev.umfragen.task.SendVoteTask;
 import de.slgdev.umfragen.task.SyncSurveyTask;
@@ -193,6 +195,19 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
                 sqLiteConnector.setViewed(remoteid);
             }
             return false;
+        });
+
+        expandableListView.setOnItemLongClickListener((parent, view, position, id) -> {
+
+            long packedPosition = expandableListView.getExpandableListPosition(position);
+            int itemType = ExpandableListView.getPackedPositionType(packedPosition);
+            int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
+
+            if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP && Utils.getUserPermission() >= User.PERMISSION_LEHRER) {
+               new UserInformationDialog(SurveyActivity.this, entriesMap.get(groupList.get(groupPosition)).remoteId).show();
+            }
+
+            return true;
         });
 
         if (groupList.size() == 0) {

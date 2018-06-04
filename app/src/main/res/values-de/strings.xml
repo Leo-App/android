@@ -38,6 +38,8 @@
         Um die QR-Essensbons nutzen zu können, musst du dich hier mit deinen lunch.leo-ac.de Anmeldedaten anmelden.
     </string>
 
+    <string name="user_info">Nutzerinformationen</string>
+
     <string name="qr_intro_title1">QR - Essensbons</string>
     <string name="qr_intro_desc1">Diese Funktion erleichtert die Essensausgabe in der Mensa.</string>
 

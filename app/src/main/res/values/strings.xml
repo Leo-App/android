@@ -27,6 +27,15 @@
 
     <string name="no_exams">No exams!</string>
 
+    <string name="user_info">User Information</string>
+
+    <string name="user_info_id">UID:\t %1$d</string>
+    <string name="user_info_name">Name:\t %1$s</string>
+    <string name="user_info_defaultname">Defaultname:\t %1$s</string>
+    <string name="user_info_level">Class:\t %1$s</string>
+    <string name="user_info_permission">Permissionlevel:\t %1$s</string>
+    <string name="user_info_createdate">Date of verification: %1$s</string>
+
     <string name="qr_intro_title1">QR - Foodmarks</string>
     <string name="qr_intro_desc1">This feature simplifies the issue of food during lunch.</string>
 
@@ -80,8 +89,7 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        + Visual changes for mensa-staff\n
-        + Improved app behaviour when in school wifi
+        + Visual changes for mensa-staff\n+ Improved app behaviour when in school wifi
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
@@ -173,7 +181,7 @@
     <string name="info_screen_fifth">Developer</string>
 
 
-    <!-- EssensQR -->
+    <!-- Essensbons -->
     <string name="toolbar_scan">Scan!</string>
     <string name="button_scan">Scan</string>
     <string name="button_confirm" translatable="false">OK</string>
