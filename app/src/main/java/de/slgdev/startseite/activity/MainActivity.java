@@ -224,6 +224,13 @@ public class MainActivity extends LeoAppNavigationActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (Utils.getController().getPreferences().getBoolean("locale_changed", false)) {
+            Utils.getController().getPreferences().edit().putBoolean("locale_changed", false).apply();
+            recreate();
+            getDrawerLayout().closeDrawers();
+        }
+
         getNavigationView().getMenu().findItem(R.id.startseite).setChecked(true);
 
         if (abstimmDialog != null) {

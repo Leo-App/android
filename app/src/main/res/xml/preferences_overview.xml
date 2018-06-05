@@ -11,6 +11,14 @@
             android:summary="@string/settings_title_notification"
             android:title="@string/title_settings_notifications" />
 
+        <de.slgdev.leoapp.view.IconListPreference
+            android:key="pref_key_locale"
+            android:summary="@string/summary_language"
+            android:title="@string/title_language"
+            android:entries="@array/entryName"
+            android:entryValues="@array/entryIcon"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory

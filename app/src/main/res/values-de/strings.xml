@@ -34,9 +34,32 @@
         ]]>
     </string>
 
+    <string-array name="entryName">
+        <item>Englisch</item>
+        <item>Deutsch</item>
+    </string-array>
+
+    <string-array name="entryIcon">
+        <item>en</item>
+        <item>de</item>
+    </string-array>
+
+    <string name="icon_default">ic_german_flag</string>
+    <string name="icon_label">Icon</string>
+
+    <string name="summary_language">Sprache ändern</string>
+    <string name="title_language">Sprache</string>
+
     <string name="qr_intro_descVerification">
         Um die QR-Essensbons nutzen zu können, musst du dich hier mit deinen lunch.leo-ac.de Anmeldedaten anmelden.
     </string>
+
+    <string name="user_info_id">UID:\t %1$d</string>
+    <string name="user_info_name">Name:\t %1$s</string>
+    <string name="user_info_defaultname">Defaultname:\t %1$s</string>
+    <string name="user_info_level">Stufe:\t %1$s</string>
+    <string name="user_info_permission">Permissionlevel:\t %1$s</string>
+    <string name="user_info_createdate">Datum der Verifikation: %1$s</string>
 
     <string name="user_info">Nutzerinformationen</string>
 
@@ -73,8 +96,9 @@
     </string>
 
     <string name="dialog_changelog">
-        + Anzeigeänderungen für das Mensapersonal\n
-        + Verbesserung des Appverhaltens im Schul-WLAN
+        + Unterschiedliche Anzeigen für gelesene und ungelesene Umfragen/Einträge am schwarzen Brett
+        \n+ Schwarzes Brett/Umfragen in chronologischer Reihenfolge\n+ Performanteres Synchronisieren der Umfragen\n+ Lehrerinformationen bei langem Klicken auf Umfrage
+        \n+ Sprachänderung in den Einstellungen
     </string>
 
     <string name="introqr_finished_desc">Du bist angemeldet und kannst nun das Essensbon-Feature vollständig nutzen!</string>

@@ -8,6 +8,23 @@
     <string name="pref_logout_desc">Log out from your current lunch.leo-ac Account</string>
     <string name="logout_confirm">Successfully logged out</string>
 
+    <string-array name="entryName">
+        <item>English</item>
+        <item>German</item>
+    </string-array>
+
+    <string-array name="entryIcon">
+        <item>en</item>
+        <item>de</item>
+    </string-array>
+
+    <string name="icon_default">ic_us_uk_flag</string>
+
+    <string name="icon_label">Icon</string>
+
+    <string name="summary_language">Change language</string>
+    <string name="title_language">Language</string>
+
     <string name="intro_info">
         <![CDATA[
             <h3>General</h3>
@@ -26,7 +43,6 @@
     </string>
 
     <string name="no_exams">No exams!</string>
-
     <string name="user_info">User Information</string>
 
     <string name="user_info_id">UID:\t %1$d</string>
@@ -89,7 +105,9 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        + Visual changes for mensa-staff\n+ Improved app behaviour when in school wifi
+        + Different visuals for read/unread surveys/pin board entries
+        \n+ pin board entries/surveys in chronological order\n+ More performant synchronisation of surveys\n+ Information for teachers on long click on survey
+        \n+ Language changeable in the settings
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>

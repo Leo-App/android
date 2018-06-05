@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import de.slgdev.essensbons.activity.EssensbonActivity;
 import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
@@ -142,6 +144,16 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             case "pref_key_filter_subst":
                 findPreference("pref_key_filterby_level").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
                 findPreference("pref_key_filterby_schedule").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
+                break;
+            case "pref_key_locale":
+                String locale = pref.getString("pref_key_locale", "en");
+                pref.edit().putBoolean("locale_changed", true).apply();
+                Locale loc = new Locale(locale);
+                Locale.setDefault(loc);
+                Configuration config = new Configuration();
+                config.locale = loc;
+                getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+                recreate();
                 break;
         }
     }
