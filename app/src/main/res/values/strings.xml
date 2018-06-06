@@ -455,6 +455,10 @@
         If you need any additional information, don\'t hesitate to contact us. Have fun!
     </string>
 
+    <string name="teacher">Teacher</string>
+    <string name="student">Student</string>
+    <string name="admin">Admin</string>
+
 
     <string name="dialog_change_abbr">Change teacher-abbreviation</string>
 

@@ -14,6 +14,7 @@ import java.util.Locale;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.task.UserDetailTask;
 import de.slgdev.leoapp.utility.User;
+import de.slgdev.leoapp.utility.Utils;
 
 public final class UserInformationDialog extends AlertDialog {
 
@@ -40,7 +41,7 @@ public final class UserInformationDialog extends AlertDialog {
 
         findViewById(R.id.buttonOK).setOnClickListener(v -> dismiss());
 
-        String[] permissions = new String[]{"Schüler", "Lehrer", "Admin"};
+        String[] permissions = new String[]{Utils.getString(R.string.student), Utils.getString(R.string.teacher), Utils.getString(R.string.admin)};
         DateFormat format = new SimpleDateFormat("dd.mm.yy", Locale.GERMAN);
 
         new UserDetailTask().addListener(o -> {

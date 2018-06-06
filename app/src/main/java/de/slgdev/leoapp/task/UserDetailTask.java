@@ -30,8 +30,8 @@ public class UserDetailTask extends ObjectCallbackTask<User> {
     protected User doInBackground(Object[] objects) {
         try {
             int id = (int) objects[0];
-            URL updateURL = new URL(Utils.DOMAIN_DEV + "user/getUserInfo.php?id=" + id);
-            Utils.logError(updateURL);
+            URL updateURL = new URL(Utils.BASE_URL_PHP + "user/getUserInfo.php?id=" + id);
+
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
@@ -47,9 +47,9 @@ public class UserDetailTask extends ObjectCallbackTask<User> {
 
             String[] info = builder.toString().split("_;_");
             DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.GERMAN);
-            Date createdate = format.parse(info[5]);
+            Date createdate = format.parse(info[4]);
 
-            return new User(id, info[2], info[3], Integer.parseInt(info[4]), info[1], createdate);
+            return new User(id, info[5], info[2], Integer.parseInt(info[3]), info[1], createdate);
 
         } catch (IOException | ClassCastException | ParseException | NumberFormatException e) {
             Utils.logError(e);
