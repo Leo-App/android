@@ -83,24 +83,20 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
          initData();
          listAdapter = new de.slgdev.svBriefkasten.ExpandableListAdapter(this, listDataHeader,listHash);
          expandableListView.setAdapter(listAdapter);
-         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-             @Override
-             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                 return true;
-             }
-         });
 
     }
 
     private void initData() {
 
-
+        String thema = "Thema";
         List<String> eins = new ArrayList<>();
         eins.add("Eine alternative Lösung");
+        listDataHeader.add(thema);
+        listHash.put(listDataHeader.get(listDataHeader.size()-1), eins);
 
 
         Cursor cursor;
-        cursor = sqLiteDatabase.query(sqLiteConnector.TABLE_LETTERBOX, new String[]{sqLiteConnector.LETTERBOX_TOPIC, sqLiteConnector.LETTERBOX_PROPOSAL1, sqLiteConnector.LETTERBOX_PROPOSAL2, sqLiteConnector.LETTERBOX_DateOfCreation, sqLiteConnector.LETTERBOX_CREATOR},null, null, null, null ,null);
+        cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR},null, null, null, null ,null);
         //cursor = sqLiteDatabase.rawQuery("Select * From " + sqLiteConnector.TABLE_LETTERBOX, null);
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -108,18 +104,20 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
             String proposal1=cursor.getString(1);
             String proposal2=cursor.getString(2);
 
-            //startActivity(new Intent(getApplicationContext(),ResultActivity.class));
+            startActivity(new Intent(getApplicationContext(),ResultActivity.class));
 
             listDataHeader.add(topic);
             List<String> loesungen = new ArrayList<>();
-            if (proposal1 != null && proposal1 != "")
+            if (proposal1 != null && !proposal1.equals(""))
                 loesungen.add(proposal1);
-            if (proposal2 != null && proposal2 != "")
+            if (proposal2 != null && !proposal2.equals(""))
                 loesungen.add(proposal2);
 
             listHash.put(listDataHeader.get(listDataHeader.size()-1),loesungen);
             lastAdded = topic;
         }
+
+        cursor.close();
     }
 
     private void receive() {
