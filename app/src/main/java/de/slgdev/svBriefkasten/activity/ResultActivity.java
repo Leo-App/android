@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,8 +45,8 @@ public class ResultActivity extends AppCompatActivity {
 
     public void initELW(){
         Cursor cursor;
-        cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{sqLiteConnector.LETTERBOX_TOPIC, sqLiteConnector.LETTERBOX_PROPOSAL1, sqLiteConnector.LETTERBOX_PROPOSAL2, sqLiteConnector.LETTERBOX_DateOfCreation, sqLiteConnector.LETTERBOX_CREATOR, sqLiteConnector.LETTERBOX_LIKES},null, null, null, null ,sqLiteConnector.LETTERBOX_LIKES + " DESC");
-
+        //cursor = sqLiteDatabase.query(SQLiteConnectorSV.TABLE_LETTERBOX, new String[]{sqLiteConnector.LETTERBOX_TOPIC, sqLiteConnector.LETTERBOX_PROPOSAL1, sqLiteConnector.LETTERBOX_PROPOSAL2, sqLiteConnector.LETTERBOX_DateOfCreation, sqLiteConnector.LETTERBOX_CREATOR, sqLiteConnector.LETTERBOX_LIKES},null, null, null, null ,sqLiteConnector.LETTERBOX_LIKES + " DESC");
+        cursor= sqLiteDatabase.rawQuery("SELECT * FROM " + sqLiteConnector.TABLE_LETTERBOX,null);
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             String topic = cursor.getString(0);

@@ -37,7 +37,7 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
 
 
     public SQLiteConnectorSv(Context context) {
-        super(context, DATABASE_NAME, null, 7);
+        super(context, DATABASE_NAME, null, 10);
         database = getWritableDatabase();
     }
 
@@ -48,9 +48,7 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
                 LETTERBOX_PROPOSAL1 + " TEXT NOT NULL, " +
                 LETTERBOX_PROPOSAL2 + " TEXT NOT NULL, " +
                 LETTERBOX_DateOfCreation + " TEXT NOT NULL, " +
-                LETTERBOX_CREATOR + " TEXT NOT NULL, " +
-                LETTERBOX_LIKES + "TEXT NOT NULL," +
-                LETTERBOX_ANHANG + "VARCHAR" +
+                LETTERBOX_CREATOR + " TEXT NOT NULL " +
                 ")");
     }
 
@@ -60,14 +58,13 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public ContentValues getEntryContentValues(String topic, String proposal1, String proposal2, long dateOfCreation, String creator, int like) {
+    public ContentValues getEntryContentValues(String topic, String proposal1, String proposal2, String dateOfCreation, String creator) {
         ContentValues values = new ContentValues();
         values.put(LETTERBOX_TOPIC, topic);
         values.put(LETTERBOX_PROPOSAL1, proposal1);
         values.put(LETTERBOX_PROPOSAL2, proposal2);
         values.put(LETTERBOX_DateOfCreation, dateOfCreation);
         values.put(LETTERBOX_CREATOR, creator);
-        values.put(LETTERBOX_LIKES, like);
         return values;
     }
 
