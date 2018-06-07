@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import java.util.ArrayList;
@@ -94,6 +96,11 @@ public class BriefkastenActivity extends LeoAppNavigationActivity {
         listDataHeader.add(thema);
         listHash.put(listDataHeader.get(listDataHeader.size()-1), eins);
 
+        thema = "TestThema";
+        eins = new ArrayList<>();
+        eins.add("Alternativ auch das hier");
+        listDataHeader.add(thema);
+        listHash.put(listDataHeader.get(listDataHeader.size()-1), eins);
 
         Cursor cursor;
         cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR},null, null, null, null ,null);
