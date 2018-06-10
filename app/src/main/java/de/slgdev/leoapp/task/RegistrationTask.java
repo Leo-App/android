@@ -98,6 +98,10 @@ public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
             Utils.logDebug(builder.toString());
 
             if (builder.toString().startsWith("+")) {
+                Utils.getController().getPreferences().edit()
+                        .putString("auth_sum", checksum.toString())
+                        .apply();
+
                 return ResponseCode.SUCCESS;
             }
         } catch (IOException e) {

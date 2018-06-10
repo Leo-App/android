@@ -12,6 +12,10 @@ import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import de.slgdev.leoapp.notification.NotificationTime;
 import de.slgdev.leoapp.notification.NotificationType;
 
@@ -128,6 +132,20 @@ public abstract class Utils {
             }
         }
         return isNetworkAvailable() ? NetworkPerformance.INSUFFICIENT : NetworkPerformance.NOT_AVAILABLE;
+    }
+
+    /**
+     * Öffnet eine URL-Verbindung mit Authentifizierung
+     */
+    public static URLConnection openURLConnection(String url) {
+        try {
+            URLConnection connection = new URL(url).openConnection();
+            connection.addRequestProperty("AUTHENTICATION", getController().getPreferences().getString("auth_sum", "null"));
+            return connection;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
