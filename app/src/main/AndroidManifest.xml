@@ -54,7 +54,7 @@
             android:syncable="true"/>
 
         <service
-            android:name="de.slgdev.leoapp.service.ReceiveService"
+            android:name="de.slgdev.leoapp.service.SocketService"
             android:description="@string/serviceDescription"
             android:exported="false" />
 

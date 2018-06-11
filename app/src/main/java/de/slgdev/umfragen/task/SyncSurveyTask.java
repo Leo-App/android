@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.Utils;
@@ -14,7 +15,7 @@ import de.slgdev.leoapp.utility.Utils;
 /**
  * SyncSurveyTask.
  * <p>
- * Von {@link de.slgdev.leoapp.service.ReceiveService ReceiveService} unabhängiger Task zum Aktualisieren der Umfragen, macht ein instantanes Aktualisieren möglich.
+ * Von {@link SocketService SocketService} unabhängiger Task zum Aktualisieren der Umfragen, macht ein instantanes Aktualisieren möglich.
  *
  * @author Gianni
  * @version 2017.1211

@@ -11,13 +11,14 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
 import de.slgdev.leoapp.utility.Utils;
 
 /**
  * SyncNewsTask.
  * <p>
- * Von {@link de.slgdev.leoapp.service.ReceiveService ReceiveService} unabhängiger Task zum aktualisieren des Schwarzes Bretts, macht ein instantanes Aktualisieren möglich.
+ * Von {@link SocketService SocketService} unabhängiger Task zum aktualisieren des Schwarzes Bretts, macht ein instantanes Aktualisieren möglich.
  *
  * @author Gianni
  * @version 2017.1211
