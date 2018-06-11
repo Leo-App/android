@@ -1,6 +1,5 @@
 package de.slgdev.schwarzes_brett.task;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,7 +12,6 @@ import java.net.URLConnection;
 
 import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
-import de.slgdev.leoapp.utility.StringUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 
@@ -54,7 +52,7 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
                 reader.close();
                 SQLiteConnectorSchwarzesBrett db  = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
 
-                String[] result = builder.toString().split("_next_");
+                String[]      result    = builder.toString().split("_next_");
                 List<Integer> remoteids = new List<>();
 
                 for (String s : result) {

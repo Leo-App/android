@@ -44,6 +44,6 @@ public class UpdateViewTrackerTask extends AsyncTask<Integer, Void, Void> {
             cache.append(s).append("-");
         }
 
-        return cache.toString().endsWith("-") ? cache.toString().substring(0, cache.length()-2) : cache.toString();
+        return cache.toString().endsWith("-") ? cache.toString().substring(0, cache.length() - 2) : cache.toString();
     }
 }

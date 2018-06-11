@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * ActionLogActivity
  * <p>
-<<<<<<< HEAD
+ * <<<<<<< HEAD
  * Für LeoApp-Activities angepasste Subklasse von AppCompatActivity. Loggt den Lifecycle der Activity, sodass der aktuelle Status abgerufen werden kann.
  * Für LeoApp-Activities angepasste Subklasse von AppCompatActivity.
  * Loggt den Lifecycle der Activity, sodass der aktuelle Status abgerufen werden kann.

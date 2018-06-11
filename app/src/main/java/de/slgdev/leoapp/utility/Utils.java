@@ -144,7 +144,7 @@ public abstract class Utils {
     public static URLConnection openURLConnection(String url) {
         try {
             URLConnection connection = new URL(url).openConnection();
-            connection.addRequestProperty("AUTHENTICATION", getController().getPreferences().getString("auth_sum", "null"));
+            connection.addRequestProperty("AUTHENTICATION", getController().getPreferences().getString("auth_sum", "null") + '-' + getUserID());
             return connection;
         } catch (IOException e) {
             e.printStackTrace();

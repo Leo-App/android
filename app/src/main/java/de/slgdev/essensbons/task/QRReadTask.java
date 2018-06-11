@@ -99,14 +99,13 @@ public class QRReadTask extends ObjectCallbackTask<Boolean> {
 
             Calendar c = Calendar.getInstance();
 
-            Utils.logDebug("QRDay: "+day);
-            Utils.logDebug("QRMonth: "+month);
+            Utils.logDebug("QRDay: " + day);
+            Utils.logDebug("QRMonth: " + month);
 
+            Utils.logDebug("CDay: " + c.get(Calendar.DAY_OF_MONTH));
+            Utils.logDebug("CMonth: " + c.get(Calendar.MONTH));
 
-            Utils.logDebug("CDay: "+c.get(Calendar.DAY_OF_MONTH));
-            Utils.logDebug("CMonth: "+c.get(Calendar.MONTH));
-
-            if (c.get(Calendar.DAY_OF_MONTH) != day || c.get(Calendar.MONTH)+1 != month)
+            if (c.get(Calendar.DAY_OF_MONTH) != day || c.get(Calendar.MONTH) + 1 != month)
                 return false;
 
         } catch (NumberFormatException e) {
@@ -115,7 +114,7 @@ public class QRReadTask extends ObjectCallbackTask<Boolean> {
         Utils.logDebug("passed logic date test");
 
         try {
-            int orderId = Integer.parseInt(parts[0]);
+            int orderId  = Integer.parseInt(parts[0]);
             int checksum = Integer.parseInt(parts[2].substring(0, 2) + parts[2].substring(4)) + orderId;
 
             int mod = checksum % 97;

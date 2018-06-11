@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="2dp" >
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
 
     <TextView
         android:id="@+id/iconName"
@@ -16,7 +16,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:textSize="17sp"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"/>
 
     <RadioButton
         android:id="@+id/iconRadio"
@@ -26,7 +26,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:focusable="false"
-        android:clickable="false" />
+        android:clickable="false"/>
 
     <ImageView
         android:id="@+id/iconImage"
@@ -35,6 +35,6 @@
         android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp"
         android:layout_centerVertical="true"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"/>
 
 </RelativeLayout>

@@ -1,8 +1,6 @@
 package de.slgdev.leoapp.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -199,8 +197,8 @@ public class ProfileActivity extends LeoAppNavigationActivity {
     }
 
     private String getCurrentSurvey() {
-        SQLiteConnectorUmfragen dbh = new SQLiteConnectorUmfragen(getApplicationContext());
-        String survey = dbh.getSurveyWithId(Utils.getUserID());
+        SQLiteConnectorUmfragen dbh    = new SQLiteConnectorUmfragen(getApplicationContext());
+        String                  survey = dbh.getSurveyWithId(Utils.getUserID());
         dbh.close();
         return survey;
     }

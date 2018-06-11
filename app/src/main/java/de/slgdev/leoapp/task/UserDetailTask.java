@@ -17,7 +17,7 @@ import de.slgdev.leoapp.utility.Utils;
 
 /**
  * UserDetailTask.
- *
+ * <p>
  * Díeser Task ruft genauere Infos zu einem bestimmten User aus der ucloud Datenbank ab.
  *
  * @author Gianni
@@ -29,7 +29,7 @@ public class UserDetailTask extends ObjectCallbackTask<User> {
     @Override
     protected User doInBackground(Object[] objects) {
         try {
-            int id = (int) objects[0];
+            int id        = (int) objects[0];
             URL updateURL = new URL(Utils.BASE_URL_PHP + "user/getUserInfo.php?id=" + id);
 
             BufferedReader reader =
@@ -37,7 +37,7 @@ public class UserDetailTask extends ObjectCallbackTask<User> {
                             new InputStreamReader(updateURL.openConnection().getInputStream(), "UTF-8"));
 
             StringBuilder builder = new StringBuilder();
-            String line;
+            String        line;
             while ((line = reader.readLine()) != null)
                 builder.append(line);
             reader.close();
@@ -45,9 +45,9 @@ public class UserDetailTask extends ObjectCallbackTask<User> {
             if (reader.toString().startsWith("-ERR"))
                 return null;
 
-            String[] info = builder.toString().split("_;_");
-            DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.GERMAN);
-            Date createdate = format.parse(info[4]);
+            String[]   info       = builder.toString().split("_;_");
+            DateFormat format     = new SimpleDateFormat("yyyy-mm-dd", Locale.GERMAN);
+            Date       createdate = format.parse(info[4]);
 
             return new User(id, info[5], info[2], Integer.parseInt(info[3]), info[1], createdate);
 
