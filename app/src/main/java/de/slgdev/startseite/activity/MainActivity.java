@@ -48,6 +48,7 @@ import de.slgdev.umfragen.activity.SurveyActivity;
  * @since 0.0.1
  */
 public class MainActivity extends LeoAppNavigationActivity {
+
     public static boolean        editing;
     public        AbstimmDialog  abstimmDialog;
     private       CardAdapter    mAdapter;
@@ -223,6 +224,13 @@ public class MainActivity extends LeoAppNavigationActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (Utils.getController().getPreferences().getBoolean("locale_changed", false)) {
+            Utils.getController().getPreferences().edit().putBoolean("locale_changed", false).apply();
+            recreate();
+            getDrawerLayout().closeDrawers();
+        }
+
         getNavigationView().getMenu().findItem(R.id.startseite).setChecked(true);
 
         if (abstimmDialog != null) {
@@ -364,6 +372,7 @@ public class MainActivity extends LeoAppNavigationActivity {
 
         if (getIntent().hasExtra("start_intent")) {
             Utils.getController().closeActivities();
+            startActivity(new Intent(Utils.getContext(), MainActivity.class));
 
             int notificationTarget = getIntent().getIntExtra("start_intent", -1);
 

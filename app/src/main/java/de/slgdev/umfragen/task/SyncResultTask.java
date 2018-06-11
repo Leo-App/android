@@ -39,6 +39,11 @@ public class SyncResultTask extends ObjectCallbackTask<ResponseCode> {
                 return ResponseCode.NO_CONNECTION;
             }
 
+            Utils.logDebug(Utils.BASE_URL_PHP + "survey/" +
+                    "getAllResults.php?" +
+                    "survey=" + id + "&" +
+                    "to=" + to.replace(" ", "%20"));
+
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             new URL(
@@ -52,6 +57,8 @@ public class SyncResultTask extends ObjectCallbackTask<ResponseCode> {
                                     .getInputStream()
                     )
             );
+
+
 
             StringBuilder builder = new StringBuilder();
             String        line;

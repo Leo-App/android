@@ -2,7 +2,6 @@ package de.slgdev.umfragen.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -13,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -33,11 +33,12 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.ResponseCode;
+import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.view.ActivityStatus;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.umfragen.dialog.NewSurveyDialog;
 import de.slgdev.umfragen.dialog.ResultDialog;
+import de.slgdev.umfragen.dialog.UserInformationDialog;
 import de.slgdev.umfragen.task.SaveResultTask;
 import de.slgdev.umfragen.task.SendVoteTask;
 import de.slgdev.umfragen.task.SyncSurveyTask;
@@ -188,6 +189,27 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
             }
         });
 
+        expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
+            int remoteid = groupList.get(groupPosition);
+            if (!sqLiteConnector.getViewed(remoteid)) {
+                sqLiteConnector.setViewed(remoteid);
+            }
+            return false;
+        });
+
+        expandableListView.setOnItemLongClickListener((parent, view, position, id) -> {
+
+            long packedPosition = expandableListView.getExpandableListPosition(position);
+            int itemType = ExpandableListView.getPackedPositionType(packedPosition);
+            int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
+
+            if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP && Utils.getUserPermission() >= User.PERMISSION_LEHRER) {
+               new UserInformationDialog(SurveyActivity.this, entriesMap.get(groupList.get(groupPosition)).remoteId).show();
+            }
+
+            return true;
+        });
+
         if (groupList.size() == 0) {
             findViewById(R.id.noEntries).setVisibility(View.VISIBLE);
         } else {
@@ -214,137 +236,10 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
 
     private void createGroupList() {
         groupList = new ArrayList<>();
+        entriesMap = sqLiteConnector.getFilteredEntries(Utils.getUserStufe());
+        for (Map.Entry<Integer, Survey> e : entriesMap.entrySet())
+            groupList.add(e.getValue().remoteId);
 
-        String stufe = Utils.getUserStufe();
-        Cursor cursor;
-
-        entriesMap = new LinkedHashMap<>();
-
-        switch (stufe) {
-            case "":
-            case "TEA":
-                cursor = sqLiteDatabase.query(
-                        SQLiteConnectorUmfragen.TABLE_SURVEYS,
-                        new String[]{
-                                SQLiteConnectorUmfragen.SURVEYS_ADRESSAT,
-                                SQLiteConnectorUmfragen.SURVEYS_TITEL,
-                                SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG,
-                                SQLiteConnectorUmfragen.SURVEYS_ABSENDER,
-                                SQLiteConnectorUmfragen.SURVEYS_MULTIPLE,
-                                SQLiteConnectorUmfragen.SURVEYS_ID,
-                                SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID,
-                                SQLiteConnectorUmfragen.SURVEYS_VOTEABLE
-                        },
-                        null,
-                        null,
-                        null,
-                        null,
-                        null);
-                break;
-            case "EF":
-            case "Q1":
-            case "Q2":
-                cursor = sqLiteDatabase.query(
-                        SQLiteConnectorUmfragen.TABLE_SURVEYS,
-                        new String[]{
-                                SQLiteConnectorUmfragen.SURVEYS_ADRESSAT,
-                                SQLiteConnectorUmfragen.SURVEYS_TITEL,
-                                SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG,
-                                SQLiteConnectorUmfragen.SURVEYS_ABSENDER,
-                                SQLiteConnectorUmfragen.SURVEYS_MULTIPLE,
-                                SQLiteConnectorUmfragen.SURVEYS_ID,
-                                SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID,
-                                SQLiteConnectorUmfragen.SURVEYS_VOTEABLE
-                        },
-                        SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
-                                " = '" + stufe + "'" +
-                                " OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
-                                " = 'Sek II'" +
-                                " OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
-                                " = 'Alle'" +
-                                " OR " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID +
-                                " = " + Utils.getUserID(),
-                        null,
-                        null,
-                        null,
-                        null
-                );
-                break;
-            default:
-                cursor = sqLiteDatabase.query(
-                        SQLiteConnectorUmfragen.TABLE_SURVEYS,
-                        new String[]{
-                                SQLiteConnectorUmfragen.SURVEYS_ADRESSAT,
-                                SQLiteConnectorUmfragen.SURVEYS_TITEL,
-                                SQLiteConnectorUmfragen.SURVEYS_BESCHREIBUNG,
-                                SQLiteConnectorUmfragen.SURVEYS_ABSENDER,
-                                SQLiteConnectorUmfragen.SURVEYS_MULTIPLE,
-                                SQLiteConnectorUmfragen.SURVEYS_ID,
-                                SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID,
-                                SQLiteConnectorUmfragen.SURVEYS_VOTEABLE
-                        },
-                        SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
-                                " = '" + stufe.charAt(1) + "'" +
-                                " OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
-                                " = 'Sek I'" +
-                                " OR " + SQLiteConnectorUmfragen.SURVEYS_ADRESSAT +
-                                " = 'Alle'" +
-                                " OR " + SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID +
-                                " = " + Utils.getUserID(),
-                        null,
-                        null,
-                        null,
-                        null
-                );
-                break;
-        }
-
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            groupList.add(cursor.getInt(6));
-            Utils.logError(cursor.getInt(6));
-            Cursor cursorAnswers = sqLiteDatabase.query(
-                    SQLiteConnectorUmfragen.TABLE_ANSWERS,
-                    new String[]{
-                            SQLiteConnectorUmfragen.ANSWERS_INHALT,
-                            SQLiteConnectorUmfragen.ANSWERS_REMOTE_ID,
-                            SQLiteConnectorUmfragen.ANSWERS_SELECTED
-                    },
-                    SQLiteConnectorUmfragen.ANSWERS_SID +
-                            " = " + cursor.getInt(5),
-                    null,
-                    null,
-                    null,
-                    null
-            );
-            ArrayList<String> answers = new ArrayList<>();
-
-            boolean voted = false;
-
-            for (cursorAnswers.moveToFirst(); !cursorAnswers.isAfterLast(); cursorAnswers.moveToNext()) {
-                answers.add(
-                        cursorAnswers.getString(0) + "_;_"
-                                + cursorAnswers.getString(1) + "_;_"
-                                + cursorAnswers.getInt(2)
-                );
-                voted = voted || cursorAnswers.getInt(2) == 1;
-            }
-
-            cursorAnswers.close();
-
-            Survey s = new Survey(
-                    cursor.getInt(5),
-                    cursor.getInt(6),
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getInt(4) != 0,
-                    voted || cursor.getInt(7) == 0,
-                    cursor.getString(0),
-                    answers
-            );
-            entriesMap.put(cursor.getInt(6), s);
-        }
-
-        cursor.close();
     }
 
     public void refreshUI() {
@@ -387,8 +282,12 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-            convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_alt, null);
-            TextView textView = convertView.findViewById(R.id.titleKlausur);
+            if (sqLiteConnector.getViewed(ids.get(groupPosition)))
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_survey_seen, null);
+            else
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_survey, null);
+
+            TextView textView = convertView.findViewById(R.id.titleSurvey);
             textView.setText((String) getGroup(groupPosition));
             TextView textViewStufe = convertView.findViewById(R.id.textViewStufe);
             textViewStufe.setText(getSurvey(groupPosition).to);
@@ -402,7 +301,7 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
             if (isLastChild) {
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_child_alt2, null);
 
-                if (getSurvey(groupPosition).remoteId == Utils.getUserID())
+                if (getSurvey(groupPosition).remoteId == Utils.getUserID() || Utils.getUserPermission() >= User.PERMISSION_LEHRER)
                     convertView.findViewById(R.id.delete).setVisibility(View.VISIBLE);
 
                 final Button      button = convertView.findViewById(R.id.button);
@@ -554,10 +453,6 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
             return false;
         }
 
-        private Survey getSurvey(int groupPosition) {
-            return umfragen.get(ids.get(groupPosition));
-        }
-
         @Override
         public void taskFinished(Object... params) {
 
@@ -603,5 +498,10 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
                     break;
             }
         }
+
+        private Survey getSurvey(int groupPosition) {
+            return umfragen.get(ids.get(groupPosition));
+        }
+
     }
 }

@@ -8,7 +8,15 @@
     <string name="beamer">Beamer</string>
     <string name="no_exams">Keine Klausuren!</string>
 
+    <string name="pref_logout_title">Abmelden</string>
+    <string name="pref_logout_desc">Melde dich von deinem aktuellen lunch.leo-ac Account ab</string>
+    <string name="logout_confirm">Erfolgreich abgemeldet</string>
+
     <string name="name_too_long">Dein Name darf nicht länger als 20 Zeichen sein</string>
+
+    <string name="teacher">Lehrer</string>
+    <string name="student">Schüler</string>
+    <string name="admin">Admin</string>
 
     <string name="please_read">Weitere Informationen! Bitte lesen :)</string>
     <string name="intro_info">
@@ -30,9 +38,34 @@
         ]]>
     </string>
 
+    <string-array name="entryName">
+        <item>Englisch</item>
+        <item>Deutsch</item>
+    </string-array>
+
+    <string-array name="entryIcon">
+        <item>en</item>
+        <item>de</item>
+    </string-array>
+
+    <string name="icon_default">ic_german_flag</string>
+    <string name="icon_label">Icon</string>
+
+    <string name="summary_language">Sprache ändern</string>
+    <string name="title_language">Sprache</string>
+
     <string name="qr_intro_descVerification">
         Um die QR-Essensbons nutzen zu können, musst du dich hier mit deinen lunch.leo-ac.de Anmeldedaten anmelden.
     </string>
+
+    <string name="user_info_id">UID:\t %1$d</string>
+    <string name="user_info_name">Name:\t %1$s</string>
+    <string name="user_info_defaultname">Defaultname:\t %1$s</string>
+    <string name="user_info_level">Stufe:\t %1$s</string>
+    <string name="user_info_permission">Permissionlevel:\t %1$s</string>
+    <string name="user_info_createdate">Datum der Verifikation: %1$s</string>
+
+    <string name="user_info">Nutzerinformationen</string>
 
     <string name="qr_intro_title1">QR - Essensbons</string>
     <string name="qr_intro_desc1">Diese Funktion erleichtert die Essensausgabe in der Mensa.</string>
@@ -67,7 +100,9 @@
     </string>
 
     <string name="dialog_changelog">
-        - Release!
+        + Unterschiedliche Anzeigen für gelesene und ungelesene Umfragen/Einträge am schwarzen Brett
+        \n+ Schwarzes Brett/Umfragen in chronologischer Reihenfolge\n+ Performanteres Synchronisieren der Umfragen\n+ Lehrerinformationen bei langem Klicken auf Umfrage
+        \n+ Sprachänderung in den Einstellungen
     </string>
 
     <string name="introqr_finished_desc">Du bist angemeldet und kannst nun das Essensbon-Feature vollständig nutzen!</string>
@@ -145,7 +180,7 @@
 
     <string name="set_changes">Speichern</string>
     <string name="feature_request">Beschreibe Deinen Vorschlag</string>
-    <string name="feature_request_title">Verbesserungsvorschlag</string>
+    <string name="feature_request_title">Verbesserungsvorschlag / Bugreport</string>
     <string name="cards_quick">Schnellzugriffe</string>
     <string name="discard">Ausblenden</string>
     <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>
@@ -164,7 +199,7 @@
     <string name="button_scan">Scannen</string>
     <string name="qr_display_title">Deine Bestellung für heute, den</string>
     <string name="qr_display_menu">Menü %1$d</string>
-    <string name="dialog_desc_valid">Bestelltes Menü: \t %1$d</string>
+    <string name="dialog_desc_valid">Menü \t %1$d</string>
     <string name="qr_display_not_ordered">Für heute liegt keine Bestellung vor</string>
     <string name="qr_display_not_loggedin">Du bist nicht eingeloggt, bitte überprüfe Deine Anmeldedaten in den Einstellungen</string>
     <string name="explain_desc_1">Mit dieser Funktion lassen sich die QR-Codes der Essensbestellung überprüfen.</string>
@@ -295,7 +330,11 @@
     <string name="survey_deleted">Umfrage gelöscht</string>
     <string name="survey_description_answers">Füge bis zu fünf Antwortmöglichkeiten hinzu.</string>
     <string name="survey_description_content">Beschreibe Dein Anliegen in einigen Worten.</string>
-    <string name="survey_description_title">Wähle einen aufschlussreichen und informativen Titel für Deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.</string>
+    <string name="survey_description_title">
+        <![CDATA[
+            Wähle einen aufschlussreichen und informativen Titel für Deine Umfrage. Du kannst zu jedem Zeitpunkt nur eine aktuelle Umfrage haben.<br/><br/>
+            <b>Keine beleidigenden Umfragen, keine Gewalt / sexueller Inhalt</b>
+        ]]></string>
     <string name="survey_new_answer">Antwort</string>
     <string name="title_description_to">An wen ist Deine Umfrage gerichtet?</string>
     <string name="title_survey_answers">Antwortmöglichkeiten</string>

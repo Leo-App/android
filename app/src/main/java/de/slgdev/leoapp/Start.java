@@ -5,9 +5,10 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
-import java.util.ArrayList;
+import java.util.Locale;
 
 import de.slgdev.leoapp.service.AlarmStartupService;
 import de.slgdev.leoapp.service.SocketService;
@@ -34,6 +35,8 @@ public class Start extends Activity {
         Utils.getController().closeDatabases();
 
         Utils.getController().setContext(getApplicationContext());
+
+        setLocaleIfNecessary();
 
         if (Utils.isVerified()) {
             runUpdateTasks();
@@ -63,8 +66,7 @@ public class Start extends Activity {
             new SyncVoteTask().execute();
             new SyncFilesTask().execute();
 
-            ArrayList<Integer> cachedViews = SchwarzesBrettUtils.getCachedIDs();
-            new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
+            new UpdateViewTrackerTask().execute(SchwarzesBrettUtils.getCachedIDs());
 
             if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
                 new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
@@ -120,4 +122,19 @@ public class Start extends Activity {
 
         return newAccount;
     }
+
+    private void setLocaleIfNecessary() {
+        String locale = Utils.getController().getPreferences().getString("pref_key_locale", "");
+
+        Locale loc = new Locale(locale);
+
+        if (locale.equals("") || Locale.getDefault().equals(loc))
+            return;
+
+        Locale.setDefault(loc);
+        Configuration config = new Configuration();
+        config.locale = loc;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
+
 }

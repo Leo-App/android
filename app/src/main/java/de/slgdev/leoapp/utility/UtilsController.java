@@ -39,8 +39,9 @@ import de.slgdev.umfragen.activity.SurveyActivity;
  * @version 2017.2610
  * @since 0.5.5
  */
-@SuppressWarnings({"WeakerAccess"})
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class UtilsController {
+
     private Context           context;
     private SharedPreferences preferences;
 

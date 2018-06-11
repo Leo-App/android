@@ -24,10 +24,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import de.slgdev.essensbons.activity.EssensbonActivity;
+import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.service.SocketService;
+import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.MessengerActivity;
@@ -141,6 +145,16 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
                 findPreference("pref_key_filterby_level").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
                 findPreference("pref_key_filterby_schedule").setEnabled(pref.getBoolean("pref_key_filter_subst", false));
                 break;
+            case "pref_key_locale":
+                String locale = pref.getString("pref_key_locale", "en");
+                pref.edit().putBoolean("locale_changed", true).apply();
+                Locale loc = new Locale(locale);
+                Locale.setDefault(loc);
+                Configuration config = new Configuration();
+                config.locale = loc;
+                getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+                recreate();
+                break;
         }
     }
 
@@ -239,6 +253,15 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
         Preference about = findPreference("pref_key_about");
         about.setOnPreferenceClickListener(preference -> {
             startActivity(new Intent(getApplicationContext(), InfoActivity.class));
+            return true;
+        });
+
+        Preference logout = findPreference("pref_key_logout");
+        logout.setEnabled(EssensbonUtils.isLoggedIn());
+        logout.setOnPreferenceClickListener(preference -> {
+            EssensbonUtils.setLoginStatus(false);
+            GraphicUtils.sendToast(R.string.logout_confirm);
+            logout.setEnabled(false);
             return true;
         });
     }

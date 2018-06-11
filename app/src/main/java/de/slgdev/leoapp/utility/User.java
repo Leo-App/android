@@ -1,5 +1,7 @@
 package de.slgdev.leoapp.utility;
 
+import java.util.Date;
+
 /**
  * User
  * <p>
@@ -43,6 +45,11 @@ public final class User {
     public final int upermission;
 
     /**
+     * Verifizierungsdatum, null wenn unbekannt
+     */
+    public final Date ucreatedate;
+
+    /**
      * Konstruktor.
      *
      * @param uid          Einmalige Benutzer-ID.
@@ -57,5 +64,26 @@ public final class User {
         this.upermission = upermission;
         this.ustufe = ustufe;
         this.udefaultname = udefaultname;
+        this.ucreatedate = null;
     }
+
+    /**
+     * Konstruktor.
+     *
+     * @param uid          Einmalige Benutzer-ID.
+     * @param uname        Benutzername.
+     * @param ustufe       Jahrgangsstufe des Users, Wert für Lehrer: "TEA".
+     * @param upermission  Berechtigungsstufe des Users, von 1 bis 3.
+     * @param udefaultname Benutzername des mit dem Account verbundenen Schulaccounts.
+     * @param ucreatedate  Datum der Verifizierung
+     */
+    public User(int uid, String uname, String ustufe, int upermission, String udefaultname, Date ucreatedate) {
+        this.uname = uname;
+        this.uid = uid;
+        this.upermission = upermission;
+        this.ustufe = ustufe;
+        this.udefaultname = udefaultname;
+        this.ucreatedate = ucreatedate;
+    }
+
 }

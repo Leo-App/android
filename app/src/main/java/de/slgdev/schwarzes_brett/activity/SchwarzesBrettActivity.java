@@ -3,8 +3,6 @@ package de.slgdev.schwarzes_brett.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -22,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.Date;
-
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
@@ -37,7 +33,6 @@ import de.slgdev.schwarzes_brett.task.FileDownloadTask;
 import de.slgdev.schwarzes_brett.task.SyncNewsTask;
 import de.slgdev.schwarzes_brett.task.UpdateViewTrackerTask;
 import de.slgdev.schwarzes_brett.utility.Entry;
-import de.slgdev.schwarzes_brett.utility.SchwarzesBrettUtils;
 
 /**
  * SchwarzesBrettActivity.
@@ -54,7 +49,6 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
 
     private static SQLiteConnectorSchwarzesBrett sqLiteConnector;
-    private static SQLiteDatabase                sqLiteDatabase;
 
     private List<Entry> entries;
 
@@ -71,8 +65,6 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
         if (sqLiteConnector == null)
             sqLiteConnector = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
-        if (sqLiteDatabase == null)
-            sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
         initButton();
         initExpandableListView();
@@ -139,6 +131,8 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
     @Override
     public void finish() {
         super.finish();
+        sqLiteConnector.close();
+        sqLiteConnector = null;
         Utils.getController().registerSchwarzesBrettActivity(null);
     }
 
@@ -168,17 +162,27 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
         expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
             int remoteID = entries.toIndex(groupPosition).getContent().id;
-            if (Utils.getUserPermission() == User.PERMISSION_LEHRER || SchwarzesBrettUtils.messageAlreadySeen(remoteID))
+            if(sqLiteConnector.getViewed(remoteID))
                 return false;
+
+            sqLiteConnector.setViewed(remoteID);
+
+            if (Utils.getUserPermission() == User.PERMISSION_LEHRER)
+                return false;
+
             String cache = Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
+
             if (!cache.equals(""))
                 cache += "-";
+
             Utils.getController().getPreferences()
                     .edit()
-                    .putString("pref_key_cache_vieweditems", cache + "1:" + remoteID)
+                    .putString("pref_key_cache_vieweditems", cache + remoteID)
                     .apply();
+
             if (Utils.isNetworkAvailable())
                 new UpdateViewTrackerTask().execute(remoteID);
+
             return false;
         });
 
@@ -190,104 +194,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
     }
 
     private void createGroupList() {
-        entries = new List<>();
-
-        String stufe = Utils.getUserStufe();
-        Cursor cursor;
-        switch (stufe) {
-            case "":
-            case "TEA":
-                cursor = sqLiteDatabase.query(
-                        SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
-                        new String[]{
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
-                );
-                break;
-            case "EF":
-            case "Q1":
-            case "Q2":
-                cursor = sqLiteDatabase.query(
-                        SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
-                        new String[]{
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
-                        SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT
-                                + " = '" + stufe +
-                                "' OR "
-                                + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
-                                " = 'Sek II' OR " + SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
-                                " = 'Alle'",
-                        null,
-                        null,
-                        null,
-                        null
-                );
-                break;
-            default:
-                cursor = sqLiteDatabase.query(
-                        SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE,
-                        new String[]{
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_TITEL,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_INHALT,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ERSTELLDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ABLAUFDATUM,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ANHANG,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_VIEWS,
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_REMOTE_ID},
-                        SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
-                                " = '" + stufe.charAt(1) +
-                                "' OR " +
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
-                                " = 'Sek I' OR " +
-                                SQLiteConnectorSchwarzesBrett.EINTRAEGE_ADRESSAT +
-                                " = 'Alle'",
-                        null,
-                        null,
-                        null,
-                        null
-                );
-                break;
-        }
-
-
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-
-            Date erstelldatum = new Date(cursor.getLong(3));
-            Date ablaufdatum  = new Date(cursor.getLong(4));
-
-            Entry entry = new Entry(
-                    cursor.getInt(7),
-                    cursor.getString(0),
-                    cursor.getString(1),
-                    cursor.getString(2).replace("\\\\", "\n"),
-                    cursor.getInt(6),
-                    erstelldatum,
-                    ablaufdatum,
-                    cursor.getString(5)
-            );
-
-            entries.append(entry);
-        }
-        cursor.close();
+        entries = sqLiteConnector.getFilteredEntries(Utils.getUserStufe());
     }
 
     private void receive() {
@@ -310,7 +217,12 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-            convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
+            boolean seen = sqLiteConnector.getViewed(entries.toIndex(groupPosition).getContent().id);
+
+            if(seen)
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_seen, null);
+            else
+                convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);
 
             TextView textView = convertView.findViewById(R.id.titleKlausur);
             textView.setText((String) getGroup(groupPosition));
@@ -367,19 +279,19 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
                         @Override
                         public void onDismissed(Snackbar snackbar, int event) {
 
-                            if (event == DISMISS_EVENT_ACTION)
+                            if (event == DISMISS_EVENT_ACTION) {
                                 initExpandableListView();
-                            else
+                            } else {
+                                sqLiteConnector.deleteEntry(deletedID);
                                 new DeleteEntryTask()
                                         .addListener(params -> {
                                             if (Utils.getController().getSchwarzesBrettActivity() == null) {
-                                                sqLiteDatabase.close();
                                                 sqLiteConnector.close();
-                                                sqLiteDatabase = null;
                                                 sqLiteConnector = null;
                                             }
                                         })
                                         .execute(deletedID);
+                            }
 
                         }
 

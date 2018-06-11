@@ -105,6 +105,10 @@ public abstract class Utils {
     public static NetworkPerformance getNetworkPerformance() {
         ConnectivityManager c    = (ConnectivityManager) getController().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo         info = c.getActiveNetworkInfo();
+
+        if (info == null)
+            return NetworkPerformance.NOT_AVAILABLE;
+
         if (info.getType() == ConnectivityManager.TYPE_WIFI) {
             return NetworkPerformance.EXCELLENT;
         } else if (info.getType() == ConnectivityManager.TYPE_MOBILE) {

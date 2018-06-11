@@ -4,6 +4,27 @@
     <string name="title_survey_result">Saved Results</string>
     <string name="entry_deleted">Entry deleted</string>
 
+    <string name="pref_logout_title">Log out</string>
+    <string name="pref_logout_desc">Log out from your current lunch.leo-ac Account</string>
+    <string name="logout_confirm">Successfully logged out</string>
+
+    <string-array name="entryName">
+        <item>English</item>
+        <item>German</item>
+    </string-array>
+
+    <string-array name="entryIcon">
+        <item>en</item>
+        <item>de</item>
+    </string-array>
+
+    <string name="icon_default">ic_us_uk_flag</string>
+
+    <string name="icon_label">Icon</string>
+
+    <string name="summary_language">Change language</string>
+    <string name="title_language">Language</string>
+
     <string name="intro_info">
         <![CDATA[
             <h3>General</h3>
@@ -22,6 +43,14 @@
     </string>
 
     <string name="no_exams">No exams!</string>
+    <string name="user_info">User Information</string>
+
+    <string name="user_info_id">UID:\t %1$d</string>
+    <string name="user_info_name">Name:\t %1$s</string>
+    <string name="user_info_defaultname">Defaultname:\t %1$s</string>
+    <string name="user_info_level">Class:\t %1$s</string>
+    <string name="user_info_permission">Permissionlevel:\t %1$s</string>
+    <string name="user_info_createdate">Date of verification: %1$s</string>
 
     <string name="qr_intro_title1">QR - Foodmarks</string>
     <string name="qr_intro_desc1">This feature simplifies the issue of food during lunch.</string>
@@ -76,7 +105,9 @@
     <string name="notification_test_content">You have a test tomorrow!</string>
 
     <string name="dialog_changelog">
-        - Release!
+        + Different visuals for read/unread surveys/pin board entries
+        \n+ pin board entries/surveys in chronological order\n+ More performant synchronisation of surveys\n+ Information for teachers on long click on survey
+        \n+ Language changeable in the settings
     </string>
 
     <string name="settings_summary_notification_survey_students">Receive notifications on new surveys</string>
@@ -151,7 +182,7 @@
 
     <string name="set_changes">Save changes</string>
     <string name="feature_request">Explain your suggestion</string>
-    <string name="feature_request_title">Feature idea</string>
+    <string name="feature_request_title">Feature idea / Bugreport</string>
     <string name="cards_quick">Quick access</string>
     <string name="discard">Discard</string>
     <string name="todo_description">\t- Terminplaner \t- Digitaler Vertretungsplan \t- Nachhilfebörse \t- Eure Vorschläge</string>
@@ -168,14 +199,14 @@
     <string name="info_screen_fifth">Developer</string>
 
 
-    <!-- EssensQR -->
+    <!-- Essensbons -->
     <string name="toolbar_scan">Scan!</string>
     <string name="button_scan">Scan</string>
     <string name="button_confirm" translatable="false">OK</string>
     <string name="textview_placeholder" translatable="false">placeholder</string>
     <string name="qr_display_title">Your order for today, the</string>
     <string name="qr_display_menu">Menu %1$d</string>
-    <string name="dialog_desc_valid">Ordered menu: \t %1$d</string>
+    <string name="dialog_desc_valid">Menu \t %1$d</string>
     <string name="dialog_desc_valid_id" translatable="false">User-ID: </string>
     <string name="qr_display_not_ordered">You have no order for today</string>
     <string name="qr_display_not_loggedin">You\'re not logged in, please check your user data</string>
@@ -314,7 +345,12 @@
     <string name="survey_checkbox_answers">Multiple options available</string>
     <string name="survey_deleted">Survey deleted</string>
     <string name="survey_description_content">Describe your survey in a few words.</string>
-    <string name="survey_description_title">Choose an informative title for your survey.</string>
+    <string name="survey_description_title">
+        <![CDATA[
+            Choose an informative title for your survey.<br/><br/>
+            <b>No insulting surveys, no violence / sexual content</b>
+        ]]>
+        </string>
     <string name="survey_new_answer">Answer</string>
     <string name="title_description_to">Who is the target audience for this survey?</string>
     <string name="title_survey_answers">Answer possibilities</string>
@@ -418,6 +454,10 @@
         Thank you for helping us test our app. You can give us Feedback either over the Bugreport option in the menu, via email to app@leo-ac.de or, of course, personally.
         If you need any additional information, don\'t hesitate to contact us. Have fun!
     </string>
+
+    <string name="teacher">Teacher</string>
+    <string name="student">Student</string>
+    <string name="admin">Admin</string>
 
 
     <string name="dialog_change_abbr">Change teacher-abbreviation</string>
