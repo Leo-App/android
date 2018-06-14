@@ -101,4 +101,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int i, int i1) {
         return true;
     }
+
+    public String getTopicAtPosition(int position) {
+        return listDataHeader.get(position);
+
+    }
 }

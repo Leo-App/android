@@ -21,8 +21,6 @@ import de.slgdev.leoapp.utility.Utils;
 
 public class SQLiteConnectorSv extends SQLiteOpenHelper {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
-
     public static final String TABLE_LETTERBOX = "letterbox";
     public static final String LETTERBOX_TOPIC = "topic";
     public static final String LETTERBOX_PROPOSAL1 = "proposal1";
@@ -37,18 +35,20 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
 
 
     public SQLiteConnectorSv(Context context) {
-        super(context, DATABASE_NAME, null, 10);
+        super(context, DATABASE_NAME, null, 12);
         database = getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_LETTERBOX + " (" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_LETTERBOX + " (" +
                 LETTERBOX_TOPIC + " TEXT NOT NULL, " +
                 LETTERBOX_PROPOSAL1 + " TEXT NOT NULL, " +
                 LETTERBOX_PROPOSAL2 + " TEXT NOT NULL, " +
                 LETTERBOX_DateOfCreation + " TEXT NOT NULL, " +
-                LETTERBOX_CREATOR + " TEXT NOT NULL " +
+                LETTERBOX_CREATOR + " TEXT NOT NULL, " +
+                LETTERBOX_LIKES + "TEXT NOT NULL, " +
+                LETTERBOX_ANHANG + "VARCHAR " +
                 ")");
     }
 
@@ -58,13 +58,14 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public ContentValues getEntryContentValues(String topic, String proposal1, String proposal2, String dateOfCreation, String creator) {
+    public ContentValues getEntryContentValues(String topic, String proposal1, String proposal2, String dateOfCreation, String creator, String likes) {
         ContentValues values = new ContentValues();
         values.put(LETTERBOX_TOPIC, topic);
         values.put(LETTERBOX_PROPOSAL1, proposal1);
         values.put(LETTERBOX_PROPOSAL2, proposal2);
         values.put(LETTERBOX_DateOfCreation, dateOfCreation);
         values.put(LETTERBOX_CREATOR, creator);
+        values.put(LETTERBOX_LIKES, likes);
         return values;
     }
 

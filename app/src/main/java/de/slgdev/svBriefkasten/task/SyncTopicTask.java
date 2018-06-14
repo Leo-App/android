@@ -1,5 +1,6 @@
 package de.slgdev.svBriefkasten.task;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,19 +14,18 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
+import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.Utils;
 
 /**
  * Created by sili- on 29.04.2018.
  */
 
-public class SyncTopicTask extends AsyncTask<Void,Void,Void> {
+public class SyncTopicTask extends VoidCallbackTask {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
 
     @Override
-    protected Void doInBackground(Void... voids) {
-
+    protected Object doInBackground(Object[] objects) {
         if (Utils.isNetworkAvailable()) {
             try {
                 URLConnection connection = new URL("http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/sync.php")
@@ -40,24 +40,25 @@ public class SyncTopicTask extends AsyncTask<Void,Void,Void> {
                 StringBuilder builder = new StringBuilder();
                 String        line;
                 while ((line = reader.readLine()) != null)
-                    builder.append(line)
-                            .append(System.getProperty("line.separator"));
+                    builder.append(line);
                 reader.close();
                 SQLiteConnectorSv db  = new SQLiteConnectorSv(Utils.getContext());
                 SQLiteDatabase dbh = db.getWritableDatabase();
                 dbh.delete(SQLiteConnectorSv.TABLE_LETTERBOX, null, null);
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
+                    Utils.logDebug("current = " + s);
                     String[] res = s.split(";");
                     if(res.length>=5)
-                         dbh.insert(SQLiteConnectorSv.TABLE_LETTERBOX, null , db.getEntryContentValues(
-                                 res[0],
-                                 res[1],
-                                 res[2],
-                                 res[3],
-                                 res[4]
-                         ));
-                    }
+                        dbh.insert(SQLiteConnectorSv.TABLE_LETTERBOX, null , db.getEntryContentValues(
+                                res[0],
+                                res[1],
+                                res[2],
+                                res[3],
+                                res[4],
+                                res[5]
+                        ));
+                }
 
                 dbh.close();
                 db.close();
@@ -67,6 +68,7 @@ public class SyncTopicTask extends AsyncTask<Void,Void,Void> {
             }
         }
         return null;
+
     }
-    }
+}
 
