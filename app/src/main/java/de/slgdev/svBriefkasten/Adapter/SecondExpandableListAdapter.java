@@ -1,4 +1,4 @@
-package de.slgdev.svBriefkasten;
+package de.slgdev.svBriefkasten.Adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -18,17 +18,19 @@ import de.slgdev.leoapp.R;
  * Created by sili- on 14.04.2018.
  */
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class SecondExpandableListAdapter extends BaseExpandableListAdapter {
 
 
     private Context context;
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHashMap;
+    private List<String> listLikeHeader;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap) {
+    public SecondExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap, List<String> listLikeHeader) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listHashMap = listHashMap;
+        this.listLikeHeader = listLikeHeader;
     }
 
     @Override
@@ -71,14 +73,19 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         String headerTitle = (String)getGroup(i);
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view= inflater.inflate(R.layout.list_group_briefkasten, null);
+            view= inflater.inflate(R.layout.list_group_briefkasten2, null);
         }
 
-        
 
-        TextView lbl = (TextView)view.findViewById(R.id.lblListHeader);
+
+        TextView lbl = (TextView)view.findViewById(R.id.secondListItem);
         lbl.setTypeface(null, Typeface.BOLD);
         lbl.setText(headerTitle);
+
+        TextView like = (TextView) view.findViewById(R.id.likeListItem);
+        String likeTitle = listLikeHeader.get(i);
+        like.setTypeface(null, Typeface.BOLD);
+        like.setText(likeTitle);
         return view;
 
     }

@@ -35,7 +35,7 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
 
 
     public SQLiteConnectorSv(Context context) {
-        super(context, DATABASE_NAME, null, 12);
+        super(context, DATABASE_NAME, null, 16);
         database = getWritableDatabase();
     }
 
@@ -47,8 +47,8 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
                 LETTERBOX_PROPOSAL2 + " TEXT NOT NULL, " +
                 LETTERBOX_DateOfCreation + " TEXT NOT NULL, " +
                 LETTERBOX_CREATOR + " TEXT NOT NULL, " +
-                LETTERBOX_LIKES + "TEXT NOT NULL, " +
-                LETTERBOX_ANHANG + "VARCHAR " +
+                LETTERBOX_LIKES + " TEXT NOT NULL, " +
+                LETTERBOX_ANHANG + " VARCHAR " +
                 ")");
     }
 

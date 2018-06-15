@@ -14,12 +14,13 @@ import java.util.List;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
+import de.slgdev.svBriefkasten.Adapter.SecondExpandableListAdapter;
 import de.slgdev.svBriefkasten.task.SyncTopicTask;
 
 public class ResultActivity extends AppCompatActivity {
 
     private ExpandableListView resultsELW;
-    private ExpandableListAdapter listAdapter;
+    private SecondExpandableListAdapter listAdapter;
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHash;
 
@@ -37,6 +38,9 @@ public class ResultActivity extends AppCompatActivity {
         if(sqLiteDatabase==null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
+        listDataHeader = new ArrayList<>();
+        listHash = new HashMap<>();
+
         receive();
 
         initELW();
@@ -45,8 +49,7 @@ public class ResultActivity extends AppCompatActivity {
 
     public void initELW(){
         Cursor cursor;
-        //cursor = sqLiteDatabase.query(SQLiteConnectorSV.TABLE_LETTERBOX, new String[]{sqLiteConnector.LETTERBOX_TOPIC, sqLiteConnector.LETTERBOX_PROPOSAL1, sqLiteConnector.LETTERBOX_PROPOSAL2, sqLiteConnector.LETTERBOX_DateOfCreation, sqLiteConnector.LETTERBOX_CREATOR, sqLiteConnector.LETTERBOX_LIKES},null, null, null, null ,sqLiteConnector.LETTERBOX_LIKES + " DESC");
-        cursor= sqLiteDatabase.rawQuery("SELECT * FROM " + sqLiteConnector.TABLE_LETTERBOX,null);
+        cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES},null, null, null, null ,sqLiteConnector.LETTERBOX_LIKES + " DESC");
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             String topic = cursor.getString(0);

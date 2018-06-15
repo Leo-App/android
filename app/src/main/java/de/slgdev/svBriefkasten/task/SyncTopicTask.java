@@ -49,14 +49,14 @@ public class SyncTopicTask extends VoidCallbackTask {
                 for (String s : result) {
                     Utils.logDebug("current = " + s);
                     String[] res = s.split(";");
-                    if(res.length>=5)
+                    if(res.length>=6)
                         dbh.insert(SQLiteConnectorSv.TABLE_LETTERBOX, null , db.getEntryContentValues(
                                 res[0],
                                 res[1],
                                 res[2],
                                 res[3],
                                 res[4],
-                                res[5]
+                                res[5] + " "
                         ));
                 }
 

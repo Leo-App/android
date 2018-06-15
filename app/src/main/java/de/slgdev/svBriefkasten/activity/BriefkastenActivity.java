@@ -55,8 +55,6 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
 
         new SyncTopicTask().addListener(this).execute();
 
-        initData();
-
         initButtons();
     }
 
@@ -74,27 +72,15 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         results.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getApplicationContext(),ResultActivity.class));
             }
         });
     }
 
     private void initData() {
-
-        String thema = "Thema";
-        List<String> eins = new ArrayList<>();
-        eins.add("Eine alternative Lösung");
-        listDataHeader.add(thema);
-        listHash.put(listDataHeader.get(listDataHeader.size()-1), eins);
-
-        thema = "TestThema";
-        eins = new ArrayList<>();
-        eins.add("Alternativ auch das hier");
-        listDataHeader.add(thema);
-        listHash.put(listDataHeader.get(listDataHeader.size()-1), eins);
-
         Cursor cursor;
-        cursor = sqLiteDatabase.query(false,SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR},null, null, null, null,null, null);
+        cursor = sqLiteDatabase.query(false,SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES},null, null, null, null,null, null);
+        cursor.moveToFirst();
         Utils.logDebug(cursor.getCount());
 
         position = new String[cursor.getCount()];
@@ -103,7 +89,6 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
             String proposal1=cursor.getString(1);
             String proposal2=cursor.getString(2);
             position[cursor.getPosition()] = topic;
-            startActivity(new Intent(getApplicationContext(),ResultActivity.class));
 
             listDataHeader.add(topic);
             List<String> loesungen = new ArrayList<>();
@@ -167,7 +152,7 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
     public void taskFinished(Object... params) {
         Utils.logDebug("done");
         initData();
-        listAdapter = new de.slgdev.svBriefkasten.ExpandableListAdapter(this, listDataHeader,listHash);
+        listAdapter = new de.slgdev.svBriefkasten.Adapter.ExpandableListAdapter(this, listDataHeader,listHash);
         expandableListView.setAdapter(listAdapter);
     }
 }
