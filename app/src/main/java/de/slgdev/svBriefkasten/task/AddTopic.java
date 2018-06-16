@@ -27,10 +27,10 @@ public class AddTopic extends ObjectCallbackTask<ResponseCode> {
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             new URL(
-                                    ("https://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/sync.php" +
+                                    ("https://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/addTopix.php" +
                                             "addTopic.php?" +
                                             "topic= " + topic + "&" +
-                                            "proposal=" + proposal + "&" +
+                                            "proposal1=" + proposal + "&" +
                                             "id=" + Utils.getUserID() + "&" )
                                             .replace("%", "%25")
                                             .replace(
