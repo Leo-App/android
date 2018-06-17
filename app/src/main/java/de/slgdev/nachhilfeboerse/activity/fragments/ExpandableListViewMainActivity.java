@@ -60,28 +60,20 @@ public class ExpandableListViewMainActivity extends Fragment implements TaskStat
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
 
-
-        Cursor cursor1 = sqLiteDatabase.query(false,
+        Cursor cursor1 = sqLiteDatabase.query(true,
                 SQLiteConnectorNachhilfeboerse.TABLE_NACHHILFEBOERSE,
                 new String[]{SQLiteConnectorNachhilfeboerse.NACHHILFE_FAECHER},
-                null, null,
-                SQLiteConnectorNachhilfeboerse.NACHHILFE_FAECHER, null, null, null);
+                null, null, null, null, null, null);
+
+        Utils.logDebug("CURSOR SIZE: " + cursor1.getCount());
+
         ArrayList daten = new ArrayList();
         cursor1.moveToFirst();
         for(int a = 0 ; a < cursor1.getCount(); a++) {
             String[] fach = cursor1.getString(0).split(",");
             int l = 0;
             while (fach.length > l) {
-                int o = 0 ;
-                boolean isschon = false ;
-                while(daten.size() > o){
-                    if(daten.get(o) == fach[l]){
-                        isschon = true ;
-                    }
-                    o++;
-                }
-                Utils.logDebug(isschon);
-                if(!isschon) {
+                if(!daten.contains(fach[l])) {
                     daten.add(fach[l]);
                     listDataHeader.add(fach[l]);
                     Cursor cursor2 = sqLiteDatabase.query(false,
@@ -89,8 +81,6 @@ public class ExpandableListViewMainActivity extends Fragment implements TaskStat
                             new String[]{SQLiteConnectorNachhilfeboerse.NACHHILFE_VORNAME},
                             SQLiteConnectorNachhilfeboerse.NACHHILFE_FAECHER + " like '%" + fach[l] + "%'",
                             null, null, null, null, null);
-
-                    l++;
                     cursor2.moveToFirst();
                     Utils.logDebug(cursor2.getString(0));
                     List<String> name = new ArrayList<>();
@@ -102,14 +92,10 @@ public class ExpandableListViewMainActivity extends Fragment implements TaskStat
                     cursor2.close();
                     cursor1.moveToNext();
                 }
+                l++;
             }
         }
         cursor1.close();
-    }
-
-    @Override
-    public void taskStarts() {
-
     }
 
     @Override
@@ -120,19 +106,16 @@ public class ExpandableListViewMainActivity extends Fragment implements TaskStat
         Utils.logDebug(listDataHeader.size());
         listAdapter = new ExpendableListViewAdapter(Utils.getContext(), listDataHeader, listHash);
         listView.setAdapter(listAdapter);
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                Toast.makeText(
-                        Utils.getContext(),
-                        listDataHeader.get(i)
-                                + " : "
-                                + listHash.get(
-                                listDataHeader.get(i)).get(
-                                i1), Toast.LENGTH_SHORT)
-                        .show();
-                return false;
-            }
+        listView.setOnChildClickListener((expandableListView, view, i, i1, l) -> {
+            Toast.makeText(
+                    Utils.getContext(),
+                    listDataHeader.get(i)
+                            + " : "
+                            + listHash.get(
+                            listDataHeader.get(i)).get(
+                            i1), Toast.LENGTH_SHORT)
+                    .show();
+            return false;
         });
     }
 }
