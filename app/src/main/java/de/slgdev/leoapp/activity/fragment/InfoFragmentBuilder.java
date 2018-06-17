@@ -121,7 +121,7 @@ public class InfoFragmentBuilder {
             View v = inflater.inflate(R.layout.fragment_intro_info, container, false);
 
             ImageView imageV = v.findViewById(R.id.image);
-            background = v.findViewById(R.id.main);
+            background = v.findViewById(R.id.button);
 
             TextView textViewTitle = v.findViewById(R.id.title);
             TextView textViewDesc  = v.findViewById(R.id.description);

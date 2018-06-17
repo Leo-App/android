@@ -17,6 +17,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <RelativeLayout
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/toolbar">
+
+            </RelativeLayout>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -29,41 +39,13 @@
                 android:theme="?attr/actionBarTheme" />
 
             <RelativeLayout
-                android:id="@+id/main"
-                android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/toolbar">
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="80dp"
-                android:text="TextView" />
-
-            <Button
-                android:id="@+id/verbinden"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="38dp"
-                android:text="Button" />
-
-            <RelativeLayout
                 android:id="@+id/Liste"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/main">
+                android:layout_below="@+id/button">
 
             </RelativeLayout>
 

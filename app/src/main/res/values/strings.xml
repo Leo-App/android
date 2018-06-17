@@ -214,12 +214,12 @@
 
     <!-- Nachhilfeboerse -->
     <string name="nachhilfeanbieten">Give private tutoring</string>
-    <string name="nachhilfenehmenin">Take private tutoring</string>
     <string name="ichNehme">i take :</string>
-    <string name="nachhilfegebenin">You wanna give private tutoring in</string>
     <string name="EUROproH">Dollar/Hour</string>
     <string name="weiter">Go on</string>
-
+    <string name="vorname">First given name</string>
+    <string name="nachname">Surname</string>
+    <string name="auswaehlen">Please choose a subjekt</string>
 
     <!-- Stundenplan -->
     <string name="month">Month</string>

@@ -183,11 +183,12 @@
 
     <!-- Nachhilfebörse -->
     <string name="nachhilfeanbieten">Nachhilfe anbieten</string>
-    <string name="nachhilfenehmenin">Nachhilfe nehmen in</string>
     <string name="ichNehme">Ich nehme :</string>
-    <string name="nachhilfegebenin">Du willst Nachhilfe geben in</string>
     <string name="EUROproH">Euro/h</string>
     <string name="weiter">Weiter</string>
+    <string name="vorname">Vorname</string>
+    <string name="nachname">Nachname</string>
+    <string name="auswaehlen">Bitte wähle ein Fach aus</string>
 
 
     <!-- Schwarzes Brett -->

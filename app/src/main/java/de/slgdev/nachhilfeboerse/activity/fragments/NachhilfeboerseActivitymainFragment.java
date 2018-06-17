@@ -25,7 +25,7 @@ public class NachhilfeboerseActivitymainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflator, ViewGroup container, Bundle savedInstance) {
 
         View rootView = inflator.inflate(R.layout.activity_nachhilfeboerse_mainactivity_fragment, container, false);
-        Button anbieten = (Button)rootView.findViewById(R.id.anbieten);
+        Button anbieten = (Button)rootView.findViewById(R.id.wechseln);
         Intent intentNachhilfegeben = new Intent(Utils.getContext(), Nachhilfeboerse_nachhilfegebenActivity.class);
         anbieten.setOnClickListener(view -> startActivity(intentNachhilfegeben));
         return rootView ;

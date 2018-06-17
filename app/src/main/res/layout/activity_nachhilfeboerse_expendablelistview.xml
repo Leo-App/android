@@ -10,10 +10,12 @@
     android:paddingTop="16dp">
 
     <ExpandableListView
+        android:id="@+id/lvExp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lvExp">
-    </ExpandableListView>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"></ExpandableListView>
 
 </RelativeLayout>
 

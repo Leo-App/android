@@ -60,7 +60,7 @@ public class LoginFragment extends AbstractOrderedFragment implements ISlideBack
                              @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_intro_login, container, false);
-        background = v.findViewById(R.id.main);
+        background = v.findViewById(R.id.button);
 
         TextView textViewTitle = v.findViewById(R.id.title);
         TextView textViewDesc  = v.findViewById(R.id.description);

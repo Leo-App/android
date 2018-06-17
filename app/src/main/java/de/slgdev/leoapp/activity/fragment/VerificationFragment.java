@@ -59,7 +59,7 @@ public class VerificationFragment extends AbstractOrderedFragment implements ISl
                              @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_intro_verification, container, false);
-        background = v.findViewById(R.id.main);
+        background = v.findViewById(R.id.button);
 
         TextView textViewTitle = v.findViewById(R.id.title);
         TextView textViewDesc  = v.findViewById(R.id.description);
