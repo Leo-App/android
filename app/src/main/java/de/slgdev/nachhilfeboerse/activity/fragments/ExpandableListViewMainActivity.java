@@ -83,15 +83,15 @@ public class ExpandableListViewMainActivity extends Fragment implements TaskStat
                 if(!isschon) {
                     daten.add(fach[l]);
                     listDataHeader.add(fach[l]);
-                    l++;
                     Cursor cursor2 = sqLiteDatabase.query(false,
                             SQLiteConnectorNachhilfeboerse.TABLE_NACHHILFEBOERSE,
                             new String[]{SQLiteConnectorNachhilfeboerse.NACHHILFE_VORNAME},
                             SQLiteConnectorNachhilfeboerse.NACHHILFE_FAECHER + " = '%" + fach[l] + "%'",
                             null, null, null, null, null);
 
-
+                    l++;
                     cursor2.moveToFirst();
+                    Utils.logDebug(cursor2.getString(0));
                     List<String> name = new ArrayList<>();
                     for (int p = 0; p < cursor2.getCount(); p++) {
                         name.add(cursor2.getString(0));
