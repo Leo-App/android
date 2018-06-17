@@ -1,6 +1,7 @@
 package de.slgdev.startseite.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URLConnection;
+import java.nio.Buffer;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import de.slgdev.essensbons.activity.EssensbonActivity;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
@@ -59,6 +70,8 @@ public class MainActivity extends LeoAppNavigationActivity {
 
         Utils.getController().registerMainActivity(this);
         Utils.getController().setContext(getApplicationContext());
+
+        testAuthentication();
 
         processIntent();
         super.onCreate(savedInstanceState);
@@ -224,6 +237,8 @@ public class MainActivity extends LeoAppNavigationActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        testAuthentication();
 
         if (Utils.getController().getPreferences().getBoolean("locale_changed", false)) {
             Utils.getController().getPreferences().edit().putBoolean("locale_changed", false).apply();
@@ -432,6 +447,22 @@ public class MainActivity extends LeoAppNavigationActivity {
                 new Handler().postDelayed(() -> abstimmDialog = null, 100);
             });
             abstimmDialog.show();
+        });
+    }
+
+    private void testAuthentication() {
+        AsyncTask.execute(() -> {
+            try {
+                HttpURLConnection connection = (HttpURLConnection) Utils.openURLConnection(Utils.DOMAIN_DEV + "testAuth.php");
+                BufferedReader r = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                Utils.logDebug(r.readLine());
+                if (connection.getResponseCode() == 401)
+                    Utils.logDebug("Authentication failed");
+                else
+                    Utils.logDebug("Authentication successful");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 }
