@@ -149,7 +149,7 @@ public class Nachhilfeboerse_nachhilfegebenActivity extends LeoAppNavigationActi
                         anzeige.setVisibility(View.VISIBLE);
                         anzeige.setText("Bitte wähle ein Fach aus");
                     }else {
-                        while (a != daten.length || !daten[a].equals("")) {
+                        while (a != daten.length && !daten[a].equals("")) {
                             faecher += daten[a] + ",";
                             a++;
                         }
@@ -182,7 +182,7 @@ public class Nachhilfeboerse_nachhilfegebenActivity extends LeoAppNavigationActi
         if (sqLiteConnector == null)
             sqLiteConnector = new SQLiteConnectorNachhilfeboerse(Utils.getContext());
         if (sqLiteDatabase == null)
-            sqLiteDatabase = sqLiteConnector.getReadableDatabase();
+            sqLiteDatabase = sqLiteConnector.getWritableDatabase();
     }
 }
 

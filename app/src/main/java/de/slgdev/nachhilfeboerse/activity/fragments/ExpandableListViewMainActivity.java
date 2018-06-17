@@ -80,13 +80,14 @@ public class ExpandableListViewMainActivity extends Fragment implements TaskStat
                     }
                     o++;
                 }
+                Utils.logDebug(isschon);
                 if(!isschon) {
                     daten.add(fach[l]);
                     listDataHeader.add(fach[l]);
                     Cursor cursor2 = sqLiteDatabase.query(false,
                             SQLiteConnectorNachhilfeboerse.TABLE_NACHHILFEBOERSE,
                             new String[]{SQLiteConnectorNachhilfeboerse.NACHHILFE_VORNAME},
-                            SQLiteConnectorNachhilfeboerse.NACHHILFE_FAECHER + " = '%" + fach[l] + "%'",
+                            SQLiteConnectorNachhilfeboerse.NACHHILFE_FAECHER + " like '%" + fach[l] + "%'",
                             null, null, null, null, null);
 
                     l++;
