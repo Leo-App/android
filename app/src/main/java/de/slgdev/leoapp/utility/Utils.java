@@ -105,9 +105,10 @@ public abstract class Utils {
         if (info == null)
             return NetworkPerformance.NOT_AVAILABLE;
 
-        if (info.getType() == ConnectivityManager.TYPE_WIFI) {
+        if (info.getType() == ConnectivityManager.TYPE_WIFI)
             return NetworkPerformance.EXCELLENT;
-        } else if (info.getType() == ConnectivityManager.TYPE_MOBILE) {
+
+        if (info.getType() == ConnectivityManager.TYPE_MOBILE) {
             switch (info.getSubtype()) {
                 case TelephonyManager.NETWORK_TYPE_GPRS:
                 case TelephonyManager.NETWORK_TYPE_EDGE:
@@ -131,6 +132,7 @@ public abstract class Utils {
                     return isNetworkAvailable() ? NetworkPerformance.INSUFFICIENT : NetworkPerformance.NOT_AVAILABLE;
             }
         }
+
         return isNetworkAvailable() ? NetworkPerformance.INSUFFICIENT : NetworkPerformance.NOT_AVAILABLE;
     }
 
