@@ -11,6 +11,7 @@ import android.os.Bundle;
 import java.util.Locale;
 
 import de.slgdev.leoapp.service.AlarmStartupService;
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.task.MailSendTask;
 import de.slgdev.leoapp.task.SyncFilesTask;
 import de.slgdev.leoapp.task.SyncGradeTask;
@@ -75,16 +76,16 @@ public class Start extends Activity {
 
     private void startServices() {
         if (Utils.isVerified()) {
-   //         startReceiveService(); TODO
+            startReceiveService();
             startService(new Intent(getApplicationContext(), AlarmStartupService.class));
             initSyncAdapter();
         }
     }
 
     public static void startReceiveService() {
-  //      if (Utils.isNetworkAvailable()) {
-  //          Utils.getContext().startService(new Intent(Utils.getContext(), ReceiveService.class));
-  //      }
+        if (Utils.isNetworkAvailable()) {
+            Utils.getContext().startService(new Intent(Utils.getContext(), SocketService.class));
+        }
     }
 
     private void initSyncAdapter() {

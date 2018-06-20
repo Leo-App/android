@@ -1,6 +1,5 @@
 package de.slgdev.schwarzes_brett.task;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,15 +10,15 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
-import de.slgdev.leoapp.utility.StringUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 
 /**
  * SyncNewsTask.
  * <p>
- * Von {@link de.slgdev.leoapp.service.ReceiveService ReceiveService} unabhängiger Task zum aktualisieren des Schwarzes Bretts, macht ein instantanes Aktualisieren möglich.
+ * Von {@link SocketService SocketService} unabhängiger Task zum aktualisieren des Schwarzes Bretts, macht ein instantanes Aktualisieren möglich.
  *
  * @author Gianni
  * @version 2017.1211
@@ -53,7 +52,7 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
                 reader.close();
                 SQLiteConnectorSchwarzesBrett db  = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
 
-                String[] result = builder.toString().split("_next_");
+                String[]      result    = builder.toString().split("_next_");
                 List<Integer> remoteids = new List<>();
 
                 for (String s : result) {

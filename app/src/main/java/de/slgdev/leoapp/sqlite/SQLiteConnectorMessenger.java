@@ -16,47 +16,110 @@ import de.slgdev.messenger.utility.Chat;
 import de.slgdev.messenger.utility.Message;
 import de.slgdev.messenger.utility.MessengerUtils;
 
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_DELETED;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_ID;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_MUTE;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_NAME;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.CHAT_TYPE;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.MESSAGE_DATE;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.MESSAGE_DELETED;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.MESSAGE_ID;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.MESSAGE_READ;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.MESSAGE_TEXT;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.TABLE_ASSOZIATION;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.TABLE_CHATS;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.TABLE_MESSAGES;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.TABLE_MESSAGES_QUEUED;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.TABLE_USERS;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_DEFAULTNAME;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_ID;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_NAME;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_PERMISSION;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.USER_STUFE;
-import static de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger.DBHelper.version;
-
 /**
  * Jede Methode tut das, was der Name sagt! Aufschlussreiches Javadoc!
  */
-public class SQLiteConnectorMessenger {
+public class SQLiteConnectorMessenger extends SQLiteOpenHelper {
 
     private final SQLiteDatabase database;
-    private final DBHelper       helper;
+
+    private static final String DATABASE_NAME = "messenger";
+
+    private static final String TABLE_ASSOZIATION     = "assoziation";
+    private static final String TABLE_CHATS           = "chats";
+    private static final String TABLE_MESSAGES        = "messages";
+    private static final String TABLE_MESSAGES_QUEUED = "messages_unsend";
+    private static final String TABLE_USERS           = "users";
+
+    private static final String CHAT_ID      = "cid";
+    private static final String CHAT_NAME    = "cname";
+    private static final String CHAT_TYPE    = "ctype";
+    private static final String CHAT_DELETED = "cdeleted";
+    private static final String CHAT_MUTE    = "cmute";
+
+    private static final String MESSAGE_ID      = "mid";
+    private static final String MESSAGE_TEXT    = "mtext";
+    private static final String MESSAGE_DATE    = "mdate";
+    private static final String MESSAGE_READ    = "mgelesen";
+    private static final String MESSAGE_DELETED = "mdeleted";
+
+    private static final String USER_ID          = "uid";
+    private static final String USER_NAME        = "uname";
+    private static final String USER_DEFAULTNAME = "udefaultname";
+    private static final String USER_STUFE       = "ustufe";
+    private static final String USER_PERMISSION  = "upermission";
+
+    private static final int version = 4;
 
     public SQLiteConnectorMessenger(Context context) {
-        helper = new DBHelper(context);
-        database = helper.getWritableDatabase();
+        super(context, DATABASE_NAME, null, version);
+        database = getWritableDatabase();
     }
 
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        Utils.logDebug("Datenbank wird erstellt");
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " (" +
+                    MESSAGE_ID + " INTEGER PRIMARY KEY, " +
+                    MESSAGE_TEXT + " TEXT NOT NULL, " +
+                    MESSAGE_DATE + " TEXT NOT NULL, " +
+                    CHAT_ID + " INTEGER NOT NULL, " +
+                    USER_ID + " INTEGER NOT NULL, " +
+                    MESSAGE_READ + " INTEGER NOT NULL, " +
+                    MESSAGE_DELETED + " INTEGER NOT NULL)");
+        } catch (SQLException e) {
+            Utils.logError(e);
+        }
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATS + " (" +
+                    CHAT_ID + " INTEGER PRIMARY KEY, " +
+                    CHAT_NAME + " TEXT NOT NULL, " +
+                    CHAT_TYPE + " TEXT NOT NULL, " +
+                    CHAT_DELETED + " INTEGER NOT NULL, " +
+                    CHAT_MUTE + " INTEGER NOT NULL)");
+        } catch (SQLException e) {
+            Utils.logError(e);
+        }
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_ASSOZIATION + " (" +
+                    CHAT_ID + " INTEGER NOT NULL, " +
+                    USER_ID + " INTEGER NOT NULL)");
+        } catch (SQLException e) {
+            Utils.logError(e);
+        }
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_USERS + " (" +
+                    USER_ID + " INTEGER PRIMARY KEY, " +
+                    USER_NAME + " TEXT NOT NULL, " +
+                    USER_DEFAULTNAME + " TEXT NOT NULL, " +
+                    USER_STUFE + " TEXT, " +
+                    USER_PERMISSION + " INTEGER NOT NULL)");
+        } catch (SQLException e) {
+            Utils.logError(e);
+        }
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES_QUEUED + " (" +
+                    MESSAGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    MESSAGE_TEXT + " TEXT NOT NULL, " +
+                    CHAT_ID + " INTEGER NOT NULL)");
+        } catch (SQLException e) {
+            Utils.logError(e);
+        }
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        clear();
+    }
+
+    @Override
     public void close() {
         database.close();
-        helper.close();
     }
 
     //Message
+
     public void insertMessage(Message m) {
         if (m != null && !contains(m)) {
             ContentValues values = new ContentValues();
@@ -174,13 +237,44 @@ public class SQLiteConnectorMessenger {
         update(TABLE_MESSAGES, values, CHAT_ID + " = " + cid);
     }
 
+    private boolean contains(Message m) {
+        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_ID + " = " + m.mid, null);
+        boolean b      = cursor.getCount() > 0;
+        cursor.close();
+        return b;
+    }
+
+    public void deleteMessage(int mid) {
+        ContentValues values = new ContentValues();
+        values.put(MESSAGE_DELETED, 1);
+        update(TABLE_MESSAGES, values, MESSAGE_ID + " = " + mid);
+    }
+
+    public String getLatestMessage() {
+        String[] columns = {"MAX(" + MESSAGE_DATE + ")"};
+        Cursor   cursor  = query(TABLE_MESSAGES, columns, null, null);
+        cursor.moveToFirst();
+        String erg = null;
+        if (cursor.getCount() > 0)
+            erg = cursor.getString(0);
+        cursor.close();
+        if (erg == null)
+            erg = "0";
+        Utils.logDebug(erg);
+        return erg;
+    }
+
+    public void deleteQueuedMessage(int mid) {
+        delete(TABLE_MESSAGES_QUEUED, MESSAGE_ID + " = " + mid);
+    }
+
     public void enqueueMessage(String mtext, int cid) {
         ContentValues values = new ContentValues();
         values.put(MESSAGE_TEXT, mtext);
         values.put(CHAT_ID, cid);
         insert(TABLE_MESSAGES_QUEUED, values);
 
-        Utils.getController().getReceiveService().notifyQueuedMessages();
+        Utils.getController().getSocketService().notifyQueuedMessages();
     }
 
     public boolean hasQueuedMessages() {
@@ -205,45 +299,15 @@ public class SQLiteConnectorMessenger {
         delete(TABLE_MESSAGES_QUEUED, MESSAGE_ID + " = " + mid);
     }
 
-    private boolean contains(Message m) {
-        Cursor  cursor = query(TABLE_MESSAGES, new String[]{MESSAGE_ID}, MESSAGE_ID + " = " + m.mid, null);
-        boolean b      = cursor.getCount() > 0;
-        cursor.close();
-        return b;
-    }
-
-    public void deleteMessage(int mid) {
-        ContentValues values = new ContentValues();
-        values.put(MESSAGE_DELETED, 1);
-        update(TABLE_MESSAGES, values, MESSAGE_ID + " = " + mid);
-    }
-
-    public void deleteQueuedMessage(int mid) {
-        delete(TABLE_MESSAGES_QUEUED, MESSAGE_ID + " = " + mid);
-    }
-
-    public String getLatestMessage() {
-        String[] columns = {"MAX(" + MESSAGE_DATE + ")"};
-        Cursor   cursor  = query(TABLE_MESSAGES, columns, null, null);
-        cursor.moveToFirst();
-        String erg = null;
-        if (cursor.getCount() > 0)
-            erg = cursor.getString(0);
-        cursor.close();
-        if (erg == null)
-            erg = "0";
-        Utils.logDebug(erg);
-        return erg;
-    }
-
     //User
+
     public void insertUser(User u) {
         if (u != null) {
             if (!contains(u)) {
                 ContentValues values = new ContentValues();
                 values.put(USER_ID, u.uid);
                 values.put(USER_NAME, u.uname);
-                values.put(USER_DEFAULTNAME, u.udefaultname);
+                values.put(USER_DEFAULTNAME, u.udefaultname.toLowerCase());
                 values.put(USER_STUFE, u.ustufe);
                 values.put(USER_PERMISSION, u.upermission);
                 insert(TABLE_USERS, values);
@@ -291,6 +355,7 @@ public class SQLiteConnectorMessenger {
     }
 
     //Chat
+
     public void insertChat(Chat c) {
         if (c != null) {
             if (!contains(c)) {
@@ -310,7 +375,8 @@ public class SQLiteConnectorMessenger {
     }
 
     public Chat[] getChats() {
-        String query = "SELECT c." +    //Index
+        Cursor cursor = database.rawQuery(
+                "SELECT c." +        //Index
                 CHAT_ID + ", c." +      // 0
                 CHAT_NAME + ", c." +    // 1
                 CHAT_TYPE + ", c." +    // 2
@@ -333,8 +399,9 @@ public class SQLiteConnectorMessenger {
                 " AND m2." + MESSAGE_DELETED + " = 0)" +
                 " WHERE c." + CHAT_DELETED + " = 0" +
                 " GROUP BY c." + CHAT_ID +
-                " ORDER BY " + CHAT_MUTE + ", " + MESSAGE_DATE + " DESC";
-        Cursor cursor = rawQuery(query);
+                        " ORDER BY " + CHAT_MUTE + ", " + MESSAGE_DATE + " DESC",
+                null
+        );
         Chat[] chats  = new Chat[cursor.getCount()];
         int    i      = 0;
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
@@ -431,9 +498,10 @@ public class SQLiteConnectorMessenger {
     }
 
     //Suchen
-    public Object[] getSuchergebnisse(String suchbegriff, boolean chatsFirst, String orderUsers) {
-        Cursor   cursorChats = query(TABLE_CHATS, new String[]{CHAT_ID, CHAT_NAME, CHAT_MUTE}, CHAT_TYPE + " = '" + Chat.ChatType.GROUP.toString() + "' AND " + CHAT_NAME + " LIKE '%" + suchbegriff + "%'", DBHelper.CHAT_NAME);
-        Cursor   cursorUsers = query(TABLE_USERS, new String[]{USER_ID, USER_NAME, USER_DEFAULTNAME, USER_STUFE}, USER_ID + " != " + Utils.getUserID() + " AND " + USER_NAME + " LIKE '%" + suchbegriff + "%' OR " + USER_DEFAULTNAME + " LIKE '%" + suchbegriff + "%'", orderUsers);
+
+    public Object[] getSuchergebnisse(String suchbegriff) {
+        Cursor   cursorChats = query(TABLE_CHATS, new String[]{CHAT_ID, CHAT_NAME, CHAT_MUTE}, CHAT_TYPE + " = '" + Chat.ChatType.GROUP.toString() + "' AND " + CHAT_NAME + " LIKE '%" + suchbegriff + "%'", CHAT_NAME);
+        Cursor   cursorUsers = query(TABLE_USERS, new String[]{USER_ID, USER_NAME, USER_DEFAULTNAME, USER_STUFE}, USER_ID + " != " + Utils.getUserID() + " AND " + USER_NAME + " LIKE '%" + suchbegriff + "%' OR " + USER_DEFAULTNAME + " LIKE '%" + suchbegriff + "%'", USER_STUFE + ", " + USER_DEFAULTNAME);
         Chat[]   chats       = new Chat[cursorChats.getCount()];
         User[]   users       = new User[cursorUsers.getCount()];
         Object[] ergebnisse  = new Object[chats.length + users.length];
@@ -447,25 +515,12 @@ public class SQLiteConnectorMessenger {
         }
         cursorChats.close();
         cursorUsers.close();
-        if (chatsFirst) {
-            System.arraycopy(chats, 0, ergebnisse, 0, chats.length);
-            System.arraycopy(users, 0, ergebnisse, chats.length, users.length);
-        } else {
-            System.arraycopy(users, 0, ergebnisse, 0, users.length);
-            System.arraycopy(chats, 0, ergebnisse, users.length, chats.length);
-        }
+        System.arraycopy(users, 0, ergebnisse, 0, users.length);
+        System.arraycopy(chats, 0, ergebnisse, users.length, chats.length);
         return ergebnisse;
     }
 
     //Assoziation
-    public void insertAssoziation(Assoziation a) {
-        if (a != null) {
-            ContentValues values = new ContentValues();
-            values.put(CHAT_ID, a.cid);
-            values.put(USER_ID, a.uid);
-            insert(TABLE_ASSOZIATION, values);
-        }
-    }
 
     public void insertAssoziationen(List<Assoziation> assoziations) {
         Cursor cursor = query(TABLE_ASSOZIATION, new String[]{USER_ID, CHAT_ID}, null, null);
@@ -499,26 +554,20 @@ public class SQLiteConnectorMessenger {
         return b;
     }
 
-    public void removeUserFormChat(int uid, int cid) {
-        delete(TABLE_ASSOZIATION, USER_ID + " = " + uid + " AND " + CHAT_ID + " = " + cid);
-    }
-
     public User[] getUsersInChat(int cid) {
-        String     table     = TABLE_ASSOZIATION + ", " + TABLE_USERS;
-        String[]   columns   = {TABLE_USERS + "." + USER_ID, USER_NAME, USER_STUFE, USER_PERMISSION, USER_DEFAULTNAME};
-        String     selection = CHAT_ID + " = " + cid + " AND " + TABLE_USERS + "." + USER_ID + " = " + TABLE_ASSOZIATION + "." + USER_ID;
-        Cursor     cursor    = query(table, columns, selection, USER_NAME);
-        List<User> list      = new List<>();
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            if (cursor.getInt(0) != Utils.getUserID())
-                list.append(new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("TEA", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4)));
+        String query  = "SELECT " + USER_ID + ", " + USER_NAME + ", " + USER_STUFE + ", " + USER_PERMISSION + ", " + USER_DEFAULTNAME + " FROM " + TABLE_USERS + " WHERE " + USER_ID + " IN (SELECT " + USER_ID + " FROM " + TABLE_ASSOZIATION + " WHERE " + CHAT_ID + " = " + cid + ")";
+        Cursor cursor = rawQuery(query);
+        User[] users  = new User[cursor.getCount()];
+        int    i      = 0;
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext(), i++) {
+            users[i] = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2).replace("TEA", Utils.getString(R.string.lehrer)), cursor.getInt(3), cursor.getString(4));
         }
         cursor.close();
-        return list.fill(new User[list.size()]);
+        return users;
     }
 
     public User[] getUsersNotInChat(int cid) {
-        String query = "SELECT u." + USER_ID + ", u." + USER_NAME + ", u." + USER_STUFE + ", u." + USER_PERMISSION + ", u." + USER_DEFAULTNAME + " FROM " + TABLE_USERS + " u LEFT JOIN " + TABLE_ASSOZIATION + " a ON u." + USER_ID + " = a." + USER_ID + " AND a." + CHAT_ID + " = " + cid + " WHERE a." + USER_ID + " IS NULL";
+        String query  = "SELECT " + USER_ID + ", " + USER_NAME + ", " + USER_STUFE + ", " + USER_PERMISSION + ", " + USER_DEFAULTNAME + " FROM " + TABLE_USERS + " WHERE " + USER_ID + " NOT IN (SELECT " + USER_ID + " FROM " + TABLE_ASSOZIATION + " WHERE " + CHAT_ID + " = " + cid + ")";
         Cursor cursor = rawQuery(query);
         User[] users  = new User[cursor.getCount()];
         int    i      = 0;
@@ -530,6 +579,7 @@ public class SQLiteConnectorMessenger {
     }
 
     //Datenbank-Interaktion
+
     private Cursor query(String table, String[] columns, String selection, String orderBy) {
         return database.query(table, columns, selection, null, null, null, orderBy, null);
     }
@@ -551,102 +601,15 @@ public class SQLiteConnectorMessenger {
     }
 
     public void clear() {
-        helper.onUpgrade(database, -1, version);
-    }
-
-    public class DBHelper extends SQLiteOpenHelper {
-        public static final String USER_NAME        = "uname";
-        public static final String USER_STUFE       = "ustufe";
-        public static final String USER_DEFAULTNAME = "udefaultname";
-        static final        String DATABASE_NAME    = "messenger";
-        static final        String TABLE_MESSAGES   = "messages";
-        static final        String MESSAGE_ID       = "mid";
-        static final        String MESSAGE_TEXT     = "mtext";
-        static final        String MESSAGE_DATE     = "mdate";
-        static final        String MESSAGE_READ     = "mgelesen";
-        static final        String MESSAGE_DELETED  = "mdeleted";
-        static final        String TABLE_CHATS      = "chats";
-        static final        String CHAT_ID          = "cid";
-        static final String CHAT_NAME    = "cname";
-        static final String CHAT_TYPE    = "ctype";
-        static final String CHAT_DELETED = "cdeleted";
-        static final String CHAT_MUTE    = "cmute";
-        static final String TABLE_ASSOZIATION = "assoziation";
-        static final String TABLE_USERS      = "users";
-        static final String USER_ID          = "uid";
-        static final String USER_PERMISSION  = "upermission";
-        static final String TABLE_MESSAGES_QUEUED = "messages_unsend";
-
-        static final int version = 4;
-
-        DBHelper(Context context) {
-            super(context, DATABASE_NAME, null, version);
+        try {
+            database.execSQL("DROP TABLE " + TABLE_MESSAGES);
+            database.execSQL("DROP TABLE " + TABLE_CHATS);
+            database.execSQL("DROP TABLE " + TABLE_ASSOZIATION);
+            database.execSQL("DROP TABLE " + TABLE_USERS);
+            database.execSQL("DROP TABLE " + TABLE_MESSAGES_QUEUED);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            Utils.logDebug("Datenbank wird erstellt");
-            try {
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " (" +
-                        MESSAGE_ID + " INTEGER PRIMARY KEY, " +
-                        MESSAGE_TEXT + " TEXT NOT NULL, " +
-                        MESSAGE_DATE + " TEXT NOT NULL, " +
-                        CHAT_ID + " INTEGER NOT NULL, " +
-                        USER_ID + " INTEGER NOT NULL, " +
-                        MESSAGE_READ + " INTEGER NOT NULL, " +
-                        MESSAGE_DELETED + " INTEGER NOT NULL)");
-            } catch (SQLException e) {
-                Utils.logError(e);
-            }
-            try {
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_CHATS + " (" +
-                        CHAT_ID + " INTEGER PRIMARY KEY, " +
-                        CHAT_NAME + " TEXT NOT NULL, " +
-                        CHAT_TYPE + " TEXT NOT NULL, " +
-                        CHAT_DELETED + " INTEGER NOT NULL, " +
-                        CHAT_MUTE + " INTEGER NOT NULL)");
-            } catch (SQLException e) {
-                Utils.logError(e);
-            }
-            try {
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_ASSOZIATION + " (" +
-                        CHAT_ID + " INTEGER NOT NULL, " +
-                        USER_ID + " INTEGER NOT NULL)");
-            } catch (SQLException e) {
-                Utils.logError(e);
-            }
-            try {
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_USERS + " (" +
-                        USER_ID + " INTEGER PRIMARY KEY, " +
-                        USER_NAME + " TEXT NOT NULL, " +
-                        USER_DEFAULTNAME + " TEXT NOT NULL, " +
-                        USER_STUFE + " TEXT, " +
-                        USER_PERMISSION + " INTEGER NOT NULL)");
-            } catch (SQLException e) {
-                Utils.logError(e);
-            }
-            try {
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES_QUEUED + " (" +
-                        MESSAGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        MESSAGE_TEXT + " TEXT NOT NULL, " +
-                        CHAT_ID + " INTEGER NOT NULL)");
-            } catch (SQLException e) {
-                Utils.logError(e);
-            }
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            try {
-                db.execSQL("DROP TABLE " + TABLE_MESSAGES);
-                db.execSQL("DROP TABLE " + TABLE_CHATS);
-                db.execSQL("DROP TABLE " + TABLE_ASSOZIATION);
-                db.execSQL("DROP TABLE " + TABLE_USERS);
-                db.execSQL("DROP TABLE " + TABLE_MESSAGES_QUEUED);
-            } catch (SQLException e) {
-                Utils.logError(e);
-            }
-            onCreate(db);
-        }
+        onCreate(database);
     }
 }

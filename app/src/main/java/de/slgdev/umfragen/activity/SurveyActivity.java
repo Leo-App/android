@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -200,11 +199,11 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
         expandableListView.setOnItemLongClickListener((parent, view, position, id) -> {
 
             long packedPosition = expandableListView.getExpandableListPosition(position);
-            int itemType = ExpandableListView.getPackedPositionType(packedPosition);
-            int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
+            int  itemType       = ExpandableListView.getPackedPositionType(packedPosition);
+            int  groupPosition  = ExpandableListView.getPackedPositionGroup(packedPosition);
 
             if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP && Utils.getUserPermission() >= User.PERMISSION_LEHRER) {
-               new UserInformationDialog(SurveyActivity.this, entriesMap.get(groupList.get(groupPosition)).remoteId).show();
+                new UserInformationDialog(SurveyActivity.this, entriesMap.get(groupList.get(groupPosition)).remoteId).show();
             }
 
             return true;

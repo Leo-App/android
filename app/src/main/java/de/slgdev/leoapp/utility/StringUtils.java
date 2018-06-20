@@ -11,7 +11,7 @@ public abstract class StringUtils {
             ret.append(t.toString()).append(delimiter);
         }
 
-        return ret.length() > delimiter.length() ? ret.substring(0, ret.length()-delimiter.length()) : "";
+        return ret.length() > delimiter.length() ? ret.substring(0, ret.length() - delimiter.length()) : "";
     }
 
 }

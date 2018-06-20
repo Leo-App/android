@@ -244,13 +244,13 @@ public abstract class NotificationHandler {
 
         private boolean isActive() {
             return isEnabled()
-                    && Utils.getController().getMessengerActivity() == null
-                    && Utils.getController().getMessengerDatabase().hasUnreadMessages();
+                    && Utils.getController().getMessengerDatabase().hasUnreadMessages()
+                    && (Utils.getController().getMessengerActivity() == null
+                    || Utils.getController().getActiveActivity() != Utils.getController().getMessengerActivity());
         }
 
         public static boolean isEnabled() {
-           // return Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true); //TODO Messenger
-            return false;
+            return Utils.getController().getPreferences().getBoolean("pref_key_notification_messenger", true); //TODO Messenger
         }
 
     }
@@ -517,12 +517,11 @@ public abstract class NotificationHandler {
                 }
             }
 
-            if(builder.charAt(builder.length()-3) == ',')
-                builder.deleteCharAt(builder.length()-3);
+            if (builder.charAt(builder.length() - 3) == ',')
+                builder.deleteCharAt(builder.length() - 3);
 
-            if(builder.charAt(builder.length()-2) == ',')
-                builder.deleteCharAt(builder.length()-2);
-
+            if (builder.charAt(builder.length() - 2) == ',')
+                builder.deleteCharAt(builder.length() - 2);
 
             database.close();
 

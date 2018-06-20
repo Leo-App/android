@@ -34,8 +34,8 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
     private static final String ANSWERS_INHALT       = "inhalt";
     private static final String ANSWERS_REMOTE_ID    = "remoteid";
     private static final String ANSWERS_SELECTED     = "gewaehlt";
-    private static final String ANSWERS_ID            = "id";
-    private static final String DATABASE_NAME         = "surveys.db";
+    private static final String ANSWERS_ID           = "id";
+    private static final String DATABASE_NAME        = "surveys.db";
 
     private SQLiteDatabase database;
 
@@ -57,7 +57,7 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
                 SURVEYS_ERSTELLDATUM + " INTEGER NOT NULL, " +
                 SURVEYS_ACCESSED + " INTEGER NOT NULL, " +
                 SURVEYS_VOTEABLE + " TINYINT NOT NULL, " +
-                "CONSTRAINT idswithupdate UNIQUE ("+ SURVEYS_REMOTE_ID + ", " + SURVEYS_ERSTELLDATUM +")" +
+                "CONSTRAINT idswithupdate UNIQUE (" + SURVEYS_REMOTE_ID + ", " + SURVEYS_ERSTELLDATUM + ")" +
                 ")");
 
         db.execSQL("CREATE TABLE " + TABLE_ANSWERS + " (" +
@@ -138,14 +138,14 @@ public class SQLiteConnectorUmfragen extends SQLiteOpenHelper {
                 res[0],
                 Short.parseShort(res[4]),
                 Integer.parseInt(res[5]),
-                Long.parseLong(res[6]+ "000"),
+                Long.parseLong(res[6] + "000"),
                 voteable ? (short) 1 : (short) 0
         ), SQLiteDatabase.CONFLICT_IGNORE);
 
         if (id == -1) { //survey wasn't updated
             Cursor c = database.query(TABLE_SURVEYS, new String[]{SURVEYS_ID}, SURVEYS_REMOTE_ID + " = " + res[5], null, null, null, null);
             c.moveToFirst();
-            int i =  c.getInt(0);
+            int i = c.getInt(0);
             c.close();
             return i;
         }

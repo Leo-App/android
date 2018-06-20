@@ -19,7 +19,7 @@
         android:layout_centerVertical="true"
         android:textColor="@android:color/white"
         android:textStyle="normal|bold"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/textViewStufe"
@@ -45,6 +45,6 @@
         android:paddingRight="25dp"
         android:textColor="@color/colorText"
         android:textSize="18sp"
-        android:textStyle="normal" />
+        android:textStyle="normal"/>
 
 </RelativeLayout>

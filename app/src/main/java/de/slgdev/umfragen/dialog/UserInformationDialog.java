@@ -23,7 +23,7 @@ public final class UserInformationDialog extends AlertDialog {
 
     public UserInformationDialog(@NonNull Context context, int userid) {
         super(context);
-        this.userid  = userid;
+        this.userid = userid;
         this.context = context;
     }
 
@@ -41,8 +41,8 @@ public final class UserInformationDialog extends AlertDialog {
 
         findViewById(R.id.buttonOK).setOnClickListener(v -> dismiss());
 
-        String[] permissions = new String[]{Utils.getString(R.string.student), Utils.getString(R.string.teacher), Utils.getString(R.string.admin)};
-        DateFormat format = new SimpleDateFormat("dd.mm.yy", Locale.GERMAN);
+        String[]   permissions = new String[]{Utils.getString(R.string.student), Utils.getString(R.string.teacher), Utils.getString(R.string.admin)};
+        DateFormat format      = new SimpleDateFormat("dd.mm.yy", Locale.GERMAN);
 
         new UserDetailTask().addListener(o -> {
             User u = (User) o[0];
@@ -53,7 +53,7 @@ public final class UserInformationDialog extends AlertDialog {
             name.setText(context.getString(R.string.user_info_name, u.uname));
             defaultName.setText(context.getString(R.string.user_info_defaultname, u.udefaultname));
             stufe.setText(context.getString(R.string.user_info_level, u.ustufe));
-            permission.setText(context.getString(R.string.user_info_permission, permissions[u.upermission-1]));
+            permission.setText(context.getString(R.string.user_info_permission, permissions[u.upermission - 1]));
             createDate.setText(context.getString(R.string.user_info_createdate, format.format(u.ucreatedate)));
 
             id.setVisibility(View.VISIBLE);

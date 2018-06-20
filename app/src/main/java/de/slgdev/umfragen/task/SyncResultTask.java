@@ -58,8 +58,6 @@ public class SyncResultTask extends ObjectCallbackTask<ResponseCode> {
                     )
             );
 
-
-
             StringBuilder builder = new StringBuilder();
             String        line;
             while ((line = reader.readLine()) != null) {

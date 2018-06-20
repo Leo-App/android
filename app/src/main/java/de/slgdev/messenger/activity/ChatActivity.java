@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.Start;
-import de.slgdev.leoapp.service.ReceiveService;
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.ActionLogActivity;
 import de.slgdev.messenger.utility.Chat;
@@ -251,16 +251,16 @@ public class ChatActivity extends ActionLogActivity {
     }
 
     private static class SendMessage extends AsyncTask<String, Void, Void> {
-        private ChatActivity   activity;
-        private ReceiveService service;
+        private ChatActivity  activity;
+        private SocketService service;
 
         private SendMessage(ChatActivity activity) {
             this.activity = activity;
-            this.service = Utils.getController().getReceiveService();
+            this.service = Utils.getController().getSocketService();
 
             if (service == null) {
                 Start.startReceiveService();
-                this.service = Utils.getController().getReceiveService();
+                this.service = Utils.getController().getSocketService();
             }
         }
 

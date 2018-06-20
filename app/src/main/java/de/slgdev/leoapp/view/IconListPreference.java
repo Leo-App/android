@@ -28,12 +28,12 @@ public class IconListPreference extends ListPreference {
 
     private class CustomListPreferenceAdapter extends ArrayAdapter<IconItem> {
 
-        private Context context;
+        private Context        context;
         private List<IconItem> icons;
-        private int resource;
+        private int            resource;
 
         CustomListPreferenceAdapter(Context context, int resource,
-                                           List<IconItem> objects) {
+                                    List<IconItem> objects) {
             super(context, resource, objects);
             this.context = context;
             this.resource = resource;
@@ -52,8 +52,8 @@ public class IconListPreference extends ListPreference {
                 convertView = inflater.inflate(resource, parent, false);
 
                 holder = new ViewHolder();
-                holder.iconName    = convertView.findViewById(R.id.iconName);
-                holder.iconImage   = convertView.findViewById(R.id.iconImage);
+                holder.iconName = convertView.findViewById(R.id.iconName);
+                holder.iconImage = convertView.findViewById(R.id.iconImage);
                 holder.radioButton = convertView.findViewById(R.id.iconRadio);
 
                 convertView.setTag(holder);
@@ -84,9 +84,9 @@ public class IconListPreference extends ListPreference {
 
     private static class IconItem {
 
-        private String file;
+        private String  file;
         private boolean isChecked;
-        private String name;
+        private String  name;
 
         IconItem(CharSequence name, CharSequence file, boolean isChecked) {
             this(name.toString(), file.toString(), isChecked);
@@ -101,19 +101,19 @@ public class IconListPreference extends ListPreference {
     }
 
     private static class ViewHolder {
-        protected ImageView iconImage;
-        protected TextView iconName;
+        protected ImageView   iconImage;
+        protected TextView    iconName;
         protected RadioButton radioButton;
     }
 
     private Context context;
 
-    private CharSequence[] iconName;
-    private List<IconItem> icons;
+    private CharSequence[]    iconName;
+    private List<IconItem>    icons;
     private SharedPreferences preferences;
-    private Resources resources;
-    private String defaultIconFile;
-    private TextView summary;
+    private Resources         resources;
+    private String            defaultIconFile;
+    private TextView          summary;
 
     public IconListPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -134,8 +134,8 @@ public class IconListPreference extends ListPreference {
 
     private String getEntry(String value) {
         String[] entries = resources.getStringArray(R.array.entryName);
-        String[] values = resources.getStringArray(R.array.entryIcon);
-        int index = Arrays.asList(values).indexOf(value);
+        String[] values  = resources.getStringArray(R.array.entryIcon);
+        int      index   = Arrays.asList(values).indexOf(value);
 
         if (index == -1)
             return Utils.getString(R.string.summary_language);
@@ -184,14 +184,13 @@ public class IconListPreference extends ListPreference {
         if (iconName == null || iconFile == null || iconName.length != iconFile.length)
             return;
 
-
         String selectedIcon = preferences.getString("pref_key_locale", Utils.getString(R.string.icon_default));
 
         icons = new ArrayList<>();
 
         for (int i = 0; i < iconName.length; i++) {
-            boolean isSelected = selectedIcon.contentEquals(iconFile[i]);
-            IconItem item = new IconItem(iconName[i], iconFile[i], isSelected);
+            boolean  isSelected = selectedIcon.contentEquals(iconFile[i]);
+            IconItem item       = new IconItem(iconName[i], iconFile[i], isSelected);
             icons.add(item);
         }
 

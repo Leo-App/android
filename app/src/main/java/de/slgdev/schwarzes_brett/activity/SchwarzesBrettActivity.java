@@ -162,7 +162,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
         expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
             int remoteID = entries.toIndex(groupPosition).getContent().id;
-            if(sqLiteConnector.getViewed(remoteID))
+            if (sqLiteConnector.getViewed(remoteID))
                 return false;
 
             sqLiteConnector.setViewed(remoteID);
@@ -219,7 +219,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
             boolean seen = sqLiteConnector.getViewed(entries.toIndex(groupPosition).getContent().id);
 
-            if(seen)
+            if (seen)
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title_seen, null);
             else
                 convertView = getLayoutInflater().inflate(R.layout.list_item_expandable_title, null);

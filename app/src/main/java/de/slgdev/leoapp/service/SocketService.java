@@ -6,6 +6,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import de.slgdev.leoapp.utility.Utils;
+import de.slgdev.messenger.network.MessageHandler;
+import de.slgdev.messenger.network.QueueThread;
+import de.slgdev.messenger.network.SocketListener;
 import de.slgdev.messenger.utility.Assoziation;
 import de.slgdev.messenger.utility.Chat;
 import de.slgdev.messenger.utility.Message;
@@ -13,9 +16,20 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
 
-public class ReceiveService extends Service {
-    private WebSocket socket;
-    private boolean   socketRunning;
+public class SocketService extends Service {
+    private WebSocket   socket;
+    private boolean     socketRunning;
+    private QueueThread queue;
+
+    @Override
+    public void onCreate() {
+        Utils.logDebug("SocketService created");
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -26,7 +40,7 @@ public class ReceiveService extends Service {
 
         startSocket();
 
-        Utils.logDebug("ReceiveService (re)started!");
+        Utils.logDebug("SocketService (re)started");
         return START_STICKY;
     }
 
@@ -41,51 +55,53 @@ public class ReceiveService extends Service {
         socket.close(1000, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
-        Utils.logError("ReceiveService stopped!");
+
+        Utils.logError("SocketService stopped");
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        Utils.logError("ReceiveService removed");
         socket.close(1000, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
+
+        Utils.logError("SocketService removed");
         super.onTaskRemoved(rootIntent);
     }
 
-    private void startSocket() {
-        MessageHandler messageHandler = new MessageHandler();
-        messageHandler.start();
+    public void startSocket() {
+        if (!socketRunning) {
+            final OkHttpClient client = new OkHttpClient.Builder()
+                    .build();
 
-        OkHttpClient client = new OkHttpClient();
+            String date = Utils.getController().getMessengerDatabase().getLatestMessage();
+            if (date.length() > 3) {
+                date = date.substring(0, date.length() - 3);
+            }
 
-        Request request = new Request.Builder()
-                .url(Utils.URL_TOMCAT)
-//                .url(Utils.URL_TOMCAT_DEV)
-                .build();
+            final Request request = new Request.Builder()
+                    .url(Utils.URL_TOMCAT)
+                    //.url(Utils.URL_TOMCAT_DEV)
+                    .addHeader("TEST", "successful")
+                    .build();
+            //TODO Add Authentication
 
-        SocketListener listener = new SocketListener(this, messageHandler);
+            final MessageHandler messageHandler = new MessageHandler();
+            messageHandler.start();
 
-        socket = client.newWebSocket(request, listener);
+            final SocketListener listener = new SocketListener(this, messageHandler);
 
-        String date = Utils.getController().getMessengerDatabase().getLatestMessage();
-        if (date.length() > 3)
-            date = date.substring(0, date.length() - 3);
+            socket = client.newWebSocket(request, listener);
 
-        socket.send("uid=" + Utils.getUserID());
-        socket.send("mdate=" + date);
-        socket.send("request");
+            socket.send("uid=" + Utils.getUserID());
+            socket.send("mdate=" + date);
+            socket.send("request");
+        }
     }
 
     private void send(String s) {
-        startSocketIfNotRunning();
+        startSocket();
         socket.send(s);
-    }
-
-    public void startSocketIfNotRunning() {
-        if (!isSocketRunning()) {
-            startSocket();
-        }
     }
 
     public void send(Message message) {
@@ -117,14 +133,15 @@ public class ReceiveService extends Service {
     }
 
     public void notifyQueuedMessages() {
-        new QueueThread().start();
+        if (queue != null) {
+            queue.interrupt();
+        }
+
+        queue = new QueueThread();
+        queue.start();
     }
 
-    void setSocketRunning(boolean socketRunning) {
+    public void setSocketRunning(boolean socketRunning) {
         this.socketRunning = socketRunning;
-    }
-
-    public boolean isSocketRunning() {
-        return socketRunning;
     }
 }

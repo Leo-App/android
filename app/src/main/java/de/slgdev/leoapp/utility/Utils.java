@@ -12,6 +12,10 @@ import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import de.slgdev.leoapp.notification.NotificationTime;
 import de.slgdev.leoapp.notification.NotificationType;
 
@@ -48,7 +52,7 @@ public abstract class Utils {
      */
     public static final String URL_TOMCAT = "ws" + BASE_DOMAIN.substring(4) + "leoapp/";
 
-    public static final String URL_TOMCAT_DEV = "ws://192.168.0.102:8080/";
+    public static final String URL_TOMCAT_DEV = "ws://192.168.178.31:8080/";
 
     /**
      * Pfad zu den PHP-Skripts auf dem Leo-Server.
@@ -134,6 +138,20 @@ public abstract class Utils {
         }
 
         return isNetworkAvailable() ? NetworkPerformance.INSUFFICIENT : NetworkPerformance.NOT_AVAILABLE;
+    }
+
+    /**
+     * Öffnet eine URL-Verbindung mit Authentifizierung
+     */
+    public static URLConnection openURLConnection(String url) {
+        try {
+            URLConnection connection = new URL(url).openConnection();
+            connection.addRequestProperty("AUTHENTICATION", getController().getPreferences().getString("auth_sum", "null") + '-' + getUserID());
+            return connection;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

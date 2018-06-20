@@ -16,7 +16,7 @@ import de.slgdev.schwarzes_brett.utility.Entry;
 
 public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
 
-    private static final String TABLE_EINTRAEGE         = "Eintraege";
+    private static final String TABLE_EINTRAEGE        = "Eintraege";
     private static final String EINTRAEGE_TITEL        = "titel";
     private static final String EINTRAEGE_ADRESSAT     = "adressat";
     private static final String EINTRAEGE_INHALT       = "inhalt";
@@ -26,8 +26,8 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
     private static final String EINTRAEGE_REMOTE_ID    = "remoteid";
     private static final String EINTRAEGE_VIEWS        = "gesehen";
     private static final String EINTRAEGE_ACCESSED     = "accessed";
-    private static final String EINTRAEGE_ID            = "id";
-    private static final String DATABASE_NAME           = "entries.db";
+    private static final String EINTRAEGE_ID           = "id";
+    private static final String DATABASE_NAME          = "entries.db";
 
     private SQLiteDatabase database;
 
@@ -49,7 +49,7 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
                 EINTRAEGE_VIEWS + " INTEGER NOT NULL, " +
                 EINTRAEGE_ACCESSED + " INTEGER NOT NULL, " +
                 EINTRAEGE_ANHANG + " VARCHAR, " +
-                "CONSTRAINT ids UNIQUE ("+ EINTRAEGE_REMOTE_ID +")" +
+                "CONSTRAINT ids UNIQUE (" + EINTRAEGE_REMOTE_ID + ")" +
                 ")");
     }
 
@@ -244,7 +244,6 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
                 );
                 break;
         }
-
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 

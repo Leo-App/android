@@ -14,7 +14,7 @@ public abstract class SchwarzesBrettUtils {
     }
 
     public static Integer[] getCachedIDs() {
-        String    cache = de.slgdev.leoapp.utility.Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
+        String cache = de.slgdev.leoapp.utility.Utils.getController().getPreferences().getString("pref_key_cache_vieweditems", "");
 
         if (cache.equals(""))
             return new Integer[0];

@@ -4,34 +4,33 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import de.slgdev.leoapp.Start;
-import de.slgdev.leoapp.service.ReceiveService;
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.AddGroupChatActivity;
 import de.slgdev.messenger.activity.ChatActivity;
 import de.slgdev.messenger.utility.Assoziation;
 import de.slgdev.messenger.utility.Chat;
 
-public class CreateChat extends AsyncTask<Integer, Void, Intent> {
+public class CreateGroupChat extends AsyncTask<Integer, Void, Intent> {
     private final String               cname;
     private final AddGroupChatActivity activity;
-    private       ReceiveService       service;
+    private       SocketService        service;
     private       int                  cid;
 
-    public CreateChat(AddGroupChatActivity activity, String cname) {
+    public CreateGroupChat(AddGroupChatActivity activity, String cname) {
         this.activity = activity;
         this.cname = cname;
         this.cid = -1;
-        this.service = Utils.getController().getReceiveService();
+        this.service = Utils.getController().getSocketService();
 
         if (service == null) {
             Start.startReceiveService();
-            this.service = Utils.getController().getReceiveService();
+            this.service = Utils.getController().getSocketService();
         }
     }
 
     @Override
     protected Intent doInBackground(Integer... params) {
-
         service.send(new Chat(cid, cname, Chat.ChatType.GROUP));
 
         while ((cid = activity.getCid()) == -1)

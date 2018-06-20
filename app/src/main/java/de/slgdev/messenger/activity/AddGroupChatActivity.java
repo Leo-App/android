@@ -16,7 +16,7 @@ import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.ActionLogActivity;
-import de.slgdev.messenger.task.CreateChat;
+import de.slgdev.messenger.task.CreateGroupChat;
 
 public class AddGroupChatActivity extends ActionLogActivity {
     private final User[] users = Utils.getController().getMessengerDatabase().getUsers();
@@ -61,7 +61,7 @@ public class AddGroupChatActivity extends ActionLogActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_confirm) {
             findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-            new CreateChat(this, etChatname.getText().toString()).execute(getSelected());
+            new CreateGroupChat(this, etChatname.getText().toString()).execute(getSelected());
         } else if (item.getItemId() == android.R.id.home) {
             finish();
         }

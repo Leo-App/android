@@ -30,7 +30,7 @@ import de.slgdev.essensbons.activity.EssensbonActivity;
 import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
-import de.slgdev.leoapp.service.ReceiveService;
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
@@ -216,7 +216,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             Utils.getController().getMessengerDatabase().clear();
             Intent intent = new Intent(
                     getApplicationContext(),
-                    ReceiveService.class
+                    SocketService.class
             );
             stopService(intent);
             startService(intent);

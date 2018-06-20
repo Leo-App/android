@@ -42,7 +42,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
         android:layout_width="35dp"
-        android:layout_height="35dp" />
+        android:layout_height="35dp"/>
 
     <TextView
         android:id="@+id/textViewID"
@@ -58,7 +58,7 @@
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toRightOf="@+id/imageView4"
         android:text="@string/textview_placeholder"
-        android:textAlignment="gravity" />
+        android:textAlignment="gravity"/>
 
     <TextView
         android:id="@+id/textViewName"
@@ -74,7 +74,7 @@
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toRightOf="@+id/imageView4"
         android:text="@string/textview_placeholder"
-        android:textAlignment="gravity" />
+        android:textAlignment="gravity"/>
 
     <TextView
         android:id="@+id/textViewDefaultName"
@@ -90,7 +90,7 @@
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toRightOf="@+id/imageView4"
         android:text="@string/textview_placeholder"
-        android:textAlignment="gravity" />
+        android:textAlignment="gravity"/>
 
     <TextView
         android:id="@+id/textViewStufe"
@@ -106,7 +106,7 @@
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toRightOf="@+id/imageView4"
         android:text="@string/textview_placeholder"
-        android:textAlignment="gravity" />
+        android:textAlignment="gravity"/>
 
     <TextView
         android:id="@+id/textViewPermission"
@@ -122,7 +122,7 @@
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toRightOf="@+id/imageView4"
         android:text="@string/textview_placeholder"
-        android:textAlignment="gravity" />
+        android:textAlignment="gravity"/>
 
     <TextView
         android:id="@+id/textViewCreateDate"
@@ -138,7 +138,7 @@
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toRightOf="@+id/imageView4"
         android:text="@string/textview_placeholder"
-        android:textAlignment="gravity" />
+        android:textAlignment="gravity"/>
 
     <Button
         android:id="@+id/buttonOK"
@@ -148,6 +148,6 @@
         android:text="@string/confirm"
         android:layout_below="@+id/textViewCreateDate"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

@@ -43,6 +43,6 @@
         android:layout_toStartOf="@id/textViewStufe"
         android:textColor="@color/colorText"
         android:textSize="18sp"
-        android:textStyle="normal" />
+        android:textStyle="normal"/>
 
 </RelativeLayout>
