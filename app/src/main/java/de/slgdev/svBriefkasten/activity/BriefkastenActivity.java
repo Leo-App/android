@@ -1,5 +1,6 @@
 package de.slgdev.svBriefkasten.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -8,12 +9,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
@@ -33,7 +36,9 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
     private CheckBox like;
     private SharedPreferences sharedPref;
     private String lastAdded;
-    String[] position;
+    private List<Integer> position;
+
+    List<Boolean> geliked;
 
     private static SQLiteConnectorSv sqLiteConnector;
     private static SQLiteDatabase sqLiteDatabase;
@@ -50,8 +55,12 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
 
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
+        position = new ArrayList<>();
 
         expandableListView = (ExpandableListView) findViewById(R.id.topic);
+        sqLiteConnector.insertLiked(sqLiteDatabase, "Test", true);
+        sqLiteConnector.insertLiked(sqLiteDatabase, "Ein kleiner zweiter Test", false);
+
 
         new SyncTopicTask().addListener(this).execute();
 
@@ -83,13 +92,27 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         cursor.moveToFirst();
         Utils.logDebug(cursor.getCount());
 
-        position = new String[cursor.getCount()];
+        geliked = new ArrayList<>();
+        geliked.add(true);
+        geliked.add(false);
+        position = new ArrayList<>();
+
+
+        Cursor cursor2 = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LIKED, new String[]{SQLiteConnectorSv.LIKED_CHECKED}, null, null, null, null, null);
+        cursor2.moveToFirst();
+
+        for(cursor2.moveToFirst(); !cursor2.isAfterLast(); cursor2.moveToNext()){
+            boolean liked = Boolean.valueOf(cursor2.getString(0));
+            geliked.add(liked);
+        }
+
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             String topic = cursor.getString(0);
             String proposal1=cursor.getString(1);
             String proposal2=cursor.getString(2);
-            position[cursor.getPosition()] = topic;
 
+
+            position.add(cursor.getPosition());
             listDataHeader.add(topic);
             List<String> loesungen = new ArrayList<>();
             if (proposal1 != null && !proposal1.equals(""))
@@ -102,6 +125,42 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         }
 
         cursor.close();
+    }
+
+    public void initCheckbox(){
+
+
+        like = findViewById(R.id.check);
+        like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                String topic = like.getTag().toString();
+                ContentValues values = new ContentValues();
+                values.put(SQLiteConnectorSv.LIKED_TOPIC, topic);
+                values.put(SQLiteConnectorSv.LIKED_CHECKED, like.isChecked());
+
+                Cursor cursor;
+
+
+
+                cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES},SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null, null, null, null);
+                int likes = Integer.parseInt(cursor.getString(6));
+                if(like.isChecked())
+                    likes++;
+                else
+                    likes--;
+                values = new ContentValues();
+                values.put(SQLiteConnectorSv.LETTERBOX_TOPIC, cursor.getString(0));
+                values.put(SQLiteConnectorSv.LETTERBOX_PROPOSAL1, cursor.getString(1));
+                values.put(SQLiteConnectorSv.LETTERBOX_PROPOSAL2, cursor.getString(2));
+                values.put(SQLiteConnectorSv.LETTERBOX_DateOfCreation, cursor.getString(3));
+                values.put(SQLiteConnectorSv.LETTERBOX_CREATOR, cursor.getString(4));
+                values.put(SQLiteConnectorSv.LETTERBOX_LIKES, likes);
+
+
+                sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LETTERBOX, values, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null);
+            }
+        });
     }
 
     @Override
@@ -152,7 +211,8 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
     public void taskFinished(Object... params) {
         Utils.logDebug("done");
         initData();
-        listAdapter = new de.slgdev.svBriefkasten.Adapter.ExpandableListAdapter(this, listDataHeader,listHash);
+        listAdapter = new de.slgdev.svBriefkasten.Adapter.ExpandableListAdapter(this, listDataHeader,listHash, geliked, position);
         expandableListView.setAdapter(listAdapter);
+        //initCheckbox();
     }
 }

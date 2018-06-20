@@ -23,6 +23,7 @@ public class ResultActivity extends AppCompatActivity {
     private SecondExpandableListAdapter listAdapter;
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHash;
+    private List<String> likes;
 
     private static SQLiteConnectorSv sqLiteConnector;
     private static SQLiteDatabase sqLiteDatabase;
@@ -40,6 +41,7 @@ public class ResultActivity extends AppCompatActivity {
 
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
+        likes = new ArrayList<>();
 
         receive();
 
@@ -55,8 +57,9 @@ public class ResultActivity extends AppCompatActivity {
             String topic = cursor.getString(0);
             String proposal1=cursor.getString(1);
             String proposal2=cursor.getString(2);
+            String like = cursor.getString(5);
 
-            startActivity(new Intent(getApplicationContext(),BriefkastenActivity.class));
+            likes.add(like);
 
             listDataHeader.add(topic);
             List<String> loesungen = new ArrayList<>();
@@ -66,7 +69,11 @@ public class ResultActivity extends AppCompatActivity {
                 loesungen.add(proposal2);
 
             listHash.put(listDataHeader.get(listDataHeader.size()-1),loesungen);
+
         }
+
+        SecondExpandableListAdapter adapter = new SecondExpandableListAdapter(this, listDataHeader, listHash, likes);
+        resultsELW.setAdapter(adapter);
     }
 
     public void receive(){

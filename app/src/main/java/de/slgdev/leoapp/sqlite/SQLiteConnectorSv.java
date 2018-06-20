@@ -31,11 +31,15 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
     public static final String LETTERBOX_LIKES = "likes";
     public static final String LETTERBOX_ANHANG = "anhang";
 
+    public static final String TABLE_LIKED = "geliked";
+    public static final String LIKED_CHECKED = "checked";
+    public static final String LIKED_TOPIC = "topic";
+
     private final SQLiteDatabase database;
 
 
     public SQLiteConnectorSv(Context context) {
-        super(context, DATABASE_NAME, null, 16);
+        super(context, DATABASE_NAME, null, 17);
         database = getWritableDatabase();
     }
 
@@ -50,6 +54,11 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
                 LETTERBOX_LIKES + " TEXT NOT NULL, " +
                 LETTERBOX_ANHANG + " VARCHAR " +
                 ")");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_LIKED + " (" +
+                LIKED_TOPIC + " TEXT NOT NULL, " +
+                LIKED_CHECKED + " BOOLEAN NOT NULL " +
+        ")");
     }
 
     @Override
@@ -67,6 +76,13 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
         values.put(LETTERBOX_CREATOR, creator);
         values.put(LETTERBOX_LIKES, likes);
         return values;
+    }
+
+    public void insertLiked(SQLiteDatabase db, String topic, boolean checked){
+        ContentValues values = new ContentValues();
+        values.put(LIKED_TOPIC, topic);
+        values.put(LIKED_CHECKED, checked);
+        db.insert(TABLE_LIKED,null, values);
     }
 
     public long getLatestEntryDate(SQLiteDatabase db) {

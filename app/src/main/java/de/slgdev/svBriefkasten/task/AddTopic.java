@@ -1,5 +1,7 @@
 package de.slgdev.svBriefkasten.task;
 
+import android.os.AsyncTask;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,6 +17,7 @@ import de.slgdev.leoapp.utility.Utils;
  */
 
 public class AddTopic extends ObjectCallbackTask<ResponseCode> {
+
     @Override
     protected ResponseCode doInBackground(Object... params) {
         if (!Utils.isNetworkAvailable())
@@ -22,24 +25,19 @@ public class AddTopic extends ObjectCallbackTask<ResponseCode> {
 
         String topic = (String) params[0];
         String proposal = (String) params[1];
-
+        Utils.logDebug(topic + "Test");
         try {
+
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             new URL(
-                                    ("https://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/addTopix.php" +
-                                            "addTopic.php?" +
-                                            "topic= " + topic + "&" +
-                                            "proposal1=" + proposal + "&" +
-                                            "id=" + Utils.getUserID() + "&" )
-                                            .replace("%", "%25")
-                                            .replace(
-                                                    " ",
-                                                    "%20"
-                                            )
+                                    "http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/addTopic.php/" +
+                                            "topic=" + topic + "&" +
+                                            "proposal1=" + proposal
                             )
                                     .openConnection()
-                                    .getInputStream()
+                                    .getInputStream(),
+                            "UTF-8"
                     )
             );
 
@@ -54,12 +52,11 @@ public class AddTopic extends ObjectCallbackTask<ResponseCode> {
             if (builder.toString().startsWith("-"))
                 return ResponseCode.SERVER_FAILED;
 
-            return ResponseCode.SUCCESS;
-
         } catch (IOException e) {
             Utils.logError(e);
-            return ResponseCode.NOT_SENT;
+            return ResponseCode.SERVER_FAILED;
         }
+        return ResponseCode.SUCCESS;
     }
 
     @Override
@@ -69,5 +66,7 @@ public class AddTopic extends ObjectCallbackTask<ResponseCode> {
         }
     }
 }
+
+
 
 

@@ -85,7 +85,7 @@ public class SecondExpandableListAdapter extends BaseExpandableListAdapter {
         TextView like = (TextView) view.findViewById(R.id.likeListItem);
         String likeTitle = listLikeHeader.get(i);
         like.setTypeface(null, Typeface.BOLD);
-        like.setText(likeTitle);
+        like.setText("Likes: " + likeTitle);
         return view;
 
     }

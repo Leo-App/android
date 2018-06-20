@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context="de.slgdev.svBriefkasten.activity.ResultActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     <ExpandableListView
         android:id="@+id/result"
         android:layout_width="match_parent"

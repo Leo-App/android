@@ -28,6 +28,7 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
     private EditText loesung;
     private SharedPreferences sharedPref;
     private String topic;
+    private String proposal;
     private boolean con;
     private static SQLiteConnectorSv sqLiteConnector;
     private static SQLiteDatabase sqLiteDatabase;
@@ -40,7 +41,7 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
         setSupportActionBar(toolbar);
         con=false;
 
-        thema = (EditText) findViewById(R.id.thema);
+        thema =  findViewById(R.id.thema);
         thema.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,7 +49,7 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
             }
         });
 
-        loesung = (EditText) findViewById(R.id.solution);
+        loesung =  findViewById(R.id.solution);
         loesung.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,14 +57,13 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
             }
         });
 
-        create = (Button) findViewById(R.id.button_createTopic);
+        create = findViewById(R.id.button_createTopic);
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(thema.getText().length()!=0 && loesung.getText().length()!=0) {
                     String topic = thema.getText().toString();
                     String proposal = loesung.getText().toString();
-                    int creator = Utils.getUserID();
 
                     checkTopic();
 
@@ -76,25 +76,26 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
         new SyncTopicTask().addListener(this).execute();
     }
 
-    public void addTopic() {
-        new AddTopic().addListener(this).execute();
-        con=true;
-    }
-
     @Override
     public void taskFinished(Object... params) {
-        if(con)
-            addTopic();
-        else{
-            if (sqLiteConnector == null)
-                sqLiteConnector = new SQLiteConnectorSv(Utils.getContext());
-            if (sqLiteDatabase == null)
-                sqLiteDatabase = sqLiteConnector.getReadableDatabase();
+            if(con) {
+                con=false;
+                startActivity(new Intent(getApplicationContext(), BriefkastenActivity.class));
+            }
+            else {
+                if (sqLiteConnector == null)
+                    sqLiteConnector = new SQLiteConnectorSv(Utils.getContext());
+                if (sqLiteDatabase == null)
+                    sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
-            Cursor cursor = sqLiteDatabase.query(false,SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC},SQLiteConnectorSv.LETTERBOX_TOPIC + " = ' " + topic + "'", null, null, null,null, null);
-            if(cursor.getCount()==0)
-                new AddTopic().addListener(this).execute();
-            con=false;
-        }
+                Cursor cursor = sqLiteDatabase.query(false, SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC}, SQLiteConnectorSv.LETTERBOX_TOPIC + " = ' " + topic + "'", null, null, null, null, null);
+                if (cursor.getCount() == 0) {
+                    new AddTopic().execute(topic,proposal);
+
+                }
+                cursor.close();
+                con = true;
+            }
+
     }
 }
