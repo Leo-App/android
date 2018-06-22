@@ -161,6 +161,10 @@
             android:name="de.slgdev.essensbons.activity.ScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ScanTheme" />
+        <activity
+            android:name="de.slgdev.vertretungsplan.activity.VertretungsplanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivitiesTheme" />
 
         <receiver android:name=".notification.NotificationBroadcastWrapper$KlausurplanReceiver" />
         <receiver android:name=".notification.NotificationBroadcastWrapper$FoodmarkReceiver" />

@@ -45,6 +45,10 @@
             android:icon="@mipmap/icon_umfragen"
             android:title="@string/title_survey_news" />
         <item
+            android:id="@+id/vertretungsplan"
+            android:checked="false"
+            android:title="@string/title_subst" />
+        <item
             android:id="@+id/itsolver"
             android:checked="false"
             android:icon="@mipmap/icon_it_problem"

@@ -96,7 +96,7 @@
     <string name="title_news">Pin Board</string>
     <string name="title_survey">Mood</string>
     <string name="title_plan">Timetable</string>
-    <string name="title_subst">Substitutions</string>
+    <string name="title_subst">Substitution</string>
 
     <string name="title_settings">Settings</string>
     <string name="title_settings_notifications">Notifications</string>
@@ -306,6 +306,41 @@
     <string name="beschreibungUmfrage">Find out more about your classmates\' opinions on your chosen topics and take part in polls yourself.</string>
 
 
+    <!-- Vertretung -->
+    <string name="substitution">Substitution</string>
+    <string name="cancellation">Cancelled</string>
+    <string name="substitution_class">Class</string>
+    <string name="substitution_grade">Grade</string>
+    <string name="lesson">Lesson(s)</string>
+    <string name="teacher">Teacher</string>
+    <string name="room">Room</string>
+    <string name="annotation">Annotation</string>
+    <string name="supply_teacher">Supply Teacher</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="no_substitution">No Substitution!</string>
+    <string-array name="filter_options1">
+        <item>No filter</item>
+        <item>Filter by grade</item>
+        <item>Filter by timetable</item>
+    </string-array>
+    <string-array name="filter_options2">
+        <item>No filter</item>
+        <item>Filter by grade</item>
+    </string-array>
+    <string-array name="filter_options3">
+        <item>No filter</item>
+        <item>Filter by timetable</item>
+    </string-array>
+    <string-array name="filter_options4">
+        <item>No filter</item>
+        <item>Filter by abbreviation</item>
+    </string-array>
+
+
     <!-- Einstellungen -->
     <string name="settings_category_general">General</string>
 
@@ -506,5 +541,8 @@
     <string name="qr_scan_title">"Scan "</string>
     <string name="leave_chat_question">Are you sure that you want to leave this chat?</string>
     <string name="title_randstundenfinder">Free period finder</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

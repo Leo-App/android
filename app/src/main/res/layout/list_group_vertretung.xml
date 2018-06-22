@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bordertop">
+
+    <TextView
+        android:id="@+id/lvHeaderKlasse"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:paddingLeft="35dp"
+        android:paddingRight="13dp"
+        android:paddingTop="13dp" />
+
+    <TextView
+        android:id="@+id/lvHeaderStunde"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_alignParentRight="true"
+        android:paddingRight="35dp"
+        android:paddingTop="13dp" />
+
+    <TextView
+        android:id="@+id/lvHeaderLehrer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lvHeaderKlasse"
+        android:textSize="14sp"
+        android:paddingLeft="35dp"
+        android:paddingRight="13dp"
+        android:paddingBottom="13dp" />
+
+    <TextView
+        android:id="@+id/lvHeaderVertretung"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lvHeaderStunde"
+        android:textSize="14sp"
+        android:layout_alignParentRight="true"
+        android:paddingRight="35dp"
+        android:paddingBottom="13dp" />
+
+</RelativeLayout>

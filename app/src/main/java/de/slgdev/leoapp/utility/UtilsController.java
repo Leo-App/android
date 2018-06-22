@@ -29,6 +29,7 @@ import de.slgdev.stundenplan.activity.AuswahlActivity;
 import de.slgdev.stundenplan.activity.StundenplanActivity;
 import de.slgdev.stundenplan.activity.StundenplanBildActivity;
 import de.slgdev.umfragen.activity.SurveyActivity;
+import de.slgdev.vertretungsplan.activity.VertretungsplanActivity;
 
 /**
  * UtilsController
@@ -69,6 +70,8 @@ public class UtilsController {
     private ITActivity itActivity;
 
     private EssensbonIntroActivity essensbonIntroActivity;
+
+    private VertretungsplanActivity vertretungsplanActivity;
 
     private PreferenceActivity             preferenceActivity;
     private NotificationPreferenceActivity notificationPreferenceActivity;
@@ -127,6 +130,8 @@ public class UtilsController {
             return profileActivity;
         } else if (surveyActivity != null) {
             return surveyActivity;
+        }else if (vertretungsplanActivity != null)  {
+            return vertretungsplanActivity;
         } else if (receiveService != null)
             return receiveService.getApplicationContext();
         return null;
@@ -199,6 +204,8 @@ public class UtilsController {
             return profileActivity;
         } else if (surveyActivity != null && surveyActivity.getStatus() == ActivityStatus.ACTIVE) {
             return surveyActivity;
+        } else if (vertretungsplanActivity != null && vertretungsplanActivity.getStatus() == ActivityStatus.ACTIVE) {
+            return vertretungsplanActivity;
         } else {
             return null;
         }
@@ -283,6 +290,10 @@ public class UtilsController {
 
     public void registerEssensbonIntroActity(EssensbonIntroActivity activity) {
         essensbonIntroActivity = activity;
+    }
+
+    public void registerVertretungsplanActivity(VertretungsplanActivity activity)   {
+        vertretungsplanActivity = activity;
     }
 
     /**
@@ -409,6 +420,13 @@ public class UtilsController {
     }
 
     /**
+     * @return Aktive VertretungsplanActivity
+     */
+    public  VertretungsplanActivity getVertretungsplanActivity()    {
+        return vertretungsplanActivity;
+    }
+
+    /**
      * @return Laufender Receive-Service, null wenn nicht aktiv.
      */
     public ReceiveService getReceiveService() {
@@ -518,6 +536,9 @@ public class UtilsController {
         }
         if (getEssensbonIntroActivity() != null) {
             getEssensbonIntroActivity().finish();
+        }
+        if (getVertretungsplanActivity() != null)   {
+            getVertretungsplanActivity().finish();
         }
     }
 

@@ -282,6 +282,41 @@
     <string name="vote_button">Abstimmen</string>
 
 
+    <!-- Vertretung -->
+    <string name="substitution">Vertretung</string>
+    <string name="cancellation">Entfall</string>
+    <string name="substitution_class">Klasse(n)</string>
+    <string name="substitution_grade">Stufe</string>
+    <string name="lesson">Stunde(n)</string>
+    <string name="teacher">Lehrer</string>
+    <string name="room">Raum</string>
+    <string name="annotation">Anmerkung</string>
+    <string name="supply_teacher">Vertreter</string>
+    <string name="monday">Montag</string>
+    <string name="tuesday">Dienstag</string>
+    <string name="wednesday">Mittwoch</string>
+    <string name="thursday">Donnerstag</string>
+    <string name="friday">Freitag</string>
+    <string name="no_substitution">Keine Vertretung!</string>
+    <string-array name="filter_options1">
+        <item>Kein Filter</item>
+        <item>Filtern nach Jahrgangsstufe</item>
+        <item>Filtern nach Stundenplan</item>
+    </string-array>
+    <string-array name="filter_options2">
+        <item>Kein Filter</item>
+        <item>Filtern nach Jahrgangsstufe</item>
+    </string-array>
+    <string-array name="filter_options3">
+        <item>Kein Filter</item>
+        <item>Filtern nach Stundenplan</item>
+    </string-array>
+    <string-array name="filter_options4">
+        <item>Kein Filter</item>
+        <item>Filtern nach Kürzel</item>
+    </string-array>
+
+
     <!-- Einstellungen -->
     <string name="settings_category_general">Generell</string>
 

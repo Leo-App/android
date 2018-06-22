@@ -31,6 +31,7 @@ import de.slgdev.stimmungsbarometer.activity.StimmungsbarometerActivity;
 import de.slgdev.stimmungsbarometer.utility.StimmungsbarometerUtils;
 import de.slgdev.stundenplan.activity.StundenplanActivity;
 import de.slgdev.umfragen.activity.SurveyActivity;
+import de.slgdev.vertretungsplan.activity.VertretungsplanActivity;
 
 /**
  * LeoAppNavigationActivity.
@@ -166,6 +167,9 @@ public abstract class LeoAppNavigationActivity extends ActionLogActivity {
                     break;
                 case R.id.umfragen:
                     i = new Intent(getApplicationContext(), SurveyActivity.class);
+                    break;
+                case R.id.vertretungsplan:
+                    i = new Intent(getApplicationContext(), VertretungsplanActivity.class);
                     break;
                 case R.id.itsolver:
                     i = new Intent(getApplicationContext(), ITActivity.class);
