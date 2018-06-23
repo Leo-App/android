@@ -24,15 +24,17 @@ import java.util.zip.Inflater;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
+import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.svBriefkasten.task.AddProposalTask;
+import de.slgdev.svBriefkasten.task.SyncTopicTask;
 import de.slgdev.svBriefkasten.task.UpdateLikes;
 
 /**
  * Created by sili- on 14.04.2018.
  */
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class ExpandableListAdapter extends BaseExpandableListAdapter implements TaskStatusListener {
 
 
     private Context context;
@@ -40,6 +42,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<String>> listHashMap;
     private List<Boolean> geliked;
     private List<Integer> id;
+    private int tmpint;
+    private String tmpst;
 
     private static SQLiteConnectorSv sqLiteConnector;
     private static SQLiteDatabase sqLiteDatabase;
@@ -99,7 +103,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             view= inflater.inflate(R.layout.list_group_briefkasten, null);
         }
 
-        
 
         TextView lbl = (TextView)view.findViewById(R.id.lblListHeader);
         lbl.setTypeface(null, Typeface.BOLD);
@@ -109,36 +112,41 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         ch.setChecked((Boolean) getChecked(i));
         ch.setTag(headerTitle);
 
+        TaskStatusListener tmp = this;
+
         if (sqLiteConnector == null)
             sqLiteConnector = new SQLiteConnectorSv(Utils.getContext());
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
-        Button vorschlag = view.findViewById(R.id.proposal);
-        vorschlag.setTag(headerTitle);
-        vorschlag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+            Button vorschlag = view.findViewById(R.id.proposal);
+            vorschlag.setTag(headerTitle);
+            vorschlag.setOnClickListener(new View.OnClickListener() {
 
-                final EditText et = new EditText(context);
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
-                // set prompts.xml to alertdialog builder
-                alertDialogBuilder.setView(et);
+                    final EditText et = new EditText(context);
 
-                // set dialog message
-                alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        new AddProposalTask().execute(et.getText().toString(), vorschlag.getTag());
-                    }
-                });
+                    // set prompts.xml to alertdialog builder
+                    alertDialogBuilder.setView(et);
 
-                // create alert dialog
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                // show it
-                alertDialog.show();
-            }
-        });
+                    // set dialog message
+                    alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            tmpint=i;
+                            tmpst=et.getText().toString();
+                            new SyncTopicTask().addListener(tmp).execute();
+                        }
+                    });
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    // show it
+                    alertDialog.show();
+                }
+            });
 
         ch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -188,6 +196,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
 
+        new SyncTopicTask().addListener(this).execute();
 
         return view;
 
@@ -215,5 +224,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public String getTopicAtPosition(int position) {
         return listDataHeader.get(position);
 
+    }
+
+    @Override
+    public void taskFinished(Object... params) {
+        Cursor cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES}, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + getGroup(tmpint) + "'", null, null, null, null);
+        cursor.moveToFirst();
+        if(cursor.getCount()>=1 && cursor.getString(2).equals(""))
+            new AddProposalTask().execute(tmpst, getGroup(tmpint));
     }
 }

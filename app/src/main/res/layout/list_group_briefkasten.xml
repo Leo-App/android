@@ -22,6 +22,8 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/check"
         android:layout_toStartOf="@+id/check"
+        android:textSize="8dp"
+        android:focusable="false"
         android:text="@string/proposal" />
 
     <CheckBox

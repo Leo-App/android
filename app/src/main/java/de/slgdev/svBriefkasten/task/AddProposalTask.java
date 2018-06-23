@@ -21,8 +21,8 @@ public class AddProposalTask extends AsyncTask<Object, Void, ResponseCode> {
         if (!Utils.isNetworkAvailable())
             return ResponseCode.NO_CONNECTION;
 
-        String topic = (String) params[0];
-        String proposal = (String) params[1];
+        String topic = (String) params[1];
+        String proposal = (String) params[0];
         Utils.logDebug(topic + "Test");
         Utils.logDebug(proposal + "Test");
 
@@ -40,6 +40,9 @@ public class AddProposalTask extends AsyncTask<Object, Void, ResponseCode> {
                             "UTF-8"
                     )
             );
+            Utils.logDebug("http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/addProposal.php?" +
+                    "topic=" + topic + "&" +
+                    "proposal=" + proposal);
 
             StringBuilder builder = new StringBuilder();
             String        line;

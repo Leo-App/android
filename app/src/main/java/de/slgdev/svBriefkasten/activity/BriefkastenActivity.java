@@ -3,6 +3,7 @@ package de.slgdev.svBriefkasten.activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -232,8 +233,9 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
     public void taskFinished(Object... params) {
         Utils.logDebug("done");
         initData();
-        listAdapter = new de.slgdev.svBriefkasten.Adapter.ExpandableListAdapter(this, listDataHeader,listHash, geliked, position);
+        listAdapter = new de.slgdev.svBriefkasten.Adapter.ExpandableListAdapter(this, listDataHeader, listHash, geliked, position);
         expandableListView.setAdapter(listAdapter);
         swipeRefresh.setRefreshing(false);
     }
+
 }
