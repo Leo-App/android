@@ -93,6 +93,7 @@
     <string name="title_testplan">Exams</string>
     <string name="title_messenger" translatable="false">Messenger</string>
     <string name="title_tutoring">Tutoring</string>
+    <string name="title_foodordering">Food Ordering</string>
     <string name="title_news">Pin Board</string>
     <string name="title_survey">Mood</string>
     <string name="title_plan">Timetable</string>

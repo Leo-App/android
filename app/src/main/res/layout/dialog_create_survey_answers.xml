@@ -46,8 +46,8 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_alignStart="@+id/button1"
         android:layout_below="@+id/multiple"
         android:layout_marginTop="13dp"
         android:drawableLeft="@drawable/ic_add"
@@ -69,7 +69,7 @@
         />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button1"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button"
+        android:layout_below="@+id/button1"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -117,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/new_answer"
-        android:layout_below="@+id/button"
+        android:layout_below="@+id/button1"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:inputType="text"

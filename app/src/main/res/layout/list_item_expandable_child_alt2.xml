@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button1"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         android:layout_height="25dp"
         android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@id/button"
+        android:layout_toLeftOf="@id/button1"
         android:background="@null"
         android:tint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_share"/>

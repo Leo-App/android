@@ -408,7 +408,7 @@ public class SurveyActivity extends LeoAppNavigationActivity implements TaskStat
                 if (getSurvey(groupPosition).remoteId == Utils.getUserID())
                     convertView.findViewById(R.id.delete).setVisibility(View.VISIBLE);
 
-                final Button      button = convertView.findViewById(R.id.button);
+                final Button      button = convertView.findViewById(R.id.button1);
                 final ImageButton delete = convertView.findViewById(R.id.delete);
                 final ImageButton share  = convertView.findViewById(R.id.share);
 

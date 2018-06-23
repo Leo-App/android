@@ -105,7 +105,7 @@ public class NewSurveyDialog extends AlertDialog implements TaskStatusListener {
             case 2:
                 if (answers == null)
                     break;
-                int[] layouts = {R.id.text1, R.id.new_answer, R.id.text2, R.id.button, R.id.text3, R.id.button1, R.id.text4, R.id.button2, R.id.text5, R.id.button3};
+                int[] layouts = {R.id.text1, R.id.new_answer, R.id.text2, R.id.button1, R.id.text3, R.id.button1, R.id.text4, R.id.button2, R.id.text5, R.id.button3};
                 for (int i = 0; i < answers.length; i++) {
                     if (answers[i].length() > 0) {
                         findViewById(layouts[i * 2 + 1]).setVisibility(View.INVISIBLE);
@@ -187,9 +187,9 @@ public class NewSurveyDialog extends AlertDialog implements TaskStatusListener {
                 manager.showSoftInput(findViewById(R.id.text1), InputMethodManager.SHOW_IMPLICIT);
                 findViewById(R.id.text1).requestFocus();
             });
-            findViewById(R.id.button).setOnClickListener(v -> {
+            findViewById(R.id.button1).setOnClickListener(v -> {
                 if (findViewById(R.id.text1).getVisibility() == View.VISIBLE) {
-                    findViewById(R.id.button).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.button1).setVisibility(View.INVISIBLE);
                     findViewById(R.id.text2).setVisibility(View.VISIBLE);
                     InputMethodManager manager = (InputMethodManager) Utils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     manager.showSoftInput(findViewById(R.id.text2), InputMethodManager.SHOW_IMPLICIT);
@@ -206,7 +206,7 @@ public class NewSurveyDialog extends AlertDialog implements TaskStatusListener {
                     manager.showSoftInput(findViewById(R.id.text3), InputMethodManager.SHOW_IMPLICIT);
                     findViewById(R.id.text3).requestFocus();
                 } else {
-                    findViewById(R.id.button).callOnClick();
+                    findViewById(R.id.button1).callOnClick();
                 }
             });
             findViewById(R.id.button2).setOnClickListener(v -> {

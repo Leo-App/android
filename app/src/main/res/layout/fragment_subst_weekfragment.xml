@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ExpandableListView
+            android:id="@+id/expandable_subst"
+            android:layout_width="match_parent"
+            android:layout_height="346dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+
+        <RelativeLayout
+            android:id="@+id/submit_layout"
+            android:layout_width="match_parent"
+            android:layout_height="179dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/montag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Montag" />
+
+                <TextView
+                    android:id="@+id/dienstag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dienstag" />
+
+                <TextView
+                    android:id="@+id/mittwoch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mittwoch" />
+
+                <TextView
+                    android:id="@+id/donnerstag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Donnerstag" />
+
+                <TextView
+                    android:id="@+id/woche"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Woche" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button1"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/vote_button" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
