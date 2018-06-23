@@ -1,7 +1,9 @@
 package de.slgdev.svBriefkasten.Adapter;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -9,17 +11,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
 import de.slgdev.leoapp.utility.Utils;
+import de.slgdev.svBriefkasten.task.AddProposalTask;
+import de.slgdev.svBriefkasten.task.UpdateLikes;
 
 /**
  * Created by sili- on 14.04.2018.
@@ -107,6 +114,32 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
+        Button vorschlag = view.findViewById(R.id.proposal);
+        vorschlag.setTag(headerTitle);
+        vorschlag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+                final EditText et = new EditText(context);
+
+                // set prompts.xml to alertdialog builder
+                alertDialogBuilder.setView(et);
+
+                // set dialog message
+                alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        new AddProposalTask().execute(et.getText().toString(), vorschlag.getTag());
+                    }
+                });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // show it
+                alertDialog.show();
+            }
+        });
+
         ch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -124,7 +157,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 Utils.logDebug(cursor.getCount());
                 cursor.moveToFirst();
                 if(cursor.getCount()>=1) {
-                    likes = Integer.parseInt(cursor.getString(6));
+                    String tmp = cursor.getString(5);
+                    tmp = tmp.replace(" ", "");
+                    likes = Integer.parseInt(tmp);
                     if (ch.isChecked())
                         likes++;
                     else
@@ -139,6 +174,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 
                     sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LETTERBOX, values, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null);
+
+
+                    values = new ContentValues();
+                    values.put(SQLiteConnectorSv.LIKED_TOPIC, topic);
+                    values.put(SQLiteConnectorSv.LIKED_CHECKED, ch.isChecked());
+                    sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LIKED, values, SQLiteConnectorSv.LIKED_TOPIC + "='" + topic + "'", null);
+
+                    Utils.logDebug(likes+ "Das sind die Likes");
+
+                    new UpdateLikes().execute(topic, likes);
                 }
             }
         });

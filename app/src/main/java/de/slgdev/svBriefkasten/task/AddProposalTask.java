@@ -7,17 +7,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import de.slgdev.leoapp.task.general.ObjectCallbackTask;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
 
 /**
- * Created by sili- on 14.05.2018.
+ * Created by sili- on 23.06.2018.
  */
 
-public class AddTopic extends ObjectCallbackTask<ResponseCode> {
-
+public class AddProposalTask extends AsyncTask<Object, Void, ResponseCode> {
     @Override
     protected ResponseCode doInBackground(Object... params) {
         if (!Utils.isNetworkAvailable())
@@ -33,7 +31,7 @@ public class AddTopic extends ObjectCallbackTask<ResponseCode> {
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             new URL(
-                                    "http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/addTopic.php?" +
+                                    "http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/addProposal.php?" +
                                             "topic=" + topic + "&" +
                                             "proposal=" + proposal
                             )
@@ -60,15 +58,4 @@ public class AddTopic extends ObjectCallbackTask<ResponseCode> {
         }
         return ResponseCode.SUCCESS;
     }
-
-    @Override
-    protected void onPostExecute(ResponseCode responseCode) {
-        for (TaskStatusListener l : getListeners()) {
-            l.taskFinished(responseCode);
-        }
-    }
 }
-
-
-
-

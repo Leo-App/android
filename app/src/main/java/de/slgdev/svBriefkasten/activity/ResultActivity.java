@@ -14,10 +14,11 @@ import java.util.List;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
+import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.svBriefkasten.Adapter.SecondExpandableListAdapter;
 import de.slgdev.svBriefkasten.task.SyncTopicTask;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends AppCompatActivity implements TaskStatusListener {
 
     private ExpandableListView resultsELW;
     private SecondExpandableListAdapter listAdapter;
@@ -43,10 +44,6 @@ public class ResultActivity extends AppCompatActivity {
         listHash = new HashMap<>();
         likes = new ArrayList<>();
 
-        receive();
-
-        initELW();
-
     }
 
     public void initELW(){
@@ -58,6 +55,8 @@ public class ResultActivity extends AppCompatActivity {
             String proposal1=cursor.getString(1);
             String proposal2=cursor.getString(2);
             String like = cursor.getString(5);
+
+            cursor.close();
 
             likes.add(like);
 
@@ -78,5 +77,10 @@ public class ResultActivity extends AppCompatActivity {
 
     public void receive(){
         new SyncTopicTask().execute();
+    }
+
+    @Override
+    public void taskFinished(Object... params) {
+        initELW();
     }
 }

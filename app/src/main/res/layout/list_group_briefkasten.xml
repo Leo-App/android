@@ -15,6 +15,15 @@
         android:layout_marginStart="40dp"
         android:textSize="17dp" />
 
+    <Button
+        android:id="@+id/proposal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/check"
+        android:layout_toStartOf="@+id/check"
+        android:text="@string/proposal" />
+
     <CheckBox
         android:id="@+id/check"
         android:layout_width="wrap_content"

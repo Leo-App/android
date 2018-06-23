@@ -289,7 +289,8 @@
     <string name="createTopic_editText">Thema</string>
     <string name="suggestion">Lösungsvorschlag</string>
     <string name="liken">Like</string>
-
+    <string name="proposal">Vorschlag</string>
+    <string name="send">Vorschlag hinzufügen</string>
 
     <!-- Einstellungen -->
     <string name="settings_category_general">Generell</string>

@@ -94,7 +94,7 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
                 Utils.logDebug(topic);
                 Utils.logDebug(proposal);
                 if (cursor.getCount() == 0) {
-                    new AddTopic().execute(topic,proposal);
+                    new AddTopic().addListener(this).execute(topic,proposal);
 
                 }
                 cursor.close();

@@ -1,16 +1,20 @@
 package de.slgdev.svBriefkasten.activity;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
@@ -24,6 +28,7 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
+import de.slgdev.svBriefkasten.task.AddProposalTask;
 import de.slgdev.svBriefkasten.task.SyncTopicTask;
 
 public class BriefkastenActivity extends LeoAppNavigationActivity implements TaskStatusListener {
@@ -59,7 +64,8 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new SyncTopicTask().execute();
+                swipeRefresh.setRefreshing(false);
+                receiveData();
             }
         });
 
@@ -76,6 +82,8 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
 
         initButtons();
     }
+
+    public void receiveData(){new SyncTopicTask().addListener(this).execute();}
 
     public void initButtons() {
         createTopic = findViewById(R.id.createTopic);
@@ -101,6 +109,9 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         cursor = sqLiteDatabase.query(false,SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES},null, null, null, null,null, null);
         cursor.moveToFirst();
         Utils.logDebug(cursor.getCount());
+
+        listDataHeader = new ArrayList<>();
+        listHash = new HashMap<>();
 
         geliked = new ArrayList<>();
         geliked.add(true);
@@ -223,6 +234,6 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         initData();
         listAdapter = new de.slgdev.svBriefkasten.Adapter.ExpandableListAdapter(this, listDataHeader,listHash, geliked, position);
         expandableListView.setAdapter(listAdapter);
-        //initCheckbox();
+        swipeRefresh.setRefreshing(false);
     }
 }
