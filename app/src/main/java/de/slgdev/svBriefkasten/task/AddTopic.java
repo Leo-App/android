@@ -26,14 +26,17 @@ public class AddTopic extends ObjectCallbackTask<ResponseCode> {
         String topic = (String) params[0];
         String proposal = (String) params[1];
         Utils.logDebug(topic + "Test");
+        Utils.logDebug(proposal + "Test");
+
+        topic.replace("ö", "&ouml");
         try {
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             new URL(
-                                    "http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/addTopic.php/" +
+                                    "http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/addTopic.php?" +
                                             "topic=" + topic + "&" +
-                                            "proposal1=" + proposal
+                                            "proposal=" + proposal
                             )
                                     .openConnection()
                                     .getInputStream(),

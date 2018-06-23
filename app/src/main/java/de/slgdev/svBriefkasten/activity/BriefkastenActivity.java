@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -37,6 +38,7 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
     private SharedPreferences sharedPref;
     private String lastAdded;
     private List<Integer> position;
+    private SwipeRefreshLayout swipeRefresh;
 
     List<Boolean> geliked;
 
@@ -52,6 +54,14 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
             sqLiteConnector = new SQLiteConnectorSv(Utils.getContext());
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
+
+        swipeRefresh = findViewById(R.id.swipeRefresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new SyncTopicTask().execute();
+            }
+        });
 
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();

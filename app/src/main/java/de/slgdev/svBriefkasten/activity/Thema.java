@@ -62,8 +62,8 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
             @Override
             public void onClick(View view) {
                 if(thema.getText().length()!=0 && loesung.getText().length()!=0) {
-                    String topic = thema.getText().toString();
-                    String proposal = loesung.getText().toString();
+                    topic = thema.getText().toString();
+                    proposal = loesung.getText().toString();
 
                     checkTopic();
 
@@ -89,12 +89,16 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
                     sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
                 Cursor cursor = sqLiteDatabase.query(false, SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC}, SQLiteConnectorSv.LETTERBOX_TOPIC + " = ' " + topic + "'", null, null, null, null, null);
+
+                con = true;
+                Utils.logDebug(topic);
+                Utils.logDebug(proposal);
                 if (cursor.getCount() == 0) {
                     new AddTopic().execute(topic,proposal);
 
                 }
                 cursor.close();
-                con = true;
+
             }
 
     }
