@@ -19,6 +19,8 @@ import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 //import values.strings;
 import de.slgdev.nachhilfeboerse.activity.Adapter.ExpendableListViewAdapter;
+import de.slgdev.nachhilfeboerse.task.addPerson;
+import de.slgdev.stimmungsbarometer.utility.Vote;
 
 import static de.slgdev.leoapp.R.layout.activity_nachhilfeboerse;
 import static de.slgdev.leoapp.R.layout.activity_nachhilfeboerse_nachhilfegeben;
@@ -98,10 +100,13 @@ public class Nachhilfeboerse_nachhilfegebenActivity extends LeoAppNavigationActi
         EditText geld = (EditText)findViewById(R.id.geld);
 
         anzeige.setText("");
+        addPerson task = new addPerson();
+
+
         weiter.setOnClickListener((v)-> {
                 if (!vorname.getText().toString().equals("") && !vorname.getText().toString().equals("Vorname") && !vorname.getText().toString().equals("First given name") && !nachname.getText().toString().equals("") && !nachname.getText().toString().equals("Nachname") && !nachname.getText().toString().equals("Surname") && !geld.getText().toString().equals("") ) {
                     Utils.logDebug("If");
-                    String[] daten = new String[]{vorname.getText().toString(), nachname.getText().toString(), "", "", "", "","","","","",""};
+                    String[] daten = new String[]{vorname.getText().toString(), nachname.getText().toString(), "", "", "", "","","","","","",""};
                     int i = 2;
                     if (checkBoxMathe.isChecked()) {
                         daten[i] = "Mathe";
@@ -156,7 +161,7 @@ public class Nachhilfeboerse_nachhilfegebenActivity extends LeoAppNavigationActi
                         values.put(NACHHILFE_FAECHER, faecher);
                         Utils.logDebug(values.size());
                         long insert = sqLiteDatabase.insert(TABLE_NACHHILFEBOERSE, null, values);
-                        Utils.logDebug(insert);
+                        task.execute(daten[0],daten[1],Utils.getUserStufe(),faecher,geld.getText().toString());
                         startActivity(weiterIntent);
                     }
                 } else { Utils.logDebug("else");

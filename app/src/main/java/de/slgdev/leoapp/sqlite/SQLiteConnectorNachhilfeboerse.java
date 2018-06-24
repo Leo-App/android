@@ -13,11 +13,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SQLiteConnectorNachhilfeboerse extends SQLiteOpenHelper {
 
     public static final  String TABLE_NACHHILFEBOERSE        = "NachhilfeBoerse";
-    public static final  String NACHHILFE_VORNAME        = "vorname";
-    public static final  String NACHHILFE_NACHNAME        = "nachname";
+    public static final  String NACHHILFE_VORNAME        = "Vorname";
+    public static final  String NACHHILFE_NACHNAME        = "Nachname";
     public static final String DATABASE_NAME            ="nachhilfeBoerse.db";
-    public static final String NACHHILFE_STUFE           = "stufe";
-    public static final  String NACHHILFE_FAECHER       = "faecher";
+    public static final String NACHHILFE_STUFE           = "Stufe";
+    public static final  String NACHHILFE_FAECHER       = "Faecher";
+    public static final String NACHHILFE_GELD           = "Geld";
     public static final String NACHHILFE_ANHANG         ="anhang";
 
     public SQLiteConnectorNachhilfeboerse(Context context) {
@@ -30,6 +31,7 @@ public class SQLiteConnectorNachhilfeboerse extends SQLiteOpenHelper {
                 NACHHILFE_NACHNAME + " TEXT NOT NULL, " +
                 NACHHILFE_STUFE + " TEXT NOT NULL, " +
                 NACHHILFE_FAECHER + " TEXT NOT NULL, " +
+                NACHHILFE_GELD + " TEXT NOT NULL, " +
                 NACHHILFE_ANHANG + "VARCHAR" +
                 ")");
     }
@@ -40,12 +42,13 @@ public class SQLiteConnectorNachhilfeboerse extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public ContentValues getEntryContentValues(String vorname, String nachname, String stufe , String faecher) {
+    public ContentValues getEntryContentValues(String vorname, String nachname, String stufe , String faecher, String geld) {
         ContentValues values = new ContentValues();
         values.put(NACHHILFE_VORNAME, vorname);
         values.put(NACHHILFE_NACHNAME, nachname);
         values.put(NACHHILFE_STUFE, stufe);
         values.put(NACHHILFE_FAECHER, faecher);
+        values.put(NACHHILFE_GELD, geld);
         return values;
     }
 }

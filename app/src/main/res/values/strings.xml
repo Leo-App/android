@@ -220,6 +220,7 @@
     <string name="vorname">First given name</string>
     <string name="nachname">Surname</string>
     <string name="auswaehlen">Please choose a subjekt</string>
+    <string name="chatroom">Chatroom</string>
 
     <!-- Stundenplan -->
     <string name="month">Month</string>

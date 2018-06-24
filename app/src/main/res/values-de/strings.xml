@@ -189,6 +189,7 @@
     <string name="vorname">Vorname</string>
     <string name="nachname">Nachname</string>
     <string name="auswaehlen">Bitte wähle ein Fach aus</string>
+    <string name="chatroom">Chatraum</string>
 
 
     <!-- Schwarzes Brett -->
