@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -242,6 +243,36 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         initData();
         listAdapter = new de.slgdev.svBriefkasten.Adapter.ExpandableListAdapter(this, listDataHeader, listHash, geliked, position);
         expandableListView.setAdapter(listAdapter);
+        /**expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            Context tmp = getApplicationContext();
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(tmp);
+
+        final EditText et = new EditText(tmp);
+        et.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(et);
+        // set dialog message
+        alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Utils.logDebug("loeschen");
+            }
+        });
+
+        alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Utils.logDebug("Abbrechen");
+            }
+        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        // show it
+        alertDialog.show();
+             return true;
+            }
+        });*/
         swipeRefresh.setRefreshing(false);
     }
 
