@@ -40,13 +40,15 @@ public class ResultActivity extends AppCompatActivity implements TaskStatusListe
         if(sqLiteDatabase==null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
-        listDataHeader = new ArrayList<>();
-        listHash = new HashMap<>();
-        likes = new ArrayList<>();
+
 
     }
 
     public void initELW(){
+        listDataHeader = new ArrayList<>();
+        listHash = new HashMap<>();
+        likes = new ArrayList<>();
+
         Cursor cursor;
         cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES},null, null, null, null ,sqLiteConnector.LETTERBOX_LIKES + " DESC");
 

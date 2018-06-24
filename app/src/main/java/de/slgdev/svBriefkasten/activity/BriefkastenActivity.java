@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -115,8 +116,6 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         listHash = new HashMap<>();
 
         geliked = new ArrayList<>();
-        geliked.add(true);
-        geliked.add(false);
         position = new ArrayList<>();
 
 
@@ -132,7 +131,13 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
             String topic = cursor.getString(0);
             String proposal1=cursor.getString(1);
             String proposal2=cursor.getString(2);
-
+            Cursor tmp = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LIKED, new String[]{SQLiteConnectorSv.LIKED_TOPIC, SQLiteConnectorSv.LIKED_CHECKED}, SQLiteConnectorSv.LIKED_TOPIC + "='" + topic + "'", null, null, null, null);
+            if(tmp.getCount()==0) {
+                ContentValues tmpv = new ContentValues();
+                tmpv.put(SQLiteConnectorSv.LIKED_TOPIC, topic);
+                tmpv.put(SQLiteConnectorSv.LIKED_CHECKED, false);
+                sqLiteDatabase.insert(SQLiteConnectorSv.TABLE_LIKED, null, tmpv);
+            }
 
             position.add(cursor.getPosition());
             listDataHeader.add(topic);
@@ -145,7 +150,7 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
             listHash.put(listDataHeader.get(listDataHeader.size()-1),loesungen);
             lastAdded = topic;
         }
-
+        cursor2.close();
         cursor.close();
     }
 
@@ -160,6 +165,8 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
                 ContentValues values = new ContentValues();
                 values.put(SQLiteConnectorSv.LIKED_TOPIC, topic);
                 values.put(SQLiteConnectorSv.LIKED_CHECKED, like.isChecked());
+                sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LIKED, values, SQLiteConnectorSv.LIKED_TOPIC + "='" + topic + "'", null);
+
 
                 Cursor cursor;
 

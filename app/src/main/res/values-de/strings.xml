@@ -291,6 +291,7 @@
     <string name="liken">Like</string>
     <string name="proposal">Vorschlag</string>
     <string name="send">Vorschlag hinzufügen</string>
+    <string name="delete">Löschen</string>
 
     <!-- Einstellungen -->
     <string name="settings_category_general">Generell</string>

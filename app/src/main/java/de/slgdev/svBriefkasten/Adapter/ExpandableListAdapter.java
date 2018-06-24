@@ -98,10 +98,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         String headerTitle = (String)getGroup(i);
+
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view= inflater.inflate(R.layout.list_group_briefkasten, null);
         }
+
 
 
         TextView lbl = (TextView)view.findViewById(R.id.lblListHeader);

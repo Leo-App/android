@@ -315,6 +315,7 @@
     <string name="liken">Like</string>
     <string name="proposal">Proposal</string>
     <string name="send">Add Proposal</string>
+    <string name="delete">Delete</string>
 
     <!-- Einstellungen -->
     <string name="settings_category_general">General</string>
