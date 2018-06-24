@@ -63,10 +63,10 @@ public class ExpandableListViewMainActivity extends Fragment implements TaskStat
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
 
-
-        Cursor cursor1 = sqLiteDatabase.query(false,
+        Cursor cursor1 = sqLiteDatabase.query(true,
                 SQLiteConnectorNachhilfeboerse.TABLE_NACHHILFEBOERSE,
                 new String[]{SQLiteConnectorNachhilfeboerse.NACHHILFE_FAECHER},
+<<<<<<< HEAD
                 null, null,
                 SQLiteConnectorNachhilfeboerse.NACHHILFE_FAECHER, null, null, null);
         Utils.logDebug(cursor1.getCount());
@@ -83,7 +83,38 @@ public class ExpandableListViewMainActivity extends Fragment implements TaskStat
                 }
                 if (!istinfaecherschon) {
                     faecher.add(aufteilen[a]);
+=======
+                null, null, null, null, null, null);
+
+        Utils.logDebug("CURSOR SIZE: " + cursor1.getCount());
+
+        ArrayList daten = new ArrayList();
+        cursor1.moveToFirst();
+        for(int a = 0 ; a < cursor1.getCount(); a++) {
+            String[] fach = cursor1.getString(0).split(",");
+            int l = 0;
+            while (fach.length > l) {
+                if(!daten.contains(fach[l])) {
+                    daten.add(fach[l]);
+                    listDataHeader.add(fach[l]);
+                    Cursor cursor2 = sqLiteDatabase.query(false,
+                            SQLiteConnectorNachhilfeboerse.TABLE_NACHHILFEBOERSE,
+                            new String[]{SQLiteConnectorNachhilfeboerse.NACHHILFE_VORNAME},
+                            SQLiteConnectorNachhilfeboerse.NACHHILFE_FAECHER + " like '%" + fach[l] + "%'",
+                            null, null, null, null, null);
+                    cursor2.moveToFirst();
+                    Utils.logDebug(cursor2.getString(0));
+                    List<String> name = new ArrayList<>();
+                    for (int p = 0; p < cursor2.getCount(); p++) {
+                        name.add(cursor2.getString(0));
+                        cursor2.moveToNext();
+                    }
+                    listHash.put(listDataHeader.get(a), name);
+                    cursor2.close();
+                    cursor1.moveToNext();
+>>>>>>> 0240f1c253650c68beb8bc708ba2a8fa7e44c2df
                 }
+                l++;
             }
             cursor1.moveToNext();
         }
@@ -109,15 +140,11 @@ public class ExpandableListViewMainActivity extends Fragment implements TaskStat
     }
 
     @Override
-    public void taskStarts() {
-
-    }
-
-    @Override
     public void taskFinished(Object... params) {
         initData();
         listAdapter = new ExpendableListViewAdapter(Utils.getContext(), listDataHeader, listHash);
         listView.setAdapter(listAdapter);
+<<<<<<< HEAD
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             @Override
@@ -131,6 +158,18 @@ public class ExpandableListViewMainActivity extends Fragment implements TaskStat
                 startActivity(intentProfil);
                 return true;
             }
+=======
+        listView.setOnChildClickListener((expandableListView, view, i, i1, l) -> {
+            Toast.makeText(
+                    Utils.getContext(),
+                    listDataHeader.get(i)
+                            + " : "
+                            + listHash.get(
+                            listDataHeader.get(i)).get(
+                            i1), Toast.LENGTH_SHORT)
+                    .show();
+            return false;
+>>>>>>> 0240f1c253650c68beb8bc708ba2a8fa7e44c2df
         });
     }
 }
