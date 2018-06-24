@@ -78,7 +78,7 @@ public class ResultActivity extends AppCompatActivity implements TaskStatusListe
     }
 
     public void receive(){
-        new SyncTopicTask().execute();
+        new SyncTopicTask().addListener(this).execute();
     }
 
     @Override
