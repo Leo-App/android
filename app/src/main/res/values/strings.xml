@@ -316,6 +316,8 @@
     <string name="proposal">Proposal</string>
     <string name="send">Add Proposal</string>
     <string name="delete">Delete</string>
+    <string name="briefkasten_password">sLg?2018</string>
+    <string name="exists">Already exists</string>
 
     <!-- Einstellungen -->
     <string name="settings_category_general">General</string>

@@ -2,7 +2,6 @@ package de.slgdev.svBriefkasten.activity;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +10,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,14 +22,14 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
+
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
-import de.slgdev.svBriefkasten.task.AddProposalTask;
+import de.slgdev.svBriefkasten.task.RemoveTopic;
 import de.slgdev.svBriefkasten.task.SyncTopicTask;
 
 public class BriefkastenActivity extends LeoAppNavigationActivity implements TaskStatusListener {
@@ -47,6 +45,7 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
     private String lastAdded;
     private List<Integer> position;
     private SwipeRefreshLayout swipeRefresh;
+    private String[] topics;
 
     List<Boolean> geliked;
 
@@ -124,9 +123,12 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         cursor2.moveToFirst();
 
         for(cursor2.moveToFirst(); !cursor2.isAfterLast(); cursor2.moveToNext()){
+            Utils.logDebug(Boolean.valueOf(cursor2.getString(0)));
             boolean liked = Boolean.valueOf(cursor2.getString(0));
             geliked.add(liked);
         }
+
+        topics = new String[cursor.getCount()];
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             String topic = cursor.getString(0);
@@ -139,6 +141,8 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
                 tmpv.put(SQLiteConnectorSv.LIKED_CHECKED, false);
                 sqLiteDatabase.insert(SQLiteConnectorSv.TABLE_LIKED, null, tmpv);
             }
+
+            topics[cursor.getPosition()] = topic;
 
             position.add(cursor.getPosition());
             listDataHeader.add(topic);
@@ -238,41 +242,66 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        sqLiteDatabase.close();
+        sqLiteConnector.close();
+        sqLiteDatabase = null;
+        sqLiteConnector = null;
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if (sqLiteConnector == null)
+        sqLiteConnector = new SQLiteConnectorSv(Utils.getContext());
+        if (sqLiteDatabase == null)
+            sqLiteDatabase = sqLiteConnector.getReadableDatabase();
+    }
+
+    @Override
     public void taskFinished(Object... params) {
         Utils.logDebug("done");
         initData();
         listAdapter = new de.slgdev.svBriefkasten.Adapter.ExpandableListAdapter(this, listDataHeader, listHash, geliked, position);
         expandableListView.setAdapter(listAdapter);
-        /**expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            Context tmp = getApplicationContext();
+        expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(tmp);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(expandableListView.getContext());
 
-        final EditText et = new EditText(tmp);
-        et.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        // set prompts.xml to alertdialog builder
-        alertDialogBuilder.setView(et);
-        // set dialog message
-        alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Utils.logDebug("loeschen");
+                final EditText et = new EditText(expandableListView.getContext());
+                et.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                // set prompts.xml to alertdialog builder
+                alertDialogBuilder.setView(et);
+
+                // set dialog message
+                alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Utils.logDebug("LongClick Builder");
+                        Utils.logDebug(topics[i]);
+                        Utils.logDebug(et.getText().toString());
+                        if(et.getText().toString().equals("sLg?2018")) {
+                            new RemoveTopic().execute(topics[i]);
+
+                        }
+                    }
+                });
+
+                alertDialogBuilder.setCancelable(false).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // show it
+                alertDialog.show();
+                return true;
             }
         });
-
-        alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Utils.logDebug("Abbrechen");
-            }
-        });
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        // show it
-        alertDialog.show();
-             return true;
-            }
-        });*/
         swipeRefresh.setRefreshing(false);
     }
 

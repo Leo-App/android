@@ -25,6 +25,7 @@ public class AddTopic extends ObjectCallbackTask<ResponseCode> {
 
         String topic = (String) params[0];
         String proposal = (String) params[1];
+        String creator = Integer.toString(Utils.getUserID());
         Utils.logDebug(topic + "Test");
         Utils.logDebug(proposal + "Test");
 
@@ -35,7 +36,8 @@ public class AddTopic extends ObjectCallbackTask<ResponseCode> {
                             new URL(
                                     "http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/addTopic.php?" +
                                             "topic=" + topic + "&" +
-                                            "proposal=" + proposal
+                                            "proposal=" + proposal + " &" +
+                                            "creator=" + creator
                             )
                                     .openConnection()
                                     .getInputStream(),

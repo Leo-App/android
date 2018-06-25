@@ -40,6 +40,8 @@ public class ResultActivity extends AppCompatActivity implements TaskStatusListe
         if(sqLiteDatabase==null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
+        receive();
+
 
 
     }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EdgeEffect;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
@@ -88,17 +89,19 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
                 if (sqLiteDatabase == null)
                     sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
-                Cursor cursor = sqLiteDatabase.query(false, SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC}, SQLiteConnectorSv.LETTERBOX_TOPIC + " = ' " + topic + "'", null, null, null, null, null);
+                Cursor cursor = sqLiteDatabase.query(false, SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC}, SQLiteConnectorSv.LETTERBOX_TOPIC + " = '" + topic + "'", null, null, null, null, null);
 
-                con = true;
+
+                Utils.logDebug(cursor.getCount());
                 Utils.logDebug(topic);
                 Utils.logDebug(proposal);
                 if (cursor.getCount() == 0) {
+                    con = true;
                     new AddTopic().addListener(this).execute(topic,proposal);
-
                 }
+                else
+                    Toast.makeText(getApplicationContext(), R.string.exists, Toast.LENGTH_LONG).show();
                 cursor.close();
-
             }
 
     }

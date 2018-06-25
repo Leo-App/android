@@ -143,6 +143,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
                         }
                     });
 
+                    alertDialogBuilder.setCancelable(false).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+
                     // create alert dialog
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     // show it

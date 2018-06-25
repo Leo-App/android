@@ -10,7 +10,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
@@ -26,6 +30,9 @@ public class SyncTopicTask extends VoidCallbackTask {
 
     @Override
     protected Object doInBackground(Object[] objects) {
+        Calendar kalender = Calendar.getInstance();
+        SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
+
         if (Utils.isNetworkAvailable()) {
             try {
                 URLConnection connection = new URL("http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/sync.php")
@@ -50,6 +57,7 @@ public class SyncTopicTask extends VoidCallbackTask {
                     Utils.logDebug("current = " + s);
                     String[] res = s.split(";");
                     if(res.length>=6)
+
                         dbh.insert(SQLiteConnectorSv.TABLE_LETTERBOX, null , db.getEntryContentValues(
                                 res[0],
                                 res[1],

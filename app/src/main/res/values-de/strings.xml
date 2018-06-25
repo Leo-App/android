@@ -292,6 +292,9 @@
     <string name="proposal">Vorschlag</string>
     <string name="send">Vorschlag hinzufügen</string>
     <string name="delete">Löschen</string>
+    <string name="briefkasten_password">sLg?2018</string>
+    <string name="exists">Schon Vorhanden</string>
+
 
     <!-- Einstellungen -->
     <string name="settings_category_general">Generell</string>

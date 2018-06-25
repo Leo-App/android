@@ -1,38 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
+    android:orientation="vertical"
     android:padding="8dp">
 
 
-    <TextView
-        android:id="@+id/lblListHeader"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:layout_marginLeft="40dp"
-        android:layout_marginStart="40dp"
-        android:textSize="17dp" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/proposal"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/lblListHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp"
+            android:textColor="#000000"
+            android:textSize="17dp" />
+
+        <CheckBox
+            android:id="@+id/check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:focusable="false"
+            android:text="@string/liken" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/check"
-        android:layout_toStartOf="@+id/check"
-        android:textSize="8dp"
-        android:focusable="false"
-        android:text="@string/proposal" />
+        android:orientation="horizontal">
 
-    <CheckBox
-        android:id="@+id/check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:focusable="false"
-        android:text="@string/liken" />
+        <Button
+            android:id="@+id/proposal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="@string/proposal" />
+    </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>
