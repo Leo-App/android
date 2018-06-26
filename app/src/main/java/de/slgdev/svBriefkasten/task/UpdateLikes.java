@@ -15,6 +15,10 @@ import de.slgdev.leoapp.utility.Utils;
  */
 
 public class UpdateLikes extends AsyncTask<Object, Void, ResponseCode> {
+
+    /**
+     * Die Anzahl der Likes wird entsprechen der Auswahl des Benutzers in der Datenbank verändert
+     */
     @Override
         protected ResponseCode doInBackground(Object... params) {
             if (!Utils.isNetworkAvailable())

@@ -18,6 +18,10 @@ import de.slgdev.leoapp.utility.Utils;
 
 public class AddTopic extends ObjectCallbackTask<ResponseCode> {
 
+
+    /**
+     * Die Methode fügt im Hintergrund ein Thema mit Vorschlag(oder ohne) in die Datenbank ein und "sagt" der zuhörenden Activity beim Beenden "Bescheid"
+     */
     @Override
     protected ResponseCode doInBackground(Object... params) {
         if (!Utils.isNetworkAvailable())

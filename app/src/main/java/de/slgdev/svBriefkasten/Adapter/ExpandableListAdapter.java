@@ -3,7 +3,7 @@ package de.slgdev.svBriefkasten.Adapter;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -13,15 +13,12 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
@@ -33,6 +30,7 @@ import de.slgdev.svBriefkasten.task.UpdateLikes;
 
 /**
  * Created by sili- on 14.04.2018.
+ *
  */
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter implements TaskStatusListener {
@@ -42,9 +40,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHashMap;
     private List<Boolean> geliked;
-    private List<Integer> id;
     private int tmpint;
     private String tmpst;
+    private SharedPreferences sharedPref;
 
     private static SQLiteConnectorSv sqLiteConnector;
     private static SQLiteDatabase sqLiteDatabase;
@@ -76,9 +74,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         return listHashMap.get(listDataHeader.get(i)).get(i1);
     }
 
-    public Object getChecked(int i) {return geliked.get(i);}
-
-    public int getText(int i){return id.get(i);}
+    private Object getChecked(int i) {return geliked.get(i);}
 
     @Override
     public long getGroupId(int i) {
@@ -104,9 +100,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             view= inflater.inflate(R.layout.list_group_briefkasten, null);
         }
 
+        sharedPref = context.getSharedPreferences("Briefkasten", Context.MODE_PRIVATE);
 
-
-        TextView lbl = (TextView)view.findViewById(R.id.lblListHeader);
+        TextView lbl = view.findViewById(R.id.lblListHeader);
         lbl.setTypeface(null, Typeface.BOLD);
         lbl.setText(headerTitle);
 
@@ -121,96 +117,77 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
-            Button vorschlag = view.findViewById(R.id.proposal);
-            vorschlag.setTag(headerTitle);
-            vorschlag.setOnClickListener(new View.OnClickListener() {
+            Button vorschlag = view.findViewById(R.id.proposal);                                                       //Wenn der Button vorschlag gedrückt wird, soll ein Dialog angezeigt werden,
+            vorschlag.setTag(headerTitle);                                                                              //In dem der Benutzer einen neuen Vorschlag erstellen kann
+            vorschlag.setOnClickListener(view1 -> {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
-                @Override
-                public void onClick(View view) {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                final EditText et = new EditText(context);
 
-                    final EditText et = new EditText(context);
+                alertDialogBuilder.setView(et);                                                                         //Dem Dialog wird eine TextView hinzugefügt
 
-                    // set prompts.xml to alertdialog builder
-                    alertDialogBuilder.setView(et);
+                alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.send, (dialog, id) -> {              //SendenButton
+                    tmpint=i;
+                    tmpst=et.getText().toString();
+                    new SyncTopicTask().addListener(tmp).execute();
+                });
 
-                    // set dialog message
-                    alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            tmpint=i;
-                            tmpst=et.getText().toString();
-                            new SyncTopicTask().addListener(tmp).execute();
-                        }
-                    });
+                alertDialogBuilder.setCancelable(false).setNegativeButton(R.string.cancel, (dialogInterface, i1) -> {   //Abbrechen-Button
+                });
 
-                    alertDialogBuilder.setCancelable(false).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                        }
-                    });
-
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    // show it
-                    alertDialog.show();
-                }
+                AlertDialog alertDialog = alertDialogBuilder.create();                                                  //Dialog wird erstellt und gezeigt
+                alertDialog.show();
             });
 
-        ch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (Utils.isNetworkAvailable()) {
+        ch.setOnCheckedChangeListener((compoundButton, b1) -> {                                                 //Wenn die Checkbox gewechelt wird und eine Internetverbindung besteht soll die Änderung in der
+            if (Utils.isNetworkAvailable()) {                                                                   //Datenbank gespeichert werden
 
-                    String topic = ch.getTag().toString();
-                    ContentValues values = new ContentValues();
-                    values.put(SQLiteConnectorSv.LIKED_TOPIC, topic);
-                    values.put(SQLiteConnectorSv.LIKED_CHECKED, ch.isChecked());
+                String topic = ch.getTag().toString();
 
-                    Cursor cursor;
+                Cursor cursor;
 
-                    int likes;
+                int likes;
+                ContentValues values;
+                cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES}, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null, null, null, null);
+                cursor.moveToFirst();                                                                           //Zur Sicherheit: Nur wenn es ein passendes Thema dazu gibt
+                if (cursor.getCount() >= 1) {
+                    String tmp1 = cursor.getString(5);
+                    tmp1 = tmp1.replace(" ", "");
+                    likes = Integer.parseInt(tmp1);
+                    Utils.logDebug(likes);
+                    if (ch.isChecked())
+                        likes++;
+                    else
+                        likes--;
+                    values = new ContentValues();                                                               //Die Daten für die Datenbank werden gespeichert
+                    values.put(SQLiteConnectorSv.LETTERBOX_TOPIC, cursor.getString(0));
+                    values.put(SQLiteConnectorSv.LETTERBOX_PROPOSAL1, cursor.getString(1));
+                    values.put(SQLiteConnectorSv.LETTERBOX_PROPOSAL2, cursor.getString(2));
+                    values.put(SQLiteConnectorSv.LETTERBOX_DateOfCreation, cursor.getString(3));
+                    values.put(SQLiteConnectorSv.LETTERBOX_CREATOR, cursor.getString(4));
+                    values.put(SQLiteConnectorSv.LETTERBOX_LIKES, likes);
+                    cursor.close();
 
-                    cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES}, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null, null, null, null);
-                    cursor.moveToFirst();
-                    if (cursor.getCount() >= 1) {
-                        String tmp = cursor.getString(5);
-                        tmp = tmp.replace(" ", "");
-                        likes = Integer.parseInt(tmp);
-                        if (ch.isChecked())
-                            likes++;
-                        else
-                            likes--;
-                        values = new ContentValues();
-                        values.put(SQLiteConnectorSv.LETTERBOX_TOPIC, cursor.getString(0));
-                        values.put(SQLiteConnectorSv.LETTERBOX_PROPOSAL1, cursor.getString(1));
-                        values.put(SQLiteConnectorSv.LETTERBOX_PROPOSAL2, cursor.getString(2));
-                        values.put(SQLiteConnectorSv.LETTERBOX_DateOfCreation, cursor.getString(3));
-                        values.put(SQLiteConnectorSv.LETTERBOX_CREATOR, cursor.getString(4));
-                        values.put(SQLiteConnectorSv.LETTERBOX_LIKES, likes);
-
-
-                        sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LETTERBOX, values, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null);
+                    sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LETTERBOX, values, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null);
 
 
-                        values = new ContentValues();
-                        values.put(SQLiteConnectorSv.LIKED_TOPIC, topic);
-                        values.put(SQLiteConnectorSv.LIKED_CHECKED, ch.isChecked());
-                        Utils.logDebug(ch.isChecked() + "Teste Boolean");
-                        Utils.logDebug(topic + "Teste Thema");
-                        sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LIKED, values, SQLiteConnectorSv.LIKED_TOPIC + "='" + topic + "'", null);
-                        Utils.logDebug(likes + "Das sind die Likes");
+                    SharedPreferences.Editor ed = sharedPref.edit();                                            //Der Status der Checkobx wird gespeichert, um später darauf zuzugreifen
+                    ed.putBoolean(topic, ch.isChecked());
+                    ed.apply();
+                    Utils.logDebug(String.valueOf(sharedPref.getBoolean(topic, true)) + ch.isChecked());
 
-                        new UpdateLikes().execute(topic, likes);
-                    }
-                }
-                else{
-                    Toast.makeText(context, R.string.connection, Toast.LENGTH_LONG).show();
-                    ch.setChecked(!ch.isChecked());
+                    new UpdateLikes().execute(topic, likes);                                                     //Die Anzahl der Likes in der Datenbank werden erhöht
                 }
             }
+            else{
+                Toast.makeText(context, R.string.connection, Toast.LENGTH_LONG).show();
+                ch.setChecked(!ch.isChecked());
+            }
         });
-
-        new SyncTopicTask().addListener(this).execute();
+        if(Utils.isNetworkAvailable())
+            new SyncTopicTask().addListener(this).execute();
+        else
+            Toast.makeText(context, R.string.connection, Toast.LENGTH_LONG).show();
 
         return view;
 
@@ -224,7 +201,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
             view= inflater.inflate(R.layout.list_item_briefkasten, null);
         }
 
-        TextView txtListChild = (TextView)view.findViewById(R.id.lblListItem);
+        TextView txtListChild = view.findViewById(R.id.lblListItem);
         txtListChild.setText(childText);
         return view;
 
@@ -235,16 +212,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         return true;
     }
 
-    public String getTopicAtPosition(int position) {
-        return listDataHeader.get(position);
-
-    }
-
     @Override
     public void taskFinished(Object... params) {
         Cursor cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES}, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + getGroup(tmpint) + "'", null, null, null, null);
         cursor.moveToFirst();
         if(cursor.getCount()>=1 && cursor.getString(2).equals(""))
             new AddProposalTask().execute(tmpst, getGroup(tmpint));
+        cursor.close();
     }
 }

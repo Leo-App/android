@@ -16,6 +16,10 @@ import de.slgdev.leoapp.utility.Utils;
  */
 
 public class RemoveTopic extends AsyncTask<Object, Void, ResponseCode> {
+
+    /**
+     * Ein Thema wird im Hintergrund, bei vorhandener Internetverbindung entfernt
+     */
     @Override
     protected ResponseCode doInBackground(Object... params) {
         if (!Utils.isNetworkAvailable())

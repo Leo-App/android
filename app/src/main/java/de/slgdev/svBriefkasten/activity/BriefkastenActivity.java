@@ -1,8 +1,6 @@
 package de.slgdev.svBriefkasten.activity;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -13,8 +11,6 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -40,6 +36,7 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
     private HashMap<String,List<String>> listHash;
     private SwipeRefreshLayout swipeRefresh;
     private String[] topics;
+    private SharedPreferences sharedPref;
 
     List<Boolean> geliked;
 
@@ -51,56 +48,51 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_briefkasten);
 
-        if (sqLiteConnector == null)
+        sharedPref = getSharedPreferences("Briefkasten", MODE_PRIVATE);
+
+        if (sqLiteConnector == null)                                           //Verbindung mit Datenbank wird hergestellt
             sqLiteConnector = new SQLiteConnectorSv(Utils.getContext());
         if (sqLiteDatabase == null)
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
 
-        swipeRefresh = findViewById(R.id.swipeRefresh);
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                receiveData();
-            }
-        });
+        swipeRefresh = findViewById(R.id.swipeRefresh);                     //Das SwipeRefreshLayout wird initialisiert
+        swipeRefresh.setOnRefreshListener(this::receiveData);               //Und seine Funktion zugeordnet
 
-        listDataHeader = new ArrayList<>();
-        listHash = new HashMap<>();
+        expandableListView = findViewById(R.id.topic);                      //ExpandableListView wird initialisiert
 
-        expandableListView = (ExpandableListView) findViewById(R.id.topic);
-        sqLiteConnector.insertLiked(sqLiteDatabase, "Test", true);
-        sqLiteConnector.insertLiked(sqLiteDatabase, "Ein kleiner zweiter Test", false);
-
-        if(Utils.isNetworkAvailable())
-            new SyncTopicTask().addListener(this).execute();
-        else
-            Toast.makeText(getApplicationContext(), R.string.connection, Toast.LENGTH_LONG).show();
+        receiveData();
 
         initData();
         initButtons();
     }
 
-    public void receiveData(){new SyncTopicTask().addListener(this).execute();}
 
+    /**
+     * receiveData() sorgt dafür, dass die aktuellen Daten aus dem Internet geladen werden, sofern eine Internetverbindung besteht
+     */
+    public void receiveData(){
+        if(Utils.isNetworkAvailable())
+            new SyncTopicTask().addListener(this).execute();
+        else
+            Toast.makeText(getApplicationContext(), R.string.connection, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Die Buttons werden erstellt und deren OnClickAufträge bestimmt
+     */
     public void initButtons() {
         Button createTopic = findViewById(R.id.createTopic);
         Button results = findViewById(R.id.result);
 
-        createTopic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), Thema.class));
-            }
-        });
+        createTopic.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), Thema.class)));
 
-        results.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),ResultActivity.class));
-            }
-        });
+        results.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),ResultActivity.class)));
     }
 
+    /**
+     * Die ExpandableListView bekommt hier ihre aus dem Internet gezogenen Daten, oder die die schon vorher aus dem Internet geladen worden sind
+     * und diese werden am Ende für den ListAdapter mitgegeben und anschließend die Liste mit der Methode initElw() erstellt
+     */
     private void initData() {
         Cursor cursor;
         cursor = sqLiteDatabase.query(false,SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES},null, null, null, null,null, null);
@@ -108,21 +100,16 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
 
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
-
+        geliked = new ArrayList<>();
         topics = new String[cursor.getCount()];
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             String topic = cursor.getString(0);
             String proposal1=cursor.getString(1);
             String proposal2=cursor.getString(2);
-            Cursor tmp = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LIKED, new String[]{SQLiteConnectorSv.LIKED_TOPIC, SQLiteConnectorSv.LIKED_CHECKED}, SQLiteConnectorSv.LIKED_TOPIC + "='" + topic + "'", null, null, null, null);
-            if(tmp.getCount()==0) {
-                ContentValues tmpv = new ContentValues();
-                tmpv.put(SQLiteConnectorSv.LIKED_TOPIC, topic);
-                tmpv.put(SQLiteConnectorSv.LIKED_CHECKED, false);
-                sqLiteDatabase.insert(SQLiteConnectorSv.TABLE_LIKED, null, tmpv);
-            }
 
+            Boolean b = false;
+            geliked.add(sharedPref.getBoolean(topic, b));
             topics[cursor.getPosition()] = topic;
 
             listDataHeader.add(topic);
@@ -133,21 +120,8 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
                 loesungen.add(proposal2);
 
             listHash.put(listDataHeader.get(listDataHeader.size()-1),loesungen);
-            String lastAdded = topic;
         }
 
-        geliked = new ArrayList<>();
-
-        Cursor cursor2 = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LIKED, new String[]{SQLiteConnectorSv.LIKED_TOPIC,SQLiteConnectorSv.LIKED_CHECKED}, null, null, null, null, null);
-        cursor2.moveToFirst();
-        Utils.logDebug(cursor2.getCount() + "Das ist die Länge des Cursors");
-        for(cursor2.moveToFirst(); !cursor2.isAfterLast(); cursor2.moveToNext()){
-            Utils.logDebug(Boolean.valueOf(cursor2.getString(1)) + "Das ist ein toller Boolean");
-            boolean liked = Boolean.valueOf(cursor2.getString(1));
-            geliked.add(liked);
-        }
-
-        cursor2.close();
         cursor.close();
         initElw();
     }
@@ -216,10 +190,16 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
             sqLiteDatabase = sqLiteConnector.getReadableDatabase();
     }
 
+    /**
+     * Hier wird die Liste erstellt und die Funktion für langes drücken auf einen Eintrag deklariert
+     */
     public void initElw(){
         ExpandableListAdapter listAdapter = new de.slgdev.svBriefkasten.Adapter.ExpandableListAdapter(this, listDataHeader, listHash, geliked);
         expandableListView.setAdapter(listAdapter);
         expandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            /**Ab hier wird ein DialogBuilder erstellt, durch den man die Möglichkeit bekommt einen neuen Vorschlag abzugeben, sofern der Benutzer auf den Button vorschlag klickt
+             */
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(expandableListView.getContext());
@@ -229,20 +209,18 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
                         InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 alertDialogBuilder.setView(et);
 
-                alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if(et.getText().toString().equals("sLg?2018")) {
+                alertDialogBuilder.setCancelable(false).setPositiveButton(R.string.delete, (dialog, id) -> {                //AbsendenButton
+                    if(et.getText().toString().equals("sLg?2018")) {
+                        if(Utils.isNetworkAvailable())
                             new RemoveTopic().execute(topics[i]);
+                        else
+                            Toast.makeText(getApplicationContext(), R.string.connection, Toast.LENGTH_LONG).show();
 
-                        }
                     }
                 });
 
-                alertDialogBuilder.setCancelable(false).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                alertDialogBuilder.setCancelable(false).setNegativeButton(R.string.cancel, (dialogInterface, i1) -> {       //Cancel-Button
 
-                    }
                 });
 
                 // create alert dialog
@@ -254,6 +232,9 @@ public class BriefkastenActivity extends LeoAppNavigationActivity implements Tas
         });
     }
 
+    /**
+     * Wenn die Daten erfolgreich aus dem Internet geladen worden sind, hört der Aktualisierungskreis auf sich zu drehen und die Liste wird erstellt
+     */
     @Override
     public void taskFinished(Object... params) {
         Utils.logDebug("done");

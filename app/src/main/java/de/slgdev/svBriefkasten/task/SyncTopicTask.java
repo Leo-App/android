@@ -1,23 +1,12 @@
 package de.slgdev.svBriefkasten.task;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
@@ -25,10 +14,15 @@ import de.slgdev.leoapp.utility.Utils;
 
 /**
  * Created by sili- on 29.04.2018.
+ *
  */
 
 public class SyncTopicTask extends VoidCallbackTask {
 
+    /**
+     *Aus dem Internet werden Daten geladen, da diese in einem String ausgegeben werden, wird ein StringBuilder benutzt, der den langen String in viele kleine unterteilt
+     * und in die SQLite Tabelle einfügt
+     */
     @Override
     protected Object doInBackground(Object[] objects) {
         if (Utils.isNetworkAvailable()) {

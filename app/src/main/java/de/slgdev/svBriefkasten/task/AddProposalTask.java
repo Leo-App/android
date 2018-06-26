@@ -16,6 +16,10 @@ import de.slgdev.leoapp.utility.Utils;
  */
 
 public class AddProposalTask extends AsyncTask<Object, Void, ResponseCode> {
+
+    /**
+     * Ein neuer Vorschlag wird in der Datenbank eingefügt
+     */
     @Override
     protected ResponseCode doInBackground(Object... params) {
         if (!Utils.isNetworkAvailable())

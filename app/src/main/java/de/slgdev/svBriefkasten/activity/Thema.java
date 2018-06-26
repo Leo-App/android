@@ -24,10 +24,8 @@ import de.slgdev.svBriefkasten.task.SyncTopicTask;
 
 public class Thema extends AppCompatActivity implements TaskStatusListener {
 
-    private Button create;
     private android.widget.EditText thema;
     private EditText loesung;
-    private SharedPreferences sharedPref;
     private String topic;
     private String proposal;
     private boolean con;
@@ -38,45 +36,41 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thema);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         con=false;
 
         thema =  findViewById(R.id.thema);
-        thema.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                thema.setText("");
-            }
-        });
+        thema.setOnClickListener(view -> thema.setText(""));                            //Wenn die EditTextViews angeklickt werden, wird der Text zurückgesetzt
 
         loesung =  findViewById(R.id.solution);
-        loesung.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loesung.setText("");
-            }
-        });
+        loesung.setOnClickListener(view -> loesung.setText(""));
 
-        create = findViewById(R.id.button_createTopic);
-        create.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(thema.getText().length()!=0 && loesung.getText().length()!=0) {
-                    topic = thema.getText().toString();
-                    proposal = loesung.getText().toString();
+        Button create = findViewById(R.id.button_createTopic);                          //Wenn der Button erstellen gedrückt wird, wird die Methode checkTopic() aufgerufen
+        create.setOnClickListener(view -> {
+            if(thema.getText().length()!=0 && loesung.getText().length()!=0) {
+                topic = thema.getText().toString();
+                proposal = loesung.getText().toString();
 
-                    checkTopic();
+                checkTopic();
 
-                }
             }
         });
     }
 
+    /**
+     * Die Methode lädt die Daten erstmal aus dem Internet und später wird geprüft, ob das Thema schon vorhanden ist
+     */
     public void checkTopic(){
-        new SyncTopicTask().addListener(this).execute();
+        if(Utils.isNetworkAvailable())
+            new SyncTopicTask().addListener(this).execute();
+        else
+            Toast.makeText(getApplicationContext(), R.string.connection, Toast.LENGTH_LONG).show();
     }
 
+    /**
+     *Sind die Daten aus dem Internet geladen, wird geprüft, ob ein Thema schon vorhanden ist und nach erfolgreichem einfügen in die Datenbank wird die Activity gewechselt
+     */
     @Override
     public void taskFinished(Object... params) {
             if(con) {
@@ -93,7 +87,10 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
 
                 if (cursor.getCount() == 0) {
                     con = true;
-                    new AddTopic().addListener(this).execute(topic,proposal);
+                    if(Utils.isNetworkAvailable())
+                        new AddTopic().addListener(this).execute(topic,proposal);
+                    else
+                        Toast.makeText(getApplicationContext(), R.string.connection, Toast.LENGTH_LONG).show();
                 }
                 else
                     Toast.makeText(getApplicationContext(), R.string.exists, Toast.LENGTH_LONG).show();

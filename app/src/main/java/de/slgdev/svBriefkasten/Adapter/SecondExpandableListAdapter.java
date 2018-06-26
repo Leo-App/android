@@ -95,7 +95,7 @@ public class SecondExpandableListAdapter extends BaseExpandableListAdapter {
         final String childText = (String) getChild(i,i1);
         if(view==null) {
             LayoutInflater inflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view= inflater.inflate(R.layout.list_item_briefkasten, null);
+            view= inflater.inflate(R.layout.list_item_briefkasten2, null);
         }
 
         TextView txtListChild = (TextView)view.findViewById(R.id.lblListItem);
