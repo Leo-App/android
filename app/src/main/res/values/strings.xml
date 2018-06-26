@@ -318,6 +318,7 @@
     <string name="delete">Delete</string>
     <string name="briefkasten_password">sLg?2018</string>
     <string name="exists">Already exists</string>
+    <string name="connection">Connection failed</string>
 
     <!-- Einstellungen -->
     <string name="settings_category_general">General</string>

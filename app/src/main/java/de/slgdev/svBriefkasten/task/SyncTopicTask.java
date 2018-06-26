@@ -1,6 +1,8 @@
 package de.slgdev.svBriefkasten.task;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -27,12 +29,8 @@ import de.slgdev.leoapp.utility.Utils;
 
 public class SyncTopicTask extends VoidCallbackTask {
 
-
     @Override
     protected Object doInBackground(Object[] objects) {
-        Calendar kalender = Calendar.getInstance();
-        SimpleDateFormat datumsformat = new SimpleDateFormat("dd.MM.yyyy");
-
         if (Utils.isNetworkAvailable()) {
             try {
                 URLConnection connection = new URL("http://www.moritz.liegmanns.de/leoapp_php/svBriefkasten/sync.php")
@@ -54,7 +52,6 @@ public class SyncTopicTask extends VoidCallbackTask {
                 dbh.delete(SQLiteConnectorSv.TABLE_LETTERBOX, null, null);
                 String[] result = builder.toString().split("_next_");
                 for (String s : result) {
-                    Utils.logDebug("current = " + s);
                     String[] res = s.split(";");
                     if(res.length>=6)
 

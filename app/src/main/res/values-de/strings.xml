@@ -294,6 +294,7 @@
     <string name="delete">Löschen</string>
     <string name="briefkasten_password">sLg?2018</string>
     <string name="exists">Schon Vorhanden</string>
+    <string name="connection">Keine Verbindung</string>
 
 
     <!-- Einstellungen -->

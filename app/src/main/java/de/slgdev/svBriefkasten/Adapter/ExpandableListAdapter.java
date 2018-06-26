@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,12 +49,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
     private static SQLiteConnectorSv sqLiteConnector;
     private static SQLiteDatabase sqLiteDatabase;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap, List<Boolean> checked, List<Integer> id) {
+    public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap, List<Boolean> checked) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listHashMap = listHashMap;
         geliked = checked;
-        this.id=id;
     }
 
     @Override
@@ -159,47 +159,53 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter implements 
         ch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                String topic = ch.getTag().toString();
-                Utils.logDebug(topic);
-                ContentValues values = new ContentValues();
-                values.put(SQLiteConnectorSv.LIKED_TOPIC, topic);
-                values.put(SQLiteConnectorSv.LIKED_CHECKED, ch.isChecked());
+                if (Utils.isNetworkAvailable()) {
 
-                Cursor cursor;
-
-                int likes;
-
-                cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES},SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null, null, null, null);
-                Utils.logDebug(cursor.getCount());
-                cursor.moveToFirst();
-                if(cursor.getCount()>=1) {
-                    String tmp = cursor.getString(5);
-                    tmp = tmp.replace(" ", "");
-                    likes = Integer.parseInt(tmp);
-                    if (ch.isChecked())
-                        likes++;
-                    else
-                        likes--;
-                    values = new ContentValues();
-                    values.put(SQLiteConnectorSv.LETTERBOX_TOPIC, cursor.getString(0));
-                    values.put(SQLiteConnectorSv.LETTERBOX_PROPOSAL1, cursor.getString(1));
-                    values.put(SQLiteConnectorSv.LETTERBOX_PROPOSAL2, cursor.getString(2));
-                    values.put(SQLiteConnectorSv.LETTERBOX_DateOfCreation, cursor.getString(3));
-                    values.put(SQLiteConnectorSv.LETTERBOX_CREATOR, cursor.getString(4));
-                    values.put(SQLiteConnectorSv.LETTERBOX_LIKES, likes);
-
-
-                    sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LETTERBOX, values, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null);
-
-
-                    values = new ContentValues();
+                    String topic = ch.getTag().toString();
+                    ContentValues values = new ContentValues();
                     values.put(SQLiteConnectorSv.LIKED_TOPIC, topic);
                     values.put(SQLiteConnectorSv.LIKED_CHECKED, ch.isChecked());
-                    sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LIKED, values, SQLiteConnectorSv.LIKED_TOPIC + "='" + topic + "'", null);
 
-                    Utils.logDebug(likes+ "Das sind die Likes");
+                    Cursor cursor;
 
-                    new UpdateLikes().execute(topic, likes);
+                    int likes;
+
+                    cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES}, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null, null, null, null);
+                    cursor.moveToFirst();
+                    if (cursor.getCount() >= 1) {
+                        String tmp = cursor.getString(5);
+                        tmp = tmp.replace(" ", "");
+                        likes = Integer.parseInt(tmp);
+                        if (ch.isChecked())
+                            likes++;
+                        else
+                            likes--;
+                        values = new ContentValues();
+                        values.put(SQLiteConnectorSv.LETTERBOX_TOPIC, cursor.getString(0));
+                        values.put(SQLiteConnectorSv.LETTERBOX_PROPOSAL1, cursor.getString(1));
+                        values.put(SQLiteConnectorSv.LETTERBOX_PROPOSAL2, cursor.getString(2));
+                        values.put(SQLiteConnectorSv.LETTERBOX_DateOfCreation, cursor.getString(3));
+                        values.put(SQLiteConnectorSv.LETTERBOX_CREATOR, cursor.getString(4));
+                        values.put(SQLiteConnectorSv.LETTERBOX_LIKES, likes);
+
+
+                        sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LETTERBOX, values, SQLiteConnectorSv.LETTERBOX_TOPIC + "='" + topic + "'", null);
+
+
+                        values = new ContentValues();
+                        values.put(SQLiteConnectorSv.LIKED_TOPIC, topic);
+                        values.put(SQLiteConnectorSv.LIKED_CHECKED, ch.isChecked());
+                        Utils.logDebug(ch.isChecked() + "Teste Boolean");
+                        Utils.logDebug(topic + "Teste Thema");
+                        sqLiteDatabase.update(SQLiteConnectorSv.TABLE_LIKED, values, SQLiteConnectorSv.LIKED_TOPIC + "='" + topic + "'", null);
+                        Utils.logDebug(likes + "Das sind die Likes");
+
+                        new UpdateLikes().execute(topic, likes);
+                    }
+                }
+                else{
+                    Toast.makeText(context, R.string.connection, Toast.LENGTH_LONG).show();
+                    ch.setChecked(!ch.isChecked());
                 }
             }
         });

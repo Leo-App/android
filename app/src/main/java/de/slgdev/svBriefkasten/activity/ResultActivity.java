@@ -3,10 +3,12 @@ package de.slgdev.svBriefkasten.activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import java.util.List;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSv;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.svBriefkasten.Adapter.SecondExpandableListAdapter;
 import de.slgdev.svBriefkasten.task.SyncTopicTask;
 
@@ -25,6 +28,7 @@ public class ResultActivity extends AppCompatActivity implements TaskStatusListe
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHash;
     private List<String> likes;
+    private SwipeRefreshLayout swipeRefresh;
 
     private static SQLiteConnectorSv sqLiteConnector;
     private static SQLiteDatabase sqLiteDatabase;
@@ -42,8 +46,25 @@ public class ResultActivity extends AppCompatActivity implements TaskStatusListe
 
         receive();
 
+        swipeRefresh = findViewById(R.id.refresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                receive();
+            }
+        });
 
 
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(sqLiteConnector==null)
+            sqLiteConnector = new SQLiteConnectorSv(this);
+        if(sqLiteDatabase==null)
+            sqLiteDatabase = sqLiteConnector.getReadableDatabase();
     }
 
     public void initELW(){
@@ -60,8 +81,6 @@ public class ResultActivity extends AppCompatActivity implements TaskStatusListe
             String proposal2=cursor.getString(2);
             String like = cursor.getString(5);
 
-            cursor.close();
-
             likes.add(like);
 
             listDataHeader.add(topic);
@@ -74,17 +93,22 @@ public class ResultActivity extends AppCompatActivity implements TaskStatusListe
             listHash.put(listDataHeader.get(listDataHeader.size()-1),loesungen);
 
         }
+        cursor.close();
 
         SecondExpandableListAdapter adapter = new SecondExpandableListAdapter(this, listDataHeader, listHash, likes);
         resultsELW.setAdapter(adapter);
     }
 
     public void receive(){
-        new SyncTopicTask().addListener(this).execute();
+        if(Utils.isNetworkAvailable())
+            new SyncTopicTask().addListener(this).execute();
+        else
+            Toast.makeText(getApplicationContext(), R.string.connection, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void taskFinished(Object... params) {
         initELW();
+        swipeRefresh.setRefreshing(false);
     }
 }

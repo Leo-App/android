@@ -39,7 +39,7 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
 
 
     public SQLiteConnectorSv(Context context) {
-        super(context, DATABASE_NAME, null, 17);
+        super(context, DATABASE_NAME, null, 18);
         database = getWritableDatabase();
     }
 
@@ -57,7 +57,8 @@ public class SQLiteConnectorSv extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_LIKED + " (" +
                 LIKED_TOPIC + " TEXT NOT NULL, " +
-                LIKED_CHECKED + " BOOLEAN NOT NULL " +
+                LIKED_CHECKED + " BOOLEAN NOT NULL, " +
+                LETTERBOX_ANHANG + " VARCHAR " +
         ")");
     }
 

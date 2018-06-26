@@ -91,10 +91,6 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
 
                 Cursor cursor = sqLiteDatabase.query(false, SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC}, SQLiteConnectorSv.LETTERBOX_TOPIC + " = '" + topic + "'", null, null, null, null, null);
 
-
-                Utils.logDebug(cursor.getCount());
-                Utils.logDebug(topic);
-                Utils.logDebug(proposal);
                 if (cursor.getCount() == 0) {
                     con = true;
                     new AddTopic().addListener(this).execute(topic,proposal);
