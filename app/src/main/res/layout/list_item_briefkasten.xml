@@ -12,7 +12,7 @@
             android:id="@+id/lblListItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25dp"/>
+            android:textSize="15dp"/>
     </LinearLayout>
 
 </LinearLayout>

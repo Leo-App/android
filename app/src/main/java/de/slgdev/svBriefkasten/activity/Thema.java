@@ -28,7 +28,7 @@ public class Thema extends AppCompatActivity implements TaskStatusListener {
     private EditText loesung;
     private String topic;
     private String proposal;
-    private boolean con;
+    private boolean con;                                //Zum späteren überprüfen, ob die Activity gewechselt werden soll
     private static SQLiteConnectorSv sqLiteConnector;
     private static SQLiteDatabase sqLiteDatabase;
 

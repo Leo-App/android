@@ -2,6 +2,8 @@ package de.slgdev.svBriefkasten.activity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -66,14 +68,13 @@ public class ResultActivity extends AppCompatActivity implements TaskStatusListe
         List<String> likes = new ArrayList<>();
 
         Cursor cursor;
-        cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES},null, null, null, null , SQLiteConnectorSv.LETTERBOX_LIKES + " DESC");
-
+        cursor = sqLiteDatabase.query(SQLiteConnectorSv.TABLE_LETTERBOX, new String[]{SQLiteConnectorSv.LETTERBOX_TOPIC, SQLiteConnectorSv.LETTERBOX_PROPOSAL1, SQLiteConnectorSv.LETTERBOX_PROPOSAL2, SQLiteConnectorSv.LETTERBOX_DateOfCreation, SQLiteConnectorSv.LETTERBOX_CREATOR, SQLiteConnectorSv.LETTERBOX_LIKES},null, null, null, null , SQLiteConnectorSv.LETTERBOX_LIKES + " DESC", null);
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             String topic = cursor.getString(0);
             String proposal1=cursor.getString(1);
             String proposal2=cursor.getString(2);
             String like = cursor.getString(5);
-
+            Utils.logDebug("current: " + topic);
             likes.add(like);
 
             listDataHeader.add(topic);
