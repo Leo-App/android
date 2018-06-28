@@ -12,9 +12,16 @@ import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.firebase.perf.FirebasePerformance;
+
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 import de.slgdev.leoapp.notification.NotificationTime;
 import de.slgdev.leoapp.notification.NotificationType;
@@ -141,20 +148,40 @@ public abstract class Utils {
     }
 
     /**
-     * Öffnet eine URL-Verbindung mit Authentifizierung
+     * Öffnet eine URL-Verbindung mit Authentifizierung.
+     *
+     * @param url - Gwünschte URL.
+     * @param httpMethod - Zu nutzende HTTP Methode, siehe {@link RequestMethod}.
+     * @return HTTP-Verbindung.
+     * @throws IOException
      */
-    public static URLConnection openURLConnection(String url) {
-        try {
-            URLConnection connection = new URL(url).openConnection();
-            connection.addRequestProperty("AUTHENTICATION", getController().getPreferences().getString("auth_sum", "null") + '-' + getUserID());
-            return connection;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static HttpURLConnection openURLConnection(String url, RequestMethod httpMethod) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setRequestMethod(httpMethod.name());
+        connection.addRequestProperty("device", getCurrentDevice());
+        connection.addRequestProperty("authentication", getAuthenticationToken());
+        return connection;
     }
 
     /**
+     * Öffnet eine URL-Verbindung mit Authentifizierung.
+     *
+     * @param url - Gwünschte URL.
+     * @param httpMethod - Zu nutzende HTTP Methode, siehe {@link RequestMethod}.
+     * @param contentType - Spezifizierter HTTP Content-Type für Requests mit Body (für Api-Aufrufe "application/json").
+     * @return HTTP-Verbindung.
+     * @throws IOException
+     */
+    public static HttpURLConnection openURLConnection(String url, RequestMethod httpMethod, String contentType) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setRequestMethod(httpMethod.name());
+        connection.setRequestProperty("Content-type", contentType);
+        connection.addRequestProperty("device", getCurrentDevice());
+        connection.addRequestProperty("authentication", getAuthenticationToken());
+        return connection;
+    }
+
+   /**
      * Liefert den aktuellen Versionsnamen der App als String. Beispiel: "snapshot-0.5.6"
      *
      * @return Versionsnummer der App.
@@ -320,6 +347,15 @@ public abstract class Utils {
     }
 
     /**
+     * Liefert den Identifier des aktuellen Geräts zurück.
+     *
+     * @return Deviceidentifier.
+     */
+    public static String getCurrentDevice() {
+        return getController().getPreferences().getString("pref_key_cur_device", "");
+    }
+
+    /**
      * Setzt den DefaultUsername des Benutzers auf einen übergebenen Wert.
      *
      * @param defaultName Neuer DefaultName
@@ -391,4 +427,54 @@ public abstract class Utils {
                 return new NotificationTime(0, 0);
         }
     }
+
+    public static String getAuthenticationToken() {
+        try {
+
+            //TODO remove temp
+            getController()
+                    .getPreferences()
+                    .edit()
+                    .putString("auth_sum", "IkG62YuPC88TUD5L-0c7db8ade164b6b7822dfe84c09845420f2b5aeef8c80082fd3d3b978b7bb253")
+                    .apply();
+            getController()
+                    .getPreferences()
+                    .edit()
+                    .putInt("pref_key_general_id", 1007)
+                    .apply();
+            //TODO remove temp
+
+            String authsum = getController().getPreferences().getString("auth_sum", "null");
+
+            SecureRandom random = new SecureRandom();
+            byte salt[] = new byte[32];
+            random.nextBytes(salt);
+            String saltBase64 = Base64.encodeToString(salt, Base64.DEFAULT);
+
+            long timestamp = System.currentTimeMillis()/10000;
+
+            String baseString = authsum + saltBase64 + getUserID() + timestamp;
+
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(baseString.getBytes(StandardCharsets.UTF_8));
+
+            return getUserID() + "-" + bytesToHex(hash) + "-" + saltBase64 + "-" + timestamp%10;
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexArray = "0123456789abcdef".toCharArray();
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+
 }

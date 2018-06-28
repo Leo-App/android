@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App Farbpalette -->
     <color name="colorPrimary">#0091ea</color>
     <color name="colorPrimaryDark">#01579b</color>
     <color name="colorAccent">#0091ea</color>
     <color name="colorAccentTransparent">#640091ea</color>
+
+    <!-- Sonstiges -->
     <color name="colorInactive">#cccbcb</color>
     <color name="colorChatBackground">#8ea7b4</color>
     <color name="colorTabIndicator">#fff</color>
@@ -13,29 +16,30 @@
     <color name="colorGreyNormal">#737373</color>
     <color name="colorTransparent">#000091ea</color>
     <color name="colorStandardBackground">#fff</color>
+    <color name="darker">#70000000</color>
 
+    <!-- Farben für die Abstimmung des Stimmungsbarometers -->
     <color name="colorVerySatisfied">#669900</color>
     <color name="colorSatisfied">#aeea00</color>
     <color name="colorNeutral">#fb8c00</color>
     <color name="colorDissatisfied">#f44336</color>
     <color name="colorBadMood">#cc0000</color>
 
+    <!-- Farben für die Graphen im Stimmungsbarometer -->
     <color name="colorIch">#33691e</color>
     <color name="colorSchueler">#f57f17</color>
     <color name="colorLehrer">#ffaa66cc</color>
     <color name="colorAlle">@color/colorPrimary</color>
 
-
+    <!-- Farben für die einzelnen Screens im AppIntro -->
     <color name="introSlide1">#ff2289c9</color>
     <color name="introSlide2">#ff5ba0d1</color>
     <color name="introSlide3">#ff0277bd</color>
     <color name="introSlide4">#ff84b6e2</color>
     <color name="introSlide5">#ff237fb6</color>
 
-
+    <!-- Hintergrundfarben für die Anzeige des bestellten Essens -->
     <color name="menu1">#42a5f5</color>
     <color name="menu2">#ff3bba00</color>
-
-    <color name="darker">#70000000</color>
 
 </resources>
