@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="device_slide_title">Device identifier</string>
+    <string name="device_slide_content">
+        In order to improve security, you need to enter an identifier for your current device. It is only visible to you and makes it possible
+        to show you a list of all active devices. If you notice any suspicious activity, you can always block the access to your account for
+        certain smartphones.
+    </string>
+
     <string name="title_survey_result">Saved Results</string>
     <string name="entry_deleted">Entry deleted</string>
 

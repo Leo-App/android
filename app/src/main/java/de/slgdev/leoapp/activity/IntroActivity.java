@@ -13,6 +13,7 @@ import com.github.paolorotolo.appintro.AppIntro2;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.Start;
 import de.slgdev.leoapp.activity.fragment.AbstractOrderedFragment;
+import de.slgdev.leoapp.activity.fragment.DeviceFragment;
 import de.slgdev.leoapp.activity.fragment.DisclaimerFragmentBuilder;
 import de.slgdev.leoapp.activity.fragment.InfoFragmentBuilder;
 import de.slgdev.leoapp.activity.fragment.VerificationFragment;
@@ -110,13 +111,20 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                             VERIFICATION_SLIDE)
             );
 
+            addSlide(
+                    DeviceFragment.newInstance(R.string.device_slide_title,
+                            R.string.device_slide_content,
+                            R.color.introSlide3,
+                            VERIFICATION_SLIDE+1)
+            );
+
             //Success-Slide
             addSlide(
                     new InfoFragmentBuilder()
                             .setTitle(R.string.intro_finished_title)
                             .setContent(R.string.intro_finished_desc)
                             .setImage(R.drawable.intro_finished)
-                            .setPosition(VERIFICATION_SLIDE + 1)
+                            .setPosition(VERIFICATION_SLIDE + 2)
                             .setColor(R.color.colorSatisfied)
                             .build()
             );
@@ -181,6 +189,9 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
         } else if (newFragment.getPosition() == VERIFICATION_SLIDE) {
             ImageButton nextButton = findViewById(R.id.next);
             nextButton.setOnClickListener(v -> startVerification(newFragment));
+            //TODO just retrieve checksum
+        } else if (newFragment.getPosition() == VERIFICATION_SLIDE + 1) {
+            //TODO add user to database with devicename
         } else {
             ImageButton nextButton = findViewById(R.id.next);
             nextButton.setOnClickListener(v -> getPager().setCurrentItem(getPager().getCurrentItem() + 1));

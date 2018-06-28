@@ -33,27 +33,11 @@
             android:layout_height="42dp"
             android:layout_gravity="center"
             android:background="@drawable/background_rounded_corners"
-            android:hint="@string/settings_title_username"
             android:inputType="text"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white" />
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="300dp"
-            android:layout_height="42dp"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:background="@drawable/background_rounded_corners"
-            android:hint="@string/settings_title_password"
-            android:inputType="textPassword"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white" />
-
 
         <ProgressBar
             android:id="@+id/progressBarVerification"

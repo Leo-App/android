@@ -50,7 +50,7 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
                     builder.append(line)
                             .append(System.getProperty("line.separator"));
                 reader.close();
-                SQLiteConnectorSchwarzesBrett db  = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
+                SQLiteConnectorSchwarzesBrett db = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
 
                 String[]      result    = builder.toString().split("_next_");
                 List<Integer> remoteids = new List<>();
