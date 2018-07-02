@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.WebDAVConnector;
 
@@ -15,7 +16,7 @@ public class SyncGradeTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
-        if (!Utils.isNetworkAvailable())
+        if (!NetworkUtils.isNetworkAvailable())
             return null;
 
         String name = Utils.getUserDefaultName();
@@ -25,10 +26,7 @@ public class SyncGradeTask extends AsyncTask<Void, Void, Void> {
         webDAVConnector.changeDirectory("PrivatSchueler/Meine Gruppen");
 
         if (webDAVConnector.getDirContent().isEmpty()) {
- /*           Utils.getController().getPreferences()
-                    .edit()
-                    .putString("pref_key_general_klasse", "TEA")
-                    .apply(); */
+            //TODO what happens when grade is not available?
             return null;
         }
 

@@ -11,6 +11,7 @@ import de.slgdev.essensbons.utility.Authenticator;
 import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
+import de.slgdev.leoapp.utility.StringUtils;
 import de.slgdev.leoapp.utility.Utils;
 
 public class EssensbonLoginTask extends VoidCallbackTask<Authenticator> {
@@ -29,7 +30,7 @@ public class EssensbonLoginTask extends VoidCallbackTask<Authenticator> {
                 byte[] enc = md.digest(contents);
 
                 BufferedReader in;
-                String md5 = Utils.bytesToHex(enc);
+                String md5 = StringUtils.bytesToHex(enc);
 
                 URL interfaceDB = new URL(Utils.URL_LUNCH_LEO + "qr_checkval.php?id=" + userId + "&auth=RW6SlQ&pw=" + md5);
                 Utils.logDebug(interfaceDB.toString());

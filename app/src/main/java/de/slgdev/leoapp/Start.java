@@ -16,6 +16,7 @@ import de.slgdev.leoapp.task.MailSendTask;
 import de.slgdev.leoapp.task.SyncFilesTask;
 import de.slgdev.leoapp.task.SyncGradeTask;
 import de.slgdev.leoapp.task.SyncUserTask;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.schwarzes_brett.task.UpdateViewTrackerTask;
@@ -49,7 +50,7 @@ public class Start extends Activity {
     }
 
     public static void runUpdateTasks() {
-        if (Utils.isNetworkAvailable()) {
+        if (NetworkUtils.isNetworkAvailable()) {
             new SyncUserTask()
                     .addListener(params -> {
                         if (Utils.getUserPermission() != User.PERMISSION_LEHRER)
@@ -83,7 +84,7 @@ public class Start extends Activity {
     }
 
     public static void startReceiveService() {
-        if (Utils.isNetworkAvailable()) {
+        if (NetworkUtils.isNetworkAvailable()) {
             Utils.getContext().startService(new Intent(Utils.getContext(), SocketService.class));
         }
     }

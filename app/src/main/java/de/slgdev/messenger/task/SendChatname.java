@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.ChatEditActivity;
 
@@ -27,7 +28,7 @@ public class SendChatname extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... params) {
-        if (Utils.isNetworkAvailable()) {
+        if (NetworkUtils.isNetworkAvailable()) {
             try {
                 BufferedReader reader = new BufferedReader(
                         new InputStreamReader(

@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 
 import de.slgdev.leoapp.task.general.ObjectCallbackTask;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
 
@@ -35,7 +36,7 @@ public class SyncResultTask extends ObjectCallbackTask<ResponseCode> {
         String to = (String) params[1];
 
         try {
-            if (!Utils.isNetworkAvailable()) {
+            if (!NetworkUtils.isNetworkAvailable()) {
                 return ResponseCode.NO_CONNECTION;
             }
 

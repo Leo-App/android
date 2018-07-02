@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragenSpeichern;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.umfragen.utility.ResultListing;
@@ -27,7 +28,7 @@ public class SaveResultTask extends VoidCallbackTask<ResponseCode> {
     protected ResponseCode doInBackground(Void... voids) {
 
         try {
-            if (Utils.isNetworkAvailable()) {
+            if (NetworkUtils.isNetworkAvailable()) {
 
                 URL updateURL = new URL(Utils.BASE_URL_PHP
                         + "survey/getAllResults.php?survey="

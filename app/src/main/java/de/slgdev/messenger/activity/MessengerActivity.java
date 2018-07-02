@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.notification.NotificationHandler;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
 import de.slgdev.messenger.activity.fragment.ChatsFragment;
@@ -73,7 +74,7 @@ public class MessengerActivity extends LeoAppNavigationActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.action_add) {
-            if (Utils.isNetworkAvailable()) {
+            if (NetworkUtils.isNetworkAvailable()) {
                 startActivity(new Intent(getApplicationContext(), AddGroupChatActivity.class));
             } else {
                 //TODO vielleicht offline verfügbar

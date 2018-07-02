@@ -19,13 +19,8 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URLConnection;
-import java.nio.Buffer;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import de.slgdev.essensbons.activity.EssensbonActivity;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
@@ -36,6 +31,8 @@ import de.slgdev.leoapp.dialog.ChangelogDialog;
 import de.slgdev.leoapp.dialog.EditTextDialog;
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.task.MailSendTask;
+import de.slgdev.leoapp.utility.NetworkUtils;
+import de.slgdev.leoapp.utility.RequestMethod;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
@@ -453,7 +450,7 @@ public class MainActivity extends LeoAppNavigationActivity {
     private void testAuthentication() {
         AsyncTask.execute(() -> {
             try {
-                HttpURLConnection connection = (HttpURLConnection) Utils.openURLConnection(Utils.DOMAIN_DEV + "testAuth.php");
+                HttpURLConnection connection = NetworkUtils.openURLConnection(Utils.DOMAIN_DEV + "testAuth.php", RequestMethod.GET);
                 BufferedReader r = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 Utils.logDebug(r.readLine());
                 if (connection.getResponseCode() == 401)

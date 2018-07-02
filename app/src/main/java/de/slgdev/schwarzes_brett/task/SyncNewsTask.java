@@ -12,6 +12,7 @@ import java.net.URLConnection;
 
 import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 
@@ -35,7 +36,7 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        if (Utils.isNetworkAvailable()) {
+        if (NetworkUtils.isNetworkAvailable()) {
             try {
                 URLConnection connection = new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
                         .openConnection();

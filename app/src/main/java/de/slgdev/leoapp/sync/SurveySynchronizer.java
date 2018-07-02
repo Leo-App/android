@@ -7,6 +7,7 @@ import java.net.URL;
 
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 
 /**
@@ -24,7 +25,7 @@ public class SurveySynchronizer implements Synchronizer {
     @Override
     public boolean run() {
 
-        if (!Utils.isNetworkAvailable())
+        if (!NetworkUtils.isNetworkAvailable())
             return false;
 
         try {

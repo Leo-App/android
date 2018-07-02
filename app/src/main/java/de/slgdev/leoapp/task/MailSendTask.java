@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.MessagingException;
 
 import de.slgdev.leoapp.utility.MailClient;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 
@@ -15,7 +16,7 @@ public class MailSendTask extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... strings) {
         String requestText = strings[0];
 
-        if (!Utils.isNetworkAvailable()) {
+        if (!NetworkUtils.isNetworkAvailable()) {
             Utils.getController().getPreferences()
                     .edit()
                     .putString("pref_key_request_cached", requestText)

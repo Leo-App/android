@@ -17,6 +17,7 @@ import android.widget.Toast;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.Start;
 import de.slgdev.leoapp.service.SocketService;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.ActionLogActivity;
 import de.slgdev.messenger.utility.Chat;
@@ -276,7 +277,7 @@ public class ChatActivity extends ActionLogActivity {
             if (activity.cid == -1) {
                 assert oUid != -1;
 
-                if (Utils.isNetworkAvailable()) {
+                if (NetworkUtils.isNetworkAvailable()) {
 
                     service.send(new Chat(0, oUid + " - " + Utils.getUserID(), Chat.ChatType.PRIVATE));
 
@@ -288,7 +289,7 @@ public class ChatActivity extends ActionLogActivity {
                 }
             }
 
-            if (Utils.isNetworkAvailable()) {
+            if (NetworkUtils.isNetworkAvailable()) {
                 Message[] mOld = activity.messagesArray;
                 activity.messagesArray = new Message[mOld.length + 1];
                 System.arraycopy(mOld, 0, activity.messagesArray, 0, mOld.length);

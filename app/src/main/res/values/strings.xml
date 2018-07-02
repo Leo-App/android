@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="toast_devicename_invalid">Identifier not valid</string>
+
+    <string name="device_slide_hint">Identifier</string>
     <string name="device_slide_title">Device identifier</string>
     <string name="device_slide_content">
         In order to improve security, you need to enter an identifier for your current device. It is only visible to you and makes it possible

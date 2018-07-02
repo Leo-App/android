@@ -35,6 +35,7 @@
             android:background="@drawable/background_rounded_corners"
             android:inputType="text"
             android:paddingLeft="16dp"
+            android:hint="@string/device_slide_hint"
             android:paddingRight="16dp"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white" />

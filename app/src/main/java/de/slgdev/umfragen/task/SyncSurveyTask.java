@@ -8,6 +8,7 @@ import java.net.URL;
 import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 
@@ -25,7 +26,7 @@ public class SyncSurveyTask extends VoidCallbackTask<Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        if (Utils.isNetworkAvailable()) {
+        if (NetworkUtils.isNetworkAvailable()) {
             try {
                 URL updateURL = new URL(Utils.BASE_URL_PHP + "survey/getSurveys.php");
                 BufferedReader reader =

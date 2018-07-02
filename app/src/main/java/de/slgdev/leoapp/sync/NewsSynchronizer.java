@@ -7,6 +7,7 @@ import java.net.URL;
 
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 
 /**
@@ -23,7 +24,7 @@ public class NewsSynchronizer implements Synchronizer {
     @Override
     public boolean run() {
 
-        if (!Utils.isNetworkAvailable())
+        if (!NetworkUtils.isNetworkAvailable())
             return false;
 
         try {

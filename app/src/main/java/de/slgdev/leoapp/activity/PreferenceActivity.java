@@ -32,6 +32,7 @@ import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.utility.GraphicUtils;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.MessengerActivity;
@@ -220,7 +221,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
             );
             stopService(intent);
             startService(intent);
-            return Utils.isNetworkAvailable();
+            return NetworkUtils.isNetworkAvailable();
         });
 
         Preference email = findPreference("pref_key_email");

@@ -1,7 +1,5 @@
 package de.slgdev.leoapp.task;
 
-import android.support.v4.app.Fragment;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,29 +7,16 @@ import java.net.URL;
 
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.utility.VerificationListener;
 import de.slgdev.leoapp.utility.datastructure.List;
 
 public class SyncUserTask extends VoidCallbackTask<ResponseCode> {
 
-    private List<VerificationListener> listeners;
-    private Fragment                   fragment;
-
-    public SyncUserTask(Fragment fragment) {
-        listeners = new List<>();
-        this.fragment = fragment;
-    }
-
-    public SyncUserTask() {
-        listeners = new List<>();
-        this.fragment = null;
-    }
-
     @Override
     protected ResponseCode doInBackground(Void... params) {
-        if (!Utils.isNetworkAvailable()) {
+        if (!NetworkUtils.isNetworkAvailable()) {
             return ResponseCode.NO_CONNECTION;
         }
 
@@ -83,22 +68,9 @@ public class SyncUserTask extends VoidCallbackTask<ResponseCode> {
         return ResponseCode.SERVER_FAILED;
     }
 
-    public SyncUserTask registerSynchronisationListener(VerificationListener listener) {
-        listeners.append(listener);
-        return this;
-    }
-
     @Override
     protected void onPostExecute(ResponseCode code) {
-
         for (TaskStatusListener l : getListeners())
             l.taskFinished();
-
-        if (fragment == null)
-            return;
-
-        for (VerificationListener l : listeners) {
-            l.onSynchronisationProcessed(code, fragment);
-        }
     }
 }

@@ -7,6 +7,7 @@ import java.net.URL;
 
 import de.slgdev.leoapp.task.general.ObjectCallbackTask;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 
 /**
@@ -22,7 +23,7 @@ public class SendEntryTask extends ObjectCallbackTask<Boolean> {
     @Override
     protected Boolean doInBackground(Object... params) {
 
-        if (!Utils.isNetworkAvailable())
+        if (!NetworkUtils.isNetworkAvailable())
             return false;
 
         try {

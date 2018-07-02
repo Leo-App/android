@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.utility.GraphicUtils;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.ReturnValues;
 import de.slgdev.leoapp.utility.Utils;
 
@@ -23,7 +24,7 @@ public class UpdateNameTask extends AsyncTask<String, Void, ReturnValues> {
 
     @Override
     protected ReturnValues doInBackground(String... params) {
-        if (!Utils.isNetworkAvailable()) {
+        if (!NetworkUtils.isNetworkAvailable()) {
             return ReturnValues.NO_CONNECTION;
         }
 

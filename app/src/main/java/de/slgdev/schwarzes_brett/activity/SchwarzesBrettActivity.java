@@ -23,6 +23,7 @@ import android.widget.TextView;
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
@@ -180,7 +181,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
                     .putString("pref_key_cache_vieweditems", cache + remoteID)
                     .apply();
 
-            if (Utils.isNetworkAvailable())
+            if (NetworkUtils.isNetworkAvailable())
                 new UpdateViewTrackerTask().execute(remoteID);
 
             return false;

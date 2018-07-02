@@ -8,6 +8,7 @@ import java.net.URL;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorUmfragen;
 import de.slgdev.leoapp.task.general.ObjectCallbackTask;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.umfragen.utility.Survey;
@@ -21,7 +22,7 @@ public class SendVoteTask extends ObjectCallbackTask<ResponseCode> {
     @Override
     protected ResponseCode doInBackground(Object... params) {
 
-        if (!Utils.isNetworkAvailable())
+        if (!NetworkUtils.isNetworkAvailable())
             return ResponseCode.NO_CONNECTION;
 
         groupId = (Integer) params[0];
