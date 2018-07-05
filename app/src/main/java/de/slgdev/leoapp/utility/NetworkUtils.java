@@ -133,6 +133,7 @@ public abstract class NetworkUtils {
                 jsonResponse.append(line);
             }
             reader.close();
+            Utils.logError("json response:" +jsonResponse.toString());
             return new JSONObject(jsonResponse.toString());
         } catch (IOException | JSONException e) {
             e.printStackTrace();

@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
+import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.RequestMethod;
@@ -38,10 +39,13 @@ public class RegistrationTask extends VoidCallbackTask<ResponseCode> {
             int responseCode = connection.getResponseCode();
 
             if (responseCode == 401) {
+                Utils.logError("401 error");
                 return ResponseCode.AUTH_FAILED;
             }
 
             if (responseCode != 200) {
+                Utils.logError("non 200 error: "+responseCode);
+                Utils.logError(NetworkUtils.getJSONResponse(connection));
                 return ResponseCode.SERVER_FAILED;
             }
 
@@ -61,4 +65,10 @@ public class RegistrationTask extends VoidCallbackTask<ResponseCode> {
         }
     }
 
+    @Override
+    protected void onPostExecute(ResponseCode result) {
+        for (TaskStatusListener l : getListeners()) {
+            l.taskFinished(result);
+        }
+    }
 }
