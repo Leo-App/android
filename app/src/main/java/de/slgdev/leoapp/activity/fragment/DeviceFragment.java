@@ -110,6 +110,9 @@ public class DeviceFragment extends AbstractOrderedFragment implements ISlideBac
     private String getLocalBluetoothName(){
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+        if (mBluetoothAdapter == null)
+            return "";
+
         String name = mBluetoothAdapter.getName();
         return name == null ? mBluetoothAdapter.getAddress() : name;
     }
