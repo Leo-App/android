@@ -16,6 +16,9 @@ public class SyncUserTask extends VoidCallbackTask<ResponseCode> {
 
     @Override
     protected ResponseCode doInBackground(Void... params) {
+
+        Utils.logError("CALLED SYNC USER TASK!");
+
         if (!NetworkUtils.isNetworkAvailable()) {
             return ResponseCode.NO_CONNECTION;
         }

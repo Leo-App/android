@@ -188,9 +188,6 @@ public class IntroActivity extends AppIntro2 {
         } else if (newFragment.getPosition() == VERIFICATION_SLIDE) {
             ImageButton nextButton = findViewById(R.id.next);
             nextButton.setOnClickListener(v -> verifyLoginData(newFragment));
-        } else if (newFragment.getPosition() == VERIFICATION_SLIDE + 1) {
-            ImageButton nextButton = findViewById(R.id.next);
-            nextButton.setOnClickListener(v -> addLoginToDatabase(newFragment));
         } else {
             ImageButton nextButton = findViewById(R.id.next);
             nextButton.setOnClickListener(v -> getPager().setCurrentItem(getPager().getCurrentItem() + 1));
@@ -198,7 +195,7 @@ public class IntroActivity extends AppIntro2 {
         }
     }
 
-    private void onSynchronisationProcessed(ResponseCode response, Fragment fragment) {
+    private void onSynchronisationProcessed(ResponseCode response, View v) {
         switch (response) {
             case NO_CONNECTION:
             case AUTH_FAILED:
@@ -209,7 +206,7 @@ public class IntroActivity extends AppIntro2 {
             case SUCCESS:
                 ignoreSlideChange = true;
                 getPager().setCurrentItem(VERIFICATION_SLIDE + 2);
-                fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
+                v.findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
                 break;
         }
@@ -238,8 +235,11 @@ public class IntroActivity extends AppIntro2 {
                             .putBoolean("pref_key_notification_schedule", false)
                             .apply();
                 }
+                Utils.logError("Checksum: "+Utils.getDeviceChecksum());
                 ignoreSlideChange = true;
                 getPager().setCurrentItem(VERIFICATION_SLIDE + 1);
+                ImageButton nextButton = findViewById(R.id.next);
+                nextButton.setOnClickListener(v -> addLoginToDatabase(getPager().getChildAt(VERIFICATION_SLIDE + 1)));
                 fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
         }
     }
@@ -251,15 +251,12 @@ public class IntroActivity extends AppIntro2 {
         }, 1);
     }
 
-    private void addLoginToDatabase(AbstractOrderedFragment oldFragment) {
+    private void addLoginToDatabase(View v) {
         if (running)
             return;
 
         running = true;
-
-        View v = oldFragment.getView();
-        v.findViewById(R.id.progressBarVerification).setVisibility(View.VISIBLE);
-
+        
         EditText deviceName = v.findViewById(R.id.editText1);
         String enteredIdentifier = deviceName.getText().toString();
 
@@ -292,7 +289,7 @@ public class IntroActivity extends AppIntro2 {
                     GraphicUtils.sendToast(getString(R.string.error_later));
                     break;
                 case SUCCESS:
-                    new SyncUserTask().addListener(param -> onSynchronisationProcessed((ResponseCode) param[0], oldFragment));
+                    new SyncUserTask().addListener(param -> onSynchronisationProcessed((ResponseCode) param[0], v));
             }
 
         });

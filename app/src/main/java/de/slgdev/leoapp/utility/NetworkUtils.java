@@ -161,7 +161,7 @@ public abstract class NetworkUtils {
             SecureRandom random = new SecureRandom();
             byte salt[] = new byte[32];
             random.nextBytes(salt);
-            String saltBase64 = Base64.encodeToString(salt, Base64.DEFAULT);
+            String saltBase64 = Base64.encodeToString(salt, Base64.NO_WRAP);
 
             long timestamp = System.currentTimeMillis()/10000;
 

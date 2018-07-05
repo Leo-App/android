@@ -235,7 +235,7 @@ public class MainActivity extends LeoAppNavigationActivity {
     protected void onResume() {
         super.onResume();
 
-        testAuthentication();
+  //      testAuthentication();
 
         if (Utils.getController().getPreferences().getBoolean("locale_changed", false)) {
             Utils.getController().getPreferences().edit().putBoolean("locale_changed", false).apply();
