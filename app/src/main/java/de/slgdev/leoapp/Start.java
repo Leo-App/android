@@ -41,6 +41,7 @@ public class Start extends Activity {
 
         if (Utils.isVerified()) {
             runUpdateTasks();
+            startServices();
         }
 
         startServices();
@@ -76,11 +77,9 @@ public class Start extends Activity {
     }
 
     private void startServices() {
-        if (Utils.isVerified()) {
-            startReceiveService();
-            startService(new Intent(getApplicationContext(), AlarmStartupService.class));
-            initSyncAdapter();
-        }
+        startReceiveService();
+        startService(new Intent(getApplicationContext(), AlarmStartupService.class));
+        initSyncAdapter();
     }
 
     public static void startReceiveService() {

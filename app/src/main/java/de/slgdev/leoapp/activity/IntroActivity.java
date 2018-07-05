@@ -198,7 +198,7 @@ public class IntroActivity extends AppIntro2 {
         }
     }
 
-    public void onSynchronisationProcessed(ResponseCode response, Fragment fragment) {
+    private void onSynchronisationProcessed(ResponseCode response, Fragment fragment) {
         switch (response) {
             case NO_CONNECTION:
             case AUTH_FAILED:
@@ -258,6 +258,8 @@ public class IntroActivity extends AppIntro2 {
         running = true;
 
         View v = oldFragment.getView();
+        v.findViewById(R.id.progressBarVerification).setVisibility(View.VISIBLE);
+
         EditText deviceName = v.findViewById(R.id.editText1);
         String enteredIdentifier = deviceName.getText().toString();
 
