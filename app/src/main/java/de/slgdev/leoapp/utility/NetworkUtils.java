@@ -46,8 +46,8 @@ public abstract class NetworkUtils {
      * @return Aktuelle Netzwerkperformance, NOT_AVAILABLE wenn kein Internet verfügbar.
      */
     public static NetworkPerformance getNetworkPerformance() {
-        ConnectivityManager c    = (ConnectivityManager) Utils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo         info = c.getActiveNetworkInfo();
+        ConnectivityManager c = (ConnectivityManager) Utils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = c.getActiveNetworkInfo();
 
         if (info == null)
             return NetworkPerformance.NOT_AVAILABLE;
@@ -87,7 +87,7 @@ public abstract class NetworkUtils {
     /**
      * Öffnet eine URL-Verbindung mit Authentifizierung.
      *
-     * @param url - Gewünschte URL.
+     * @param url        - Gewünschte URL.
      * @param httpMethod - Zu nutzende HTTP Methode, siehe {@link RequestMethod}.
      * @return HTTP-Verbindung.
      * @throws IOException -
@@ -103,10 +103,10 @@ public abstract class NetworkUtils {
     /**
      * Öffnet eine URL-Verbindung mit Authentifizierung.
      *
-     * @param url - Gewünschte URL.
-     * @param httpMethod - Zu nutzende HTTP Methode, siehe {@link RequestMethod}.
+     * @param url         - Gewünschte URL.
+     * @param httpMethod  - Zu nutzende HTTP Methode, siehe {@link RequestMethod}.
      * @param contentType - Spezifizierter HTTP Content-Type für Requests mit Body (für Api-Aufrufe "application/json").
-     * @param httpBody - Inhalt des Request-Body als String
+     * @param httpBody    - Inhalt des Request-Body als String
      * @return HTTP-Verbindung.
      * @throws IOException -
      */
@@ -125,7 +125,9 @@ public abstract class NetworkUtils {
 
     public static JSONObject getJSONResponse(HttpURLConnection connection) {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    connection.getResponseCode() == 200 ?
+                            connection.getInputStream() : connection.getErrorStream()));
 
             String line;
             StringBuilder jsonResponse = new StringBuilder();
@@ -133,10 +135,9 @@ public abstract class NetworkUtils {
                 jsonResponse.append(line);
             }
             reader.close();
-            Utils.logError("json response:" +jsonResponse.toString());
             return new JSONObject(jsonResponse.toString());
         } catch (IOException | JSONException e) {
-            e.printStackTrace();
+            Utils.logError(e);
             return null;
         }
     }
@@ -164,14 +165,14 @@ public abstract class NetworkUtils {
             random.nextBytes(salt);
             String saltBase64 = Base64.encodeToString(salt, Base64.NO_WRAP);
 
-            long timestamp = System.currentTimeMillis()/10000;
+            long timestamp = System.currentTimeMillis() / 10000;
 
             String baseString = authsum + saltBase64 + Utils.getUserID() + timestamp;
 
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(baseString.getBytes("UTF-8"));
 
-            return Utils.getUserID() + "-" + StringUtils.bytesToHex(hash) + "-" + saltBase64 + "-" + timestamp%10;
+            return Utils.getUserID() + "-" + StringUtils.bytesToHex(hash) + "-" + saltBase64 + "-" + timestamp % 10;
 
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             e.printStackTrace();

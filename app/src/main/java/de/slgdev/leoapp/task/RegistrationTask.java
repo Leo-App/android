@@ -28,6 +28,10 @@ public class RegistrationTask extends VoidCallbackTask<ResponseCode> {
             requestBody.put("device", Utils.getDeviceIdentifier());
             requestBody.put("checksum", Utils.getDeviceChecksum());
 
+            Utils.logError(Utils.getUserDefaultName());
+            Utils.logError(Utils.getDeviceIdentifier());
+            Utils.logError(Utils.getDeviceChecksum());
+
             //TODO replace debug URL and use mod_rewritten URLs
             HttpURLConnection connection = NetworkUtils.openURLConnection(
                     Utils.DOMAIN_DEV + "user/add/index.php",
