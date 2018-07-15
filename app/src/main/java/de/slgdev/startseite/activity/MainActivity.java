@@ -68,7 +68,7 @@ public class MainActivity extends LeoAppNavigationActivity {
         Utils.getController().registerMainActivity(this);
         Utils.getController().setContext(getApplicationContext());
 
-        testAuthentication();
+   //     testAuthentication();
 
         processIntent();
         super.onCreate(savedInstanceState);

@@ -26,7 +26,7 @@ public class VerificationTask extends VoidCallbackTask<ResponseCode> {
 
         try {
             //TODO change dev url
-            HttpURLConnection connection = (HttpURLConnection) new URL(Utils.DOMAIN_DEV + "verify.php")
+            HttpURLConnection connection = (HttpURLConnection) new URL(Utils.DOMAIN_DEV + "verify.php?name="+username)
                             .openConnection();
             connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
 

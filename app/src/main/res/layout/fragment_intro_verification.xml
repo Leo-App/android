@@ -27,6 +27,8 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <!-- TODO remove userdata -->
+
         <EditText
             android:id="@+id/editText1"
             android:layout_width="300dp"
@@ -34,6 +36,7 @@
             android:layout_gravity="center"
             android:background="@drawable/background_rounded_corners"
             android:hint="@string/settings_title_username"
+            android:text="leoapp"
             android:inputType="text"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -49,6 +52,7 @@
             android:background="@drawable/background_rounded_corners"
             android:hint="@string/settings_title_password"
             android:inputType="textPassword"
+            android:text="leoapp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:textColor="@android:color/white"

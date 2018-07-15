@@ -74,6 +74,6 @@ public class SyncUserTask extends VoidCallbackTask<ResponseCode> {
     @Override
     protected void onPostExecute(ResponseCode code) {
         for (TaskStatusListener l : getListeners())
-            l.taskFinished();
+            l.taskFinished(code);
     }
 }

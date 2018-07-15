@@ -135,6 +135,8 @@ public abstract class NetworkUtils {
                 jsonResponse.append(line);
             }
             reader.close();
+            //TODO remove
+            Utils.logError("JSONResponse: "+jsonResponse);
             return new JSONObject(jsonResponse.toString());
         } catch (IOException | JSONException e) {
             Utils.logError(e);
@@ -144,20 +146,6 @@ public abstract class NetworkUtils {
 
     public static String getAuthenticationToken() {
         try {
-
-            //TODO remove temp
-            Utils.getController()
-                    .getPreferences()
-                    .edit()
-                    .putString("auth_sum", "0LPZcxSFUfPojVem-97a09ebbd8880b927092b718c91f525643440ebef687e223da2f2f0aec7a4ecc")
-                    .apply();
-            Utils.getController()
-                    .getPreferences()
-                    .edit()
-                    .putInt("pref_key_general_id", 1034)
-                    .apply();
-            //TODO remove temp
-
             String authsum = Utils.getDeviceChecksum();
 
             SecureRandom random = new SecureRandom();

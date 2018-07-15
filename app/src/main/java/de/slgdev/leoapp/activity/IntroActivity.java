@@ -209,6 +209,7 @@ public class IntroActivity extends AppIntro2 {
     }
 
     private void onSynchronisationProcessed(ResponseCode response, View v) {
+        Utils.logError("SYNC PROCESSED");
         switch (response) {
             case NO_CONNECTION:
             case AUTH_FAILED:
@@ -218,9 +219,9 @@ public class IntroActivity extends AppIntro2 {
                 break;
             case SUCCESS:
                 ignoreSlideChange = true;
+                running = false;
                 getPager().setCurrentItem(VERIFICATION_SLIDE + 2);
                 v.findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
-                running = false;
                 break;
         }
     }
@@ -271,6 +272,7 @@ public class IntroActivity extends AppIntro2 {
         running = true;
 
         View v = slides.getObjectAt(VERIFICATION_SLIDE + 1).getView();
+        v.findViewById(R.id.progressBarVerification).setVisibility(View.VISIBLE);
         EditText deviceName = v.findViewById(R.id.editText1);
         String enteredIdentifier = deviceName.getText().toString();
 
@@ -304,7 +306,7 @@ public class IntroActivity extends AppIntro2 {
                     GraphicUtils.sendToast(getString(R.string.error_later));
                     break;
                 case SUCCESS:
-                    new SyncUserTask().addListener(param -> onSynchronisationProcessed((ResponseCode) param[0], v));
+                    new SyncUserTask().addListener(param -> onSynchronisationProcessed((ResponseCode) param[0], v)).execute();
             }
 
         });
