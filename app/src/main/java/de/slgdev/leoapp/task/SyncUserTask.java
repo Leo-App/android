@@ -1,71 +1,62 @@
 package de.slgdev.leoapp.task;
 
-import java.io.BufferedReader;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
+import java.net.HttpURLConnection;
 
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
 import de.slgdev.leoapp.utility.NetworkUtils;
+import de.slgdev.leoapp.utility.RequestMethod;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.utility.datastructure.List;
 
 public class SyncUserTask extends VoidCallbackTask<ResponseCode> {
 
     @Override
     protected ResponseCode doInBackground(Void... params) {
 
-        Utils.logError("CALLED SYNC USER TASK!");
-
         if (!NetworkUtils.isNetworkAvailable()) {
             return ResponseCode.NO_CONNECTION;
         }
 
         try {
-            StringBuilder builder = new StringBuilder();
+            //TODO mod_rewrite
 
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(
-                            new URL(
-                                    Utils.BASE_URL_PHP + "user/" +
-                                            "updateUser.php?" +
-                                            "name=" + Utils.getUserDefaultName()
-                            )
-                                    .openConnection()
-                                    .getInputStream()
-                    )
+            Utils.logError("Checksum: " + NetworkUtils.getAuthenticationToken());
+
+            HttpURLConnection connection = NetworkUtils.openURLConnection(
+                    Utils.BASE_URL_PHP + "user/getByName/index.php?p0=" + Utils.getUserDefaultName(),
+                    RequestMethod.GET
             );
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-            reader.close();
+            Utils.logDebug("Connection: "+connection);
 
-            String result = builder.toString();
-            if (result.startsWith("-")) {
-                throw new IOException(result);
-            }
+            JSONObject json = NetworkUtils.getJSONResponse(connection).getJSONObject("data");
 
-            int uid = Integer.parseInt(result.substring(0, result.indexOf(';')));
-            result = result.substring(result.indexOf(';') + 1);
+            Utils.logError("JSONResponse: " + json);
 
-            int permission = Integer.parseInt(result.substring(0, result.indexOf(';')));
-            result = result.substring(result.indexOf(';') + 1);
+            if (connection.getResponseCode() / 100 == 5)
+                return ResponseCode.SERVER_FAILED;
 
-            String uname = result;
+            if (connection.getResponseCode() / 100 == 4)
+                return ResponseCode.AUTH_FAILED;
+
+            int uid = json.getInt("id");
+            int permission = json.getInt("permission");
+            String username = json.getString("name");
 
             Utils.getController().getPreferences()
                     .edit()
                     .putInt("pref_key_general_id", uid)
                     .putInt("pref_key_general_permission", permission)
-                    .putString("pref_key_general_name", uname)
+                    .putString("pref_key_general_name", username)
                     .apply();
 
             return ResponseCode.SUCCESS;
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             Utils.logError(e);
         }
         return ResponseCode.SERVER_FAILED;

@@ -135,8 +135,6 @@ public abstract class NetworkUtils {
                 jsonResponse.append(line);
             }
             reader.close();
-            //TODO remove
-            Utils.logError("JSONResponse: "+jsonResponse);
             return new JSONObject(jsonResponse.toString());
         } catch (IOException | JSONException e) {
             Utils.logError(e);

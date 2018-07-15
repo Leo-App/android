@@ -198,6 +198,8 @@ public class IntroActivity extends AppIntro2 {
             cancel(oldFragment);
         } else if (oldFragment.getPosition() > newFragment.getPosition() && newFragment.getPosition() == VERIFICATION_SLIDE) {
             cancel(oldFragment);
+        } else if (oldFragment.getPosition() == VERIFICATION_SLIDE + 1) {
+            cancel(oldFragment);
         } else if (newFragment.getPosition() == VERIFICATION_SLIDE) {
             ImageButton nextButton = findViewById(R.id.next);
             nextButton.setOnClickListener(v -> verifyLoginData());
@@ -215,6 +217,7 @@ public class IntroActivity extends AppIntro2 {
             case AUTH_FAILED:
             case SERVER_FAILED:
                 GraphicUtils.sendToast(getString(R.string.error_later));
+                v.findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
                 break;
             case SUCCESS:
