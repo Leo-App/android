@@ -301,7 +301,7 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
         StringBuilder modifiedContent = new StringBuilder();
         String[] parts = content.split(" ");
         for (String cur : parts) {
-            if (cur.matches("(https?://)?(www)?(\\w+\\.)+[a-zA-Z]+((/?)|((/\\w+)*(\\w+.\\w+)?))")) { //URL regex
+            if (cur.matches("(https?://)?(www)?([\\w-]+\\.)+[a-zA-Z-]+((/?)|((/[\\w-]+)*([\\w-]+.[\\w-]+)?))(\\?[\\w-]+=[\\w-]+(&[\\w-]+=[\\w-]+)*)*(#[\\w-]+)?")) { //URL regex
                 modifiedContent.append("<a href=\"")
                         .append(cur)
                         .append("\">")
