@@ -254,7 +254,7 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
                     cursor.getInt(7),
                     cursor.getString(0),
                     cursor.getString(1),
-                    cursor.getString(2).replace("\\\\", "\n"),
+                    getHyperlinkFormat(cursor.getString(2).replace("\\\\", "\n")), //REGEX für Urls (www).domain.tld/somedir
                     cursor.getInt(6),
                     erstelldatum,
                     ablaufdatum,
@@ -297,6 +297,23 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
         database.update(TABLE_EINTRAEGE, values, EINTRAEGE_REMOTE_ID + " = " + remoteid, null);
     }
 
+    private String getHyperlinkFormat(String content) {
+        StringBuilder modifiedContent = new StringBuilder();
+        String[] parts = content.split(" ");
+        for (String cur : parts) {
+            if (cur.matches("(https?://)(www)?(\\w+\\.)+[a-zA-Z]+((/?)|((/\\w+)*(\\w+.\\w+)?))")) { //URL regex
+                modifiedContent.append("<a href=\"")
+                        .append(cur)
+                        .append("\">")
+                        .append(cur)
+                        .append("</a>");
+            } else {
+                modifiedContent.append(cur);
+            }
+        }
+
+        return modifiedContent.toString();
+    }
 
 
 }

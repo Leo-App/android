@@ -46,9 +46,6 @@ import de.slgdev.schwarzes_brett.utility.Entry;
  * @since 0.0.1
  */
 public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
-
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 42;
-
     private static SQLiteConnectorSchwarzesBrett sqLiteConnector;
 
     private List<Entry> entries;
@@ -122,7 +119,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE &&
+        if (requestCode == 0x42 &&
                 grantResults.length > 0 &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             new FileDownloadTask().execute(rawLocation);
@@ -323,7 +320,7 @@ public class SchwarzesBrettActivity extends LeoAppNavigationActivity {
                     rawLocation = location;
 
                     if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(SchwarzesBrettActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                        ActivityCompat.requestPermissions(SchwarzesBrettActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0x42);
                     } else {
                         new FileDownloadTask().execute(rawLocation);
                     }
