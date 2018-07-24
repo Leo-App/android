@@ -14,6 +14,16 @@ public abstract class StringUtils {
         return ret.length() > delimiter.length() ? ret.substring(0, ret.length() - delimiter.length()) : "";
     }
 
+    @NonNull
+    public static <T> String join(CharSequence delimiter, T[] elements) {
+        StringBuilder ret = new StringBuilder();
+        for (T t : elements) {
+            ret.append(t.toString()).append(delimiter);
+        }
+
+        return ret.length() > delimiter.length() ? ret.substring(0, ret.length() - delimiter.length()) : "";
+    }
+
     public static String bytesToHex(byte[] bytes) {
         char[] hexArray = "0123456789abcdef".toCharArray();
         char[] hexChars = new char[bytes.length * 2];

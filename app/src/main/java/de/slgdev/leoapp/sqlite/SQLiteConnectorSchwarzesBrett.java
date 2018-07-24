@@ -298,22 +298,23 @@ public class SQLiteConnectorSchwarzesBrett extends SQLiteOpenHelper {
     }
 
     private String getHyperlinkFormat(String content) {
-        StringBuilder modifiedContent = new StringBuilder();
         String[] parts = content.split(" ");
-        for (String cur : parts) {
+        String cur;
+        StringBuilder modifiedContent;
+        for (int i = 0; i < parts.length; i++) {
+            cur = parts[i];
             if (cur.matches("(https?://)?(www)?([\\w-]+\\.)+[a-zA-Z-]+((/?)|((/[\\w-]+)*([\\w-]+.[\\w-]+)?))(\\?[\\w-]+=[\\w-]+(&[\\w-]+=[\\w-]+)*)*(#[\\w-]+)?")) { //URL regex
+                modifiedContent = new StringBuilder();
                 modifiedContent.append("<a href=\"")
                         .append(cur)
                         .append("\">")
                         .append(cur)
                         .append("</a>");
-            } else {
-                modifiedContent.append(cur);
+                parts[i] = modifiedContent.toString();
             }
         }
 
-        return modifiedContent.toString();
+        return StringUtils.join(" ", parts);
     }
-
 
 }
