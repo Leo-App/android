@@ -5,6 +5,7 @@
 
     <uses-feature android:name="android.hardware.camera" />
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -54,7 +55,7 @@
             android:syncable="true"/>
 
         <service
-            android:name="de.slgdev.leoapp.service.ReceiveService"
+            android:name="de.slgdev.leoapp.service.SocketService"
             android:description="@string/serviceDescription"
             android:exported="false" />
 
@@ -157,6 +158,7 @@
             android:name="de.slgdev.essensbons.intro.EssensbonIntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MainActivitiesTheme" />
+
         <activity
             android:name="de.slgdev.essensbons.activity.ScanActivity"
             android:screenOrientation="portrait"

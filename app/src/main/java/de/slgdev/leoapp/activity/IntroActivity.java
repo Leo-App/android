@@ -2,6 +2,7 @@ package de.slgdev.leoapp.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -11,18 +12,19 @@ import android.widget.ImageButton;
 import com.github.paolorotolo.appintro.AppIntro2;
 
 import de.slgdev.leoapp.R;
-import de.slgdev.leoapp.Start;
 import de.slgdev.leoapp.activity.fragment.AbstractOrderedFragment;
+import de.slgdev.leoapp.activity.fragment.DeviceFragment;
 import de.slgdev.leoapp.activity.fragment.DisclaimerFragmentBuilder;
 import de.slgdev.leoapp.activity.fragment.InfoFragmentBuilder;
 import de.slgdev.leoapp.activity.fragment.VerificationFragment;
 import de.slgdev.leoapp.task.RegistrationTask;
 import de.slgdev.leoapp.task.SyncUserTask;
+import de.slgdev.leoapp.task.VerificationTask;
 import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.ResponseCode;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.utility.VerificationListener;
+import de.slgdev.leoapp.utility.datastructure.List;
 
 /**
  * IntroActivity.
@@ -33,13 +35,13 @@ import de.slgdev.leoapp.utility.VerificationListener;
  * @version 2017.2312
  * @since 0.5.7
  */
-
-public class IntroActivity extends AppIntro2 implements VerificationListener {
+public class IntroActivity extends AppIntro2 {
 
     private static final int VERIFICATION_SLIDE = 6;
     private static boolean running;
     private static boolean ignoreSlideChange;
     private static boolean dismissable;
+    private static List<Fragment> slides;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,13 +113,20 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                             VERIFICATION_SLIDE)
             );
 
+            addSlide(
+                    DeviceFragment.newInstance(R.string.device_slide_title,
+                            R.string.device_slide_content,
+                            R.color.introSlide3,
+                            VERIFICATION_SLIDE + 1)
+            );
+
             //Success-Slide
             addSlide(
                     new InfoFragmentBuilder()
                             .setTitle(R.string.intro_finished_title)
                             .setContent(R.string.intro_finished_desc)
                             .setImage(R.drawable.intro_finished)
-                            .setPosition(VERIFICATION_SLIDE + 1)
+                            .setPosition(VERIFICATION_SLIDE + 2)
                             .setColor(R.color.colorSatisfied)
                             .build()
             );
@@ -154,8 +163,8 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
 
     @Override
     public void onBackPressed() {
-        if(dismissable)
-           super.onBackPressed();
+        if (dismissable)
+            super.onBackPressed();
     }
 
     @Override
@@ -166,6 +175,16 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
     @Override
     public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
         onSlideChanged((AbstractOrderedFragment) oldFragment, (AbstractOrderedFragment) newFragment);
+    }
+
+    @Override
+    public void addSlide(@NonNull Fragment fragment) {
+        if (slides == null)
+            slides = new List<>();
+
+        slides.append(fragment);
+
+        super.addSlide(fragment);
     }
 
     public void onSlideChanged(@Nullable AbstractOrderedFragment oldFragment, @Nullable final AbstractOrderedFragment newFragment) {
@@ -179,52 +198,49 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
             cancel(oldFragment);
         } else if (oldFragment.getPosition() > newFragment.getPosition() && newFragment.getPosition() == VERIFICATION_SLIDE) {
             cancel(oldFragment);
+        } else if (oldFragment.getPosition() == VERIFICATION_SLIDE + 1) {
+            cancel(oldFragment);
         } else if (newFragment.getPosition() == VERIFICATION_SLIDE) {
             ImageButton nextButton = findViewById(R.id.next);
-            nextButton.setOnClickListener(v -> startVerification(newFragment));
+            nextButton.setOnClickListener(v -> verifyLoginData());
         } else {
             ImageButton nextButton = findViewById(R.id.next);
             nextButton.setOnClickListener(v -> getPager().setCurrentItem(getPager().getCurrentItem() + 1));
-
             dismissable = newFragment.getPosition() != 0;
         }
     }
 
-    @Override
-    public void onSynchronisationProcessed(ResponseCode response, Fragment fragment) {
+    private void onSynchronisationProcessed(ResponseCode response, View v) {
+        Utils.logError("SYNC PROCESSED");
         switch (response) {
             case NO_CONNECTION:
             case AUTH_FAILED:
             case SERVER_FAILED:
                 GraphicUtils.sendToast(getString(R.string.error_later));
+                v.findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
                 break;
             case SUCCESS:
                 ignoreSlideChange = true;
-                getPager().setCurrentItem(VERIFICATION_SLIDE + 1);
-                fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 running = false;
+                getPager().setCurrentItem(VERIFICATION_SLIDE + 2);
+                v.findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 break;
         }
     }
 
-    @Override
-    public void onVerificationProcessed(ResponseCode response, Fragment fragment) {
+    private void onVerificationProcessed(ResponseCode response) {
+        running = false;
+        slides.getObjectAt(VERIFICATION_SLIDE).getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
         switch (response) {
             case NO_CONNECTION:
                 GraphicUtils.sendToast(R.string.snackbar_no_connection_info);
-                running = false;
-                fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
                 break;
             case AUTH_FAILED:
                 GraphicUtils.sendToast(getString(R.string.data_differs));
-                fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
-                running = false;
                 break;
             case SERVER_FAILED:
                 GraphicUtils.sendToast(getString(R.string.error_later));
-                fragment.getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
-                running = false;
                 break;
             case SUCCESS:
                 if (Utils.getUserPermission() == User.PERMISSION_LEHRER) {
@@ -236,38 +252,82 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
                             .putBoolean("pref_key_notification_schedule", false)
                             .apply();
                 }
-
-                new SyncUserTask(fragment).registerSynchronisationListener(this).execute();
-
-                Start.runUpdateTasks();
-                Start.startReceiveService();
-
-                break;
+                Utils.logError("Checksum: "+Utils.getDeviceChecksum());
+                ignoreSlideChange = true;
+                getPager().setCurrentItem(VERIFICATION_SLIDE + 1);
+                ImageButton nextButton = findViewById(R.id.next);
+                nextButton.setOnClickListener(v -> addLoginToDatabase());
+                slides.getObjectAt(VERIFICATION_SLIDE).getView().findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
         }
     }
 
     private void cancel(final AbstractOrderedFragment oldFragment) {
-        new Handler().postDelayed(
-                () -> {
-                    ignoreSlideChange = true;
-                    getPager().setCurrentItem(oldFragment.getPosition());
-                },
-                1
-        );
+        new Handler().postDelayed(() -> {
+            ignoreSlideChange = true;
+            getPager().setCurrentItem(oldFragment.getPosition());
+        }, 1);
     }
 
-    private void startVerification(AbstractOrderedFragment oldFragment) {
+    private void addLoginToDatabase() {
         if (running)
             return;
 
         running = true;
 
-        View v = oldFragment.getView();
+        View v = slides.getObjectAt(VERIFICATION_SLIDE + 1).getView();
+        v.findViewById(R.id.progressBarVerification).setVisibility(View.VISIBLE);
+        EditText deviceName = v.findViewById(R.id.editText1);
+        String enteredIdentifier = deviceName.getText().toString();
 
-        EditText name     = v.findViewById(R.id.editText1);
+        if (enteredIdentifier.length() <= 1) {
+            GraphicUtils.sendToast(R.string.toast_devicename_invalid);
+            running = false;
+            return;
+        }
+
+        Utils.getController().getPreferences()
+                .edit()
+                .putString("pref_key_cur_device", enteredIdentifier)
+                .apply();
+
+        RegistrationTask task = new RegistrationTask();
+        task.addListener(params -> {
+
+            ResponseCode response = (ResponseCode) params[0];
+
+            switch (response) {
+                case NO_CONNECTION:
+                    running = false;
+                    v.findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
+                    GraphicUtils.sendToast(getString(R.string.snackbar_no_connection_info));
+                    break;
+                case AUTH_FAILED:
+                case NOT_SENT:
+                case SERVER_FAILED:
+                    running = false;
+                    v.findViewById(R.id.progressBarVerification).setVisibility(View.INVISIBLE);
+                    GraphicUtils.sendToast(getString(R.string.error_later));
+                    break;
+                case SUCCESS:
+                    new SyncUserTask().addListener(param -> onSynchronisationProcessed((ResponseCode) param[0], v)).execute();
+            }
+
+        });
+        task.execute();
+    }
+
+    private void verifyLoginData() {
+        if (running)
+            return;
+
+        running = true;
+
+        View v = slides.getObjectAt(VERIFICATION_SLIDE).getView();
+
+        EditText name = v.findViewById(R.id.editText1);
         EditText password = v.findViewById(R.id.editText2);
 
-        String userName     = name.getText().toString();
+        String userName = name.getText().toString();
         String userPassword = password.getText().toString();
 
         if (userName.length() == 0 || userPassword.length() == 0) {
@@ -281,8 +341,8 @@ public class IntroActivity extends AppIntro2 implements VerificationListener {
         Utils.setUserDefaultName(userName);
         Utils.setUserPassword(userPassword);
 
-        RegistrationTask task = new RegistrationTask();
-        task.addListener(this);
-        task.execute(oldFragment);
+        VerificationTask task = new VerificationTask();
+        task.addListener(params -> onVerificationProcessed((ResponseCode) params[0]));
+        task.execute();
     }
 }

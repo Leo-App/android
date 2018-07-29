@@ -1,7 +1,5 @@
 package de.slgdev.leoapp.sync;
 
-import android.database.sqlite.SQLiteDatabase;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,6 +7,7 @@ import java.net.URL;
 
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 
 /**
@@ -25,7 +24,7 @@ public class NewsSynchronizer implements Synchronizer {
     @Override
     public boolean run() {
 
-        if (!Utils.isNetworkAvailable())
+        if (!NetworkUtils.isNetworkAvailable())
             return false;
 
         try {
@@ -42,27 +41,13 @@ public class NewsSynchronizer implements Synchronizer {
             reader.close();
 
             SQLiteConnectorSchwarzesBrett db  = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
-            SQLiteDatabase                dbh = db.getWritableDatabase();
 
-            dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE + "'");
-            dbh.delete(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, null, null);
             String[] result = builder.toString().split("_next_");
             for (String s : result) {
-                String[] res = s.split(";");
-                if (res.length == 8) {
-                    dbh.insert(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, null, db.getEntryContentValues(
-                            res[0],
-                            res[1],
-                            res[2],
-                            Long.parseLong(res[3] + "000"),
-                            Long.parseLong(res[4] + "000"),
-                            Integer.parseInt(res[5]),
-                            Integer.parseInt(res[6]),
-                            res[7]
-                    ));
-                }
+                String[] parts = s.split(";");
+                if (parts.length == 8)
+                    db.insertEntry(parts);
             }
-            dbh.close();
             db.close();
         } catch (IOException e) {
             Utils.logError(e);

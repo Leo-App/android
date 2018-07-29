@@ -153,8 +153,10 @@ public class KlausurplanActivity extends LeoAppNavigationActivity implements Tas
 
     @Override
     public void taskFinished(Object... params) {
-        findViewById(R.id.progressBar).setVisibility(View.GONE);
-        refresh();
+        if (Utils.getController().getKlausurplanActivity() != null) {
+            findViewById(R.id.progressBar).setVisibility(View.GONE);
+            refresh();
+        }
     }
 
     private void initListView() {

@@ -16,7 +16,8 @@ import android.widget.Toast;
 
 import de.slgdev.leoapp.R;
 import de.slgdev.leoapp.Start;
-import de.slgdev.leoapp.service.ReceiveService;
+import de.slgdev.leoapp.service.SocketService;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.ActionLogActivity;
 import de.slgdev.messenger.utility.Chat;
@@ -251,16 +252,16 @@ public class ChatActivity extends ActionLogActivity {
     }
 
     private static class SendMessage extends AsyncTask<String, Void, Void> {
-        private ChatActivity   activity;
-        private ReceiveService service;
+        private ChatActivity  activity;
+        private SocketService service;
 
         private SendMessage(ChatActivity activity) {
             this.activity = activity;
-            this.service = Utils.getController().getReceiveService();
+            this.service = Utils.getController().getSocketService();
 
             if (service == null) {
                 Start.startReceiveService();
-                this.service = Utils.getController().getReceiveService();
+                this.service = Utils.getController().getSocketService();
             }
         }
 
@@ -276,7 +277,7 @@ public class ChatActivity extends ActionLogActivity {
             if (activity.cid == -1) {
                 assert oUid != -1;
 
-                if (Utils.isNetworkAvailable()) {
+                if (NetworkUtils.isNetworkAvailable()) {
 
                     service.send(new Chat(0, oUid + " - " + Utils.getUserID(), Chat.ChatType.PRIVATE));
 
@@ -288,7 +289,7 @@ public class ChatActivity extends ActionLogActivity {
                 }
             }
 
-            if (Utils.isNetworkAvailable()) {
+            if (NetworkUtils.isNetworkAvailable()) {
                 Message[] mOld = activity.messagesArray;
                 activity.messagesArray = new Message[mOld.length + 1];
                 System.arraycopy(mOld, 0, activity.messagesArray, 0, mOld.length);

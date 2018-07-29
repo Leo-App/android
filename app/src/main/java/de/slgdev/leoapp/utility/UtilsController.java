@@ -13,7 +13,7 @@ import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.activity.NotificationPreferenceActivity;
 import de.slgdev.leoapp.activity.PreferenceActivity;
 import de.slgdev.leoapp.activity.ProfileActivity;
-import de.slgdev.leoapp.service.ReceiveService;
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorMessenger;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slgdev.leoapp.view.ActionLogActivity;
@@ -39,8 +39,9 @@ import de.slgdev.umfragen.activity.SurveyActivity;
  * @version 2017.2610
  * @since 0.5.5
  */
-@SuppressWarnings({"WeakerAccess"})
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class UtilsController {
+
     private Context           context;
     private SharedPreferences preferences;
 
@@ -78,8 +79,8 @@ public class UtilsController {
     private SQLiteConnectorMessenger   SQLiteConnectorMessenger;
     private SQLiteConnectorStundenplan SQLiteConnectorStundenplan;
 
-    private ReceiveService receiveService;
-    private AlarmManager   alarmManager;
+    private SocketService socketService;
+    private AlarmManager  alarmManager;
 
     private PendingIntent  foodmarkReference;
     private PendingIntent  timetableReference;
@@ -127,8 +128,8 @@ public class UtilsController {
             return profileActivity;
         } else if (surveyActivity != null) {
             return surveyActivity;
-        } else if (receiveService != null)
-            return receiveService.getApplicationContext();
+        } else if (socketService != null)
+            return socketService.getApplicationContext();
         return null;
     }
 
@@ -411,17 +412,17 @@ public class UtilsController {
     /**
      * @return Laufender Receive-Service, null wenn nicht aktiv.
      */
-    public ReceiveService getReceiveService() {
-        return receiveService;
+    public SocketService getSocketService() {
+        return socketService;
     }
 
     /**
-     * Registriert neuen ReceiveService.
+     * Registriert neuen SocketService.
      *
-     * @param service ReceiveService.
+     * @param service SocketService.
      */
-    public void registerReceiveService(ReceiveService service) {
-        receiveService = service;
+    public void registerReceiveService(SocketService service) {
+        socketService = service;
     }
 
     public void registerAlarmManager(AlarmManager alarmManager) {
@@ -539,9 +540,9 @@ public class UtilsController {
      * Beendet alle Services.
      */
     public void closeServices() {
-        if (getReceiveService() != null) {
-            getReceiveService().stopSelf();
-            receiveService = null;
+        if (getSocketService() != null) {
+            getSocketService().stopSelf();
+            socketService = null;
         }
     }
 }

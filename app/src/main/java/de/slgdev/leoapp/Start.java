@@ -5,16 +5,18 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
-import java.util.ArrayList;
+import java.util.Locale;
 
 import de.slgdev.leoapp.service.AlarmStartupService;
-import de.slgdev.leoapp.service.ReceiveService;
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.task.MailSendTask;
 import de.slgdev.leoapp.task.SyncFilesTask;
 import de.slgdev.leoapp.task.SyncGradeTask;
 import de.slgdev.leoapp.task.SyncUserTask;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.schwarzes_brett.task.UpdateViewTrackerTask;
@@ -35,8 +37,11 @@ public class Start extends Activity {
 
         Utils.getController().setContext(getApplicationContext());
 
+        setLocaleIfNecessary();
+
         if (Utils.isVerified()) {
             runUpdateTasks();
+            startServices();
         }
 
         startServices();
@@ -46,7 +51,7 @@ public class Start extends Activity {
     }
 
     public static void runUpdateTasks() {
-        if (Utils.isNetworkAvailable()) {
+        if (NetworkUtils.isNetworkAvailable()) {
             new SyncUserTask()
                     .addListener(params -> {
                         if (Utils.getUserPermission() != User.PERMISSION_LEHRER)
@@ -63,8 +68,7 @@ public class Start extends Activity {
             new SyncVoteTask().execute();
             new SyncFilesTask().execute();
 
-            ArrayList<Integer> cachedViews = SchwarzesBrettUtils.getCachedIDs();
-            new UpdateViewTrackerTask().execute(cachedViews.toArray(new Integer[cachedViews.size()]));
+            new UpdateViewTrackerTask().execute(SchwarzesBrettUtils.getCachedIDs());
 
             if (!Utils.getController().getPreferences().getString("pref_key_request_cached", "-").equals("-")) {
                 new MailSendTask().execute(Utils.getController().getPreferences().getString("pref_key_request_cached", ""));
@@ -73,16 +77,14 @@ public class Start extends Activity {
     }
 
     private void startServices() {
-        if (Utils.isVerified()) {
-            startReceiveService();
-            startService(new Intent(getApplicationContext(), AlarmStartupService.class));
-            initSyncAdapter();
-        }
+        startReceiveService();
+        startService(new Intent(getApplicationContext(), AlarmStartupService.class));
+        initSyncAdapter();
     }
 
     public static void startReceiveService() {
-        if (Utils.isNetworkAvailable()) {
-            Utils.getContext().startService(new Intent(Utils.getContext(), ReceiveService.class));
+        if (NetworkUtils.isNetworkAvailable()) {
+            Utils.getContext().startService(new Intent(Utils.getContext(), SocketService.class));
         }
     }
 
@@ -120,4 +122,19 @@ public class Start extends Activity {
 
         return newAccount;
     }
+
+    private void setLocaleIfNecessary() {
+        String locale = Utils.getController().getPreferences().getString("pref_key_locale", "");
+
+        Locale loc = new Locale(locale);
+
+        if (locale.equals("") || Locale.getDefault().equals(loc))
+            return;
+
+        Locale.setDefault(loc);
+        Configuration config = new Configuration();
+        config.locale = loc;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
+
 }

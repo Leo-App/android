@@ -1,8 +1,6 @@
 package de.slgdev.leoapp.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -199,22 +197,9 @@ public class ProfileActivity extends LeoAppNavigationActivity {
     }
 
     private String getCurrentSurvey() {
-        SQLiteConnectorUmfragen dbh = new SQLiteConnectorUmfragen(getApplicationContext());
-        SQLiteDatabase          db  = dbh.getReadableDatabase();
-
-        Cursor c = db.query(SQLiteConnectorUmfragen.TABLE_SURVEYS, new String[]{SQLiteConnectorUmfragen.SURVEYS_TITEL}, SQLiteConnectorUmfragen.SURVEYS_REMOTE_ID + " = " + Utils.getUserID(), null, null, null, null);
-
-        c.moveToFirst();
-        String returnS = c.getCount() == 0 ? null : c.getString(0);
-
-        c.close();
-        db.close();
+        SQLiteConnectorUmfragen dbh    = new SQLiteConnectorUmfragen(getApplicationContext());
+        String                  survey = dbh.getSurveyWithId(Utils.getUserID());
         dbh.close();
-
-        return returnS;
-    }
-
-    public View getCoordinatorLayout() {
-        return findViewById(R.id.coordinator);
+        return survey;
     }
 }

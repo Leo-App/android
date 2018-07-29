@@ -13,6 +13,7 @@ import java.util.Hashtable;
 import de.slgdev.it_problem.utility.datastructure.DecisionTree;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorITProblem;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.utility.datastructure.List;
 
@@ -32,7 +33,7 @@ public class SynchronizerDownstreamTask extends AsyncTask<String, Void, Void> {
 
         SQLiteConnectorITProblem db = new SQLiteConnectorITProblem(Utils.getContext());
 
-        if (Utils.isNetworkAvailable()) {
+        if (NetworkUtils.isNetworkAvailable()) {
 
             SQLiteDatabase dbh = db.getWritableDatabase();
 

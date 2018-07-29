@@ -1,6 +1,7 @@
 package de.slgdev.startseite.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+
 import de.slgdev.essensbons.activity.EssensbonActivity;
 import de.slgdev.klausurplan.activity.KlausurplanActivity;
 import de.slgdev.leoapp.R;
@@ -25,6 +31,8 @@ import de.slgdev.leoapp.dialog.ChangelogDialog;
 import de.slgdev.leoapp.dialog.EditTextDialog;
 import de.slgdev.leoapp.notification.NotificationHandler;
 import de.slgdev.leoapp.task.MailSendTask;
+import de.slgdev.leoapp.utility.NetworkUtils;
+import de.slgdev.leoapp.utility.RequestMethod;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
@@ -48,6 +56,7 @@ import de.slgdev.umfragen.activity.SurveyActivity;
  * @since 0.0.1
  */
 public class MainActivity extends LeoAppNavigationActivity {
+
     public static boolean        editing;
     public        AbstimmDialog  abstimmDialog;
     private       CardAdapter    mAdapter;
@@ -58,6 +67,8 @@ public class MainActivity extends LeoAppNavigationActivity {
 
         Utils.getController().registerMainActivity(this);
         Utils.getController().setContext(getApplicationContext());
+
+   //     testAuthentication();
 
         processIntent();
         super.onCreate(savedInstanceState);
@@ -223,6 +234,15 @@ public class MainActivity extends LeoAppNavigationActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+  //      testAuthentication();
+
+        if (Utils.getController().getPreferences().getBoolean("locale_changed", false)) {
+            Utils.getController().getPreferences().edit().putBoolean("locale_changed", false).apply();
+            recreate();
+            getDrawerLayout().closeDrawers();
+        }
+
         getNavigationView().getMenu().findItem(R.id.startseite).setChecked(true);
 
         if (abstimmDialog != null) {
@@ -364,6 +384,7 @@ public class MainActivity extends LeoAppNavigationActivity {
 
         if (getIntent().hasExtra("start_intent")) {
             Utils.getController().closeActivities();
+            startActivity(new Intent(Utils.getContext(), MainActivity.class));
 
             int notificationTarget = getIntent().getIntExtra("start_intent", -1);
 
@@ -423,6 +444,22 @@ public class MainActivity extends LeoAppNavigationActivity {
                 new Handler().postDelayed(() -> abstimmDialog = null, 100);
             });
             abstimmDialog.show();
+        });
+    }
+
+    private void testAuthentication() {
+        AsyncTask.execute(() -> {
+            try {
+                HttpURLConnection connection = NetworkUtils.openURLConnection(Utils.DOMAIN_DEV + "testAuth.php", RequestMethod.GET);
+                BufferedReader r = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                Utils.logDebug(r.readLine());
+                if (connection.getResponseCode() == 401)
+                    Utils.logDebug("Authentication failed");
+                else
+                    Utils.logDebug("Authentication successful");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 }

@@ -1,6 +1,5 @@
 package de.slgdev.schwarzes_brett.task;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,13 +10,16 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.sqlite.SQLiteConnectorSchwarzesBrett;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
+import de.slgdev.leoapp.utility.datastructure.List;
 
 /**
  * SyncNewsTask.
  * <p>
- * Von {@link de.slgdev.leoapp.service.ReceiveService ReceiveService} unabhängiger Task zum aktualisieren des Schwarzes Bretts, macht ein instantanes Aktualisieren möglich.
+ * Von {@link SocketService SocketService} unabhängiger Task zum aktualisieren des Schwarzes Bretts, macht ein instantanes Aktualisieren möglich.
  *
  * @author Gianni
  * @version 2017.1211
@@ -34,12 +36,10 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        if (Utils.isNetworkAvailable()) {
+        if (NetworkUtils.isNetworkAvailable()) {
             try {
                 URLConnection connection = new URL(Utils.BASE_URL_PHP + "schwarzesBrett/meldungen.php")
                         .openConnection();
-
-                Utils.logError(connection);
 
                 BufferedReader reader =
                         new BufferedReader(
@@ -51,27 +51,22 @@ public class SyncNewsTask extends AsyncTask<Void, Void, Void> {
                     builder.append(line)
                             .append(System.getProperty("line.separator"));
                 reader.close();
-                SQLiteConnectorSchwarzesBrett db  = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
-                SQLiteDatabase                dbh = db.getWritableDatabase();
-                dbh.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE + "'");
-                dbh.delete(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, null, null);
-                String[] result = builder.toString().split("_next_");
+                SQLiteConnectorSchwarzesBrett db = new SQLiteConnectorSchwarzesBrett(Utils.getContext());
+
+                String[]      result    = builder.toString().split("_next_");
+                List<Integer> remoteids = new List<>();
+
                 for (String s : result) {
-                    String[] res = s.split(";");
-                    if (res.length == 8) {
-                        dbh.insert(SQLiteConnectorSchwarzesBrett.TABLE_EINTRAEGE, null, db.getEntryContentValues(
-                                res[0],
-                                res[1],
-                                res[2],
-                                Long.parseLong(res[3] + "000"),
-                                Long.parseLong(res[4] + "000"),
-                                Integer.parseInt(res[5]),
-                                Integer.parseInt(res[6]),
-                                res[7]
-                        ));
+                    String[] parts = s.split(";");
+                    if (parts.length == 8) {
+                        remoteids.append(Integer.parseInt(parts[5]));
+                        db.insertEntry(parts);
                     }
                 }
-                dbh.close();
+
+                db.purgeOldEntries();
+                db.deleteAllEntriesExcept(remoteids);
+
                 db.close();
             } catch (IOException e) {
                 Utils.logError(e);

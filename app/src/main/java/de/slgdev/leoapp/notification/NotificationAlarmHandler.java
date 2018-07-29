@@ -41,6 +41,9 @@ public abstract class NotificationAlarmHandler {
 
     public static void updateFoodmarkAlarm() {
 
+        if (Utils.getController().getFoodmarkReference() == null) //TODO herausfinden wieso nötig
+            initServiceIntents();
+
         getAlarmManager().cancel(Utils.getController().getFoodmarkReference());
 
         Utils.logError(NotificationHandler.EssensbonsNotification.isEnabled());

@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 import de.slgdev.leoapp.sqlite.SQLiteConnectorEssensbons;
@@ -95,18 +96,26 @@ public class QRReadTask extends ObjectCallbackTask<Boolean> {
         try {
             int day = Integer.parseInt(parts[2].substring(0, 2));
             int month = Integer.parseInt(parts[2].substring(2, 4));
-            if (day > 31 || day < 1)
+
+            Calendar c = Calendar.getInstance();
+
+            Utils.logDebug("QRDay: " + day);
+            Utils.logDebug("QRMonth: " + month);
+
+            Utils.logDebug("CDay: " + c.get(Calendar.DAY_OF_MONTH));
+            Utils.logDebug("CMonth: " + c.get(Calendar.MONTH));
+
+            if (c.get(Calendar.DAY_OF_MONTH) != day || c.get(Calendar.MONTH) + 1 != month)
                 return false;
-            if (month > 12 || month < 1)
-                return false;
+
         } catch (NumberFormatException e) {
             return false;
         }
         Utils.logDebug("passed logic date test");
 
         try {
-            int orderId = Integer.parseInt(parts[0]);
-            int checksum = Integer.parseInt(parts[2]) + orderId;
+            int orderId  = Integer.parseInt(parts[0]);
+            int checksum = Integer.parseInt(parts[2].substring(0, 2) + parts[2].substring(4)) + orderId;
 
             int mod = checksum % 97;
             int fin = 98 - mod;

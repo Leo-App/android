@@ -33,6 +33,6 @@
         android:text=""
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="30sp" />
+        android:textSize="55sp"/>
 
 </RelativeLayout>

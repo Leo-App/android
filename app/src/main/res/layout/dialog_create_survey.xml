@@ -28,8 +28,7 @@
         android:layout_alignRight="@+id/title_details"
         android:layout_alignStart="@+id/title_details"
         android:layout_below="@+id/title_details"
-        android:layout_marginTop="11dp"
-        android:text="@string/survey_description_title" />
+        android:layout_marginTop="11dp"/>
 
     <EditText
         android:id="@+id/content"

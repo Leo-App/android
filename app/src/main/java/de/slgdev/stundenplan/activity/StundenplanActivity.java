@@ -27,6 +27,7 @@ import de.slgdev.leoapp.sqlite.SQLiteConnectorStundenplan;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.utility.GraphicUtils;
 import de.slgdev.leoapp.utility.NetworkPerformance;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.leoapp.view.LeoAppNavigationActivity;
@@ -52,7 +53,7 @@ public class StundenplanActivity extends LeoAppNavigationActivity implements Tas
                 startActivity(new Intent(getApplicationContext(), AuswahlActivity.class));
             } else {
 
-                if (!Utils.isNetworkAvailable() || Utils.getNetworkPerformance() == NetworkPerformance.INSUFFICIENT)
+                if (!NetworkUtils.isNetworkAvailable() || NetworkUtils.getNetworkPerformance() == NetworkPerformance.INSUFFICIENT)
                     GraphicUtils.sendToast(R.string.need_internet);
 
                 new Importer().addListener(this).execute();

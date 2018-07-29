@@ -1,119 +1,77 @@
 package de.slgdev.leoapp.task;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
 
+import de.slgdev.leoapp.task.general.TaskStatusListener;
+import de.slgdev.leoapp.task.general.VoidCallbackTask;
+import de.slgdev.leoapp.utility.NetworkUtils;
+import de.slgdev.leoapp.utility.RequestMethod;
 import de.slgdev.leoapp.utility.ResponseCode;
-import de.slgdev.leoapp.utility.User;
 import de.slgdev.leoapp.utility.Utils;
-import de.slgdev.leoapp.utility.VerificationListener;
-import de.slgdev.leoapp.utility.datastructure.List;
 
-@SuppressLint("StaticFieldLeak")
-public class RegistrationTask extends AsyncTask<Fragment, Void, ResponseCode> {
-
-    private Fragment                   origin;
-    private List<VerificationListener> listeners;
-
-    public RegistrationTask() {
-        listeners = new List<>();
-    }
+public class RegistrationTask extends VoidCallbackTask<ResponseCode> {
 
     @Override
-    protected ResponseCode doInBackground(Fragment... params) {
-        origin = params[0];
+    protected ResponseCode doInBackground(Void... voids) {
 
-        String username = Utils.getUserDefaultName();
-        String password = Utils.getController().getPreferences().getString("pref_key_general_password", "");
-
-        StringBuilder checksum = new StringBuilder();
-        boolean       teacher  = username.length() == 6;
-
-        if (!Utils.isNetworkAvailable()) {
+        if (!NetworkUtils.isNetworkAvailable()) {
             return ResponseCode.NO_CONNECTION;
         }
 
         try {
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("name", Utils.getUserDefaultName());
+            requestBody.put("device", Utils.getDeviceIdentifier());
+            requestBody.put("checksum", Utils.getDeviceChecksum());
 
-            int permission = User.PERMISSION_SCHUELER;
+            Utils.logError(Utils.getUserDefaultName());
+            Utils.logError(Utils.getDeviceIdentifier());
+            Utils.logError(Utils.getDeviceChecksum());
 
-            if (teacher) {
-                permission = User.PERMISSION_LEHRER;
+            HttpURLConnection connection = NetworkUtils.openURLConnection(
+                    Utils.BASE_URL_PHP + "user/add/index.php",
+                    RequestMethod.POST,
+                    "application/json",
+                    requestBody.toString()
+            );
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == 401) {
+                Utils.logError("401 error");
+                return ResponseCode.AUTH_FAILED;
             }
 
-            HttpURLConnection connection = (HttpURLConnection)
-                    new URL(Utils.URL_PHP_SCHOOL + "verify.php")
-                            .openConnection();
-            connection.setRequestProperty("Authorization", Utils.toAuthFormat(username, password));
-
-            int code = connection.getResponseCode();
-
-            if (code != 200) {
-                if (code == 401) {
-                    return ResponseCode.AUTH_FAILED;
-                }
+            if (responseCode != 200) {
+                Utils.logError("non 200 error: "+responseCode);
+                Utils.logError(NetworkUtils.getJSONResponse(connection));
                 return ResponseCode.SERVER_FAILED;
             }
 
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(
-                            connection.getInputStream()
-                    )
-            );
+            JSONObject response = NetworkUtils.getJSONResponse(connection);
+            int userid = response.getJSONObject("data").getInt("user_id");
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                checksum.append(line);
-            }
-            reader.close();
+            Utils.getController().getPreferences()
+                    .edit()
+                    .putInt("pref_key_general_id", userid)
+                    .apply();
 
-            reader = new BufferedReader(
-                    new InputStreamReader(
-                            new URL(
-                                    Utils.BASE_URL_PHP + "user/" +
-                                            "addUser.php?" +
-                                            "name=" + Utils.getUserDefaultName() + "&" +
-                                            "permission=" + permission + "&" +
-                                            "checksum=" + checksum
-                            )
-                                    .openConnection()
-                                    .getInputStream(),
-                            "UTF-8"
-                    )
-            );
+            return ResponseCode.SUCCESS;
 
-            StringBuilder builder = new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-            reader.close();
-
-            Utils.logDebug(builder.toString());
-
-            if (builder.toString().startsWith("+")) {
-                return ResponseCode.SUCCESS;
-            }
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
+            return ResponseCode.NOT_SENT;
         }
-
-        return ResponseCode.SERVER_FAILED;
-    }
-
-    public void addListener(VerificationListener listener) {
-        listeners.append(listener);
     }
 
     @Override
-    protected void onPostExecute(ResponseCode code) {
-        for (VerificationListener l : listeners)
-            l.onVerificationProcessed(code, origin);
+    protected void onPostExecute(ResponseCode result) {
+        for (TaskStatusListener l : getListeners()) {
+            l.taskFinished(result);
+        }
     }
 }

@@ -11,11 +11,10 @@ import de.slgdev.essensbons.utility.Authenticator;
 import de.slgdev.essensbons.utility.EssensbonUtils;
 import de.slgdev.leoapp.task.general.TaskStatusListener;
 import de.slgdev.leoapp.task.general.VoidCallbackTask;
+import de.slgdev.leoapp.utility.StringUtils;
 import de.slgdev.leoapp.utility.Utils;
 
 public class EssensbonLoginTask extends VoidCallbackTask<Authenticator> {
-
-    private final static char[] hexArray = "0123456789abcdef".toCharArray();
 
     @Override
     protected Authenticator doInBackground(Void... params) {
@@ -31,7 +30,7 @@ public class EssensbonLoginTask extends VoidCallbackTask<Authenticator> {
                 byte[] enc = md.digest(contents);
 
                 BufferedReader in;
-                String md5 = bytesToHex(enc);
+                String md5 = StringUtils.bytesToHex(enc);
 
                 URL interfaceDB = new URL(Utils.URL_LUNCH_LEO + "qr_checkval.php?id=" + userId + "&auth=RW6SlQ&pw=" + md5);
                 Utils.logDebug(interfaceDB.toString());
@@ -64,16 +63,6 @@ public class EssensbonLoginTask extends VoidCallbackTask<Authenticator> {
     public void onPostExecute(Authenticator result) {
         for (TaskStatusListener listener : getListeners())
             listener.taskFinished(result);
-    }
-
-    private static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for (int j = 0; j < bytes.length; j++) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
     }
 
 }

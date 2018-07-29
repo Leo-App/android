@@ -16,9 +16,20 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
 
-public class ReceiveService extends Service {
-    private WebSocket socket;
-    private boolean   socketRunning;
+public class SocketService extends Service {
+    private WebSocket   socket;
+    private boolean     socketRunning;
+    private QueueThread queue;
+
+    @Override
+    public void onCreate() {
+        Utils.logDebug("SocketService created");
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -29,7 +40,7 @@ public class ReceiveService extends Service {
 
         startSocket();
 
-        Utils.logDebug("ReceiveService (re)started!");
+        Utils.logDebug("SocketService (re)started");
         return START_STICKY;
     }
 
@@ -44,15 +55,17 @@ public class ReceiveService extends Service {
         socket.close(1000, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
-        Utils.logError("ReceiveService stopped!");
+
+        Utils.logError("SocketService stopped");
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        Utils.logError("ReceiveService removed");
         socket.close(1000, "Service stopped");
         Utils.getController().closeDatabases();
         Utils.getController().registerReceiveService(null);
+
+        Utils.logError("SocketService removed");
         super.onTaskRemoved(rootIntent);
     }
 
@@ -69,9 +82,9 @@ public class ReceiveService extends Service {
             final Request request = new Request.Builder()
                     .url(Utils.URL_TOMCAT)
                     //.url(Utils.URL_TOMCAT_DEV)
-                    .header("uid", String.valueOf(Utils.getUserID()))
-                    .header("mdate", date)
+                    .addHeader("TEST", "successful")
                     .build();
+            //TODO Add Authentication
 
             final MessageHandler messageHandler = new MessageHandler();
             messageHandler.start();
@@ -120,7 +133,12 @@ public class ReceiveService extends Service {
     }
 
     public void notifyQueuedMessages() {
-        new QueueThread().start();
+        if (queue != null) {
+            queue.interrupt();
+        }
+
+        queue = new QueueThread();
+        queue.start();
     }
 
     public void setSocketRunning(boolean socketRunning) {

@@ -274,7 +274,7 @@ public class SQLiteConnectorMessenger extends SQLiteOpenHelper {
         values.put(CHAT_ID, cid);
         insert(TABLE_MESSAGES_QUEUED, values);
 
-        Utils.getController().getReceiveService().notifyQueuedMessages();
+        Utils.getController().getSocketService().notifyQueuedMessages();
     }
 
     public boolean hasQueuedMessages() {

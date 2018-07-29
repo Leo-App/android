@@ -217,7 +217,7 @@ public abstract class LeoAppNavigationActivity extends ActionLogActivity {
     }
 
     /**
-     * Allgemeine Methode zum Einrichten der Toolbar. Alle Änderungen wirken sich auf die gesamte App (NUR Feature-Toolbars - Keine der sonstigen Activites) aus.
+     * Allgemeine Methode zum Einrichten der Toolbar. Alle Änderungen wirken sich auf die gesamte App (NUR Feature-Toolbars - Keine der sonstigen Activities) aus.
      * Überschreibende Methoden müssen super.initToolbar() aufrufen.
      */
     @CallSuper

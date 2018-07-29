@@ -1,6 +1,6 @@
 package de.slgdev.messenger.network;
 
-import de.slgdev.leoapp.service.ReceiveService;
+import de.slgdev.leoapp.service.SocketService;
 import de.slgdev.leoapp.utility.Utils;
 import de.slgdev.messenger.activity.AddGroupChatActivity;
 import de.slgdev.messenger.activity.ChatActivity;
@@ -9,11 +9,11 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 public class SocketListener extends WebSocketListener {
-    private ReceiveService receiveService;
+    private SocketService  socketService;
     private MessageHandler messageHandler;
 
-    public SocketListener(ReceiveService receiveService, MessageHandler messageHandler) {
-        this.receiveService = receiveService;
+    public SocketListener(SocketService socketService, MessageHandler messageHandler) {
+        this.socketService = socketService;
         this.messageHandler = messageHandler;
     }
 
@@ -21,7 +21,7 @@ public class SocketListener extends WebSocketListener {
     public void onOpen(WebSocket webSocket, Response response) {
         Utils.logDebug(response.headers().toString());
         Utils.logDebug(response.message());
-        receiveService.setSocketRunning(true);
+        socketService.setSocketRunning(true);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SocketListener extends WebSocketListener {
     @Override
     public void onClosed(WebSocket webSocket, int code, String reason) {
         Utils.logDebug("Socket closed!");
-        receiveService.setSocketRunning(false);
+        socketService.setSocketRunning(false);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class SocketListener extends WebSocketListener {
             Utils.logDebug(response.message());
         }
         Utils.logError(t);
-        receiveService.setSocketRunning(false);
-        receiveService.startSocket();
+        socketService.setSocketRunning(false);
+        socketService.startSocket();
     }
 }

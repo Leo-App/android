@@ -1,6 +1,7 @@
 package de.slgdev.essensbons.utility;
 
 import de.slgdev.leoapp.utility.NetworkPerformance;
+import de.slgdev.leoapp.utility.NetworkUtils;
 import de.slgdev.leoapp.utility.Utils;
 
 public abstract class EssensbonUtils {
@@ -50,7 +51,7 @@ public abstract class EssensbonUtils {
     }
 
     public static boolean fastConnectionAvailable() {
-        NetworkPerformance performance = Utils.getNetworkPerformance();
+        NetworkPerformance performance = NetworkUtils.getNetworkPerformance();
         return performance == NetworkPerformance.MEDIOCRE || performance == NetworkPerformance.EXCELLENT;
     }
 
