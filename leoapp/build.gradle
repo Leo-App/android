@@ -28,7 +28,7 @@ dependencies {
     implementation project(':home')
     implementation project(':exams')
     implementation project(':lunch')
-    implementation project(':pinboard')
+    implementation project(':news')
     implementation project(':survey')
     implementation project(':timetable')
 
