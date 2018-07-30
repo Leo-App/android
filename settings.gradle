@@ -1,1 +1,1 @@
-include ':leoapp', ':core', ':exams', ':authentication', ':home', ':home', ':instantapp', ':lunch', ':survey', ':timetable', ':pinboard'
+include ':leoapp', ':core', ':exams', ':authentication', ':home', ':home', ':lunch', ':survey', ':timetable', ':pinboard'
