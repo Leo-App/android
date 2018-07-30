@@ -1,9 +1,10 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.feature'
 
 android {
     compileSdkVersion 27
 
 
+    baseFeature true
 
     defaultConfig {
         minSdkVersion 19
@@ -28,8 +29,6 @@ dependencies {
     implementation project(':core')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-    implementation 'com.android.support:appcompat-v7:27.1.1'
 
     testImplementation 'junit:junit:4.12'
 
