@@ -1,4 +1,4 @@
-package de.leoapp_slg;
+package de.leoapp_slg.core.datastructure;
 
 import android.support.annotation.NonNull;
 
