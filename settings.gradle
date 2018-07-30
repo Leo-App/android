@@ -1,1 +1,1 @@
-include ':core', ':authentication', ':authentication', ':instantapp'
+include ':leoapp', ':authentication', ':authentication', ':instantapp', ':core'
