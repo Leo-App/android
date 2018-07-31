@@ -1,8 +1,9 @@
 package de.leoapp_slg.core.datastructure;
 
-import android.support.annotation.NonNull;
 
 import java.util.Iterator;
+
+import androidx.annotation.NonNull;
 
 /**
  * Dynamisch lineare Datenstruktur, die immer das als erstes eingefügte Element liefert und

@@ -2,31 +2,30 @@ package de.leoapp_slg.core.activity
 
 class ProfileActivity : LeoAppNavActivity() {
     override fun getContentView(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return -1
     }
 
     override fun getDrawerLayoutId(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return -1
     }
 
     override fun getNavigationId(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return -1
     }
 
     override fun getToolbarId(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return -1
     }
 
     override fun getToolbarTextId(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return -1
     }
 
     override fun getNavigationHighlightId(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return -1
     }
 
     override fun getActivityTag(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return "Profile"
     }
-
 }

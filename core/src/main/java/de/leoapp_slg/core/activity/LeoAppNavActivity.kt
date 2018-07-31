@@ -1,11 +1,17 @@
 package de.leoapp_slg.core.activity
 
-import android.support.annotation.CallSuper
-import android.support.annotation.IdRes
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
-import android.support.design.widget.NavigationView
-import android.support.v4.widget.DrawerLayout
+import android.os.Bundle
+import android.view.MenuItem
+import androidx.annotation.CallSuper
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
+import de.leoapp_slg.core.R
 
 /**
  * LeoAppNavigationActivity.
@@ -23,6 +29,13 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
 
     private lateinit var navigationView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
+
+    override fun onCreate(b: Bundle?) {
+        super.onCreate(b)
+        setContentView(getContentView())
+        initToolbar()
+        initNavigationDrawer()
+    }
 
     /**
      * Muss in der Implementation die Ressourcen-ID des Activity-Layouts zurückgaben.

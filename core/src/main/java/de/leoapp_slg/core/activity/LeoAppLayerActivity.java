@@ -1,14 +1,14 @@
 package de.leoapp_slg.core.activity;
 
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import de.leoapp_slg.core.R;
 
 public abstract class LeoAppLayerActivity extends ActionLogActivity {

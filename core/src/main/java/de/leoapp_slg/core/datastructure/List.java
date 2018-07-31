@@ -1,8 +1,9 @@
 package de.leoapp_slg.core.datastructure;
 
-import android.support.annotation.NonNull;
 
 import java.util.Iterator;
+
+import androidx.annotation.NonNull;
 
 /**
  * Um einige Methoden erweiterte doppelt verkettete Liste. Die Liste besitzt einen Pointer, der beliebig verschoben werden- und somit die einzelnen Inhaltsobjekte

@@ -4,13 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * ActionLogActivity
@@ -36,11 +34,11 @@ public abstract class ActionLogActivity extends AppCompatActivity {
 
         DateFormat format = new SimpleDateFormat("ddMMhhmmss");
 
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getActivityTag());
-        mFirebaseAnalytics.logEvent("ActivityStartEvent", bundle);
+//        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+//        Bundle bundle = new Bundle();
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
+//        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getActivityTag());
+//        mFirebaseAnalytics.logEvent("ActivityStartEvent", bundle);
     }
 
     @Override
