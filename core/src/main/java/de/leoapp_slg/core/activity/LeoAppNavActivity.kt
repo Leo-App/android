@@ -1,10 +1,16 @@
 package de.leoapp_slg.core.activity
 
+import android.support.annotation.CallSuper
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import android.support.design.widget.NavigationView
+import android.support.v4.content.ContextCompat
+import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
+import android.support.v7.widget.Toolbar
+import android.view.MenuItem
+import de.leoapp_slg.core.R
 
 /**
  * LeoAppNavigationActivity.
@@ -20,8 +26,8 @@ import android.support.v4.widget.DrawerLayout
  */
 abstract class LeoAppNavActivity : ActionLogActivity() {
 
-    private val navigationView: NavigationView = null
-    private val drawerLayout: DrawerLayout? = null
+    private lateinit var navigationView: NavigationView
+    private lateinit var drawerLayout: DrawerLayout
 
     /**
      * Muss in der Implementation die Ressourcen-ID des Activity-Layouts zurückgaben.
@@ -89,4 +95,66 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
         return drawerLayout
     }
 
+    /**
+     * Allgemeine Methode zum Einrichten des NavigationDrawers. Alle Änderungen wirken sich auf die gesamte App (Alle Navigationsmenüs) aus.
+     * Überschreibende Methoden müssen super.initNavigationDrawer() aufrufen.
+     */
+    @CallSuper
+    protected fun initNavigationDrawer() {
+        drawerLayout = findViewById(getDrawerLayoutId())
+        navigationView = findViewById(getNavigationId())
+
+
+        navigationView.setCheckedItem(getNavigationHighlightId())
+
+        //drawerLayout.closeDrawers()
+
+        //navigationView.setNavigationItemSelectedListener {}
+
+//        val username: TextView = navigationView.getHeaderView(0).findViewById(R.id.username)
+//        username.text = Utils.User.getName()
+
+//        val grade: TextView = navigationView.getHeaderView(0).findViewById(R.id.grade)
+//        if (Utils.User.getPermission() == User.PERMISSION_LEHRER)
+//            grade.setText(Utils.getLehrerKuerzel())
+//        else
+//            grade.setText(Utils.getUserStufe())
+
+//        val mood: ImageView = navigationView.getHeaderView(0).findViewById(R.id.profile_image)
+//        mood.setOnClickListener(View.OnClickListener {
+//            drawerLayout.closeDrawers()
+//            startActivity(Intent(applicationContext, ProfileActivity.class))
+//        })
+    }
+
+    /**
+     * Allgemeine Methode zum Einrichten der Toolbar. Alle Änderungen wirken sich auf die gesamte App (NUR Feature-Toolbars - Keine der sonstigen Activities) aus.
+     * Überschreibende Methoden müssen super.initToolbar() aufrufen.
+     */
+    @CallSuper
+    protected fun initToolbar() {
+        val toolbar: Toolbar = findViewById(getToolbarId());
+        toolbar.setTitleTextColor(ContextCompat.getColor(applicationContext, android.R.color.white))
+        toolbar.title = getString(getToolbarTextId())
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setHomeButtonEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+    }
+
+    @Override
+    @CallSuper
+    override fun onOptionsItemSelected(mi: MenuItem): Boolean {
+        if (mi.itemId == android.R.id.home) {
+            getDrawerLayout().openDrawer(GravityCompat.START)
+        }
+        return true;
+    }
+
+    @Override
+    @CallSuper
+    override fun onResume() {
+        super.onResume()
+        navigationView.setCheckedItem(getNavigationHighlightId())
+    }
 }

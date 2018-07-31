@@ -1,6 +1,5 @@
 package de.leoapp_slg.core.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
@@ -12,13 +11,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import de.leoapp_slg.core.R;
-import de.leoapp_slg.core.utility.User;
-import de.leoapp_slg.core.utility.Utils;
 
 /**
  * LeoAppNavigationActivity.
@@ -121,86 +115,85 @@ public abstract class LeoAppNavigationActivity extends ActionLogActivity {
         drawerLayout = findViewById(getDrawerLayoutId());
         navigationView = findViewById(getNavigationId());
 
-
         navigationView.setCheckedItem(getNavigationHighlightId());
 
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
-            drawerLayout.closeDrawers();
-
-            if (menuItem.getItemId() == getNavigationHighlightId())
-                return true;
-
-            Intent i;
-            switch (menuItem.getItemId()) {
-                case R.id.foodmarks:
-                    i = new Intent(getApplicationContext(), EssensbonActivity.class);
-                    break;
-                case R.id.messenger:
-                    i = new Intent(getApplicationContext(), MessengerActivity.class);
-                    break;
-                case R.id.newsboard:
-                    i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
-                    break;
-                case R.id.stundenplan:
-                    i = new Intent(getApplicationContext(), StundenplanActivity.class);
-                    break;
-                case R.id.barometer:
-                    i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
-                    break;
-                case R.id.klausurplan:
-                    i = new Intent(getApplicationContext(), KlausurplanActivity.class);
-                    break;
-                case R.id.startseite:
-                    i = null;
-                    break;
-                case R.id.umfragen:
-                    i = new Intent(getApplicationContext(), SurveyActivity.class);
-                    break;
-                case R.id.itsolver:
-                    i = new Intent(getApplicationContext(), ITActivity.class);
-                    break;
-                case R.id.settings:
-                    i = new Intent(getApplicationContext(), PreferenceActivity.class);
-                    break;
-                case R.id.profile:
-                    i = new Intent(getApplicationContext(), ProfileActivity.class);
-                    break;
-                case R.id.about:
-                    i = new Intent(getApplicationContext(), InfoActivity.class);
-                    break;
-                default:
-                    i = null;
-                    Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
-            }
-
-            if (i != null) {
-                startActivity(i);
-            }
-            if (getNavigationHighlightId() != R.id.startseite) {
-                finish();
-            }
-
-            return true;
-        });
-
-        TextView username = navigationView.getHeaderView(0).findViewById(R.id.username);
-        username.setText(Utils.User.getName());
-
-        TextView grade = navigationView.getHeaderView(0).findViewById(R.id.grade);
-        if (Utils.User.getPermission() == User.PERMISSION_LEHRER)
-            grade.setText(Utils.getLehrerKuerzel());
-        else
-            grade.setText(Utils.getUserStufe());
-
-        ImageView mood = navigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mood.setOnClickListener(view -> {
-            drawerLayout.closeDrawers();
-            startActivity(new Intent(LeoAppNavigationActivity.this, ProfileActivity.class));
-
-            if (getNavigationHighlightId() != R.id.startseite) {
-                finish();
-            }
-        });
+//        navigationView.setNavigationItemSelectedListener(menuItem -> {
+//            drawerLayout.closeDrawers();
+//
+//            if (menuItem.getItemId() == getNavigationHighlightId())
+//                return true;
+//
+//            Intent i;
+//            switch (menuItem.getItemId()) {
+//                case R.id.foodmarks:
+//                    i = new Intent(getApplicationContext(), EssensbonActivity.class);
+//                    break;
+//                case R.id.messenger:
+//                    i = new Intent(getApplicationContext(), MessengerActivity.class);
+//                    break;
+//                case R.id.newsboard:
+//                    i = new Intent(getApplicationContext(), SchwarzesBrettActivity.class);
+//                    break;
+//                case R.id.stundenplan:
+//                    i = new Intent(getApplicationContext(), StundenplanActivity.class);
+//                    break;
+//                case R.id.barometer:
+//                    i = new Intent(getApplicationContext(), StimmungsbarometerActivity.class);
+//                    break;
+//                case R.id.klausurplan:
+//                    i = new Intent(getApplicationContext(), KlausurplanActivity.class);
+//                    break;
+//                case R.id.startseite:
+//                    i = null;
+//                    break;
+//                case R.id.umfragen:
+//                    i = new Intent(getApplicationContext(), SurveyActivity.class);
+//                    break;
+//                case R.id.itsolver:
+//                    i = new Intent(getApplicationContext(), ITActivity.class);
+//                    break;
+//                case R.id.settings:
+//                    i = new Intent(getApplicationContext(), PreferenceActivity.class);
+//                    break;
+//                case R.id.profile:
+//                    i = new Intent(getApplicationContext(), ProfileActivity.class);
+//                    break;
+//                case R.id.about:
+//                    i = new Intent(getApplicationContext(), InfoActivity.class);
+//                    break;
+//                default:
+//                    i = null;
+//                    Toast.makeText(getApplicationContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+//            }
+//
+//            if (i != null) {
+//                startActivity(i);
+//            }
+//            if (getNavigationHighlightId() != R.id.startseite) {
+//                finish();
+//            }
+//
+//            return true;
+//        });
+//
+//        TextView username = navigationView.getHeaderView(0).findViewById(R.id.username);
+//        username.setText(Utils.User.getName());
+//
+//        TextView grade = navigationView.getHeaderView(0).findViewById(R.id.grade);
+//        if (Utils.User.getPermission() == User.PERMISSION_LEHRER)
+//            grade.setText(Utils.getLehrerKuerzel());
+//        else
+//            grade.setText(Utils.getUserStufe());
+//
+//        ImageView mood = navigationView.getHeaderView(0).findViewById(R.id.profile_image);
+//        mood.setOnClickListener(view -> {
+//            drawerLayout.closeDrawers();
+//            startActivity(new Intent(LeoAppNavigationActivity.this, ProfileActivity.class));
+//
+//            if (getNavigationHighlightId() != R.id.startseite) {
+//                finish();
+//            }
+//        });
     }
 
     /**

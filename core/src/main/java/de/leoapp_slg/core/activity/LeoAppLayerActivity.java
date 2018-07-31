@@ -9,7 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import de.slgdev.leoapp.R;
+import de.leoapp_slg.core.R;
 
 public abstract class LeoAppLayerActivity extends ActionLogActivity {
 
