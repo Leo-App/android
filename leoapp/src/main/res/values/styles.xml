@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:background">@mipmap/leo_splash</item>
+        <item name="android:colorBackground">#0091ea</item>
+    </style>
+
 </resources>
