@@ -1,10 +1,10 @@
 package de.leoapp_slg.core.activity
 
-import android.support.annotation.IdRes
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
-import android.support.design.widget.NavigationView
-import android.support.v4.widget.DrawerLayout
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 
 /**
  * LeoAppNavigationActivity.
@@ -20,7 +20,7 @@ import android.support.v4.widget.DrawerLayout
  */
 abstract class LeoAppNavActivity : ActionLogActivity() {
 
-    private val navigationView: NavigationView = null
+    private val navigationView: NavigationView? = null
     private val drawerLayout: DrawerLayout? = null
 
     /**
@@ -76,7 +76,7 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
      *
      * @return NavigationView der Activity
      */
-    protected fun getNavigationView(): NavigationView {
+    protected fun getNavigationView(): NavigationView? {
         return navigationView
     }
 
@@ -85,7 +85,7 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
      *
      * @return DrawerLayout der Activity
      */
-    protected fun getDrawerLayout(): DrawerLayout {
+    protected fun getDrawerLayout(): DrawerLayout? {
         return drawerLayout
     }
 
