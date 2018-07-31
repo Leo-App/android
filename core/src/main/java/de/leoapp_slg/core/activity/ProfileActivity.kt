@@ -9,11 +9,11 @@ class ProfileActivity : LeoAppNavActivity() {
         return -1
     }
 
-    override fun getNavigationId(): Int {
+    override fun getNavigationViewId(): Int {
         return -1
     }
 
-    override fun getToolbarId(): Int {
+    override fun getToolbarViewId(): Int {
         return -1
     }
 

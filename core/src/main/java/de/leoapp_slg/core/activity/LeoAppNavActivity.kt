@@ -1,5 +1,8 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "WeakerAccess", "unused")
+
 package de.leoapp_slg.core.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.annotation.CallSuper
@@ -27,15 +30,13 @@ import de.leoapp_slg.core.R
  */
 abstract class LeoAppNavActivity : ActionLogActivity() {
 
+    /*companion abstract {
+
+        protected abstract fun getFeatureTitleId(): Int
+
+    }*/
     private lateinit var navigationView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
-
-    override fun onCreate(b: Bundle?) {
-        super.onCreate(b)
-        setContentView(getContentView())
-        initToolbar()
-        initNavigationDrawer()
-    }
 
     /**
      * Muss in der Implementation die Ressourcen-ID des Activity-Layouts zurückgaben.
@@ -59,7 +60,7 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
      * @return NavigationView-ID
      */
     @IdRes
-    protected abstract fun getNavigationId(): Int
+    protected abstract fun getNavigationViewId(): Int
 
     /**
      * Soll die ID der Toolbar zurückgeben.
@@ -67,7 +68,7 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
      * @return Toolbar-ID
      */
     @IdRes
-    protected abstract fun getToolbarId(): Int
+    protected abstract fun getToolbarViewId(): Int
 
     /**
      * Soll die String-Ressource des Titels der Toolbar zurückgeben.
@@ -103,6 +104,13 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
         return drawerLayout
     }
 
+    override fun onCreate(b: Bundle?) {
+        super.onCreate(b)
+        setContentView(getContentView())
+        initToolbar()
+        initNavigationDrawer()
+    }
+
     /**
      * Allgemeine Methode zum Einrichten des NavigationDrawers. Alle Änderungen wirken sich auf die gesamte App (Alle Navigationsmenüs) aus.
      * Überschreibende Methoden müssen super.initNavigationDrawer() aufrufen.
@@ -110,29 +118,29 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
     @CallSuper
     protected fun initNavigationDrawer() {
         drawerLayout = findViewById(getDrawerLayoutId())
-        navigationView = findViewById(getNavigationId())
+        navigationView = findViewById(getNavigationViewId())
 
 
         navigationView.setCheckedItem(getNavigationHighlightId())
 
-        //drawerLayout.closeDrawers()
+        navigationView.setNavigationItemSelectedListener(object : NavigationView.OnNavigationItemSelectedListener {
+            override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+                drawerLayout.closeDrawers()
 
-        //navigationView.setNavigationItemSelectedListener {}
+                if (menuItem.itemId == getNavigationHighlightId()) {
+                    return false
+                }
 
-//        val username: TextView = navigationView.getHeaderView(0).findViewById(R.id.username)
-//        username.text = Utils.User.getName()
+                val actionIntent: Intent? = menuItem.intent
+                if (actionIntent != null) {
+                    startActivity(actionIntent)
+                }
 
-//        val grade: TextView = navigationView.getHeaderView(0).findViewById(R.id.grade)
-//        if (Utils.User.getPermission() == User.PERMISSION_LEHRER)
-//            grade.setText(Utils.getLehrerKuerzel())
-//        else
-//            grade.setText(Utils.getUserStufe())
+                finish()
 
-//        val mood: ImageView = navigationView.getHeaderView(0).findViewById(R.id.profile_image)
-//        mood.setOnClickListener(View.OnClickListener {
-//            drawerLayout.closeDrawers()
-//            startActivity(Intent(applicationContext, ProfileActivity.class))
-//        })
+                return true
+            }
+        })
     }
 
     /**
@@ -141,7 +149,7 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
      */
     @CallSuper
     protected fun initToolbar() {
-        val toolbar: Toolbar = findViewById(getToolbarId());
+        val toolbar: Toolbar = findViewById(getToolbarViewId())
         toolbar.setTitleTextColor(ContextCompat.getColor(applicationContext, android.R.color.white))
         toolbar.title = getString(getToolbarTextId())
         setSupportActionBar(toolbar)
@@ -156,7 +164,7 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
         if (mi.itemId == android.R.id.home) {
             getDrawerLayout().openDrawer(GravityCompat.START)
         }
-        return true;
+        return true
     }
 
     @Override
