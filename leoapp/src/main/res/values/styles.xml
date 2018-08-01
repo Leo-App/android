@@ -1,11 +1,5 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:background">@mipmap/leo_splash</item>
         <item name="android:colorBackground">#0091ea</item>

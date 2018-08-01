@@ -30,11 +30,10 @@ import de.leoapp_slg.core.R
  */
 abstract class LeoAppNavActivity : ActionLogActivity() {
 
-    /*companion abstract {
+    companion object {
+        var navigationMenuId: Int = 0
+    }
 
-        protected abstract fun getFeatureTitleId(): Int
-
-    }*/
     private lateinit var navigationView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
 
@@ -117,9 +116,14 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
      */
     @CallSuper
     protected fun initNavigationDrawer() {
+        if (navigationMenuId == 0) {
+            return
+        }
+
         drawerLayout = findViewById(getDrawerLayoutId())
         navigationView = findViewById(getNavigationViewId())
 
+        navigationView.inflateMenu(navigationMenuId)
 
         navigationView.setCheckedItem(getNavigationHighlightId())
 
