@@ -1,5 +1,6 @@
 package de.leoapp_slg.core.task;
 
+@SuppressWarnings("WeakerAccess")
 public interface TaskStatusListener {
     //default void taskStarts() {
     // stub

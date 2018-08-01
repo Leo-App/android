@@ -15,6 +15,7 @@ import de.leoapp_slg.core.datastructure.List;
  * @version 2018.1601
  * @since 0.7.2
  */
+@SuppressWarnings("unused")
 public abstract class ObjectCallbackTask<OutputType> extends AsyncTask<Object, Void, OutputType> {
 
     private final List<TaskStatusListener> listeners;

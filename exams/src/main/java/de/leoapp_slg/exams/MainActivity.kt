@@ -1,8 +1,8 @@
 package de.leoapp_slg.exams
 
-import de.leoapp_slg.core.activity.LeoAppNavActivity
+import de.leoapp_slg.core.activity.LeoAppFeatureActivity
 
-class MainActivity : LeoAppNavActivity() {
+class MainActivity : LeoAppFeatureActivity() {
     override fun getContentView(): Int {
         return R.layout.activity_main
     }
@@ -17,6 +17,10 @@ class MainActivity : LeoAppNavActivity() {
 
     override fun getToolbarViewId(): Int {
         return R.id.toolbar
+    }
+
+    override fun getProgressBarId(): Int {
+        return R.id.progressBar
     }
 
     override fun getToolbarTextId(): Int {

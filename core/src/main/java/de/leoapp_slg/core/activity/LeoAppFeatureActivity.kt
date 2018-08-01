@@ -28,7 +28,7 @@ import de.leoapp_slg.core.R
  * @version 2017.2411
  * @since 0.6.0
  */
-abstract class LeoAppNavActivity : ActionLogActivity() {
+abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
     companion object {
         var navigationMenuId: Int = 0
@@ -127,23 +127,21 @@ abstract class LeoAppNavActivity : ActionLogActivity() {
 
         navigationView.setCheckedItem(getNavigationHighlightId())
 
-        navigationView.setNavigationItemSelectedListener(object : NavigationView.OnNavigationItemSelectedListener {
-            override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-                drawerLayout.closeDrawers()
+        navigationView.setNavigationItemSelectedListener(NavigationView.OnNavigationItemSelectedListener { menuItem ->
+            drawerLayout.closeDrawers()
 
-                if (menuItem.itemId == getNavigationHighlightId()) {
-                    return false
-                }
-
-                val actionIntent: Intent? = menuItem.intent
-                if (actionIntent != null) {
-                    startActivity(actionIntent)
-                }
-
-                finish()
-
-                return true
+            if (menuItem.itemId == getNavigationHighlightId()) {
+                return@OnNavigationItemSelectedListener false
             }
+
+            val actionIntent: Intent? = menuItem.intent
+            if (actionIntent != null) {
+                startActivity(actionIntent)
+            }
+
+            finish()
+
+            true
         })
     }
 

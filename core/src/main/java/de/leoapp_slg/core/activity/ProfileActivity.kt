@@ -1,6 +1,10 @@
 package de.leoapp_slg.core.activity
 
-class ProfileActivity : LeoAppNavActivity() {
+class ProfileActivity : LeoAppFeatureActivity() {
+    override fun getActivityTag(): String {
+        return "Profile"
+    }
+
     override fun getContentView(): Int {
         return -1
     }
@@ -17,15 +21,15 @@ class ProfileActivity : LeoAppNavActivity() {
         return -1
     }
 
+    override fun getProgressBarId(): Int {
+        return -1
+    }
+
     override fun getToolbarTextId(): Int {
         return -1
     }
 
     override fun getNavigationHighlightId(): Int {
         return -1
-    }
-
-    override fun getActivityTag(): String {
-        return "Profile"
     }
 }

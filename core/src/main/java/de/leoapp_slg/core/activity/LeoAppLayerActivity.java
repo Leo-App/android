@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import de.leoapp_slg.core.R;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class LeoAppLayerActivity extends ActionLogActivity {
 
     @Override

@@ -5,9 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
+import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
@@ -22,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * @since 0.5.7
  */
 @SuppressLint("SimpleDateFormat")
+@SuppressWarnings("unused")
 public abstract class ActionLogActivity extends AppCompatActivity {
 
     private ActivityStatus status;
@@ -30,15 +29,6 @@ public abstract class ActionLogActivity extends AppCompatActivity {
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         status = ActivityStatus.ACTIVE;
-//        findViewById(getProgressbarId()).setVisibility(View.GONE);
-
-        DateFormat format = new SimpleDateFormat("ddMMhhmmss");
-
-//        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-//        Bundle bundle = new Bundle();
-//        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
-//        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getActivityTag());
-//        mFirebaseAnalytics.logEvent("ActivityStartEvent", bundle);
     }
 
     @Override
@@ -62,7 +52,7 @@ public abstract class ActionLogActivity extends AppCompatActivity {
     /**
      * Aktualisiert die Activity oder lädt wichtige Informationen neu. Kann/sollte überschrieben werden.
      */
-    protected void refresh() {
+    protected void restart() {
         finish();
         startActivity(getIntent());
     }
@@ -90,7 +80,8 @@ public abstract class ActionLogActivity extends AppCompatActivity {
     /**
      * Abstrakt. Muss die Id der Activity Progressbar zurückgeben.
      *
-     * @return
-     *//*
-    protected abstract @IdRes int getProgressbarId();*/
+     * @return ProgressBar-ID
+     */
+    protected abstract @IdRes
+    int getProgressBarId();
 }
