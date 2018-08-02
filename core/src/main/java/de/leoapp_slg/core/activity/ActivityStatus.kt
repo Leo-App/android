@@ -1,4 +1,4 @@
-package de.leoapp_slg.core.activity;
+package de.leoapp_slg.core.activity
 
 /**
  * ActivityStatus
@@ -6,6 +6,6 @@ package de.leoapp_slg.core.activity;
  * Gibt den Status einer Activity an.
  */
 
-public enum ActivityStatus {
+enum class ActivityStatus {
     ACTIVE, PAUSED, DESTROYED
 }
