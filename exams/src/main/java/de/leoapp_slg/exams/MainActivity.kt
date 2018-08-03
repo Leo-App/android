@@ -32,6 +32,6 @@ class MainActivity : LeoAppFeatureActivity() {
     }
 
     override fun getActivityTag(): String {
-        return "exams_main_activity"
+        return "exams_feature_main"
     }
 }

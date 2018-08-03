@@ -2,7 +2,7 @@ package de.leoapp_slg.core.activity
 
 class ProfileActivity : LeoAppFeatureActivity() {
     override fun getActivityTag(): String {
-        return "Profile"
+        return "core_feature_profile"
     }
 
     override fun getContentView(): Int {

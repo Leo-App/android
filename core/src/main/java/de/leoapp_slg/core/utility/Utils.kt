@@ -2,29 +2,52 @@
 
 package de.leoapp_slg.core.utility
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
+import de.leoapp_slg.core.datastructure.Stack
+import de.leoapp_slg.core.preferences.LeoAppPreferenceManager
+
 abstract class Utils {
+    companion object {
+        fun setup(context: Context) {
+            val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+            User.id = preferences.getInt(LeoAppPreferenceManager.User.ID, User.id)
+            User.permission = preferences.getInt(LeoAppPreferenceManager.User.PERMISSION, User.permission)
+            User.name = preferences.getString(LeoAppPreferenceManager.User.NAME, User.name)
+            User.defaultname = preferences.getString(LeoAppPreferenceManager.User.NAME_DEFAULT, User.defaultname)
+            User.klasse = preferences.getString(LeoAppPreferenceManager.User.KLASSE, User.klasse)
+        }
+    }
+
     abstract class User {
         companion object {
-            fun getID(): Int {
-                return 0
+            var id: Int = 0
+
+            var permission: Int = 0
+
+            var name: String = ""
+
+            var defaultname: String = ""
+
+            var klasse: String = ""
+        }
+    }
+
+    abstract class Activity {
+        companion object {
+            private val openActivities: Stack<String> = Stack()
+
+            fun registerActivity(tag: String) {
+                openActivities.add(tag)
             }
 
-            fun getPermission(): Int {
-                return 0
-            }
-
-            fun getName(): String {
-                return ""
-            }
-
-            fun getDefaultname(): String {
-                return ""
-            }
-
-            fun getKlasse(): String {
-                return ""
+            fun unregisterActivity(tag: String) {
+                if (tag == openActivities.getContent()) {
+                    openActivities.remove()
+                }
             }
         }
-
     }
 }

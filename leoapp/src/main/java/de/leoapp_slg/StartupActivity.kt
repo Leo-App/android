@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import de.leoapp_slg.core.activity.LeoAppFeatureActivity
+import de.leoapp_slg.core.utility.Utils
 import de.leoapp_slg.exams.MainActivity
 
 class StartupActivity : Activity() {
@@ -11,6 +12,8 @@ class StartupActivity : Activity() {
         super.onCreate(savedInstanceState)
 
         LeoAppFeatureActivity.navigationMenuId = R.menu.navigation
+
+        Utils.setup(applicationContext)
 
         startActivity(Intent(applicationContext, MainActivity::class.java))
     }

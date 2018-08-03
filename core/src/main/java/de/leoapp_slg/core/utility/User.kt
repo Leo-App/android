@@ -7,30 +7,4 @@ const val PERMISSION_SCHUELER = 1
 const val PERMISSION_LEHRER = 2
 const val PERMISSION_ADMIN = 3
 
-class User(id: Int, name: String, klasse: String, permission: Int, defaultname: String) {
-
-    /**
-     * Eindeutige User-ID
-     */
-    val id: Int = id
-
-    /**
-     * Änderbarer Benutzername
-     */
-    val name: String = name
-
-    /**
-     * Benutzername des pädagogischen Netzwerks
-     */
-    val defaultname: String = defaultname
-
-    /**
-     * Aktuelle Stufe des Users
-     */
-    val klasse: String = klasse
-
-    /**
-     * User Permission-Level
-     */
-    val permission: Int = permission
-}
+class User(val id: Int, val name: String, val klasse: String, val permission: Int, val defaultname: String)

@@ -53,7 +53,7 @@ abstract class ActionLogActivity : AppCompatActivity() {
     /**
      * Abstrakt. Soll die Bezeichnung der aktuellen Activity zurückgeben.
      *
-     * @return Activity-Tag
+     * @return Activity-Tag: <module>_<type>_<name>
      */
     protected abstract fun getActivityTag(): String
 

@@ -10,22 +10,29 @@ class LeoAppPreferenceManager {
     abstract class User {
         companion object {
             @PreferenceKey
-            val NAME: String = "preference_key_user_name"
+            const val NAME: String = "preference_key_user_name"
+
             @PreferenceKey
-            val ID: String = "preference_key_user_id"
+            const val ID: String = "preference_key_user_id"
+
             @PreferenceKey
-            val KLASSE: String = "preference_key_user_klasse"
+            const val KLASSE: String = "preference_key_user_klasse"
+
             @PreferenceKey
-            val NAME_DEFAULT: String = "preference_key_user_defaultname"
+            const val NAME_DEFAULT: String = "preference_key_user_defaultname"
+
+            @PreferenceKey
+            const val PERMISSION: String = "preference_key_user_permission"
         }
     }
 
     abstract class Device {
         companion object {
             @PreferenceKey
-            val AUTHENTICATION: String = "preference_key_device_authentication"
+            const val AUTHENTICATION: String = "preference_key_device_authentication"
+
             @PreferenceKey
-            val NAME: String = "preference_key_device_name"
+            const val NAME: String = "preference_key_device_name"
         }
     }
 
