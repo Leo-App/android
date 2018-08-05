@@ -5,6 +5,7 @@ package de.leoapp_slg.core.utility
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import de.leoapp_slg.core.R
 import de.leoapp_slg.core.datastructure.Stack
 import de.leoapp_slg.core.preferences.LeoAppPreferenceManager
 
@@ -24,13 +25,9 @@ abstract class Utils {
     abstract class User {
         companion object {
             var id: Int = 0
-
             var permission: Int = 0
-
             var name: String = ""
-
             var defaultname: String = ""
-
             var klasse: String = ""
         }
     }
