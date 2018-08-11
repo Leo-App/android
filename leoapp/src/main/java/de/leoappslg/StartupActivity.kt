@@ -1,4 +1,4 @@
-package de.leoapp_slg
+package de.leoappslg
 
 import android.app.Activity
 import android.content.Intent
