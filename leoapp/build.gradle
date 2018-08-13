@@ -20,9 +20,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            java {
+                srcDir "${buildDir.absolutePath}/generated/source/kaptKotlin/"
+            }
+        }
+    }
 }
 
 dependencies {
+    //Modules
     implementation project(':core')
     implementation project(':authentication')
     implementation project(':exams')
@@ -31,8 +39,12 @@ dependencies {
     implementation project(':survey')
     implementation project(':timetable')
 
+    //Annotations
+    compileOnly project(path: ':annotation')
+    kapt project(':annotation-processor')
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

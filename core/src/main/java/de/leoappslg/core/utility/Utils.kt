@@ -1,13 +1,12 @@
 @file:Suppress("unused", "WeakerAccess")
 
-package de.leoapp_slg.core.utility
+package de.leoappslg.core.utility
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import de.leoapp_slg.core.R
-import de.leoapp_slg.core.datastructure.Stack
-import de.leoapp_slg.core.preferences.LeoAppPreferenceManager
+import de.leoappslg.core.datastructure.Stack
+import de.leoappslg.core.preferences.LeoAppPreferenceManager
 
 abstract class Utils {
     companion object {

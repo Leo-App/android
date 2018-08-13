@@ -1,4 +1,4 @@
-package de.leoapp_slg.core.modules
+package de.leoappslg.core.modules
 
 class Input {
     @Suppress("unused")

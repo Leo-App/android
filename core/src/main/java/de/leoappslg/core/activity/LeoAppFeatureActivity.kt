@@ -1,6 +1,6 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "WeakerAccess", "unused")
 
-package de.leoapp_slg.core.activity
+package de.leoappslg.core.activity
 
 import android.content.Intent
 import android.os.Bundle

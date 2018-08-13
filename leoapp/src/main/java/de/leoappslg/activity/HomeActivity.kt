@@ -1,38 +1,39 @@
-package de.leoappslg.exams
+package de.leoappslg.activity
 
 import de.leoappslg.core.activity.LeoAppFeatureActivity
-import de.leoapp_slg.exams.R
 
-class MainActivity : LeoAppFeatureActivity() {
+class HomeActivity : LeoAppFeatureActivity() {
+
     override fun getContentView(): Int {
-        return R.layout.activity_main
+        TODO("not implemented")
     }
 
     override fun getDrawerLayoutId(): Int {
-        return R.id.drawerLayout
+        TODO("not implemented")
     }
 
     override fun getNavigationViewId(): Int {
-        return R.id.navigationView
+        TODO("not implemented")
     }
 
     override fun getToolbarViewId(): Int {
-        return R.id.toolbar
-    }
-
-    override fun getProgressBarId(): Int {
-        return R.id.progressBar
+        TODO("not implemented")
     }
 
     override fun getToolbarTextId(): Int {
-        return R.string.FeatureTitle
+        TODO("not implemented")
     }
 
     override fun getNavigationHighlightId(): Int {
-        return 0
+        TODO("not implemented")
     }
 
     override fun getActivityTag(): String {
-        return "exams_feature_main"
+        TODO("not implemented")
     }
+
+    override fun getProgressBarId(): Int {
+        TODO("not implemented")
+    }
+    
 }

@@ -1,6 +1,6 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-package de.leoapp_slg.core.activity
+package de.leoappslg.core.activity
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,6 +12,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import de.leoapp_slg.core.R
+import de.leoappslg.core.activity.ActionLogActivity
 
 abstract class LeoAppLayerActivity : ActionLogActivity() {
 

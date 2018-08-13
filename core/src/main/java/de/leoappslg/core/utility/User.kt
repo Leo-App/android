@@ -1,6 +1,6 @@
 @file:Suppress("unused", "CanBePrimaryConstructorProperty")
 
-package de.leoapp_slg.core.utility
+package de.leoappslg.core.utility
 
 const val PERMISSION_UNVERIFIZIERT = 0
 const val PERMISSION_SCHUELER = 1

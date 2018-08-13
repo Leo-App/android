@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package de.leoapp_slg.core.preferences
+package de.leoappslg.core.preferences
 
 import android.content.Context
 import android.content.SharedPreferences

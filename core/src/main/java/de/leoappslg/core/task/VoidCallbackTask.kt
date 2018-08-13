@@ -1,11 +1,11 @@
 @file:Suppress("unused")
 
-package de.leoapp_slg.core.task
+package de.leoappslg.core.task
 
 import android.os.AsyncTask
 import androidx.annotation.CallSuper
 
-import de.leoapp_slg.core.datastructure.List
+import de.leoappslg.core.datastructure.List
 
 /**
  * StringCallbackTask.

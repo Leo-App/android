@@ -1,17 +1,17 @@
-package de.leoapp_slg.core.modules
+package de.leoappslg.core.modules
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import de.leoapp_slg.core.activity.LeoAppFeatureActivity
+import de.leoappslg.core.activity.LeoAppFeatureActivity
 
-abstract class Feature {
+interface Feature : Module {
     @DrawableRes
-    abstract fun getIcon(): Int
+    fun getIcon(): Int
 
     @StringRes
-    abstract fun getName(): String
+    fun getName(): String
 
-    abstract fun getNecessaryPermission(): Int
+    fun getNecessaryPermission(): Int
 
-    abstract fun getEntryActivity(): Class<out LeoAppFeatureActivity>
+    fun getEntryActivity(): Class<out LeoAppFeatureActivity>
 }
