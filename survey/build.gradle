@@ -1,5 +1,6 @@
 apply plugin: 'com.android.feature'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -11,7 +12,11 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -29,7 +34,7 @@ dependencies {
     implementation project(':core')
 
     //Annotations
-    compileOnly project(path: ':annotation')
+    compileOnly project(path: ':annotation-processor')
     kapt project(':annotation-processor')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')

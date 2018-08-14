@@ -9,7 +9,11 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -34,7 +38,7 @@ dependencies {
     api 'com.google.android.material:material:1.0.0-rc01'
 
     //Annotations
-    compileOnly project(path: ':annotation')
+    compileOnly project(path: ':annotation-processor')
     kapt project(':annotation-processor')
 
     testImplementation 'junit:junit:4.12'

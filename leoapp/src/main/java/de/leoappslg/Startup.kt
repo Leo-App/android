@@ -10,7 +10,7 @@ import de.leoappslg.exams.MainActivity
 
 class Startup : Activity() {
 
-    @Modules("exams", "lunch", "news", "survey", "timetable", authentication = "authentication")
+    @Modules("exams", authentication = "authentication")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
