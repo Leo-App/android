@@ -5,140 +5,90 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import de.leoappslg.annotation.Module
 import de.leoappslg.annotation.Modules
+import de.leoappslg.exception.AuthenticationModuleNotFoundException
+import de.leoappslg.exception.IllegalModuleNameException
+import java.io.BufferedReader
 import java.io.File
+import java.io.FileWriter
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
-import javax.tools.Diagnostic
 
 @AutoService(Processor::class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedOptions(ModuleProcessor.KAPT_KOTLIN_GENERATED_OPTION_NAME)
-@SupportedAnnotationTypes("de.leoappslg.annotation.Modules", "de.leoappslg.annotation.Module")
+@SupportedAnnotationTypes("de.leoappslg.annotation.Module", "de.leoappslg.annotation.Modules")
 class ModuleProcessor : AbstractProcessor() {
 
     companion object {
         const val KAPT_KOTLIN_GENERATED_OPTION_NAME = "kapt.kotlin.generated"
+        const val moduleListingFile = "identified_modules.modules"
     }
 
-    override fun process(annotations: MutableSet<out TypeElement>, env: RoundEnvironment): Boolean {
+    class IdentifiedModule(val identifier: String, val name: String, val appPackage: String, val authentication: Boolean) {
+        override fun toString(): String {
+            return "module:$identifier:$name:$appPackage:$authentication"
+        }
+    }
 
-        val registeredModules = mutableListOf<Triple<String, String, String>>()
-        val authenticationModules = mutableListOf<Triple<String, String, String>>()
+
+    override fun process(annotations: MutableSet<out TypeElement>, env: RoundEnvironment): Boolean {
 
         env.getElementsAnnotatedWith(Module::class.java).forEach { element ->
 
             if (element.kind != ElementKind.CLASS)
                 return@forEach
 
-            val name = element.getAnnotation(Module::class.java).name
-            val relevantList = if (element.getAnnotation(Module::class.java).authentication) authenticationModules else registeredModules
+            val annotation = element.getAnnotation(Module::class.java)
 
-            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "debug: cur: ${processingEnv.elementUtils.getPackageOf(element)}.${element.simpleName}")
+            if (annotation.name.contains(regex = "[#:]".toRegex()))
+                throw IllegalModuleNameException("${annotation.name} is not a valid module identifier")
 
-            if (element.getAnnotation(Module::class.java).authentication) {
-                processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "debug: AUTH: ${processingEnv.elementUtils.getPackageOf(element)}.${element.simpleName}")
-                processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "debug: AUTHNAME: $name")
-
-            }
-            relevantList.add(
-                    Triple(name, element.simpleName.toString(), processingEnv.elementUtils.getPackageOf(element).toString())
+            val curModule = IdentifiedModule(
+                    annotation.name,
+                    element.simpleName.toString(),
+                    processingEnv.elementUtils.getPackageOf(element).toString(),
+                    annotation.authentication
             )
+
+            registerModule(curModule)
         }
 
         env.getElementsAnnotatedWith(Modules::class.java).forEach { element ->
 
-            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "debug: ANNOTATED")
-
             if (element.kind != ElementKind.CLASS && element.kind != ElementKind.METHOD)
                 return@forEach
-
-            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "debug: IS CLASS OR METHOD")
 
             val classPackage = processingEnv.elementUtils.getPackageOf(element).toString()
             val addedFeatures = element.getAnnotation(Modules::class.java).features
             val authentication = element.getAnnotation(Modules::class.java).authentication
+            val registeredModules = getRegisteredModules()
 
-            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "debug: $classPackage")
-            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "debug: $authentication")
+            val registeredAuthModule = getAuthenticationModule(getRegisteredModules(), authentication)
+                    ?: throw AuthenticationModuleNotFoundException("You need to register a valid Authentication module")
 
-            if (!authenticationModules.containsFirst(authentication)) {
-                //           throw AuthenticationModuleNotFoundException("You need to register a valid Authentication module")
-                processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "No auth found")
-                return@forEach
-            }
-            generateModuleListing(registeredModules.filter { entry -> addedFeatures.contains(entry.first) },
-                    classPackage, authenticationModules.getItemWithFirst(authentication)!!)
+            generateModuleListing(registeredModules.filter { addedFeatures.contains(it.identifier) }, classPackage, registeredAuthModule)
 
         }
-
 
         return true
     }
 
-    private fun List<Triple<String, *, *>>.getItemWithFirst(first: String): Triple<*, *, *>? {
-        forEach {
-            if (it.first == first)
-                return it
-        }
-        return null
-    }
-
-    private fun List<Triple<String, *, *>>.containsFirst(first: String): Boolean {
-        forEach {
-            if (it.first == first)
-                return true
-        }
-        return false
-    }
-
-    private fun generateModuleListing(modules: List<Triple<*, *, *>>, targetPackage: String, auth: Triple<*, *, *>) {
-        processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "TEST")
-
-        processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "debug: ${modules.size} - $targetPackage, ${auth.second}.${auth.third}")
-
+    private fun generateModuleListing(modules: List<IdentifiedModule>, targetPackage: String, authModule: IdentifiedModule) {
         val className = "ModuleLoader"
+
+        val moduleString = getClassNameListing(modules).joinToString(prefix = "\"", postfix = "\"", separator = "\", \"")
+        val authString = "${authModule.appPackage}.${authModule.name}"
 
         val authentication = ClassName("de.leoappslg.core.modules", "Authentication")
         val feature = ClassName("de.leoappslg.core.modules", "Feature")
         val featureList = ClassName("kotlin.collections", "List")
                 .parameterizedBy(feature)
 
-        val moduleString = getClassNameListing(modules).joinToString(prefix = "\"", postfix = "\"", separator = "\", \"")
-        val authString = "${auth.second}.${auth.third}"
-
         val loader = FileSpec.builder(targetPackage, className)
                 .addType(
                         TypeSpec.classBuilder(className)
-                            /*    .addProperty(
-                                        PropertySpec.builder("modules", featureList)
-                                                .delegate(CodeBlock.builder()
-                                                        .beginControlFlow("lazy") //begin lazy init
-                                                        .addStatement("val list = mutableListOf<%T>()", feature)
-                                                        .addStatement("val names = mutableListOf($moduleString)")
-                                                        .beginControlFlow("for (cur in names)") //begin for loop
-                                                        .addStatement("val kClass = %T.forName(cur).kotlin", Class::class)
-                                                        .addStatement("val ctor = kClass.primaryConstructor")
-                                                        .beginControlFlow("if (ctor != null)") //begin if statement
-                                                        .addStatement("list.add(ctor.call())")
-                                                        .endControlFlow() //end if statement
-                                                        .endControlFlow() //end for loop
-                                                        .addStatement("modules")
-                                                        .endControlFlow() //end lazy init
-                                                        .build())
-                                                .build()) */
-                          /*      .addProperty(
-                                        PropertySpec.builder("authentication", authentication)
-                                                .delegate(CodeBlock.builder()
-                                                        .beginControlFlow("lazy") //begin lazy init
-                                                        .addStatement("val kClass = %T.forName($authString).kotlin", Class::class)
-                                                        .addStatement("val ctor = kClass.primaryConstructor")
-                                                        .addStatement("ctor!!.call()") //ctor cant be null
-                                                        .endControlFlow() //end lazy init
-                                                        .build())
-                                                .build())
-                                .build() */
                                 .addType(
                                         TypeSpec.companionObjectBuilder()
                                                 .addProperty(
@@ -182,18 +132,79 @@ class ModuleProcessor : AbstractProcessor() {
                 )
                 .build()
 
+        clearModuleFile()
         val kaptKotlinGeneratedDir = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME].orEmpty()
         val file = File(kaptKotlinGeneratedDir)
         file.mkdir()
         loader.writeTo(File(kaptKotlinGeneratedDir))
     }
 
-    private fun getClassNameListing(modules: List<Triple<*, *, *>>): List<String> {
+    private fun getClassNameListing(modules: List<IdentifiedModule>): List<String> {
         val returnList = mutableListOf<String>()
         modules.forEach {
-            returnList.add("${it.second}.${it.third}")
+            returnList.add("${it.appPackage}.${it.name}")
         }
         return returnList
+    }
+
+    private fun registerModule(module: IdentifiedModule) {
+        val file = getModuleFile()
+        val writer = FileWriter(file, true)
+
+        writer.write(module.toString() + "::")
+        writer.flush()
+        writer.close()
+    }
+
+    private fun getRegisteredModules(): List<IdentifiedModule> {
+        val file = getModuleFile()
+        val reader = file.inputStream().bufferedReader()
+
+        val content = reader.use(BufferedReader::readText)
+        val modules = content.split("::")
+
+        val moduleList = mutableListOf<IdentifiedModule>()
+
+        modules.forEach {
+            val moduleInfo = it.split(":")
+            if (moduleInfo[0] != "module")
+                return@forEach
+            moduleList.add(IdentifiedModule(moduleInfo[1], moduleInfo[2], moduleInfo[3], moduleInfo[4].toBoolean()))
+        }
+
+        return moduleList
+    }
+
+    /**
+     * Gibt die aktuelle Datei zurück, in der registrierte Module gespeichert werden.
+     */
+    private fun getModuleFile(): File {
+        val file = File(moduleListingFile)
+        if (!file.exists())
+            file.createNewFile()
+
+        return file
+    }
+
+    private fun clearModuleFile() {
+        getModuleFile().delete()
+    }
+
+    /**
+     * Gibt ein registriertes Authentifizierungsmodul zurück. Wird der Parameter "byIdentifier" übergeben, wird ein bestimmtes Modul gesucht,
+     * im Regelfall wird das erste registrierte Modul zurückgegeben. Ist keines verfügbar wird null zurückgegeben.
+     */
+    private fun getAuthenticationModule(registeredModules: List<IdentifiedModule>, byIdentifier: String? = null): IdentifiedModule? {
+        registeredModules.forEach {
+            if (byIdentifier != null) {
+                if (it.identifier == byIdentifier)
+                    return it
+            } else {
+                if (it.authentication)
+                    return it
+            }
+        }
+        return null
     }
 
 }
