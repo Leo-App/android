@@ -14,6 +14,7 @@ import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
+import javax.tools.Diagnostic
 
 @AutoService(Processor::class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
@@ -31,7 +32,6 @@ class ModuleProcessor : AbstractProcessor() {
             return "module:$identifier:$name:$appPackage:$authentication"
         }
     }
-
 
     override fun process(annotations: MutableSet<out TypeElement>, env: RoundEnvironment): Boolean {
 
@@ -65,6 +65,16 @@ class ModuleProcessor : AbstractProcessor() {
             val authentication = element.getAnnotation(Modules::class.java).authentication
             val registeredModules = getRegisteredModules()
 
+            for (cur in registeredModules) {
+                processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "registered ${cur.identifier}")
+            }
+
+            for (cur in addedFeatures) {
+                processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "added $cur")
+            }
+
+            processingEnv.messager.printMessage(Diagnostic.Kind.NOTE, "used authentication module = $authentication")
+
             val registeredAuthModule = getAuthenticationModule(getRegisteredModules(), authentication)
                     ?: throw AuthenticationModuleNotFoundException("You need to register a valid Authentication module")
 
@@ -92,19 +102,21 @@ class ModuleProcessor : AbstractProcessor() {
                                 .addType(
                                         TypeSpec.companionObjectBuilder()
                                                 .addProperty(
-                                                        PropertySpec.varBuilder("features", featureList)
-                                                                .addModifiers(KModifier.PRIVATE, KModifier.LATEINIT)
+                                                        PropertySpec.varBuilder("features", featureList.asNullable())
+                                                                .addModifiers(KModifier.PRIVATE)
+                                                                .initializer("null")
                                                                 .build()
                                                 )
                                                 .addProperty(
-                                                        PropertySpec.varBuilder("authentication", authentication)
-                                                                .addModifiers(KModifier.PRIVATE, KModifier.LATEINIT)
+                                                        PropertySpec.varBuilder("authentication", authentication.asNullable())
+                                                                .addModifiers(KModifier.PRIVATE)
+                                                                .initializer("null")
                                                                 .build()
                                                 )
                                                 .addFunction(
                                                         FunSpec.builder("getFeatures")
                                                                 .returns(featureList)
-                                                                .beginControlFlow("if (!::features.isInitialized)")
+                                                                .beginControlFlow("if (features == null)")
                                                                 .addStatement("val listing = mutableListOf<%T>()", feature)
                                                                 .addStatement("val names = mutableListOf($moduleString)")
                                                                 .beginControlFlow("for (cur in names)") //begin for loop
@@ -113,16 +125,16 @@ class ModuleProcessor : AbstractProcessor() {
                                                                 .endControlFlow() //end for loop
                                                                 .addStatement("features = listing")
                                                                 .endControlFlow()
-                                                                .addStatement("return features")
+                                                                .addStatement("return features!!")
                                                                 .build()
                                                 )
                                                 .addFunction(
                                                         FunSpec.builder("getAuthenticationModule")
                                                                 .returns(authentication)
-                                                                .beginControlFlow("if (!::authentication.isInitialized)")
+                                                                .beginControlFlow("if (authentication == null)")
                                                                 .addStatement("authentication = %T.forName(\"$authString\").newInstance() as %T", Class::class, authentication)
                                                                 .endControlFlow()
-                                                                .addStatement("return authentication")
+                                                                .addStatement("return authentication!!")
                                                                 .build()
                                                 )
                                                 .build()
@@ -132,7 +144,7 @@ class ModuleProcessor : AbstractProcessor() {
                 )
                 .build()
 
-        clearModuleFile()
+        markModuleFileAsRead()
         val kaptKotlinGeneratedDir = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME].orEmpty()
         val file = File(kaptKotlinGeneratedDir)
         file.mkdir()
@@ -149,7 +161,7 @@ class ModuleProcessor : AbstractProcessor() {
 
     private fun registerModule(module: IdentifiedModule) {
         val file = getModuleFile()
-        val writer = FileWriter(file, true)
+        val writer = FileWriter(file, !isModuleFileRead(file))
 
         writer.write(module.toString() + "::")
         writer.flush()
@@ -186,8 +198,15 @@ class ModuleProcessor : AbstractProcessor() {
         return file
     }
 
-    private fun clearModuleFile() {
-        getModuleFile().delete()
+    private fun markModuleFileAsRead() {
+        val file = getModuleFile()
+        val writer = FileWriter(file, true)
+        writer.write("###")
+    }
+
+    private fun isModuleFileRead(file: File): Boolean {
+        val reader = file.inputStream().bufferedReader()
+        return reader.use(BufferedReader::readText).endsWith("###")
     }
 
     /**
