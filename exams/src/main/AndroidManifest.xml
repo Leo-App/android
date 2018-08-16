@@ -1,6 +1,6 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.leoapp_slg.exams">
+    package="de.slg.leoapp.exams">
 
     <application>
         <activity android:name="de.leoappslg.exams.MainActivity" />
