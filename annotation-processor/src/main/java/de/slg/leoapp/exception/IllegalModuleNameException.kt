@@ -1,4 +1,4 @@
-package de.leoappslg.exception
+package de.slg.leoapp.exception
 
 class IllegalModuleNameException : RuntimeException {
     constructor(): super()

@@ -1,4 +1,4 @@
-package de.leoappslg.core.task
+package de.slg.leoapp.core.task
 
 interface TaskStatusListener {
     fun taskStarts()

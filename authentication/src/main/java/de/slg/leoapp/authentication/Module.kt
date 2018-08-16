@@ -1,6 +1,6 @@
 package de.slg.leoapp.authentication
 
-import de.leoappslg.annotation.Module
+import de.slg.leoapp.annotation.Module
 import de.slg.leoapp.core.modules.Authentication
 import de.slg.leoapp.core.modules.Input
 
@@ -13,7 +13,7 @@ class Module : Authentication {
         val username = inputs[0]
         val password = inputs[1]
 
-
+        TODO("implement")
     }
 
     override fun getErrorMessage(): Int? {

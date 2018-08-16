@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package de.leoappslg.core.task
+package de.slg.leoapp.core.task
 
 import android.os.AsyncTask
 import androidx.annotation.CallSuper

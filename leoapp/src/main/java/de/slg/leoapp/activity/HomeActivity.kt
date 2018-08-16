@@ -1,6 +1,6 @@
-package de.leoappslg.activity
+package de.slg.leoapp.activity
 
-import de.leoappslg.core.activity.LeoAppFeatureActivity
+import de.slg.leoapp.core.activity.LeoAppFeatureActivity
 
 class HomeActivity : LeoAppFeatureActivity() {
 
