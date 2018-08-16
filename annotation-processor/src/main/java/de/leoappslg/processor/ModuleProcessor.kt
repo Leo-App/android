@@ -1,6 +1,5 @@
 package de.leoappslg.processor
 
-import com.google.auto.service.AutoService
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import de.leoappslg.annotation.Module
@@ -16,7 +15,7 @@ import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
 import javax.tools.Diagnostic
 
-@AutoService(Processor::class)
+//@AutoService(Processor::class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedOptions(ModuleProcessor.KAPT_KOTLIN_GENERATED_OPTION_NAME)
 @SupportedAnnotationTypes("de.leoappslg.annotation.Module", "de.leoappslg.annotation.Modules")
@@ -24,7 +23,8 @@ class ModuleProcessor : AbstractProcessor() {
 
     companion object {
         const val KAPT_KOTLIN_GENERATED_OPTION_NAME = "kapt.kotlin.generated"
-        const val moduleListingFile = "identified_modules.modules"
+        const val MODULE_FILE_READ_INDICATOR = "###"
+        const val MODULE_LISTING_FILE = "identified_modules.modules"
     }
 
     class IdentifiedModule(val identifier: String, val name: String, val appPackage: String, val authentication: Boolean) {
@@ -161,8 +161,11 @@ class ModuleProcessor : AbstractProcessor() {
 
     private fun registerModule(module: IdentifiedModule) {
         val file = getModuleFile()
-        val writer = FileWriter(file, !isModuleFileRead(file))
+        val read = isModuleFileRead(file)
 
+        if (isAlreadyRegistered(module, file) && !read) return //Workaround for AndroidStudio Rebuild problems
+        
+        val writer = FileWriter(file, !read)
         writer.write(module.toString() + "::")
         writer.flush()
         writer.close()
@@ -191,7 +194,7 @@ class ModuleProcessor : AbstractProcessor() {
      * Gibt die aktuelle Datei zurück, in der registrierte Module gespeichert werden.
      */
     private fun getModuleFile(): File {
-        val file = File(moduleListingFile)
+        val file = File(MODULE_LISTING_FILE)
         if (!file.exists())
             file.createNewFile()
 
@@ -201,12 +204,19 @@ class ModuleProcessor : AbstractProcessor() {
     private fun markModuleFileAsRead() {
         val file = getModuleFile()
         val writer = FileWriter(file, true)
-        writer.write("###")
+        writer.write(MODULE_FILE_READ_INDICATOR)
+        writer.flush()
+        writer.close()
     }
 
     private fun isModuleFileRead(file: File): Boolean {
         val reader = file.inputStream().bufferedReader()
-        return reader.use(BufferedReader::readText).endsWith("###")
+        return reader.use(BufferedReader::readText).contains(MODULE_FILE_READ_INDICATOR)
+    }
+
+    private fun isAlreadyRegistered(module: IdentifiedModule, moduleFile: File): Boolean {
+        val reader = moduleFile.inputStream().bufferedReader()
+        return reader.use(BufferedReader::readText).contains("module:${module.identifier}")
     }
 
     /**

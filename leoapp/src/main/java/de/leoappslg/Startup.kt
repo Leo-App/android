@@ -18,7 +18,6 @@ class Startup : Activity() {
         LeoAppFeatureActivity.navigationMenuId = R.menu.navigation
 
         Utils.setup(applicationContext)
-        Log.d("mox", ModuleLoader.getAuthenticationModule().toString())
 
         startActivity(Intent(applicationContext, MainActivity::class.java))
     }
