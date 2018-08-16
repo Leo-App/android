@@ -1,6 +1,6 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-package de.leoappslg.core.datastructure
+package de.slg.leoapp.core.datastructure
 
 import androidx.annotation.NonNull
 

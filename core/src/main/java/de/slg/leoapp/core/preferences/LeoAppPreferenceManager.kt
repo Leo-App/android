@@ -1,10 +1,11 @@
 @file:Suppress("unused")
 
-package de.leoappslg.core.preferences
+package de.slg.leoapp.core.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import de.slg.leoapp.annotation.PreferenceKey
 
 class LeoAppPreferenceManager {
     abstract class User {
@@ -74,13 +75,10 @@ class LeoAppPreferenceManager {
 
         fun editPreferences(context: Context, data: Array<Pair<@PreferenceKey String, String>>) {
             val editor: SharedPreferences.Editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-            for (p: Pair<@PreferenceKey String, String> in data) {
+            for (p in data) {
                 editor.putString(p.first, p.second)
             }
             editor.apply()
         }
     }
 }
-
-@Target(AnnotationTarget.PROPERTY, AnnotationTarget.FIELD, AnnotationTarget.TYPE, AnnotationTarget.VALUE_PARAMETER)
-private annotation class PreferenceKey

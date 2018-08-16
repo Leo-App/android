@@ -2,7 +2,7 @@ package de.leoappslg.exams
 
 import de.leoappslg.annotation.Module
 import de.leoappslg.core.activity.LeoAppFeatureActivity
-import de.leoappslg.core.modules.Feature
+import de.slg.leoapp.core.modules.Feature
 
 @Module("exams")
 class Module : Feature {

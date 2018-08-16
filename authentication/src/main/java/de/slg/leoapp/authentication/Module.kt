@@ -1,8 +1,8 @@
-package de.leoappslg.authentication
+package de.slg.leoapp.authentication
 
 import de.leoappslg.annotation.Module
-import de.leoappslg.core.modules.Authentication
-import de.leoappslg.core.modules.Input
+import de.slg.leoapp.core.modules.Authentication
+import de.slg.leoapp.core.modules.Input
 
 @Module("authentication", true)
 class Module : Authentication {
@@ -10,6 +10,9 @@ class Module : Authentication {
     private var error: Int? = null
 
     override fun validateInput(vararg inputs: String): Boolean {
+        val username = inputs[0]
+        val password = inputs[1]
+
 
     }
 

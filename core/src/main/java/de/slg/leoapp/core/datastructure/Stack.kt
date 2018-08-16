@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package de.leoappslg.core.datastructure
+package de.slg.leoapp.core.datastructure
 
 class Stack<ContentType> {
     private var length: Int = 0

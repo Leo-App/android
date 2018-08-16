@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package de.leoappslg.core.datastructure.exception
+package de.slg.leoapp.core.datastructure.exception
 
 class NodeIndexOutOfBoundsException : RuntimeException {
     constructor() : super()

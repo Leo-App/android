@@ -5,7 +5,7 @@ package de.leoappslg.core.task
 import android.os.AsyncTask
 import androidx.annotation.CallSuper
 
-import de.leoappslg.core.datastructure.List
+import de.slg.leoapp.core.datastructure.List
 
 /**
  * StringCallbackTask.
