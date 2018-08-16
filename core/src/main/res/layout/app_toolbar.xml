@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-</FrameLayout>
+<!-- Allgemeine Appbar, muss in jeder Activity sichtbar sein -->
+<com.google.android.material.bottomappbar.BottomAppBar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/appBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:fabCradleMargin="8dp"
+    app:hideOnScroll="true"
+    android:layout_gravity="bottom" />

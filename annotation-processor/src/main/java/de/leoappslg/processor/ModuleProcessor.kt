@@ -164,7 +164,7 @@ class ModuleProcessor : AbstractProcessor() {
         val read = isModuleFileRead(file)
 
         if (isAlreadyRegistered(module, file) && !read) return //Workaround for AndroidStudio Rebuild problems
-        
+
         val writer = FileWriter(file, !read)
         writer.write(module.toString() + "::")
         writer.flush()
@@ -210,13 +210,16 @@ class ModuleProcessor : AbstractProcessor() {
     }
 
     private fun isModuleFileRead(file: File): Boolean {
-        val reader = file.inputStream().bufferedReader()
-        return reader.use(BufferedReader::readText).contains(MODULE_FILE_READ_INDICATOR)
+        return file.contains(MODULE_FILE_READ_INDICATOR)
     }
 
     private fun isAlreadyRegistered(module: IdentifiedModule, moduleFile: File): Boolean {
-        val reader = moduleFile.inputStream().bufferedReader()
-        return reader.use(BufferedReader::readText).contains("module:${module.identifier}")
+        return moduleFile.contains("module:${module.identifier}")
+    }
+
+    private fun File.contains(s: String): Boolean {
+        val reader = inputStream().bufferedReader()
+        return reader.use(BufferedReader::readText).contains(s)
     }
 
     /**

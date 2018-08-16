@@ -30,10 +30,7 @@ import de.leoapp_slg.core.R
  */
 abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
-    companion object {
-        var navigationMenuId: Int = 0
-    }
-
+    private var navigationMenuId: Int = 0
     private lateinit var navigationView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
 
@@ -85,24 +82,6 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     @IdRes
     protected abstract fun getNavigationHighlightId(): Int
 
-    /**
-     * Liefert das NavigationView Objekt der aktuellen Activity. Erlaubt Zugriff von Subklassen auf den NavigationDrawer.
-     *
-     * @return NavigationView der Activity
-     */
-    protected fun getNavigationView(): NavigationView {
-        return navigationView
-    }
-
-    /**
-     * Liefert das DrawerLayout der aktuellen Activity. Erlaubt Zugriff von Subklassen auf den NavigationDrawer.
-     *
-     * @return DrawerLayout der Activity
-     */
-    protected fun getDrawerLayout(): DrawerLayout {
-        return drawerLayout
-    }
-
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
         setContentView(getContentView())
@@ -151,22 +130,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
      */
     @CallSuper
     protected fun initToolbar() {
-        val toolbar: Toolbar = findViewById(getToolbarViewId())
-        toolbar.setTitleTextColor(ContextCompat.getColor(applicationContext, android.R.color.white))
-        toolbar.title = getString(getToolbarTextId())
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setHomeButtonEnabled(true)
-        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-    }
-
-    @Override
-    @CallSuper
-    override fun onOptionsItemSelected(mi: MenuItem): Boolean {
-        if (mi.itemId == android.R.id.home) {
-            getDrawerLayout().openDrawer(GravityCompat.START)
-        }
-        return true
+        //TODO reimplement
     }
 
     @Override

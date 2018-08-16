@@ -11,6 +11,8 @@ interface Feature : Module {
     @StringRes
     fun getName(): String
 
+    fun getFeatureId(): Int
+
     fun getNecessaryPermission(): Int
 
     fun getEntryActivity(): Class<out LeoAppFeatureActivity>

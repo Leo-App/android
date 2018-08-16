@@ -6,6 +6,10 @@ import de.leoappslg.core.modules.Feature
 
 @Module("exams")
 class Module : Feature {
+    override fun getFeatureId(): Int {
+        TODO("not implemented")
+    }
+
     override fun getIcon(): Int {
         TODO("not implemented")
     }
