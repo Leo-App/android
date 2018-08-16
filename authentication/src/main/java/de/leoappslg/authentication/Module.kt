@@ -10,7 +10,7 @@ class Module : Authentication {
     private var error: Int? = null
 
     override fun validateInput(vararg inputs: String): Boolean {
-        TODO("not implemented")
+
     }
 
     override fun getErrorMessage(): Int? {
