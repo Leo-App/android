@@ -1,1 +1,1 @@
-include ':leoapp', ':core', ':exams', ':authentication', ':lunch', ':survey', ':timetable', ':news', ':annotation-processor'
+include ':leoapp', ':core', ':annotation-processor', ':authentication', ':exams', ':lunch', ':survey', ':timetable', ':news'

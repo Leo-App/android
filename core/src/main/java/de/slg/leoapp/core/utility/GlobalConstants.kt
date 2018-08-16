@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package de.leoappslg.core.utility
+package de.slg.leoapp.core.utility
 
 const val PERMISSION_UNVERIFIZIERT = 0
 const val PERMISSION_SCHUELER = 1

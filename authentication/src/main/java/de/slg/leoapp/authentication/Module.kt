@@ -1,8 +1,8 @@
-package de.leoappslg.authentication
+package de.slg.leoapp.authentication
 
-import de.leoappslg.annotation.Module
-import de.leoappslg.core.modules.Authentication
-import de.leoappslg.core.modules.Input
+import de.slg.leoapp.annotation.Module
+import de.slg.leoapp.core.modules.Authentication
+import de.slg.leoapp.core.modules.Input
 
 @Module("authentication", true)
 class Module : Authentication {

@@ -5,8 +5,8 @@ package de.slg.leoapp.core.utility
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import de.leoappslg.core.datastructure.Stack
-import de.leoappslg.core.preferences.LeoAppPreferenceManager
+import de.slg.leoapp.core.datastructure.Stack
+import de.slg.leoapp.core.preferences.LeoAppPreferenceManager
 
 abstract class Utils {
     companion object {

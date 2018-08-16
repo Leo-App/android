@@ -3,7 +3,7 @@
     package="de.slg.leoapp.exams">
 
     <application>
-        <activity android:name="de.leoappslg.exams.MainActivity" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

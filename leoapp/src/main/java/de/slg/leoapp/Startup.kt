@@ -1,12 +1,12 @@
-package de.leoappslg
+package de.slg.leoapp
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import de.leoappslg.annotation.Modules
-import de.leoappslg.core.utility.Utils
+import de.slg.leoapp.annotation.Modules
+import de.slg.leoapp.core.utility.Utils
 
-import de.leoappslg.exams.MainActivity
+import de.slg.leoapp.exams.MainActivity
 
 class Startup : Activity() {
 

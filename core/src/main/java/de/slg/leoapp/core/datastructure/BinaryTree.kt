@@ -1,9 +1,9 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-package de.leoappslg.core.datastructure
+package de.slg.leoapp.core.datastructure
 
 import androidx.annotation.NonNull
-import de.leoappslg.core.datastructure.exception.NodeIndexOutOfBoundsException
+import de.slg.leoapp.core.datastructure.exception.NodeIndexOutOfBoundsException
 
 /**
  * Nicht lineare Datenstruktur, bei der Elemente in einer Baumstruktur angeordnet sind. Dabei hat

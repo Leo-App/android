@@ -1,4 +1,4 @@
-package de.leoappslg.core.modules
+package de.slg.leoapp.core.modules
 
 import androidx.annotation.StringRes
 

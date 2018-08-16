@@ -1,6 +1,6 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-package de.leoappslg.core.activity
+package de.slg.leoapp.core.activity
 
 import android.content.SharedPreferences
 import android.os.Bundle
