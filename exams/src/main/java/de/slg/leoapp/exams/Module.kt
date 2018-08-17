@@ -3,26 +3,27 @@ package de.slg.leoapp.exams
 import de.slg.leoapp.annotation.Module
 import de.slg.leoapp.core.activity.LeoAppFeatureActivity
 import de.slg.leoapp.core.modules.Feature
+import de.slg.leoapp.core.utility.PERMISSION_SCHUELER
 
 @Module("exams")
 class Module : Feature {
     override fun getFeatureId(): Int {
-        TODO("not implemented")
+        return R.string.FeatureTitle
     }
 
     override fun getIcon(): Int {
-        TODO("not implemented")
+        return R.drawable.leo_app_icon
     }
 
     override fun getName(): String {
-        TODO("not implemented")
+        return "Klausurplan"
     }
 
     override fun getNecessaryPermission(): Int {
-        TODO("not implemented")
+        return PERMISSION_SCHUELER
     }
 
     override fun getEntryActivity(): Class<out LeoAppFeatureActivity> {
-        TODO("not implemented")
+        return MainActivity::class.java
     }
 }

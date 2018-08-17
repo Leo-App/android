@@ -2,19 +2,13 @@
 
 package de.slg.leoapp.core.activity
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
-import de.slg.leoapp.core.R
+import com.google.android.material.bottomappbar.BottomAppBar
 
 /**
  * LeoAppNavigationActivity.
@@ -30,8 +24,7 @@ import de.slg.leoapp.core.R
  */
 abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
-    private var navigationMenuId: Int = 0
-    private lateinit var navigationView: NavigationView
+    private lateinit var navigationView: BottomNavigationDrawer
     private lateinit var drawerLayout: DrawerLayout
 
     /**
@@ -41,22 +34,6 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
      */
     @LayoutRes
     protected abstract fun getContentView(): Int
-
-    /**
-     * Muss in der Implementation die Ressourcen-ID des DrawerLayouts zurückgeben.
-     *
-     * @return id des DrawerLayouts, zB. R.id.drawer
-     */
-    @IdRes
-    protected abstract fun getDrawerLayoutId(): Int
-
-    /**
-     * Soll die ID des NavigationViews zurückgeben.
-     *
-     * @return NavigationView-ID
-     */
-    @IdRes
-    protected abstract fun getNavigationViewId(): Int
 
     /**
      * Soll die ID der Toolbar zurückgeben.
@@ -95,33 +72,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
      */
     @CallSuper
     protected fun initNavigationDrawer() {
-        if (navigationMenuId == 0) {
-            return
-        }
-
-        drawerLayout = findViewById(getDrawerLayoutId())
-        navigationView = findViewById(getNavigationViewId())
-
-        navigationView.inflateMenu(navigationMenuId)
-
-        navigationView.setCheckedItem(getNavigationHighlightId())
-
-        navigationView.setNavigationItemSelectedListener(NavigationView.OnNavigationItemSelectedListener { menuItem ->
-            drawerLayout.closeDrawers()
-
-            if (menuItem.itemId == getNavigationHighlightId()) {
-                return@OnNavigationItemSelectedListener false
-            }
-
-            val actionIntent: Intent? = menuItem.intent
-            if (actionIntent != null) {
-                startActivity(actionIntent)
-            }
-
-            finish()
-
-            true
-        })
+        navigationView = BottomNavigationDrawer()
     }
 
     /**
@@ -130,13 +81,17 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
      */
     @CallSuper
     protected fun initToolbar() {
-        //TODO reimplement
+        val appBar: BottomAppBar = findViewById(getToolbarViewId())
+
+        appBar.setSubtitle(getToolbarTextId())
+        appBar.setNavigationOnClickListener {
+            navigationView.show(supportFragmentManager, "navigation_drawer")
+        }
     }
 
     @Override
     @CallSuper
     override fun onResume() {
         super.onResume()
-        navigationView.setCheckedItem(getNavigationHighlightId())
     }
 }

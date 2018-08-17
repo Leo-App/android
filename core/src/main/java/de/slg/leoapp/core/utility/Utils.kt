@@ -5,7 +5,9 @@ package de.slg.leoapp.core.utility
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import de.slg.leoapp.core.datastructure.List
 import de.slg.leoapp.core.datastructure.Stack
+import de.slg.leoapp.core.modules.MenuEntry
 import de.slg.leoapp.core.preferences.LeoAppPreferenceManager
 
 abstract class Utils {
@@ -43,6 +45,26 @@ abstract class Utils {
                 if (tag == openActivities.getContent()) {
                     openActivities.remove()
                 }
+            }
+        }
+    }
+
+    abstract class Menu {
+        companion object {
+            private val menuEntries: List<MenuEntry> = List()
+
+            fun addMenuEntry(entry: MenuEntry) {
+                menuEntries.append(entry)
+            }
+
+            fun getEntries(): List<MenuEntry> {
+                val list: List<MenuEntry> = List()
+
+                for (entry: MenuEntry in menuEntries) {
+                    list.append(entry)
+                }
+
+                return list
             }
         }
     }

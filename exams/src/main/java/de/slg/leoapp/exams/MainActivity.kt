@@ -8,16 +8,16 @@ class MainActivity : LeoAppFeatureActivity() {
         return R.layout.activity_main
     }
 
-    override fun getDrawerLayoutId(): Int {
-        return R.id.drawerLayout
-    }
+//    override fun getDrawerLayoutId(): Int {
+//        return R.id.drawerLayout
+//    }
 
-    override fun getNavigationViewId(): Int {
-        return R.id.navigationView
-    }
+//    override fun getNavigationViewId(): Int {
+//        return R.id.bottomNavigationView
+//    }
 
     override fun getToolbarViewId(): Int {
-        return R.id.toolbar
+        return R.id.appBar
     }
 
     override fun getProgressBarId(): Int {

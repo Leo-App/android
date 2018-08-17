@@ -8,13 +8,13 @@ class HomeActivity : LeoAppFeatureActivity() {
         TODO("not implemented")
     }
 
-    override fun getDrawerLayoutId(): Int {
-        TODO("not implemented")
-    }
+//    override fun getDrawerLayoutId(): Int {
+//        TODO("not implemented")
+//    }
 
-    override fun getNavigationViewId(): Int {
-        TODO("not implemented")
-    }
+//    override fun getNavigationViewId(): Int {
+//        TODO("not implemented")
+//    }
 
     override fun getToolbarViewId(): Int {
         TODO("not implemented")

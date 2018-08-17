@@ -1,0 +1,21 @@
+package de.slg.leoapp.core.modules
+
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import android.content.Context
+import android.content.Intent
+import de.slg.leoapp.core.activity.LeoAppFeatureActivity
+
+/**
+ * @author Moritz
+ * Erstelldatum: 17.08.2018
+ */
+interface MenuEntry {
+    @StringRes
+    fun getTitle(): String
+
+    @DrawableRes
+    fun getIcon(): Int
+
+    fun getIntent(context: Context): Intent
+}
