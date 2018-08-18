@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Authentication</string>
+    <string name="error_auth_failed">Login unsuccessful</string>
+    <string name="error_try_again">Something went wrong, please try again later</string>
 </resources>

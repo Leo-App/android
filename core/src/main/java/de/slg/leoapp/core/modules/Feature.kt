@@ -9,7 +9,7 @@ interface Feature : Module {
     fun getIcon(): Int
 
     @StringRes
-    fun getName(): String
+    fun getName(): Int
 
     fun getFeatureId(): Int
 

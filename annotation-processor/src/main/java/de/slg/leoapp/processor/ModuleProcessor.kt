@@ -15,7 +15,6 @@ import javax.lang.model.element.ElementKind
 import javax.lang.model.element.TypeElement
 import javax.tools.Diagnostic
 
-//@AutoService(Processor::class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedOptions(ModuleProcessor.KAPT_KOTLIN_GENERATED_OPTION_NAME)
 @SupportedAnnotationTypes("de.slg.leoapp.annotation.Module", "de.slg.leoapp.annotation.Modules")

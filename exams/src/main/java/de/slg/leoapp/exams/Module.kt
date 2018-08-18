@@ -12,7 +12,7 @@ class Module : Feature {
     }
 
     override fun getIcon(): Int {
-        return R.drawable.leo_app_icon
+        return R.drawable.ic_menu //TODO change
     }
 
     override fun getName(): String {

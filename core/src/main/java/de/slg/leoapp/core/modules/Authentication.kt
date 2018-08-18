@@ -1,5 +1,6 @@
 package de.slg.leoapp.core.modules
 
+import android.content.Context
 import androidx.annotation.StringRes
 
 interface Authentication : Module {
@@ -9,7 +10,7 @@ interface Authentication : Module {
 
     fun getNecessaryInput(): Int
 
-    fun getAPIKey(): String
+    fun getAPIKey(context: Context): String
 
     fun getDeviceListingEnabled(): Boolean
 
@@ -18,7 +19,8 @@ interface Authentication : Module {
      * übergeben: USERNAME, PASSWORT, ID; wobei nicht verfügbare Inputs übersprungen werden.
      *
      * @param inputs Verfügbare Userinputs
+     * @param context Der aktuelle Context bei Überprüfung
      * @return War die Verifizierung erfolgreich?
      */
-    fun validateInput(vararg inputs: String): Boolean
+    fun validateInput(context: Context, vararg inputs: String): Boolean
 }

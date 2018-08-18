@@ -3,35 +3,14 @@
 package de.slg.leoapp.core.utility
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import android.content.Intent
+import androidx.annotation.DrawableRes
+import de.slg.leoapp.core.activity.LeoAppFeatureActivity
 import de.slg.leoapp.core.datastructure.List
 import de.slg.leoapp.core.datastructure.Stack
 import de.slg.leoapp.core.modules.MenuEntry
-import de.slg.leoapp.core.preferences.LeoAppPreferenceManager
 
 abstract class Utils {
-    companion object {
-        fun setup(context: Context) {
-            val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-
-            User.id = preferences.getInt(LeoAppPreferenceManager.User.ID, User.id)
-            User.permission = preferences.getInt(LeoAppPreferenceManager.User.PERMISSION, User.permission)
-            User.name = preferences.getString(LeoAppPreferenceManager.User.NAME, User.name)
-            User.defaultname = preferences.getString(LeoAppPreferenceManager.User.NAME_DEFAULT, User.defaultname)
-            User.klasse = preferences.getString(LeoAppPreferenceManager.User.KLASSE, User.klasse)
-        }
-    }
-
-    abstract class User {
-        companion object {
-            var id: Int = 0
-            var permission: Int = 0
-            var name: String = ""
-            var defaultname: String = ""
-            var klasse: String = ""
-        }
-    }
 
     abstract class Activity {
         companion object {
@@ -53,8 +32,16 @@ abstract class Utils {
         companion object {
             private val menuEntries: List<MenuEntry> = List()
 
-            fun addMenuEntry(entry: MenuEntry) {
-                menuEntries.append(entry)
+            fun addMenuEntry(title: String, @DrawableRes icon: Int, activity: Class<out LeoAppFeatureActivity>) {
+                menuEntries.append(object : MenuEntry {
+                    override fun getTitle() = title
+
+                    override fun getIcon() = icon
+
+                    override fun getIntent(context: Context): Intent {
+                        return Intent(context, activity)
+                    }
+                })
             }
 
             fun getEntries(): List<MenuEntry> {

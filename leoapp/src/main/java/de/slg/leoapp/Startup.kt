@@ -18,25 +18,9 @@ class Startup : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Utils.setup(applicationContext)
-
-        for (feature: Feature in ModuleLoader.getFeatures()) {
+        for (feature in ModuleLoader.getFeatures()) {
             //if (Utils.User.permission >= feature.getNecessaryPermission()) {
-            Utils.Menu.addMenuEntry(
-                    object : MenuEntry {
-                        override fun getTitle(): String {
-                            return feature.getName()
-                        }
-
-                        override fun getIcon(): Int {
-                            return feature.getIcon()
-                        }
-
-                        override fun getIntent(context: Context): Intent {
-                            return Intent(context, feature.getEntryActivity())
-                        }
-                    }
-            )
+            Utils.Menu.addMenuEntry(getString(feature.getName()), feature.getIcon(), feature.getEntryActivity())
             //}
         }
 
