@@ -1,6 +1,11 @@
 package de.leoappslg.news.ui.listing
 
+import de.leoappslg.news.data.db.Entry
+
 interface INewsView {
+    fun showLoadingIndicator()
+    fun hideLoadingIndicator()
+    fun showListing(entries: List<Entry>)
     fun openNewEntryDialog()
     fun enableTextViewEditing()
     fun openDatePicker()

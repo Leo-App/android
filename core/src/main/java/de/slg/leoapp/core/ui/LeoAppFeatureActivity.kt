@@ -70,9 +70,4 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
             navigationView.show(supportFragmentManager, "navigation_drawer")
         }
     }
-
-    @CallSuper
-    override fun onResume() {
-        super.onResume()
-    }
 }

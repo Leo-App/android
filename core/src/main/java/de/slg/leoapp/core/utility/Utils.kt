@@ -32,8 +32,9 @@ abstract class Utils {
         companion object {
             private val menuEntries: List<MenuEntry> = List()
 
-            fun addMenuEntry(title: String, @DrawableRes icon: Int, activity: Class<out LeoAppFeatureActivity>) {
+            fun addMenuEntry(id: Int, title: String, @DrawableRes icon: Int, activity: Class<out LeoAppFeatureActivity>) {
                 menuEntries.append(object : MenuEntry {
+                    override fun getId() = id
                     override fun getTitle() = title
                     override fun getIcon() = icon
                     override fun getIntent(context: Context) = Intent(context, activity)

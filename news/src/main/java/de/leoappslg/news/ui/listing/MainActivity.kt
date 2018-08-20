@@ -1,8 +1,35 @@
 package de.leoappslg.news.ui.listing
 
+import android.os.Bundle
+import de.leoappslg.news.data.db.Entry
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+import de.slg.leoapp.news.R
 
 class MainActivity : LeoAppFeatureActivity(), INewsView {
+
+    private lateinit var presenter: NewsPresenter
+
+    override fun onCreate(b: Bundle?) {
+        presenter = NewsPresenter()
+        presenter.onViewAttached(this)
+        super.onCreate(b)
+    }
+
+    override fun showLoadingIndicator() {
+        TODO("not implemented")
+    }
+
+    override fun hideLoadingIndicator() {
+        TODO("not implemented")
+    }
+
+    override fun showListing(entries: List<Entry>) {
+        TODO("not implemented")
+    }
+
+    override fun openProfileActivity() {
+        TODO("not implemented")
+    }
 
     override fun openNewEntryDialog() {
         TODO("not implemented")
@@ -28,17 +55,11 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
         TODO("not implemented")
     }
 
-    override fun openProfileActivity() {
-        TODO("not implemented")
-    }
-
     override fun openSettings() {
         TODO("not implemented")
     }
 
-    override fun getContentView(): Int {
-        TODO("not implemented")
-    }
+    override fun getContentView() = R.layout.activity_listing
 
     override fun getNavigationHighlightId() = 0xdefa12
 

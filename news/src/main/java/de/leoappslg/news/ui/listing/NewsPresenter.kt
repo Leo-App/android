@@ -1,8 +1,19 @@
 package de.leoappslg.news.ui.listing
 
+import de.leoappslg.news.data.INewsDataManager
+import de.leoappslg.news.data.NewsDataManager
 import de.slg.leoapp.core.ui.mvp.AbstractPresenter
 
-class NewsPresenter : AbstractPresenter<INewsView>(), INewsPresenter {
+class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPresenter {
+
+    init {
+        registerDataManager(NewsDataManager)
+    }
+
+    override fun onViewAttached(view: INewsView) {
+        super.onViewAttached(view)
+        getMvpView().showListing(getDataManager().getCurrentEntries())
+    }
 
     override fun onCardClick(index: Int) {
         TODO("not implemented")

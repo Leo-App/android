@@ -10,6 +10,9 @@ import android.content.Intent
  * Erstelldatum: 17.08.2018
  */
 interface MenuEntry {
+
+    fun getId(): Int
+
     @StringRes
     fun getTitle(): String
 

@@ -37,12 +37,13 @@ dependencies {
 
     //Materialdesign
     api "com.google.android.material:material:1.0.0-rc01"
-    api "androidx.core:core-ktx:0.3"
+    api "androidx.core:core-ktx:1.0.0-rc01"
     api "androidx.fragment:fragment:1.0.0-rc01"
     api "androidx.cardview:cardview:1.0.0-rc01"
     api "androidx.appcompat:appcompat:1.0.0-rc01"
-    api "androidx.constraintlayout:constraintlayout:1.1.2"
+    api "androidx.constraintlayout:constraintlayout:2.0.0-alpha2"
 
+    //TODO maybe make kotlin dependencies module specific when gradle builds take too long
     //HTTP
     api 'com.github.jkcclemens:khttp:0.1.0'
 
@@ -63,4 +64,10 @@ dependencies {
 
 repositories {
     mavenCentral()
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
