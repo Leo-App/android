@@ -2,7 +2,7 @@ package de.slg.leoapp.core.modules
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import de.slg.leoapp.core.activity.LeoAppFeatureActivity
+import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 
 interface Feature : Module {
     @DrawableRes

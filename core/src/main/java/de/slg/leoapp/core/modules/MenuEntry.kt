@@ -4,7 +4,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import android.content.Context
 import android.content.Intent
-import de.slg.leoapp.core.activity.LeoAppFeatureActivity
 
 /**
  * @author Moritz

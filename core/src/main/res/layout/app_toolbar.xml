@@ -6,8 +6,6 @@
     android:id="@+id/appBar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_gravity="bottom"
     app:navigationIcon="@drawable/ic_menu"
     app:backgroundTint="@color/colorPrimary"
     app:fabAlignmentMode="center"

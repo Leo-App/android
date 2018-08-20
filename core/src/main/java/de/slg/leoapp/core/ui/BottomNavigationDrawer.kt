@@ -1,7 +1,6 @@
-package de.slg.leoapp.core.activity
+package de.slg.leoapp.core.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,7 @@ import de.slg.leoapp.core.utility.Utils
  * @author Moritz
  * Erstelldatum: 17.08.2018
  */
-class BottomNavigationDrawer : BottomSheetDialogFragment() {
+class BottomNavigationDrawer(private val highlightedItem: Int) : BottomSheetDialogFragment() { //TODO implement highlighting
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v: View = inflater.inflate(R.layout.app_bottom_navigation_drawer, container, false)
 

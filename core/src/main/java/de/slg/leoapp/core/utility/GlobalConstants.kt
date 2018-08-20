@@ -3,9 +3,9 @@
 package de.slg.leoapp.core.utility
 
 //Permissions
-const val PERMISSION_UNVERIFIZIERT = 0
-const val PERMISSION_SCHUELER = 1
-const val PERMISSION_LEHRER = 2
+const val PERMISSION_NOT_VERIFIED = 0
+const val PERMISSION_STUDENT = 1
+const val PERMISSION_TEACHER = 2
 const val PERMISSION_ADMIN = 3
 
 //URLs

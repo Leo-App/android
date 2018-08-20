@@ -1,11 +1,8 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-package de.slg.leoapp.core.activity
+package de.slg.leoapp.core.ui
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
-import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -56,16 +53,4 @@ abstract class ActionLogActivity : AppCompatActivity() {
      * @return Activity-Tag: <module>_<type>_<name>
      */
     protected abstract fun getActivityTag(): String
-
-    fun getPreferences(): SharedPreferences {
-        return PreferenceManager.getDefaultSharedPreferences(this)
-    }
-
-    /**
-     * Abstrakt. Muss die Id der Activity Progressbar zurückgeben.
-     *
-     * @return ProgressBar-ID
-     */
-    @IdRes
-    protected abstract fun getProgressBarId(): Int
 }

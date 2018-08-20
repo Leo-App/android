@@ -1,4 +1,4 @@
-package de.slg.leoapp.core.activity
+package de.slg.leoapp.core.ui
 
 /**
  * ActivityStatus
