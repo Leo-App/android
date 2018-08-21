@@ -1,5 +1,6 @@
 package de.leoappslg.news.ui.listing
 
+import android.content.Context
 import de.leoappslg.news.data.db.Entry
 
 interface INewsView {
@@ -14,4 +15,5 @@ interface INewsView {
     fun deleteEntry()
     fun openProfileActivity()
     fun openSettings()
+    fun getViewContext(): Context
 }

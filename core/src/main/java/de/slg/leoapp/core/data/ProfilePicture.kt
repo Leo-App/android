@@ -2,19 +2,17 @@ package de.slg.leoapp.core.data
 
 import android.graphics.*
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import java.net.URL
 
-class ProfilePicture(val imageURL: String, val callback: (Bitmap) -> Unit = {}) {
+class ProfilePicture(private val imageURL: String, private val callback: (Bitmap) -> Unit = {}) {
 
-    lateinit var bitmap: Bitmap
+    private lateinit var bitmap: Bitmap
 
     init {
-        val job = Job()
-        launch(job + UI) {
+        launch(UI) {
             bitmap = async(CommonPool) {
                 BitmapFactory.decodeStream(URL(imageURL).openConnection().getInputStream())
             }.await()
@@ -32,6 +30,10 @@ class ProfilePicture(val imageURL: String, val callback: (Bitmap) -> Unit = {}) 
         if (::bitmap.isInitialized)
             return bitmap
         return getReplacement()
+    }
+
+    fun getURLString(): String {
+        return imageURL
     }
 
     private fun getReplacement(): Bitmap {

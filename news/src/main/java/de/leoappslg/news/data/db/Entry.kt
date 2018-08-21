@@ -9,11 +9,10 @@ import java.util.*
         parentColumns = ["id"],
         childColumns = ["authorId"],
         onDelete = CASCADE
-)])
+)], indices = [Index("authorId")])
 data class Entry(@PrimaryKey var id: Int,
                  var title: String,
                  var description: String,
-                 @Ignore var author: Author,
-                 val authorId: Author,
+                 var authorId: Int,
                  var views: Int,
                  var deadline: Date)

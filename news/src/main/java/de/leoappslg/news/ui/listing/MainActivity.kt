@@ -1,5 +1,6 @@
 package de.leoappslg.news.ui.listing
 
+import android.content.Context
 import android.os.Bundle
 import de.leoappslg.news.data.db.Entry
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
@@ -58,6 +59,8 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
     override fun openSettings() {
         TODO("not implemented")
     }
+
+    override fun getViewContext() = applicationContext!!
 
     override fun getContentView() = R.layout.activity_listing
 
