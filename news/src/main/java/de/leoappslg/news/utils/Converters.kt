@@ -1,6 +1,6 @@
 package de.leoappslg.news.utils
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import de.slg.leoapp.core.data.ProfilePicture
 import java.util.*
 
