@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/author"
+            android:textSize="14sp"
+            android:textColor="@color/colorTextLight"
+            android:layout_width="wrap_content"
+            android:text="(Ich)"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/title"
+            android:textColor="@color/colorTextDark"
+            android:textSize="20sp"
+            android:text="Sport Entfall"
+            app:layout_constraintTop_toBottomOf="@id/author"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextLight"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            android:layout_marginTop="8dp"
+            android:text="Liebe EF, heute entfällt leider der Sportunterricht, ich schreibe das nur um mehr als eine Zeile zu erreichen"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:baselineAlignBottom="true"
+            app:layout_constraintBaseline_toBaselineOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

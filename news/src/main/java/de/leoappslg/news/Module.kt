@@ -1,6 +1,6 @@
 package de.leoappslg.news
 
-import de.leoappslg.news.ui.listing.MainActivity
+import de.leoappslg.news.ui.main.MainActivity
 import de.slg.leoapp.annotation.Module
 import de.slg.leoapp.core.modules.Feature
 import de.slg.leoapp.core.utility.PERMISSION_STUDENT

@@ -1,7 +1,7 @@
-package de.leoappslg.news.ui.listing
+package de.leoappslg.news.ui.main
 
-import android.content.Context
 import android.os.Bundle
+import de.leoappslg.news.data.db.Author
 import de.leoappslg.news.data.db.Entry
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.news.R
@@ -24,7 +24,7 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
         TODO("not implemented")
     }
 
-    override fun showListing(entries: List<Entry>) {
+    override fun showListing(entries: List<Pair<Entry, Author>>) {
         TODO("not implemented")
     }
 
@@ -36,15 +36,7 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
         TODO("not implemented")
     }
 
-    override fun enableTextViewEditing() {
-        TODO("not implemented")
-    }
-
-    override fun openDatePicker() {
-        TODO("not implemented")
-    }
-
-    override fun showEntry() {
+    override fun showEntry(entry: Pair<Entry, Author>) {
         TODO("not implemented")
     }
 

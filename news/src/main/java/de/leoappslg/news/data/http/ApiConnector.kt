@@ -3,42 +3,54 @@ package de.leoappslg.news.data.http
 import androidx.annotation.WorkerThread
 import de.leoappslg.news.data.db.Author
 import de.leoappslg.news.data.db.Entry
+import de.leoappslg.news.data.http.json.ParsedAuthor
+import de.leoappslg.news.data.http.json.ParsedEntry
+import de.slg.leoapp.core.data.ProfilePicture
 import de.slg.leoapp.core.utility.URL_PHP_SCHOOL
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
-import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.*
 
 object ApiConnector {
 
-    private const val url = URL_PHP_SCHOOL
+    private val api = Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create())
+            .baseUrl(URL_PHP_SCHOOL)
+            .build()
+            .create(NewsAPIEndpoint::class.java)
 
+    @WorkerThread
     fun synchronizeNews(): List<Pair<Entry, Author>> {
         val list = mutableListOf<Pair<Entry, Author>>()
-        val job = Job()
 
-        launch (UI + job) {
-            val json = async (CommonPool) { getJsonResponse("news/get") }.await()
+        val listing = getEntriesOrNull() ?: return list
+        for (cur in listing) {
+            val authorInfo = getAuthorOrNull(cur.author) ?: continue
 
-            if (!json.getBoolean("success"))
-                return@launch
-
-            val entries = json.getJSONArray("data")
-
-            for (i in 0 until entries.length()) {
-                val cur = entries.getJSONObject(i)
-            }
-
+            list.add(
+                    Pair(Entry(cur.id, cur.title, cur.content, cur.author, cur.counter, Date(cur.deadline)),
+                    Author(authorInfo.id, authorInfo.firstName, authorInfo.lastName, ProfilePicture(authorInfo.pictureResource)))
+            )
         }
 
         return list
     }
 
-    @WorkerThread
-    private fun getJsonResponse(path: String): JSONObject {
-        return khttp.get("$url/$path").jsonObject
+    private fun getEntriesOrNull(): List<ParsedEntry>? {
+        val response = api.listEntries().execute()
+        if (!response.isSuccessful)
+            return null
+
+        return response.body()
+    }
+
+    private fun getAuthorOrNull(id: Int): ParsedAuthor? {
+        val response = api.getAuthor(id).execute()
+
+        if (!response.isSuccessful)
+            return null
+
+        return response.body()
     }
 
 }

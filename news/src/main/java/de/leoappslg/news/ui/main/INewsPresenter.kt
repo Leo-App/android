@@ -1,7 +1,6 @@
-package de.leoappslg.news.ui.listing
+package de.leoappslg.news.ui.main
 
 interface INewsPresenter {
-    fun onCardClick(index: Int)
     fun onFABPressed()
     fun onSettingsPressed()
     fun onDeletePressed()

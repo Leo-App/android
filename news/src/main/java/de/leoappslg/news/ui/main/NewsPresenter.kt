@@ -1,20 +1,27 @@
-package de.leoappslg.news.ui.listing
+package de.leoappslg.news.ui.main
 
 import de.leoappslg.news.data.INewsDataManager
 import de.leoappslg.news.data.NewsDataManager
 import de.leoappslg.news.data.db.DatabaseManager
 import de.slg.leoapp.core.ui.mvp.AbstractPresenter
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPresenter {
 
     override fun onViewAttached(view: INewsView) {
         super.onViewAttached(view)
+        registerDataManager(NewsDataManager)
         NewsDataManager.setDatabaseManager(DatabaseManager.getInstance(getMvpView().getViewContext()))
-        getMvpView().showListing(getDataManager().getCurrentEntries())
-    }
 
-    override fun onCardClick(index: Int) {
-        TODO("not implemented")
+        getMvpView().showLoadingIndicator()
+        launch (UI) {
+            val entries = async (CommonPool) { getDataManager().getCurrentEntries() }.await()
+            getMvpView().hideLoadingIndicator()
+            getMvpView().showListing(entries)
+        }
     }
 
     override fun onFABPressed() {

@@ -1,10 +1,10 @@
 package de.leoappslg.news.data.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
-import android.arch.persistence.room.TypeConverters
 import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import de.leoappslg.news.utils.Converters
 
 @Database(entities = [Author::class, Entry::class], version = 1)
