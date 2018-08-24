@@ -1,5 +1,17 @@
 package de.slg.leoapp.activity
 
-class ProfileActivity {
-    //TODO wait for design
+import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+
+class ProfileActivity : LeoAppFeatureActivity() {
+    override fun getContentView(): Int {
+        TODO("not implemented")
+    }
+
+    override fun getNavigationHighlightId(): Int {
+        TODO("not implemented")
+    }
+
+    override fun getActivityTag(): String {
+        TODO("not implemented")
+    }
 }

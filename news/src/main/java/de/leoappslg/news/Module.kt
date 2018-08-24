@@ -8,7 +8,7 @@ import de.slg.leoapp.news.R
 
 @Module("news")
 class Module : Feature {
-    override fun getIcon() = R.drawable.temp_feature_icon
+    override fun getIcon() = R.drawable.ic_pin
 
     override fun getName() = R.string.feature_title
 
