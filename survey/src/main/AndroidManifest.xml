@@ -2,6 +2,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <activity android:name="de.leoappslg.survey.ui.main.MainActivity" />
+        <activity android:name=".ui.main.MainActivity" />
     </application>
 </manifest>
