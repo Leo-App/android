@@ -18,17 +18,31 @@ class User(private val context: Context) {
             }
         }
 
-    var userName: String = ""
+    var firstName: String = ""
         get() {
             if (field == "") PreferenceManager.read(context) {
-                field = it.getString(PreferenceManager.User.NAME, "")
+                field = it.getString(PreferenceManager.User.FIRST_NAME, "")
             }
             return field
         }
         set(value) {
             field = value
             PreferenceManager.edit(context) {
-                it.putString(PreferenceManager.User.NAME, value)
+                it.putString(PreferenceManager.User.FIRST_NAME, value)
+            }
+        }
+
+    var lastName: String = ""
+        get() {
+            if (field == "") PreferenceManager.read(context) {
+                field = it.getString(PreferenceManager.User.LAST_NAME, "")
+            }
+            return field
+        }
+        set(value) {
+            field = value
+            PreferenceManager.edit(context) {
+                it.putString(PreferenceManager.User.LAST_NAME, value)
             }
         }
 

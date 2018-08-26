@@ -15,8 +15,8 @@ class Module : Feature {
         return R.drawable.ic_menu //TODO change
     }
 
-    override fun getName(): String {
-        return "Klausurplan"
+    override fun getName(): Int {
+        return R.string.feature_title
     }
 
     override fun getNecessaryPermission(): Int {

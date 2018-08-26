@@ -1,6 +1,3 @@
 <resources>
-
-    <string name="FeatureTitle">Klausurplan</string>
-
-
+    <string name="feature_title">Klausurplan</string>
 </resources>
