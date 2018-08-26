@@ -18,6 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:text="Stundenplan"
+        android:textSize="16sp"
         android:layout_marginStart="32dp"
         android:layout_toEndOf="@id/icon"
         />

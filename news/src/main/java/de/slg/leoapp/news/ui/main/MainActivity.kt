@@ -3,6 +3,8 @@ package de.slg.leoapp.news.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.Entry
 import de.slg.leoapp.news.ui.main.add.AddFragment
@@ -32,12 +34,24 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
         super.onCreate(b)
     }
 
+    override fun onBackPressed() {
+        presenter.onBackPressed()
+    }
+
+    override fun terminate() {
+        finish()
+    }
+
     override fun showFAB() {
         findViewById<View>(R.id.fab).visibility = View.VISIBLE
     }
 
     override fun hideFAB() {
         findViewById<View>(R.id.fab).visibility = View.GONE
+    }
+
+    override fun setFABIcon(icon: Int) {
+        findViewById<FloatingActionButton>(R.id.fab).setImageDrawable(ContextCompat.getDrawable(applicationContext, icon))
     }
 
     override fun showLoadingIndicator() {
@@ -58,6 +72,7 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
 
     override fun showEntry(entry: Pair<Entry, Author>) { //TODO add animations and info
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, DetailsFragment(detailsPresenter), "details").commit()
+        presenter.onEntryShown(entry)
     }
 
     override fun openSettings() {
@@ -76,7 +91,7 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
 
     override fun getViewContext() = applicationContext!!
 
-    override fun getContentView() = R.layout.activity_listing
+    override fun getContentView() = R.layout.activity_main
 
     override fun getNavigationHighlightId() = 0xdefa12
 
