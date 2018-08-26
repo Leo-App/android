@@ -1,31 +1,10 @@
 package de.slg.leoapp.exams
 
-import de.slg.leoapp.core.activity.LeoAppFeatureActivity
-import de.slg.leoapp.exams.R
+import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 
 class MainActivity : LeoAppFeatureActivity() {
     override fun getContentView(): Int {
         return R.layout.activity_main
-    }
-
-//    override fun getDrawerLayoutId(): Int {
-//        return R.id.drawerLayout
-//    }
-
-//    override fun getNavigationViewId(): Int {
-//        return R.id.bottomNavigationView
-//    }
-
-    override fun getToolbarViewId(): Int {
-        return R.id.appBar
-    }
-
-    override fun getProgressBarId(): Int {
-        return R.id.progressBar
-    }
-
-    override fun getToolbarTextId(): Int {
-        return R.string.FeatureTitle
     }
 
     override fun getNavigationHighlightId(): Int {

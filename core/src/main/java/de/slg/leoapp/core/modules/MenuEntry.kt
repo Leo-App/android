@@ -4,13 +4,15 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import android.content.Context
 import android.content.Intent
-import de.slg.leoapp.core.activity.LeoAppFeatureActivity
 
 /**
  * @author Moritz
  * Erstelldatum: 17.08.2018
  */
 interface MenuEntry {
+
+    fun getId(): Int
+
     @StringRes
     fun getTitle(): String
 

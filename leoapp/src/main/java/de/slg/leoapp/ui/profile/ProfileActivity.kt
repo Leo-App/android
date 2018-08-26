@@ -1,19 +1,10 @@
 package de.slg.leoapp.ui.profile
 
-import androidx.appcompat.app.AppCompatActivity
-import de.slg.leoapp.core.activity.LeoAppFeatureActivity
+import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 
 class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
 
     override fun getContentView(): Int {
-        TODO("not implemented")
-    }
-
-    override fun getToolbarViewId(): Int {
-        TODO("not implemented")
-    }
-
-    override fun getToolbarTextId(): Int {
         TODO("not implemented")
     }
 
@@ -22,10 +13,6 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
     }
 
     override fun getActivityTag(): String {
-        TODO("not implemented")
-    }
-
-    override fun getProgressBarId(): Int {
         TODO("not implemented")
     }
 

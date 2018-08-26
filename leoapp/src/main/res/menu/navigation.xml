@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/exams"
-        android:title="@string/FeatureTitle" />
+        android:title="@string/feature_title" />
     <item
         android:id="@+id/something"
         android:title="Something" />

@@ -1,14 +1,13 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "WeakerAccess", "unused")
 
-package de.slg.leoapp.core.activity
+package de.slg.leoapp.core.ui
 
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
-import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.bottomappbar.BottomAppBar
+import de.slg.leoapp.core.R
 
 /**
  * LeoAppNavigationActivity.
@@ -25,7 +24,6 @@ import com.google.android.material.bottomappbar.BottomAppBar
 abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
     private lateinit var navigationView: BottomNavigationDrawer
-    private lateinit var drawerLayout: DrawerLayout
 
     /**
      * Muss in der Implementation die Ressourcen-ID des Activity-Layouts zurückgaben.
@@ -36,22 +34,6 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     protected abstract fun getContentView(): Int
 
     /**
-     * Soll die ID der Toolbar zurückgeben.
-     *
-     * @return Toolbar-ID
-     */
-    @IdRes
-    protected abstract fun getToolbarViewId(): Int
-
-    /**
-     * Soll die String-Ressource des Titels der Toolbar zurückgeben.
-     *
-     * @return Text-ID, zb. R.string.title_main
-     */
-    @StringRes
-    protected abstract fun getToolbarTextId(): Int
-
-    /**
      * Soll die ID des gehighlighteten Items in der Navigation zurückgeben. In der Regel also die des aktuellen Features.
      *
      * @return Menü-ID, zB. R.id.startseite
@@ -59,6 +41,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     @IdRes
     protected abstract fun getNavigationHighlightId(): Int
 
+    @CallSuper
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
         setContentView(getContentView())
@@ -72,7 +55,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
      */
     @CallSuper
     protected fun initNavigationDrawer() {
-        navigationView = BottomNavigationDrawer()
+        navigationView = BottomNavigationDrawer(getNavigationHighlightId())
     }
 
     /**
@@ -81,17 +64,10 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
      */
     @CallSuper
     protected fun initToolbar() {
-        val appBar: BottomAppBar = findViewById(getToolbarViewId())
+        val appBar: BottomAppBar = findViewById(R.id.appBar)
 
-        appBar.setSubtitle(getToolbarTextId())
         appBar.setNavigationOnClickListener {
             navigationView.show(supportFragmentManager, "navigation_drawer")
         }
-    }
-
-    @Override
-    @CallSuper
-    override fun onResume() {
-        super.onResume()
     }
 }

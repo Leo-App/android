@@ -1,3 +1,9 @@
 <resources>
+    <string name="feature_title">News</string>
 
+    <!-- Entry listing -->
+    <string name="title_me">(Me)</string>
+
+    <!-- content description -->
+    <string name="cd_back">Back arrow</string>
 </resources>

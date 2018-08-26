@@ -26,7 +26,7 @@ class PreferenceManager {
 
     class PreferenceReader internal constructor(private val preferences: SharedPreferences) {
         fun getBoolean(@PreferenceKey key: String, default: Boolean = false) : Boolean = preferences.getBoolean(key, default)
-        fun getString(@PreferenceKey key: String, default: String = "") : String = preferences.getString(key, default)
+        fun getString(@PreferenceKey key: String, default: String = "") : String = preferences.getString(key, default)!!
         fun getInt(@PreferenceKey key: String, default: Int = -1) : Int = preferences.getInt(key, default)
         fun getFloat(@PreferenceKey key: String, default: Float = -1f) : Float = preferences.getFloat(key, default)
     }
