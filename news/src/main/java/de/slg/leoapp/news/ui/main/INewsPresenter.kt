@@ -11,4 +11,5 @@ interface INewsPresenter {
     fun onProfilePressed()
     fun onNavigationPressed()
     fun onEntryShown(entry: Pair<Entry, Author>)
+    fun onBackPressed()
 }

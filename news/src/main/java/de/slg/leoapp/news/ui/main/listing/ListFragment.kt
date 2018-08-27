@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import de.slg.leoapp.news.R
 import de.slg.leoapp.news.ui.main.MainActivity
 import de.slg.leoapp.news.ui.main.listing.adapter.ListAdapter
-import de.slg.leoapp.news.R
 
 class ListFragment(private val presenter: ListPresenter) : Fragment(), IListView {
 
@@ -31,8 +31,8 @@ class ListFragment(private val presenter: ListPresenter) : Fragment(), IListView
         recyclerView.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
     }
 
-
     override fun getViewContext() = context!!
 
     override fun getCallingActivity() = activity as MainActivity
+
 }

@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import de.slg.leoapp.core.data.ProfilePicture
 import de.slg.leoapp.news.R
+import de.slg.leoapp.news.ui.main.MainActivity
 import java.util.*
 
 class DetailsFragment(private val presenter: DetailsPresenter) : Fragment(), IDetailsView {
@@ -75,4 +76,6 @@ class DetailsFragment(private val presenter: DetailsPresenter) : Fragment(), IDe
     }
 
     override fun getViewContext() = context!!
+
+    override fun getCallingActivity() = activity as MainActivity
 }

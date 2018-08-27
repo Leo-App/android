@@ -8,6 +8,7 @@ import de.slg.leoapp.news.data.db.Entry
 import de.slg.leoapp.core.ui.mvp.AbstractPresenter
 import de.slg.leoapp.core.utility.PERMISSION_TEACHER
 import de.slg.leoapp.core.utility.User
+import de.slg.leoapp.news.R
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
@@ -31,6 +32,14 @@ class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPre
         }
     }
 
+    override fun onBackPressed() {
+        when (state) {
+            NewsPresenter.State.DETAILS,
+            NewsPresenter.State.ADD -> getMvpView().showListing()
+            NewsPresenter.State.LIST -> getMvpView().terminate()
+        }
+    }
+
     override fun onFABPressed() {
         //todo
         when (state) {
@@ -40,6 +49,7 @@ class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPre
                 //todo check if successful, add to local database, make api call etc
                 getDataManager().getCurrentEntries()
                 getMvpView().showListing()
+                getMvpView().setFABIcon(R.drawable.ic_add)
                 state = State.LIST //if adding was successful, return to listing
             }
             NewsPresenter.State.LIST -> {
