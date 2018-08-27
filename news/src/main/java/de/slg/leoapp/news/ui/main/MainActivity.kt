@@ -14,6 +14,7 @@ import de.slg.leoapp.news.ui.main.listing.ListPresenter
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.core.utility.Utils
 import de.slg.leoapp.news.R
+import kotlinx.android.synthetic.main.activity_listing.*
 
 class MainActivity : LeoAppFeatureActivity(), INewsView {
 
@@ -33,11 +34,11 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
     }
 
     override fun showFAB() {
-        findViewById<View>(R.id.fab).visibility = View.VISIBLE
+        fab.visibility = View.VISIBLE
     }
 
     override fun hideFAB() {
-        findViewById<View>(R.id.fab).visibility = View.GONE
+        fab.visibility = View.GONE
     }
 
     override fun showLoadingIndicator() {

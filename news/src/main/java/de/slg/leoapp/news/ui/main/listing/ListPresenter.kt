@@ -48,7 +48,6 @@ class ListPresenter : AbstractPresenter<IListView, NewsDataManager>(), IListPres
     }
 
     override fun onCardClick(index: Int) {
-        //todo
         getMvpView().getCallingActivity().showEntry(entries[index])
     }
 }

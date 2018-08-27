@@ -20,6 +20,7 @@ class DetailsFragment(private val presenter: DetailsPresenter) : Fragment(), IDe
     private lateinit var dateView: TextView
     private lateinit var contentView: TextView
     private lateinit var imageView: ImageView
+    private lateinit var textInput
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter.onViewAttached(this)
