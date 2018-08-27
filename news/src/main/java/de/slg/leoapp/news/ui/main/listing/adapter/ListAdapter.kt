@@ -55,7 +55,7 @@ class ListAdapter(private val presenter: IListPresenter) : RecyclerView.Adapter<
         }
 
         override fun setTitle(title: String) {
-            view.findViewById<TextView>(R.id.title).text = title
+            view.findViewById<TextView>(R.id.titleView).text = title
         }
 
         override fun setContent(content: String) {

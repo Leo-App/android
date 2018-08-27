@@ -9,4 +9,8 @@
 
     <!-- content description -->
     <string name="cd_back">Back arrow</string>
+
+    <!-- tooltips -->
+    <string name="delete">Delete</string>
+
 </resources>

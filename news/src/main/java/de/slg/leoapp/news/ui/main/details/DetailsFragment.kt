@@ -5,53 +5,45 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import de.slg.leoapp.core.data.ProfilePicture
 import de.slg.leoapp.news.R
 import de.slg.leoapp.news.ui.main.MainActivity
+import kotlinx.android.synthetic.main.fragment_details.*
 import java.util.*
 
 class DetailsFragment(private val presenter: DetailsPresenter) : Fragment(), IDetailsView {
-
-    //Views
-    private lateinit var titleView: TextView
-    private lateinit var infoView: TextView
-    private lateinit var dateView: TextView
-    private lateinit var contentView: TextView
-    private lateinit var imageView: ImageView
-    private lateinit var textInput
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter.onViewAttached(this)
         return inflater.inflate(R.layout.fragment_details, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        titleView = view.findViewById(R.id.title)
-        infoView = view.findViewById(R.id.info)
-        dateView = view.findViewById(R.id.deadline)
-        contentView = view.findViewById(R.id.content)
-        imageView = view.findViewById(R.id.authorPicture)
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun openDatePicker() {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
+    override fun openDatePicker(currentDeadline: Calendar) {
+        val year = currentDeadline.get(Calendar.YEAR)
+        val month = currentDeadline.get(Calendar.MONTH)
+        val day = currentDeadline.get(Calendar.DAY_OF_MONTH)
 
         //If the user selected a date, we send the result back to our presenter
         DatePickerDialog(context!!, { _, y, m, d ->
-            c.set(y, m - 1, d, 0, 0)
-            presenter.onDatePickerDateSelected(Date(c.timeInMillis))
+            currentDeadline.set(y, m - 1, d, 0, 0)
+            presenter.onDatePickerDateSelected(Date(currentDeadline.timeInMillis))
         }, year, month, day).show()
     }
 
     override fun enableTextViewEditing() {
-        //todo hide textview, fill edittext with entrytext then show edittext
+        //todo include dateedit
+        contentView.visibility = View.GONE
+        contentEdit.setText(contentView.text, TextView.BufferType.EDITABLE)
+        textInput.visibility = View.VISIBLE
+    }
+
+    override fun disableTextViewEditing() {
+        //todo include dateedit
+        contentView.visibility = View.VISIBLE
+        contentView.text = contentEdit.text
+        textInput.visibility = View.GONE
     }
 
     override fun setInfoLine(info: String) {
@@ -59,7 +51,7 @@ class DetailsFragment(private val presenter: DetailsPresenter) : Fragment(), IDe
     }
 
     override fun setDate(date: String) {
-        dateView.text = date
+        deadlineView.text = date
     }
 
     override fun setTitle(title: String) {
@@ -70,9 +62,17 @@ class DetailsFragment(private val presenter: DetailsPresenter) : Fragment(), IDe
         contentView.text = content
     }
 
+    override fun getEditedContent(): String {
+        return contentEdit.text.toString()
+    }
+
+    override fun getEditedDate(): Date {
+        TODO("not implemented")
+    }
+
     override fun setProfilePicture(profilePicture: ProfilePicture) {
         //At this point the user should have already synchronized the profile picture - if not, they get a placeholder
-        imageView.setImageBitmap(profilePicture.getPictureOrPlaceholder())
+        authorPicture.setImageBitmap(profilePicture.getPictureOrPlaceholder())
     }
 
     override fun getViewContext() = context!!

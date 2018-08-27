@@ -65,9 +65,13 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     @CallSuper
     protected fun initToolbar() {
         val appBar: BottomAppBar = findViewById(R.id.appBar)
-
+        appBar.replaceMenu(R.menu.app_toolbar_default)
         appBar.setNavigationOnClickListener {
             navigationView.show(supportFragmentManager, "navigation_drawer")
         }
+    }
+
+    protected fun getAppBar(): BottomAppBar {
+        return findViewById(R.id.appBar)
     }
 }

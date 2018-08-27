@@ -8,6 +8,7 @@ interface IDetailsPresenter {
     fun setEntry(entry: Pair<Entry, Author>)
     fun onEditStarted()
     fun onEditFinished()
+    fun onEditCancelled()
     fun onBackPressed()
     fun onDateClicked()
     fun onDatePickerDateSelected(d: Date)

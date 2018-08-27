@@ -1,3 +1,7 @@
 <resources>
 
+    <!-- Appbar tooltips -->
+    <string name="settings">Settings</string>
+    <string name="profile">Profile</string>
+
 </resources>

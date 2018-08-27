@@ -44,10 +44,20 @@ class ListPresenter : AbstractPresenter<IListView, NewsDataManager>(), IListPres
         }
 
         holder.setTitle(entry.first.title)
-        holder.setContent(entry.first.description)
+        holder.setContent(entry.first.content)
     }
 
     override fun onCardClick(index: Int) {
         getMvpView().getCallingActivity().showEntry(entries[index])
+    }
+
+    override fun onCardDeleted(entry: Pair<Entry, Author>) {
+        getDataManager().removeEntry(entry)
+
+        //this is kind of resource heavy but since we don't delete often
+        //and the amount of entries is usually small, the performance impact should be negligible
+        val entryCopy = entries.toMutableList()
+        entryCopy.remove(entry)
+        entries = entryCopy
     }
 }
