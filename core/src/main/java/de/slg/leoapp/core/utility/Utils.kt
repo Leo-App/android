@@ -5,6 +5,7 @@ package de.slg.leoapp.core.utility
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.util.Log
 import android.telephony.TelephonyManager as T
 import androidx.annotation.DrawableRes
 import de.slg.leoapp.core.datastructure.List
@@ -17,15 +18,15 @@ import de.slg.leoapp.core.utility.exception.ActivityTypeNotRegisteredException
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 
-
 //TODO add Javadoc for all core classes and public methods/functions
 abstract class Utils {
 
     abstract class Activity {
         companion object Manager { //Named companion object for java interoperability. Java classes call Activity.Manager.someMethod()
             private val openActivities: Stack<String> = Stack()
-            private lateinit var profileActivity: Class<out LeoAppFeatureActivity>
-            private lateinit var settingsActivity: Class<out LeoAppFeatureActivity>
+            private var profileActivity: Class<*>? = null
+            private var settingsActivity: Class<*>? = null
+
 
             fun registerActivity(tag: String) {
                 openActivities.add(tag)
@@ -38,31 +39,31 @@ abstract class Utils {
             }
 
             fun registerProfileActivity(profile: Class<out LeoAppFeatureActivity>) {
-//                if (::profileActivity.isInitialized)
-//                    throw ActivityTypeAlreadyRegisteredException("A profile activity is already registered")
+                if (profileActivity != null)
+                    throw ActivityTypeAlreadyRegisteredException("A profile activity is already registered")
 
                 profileActivity = profile
             }
 
             fun registerSettingsActivity(settings: Class<out LeoAppFeatureActivity>) {
-//                if (::settingsActivity.isInitialized)
-//                    throw ActivityTypeAlreadyRegisteredException("A settings activity is already registered")
+                if (settingsActivity != null)
+                    throw ActivityTypeAlreadyRegisteredException("A settings activity is already registered")
 
                 settingsActivity = settings
             }
 
             fun getSettingsReference(): Class<*> {
-                if (!::settingsActivity.isInitialized)
+                if (settingsActivity == null)
                     throw ActivityTypeNotRegisteredException("""Trying to access non registered activity "Settings"""")
 
-                return settingsActivity
+                return settingsActivity!!
             }
 
             fun getProfileReference(): Class<*> {
-                if (!::profileActivity.isInitialized)
+                if (profileActivity == null)
                     throw ActivityTypeNotRegisteredException("""Trying to access non registered activity "Profile"""")
 
-                return profileActivity
+                return profileActivity!!
             }
         }
     }
@@ -101,7 +102,7 @@ abstract class Utils {
                     if (cur.isOptional || cur.type.isMarkedNullable)
                         continue
 
-                    if (cur.type.toString() != "Context")
+                    if (cur.type.toString() != "android.content.Context")
                         throw APIKeyAlgorithmNotValidException("The provided API Key algorithm has an invalid signature")
                 }
             }
