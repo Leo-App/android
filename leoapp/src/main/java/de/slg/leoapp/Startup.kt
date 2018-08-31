@@ -18,7 +18,7 @@ class Startup : Activity() {
 
         //registering all necessary information in utils so that all modules may access it without exposing the ModuleLoader
         Utils.Activity.registerProfileActivity(ProfileActivity::class.java)
-        Utils.Activity.registerProfileActivity(SettingsActivity::class.java)
+        Utils.Activity.registerSettingsActivity(SettingsActivity::class.java)
         Utils.Network.registerAPIKeyAlgorithm(ModuleLoader.getAuthenticationModule()::getAPIKey)
 
         for (feature in ModuleLoader.getFeatures()) {

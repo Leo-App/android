@@ -17,15 +17,14 @@ import de.slg.leoapp.core.utility.exception.ActivityTypeNotRegisteredException
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 
-
 //TODO add Javadoc for all core classes and public methods/functions
 abstract class Utils {
 
     abstract class Activity {
         companion object Manager { //Named companion object for java interoperability. Java classes call Activity.Manager.someMethod()
             private val openActivities: Stack<String> = Stack()
-            private lateinit var profileActivity: Class<*>
-            private lateinit var settingsActivity: Class<*>
+            private var profileActivity: Class<*>? = null
+            private var settingsActivity: Class<*>? = null
 
             fun registerActivity(tag: String) {
                 openActivities.add(tag)
@@ -38,31 +37,31 @@ abstract class Utils {
             }
 
             fun registerProfileActivity(profile: Class<out LeoAppFeatureActivity>) {
-                if (::profileActivity.isInitialized)
+                if (profileActivity != null)
                     throw ActivityTypeAlreadyRegisteredException("A profile activity is already registered")
 
                 profileActivity = profile
             }
 
             fun registerSettingsActivity(settings: Class<out LeoAppFeatureActivity>) {
-                if (::settingsActivity.isInitialized)
+                if (settingsActivity != null)
                     throw ActivityTypeAlreadyRegisteredException("A settings activity is already registered")
 
                 settingsActivity = settings
             }
 
             fun getSettingsReference(): Class<*> {
-                if (!::settingsActivity.isInitialized)
+                if (settingsActivity == null)
                     throw ActivityTypeNotRegisteredException("""Trying to access non registered activity "Settings"""")
 
-                return settingsActivity
+                return settingsActivity!!
             }
 
             fun getProfileReference(): Class<*> {
-                if (!::profileActivity.isInitialized)
+                if (profileActivity == null)
                     throw ActivityTypeNotRegisteredException("""Trying to access non registered activity "Profile"""")
 
-                return profileActivity
+                return profileActivity!!
             }
         }
     }
