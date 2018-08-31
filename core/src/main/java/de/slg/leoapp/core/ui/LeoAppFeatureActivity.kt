@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "WeakerAccess", "unused")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
 package de.slg.leoapp.core.ui
 
