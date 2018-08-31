@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/action_profile"
-        android:icon="@drawable/ic_arrow_left"
-        android:title="@string/profile"
-        android:showAsAction="ifRoom"/>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_settings"
-        android:icon="@drawable/ic_arrow_left"
+        android:icon="@drawable/ic_settings"
         android:title="@string/settings"
-        android:showAsAction="ifRoom"/>
+        app:showAsAction="always"
+        tools:ignore="AppCompatResource" />
+
+    <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile"
+        app:showAsAction="ifRoom"
+        tools:ignore="AppCompatResource" />
 
 </menu>
