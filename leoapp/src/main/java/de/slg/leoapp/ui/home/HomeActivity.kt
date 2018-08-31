@@ -8,10 +8,11 @@ import de.slg.leoapp.core.utility.Utils
 class HomeActivity : LeoAppFeatureActivity(), HomeView {
     override fun getContentView() = R.layout.activity_home
 
-    override fun getNavigationHighlightId() = 2
-
     override fun getActivityTag() = "feature_home"
 
+    override fun getNavigationHighlightId(): Int {
+        return R.string.home
+    }
 
     override fun openNavigationDrawer() {
 
