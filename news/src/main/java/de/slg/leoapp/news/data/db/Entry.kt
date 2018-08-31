@@ -15,7 +15,7 @@ import java.util.*
 )], indices = [Index("authorId")])
 data class Entry(@PrimaryKey var id: Int,
                  var title: String,
-                 var description: String,
+                 var content: String,
                  var authorId: Int,
                  var views: Int,
                  var deadline: Date)

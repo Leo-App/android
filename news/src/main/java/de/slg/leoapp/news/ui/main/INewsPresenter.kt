@@ -6,9 +6,14 @@ import de.slg.leoapp.news.data.db.Entry
 interface INewsPresenter {
     fun onFABPressed()
     fun onSettingsPressed()
-    fun onDeletePressed()
-    fun onDeleteConfirmed()
     fun onProfilePressed()
     fun onNavigationPressed()
+    fun onBackPressed()
+    fun onDeletePressed()
+    fun onDeleteConfirmed()
+
+    //State callbacks
+    fun onListingShown()
     fun onEntryShown(entry: Pair<Entry, Author>)
+    fun onNewEntryDialogShown()
 }

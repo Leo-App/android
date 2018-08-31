@@ -16,8 +16,10 @@ class Startup : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //registering all necessary information in utils so that all modules may access it without exposing the ModuleLoader
         Utils.Activity.registerProfileActivity(ProfileActivity::class.java)
         Utils.Activity.registerSettingsActivity(SettingsActivity::class.java)
+        Utils.Network.registerAPIKeyAlgorithm(ModuleLoader.getAuthenticationModule()::getAPIKey)
 
         for (feature in ModuleLoader.getFeatures()) {
             //if (User(applicationContext!!).permission >= feature.getNecessaryPermission()) {
@@ -25,6 +27,7 @@ class Startup : Activity() {
             //}
         }
 
+        //Terminate Splashscreen
         startActivity(Intent(applicationContext, HomeActivity::class.java))
     }
 

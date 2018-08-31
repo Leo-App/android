@@ -1,5 +1,6 @@
 package de.slg.leoapp.news.ui.main
 
+import androidx.annotation.DrawableRes
 import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.Entry
 import de.slg.leoapp.news.ui.main.add.IAddPresenter
@@ -10,6 +11,7 @@ import de.slg.leoapp.core.ui.mvp.MVPView
 interface INewsView : MVPView {
     fun showFAB()
     fun hideFAB()
+    fun setFABIcon(@DrawableRes icon: Int)
     fun showLoadingIndicator()
     fun hideLoadingIndicator()
     fun showListing()
@@ -17,6 +19,9 @@ interface INewsView : MVPView {
     fun showEntry(entry: Pair<Entry, Author>)
     fun openProfileActivity()
     fun openSettings()
+    fun addDeleteAction()
+    fun removeDeleteAction()
+    fun terminate()
 
     //Child views
     fun getDetailsPresenter() : IDetailsPresenter

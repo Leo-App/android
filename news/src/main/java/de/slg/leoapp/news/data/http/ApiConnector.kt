@@ -1,17 +1,21 @@
 package de.slg.leoapp.news.data.http
 
+import android.content.Context
 import androidx.annotation.WorkerThread
+import de.slg.leoapp.core.data.ProfilePicture
+import de.slg.leoapp.core.utility.URL_PHP_SCHOOL
+import de.slg.leoapp.core.utility.Utils
 import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.Entry
 import de.slg.leoapp.news.data.http.json.ParsedAuthor
 import de.slg.leoapp.news.data.http.json.ParsedEntry
-import de.slg.leoapp.core.data.ProfilePicture
-import de.slg.leoapp.core.utility.URL_PHP_SCHOOL
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 
 object ApiConnector {
+
+    lateinit var apiKey: String
 
     private val api = Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
@@ -36,8 +40,24 @@ object ApiConnector {
         return list
     }
 
+    fun removeEntry(id: Int) {
+        checkAPIKey()
+        api.removeEntry(apiKey, id)
+    }
+
+    fun addEntry(title: String, content: String, recipient: String, deadline: Date) {
+        checkAPIKey()
+        api.addEntry(apiKey, object {
+            val title = title
+            val content = content
+            val recipient = recipient
+            val deadline = deadline
+        })
+    }
+
     private fun getEntriesOrNull(): List<ParsedEntry>? {
-        val response = api.listEntries().execute()
+        checkAPIKey()
+        val response = api.listEntries(apiKey).execute()
         if (!response.isSuccessful)
             return null
 
@@ -45,12 +65,19 @@ object ApiConnector {
     }
 
     private fun getAuthorOrNull(id: Int): ParsedAuthor? {
-        val response = api.getAuthor(id).execute()
+        checkAPIKey()
+        val response = api.getAuthor(apiKey, id).execute()
 
         if (!response.isSuccessful)
             return null
 
         return response.body()
+    }
+
+    private fun checkAPIKey() {
+        class APIKeyNotSetException(desc: String) : RuntimeException(desc)
+        if (!::apiKey.isInitialized)
+            throw APIKeyNotSetException("You need to initialize the API Key before making requests")
     }
 
 }

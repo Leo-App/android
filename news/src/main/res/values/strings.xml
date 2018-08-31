@@ -4,6 +4,13 @@
     <!-- Entry listing -->
     <string name="title_me">(Me)</string>
 
+    <!-- Entry details -->
+    <string name="deadline_desc">Until</string>
+
     <!-- content description -->
     <string name="cd_back">Back arrow</string>
+
+    <!-- tooltips -->
+    <string name="delete">Delete</string>
+
 </resources>

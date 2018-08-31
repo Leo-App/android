@@ -5,6 +5,7 @@ import de.slg.leoapp.annotation.BindView
 
 class ViewBinder {
     companion object {
+        @JvmStatic
         fun bind(activity: AppCompatActivity) {
             for (field in activity.javaClass.declaredFields) {
                 field.isAccessible = true
