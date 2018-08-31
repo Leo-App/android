@@ -1,5 +1,5 @@
 <resources>
-    <string name="feature_title">News</string>
+    <string name="feature_title_news">News</string>
 
     <!-- Entry listing -->
     <string name="title_me">(Me)</string>

@@ -11,7 +11,7 @@ class HomeActivity : LeoAppFeatureActivity(), HomeView {
     }
 
     override fun getNavigationHighlightId(): Int {
-        return 2
+        return R.string.home
     }
 
     override fun getActivityTag(): String {
