@@ -43,6 +43,7 @@
             android:textSize="16sp"/>
 
         <ImageButton
+            android:id="@+id/close"
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_alignParentEnd="true"

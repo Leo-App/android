@@ -1,6 +1,7 @@
 package de.slg.leoapp.core.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,10 +39,17 @@ class BottomNavigationDrawer(private val highlightedItem: Int) : BottomSheetDial
             icon.setImageResource(menuEntry.getIcon())
             title.text = menuEntry.getTitle()
 
-            item.setOnClickListener { startActivity(menuEntry.getIntent(context!!)) }
+            item.setOnClickListener {
+                startActivity(menuEntry.getIntent(context!!))
+                dismiss()
+            }
 
             menuWrapper.addView(item)
         }
+
+        val close: View = v.findViewById(R.id.close)
+
+        close.setOnClickListener { dismiss() }
 
         return v
     }

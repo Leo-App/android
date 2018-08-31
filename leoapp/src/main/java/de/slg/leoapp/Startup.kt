@@ -20,7 +20,7 @@ class Startup : Activity() {
         Utils.Activity.registerSettingsActivity(SettingsActivity::class.java)
         //Utils.Network.registerAPIKeyAlgorithm(ModuleLoader.getAuthenticationModule()::getAPIKey)
 
-        Utils.Menu.addMenuEntry(R.string.app_name, getString(R.string.home), R.drawable.ic_startseite, HomeActivity::class.java)
+        Utils.Menu.addMenuEntry(R.string.home, getString(R.string.home), R.drawable.ic_startseite, HomeActivity::class.java)
 
         for (feature in ModuleLoader.getFeatures()) {
             //if (User(applicationContext!!).permission >= feature.getNecessaryPermission()) {
