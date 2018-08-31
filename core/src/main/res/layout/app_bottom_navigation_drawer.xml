@@ -28,7 +28,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
             android:layout_toEndOf="@id/profilePicture"
-            android:text="Max Mustermann"/>
+            android:text="Max Mustermann"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/defaultName"
@@ -38,7 +39,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@id/profilePicture"
-            android:text="maxmus010101"/>
+            android:text="maxmus010101"
+            android:textSize="16sp"/>
 
         <ImageButton
             android:layout_width="14dp"

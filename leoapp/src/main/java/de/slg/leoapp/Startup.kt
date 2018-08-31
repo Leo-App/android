@@ -22,9 +22,9 @@ class Startup : Activity() {
         Utils.Network.registerAPIKeyAlgorithm(ModuleLoader.getAuthenticationModule()::getAPIKey)
 
         for (feature in ModuleLoader.getFeatures()) {
-            if (User(applicationContext!!).permission >= feature.getNecessaryPermission()) {
+            //if (User(applicationContext!!).permission >= feature.getNecessaryPermission()) {
                 Utils.Menu.addMenuEntry(feature.getFeatureId(), getString(feature.getName()), feature.getIcon(), feature.getEntryActivity())
-            }
+            //}
         }
 
         //Terminate Splashscreen
