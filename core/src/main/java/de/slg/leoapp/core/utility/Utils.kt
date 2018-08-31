@@ -5,6 +5,7 @@ package de.slg.leoapp.core.utility
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.util.Log
 import android.telephony.TelephonyManager as T
 import androidx.annotation.DrawableRes
 import de.slg.leoapp.core.datastructure.List
@@ -101,7 +102,7 @@ abstract class Utils {
                     if (cur.isOptional || cur.type.isMarkedNullable)
                         continue
 
-                    if (cur.type.toString() != "Context")
+                    if (cur.type.toString() != "android.content.Context")
                         throw APIKeyAlgorithmNotValidException("The provided API Key algorithm has an invalid signature")
                 }
             }
