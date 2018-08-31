@@ -11,50 +11,84 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import java.util.*
-//todo decide if waiting times are handled in the presenters or via callbacks, (i tend towards callbacks)
+
 object NewsDataManager : INewsDataManager {
 
     private lateinit var databaseManager: DatabaseManager
 
-    override fun initApiKey(context: Context) {
-        ApiConnector.apiKey = Utils.Network.getAPIKey(context)
-    }
-
-    override fun getCurrentEntries(): List<Pair<Entry, Author>> {
-        if (!::databaseManager.isInitialized)
-            return emptyList()
-
-        val databaseInterface = databaseManager.databaseInterface()
-        val entries = databaseInterface.getEntries()
-        val listing = mutableListOf<Pair<Entry, Author>>()
-
-        for (cur in entries) {
-            listing.add(Pair(cur, databaseInterface.getAuthor(cur.authorId)))
+    override fun getCurrentEntries(callback: (List<Pair<Entry, Author>>) -> Unit) {
+        if (!::databaseManager.isInitialized) {
+            callback(emptyList())
+            return
         }
 
-        return listing
+        launch(UI) {
+            val entryListing = async(CommonPool) {
+                val databaseInterface = databaseManager.databaseInterface()
+                val entries = databaseInterface.getEntries()
+                val listing = mutableListOf<Pair<Entry, Author>>()
+
+                for (cur in entries) {
+                    listing.add(Pair(cur, databaseInterface.getAuthor(cur.authorId)))
+                }
+
+                listing
+            }.await()
+
+            callback(entryListing)
+        }
     }
 
-    override fun removeEntry(entry: Pair<Entry, Author>) {
-        if (!::databaseManager.isInitialized)
+    override fun removeEntry(entry: Pair<Entry, Author>, context: Context, callback: (Boolean) -> Unit) {
+        if (!::databaseManager.isInitialized) {
+            callback(false)
             return
+        }
 
-        databaseManager.databaseInterface().removeEntry(entry.first)
-        ApiConnector.removeEntry(entry.first.id)
+        launch(UI) {
+            val db = launch (CommonPool) {
+                databaseManager.databaseInterface().removeEntry(entry.first)
+            }
+            val api = async(CommonPool) {
+                ApiConnector.removeEntry(entry.first.id, getApiKey(context))
+            }
+
+            db.join()
+            callback(api.await())
+        }
+
+
     }
 
-    override fun updateEntry(entry: Pair<Entry, Author>) {
-        databaseManager.databaseInterface().updateEntry(entry.first)
+    override fun updateEntry(entry: Pair<Entry, Author>, context: Context, callback: (Boolean) -> Unit) {
+        launch(UI) {
+            val db = launch(CommonPool) {
+                databaseManager.databaseInterface().updateEntry(entry.first)
+            }
+            val api = async(CommonPool) {
+                ApiConnector.updateEntry(entry.first.id,
+                        mapOf("content" to entry.first.content, "deadline" to entry.first.deadline.time),
+                        getApiKey(context))
+            }
+
+            db.join()
+            callback(api.await())
+        }
     }
 
-    override fun addEntry(title: String, content: String, recipient: String, deadline: Date) {
-        ApiConnector.addEntry(title, content, recipient, deadline)
-    }
-
-    override fun refreshEntries(callback: () -> Unit) {
+    override fun addEntry(author: Int, title: String, content: String, recipient: String, deadline: Date, context: Context, callback: (Boolean) -> Unit) {
         launch(UI) {
             launch(CommonPool) {
-                val data = ApiConnector.synchronizeNews()
+                ApiConnector.addEntry(author, title, content, recipient, deadline, getApiKey(context))
+            }.join()
+            callback(true)
+        }
+    }
+
+    override fun refreshEntries(userId: Int, context: Context, callback: () -> Unit) {
+        launch(UI) {
+            launch(CommonPool) {
+                val data = ApiConnector.synchronizeNews(userId, getApiKey(context))
                 for (cur in data) {
                     databaseManager.databaseInterface().insert(cur.first)
                     databaseManager.databaseInterface().insert(cur.second)
@@ -67,6 +101,10 @@ object NewsDataManager : INewsDataManager {
     fun setDatabaseManager(manager: DatabaseManager?) {
         manager ?: return
         databaseManager = manager
+    }
+
+    private fun getApiKey(context: Context): String {
+        return Utils.Network.getAPIKey(context)
     }
 
 }

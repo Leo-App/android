@@ -6,12 +6,9 @@ import de.slg.leoapp.news.data.db.Entry
 import java.util.*
 
 interface INewsDataManager {
-    fun getCurrentEntries() : List<Pair<Entry, Author>>
-    fun refreshEntries(callback: () -> Unit = {})
-    fun removeEntry(entry: Pair<Entry, Author>)
-    fun updateEntry(entry: Pair<Entry, Author>)
-    fun addEntry(title: String, content: String, recipient: String, deadline: Date)
-
-    //Initialization
-    fun initApiKey(context: Context)
+    fun getCurrentEntries(callback: (List<Pair<Entry, Author>>) -> Unit)
+    fun refreshEntries(userId: Int, context: Context, callback: () -> Unit = {})
+    fun removeEntry(entry: Pair<Entry, Author>, context: Context, callback: (Boolean) -> Unit = {})
+    fun updateEntry(entry: Pair<Entry, Author>, context: Context, callback: (Boolean) -> Unit = {})
+    fun addEntry(author: Int, title: String, content: String, recipient: String, deadline: Date, context: Context, callback: (Boolean) -> Unit = {})
 }

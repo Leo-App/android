@@ -1,10 +1,8 @@
 package de.slg.leoapp.news.data.http
 
-import android.content.Context
 import androidx.annotation.WorkerThread
 import de.slg.leoapp.core.data.ProfilePicture
 import de.slg.leoapp.core.utility.URL_PHP_SCHOOL
-import de.slg.leoapp.core.utility.Utils
 import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.Entry
 import de.slg.leoapp.news.data.http.json.ParsedAuthor
@@ -15,8 +13,6 @@ import java.util.*
 
 object ApiConnector {
 
-    lateinit var apiKey: String
-
     private val api = Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
             .baseUrl(URL_PHP_SCHOOL)
@@ -24,12 +20,12 @@ object ApiConnector {
             .create(NewsAPIEndpoint::class.java)
 
     @WorkerThread
-    fun synchronizeNews(): List<Pair<Entry, Author>> {
+    fun synchronizeNews(userId: Int, apiKey: String): List<Pair<Entry, Author>> {
         val list = mutableListOf<Pair<Entry, Author>>()
 
-        val listing = getEntriesOrNull() ?: return list
+        val listing = getEntriesOrNull(userId, apiKey) ?: return list
         for (cur in listing) {
-            val authorInfo = getAuthorOrNull(cur.author) ?: continue
+            val authorInfo = getAuthorOrNull(cur.author, apiKey) ?: continue
 
             list.add(
                     Pair(Entry(cur.id, cur.title, cur.content, cur.author, cur.counter, Date(cur.deadline)),
@@ -40,32 +36,50 @@ object ApiConnector {
         return list
     }
 
-    fun removeEntry(id: Int) {
-        checkAPIKey()
-        api.removeEntry(apiKey, id)
+    fun removeEntry(id: Int, apiKey: String): Boolean {
+        val request = api.removeEntry(apiKey, id).execute()
+        return request.isSuccessful
     }
 
-    fun addEntry(title: String, content: String, recipient: String, deadline: Date) {
-        checkAPIKey()
-        api.addEntry(apiKey, object {
+    fun addEntry(author: Int, title: String, content: String, recipient: String, deadline: Date, apiKey: String): Boolean {
+        @Suppress("unused")
+        val request = api.addEntry(apiKey, object {
             val title = title
+            val author = author
             val content = content
             val recipient = recipient
             val deadline = deadline
-        })
+        }).execute()
+
+        return request.isSuccessful
     }
 
-    private fun getEntriesOrNull(): List<ParsedEntry>? {
-        checkAPIKey()
-        val response = api.listEntries(apiKey).execute()
+    fun addEntry(author: Int, title: String, content: String, recipients: List<Int>, deadline: Date, apiKey: String): Boolean {
+        @Suppress("unused")
+        val request = api.addEntry(apiKey, object {
+            val title = title
+            val content = content
+            val recipients = recipients
+            val deadline = deadline
+        }).execute()
+
+        return request.isSuccessful
+    }
+
+    fun updateEntry(id: Int, properties: Map<String, Any>, apiKey: String): Boolean {
+        val request = api.updateEntry(apiKey, ("id" to id) + properties).execute()
+        return request.isSuccessful
+    }
+
+    private fun getEntriesOrNull(userId: Int, apiKey: String): List<ParsedEntry>? {
+        val response = api.listEntries(apiKey, userId).execute()
         if (!response.isSuccessful)
             return null
 
         return response.body()
     }
 
-    private fun getAuthorOrNull(id: Int): ParsedAuthor? {
-        checkAPIKey()
+    private fun getAuthorOrNull(id: Int, apiKey: String): ParsedAuthor? {
         val response = api.getAuthor(apiKey, id).execute()
 
         if (!response.isSuccessful)
@@ -74,10 +88,8 @@ object ApiConnector {
         return response.body()
     }
 
-    private fun checkAPIKey() {
-        class APIKeyNotSetException(desc: String) : RuntimeException(desc)
-        if (!::apiKey.isInitialized)
-            throw APIKeyNotSetException("You need to initialize the API Key before making requests")
+    private operator fun <X, Y> Pair<X, Y>.plus(map: Map<X, Y>): Map<X, Y> {
+        return mutableMapOf(this) + map
     }
 
 }

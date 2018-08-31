@@ -1,25 +1,25 @@
 package de.slg.leoapp.news.ui.main.listing
 
+import de.slg.leoapp.core.ui.mvp.AbstractPresenter
+import de.slg.leoapp.core.utility.User
+import de.slg.leoapp.news.R
 import de.slg.leoapp.news.data.NewsDataManager
 import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.Entry
 import de.slg.leoapp.news.ui.main.listing.adapter.IEntryView
-import de.slg.leoapp.core.ui.mvp.AbstractPresenter
-import de.slg.leoapp.core.utility.User
-import de.slg.leoapp.news.R
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 
 class ListPresenter : AbstractPresenter<IListView, NewsDataManager>(), IListPresenter {
 
     private lateinit var entries: List<Pair<Entry, Author>>
 
+    init {
+        registerDataManager(NewsDataManager)
+    }
+
     override fun onViewAttached(view: IListView) {
         super.onViewAttached(view)
-        launch(UI) {
-            entries = async(CommonPool) { getDataManager().getCurrentEntries() }.await()
+        getDataManager().getCurrentEntries {
+            entries = it
             getMvpView().showListing()
         }
     }
@@ -52,7 +52,7 @@ class ListPresenter : AbstractPresenter<IListView, NewsDataManager>(), IListPres
     }
 
     override fun onCardDeleted(entry: Pair<Entry, Author>) {
-        getDataManager().removeEntry(entry)
+        getDataManager().removeEntry(entry, getMvpView().getViewContext())
 
         //this is kind of resource heavy but since we don't delete often
         //and the amount of entries is usually small, the performance impact should be negligible

@@ -4,22 +4,31 @@ import android.text.format.DateFormat
 import de.slg.leoapp.core.ui.mvp.AbstractPresenter
 import de.slg.leoapp.news.R
 import de.slg.leoapp.news.data.INewsDataManager
+import de.slg.leoapp.news.data.NewsDataManager
 import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.Entry
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailsPresenter : AbstractPresenter<IDetailsView, INewsDataManager>(), IDetailsPresenter {
 
     private lateinit var currentEntry: Pair<Entry, Author>
 
+    init {
+        registerDataManager(NewsDataManager)
+    }
+
     override fun onEditStarted() {
         getMvpView().enableTextViewEditing()
     }
 
-    override fun onEditFinished() {
+    override fun onEditFinished(callback: (Boolean) -> Unit) {
         getMvpView().disableTextViewEditing()
         currentEntry.first.content = getMvpView().getEditedContent()
         currentEntry.first.deadline = getMvpView().getEditedDate()
+        getDataManager().updateEntry(currentEntry, getMvpView().getViewContext()) {
+            callback(true)
+        }
     }
 
     override fun onEditCancelled() {
@@ -33,7 +42,7 @@ class DetailsPresenter : AbstractPresenter<IDetailsView, INewsDataManager>(), ID
     }
 
     override fun onDatePickerDateSelected(d: Date) {
-        TODO("not implemented")
+        getMvpView().setDate(SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN).format(d))
     }
 
     override fun setEntry(entry: Pair<Entry, Author>) {

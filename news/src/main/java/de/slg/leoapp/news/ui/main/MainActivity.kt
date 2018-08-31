@@ -29,6 +29,11 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
 
     override fun onCreate(b: Bundle?) {
         presenter = NewsPresenter()
+
+        detailsPresenter = DetailsPresenter()
+        listPresenter = ListPresenter()
+        addPresenter = AddPresenter()
+
         presenter.onViewAttached(this)
 
         super.onCreate(b)
