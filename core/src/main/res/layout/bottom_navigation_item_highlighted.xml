@@ -6,7 +6,8 @@
     android:paddingBottom="8dp"
     android:paddingEnd="16dp"
     android:paddingStart="16dp"
-    android:paddingTop="8dp">
+    android:paddingTop="8dp"
+    android:background="@color/colorAccent">
 
     <!-- TODO add background -->
 
@@ -20,11 +21,12 @@
     <TextView
         android:id="@+id/featureTitle"
         android:layout_width="wrap_content"
-        android:textColor="@android:color/black"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="32dp"
         android:layout_toEndOf="@id/icon"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
         />
 
 </RelativeLayout>

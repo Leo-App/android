@@ -8,10 +8,10 @@ class MainActivity : LeoAppFeatureActivity() {
     }
 
     override fun getNavigationHighlightId(): Int {
-        return 0
+        return R.string.feature_title
     }
 
     override fun getActivityTag(): String {
-        return "exams_feature_main"
+        return "feature_exams_main"
     }
 }

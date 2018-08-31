@@ -14,7 +14,7 @@ import de.slg.leoapp.core.utility.Utils
 
 /**
  * @author Moritz
- * Erstelldatum: 17.08.2018
+ * @since 2.0.0
  */
 class BottomNavigationDrawer(private val highlightedItem: Int) : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -23,11 +23,14 @@ class BottomNavigationDrawer(private val highlightedItem: Int) : BottomSheetDial
         val menuWrapper: LinearLayout = v.findViewById(R.id.bottomNavigationMenu)
 
         for (menuEntry: MenuEntry in Utils.Menu.getEntries()) {
-            val item =
+            val item = inflater.inflate(
                     if (menuEntry.getId() == highlightedItem)
-                        inflater.inflate(R.layout.bottom_navigation_item_highlighted, menuWrapper, false)
+                        R.layout.bottom_navigation_item_highlighted
                     else
-                        inflater.inflate(R.layout.bottom_navigation_item, menuWrapper, false)
+                        R.layout.bottom_navigation_item,
+                    menuWrapper,
+                    false
+            )
 
             val icon: ImageView = item.findViewById(R.id.icon)
             val title: TextView = item.findViewById(R.id.featureTitle)

@@ -17,13 +17,12 @@ class Startup : Activity() {
         super.onCreate(savedInstanceState)
 
         Utils.Activity.registerProfileActivity(ProfileActivity::class.java)
-        Utils.Activity.registerProfileActivity(SettingsActivity::class.java)
+        Utils.Activity.registerSettingsActivity(SettingsActivity::class.java)
 
         for (feature in ModuleLoader.getFeatures()) {
-
-            if (User(applicationContext!!).permission >= feature.getNecessaryPermission()) {
+            //if (User(applicationContext!!).permission >= feature.getNecessaryPermission()) {
                 Utils.Menu.addMenuEntry(feature.getFeatureId(), getString(feature.getName()), feature.getIcon(), feature.getEntryActivity())
-            }
+            //}
         }
 
         startActivity(Intent(applicationContext, HomeActivity::class.java))

@@ -17,8 +17,8 @@ abstract class Utils {
     abstract class Activity {
         companion object Manager { //Named companion object for java interoperability. Java classes call Activity.Manager.someMethod()
             private val openActivities: Stack<String> = Stack()
-            private lateinit var profileActivity: Class<*>
-            private lateinit var settingsActivity: Class<*>
+            private lateinit var profileActivity: Class<out LeoAppFeatureActivity>
+            private lateinit var settingsActivity: Class<out LeoAppFeatureActivity>
 
             fun registerActivity(tag: String) {
                 openActivities.add(tag)
@@ -31,15 +31,15 @@ abstract class Utils {
             }
 
             fun registerProfileActivity(profile: Class<out LeoAppFeatureActivity>) {
-                if (::profileActivity.isInitialized)
-                    throw ActivityTypeAlreadyRegisteredException("A profile activity is already registered")
+//                if (::profileActivity.isInitialized)
+//                    throw ActivityTypeAlreadyRegisteredException("A profile activity is already registered")
 
                 profileActivity = profile
             }
 
             fun registerSettingsActivity(settings: Class<out LeoAppFeatureActivity>) {
-                if (::settingsActivity.isInitialized)
-                    throw ActivityTypeAlreadyRegisteredException("A settings activity is already registered")
+//                if (::settingsActivity.isInitialized)
+//                    throw ActivityTypeAlreadyRegisteredException("A settings activity is already registered")
 
                 settingsActivity = settings
             }
