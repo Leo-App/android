@@ -10,8 +10,6 @@ import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.DatabaseManager
 import de.slg.leoapp.news.data.db.Entry
 import de.slg.leoapp.news.ui.main.dialog.ConfirmationDialog
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 
 class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPresenter {
 
@@ -23,14 +21,14 @@ class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPre
         registerDataManager(NewsDataManager)
         NewsDataManager.setDatabaseManager(DatabaseManager.getInstance(getMvpView().getViewContext()))
 
-        getDataManager().initApiKey(getMvpView().getViewContext())
-
         if (User(getMvpView().getViewContext()).permission >= PERMISSION_TEACHER) getMvpView().showFAB()
         else getMvpView().hideFAB()
 
+        val context = getMvpView().getViewContext()
+
         //we synchronize once at view binding...
         getMvpView().showLoadingIndicator()
-        getDataManager().refreshEntries {
+        getDataManager().refreshEntries(User(context).id, context) {
             getMvpView().showListing() //... and notify the views (transitive ListFragment)
             getMvpView().hideLoadingIndicator()
         }
@@ -46,6 +44,9 @@ class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPre
     }
 
     override fun onFABPressed() {
+
+        val context = getMvpView().getViewContext()
+
         when (state) {
             //Notify details presenter + view of FAB interaction
             NewsPresenter.State.DETAILS -> {
@@ -53,12 +54,26 @@ class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPre
                 state = State.EDIT
             }
             NewsPresenter.State.EDIT -> {
-                //todo edit in local database, wait for backend response etc
-                getMvpView().getDetailsPresenter().onEditFinished()
+                getMvpView().getDetailsPresenter().onEditFinished {
+                    if (it) {
+                        getDataManager().refreshEntries(User(getMvpView().getViewContext()).id, context) {
+                            getMvpView().showListing() //if editing was successful, return to listing
+                        }
+                    } else {
+                        //editing wasn't successful, show error
+                    }
+                }
             }
             NewsPresenter.State.ADD -> {
-                getDataManager().refreshEntries()
-                getMvpView().showListing() //if adding was successful, return to listing
+                getMvpView().getAddPresenter().onAddFinished {
+                    if (it) {
+                        getDataManager().refreshEntries(User(getMvpView().getViewContext()).id, context) {
+                            getMvpView().showListing() //if editing was successful, return to listing
+                        }
+                    } else {
+                        //editing wasn't successful, show error
+                    }
+                }
             }
             NewsPresenter.State.LIST -> {
                 getMvpView().openNewEntryDialog()

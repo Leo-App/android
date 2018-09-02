@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Allgemeine Appbar, muss in jeder Activity sichtbar sein -->
-<com.google.android.material.bottomappbar.BottomAppBar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.bottomappbar.BottomAppBar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/appBar"
     android:layout_width="match_parent"
@@ -12,4 +11,4 @@
     app:fabAlignmentMode="center"
     app:fabCradleMargin="8dp"
     app:hideOnScroll="true"
-    app:navigationIcon="@drawable/ic_menu"/>
+    app:navigationIcon="@drawable/ic_menu" />

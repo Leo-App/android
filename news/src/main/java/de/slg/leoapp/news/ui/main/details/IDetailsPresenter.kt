@@ -7,7 +7,7 @@ import java.util.*
 interface IDetailsPresenter {
     fun setEntry(entry: Pair<Entry, Author>)
     fun onEditStarted()
-    fun onEditFinished()
+    fun onEditFinished(callback: (Boolean) -> Unit)
     fun onEditCancelled()
     fun onBackPressed()
     fun onDateClicked()
