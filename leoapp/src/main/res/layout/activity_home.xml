@@ -31,8 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/avocado"
-                tools:ignore="ContentDescription"/>
+                android:src="@mipmap/bg_home"
+                tools:ignore="ContentDescription" />
 
             <LinearLayout
                 android:layout_width="match_parent"
