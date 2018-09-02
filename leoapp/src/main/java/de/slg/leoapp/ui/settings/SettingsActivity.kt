@@ -8,10 +8,10 @@ class SettingsActivity : LeoAppFeatureActivity() {
     }
 
     override fun getNavigationHighlightId(): Int {
-        TODO("not implemented")
+        return -1
     }
 
     override fun getActivityTag(): String {
-        TODO("not implemented")
+        return "leoapp_feature_settings"
     }
 }

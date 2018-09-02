@@ -2,12 +2,25 @@
 
 package de.slg.leoapp.core.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import de.slg.leoapp.core.R
+import de.slg.leoapp.core.modules.MenuEntry
+import de.slg.leoapp.core.utility.Utils
+import org.jetbrains.anko.backgroundColorResource
 
 /**
  * LeoAppNavigationActivity.
@@ -23,7 +36,8 @@ import de.slg.leoapp.core.R
  */
 abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
-    private lateinit var navigationView: BottomNavigationDrawer
+    private lateinit var navigationView: BottomSheetBehavior<View>
+    private lateinit var appBar: BottomAppBar
 
     /**
      * Muss in der Implementation die Ressourcen-ID des Activity-Layouts zurückgaben.
@@ -51,27 +65,118 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
     /**
      * Allgemeine Methode zum Einrichten des NavigationDrawers. Alle Änderungen wirken sich auf die gesamte App (Alle Navigationsmenüs) aus.
-     * Überschreibende Methoden müssen super.initNavigationDrawer() aufrufen.
      */
     @CallSuper
     protected fun initNavigationDrawer() {
-        navigationView = BottomNavigationDrawer(getNavigationHighlightId())
+        navigationView = BottomSheetBehavior.from(findViewById(R.id.bottomNavigationDrawer))
+
+        val menuWrapper: RecyclerView = findViewById(R.id.bottomNavigationMenu)
+        menuWrapper.layoutManager = LinearLayoutManager(applicationContext)
+        menuWrapper.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+                return object : RecyclerView.ViewHolder(layoutInflater.inflate(R.layout.bottom_navigation_item, parent, false)) {
+
+                }
+            }
+
+            override fun getItemCount(): Int {
+                return Utils.Menu.getEntries().size()
+            }
+
+            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                val menuEntry: MenuEntry = Utils.Menu.getEntries().getObjectAt(position)!!
+
+                val icon: ImageView = holder.itemView.findViewById(R.id.icon)
+                val title: TextView = holder.itemView.findViewById(R.id.featureTitle)
+
+                icon.setImageResource(menuEntry.getIcon())
+                title.text = menuEntry.getTitle()
+
+                holder.itemView.setOnClickListener {
+                    startActivity(menuEntry.getIntent(applicationContext))
+                    navigationView.state = BottomSheetBehavior.STATE_HIDDEN
+                }
+
+                (holder.itemView as CardView).setCardBackgroundColor(
+                        ContextCompat.getColor(
+                                applicationContext,
+                                if (menuEntry.getId() == getNavigationHighlightId())
+                                    R.color.colorAccent
+                                else
+                                    android.R.color.white
+                        )
+                )
+            }
+        }
+
+        val close: View = findViewById(R.id.close)
+        close.setOnClickListener { navigationView.state = BottomSheetBehavior.STATE_HIDDEN }
+        close.visibility = View.GONE
+
+        val shadow: View = findViewById(R.id.shadow)
+        shadow.setOnClickListener { navigationView.state = BottomSheetBehavior.STATE_HIDDEN }
+
+        navigationView.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(view: View, offset: Float) {
+                if (view.top == 0) {
+                    close.visibility = View.VISIBLE
+                } else {
+                    close.visibility = View.GONE
+                }
+                shadow.visibility = View.VISIBLE
+            }
+
+            override fun onStateChanged(view: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN)
+                    shadow.visibility = View.GONE
+
+                if (view.top == 0) {
+                    close.visibility = View.VISIBLE
+                } else {
+                    close.visibility = View.GONE
+                }
+            }
+        })
+
+        findViewById<View>(R.id.profileWrapper).setOnClickListener {
+            startActivity(Intent(applicationContext, Utils.Activity.getProfileReference()))
+        }
     }
 
     /**
      * Allgemeine Methode zum Einrichten der Toolbar. Alle Änderungen wirken sich auf die gesamte App (NUR Feature-Toolbars - Keine der sonstigen Activities) aus.
-     * Überschreibende Methoden müssen super.initToolbar() aufrufen.
      */
     @CallSuper
     protected fun initToolbar() {
-        val appBar: BottomAppBar = findViewById(R.id.appBar)
+        appBar = findViewById(R.id.appBar)
         appBar.replaceMenu(R.menu.app_toolbar_default)
         appBar.setNavigationOnClickListener {
-            navigationView.show(supportFragmentManager, "navigation_drawer")
+            findViewById<View>(R.id.shadow).visibility = View.VISIBLE
+            navigationView.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+        }
+        appBar.setOnMenuItemClickListener { item ->
+            if (item.itemId == R.id.action_settings) {
+                startActivity(Intent(applicationContext, Utils.Activity.getSettingsReference()))
+            } else if (item.itemId == R.id.action_profile) {
+                startActivity(Intent(applicationContext, Utils.Activity.getProfileReference()))
+            }
+            true
         }
     }
 
     protected fun getAppBar(): BottomAppBar {
-        return findViewById(R.id.appBar)
+        if (!::appBar.isInitialized) {
+            appBar = findViewById(R.id.appBar)
+        }
+
+        return appBar
+    }
+
+    protected fun getNavigationDrawer(): BottomSheetBehavior<View> {
+        if (!::navigationView.isInitialized) {
+            navigationView = BottomSheetBehavior.from(findViewById(R.id.bottomNavigationDrawer))
+        }
+
+        return navigationView
     }
 }

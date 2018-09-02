@@ -18,18 +18,28 @@ class Startup : Activity() {
         //registering all necessary information in utils so that all modules may access it without exposing the ModuleLoader
         Utils.Activity.registerProfileActivity(ProfileActivity::class.java)
         Utils.Activity.registerSettingsActivity(SettingsActivity::class.java)
-        //Utils.Network.registerAPIKeyAlgorithm(ModuleLoader.getAuthenticationModule()::getAPIKey)
+        Utils.Network.registerAPIKeyAlgorithm(ModuleLoader.getAuthenticationModule()::getAPIKey)
 
-        Utils.Menu.addMenuEntry(R.string.home, getString(R.string.home), R.drawable.ic_startseite, HomeActivity::class.java)
+        Utils.Menu.addMenuEntry(
+                R.string.home,
+                getString(R.string.home),
+                R.drawable.ic_startseite,
+                HomeActivity::class.java
+        )
 
         for (feature in ModuleLoader.getFeatures()) {
-            //if (User(applicationContext!!).permission >= feature.getNecessaryPermission()) {
-                Utils.Menu.addMenuEntry(feature.getFeatureId(), getString(feature.getName()), feature.getIcon(), feature.getEntryActivity())
-            //}
+            //TODO if (User(applicationContext).permission >= feature.getNecessaryPermission())
+                Utils.Menu.addMenuEntry(
+                        feature.getFeatureId(),
+                        getString(feature.getName()),
+                        feature.getIcon(),
+                        feature.getEntryActivity()
+                )
         }
 
         //Terminate Splashscreen
         startActivity(Intent(applicationContext, HomeActivity::class.java))
+        finish()
     }
 
 }
