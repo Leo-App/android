@@ -81,18 +81,6 @@ class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPre
         }
     }
 
-    override fun onProfilePressed() {
-        getMvpView().openProfileActivity()
-    }
-
-    override fun onSettingsPressed() {
-        getMvpView().openSettings()
-    }
-
-    override fun onNavigationPressed() {
-        //todo
-    }
-
     override fun onDeletePressed() {
         val dialog = ConfirmationDialog(this, getMvpView().getViewContext())
         dialog.show()

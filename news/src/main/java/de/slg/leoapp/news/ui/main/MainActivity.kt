@@ -1,9 +1,10 @@
 package de.slg.leoapp.news.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+import de.slg.leoapp.news.R
 import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.Entry
 import de.slg.leoapp.news.ui.main.add.AddFragment
@@ -12,9 +13,6 @@ import de.slg.leoapp.news.ui.main.details.DetailsFragment
 import de.slg.leoapp.news.ui.main.details.DetailsPresenter
 import de.slg.leoapp.news.ui.main.listing.ListFragment
 import de.slg.leoapp.news.ui.main.listing.ListPresenter
-import de.slg.leoapp.core.ui.LeoAppFeatureActivity
-import de.slg.leoapp.core.utility.Utils
-import de.slg.leoapp.news.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : LeoAppFeatureActivity(), INewsView {
@@ -88,14 +86,6 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
 
     override fun removeDeleteAction() {
         getAppBar().replaceMenu(R.menu.app_toolbar_default)
-    }
-
-    override fun openSettings() {
-        startActivity(Intent(applicationContext!!, Utils.Activity.getSettingsReference()))
-    }
-
-    override fun openProfileActivity() {
-        startActivity(Intent(applicationContext!!, Utils.Activity.getProfileReference()))
     }
 
     override fun getDetailsPresenter() = detailsPresenter

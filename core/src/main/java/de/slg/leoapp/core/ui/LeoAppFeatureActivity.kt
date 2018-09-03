@@ -3,6 +3,7 @@
 package de.slg.leoapp.core.ui
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import de.slg.leoapp.core.R
 import de.slg.leoapp.core.modules.MenuEntry
 import de.slg.leoapp.core.utility.Utils
-import org.jetbrains.anko.backgroundColorResource
 
 /**
  * LeoAppNavigationActivity.
@@ -90,6 +90,15 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
                 val title: TextView = holder.itemView.findViewById(R.id.featureTitle)
 
                 icon.setImageResource(menuEntry.getIcon())
+
+                if (menuEntry.getId() == getNavigationHighlightId()) {
+                    icon.setColorFilter(ContextCompat.getColor(applicationContext!!,
+                            android.R.color.black), PorterDuff.Mode.MULTIPLY)
+                } else {
+                    icon.setColorFilter(ContextCompat.getColor(applicationContext!!,
+                            R.color.colorTextGrey), PorterDuff.Mode.MULTIPLY)
+                }
+
                 title.text = menuEntry.getTitle()
 
                 holder.itemView.setOnClickListener {
@@ -144,7 +153,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     }
 
     /**
-     * Allgemeine Methode zum Einrichten der Toolbar. Alle Änderungen wirken sich auf die gesamte App (NUR Feature-Toolbars - Keine der sonstigen Activities) aus.
+     * Allgemeine Methode zum Einrichten der AppBar. Alle Änderungen wirken sich auf die gesamte App (NUR Feature-Toolbars - Keine der sonstigen Activities) aus.
      */
     @CallSuper
     protected fun initToolbar() {

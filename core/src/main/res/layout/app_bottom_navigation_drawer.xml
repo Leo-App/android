@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottomNavigationDrawer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -26,7 +26,8 @@
             <ImageView
                 android:id="@+id/profilePicture"
                 android:layout_width="48dp"
-                android:layout_height="48dp"/>
+                android:layout_height="48dp"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/name"
@@ -36,7 +37,8 @@
                 android:layout_marginTop="2dp"
                 android:layout_toEndOf="@id/profilePicture"
                 android:text="Max Mustermann"
-                android:textSize="20sp"/>
+                android:textColor="@color/colorTextDark"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/defaultName"
@@ -47,7 +49,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@id/profilePicture"
                 android:text="maxmus010101"
-                android:textSize="16sp"/>
+                android:textColor="@color/colorTextDark"
+                android:textSize="16sp" />
 
             <ImageButton
                 android:id="@+id/close"
@@ -57,7 +60,7 @@
                 android:layout_alignParentTop="true"
                 android:background="@android:color/transparent"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
-                android:tint="@android:color/black"/>
+                android:tint="@android:color/black" />
 
         </RelativeLayout>
 
@@ -65,8 +68,8 @@
             android:id="@+id/bottomNavigationMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:layout_marginTop="6dp"/>
+            android:layout_marginTop="6dp"
+            android:clipToPadding="false" />
 
     </LinearLayout>
 

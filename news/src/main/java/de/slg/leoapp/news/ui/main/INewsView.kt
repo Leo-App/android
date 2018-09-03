@@ -17,8 +17,6 @@ interface INewsView : MVPView {
     fun showListing()
     fun openNewEntryDialog()
     fun showEntry(entry: Pair<Entry, Author>)
-    fun openProfileActivity()
-    fun openSettings()
     fun addDeleteAction()
     fun removeDeleteAction()
     fun terminate()
