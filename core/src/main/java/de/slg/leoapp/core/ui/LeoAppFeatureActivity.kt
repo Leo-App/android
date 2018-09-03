@@ -3,8 +3,8 @@
 package de.slg.leoapp.core.ui
 
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -21,6 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import de.slg.leoapp.core.R
 import de.slg.leoapp.core.modules.MenuEntry
 import de.slg.leoapp.core.utility.Utils
+import de.slg.leoapp.core.utility.setTint
 
 /**
  * LeoAppNavigationActivity.
@@ -72,80 +73,9 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
         val menuWrapper: RecyclerView = findViewById(R.id.bottomNavigationMenu)
         menuWrapper.layoutManager = LinearLayoutManager(applicationContext)
-        menuWrapper.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-                return object : RecyclerView.ViewHolder(layoutInflater.inflate(R.layout.bottom_navigation_item, parent, false)) {
+        menuWrapper.adapter = DrawerAdapter()
 
-                }
-            }
-
-            override fun getItemCount(): Int {
-                return Utils.Menu.getEntries().size()
-            }
-
-            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                val menuEntry: MenuEntry = Utils.Menu.getEntries().getObjectAt(position)!!
-
-                val icon: ImageView = holder.itemView.findViewById(R.id.icon)
-                val title: TextView = holder.itemView.findViewById(R.id.featureTitle)
-
-                icon.setImageResource(menuEntry.getIcon())
-
-                if (menuEntry.getId() == getNavigationHighlightId()) {
-                    icon.setColorFilter(ContextCompat.getColor(applicationContext!!,
-                            android.R.color.black), PorterDuff.Mode.MULTIPLY)
-                } else {
-                    icon.setColorFilter(ContextCompat.getColor(applicationContext!!,
-                            R.color.colorTextGrey), PorterDuff.Mode.MULTIPLY)
-                }
-
-                title.text = menuEntry.getTitle()
-
-                holder.itemView.setOnClickListener {
-                    startActivity(menuEntry.getIntent(applicationContext))
-                    navigationView.state = BottomSheetBehavior.STATE_HIDDEN
-                }
-
-                (holder.itemView as CardView).setCardBackgroundColor(
-                        ContextCompat.getColor(
-                                applicationContext,
-                                if (menuEntry.getId() == getNavigationHighlightId())
-                                    R.color.colorAccent
-                                else
-                                    android.R.color.white
-                        )
-                )
-            }
-        }
-
-        val close: View = findViewById(R.id.close)
-        close.setOnClickListener { navigationView.state = BottomSheetBehavior.STATE_HIDDEN }
-        close.visibility = View.GONE
-
-        val shadow: View = findViewById(R.id.shadow)
-        shadow.setOnClickListener { navigationView.state = BottomSheetBehavior.STATE_HIDDEN }
-
-        navigationView.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(view: View, offset: Float) {
-                if (view.top == 0) {
-                    close.visibility = View.VISIBLE
-                } else {
-                    close.visibility = View.GONE
-                }
-                shadow.visibility = View.VISIBLE
-            }
-
-            override fun onStateChanged(view: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN)
-                    shadow.visibility = View.GONE
-
-                if (view.top == 0) {
-                    close.visibility = View.VISIBLE
-                } else {
-                    close.visibility = View.GONE
-                }
-            }
-        })
+        initBottomSheetBehavior()
 
         findViewById<View>(R.id.profileWrapper).setOnClickListener {
             startActivity(Intent(applicationContext, Utils.Activity.getProfileReference()))
@@ -188,4 +118,78 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
         return navigationView
     }
+
+    private fun initBottomSheetBehavior() {
+        val close: View = findViewById(R.id.close)
+        close.setOnClickListener { navigationView.state = BottomSheetBehavior.STATE_HIDDEN }
+        close.visibility = View.GONE
+
+        val shadow: View = findViewById(R.id.shadow)
+        shadow.setOnClickListener { navigationView.state = BottomSheetBehavior.STATE_HIDDEN }
+
+        navigationView.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(view: View, offset: Float) {
+                if (view.top == 0) {
+                    close.visibility = View.VISIBLE
+                } else {
+                    close.visibility = View.GONE
+                }
+                shadow.visibility = View.VISIBLE
+            }
+
+            override fun onStateChanged(view: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    shadow.visibility = View.GONE
+                }
+
+                if (view.top == 0) {
+                    close.visibility = View.VISIBLE
+                } else {
+                    close.visibility = View.GONE
+                }
+            }
+        })
+    }
+
+    inner class DrawerAdapter : RecyclerView.Adapter<DrawerAdapter.ViewHolder>() {
+
+        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.bottom_navigation_item, parent, false))
+        }
+
+        override fun getItemCount(): Int {
+            return Utils.Menu.getEntries().size()
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val menuEntry: MenuEntry = Utils.Menu.getEntries().getObjectAt(position)!!
+
+            val icon: ImageView = holder.itemView.findViewById(R.id.icon)
+            val title: TextView = holder.itemView.findViewById(R.id.featureTitle)
+
+            icon.setImageResource(menuEntry.getIcon())
+
+            if (menuEntry.getId() == getNavigationHighlightId()) {
+                icon.setTint(android.R.color.black)
+            } else {
+                icon.setTint(R.color.colorTextGrey)
+            }
+
+            title.text = menuEntry.getTitle()
+
+            holder.itemView.setOnClickListener {
+                startActivity(menuEntry.getIntent(applicationContext))
+                navigationView.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
+            (holder.itemView as CardView).setCardBackgroundColor(
+                    ContextCompat.getColor(applicationContext,
+                            if (menuEntry.getId() == getNavigationHighlightId()) R.color.colorAccent
+                            else android.R.color.white)
+            )
+        }
+    }
+
 }
