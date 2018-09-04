@@ -37,7 +37,7 @@ const val URL_WEBDAV = "$BASE_DOMAIN_SCHOOL/slg/hcwebdav"
 /**
  * Pfad zum PHP-Ordner auf dem Schulserver
  */
-const val URL_PHP_SCHOOL = "$BASE_DOMAIN_SCHOOL/slgweb/leoapp_php"
+const val URL_PHP_SCHOOL = "$BASE_DOMAIN_SCHOOL/slgweb/leoapp_php/"
 
 /**
  * Pfad zu den PHP Skripts der Essensbestellung
@@ -84,7 +84,7 @@ class Network { //For java interoperability
         /**
          * Pfad zum PHP-Ordner auf dem Schulserver
          */
-        const val URL_PHP_SCHOOL = "$BASE_DOMAIN_SCHOOL/slgweb/leoapp_php"
+        const val URL_PHP_SCHOOL = "$BASE_DOMAIN_SCHOOL/slgweb/leoapp_php/"
 
         /**
          * Pfad zu den PHP Skripts der Essensbestellung

@@ -8,7 +8,7 @@ import de.slg.leoapp.core.modules.Authentication
 import de.slg.leoapp.core.modules.Input
 import de.slg.leoapp.core.preferences.PreferenceManager
 import de.slg.leoapp.core.utility.DOMAIN_DEV
-import de.slg.leoapp.core.utility.User
+import de.slg.leoapp.core.data.User
 import de.slg.leoapp.core.utility.toHexString
 import java.nio.charset.Charset
 import java.security.MessageDigest

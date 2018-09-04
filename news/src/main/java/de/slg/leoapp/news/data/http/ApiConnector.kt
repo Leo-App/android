@@ -58,6 +58,7 @@ object ApiConnector {
         @Suppress("unused")
         val request = api.addEntry(apiKey, object {
             val title = title
+            val author = author
             val content = content
             val recipients = recipients
             val deadline = deadline

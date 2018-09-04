@@ -1,6 +1,8 @@
 <manifest package="de.slg.leoapp.news"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application>
         <activity android:name=".ui.main.MainActivity" />
     </application>

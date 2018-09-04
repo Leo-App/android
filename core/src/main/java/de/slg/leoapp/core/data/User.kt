@@ -1,4 +1,4 @@
-package de.slg.leoapp.core.utility
+package de.slg.leoapp.core.data
 
 import android.content.Context
 import de.slg.leoapp.core.preferences.PreferenceManager

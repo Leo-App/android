@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">LeoApp</string>
     <string name="home">Home</string>
+    <string name="back">Back</string>
+
+    <!-- Profile activity -->
+    <string name="surveys">Running survey</string>
+    <string name="grade">Grade</string>
+
 </resources>

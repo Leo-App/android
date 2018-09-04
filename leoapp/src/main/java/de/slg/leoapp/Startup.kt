@@ -3,13 +3,12 @@ package de.slg.leoapp
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import de.slg.leoapp.ui.settings.SettingsActivity
 import de.slg.leoapp.annotation.Modules
-import de.slg.leoapp.core.utility.User
 import de.slg.leoapp.core.utility.Utils
 import de.slg.leoapp.data.FeatureDataManager
 import de.slg.leoapp.ui.home.HomeActivity
 import de.slg.leoapp.ui.profile.ProfileActivity
+import de.slg.leoapp.ui.settings.SettingsActivity
 
 class Startup : Activity() {
 

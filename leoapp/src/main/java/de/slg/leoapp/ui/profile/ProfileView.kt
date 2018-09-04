@@ -8,5 +8,4 @@ interface ProfileView {
     fun disableTextViewEditing()
     fun showEditButton()
     fun showSaveButton()
-    fun saveChanges()
 }

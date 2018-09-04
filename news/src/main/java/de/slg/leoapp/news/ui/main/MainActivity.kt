@@ -13,7 +13,7 @@ import de.slg.leoapp.news.ui.main.details.DetailsFragment
 import de.slg.leoapp.news.ui.main.details.DetailsPresenter
 import de.slg.leoapp.news.ui.main.listing.ListFragment
 import de.slg.leoapp.news.ui.main.listing.ListPresenter
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_news.*
 
 class MainActivity : LeoAppFeatureActivity(), INewsView {
 
@@ -26,6 +26,8 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
     private lateinit var addPresenter: AddPresenter
 
     override fun onCreate(b: Bundle?) {
+        super.onCreate(b)
+
         presenter = NewsPresenter()
 
         detailsPresenter = DetailsPresenter()
@@ -33,8 +35,6 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
         addPresenter = AddPresenter()
 
         presenter.onViewAttached(this)
-
-        super.onCreate(b)
     }
 
     override fun onBackPressed() {
@@ -96,7 +96,7 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
 
     override fun getViewContext() = applicationContext!!
 
-    override fun getContentView() = R.layout.activity_main
+    override fun getContentView() = R.layout.activity_news
 
     override fun getNavigationHighlightId() = 0xdefa12
 

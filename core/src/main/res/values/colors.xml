@@ -8,4 +8,5 @@
     <color name="colorTextDark">#de000000</color>
     <color name="colorTextGrey">#8a000000</color>
     <color name="colorShadow">#96000000</color>
+    <color name="colorDivider">#1e000000</color>
 </resources>
