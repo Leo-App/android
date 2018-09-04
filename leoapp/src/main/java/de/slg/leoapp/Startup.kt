@@ -29,7 +29,7 @@ class Startup : Activity() {
         )
 
         for (feature in ModuleLoader.getFeatures()) {
-        //TODO    if (User(applicationContext).permission >= feature.getNecessaryPermission()) {
+            //TODO if (User(applicationContext).permission >= feature.getNecessaryPermission()) {
                 Utils.Menu.addMenuEntry(
                         feature.getFeatureId(),
                         getString(feature.getName()),

@@ -3,8 +3,22 @@
     <string name="home">Home</string>
     <string name="back">Back</string>
 
-    <!-- Profile activity -->
+    <!-- Profile -->
     <string name="surveys">Running survey</string>
     <string name="grade">Grade</string>
+
+    <!-- Settings -->
+    <string name="school" translatable="false">Sankt-Leonhard Gymnasium Aachen</string>
+    <string name="version">Version</string>
+    <string name="license">Open-Source-Licenses</string>
+    <string name="team">Project members</string>
+    <string name="desc_team">All developers &amp; supporters</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="desc_notifications">Ping.</string>
+    <string name="contact">Contact</string>
+    <string name="desc_contact">Write us!</string>
+    <string name="about">About</string>
+    <string name="desc_about">More information</string>
 
 </resources>
