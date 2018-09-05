@@ -5,8 +5,6 @@ package de.slg.leoapp.core.utility
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
-import android.util.Log
-import android.telephony.TelephonyManager as T
 import androidx.annotation.DrawableRes
 import de.slg.leoapp.core.datastructure.List
 import de.slg.leoapp.core.datastructure.Stack
@@ -17,8 +15,8 @@ import de.slg.leoapp.core.utility.exception.ActivityTypeAlreadyRegisteredExcepti
 import de.slg.leoapp.core.utility.exception.ActivityTypeNotRegisteredException
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
+import android.telephony.TelephonyManager as T
 
-//TODO add Javadoc for all core classes and public methods/functions
 abstract class Utils {
 
     abstract class Activity {

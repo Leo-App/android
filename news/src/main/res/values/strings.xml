@@ -13,4 +13,7 @@
     <!-- tooltips -->
     <string name="delete">Delete</string>
 
+    <!-- Notification -->
+    <string name="news_desc_notification">On new entries</string>
+
 </resources>

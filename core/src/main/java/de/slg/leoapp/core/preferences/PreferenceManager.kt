@@ -32,16 +32,16 @@ class PreferenceManager {
     }
 
     companion object {
-        fun edit(context: Context, tasks: (PreferenceEditor) -> Unit) {
+        fun edit(context: Context, tasks: PreferenceEditor.() -> Unit) {
             val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
             val writer = PreferenceEditor(editor)
-            tasks(writer)
+            writer.tasks()
             editor.apply()
         }
 
-        fun read(context: Context, tasks: (PreferenceReader) -> Unit) {
+        fun read(context: Context, tasks: PreferenceReader.() -> Unit) {
             val reader = PreferenceReader(PreferenceManager.getDefaultSharedPreferences(context))
-            tasks(reader)
+            reader.tasks()
         }
     }
 

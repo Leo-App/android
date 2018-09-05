@@ -39,7 +39,7 @@ class Module : Authentication {
         val checksum = request.jsonObject.getString("checksum")
 
         PreferenceManager.edit(context) {
-            it.putString(PreferenceManager.Device.AUTHENTICATION, checksum)
+            putString(PreferenceManager.Device.AUTHENTICATION, checksum)
         }
 
         return true
@@ -53,7 +53,7 @@ class Module : Authentication {
         lateinit var checksum: String
 
         PreferenceManager.read(context) {
-            checksum = it.getString(PreferenceManager.Device.AUTHENTICATION)
+            checksum = getString(PreferenceManager.Device.AUTHENTICATION)
         }
 
         val random = SecureRandom()
