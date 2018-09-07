@@ -1,7 +1,6 @@
 package de.slg.leoapp.core.data
 
 import android.content.Context
-import androidx.annotation.NonNull
 import de.slg.leoapp.core.preferences.PreferenceManager
 
 class User(private val context: Context) {

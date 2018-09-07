@@ -14,7 +14,7 @@ class AboutPresenter : AbstractPresenter<IAboutView, Unit>(), IAboutPresenter {
             0, 1 -> ClickHandler.startTimer()
             2, 3, 4 -> {
                 ClickHandler.startTimer()
-                getMvpView().sendToast("${5-ClickHandler.clicks} Steps left")
+                getMvpView().sendToast("${5 - ClickHandler.clicks} Steps left")
             }
             5 -> {
                 //TODO implement

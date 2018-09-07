@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="@android:color/white">
 
     <ImageView
         android:id="@+id/arrow_back"
@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_arrow_left"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"/>
 
     <!-- Guideline at 16dp margin left + 24dp back-icon width + 16dp margin right -->
     <androidx.constraintlayout.widget.Guideline
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="56dp" />
+        app:layout_constraintGuide_begin="56dp"/>
 
     <TextView
         android:id="@+id/app_name"
@@ -35,7 +35,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/arrow_back" />
+        app:layout_constraintTop_toBottomOf="@id/arrow_back"/>
 
     <TextView
         android:id="@+id/school_name"
@@ -46,7 +46,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/app_name" />
+        app:layout_constraintTop_toBottomOf="@id/app_name"/>
 
     <ImageView
         android:id="@+id/link_icon"
@@ -57,7 +57,7 @@
         android:tint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/separator1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_launch" />
+        app:srcCompat="@drawable/ic_launch"/>
 
     <View
         android:id="@+id/separator1"
@@ -67,7 +67,7 @@
         android:background="@color/colorDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/school_name" />
+        app:layout_constraintTop_toBottomOf="@id/school_name"/>
 
     <TextView
         android:id="@+id/version"
@@ -79,7 +79,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/separator1" />
+        app:layout_constraintTop_toBottomOf="@id/separator1"/>
 
     <TextView
         android:id="@+id/description_version"
@@ -90,7 +90,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/version" />
+        app:layout_constraintTop_toBottomOf="@id/version"/>
 
     <View
         android:id="@+id/separator2"
@@ -100,7 +100,7 @@
         android:background="@color/colorDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/description_version" />
+        app:layout_constraintTop_toBottomOf="@id/description_version"/>
 
     <TextView
         android:id="@+id/team"
@@ -112,7 +112,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/separator2" />
+        app:layout_constraintTop_toBottomOf="@id/separator2"/>
 
     <TextView
         android:id="@+id/description_team"
@@ -123,7 +123,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/team" />
+        app:layout_constraintTop_toBottomOf="@id/team"/>
 
     <View
         android:id="@+id/separator3"
@@ -133,7 +133,7 @@
         android:background="@color/colorDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/description_team" />
+        app:layout_constraintTop_toBottomOf="@id/description_team"/>
 
     <TextView
         android:id="@+id/licences"
@@ -145,7 +145,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/separator3" />
+        app:layout_constraintTop_toBottomOf="@id/separator3"/>
 
     <ImageView
         android:id="@+id/chevron_license"
@@ -155,6 +155,6 @@
         android:tint="@color/colorTextGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/licences"
-        app:srcCompat="@drawable/ic_chevron_right" />
+        app:srcCompat="@drawable/ic_chevron_right"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

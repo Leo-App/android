@@ -46,8 +46,8 @@ class ProfilePresenter : AbstractPresenter<ProfileView, Unit>(), IProfilePresent
             return
         }
 
-        user.firstName = with (enteredNames) { slice(0..size-2).joinToString(separator = " ") }
-        user.lastName = enteredNames[enteredNames.size-1]
+        user.firstName = with(enteredNames) { slice(0..size - 2).joinToString(separator = " ") }
+        user.lastName = enteredNames[enteredNames.size - 1]
         user.profilePicture = ProfilePicture(currentProfilePicture, user.id)
         getMvpView().disableTextViewEditing()
         getMvpView().hideImageViewEditOverlay()

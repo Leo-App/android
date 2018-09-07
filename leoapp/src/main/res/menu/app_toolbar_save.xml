@@ -9,20 +9,20 @@
         android:title="@string/save"
         android:icon="@drawable/ic_check"
         app:showAsAction="ifRoom"
-        tools:ignore="AppCompatResource" />
+        tools:ignore="AppCompatResource"/>
 
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings"
         app:showAsAction="ifRoom"
-        tools:ignore="AppCompatResource" />
+        tools:ignore="AppCompatResource"/>
 
     <item
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_profile"
         android:title="@string/profile"
         app:showAsAction="ifRoom"
-        tools:ignore="AppCompatResource" />
+        tools:ignore="AppCompatResource"/>
 
 </menu>

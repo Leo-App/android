@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.TextView
 import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
-import kotlinx.android.synthetic.main.activity_profile.*
 
 
 class ProfileActivity : LeoAppFeatureActivity(), ProfileView {

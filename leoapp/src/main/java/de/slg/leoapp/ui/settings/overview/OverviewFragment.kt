@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import de.slg.leoapp.R
 import de.slg.leoapp.ui.settings.about.AboutFragment
 import de.slg.leoapp.ui.settings.notification.NotificationFragment
-import kotlinx.android.synthetic.main.fragment_settings_overview.*
 
 class OverviewFragment : Fragment(), IOverviewView {
 

@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import de.slg.leoapp.R
-import kotlinx.android.synthetic.main.dialog_team.*
 
 class TeamDialog(context: Context) : AlertDialog(context) {
 
