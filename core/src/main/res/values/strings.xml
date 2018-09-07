@@ -4,4 +4,9 @@
     <string name="settings">Settings</string>
     <string name="profile">Profile</string>
 
+
+    <!-- General data -->
+    <string name="leoapp_email" translatable="false">app@leo-ac.de</string>
+    <string name="leoapp_website" translatable="false">leoapp-slg.de</string>
+
 </resources>

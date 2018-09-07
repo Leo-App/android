@@ -1,6 +1,7 @@
 package de.slg.leoapp.core.data
 
 import android.content.Context
+import androidx.annotation.NonNull
 import de.slg.leoapp.core.preferences.PreferenceManager
 
 class User(private val context: Context) {
@@ -85,6 +86,22 @@ class User(private val context: Context) {
             field = value
             PreferenceManager.edit(context) {
                 putInt(PreferenceManager.User.PERMISSION, value)
+            }
+        }
+
+    var profilePicture: ProfilePicture = ProfilePicture("")
+        get() {
+            if (field.getURLString() == "") PreferenceManager.read(context) {
+                field = ProfilePicture(getString(PreferenceManager.User.PROFILE_PICTURE_URL))
+            }
+            return field
+        }
+        set(value) {
+            if (value.getURLString() == field.getURLString()) return
+
+            field = value
+            PreferenceManager.edit(context) {
+                putString(PreferenceManager.User.PROFILE_PICTURE_URL, value.getURLString())
             }
         }
 }

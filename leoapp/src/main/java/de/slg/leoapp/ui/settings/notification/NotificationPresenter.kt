@@ -1,5 +1,6 @@
 package de.slg.leoapp.ui.settings.notification
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import de.slg.leoapp.ModuleLoader
@@ -15,17 +16,9 @@ class NotificationPresenter : AbstractPresenter<INotificationView, Unit>(), INot
     init {
         list = mutableListOf()
         for (cur in ModuleLoader.getFeatures()) {
-            if (cur.hasNotification()) {
-                val notification = cur.getNotification() ?: continue
-
-                var isEnabled = false
-                PreferenceManager.read(getMvpView().getViewContext()) {
-                    isEnabled = getBoolean(notification.preferenceKey)
-                }
-
-                list.add(NotificationSetting(
-                        cur.getIcon(), cur.getName(), notification.description, notification.preferenceKey, isEnabled))
-            }
+            val notification = cur.getNotification() ?: continue
+            list.add(NotificationSetting(
+                    cur.getIcon(), cur.getName(), notification.description, notification.preferenceKey, false))
         }
     }
 
@@ -33,6 +26,7 @@ class NotificationPresenter : AbstractPresenter<INotificationView, Unit>(), INot
 
     override fun onViewAttached(view: INotificationView) {
         super.onViewAttached(view)
+        init()
         getMvpView().showNotificationListing()
     }
 
@@ -56,7 +50,16 @@ class NotificationPresenter : AbstractPresenter<INotificationView, Unit>(), INot
     override fun onQuit() {
         PreferenceManager.edit(getMvpView().getViewContext()) {
             for (cur in list) {
+                Log.d("leoapp", cur.enabled.toString())
                 putBoolean(cur.preferenceKey, cur.enabled)
+            }
+        }
+    }
+
+    private fun init() {
+        for (cur in list) {
+            PreferenceManager.read(getMvpView().getViewContext()) {
+                cur.enabled = getBoolean(cur.preferenceKey)
             }
         }
     }

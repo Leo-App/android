@@ -44,6 +44,16 @@ const val URL_PHP_SCHOOL = "$BASE_DOMAIN_SCHOOL/slgweb/leoapp_php/"
  */
 const val URL_LUNCH_LEO = "http://lunch.leo-ac.de/include"
 
+/**
+ * Pfad zum LeoApp Applicationserver
+ */
+const val URL_API = "https://ucloud4schools.de/api" //TODO fix tomcat and api
+
+/**
+ * Pfad zu Userprofilbild
+ */
+const val URL_PROFILE_PICTURE = "$URL_API/media/usr_%d_pp"
+
 
 class Permissions { //For java interoperability
     companion object {
@@ -90,5 +100,16 @@ class Network { //For java interoperability
          * Pfad zu den PHP Skripts der Essensbestellung
          */
         const val URL_LUNCH_LEO = "http://lunch.leo-ac.de/include"
+
+        /**
+         * Pfad zum LeoApp Applicationserver
+         */
+        const val URL_API = "https://ucloud4schools.de/api" //TODO fix tomcat and api
+
+        /**
+         * Pfad zu Userprofilbild
+         */
+        const val URL_PROFILE_PICTURE = "$URL_API/media/usr_%d_pp"
+
     }
 }

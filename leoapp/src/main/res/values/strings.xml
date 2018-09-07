@@ -3,6 +3,9 @@
     <string name="home">Home</string>
     <string name="back">Back</string>
 
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+
     <!-- Profile -->
     <string name="surveys">Running survey</string>
     <string name="grade">Grade</string>
@@ -16,9 +19,26 @@
 
     <string name="notifications">Notifications</string>
     <string name="desc_notifications">Ping.</string>
+
+    <string name="desc2_notifications">Turn notifications on or off</string>
+
     <string name="contact">Contact</string>
     <string name="desc_contact">Write us!</string>
     <string name="about">About</string>
     <string name="desc_about">More information</string>
+
+    <string name="members">
+        Alina Behrens
+        \nLuzia Borgmann
+        \nCihat Gündüz
+        \nMoritz Liegmann
+        \nBoris Meltzow
+        \nAlicia Reuland
+        \nMirko Sowa
+        \nGian Luca Spitzer
+        \nBenedikt Vidic
+        \nKim Winnemöller
+        \nSilas Winnemöller
+    </string>
 
 </resources>

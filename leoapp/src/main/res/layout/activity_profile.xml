@@ -10,7 +10,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="24dp"
         android:background="@android:color/white">
 
         <ImageView
@@ -51,6 +50,20 @@
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@id/guideline1"
             app:layout_constraintTop_toBottomOf="@id/profile_picture" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/full_name_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@android:color/transparent"
+            android:text="Max Mustermann"
+            android:textColor="@color/colorTextDark"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture" />
+
 
         <TextView
             android:id="@+id/login_name"
