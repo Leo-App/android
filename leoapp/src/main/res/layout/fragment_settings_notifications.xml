@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_left"
+        tools:ignore="ContentDescription"
+        android:layout_width="24sp"
+        android:layout_height="24sp"
+        android:layout_margin="16dp"
+        android:tint="@color/colorTextGrey" />
+
+    <!-- Guideline at 16dp margin left + 24dp back-icon width + 16dp margin right -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        app:layout_constraintGuide_begin="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <TextView
+        android:id="@+id/notifications"
+        app:layout_constraintStart_toEndOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/arrow_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/notifications"
+        android:textColor="@color/colorTextDark"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/description_notifications"
+        app:layout_constraintStart_toEndOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/desc_notifications"
+        android:textColor="@color/colorTextGrey"
+        android:textSize="14sp" />
+    
+    <View
+        android:id="@+id/separator1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/description_notifications"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/colorDivider" />
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notifications_listing"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/separator1"
+
+        android:layout_height="wrap_content" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

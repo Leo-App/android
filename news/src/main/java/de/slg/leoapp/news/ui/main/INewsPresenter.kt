@@ -5,9 +5,6 @@ import de.slg.leoapp.news.data.db.Entry
 
 interface INewsPresenter {
     fun onFABPressed()
-    fun onSettingsPressed()
-    fun onProfilePressed()
-    fun onNavigationPressed()
     fun onBackPressed()
     fun onDeletePressed()
     fun onDeleteConfirmed()

@@ -1,5 +1,10 @@
 package de.slg.leoapp.core.utility
 
+import android.graphics.PorterDuff
+import android.widget.ImageView
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import de.slg.leoapp.core.R
 import java.io.BufferedReader
 import java.io.File
 
@@ -20,4 +25,9 @@ fun ByteArray.toHexString(): String {
         hexChars[j * 2 + 1] = hexArray[v and 0x0F]
     }
     return String(hexChars)
+}
+
+//ImageView
+fun ImageView.setTint(@ColorRes color: Int) {
+    setColorFilter(ContextCompat.getColor(context!!, color), PorterDuff.Mode.MULTIPLY)
 }

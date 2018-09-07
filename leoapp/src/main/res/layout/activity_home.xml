@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,6 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="56dp"
         android:background="@color/colorBackground">
 
         <androidx.constraintlayout.widget.Guideline
@@ -16,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.70"/>
+            app:layout_constraintGuide_percent="0.675"/>
 
         <!-- Background image wrapper for gradient -->
         <FrameLayout
@@ -32,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/bg_home"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,27 +47,37 @@
             android:id="@+id/navigationRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/appBar"
+            android:clipToPadding="false"
+            android:paddingBottom="4dp"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/guideline1"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include
-        layout="@layout/shadow"
-        android:visibility="gone"
-        app:layout_anchor="@id/bottomNavigationDrawer"/>
-
-    <include
-        layout="@layout/app_bottom_navigation_drawer"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:behavior_hideable="true"
-        app:layout_behavior="@string/bottom_sheet_behavior"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp">
 
-    <include
-        layout="@layout/app_toolbar"/>
+        <include
+            layout="@layout/shadow"
+            android:visibility="gone"
+            app:layout_anchor="@id/bottomNavigationDrawer"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include
+            layout="@layout/app_bottom_navigation_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:behavior_hideable="true"
+            app:layout_behavior="@string/bottom_sheet_behavior"/>
+
+        <include layout="@layout/app_toolbar"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</FrameLayout>

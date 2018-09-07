@@ -8,7 +8,7 @@ import de.slg.leoapp.core.modules.Authentication
 import de.slg.leoapp.core.modules.Input
 import de.slg.leoapp.core.preferences.PreferenceManager
 import de.slg.leoapp.core.utility.DOMAIN_DEV
-import de.slg.leoapp.core.utility.User
+import de.slg.leoapp.core.data.User
 import de.slg.leoapp.core.utility.toHexString
 import java.nio.charset.Charset
 import java.security.MessageDigest
@@ -39,7 +39,7 @@ class Module : Authentication {
         val checksum = request.jsonObject.getString("checksum")
 
         PreferenceManager.edit(context) {
-            it.putString(PreferenceManager.Device.AUTHENTICATION, checksum)
+            putString(PreferenceManager.Device.AUTHENTICATION, checksum)
         }
 
         return true
@@ -53,7 +53,7 @@ class Module : Authentication {
         lateinit var checksum: String
 
         PreferenceManager.read(context) {
-            checksum = it.getString(PreferenceManager.Device.AUTHENTICATION)
+            checksum = getString(PreferenceManager.Device.AUTHENTICATION)
         }
 
         val random = SecureRandom()

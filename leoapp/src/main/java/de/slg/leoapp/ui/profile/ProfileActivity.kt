@@ -1,20 +1,15 @@
 package de.slg.leoapp.ui.profile
 
+import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 
 class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
 
-    override fun getContentView(): Int {
-        TODO("not implemented")
-    }
+    override fun getContentView() = R.layout.activity_profile
 
-    override fun getNavigationHighlightId(): Int {
-        return -1
-    }
+    override fun getNavigationHighlightId() = -1
 
-    override fun getActivityTag(): String {
-        return "leoapp_feature_profile"
-    }
+    override fun getActivityTag() = "leoapp_feature_profile"
 
     override fun showImageViewEditOverlay() {
         TODO("not implemented")
@@ -41,10 +36,6 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
     }
 
     override fun showSaveButton() {
-        TODO("not implemented")
-    }
-
-    override fun saveChanges() {
         TODO("not implemented")
     }
 

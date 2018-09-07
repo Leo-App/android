@@ -3,11 +3,12 @@ package de.slg.leoapp
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import de.slg.leoapp.ui.settings.SettingsActivity
 import de.slg.leoapp.annotation.Modules
 import de.slg.leoapp.core.utility.Utils
+import de.slg.leoapp.data.FeatureDataManager
 import de.slg.leoapp.ui.home.HomeActivity
 import de.slg.leoapp.ui.profile.ProfileActivity
+import de.slg.leoapp.ui.settings.SettingsActivity
 
 class Startup : Activity() {
 
@@ -28,18 +29,21 @@ class Startup : Activity() {
         )
 
         for (feature in ModuleLoader.getFeatures()) {
-            //TODO if (User(applicationContext).permission >= feature.getNecessaryPermission())
+            //TODO if (User(applicationContext).permission >= feature.getNecessaryPermission()) {
                 Utils.Menu.addMenuEntry(
                         feature.getFeatureId(),
                         getString(feature.getName()),
                         feature.getIcon(),
                         feature.getEntryActivity()
                 )
+
         }
 
-        //Terminate Splashscreen
-        startActivity(Intent(applicationContext, HomeActivity::class.java))
-        finish()
+        FeatureDataManager.syncUsageStatistics {
+            //Terminate Splashscreen
+            startActivity(Intent(applicationContext, HomeActivity::class.java))
+            finish()
+        }
     }
 
 }

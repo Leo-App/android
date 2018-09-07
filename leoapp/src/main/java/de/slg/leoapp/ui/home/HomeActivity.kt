@@ -1,38 +1,39 @@
 package de.slg.leoapp.ui.home
 
 import android.content.Intent
-import android.view.View
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import android.os.Bundle
+import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
-import de.slg.leoapp.core.utility.Utils
+import de.slg.leoapp.ui.home.adapter.FeatureAdapter
+import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : LeoAppFeatureActivity(), HomeView {
-    override fun getContentView() = R.layout.activity_home
 
-    override fun getActivityTag() = "leoapp_feature_home"
+    private lateinit var presenter: HomePresenter
 
-    override fun getNavigationHighlightId(): Int {
-        return R.string.home
-    }
-
-    override fun openNavigationDrawer() {
-
-    }
-
-    override fun closeNavigationDrawer() {
-
+    override fun onCreate(b: Bundle?) {
+        super.onCreate(b)
+        presenter = HomePresenter()
+        presenter.onViewAttached(this)
     }
 
     override fun openFeatureActivity(activity: Class<out LeoAppFeatureActivity>) {
         startActivity(Intent(applicationContext, activity))
     }
 
-    override fun openProfile() {
-        startActivity(Intent(applicationContext, Utils.Activity.getProfileReference()))
+    override fun showFeatureList() {
+        Log.wtf("leoapp", presenter.getModuleCount().toString())
+        navigationRecyclerView.adapter = FeatureAdapter(presenter)
+        navigationRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    override fun openSettings() {
-        startActivity(Intent(applicationContext, Utils.Activity.getSettingsReference()))
-    }
+    override fun getContentView() = R.layout.activity_home
+
+    override fun getActivityTag() = "leoapp_feature_home"
+
+    override fun getNavigationHighlightId() = R.string.home
+
+    override fun getViewContext() = applicationContext!!
 }

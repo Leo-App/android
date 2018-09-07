@@ -2,7 +2,7 @@ package de.slg.leoapp.news.ui.main
 
 import de.slg.leoapp.core.ui.mvp.AbstractPresenter
 import de.slg.leoapp.core.utility.PERMISSION_TEACHER
-import de.slg.leoapp.core.utility.User
+import de.slg.leoapp.core.data.User
 import de.slg.leoapp.news.R
 import de.slg.leoapp.news.data.INewsDataManager
 import de.slg.leoapp.news.data.NewsDataManager
@@ -79,18 +79,6 @@ class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPre
                 getMvpView().openNewEntryDialog()
             }
         }
-    }
-
-    override fun onProfilePressed() {
-        getMvpView().openProfileActivity()
-    }
-
-    override fun onSettingsPressed() {
-        getMvpView().openSettings()
-    }
-
-    override fun onNavigationPressed() {
-        //todo
     }
 
     override fun onDeletePressed() {

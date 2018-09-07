@@ -1,9 +1,10 @@
 package de.slg.leoapp.news.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+import de.slg.leoapp.news.R
 import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.Entry
 import de.slg.leoapp.news.ui.main.add.AddFragment
@@ -12,10 +13,7 @@ import de.slg.leoapp.news.ui.main.details.DetailsFragment
 import de.slg.leoapp.news.ui.main.details.DetailsPresenter
 import de.slg.leoapp.news.ui.main.listing.ListFragment
 import de.slg.leoapp.news.ui.main.listing.ListPresenter
-import de.slg.leoapp.core.ui.LeoAppFeatureActivity
-import de.slg.leoapp.core.utility.Utils
-import de.slg.leoapp.news.R
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_news.*
 
 class MainActivity : LeoAppFeatureActivity(), INewsView {
 
@@ -28,6 +26,8 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
     private lateinit var addPresenter: AddPresenter
 
     override fun onCreate(b: Bundle?) {
+        super.onCreate(b)
+
         presenter = NewsPresenter()
 
         detailsPresenter = DetailsPresenter()
@@ -35,8 +35,6 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
         addPresenter = AddPresenter()
 
         presenter.onViewAttached(this)
-
-        super.onCreate(b)
     }
 
     override fun onBackPressed() {
@@ -90,14 +88,6 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
         getAppBar().replaceMenu(R.menu.app_toolbar_default)
     }
 
-    override fun openSettings() {
-        startActivity(Intent(applicationContext!!, Utils.Activity.getSettingsReference()))
-    }
-
-    override fun openProfileActivity() {
-        startActivity(Intent(applicationContext!!, Utils.Activity.getProfileReference()))
-    }
-
     override fun getDetailsPresenter() = detailsPresenter
 
     override fun getListPresenter() = listPresenter
@@ -106,7 +96,7 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
 
     override fun getViewContext() = applicationContext!!
 
-    override fun getContentView() = R.layout.activity_main
+    override fun getContentView() = R.layout.activity_news
 
     override fun getNavigationHighlightId() = 0xdefa12
 

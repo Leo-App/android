@@ -1,7 +1,7 @@
 package de.slg.leoapp.news.ui.main.add
 
 import de.slg.leoapp.core.ui.mvp.AbstractPresenter
-import de.slg.leoapp.core.utility.User
+import de.slg.leoapp.core.data.User
 import de.slg.leoapp.news.data.INewsDataManager
 import de.slg.leoapp.news.data.NewsDataManager
 import java.text.SimpleDateFormat
