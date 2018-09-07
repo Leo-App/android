@@ -3,6 +3,7 @@
 package de.slg.leoapp.core.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 
 /**
@@ -53,4 +54,8 @@ abstract class ActionLogActivity : AppCompatActivity() {
      * @return Activity-Tag: <module>_<type>_<name>
      */
     protected abstract fun getActivityTag(): String
+
+    fun print(o: Any) {
+        Log.i(getActivityTag(), o.toString())
+    }
 }

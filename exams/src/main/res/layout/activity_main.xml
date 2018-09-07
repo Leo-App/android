@@ -9,16 +9,22 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
         android:layout_gravity="top"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_gravity="bottom|end"
+        android:indeterminateTint="@color/colorPrimary"
+        app:layout_anchor="@id/action_main"/>
 
     <include
         layout="@layout/app_toolbar"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
-        app:layout_anchor="@id/appBar"/>
+    <include
+        layout="@layout/action_button"/>
 
     <include
         layout="@layout/shadow"

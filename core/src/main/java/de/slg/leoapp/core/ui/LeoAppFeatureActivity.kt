@@ -20,7 +20,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import de.slg.leoapp.core.R
 import de.slg.leoapp.core.modules.MenuEntry
 import de.slg.leoapp.core.utility.Utils
-import org.jetbrains.anko.backgroundColorResource
 
 /**
  * LeoAppNavigationActivity.
@@ -61,6 +60,12 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         setContentView(getContentView())
         initToolbar()
         initNavigationDrawer()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        navigationView.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     /**
@@ -109,32 +114,32 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
             }
         }
 
-        val close: View = findViewById(R.id.close)
-        close.setOnClickListener { navigationView.state = BottomSheetBehavior.STATE_HIDDEN }
-        close.visibility = View.GONE
-
         val shadow: View = findViewById(R.id.shadow)
-        shadow.setOnClickListener { navigationView.state = BottomSheetBehavior.STATE_HIDDEN }
+        shadow.setOnClickListener {
+            navigationView.state = BottomSheetBehavior.STATE_HIDDEN
+            shadow.visibility = View.GONE
+        }
+
+        val close: View = findViewById(R.id.close)
+        close.setOnClickListener {
+            navigationView.state = BottomSheetBehavior.STATE_HIDDEN
+            shadow.visibility = View.GONE
+        }
+        close.visibility = View.GONE
 
         navigationView.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(view: View, offset: Float) {
-                if (view.top == 0) {
-                    close.visibility = View.VISIBLE
-                } else {
-                    close.visibility = View.GONE
-                }
-                shadow.visibility = View.VISIBLE
+
             }
 
             override fun onStateChanged(view: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN)
                     shadow.visibility = View.GONE
-
-                if (view.top == 0) {
-                    close.visibility = View.VISIBLE
-                } else {
-                    close.visibility = View.GONE
-                }
+                close.visibility =
+                        if (newState == BottomSheetBehavior.STATE_EXPANDED)
+                            View.VISIBLE
+                        else
+                            View.GONE
             }
         })
 
@@ -147,7 +152,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
      * Allgemeine Methode zum Einrichten der Toolbar. Alle Änderungen wirken sich auf die gesamte App (NUR Feature-Toolbars - Keine der sonstigen Activities) aus.
      */
     @CallSuper
-    protected fun initToolbar() {
+    protected open fun initToolbar() {
         appBar = findViewById(R.id.appBar)
         appBar.replaceMenu(R.menu.app_toolbar_default)
         appBar.setNavigationOnClickListener {
