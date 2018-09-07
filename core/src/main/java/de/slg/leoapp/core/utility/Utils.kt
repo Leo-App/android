@@ -25,7 +25,6 @@ abstract class Utils {
             private var profileActivity: Class<*>? = null
             private var settingsActivity: Class<*>? = null
 
-
             fun registerActivity(tag: String) {
                 openActivities.add(tag)
             }

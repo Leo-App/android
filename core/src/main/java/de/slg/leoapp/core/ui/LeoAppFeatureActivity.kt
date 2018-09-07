@@ -113,6 +113,12 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
             } else if (item.itemId == R.id.action_profile) {
                 startActivity(Intent(applicationContext, Utils.Activity.getProfileReference()))
             }
+
+            if (javaClass == Utils.Activity.getSettingsReference()
+                    || javaClass == Utils.Activity.getProfileReference()) {
+                finish()
+            }
+
             true
         }
 

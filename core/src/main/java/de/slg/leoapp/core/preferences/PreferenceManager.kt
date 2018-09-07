@@ -64,6 +64,9 @@ class PreferenceManager {
 
             @PreferenceKey
             const val PERMISSION: String = "preference_key_user_permission"
+
+            @PreferenceKey
+            const val PROFILE_PICTURE_URL: String = "preference_key_user_picture"
         }
     }
 

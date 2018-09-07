@@ -7,9 +7,6 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="?android:attr/actionBarSize"
@@ -53,7 +50,7 @@
             android:textColor="@color/colorTextDark"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@id/profile_picture"/>
+            app:layout_constraintTop_toBottomOf="@id/profile_picture" />
 
         <TextView
             android:id="@+id/login_name"
@@ -64,7 +61,7 @@
             android:textColor="@color/colorTextGrey"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@id/full_name"/>
+            app:layout_constraintTop_toBottomOf="@id/full_name" />
 
         <View
             android:id="@+id/separator1"
@@ -74,7 +71,7 @@
             android:background="@color/colorDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@id/login_name"/>
+            app:layout_constraintTop_toBottomOf="@id/login_name" />
 
         <TextView
             android:id="@+id/grade"
@@ -85,7 +82,7 @@
             android:textColor="@color/colorTextDark"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@id/separator1"/>
+            app:layout_constraintTop_toBottomOf="@id/separator1" />
 
         <TextView
             android:id="@+id/description_grade"
@@ -96,7 +93,7 @@
             android:textColor="@color/colorTextGrey"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@id/grade"/>
+            app:layout_constraintTop_toBottomOf="@id/grade" />
 
         <View
             android:id="@+id/separator2"
@@ -106,7 +103,7 @@
             android:background="@color/colorDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@id/description_grade"/>
+            app:layout_constraintTop_toBottomOf="@id/description_grade" />
 
         <TextView
             android:id="@+id/running_surveys"
@@ -117,7 +114,7 @@
             android:textColor="@color/colorTextDark"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@id/separator2"/>
+            app:layout_constraintTop_toBottomOf="@id/separator2" />
 
         <ImageView
             android:id="@+id/chevron_surveys"
@@ -126,7 +123,7 @@
             android:layout_marginEnd="16dp"
             android:tint="@color/colorTextGrey"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/running_surveys"/>
+            app:layout_constraintTop_toTopOf="@id/running_surveys" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -134,5 +131,3 @@
         layout="@layout/layout_activity_navigation"/>
 
 </FrameLayout>
-
-

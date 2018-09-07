@@ -12,7 +12,17 @@ class SettingsActivity : LeoAppFeatureActivity() {
 
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, OverviewFragment(), "overview")
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, OverviewFragment(), "overview").commit()
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.fragments.size > 1) {
+            supportFragmentManager.beginTransaction().remove(
+                    supportFragmentManager.findFragmentByTag("notification")
+                            ?: supportFragmentManager.findFragmentByTag("about")!!).commit()
+        } else {
+            finish()
+        }
     }
 
     override fun getContentView(): Int = R.layout.activity_settings

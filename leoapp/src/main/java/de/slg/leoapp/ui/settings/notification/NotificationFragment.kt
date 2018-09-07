@@ -15,16 +15,17 @@ class NotificationFragment : Fragment(), INotificationView {
     private lateinit var presenter: NotificationPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        presenter = NotificationPresenter()
         return inflater.inflate(R.layout.fragment_settings_notifications, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.onViewAttached(this)
+        arrow_back.setOnClickListener { presenter.onBackPressed() }
     }
 
     override fun onDestroy() {
         presenter.onQuit()
-        activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         super.onDestroy()
     }
 
