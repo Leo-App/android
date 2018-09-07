@@ -6,6 +6,9 @@ import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.ui.settings.overview.OverviewFragment
 
 class SettingsActivity : LeoAppFeatureActivity() {
+    override fun usesActionButton() = false
+
+    override fun getActionIcon() = 0
 
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)

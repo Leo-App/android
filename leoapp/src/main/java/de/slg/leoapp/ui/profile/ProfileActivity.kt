@@ -4,6 +4,9 @@ import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 
 class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
+    override fun usesActionButton() = false
+
+    override fun getActionIcon() = 0
 
     override fun getContentView() = R.layout.activity_profile
 

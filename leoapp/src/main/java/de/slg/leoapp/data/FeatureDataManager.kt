@@ -1,6 +1,6 @@
 package de.slg.leoapp.data
 
-object FeatureDataManager: IFeatureDataManager {
+object FeatureDataManager : IFeatureDataManager {
 
     private lateinit var featureStatistics: Map<Int, FeatureStatistics>
 

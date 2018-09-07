@@ -4,7 +4,6 @@ import android.graphics.PorterDuff
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import de.slg.leoapp.core.R
 import java.io.BufferedReader
 import java.io.File
 

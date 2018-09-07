@@ -1,42 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/listView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="24dp"
-        android:layout_gravity="top"/>
+        android:layout_marginBottom="?android:attr/actionBarSize"
+        android:background="@color/colorBackground">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:layout_gravity="bottom|end"
-        android:indeterminateTint="@color/colorPrimary"
-        app:layout_anchor="@id/action_main"/>
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:layout_marginTop="24dp"/>
 
-    <include
-        layout="@layout/app_toolbar"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        layout="@layout/action_button"/>
+        layout="@layout/layout_activity_navigation"/>
 
-    <include
-        layout="@layout/shadow"
-        android:visibility="gone"
-        app:layout_anchor="@id/bottomNavigationDrawer"/>
-
-    <include
-        layout="@layout/app_bottom_navigation_drawer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:behavior_hideable="true"
-        app:layout_behavior="@string/bottom_sheet_behavior"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

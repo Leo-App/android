@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/icon"
@@ -10,7 +10,7 @@
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/title"
@@ -20,7 +20,7 @@
         android:text="Essensbons"
         android:textColor="@color/colorTextDark"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@id/icon" />
+        app:layout_constraintStart_toEndOf="@id/icon"/>
 
     <TextView
         android:id="@+id/description"
@@ -30,7 +30,7 @@
         android:textColor="@color/colorTextGrey"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        app:layout_constraintTop_toBottomOf="@id/title"/>
 
     <Switch
         android:id="@+id/toggle"
@@ -39,6 +39,6 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

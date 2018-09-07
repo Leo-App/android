@@ -1,12 +1,12 @@
 package de.slg.leoapp.news.ui.main
 
 import androidx.annotation.DrawableRes
+import de.slg.leoapp.core.ui.mvp.MVPView
 import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.Entry
 import de.slg.leoapp.news.ui.main.add.IAddPresenter
 import de.slg.leoapp.news.ui.main.details.IDetailsPresenter
 import de.slg.leoapp.news.ui.main.listing.IListPresenter
-import de.slg.leoapp.core.ui.mvp.MVPView
 
 interface INewsView : MVPView {
     fun showFAB()

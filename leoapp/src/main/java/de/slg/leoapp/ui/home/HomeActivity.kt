@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.ui.home.adapter.FeatureAdapter
-import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : LeoAppFeatureActivity(), HomeView {
+    override fun usesActionButton() = false
+
+    override fun getActionIcon() = 0
 
     private lateinit var presenter: HomePresenter
 

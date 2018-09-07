@@ -9,11 +9,12 @@ import java.util.*
  * @author Moritz
  * Erstelldatum: 06.09.2018
  */
-@Entity(tableName = "exams")
+@Entity(tableName = "exams_downloaded")
 data class Klausur(
         @PrimaryKey val id: Int,
         @ColumnInfo(name = "date") val datum: Date,
         @ColumnInfo(name = "text") val title: String,
-        @ColumnInfo(name = "subject") val fach: String,
-        @ColumnInfo(name = "downloaded") val d: Boolean
+        @ColumnInfo(name = "course") val kurs: String?,
+        @ColumnInfo(name = "teacher") val lehrer: String?,
+        @ColumnInfo(name = "subject") val fach: String
 )

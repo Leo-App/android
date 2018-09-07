@@ -32,4 +32,14 @@ public class MainActivity extends LeoAppFeatureActivity {
     protected String getActivityTag() {
         return "survey_feature_main";
     }
+
+    @Override
+    protected boolean usesActionButton() {
+        return true;
+    }
+
+    @Override
+    protected int getActionIcon() {
+        return R.drawable.ic_arrow_left;
+    }
 }

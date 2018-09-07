@@ -19,6 +19,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : LeoAppFeatureActivity() {
+    override fun usesActionButton() = true
+
+    override fun getActionIcon() = R.drawable.ic_add
 
     private lateinit var data: Array<Klausur>
 

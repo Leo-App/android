@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="?android:attr/actionBarSize"
         android:background="@color/colorBackground">
 
         <androidx.constraintlayout.widget.Guideline
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.675"/>
+            app:layout_constraintGuide_percent="0.74"/>
 
         <!-- Background image wrapper for gradient -->
         <FrameLayout
@@ -58,26 +58,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="24dp">
-
-        <include
-            layout="@layout/shadow"
-            android:visibility="gone"
-            app:layout_anchor="@id/bottomNavigationDrawer"/>
-
-        <include
-            layout="@layout/app_bottom_navigation_drawer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:behavior_hideable="true"
-            app:layout_behavior="@string/bottom_sheet_behavior"/>
-
-        <include layout="@layout/app_toolbar"/>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <include
+        layout="@layout/layout_activity_navigation"/>
 
 </FrameLayout>

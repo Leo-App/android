@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools">
 
 
     <ImageView
@@ -15,7 +15,7 @@
         android:layout_width="24sp"
         android:layout_height="24sp"
         android:layout_margin="16dp"
-        android:tint="@color/colorTextGrey" />
+        android:tint="@color/colorTextGrey"/>
 
     <!-- Guideline at 16dp margin left + 24dp back-icon width + 16dp margin right -->
     <androidx.constraintlayout.widget.Guideline
@@ -23,7 +23,7 @@
         app:layout_constraintGuide_begin="56dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"/>
 
     <TextView
         android:id="@+id/notifications"
@@ -34,7 +34,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/notifications"
         android:textColor="@color/colorTextDark"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/description_notifications"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:text="@string/desc_notifications"
         android:textColor="@color/colorTextGrey"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
     <ImageView
         android:id="@+id/chevron_notifications"
@@ -54,7 +54,7 @@
         android:layout_height="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="20dp"
-        android:tint="@color/colorTextGrey" />
+        android:tint="@color/colorTextGrey"/>
 
     <View
         android:id="@+id/separator1"
@@ -64,7 +64,7 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginTop="12dp"
-        android:background="@color/colorDivider" />
+        android:background="@color/colorDivider"/>
 
     <TextView
         android:id="@+id/contact"
@@ -75,7 +75,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/contact"
         android:textColor="@color/colorTextDark"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/description_contact"
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:text="@string/desc_contact"
         android:textColor="@color/colorTextGrey"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
     <View
         android:id="@+id/separator2"
@@ -95,7 +95,7 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginTop="12dp"
-        android:background="@color/colorDivider" />
+        android:background="@color/colorDivider"/>
 
     <TextView
         android:id="@+id/about"
@@ -106,7 +106,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/about"
         android:textColor="@color/colorTextDark"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/description_about"
@@ -116,6 +116,6 @@
         android:layout_height="wrap_content"
         android:text="@string/desc_about"
         android:textColor="@color/colorTextGrey"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

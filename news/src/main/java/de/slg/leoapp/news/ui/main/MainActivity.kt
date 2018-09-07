@@ -3,6 +3,7 @@ package de.slg.leoapp.news.ui.main
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.news.R
 import de.slg.leoapp.news.data.db.Author
@@ -13,9 +14,11 @@ import de.slg.leoapp.news.ui.main.details.DetailsFragment
 import de.slg.leoapp.news.ui.main.details.DetailsPresenter
 import de.slg.leoapp.news.ui.main.listing.ListFragment
 import de.slg.leoapp.news.ui.main.listing.ListPresenter
-import kotlinx.android.synthetic.main.activity_news.*
 
 class MainActivity : LeoAppFeatureActivity(), INewsView {
+    override fun usesActionButton() = true
+
+    override fun getActionIcon() = R.drawable.ic_add
 
     //Presenter
     private lateinit var presenter: NewsPresenter
@@ -46,15 +49,15 @@ class MainActivity : LeoAppFeatureActivity(), INewsView {
     }
 
     override fun showFAB() {
-        fab.visibility = View.VISIBLE
+        findViewById<View>(R.id.action_main).visibility = View.VISIBLE
     }
 
     override fun hideFAB() {
-        fab.visibility = View.GONE
+        findViewById<View>(R.id.action_main).visibility = View.GONE
     }
 
     override fun setFABIcon(icon: Int) {
-        fab.setImageDrawable(ContextCompat.getDrawable(applicationContext, icon))
+        findViewById<FloatingActionButton>(R.id.action_main).setImageDrawable(ContextCompat.getDrawable(applicationContext, icon))
     }
 
     override fun showLoadingIndicator() {
