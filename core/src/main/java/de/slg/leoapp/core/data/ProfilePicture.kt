@@ -22,6 +22,7 @@ class ProfilePicture(private val imageURL: String, private val callback: (Bitmap
 
     init {
         launch(UI) {
+            if (::bitmap.isInitialized) return@launch
             bitmap = async(CommonPool) {
                 try {
                     BitmapFactory.decodeStream(URL(imageURL).openConnection().getInputStream())
