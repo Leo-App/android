@@ -3,15 +3,19 @@ package de.slg.leoapp.ui.home
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.ui.home.adapter.FeatureAdapter
+import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : LeoAppFeatureActivity(), HomeView {
     override fun usesActionButton() = false
 
     override fun getActionIcon() = 0
+
+    override fun getAction() = View.OnClickListener {}
 
     private lateinit var presenter: HomePresenter
 

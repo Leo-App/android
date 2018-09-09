@@ -10,11 +10,11 @@ import java.util.*
  * Erstelldatum: 06.09.2018
  */
 @Entity(tableName = "exams_downloaded")
-data class Klausur(
-        @PrimaryKey val id: Int,
+data class DownloadedExam(
+        @PrimaryKey(autoGenerate = true) val id: Int?,
         @ColumnInfo(name = "date") val datum: Date,
-        @ColumnInfo(name = "text") val title: String,
-        @ColumnInfo(name = "course") val kurs: String?,
+        @ColumnInfo(name = "subject") val fach: Subject,
+        @ColumnInfo(name = "course") val kurs: String,
         @ColumnInfo(name = "teacher") val lehrer: String?,
-        @ColumnInfo(name = "subject") val fach: String
+        @ColumnInfo(name = "grade") val stufe: String
 )

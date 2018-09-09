@@ -14,8 +14,11 @@ import de.slg.leoapp.news.ui.main.details.DetailsFragment
 import de.slg.leoapp.news.ui.main.details.DetailsPresenter
 import de.slg.leoapp.news.ui.main.listing.ListFragment
 import de.slg.leoapp.news.ui.main.listing.ListPresenter
+import kotlinx.android.synthetic.main.activity_news.*
 
 class MainActivity : LeoAppFeatureActivity(), INewsView {
+    override fun getAction() = View.OnClickListener {}
+
     override fun usesActionButton() = true
 
     override fun getActionIcon() = R.drawable.ic_add

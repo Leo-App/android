@@ -29,11 +29,11 @@ android {
 }
 
 dependencies {
-    implementation project(':core')
-
     //Annotations
     compileOnly project(path: ':annotation-processor')
     kapt project(':annotation-processor')
+
+    implementation project(':core')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"

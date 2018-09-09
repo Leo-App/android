@@ -18,5 +18,6 @@
     <color name="colorErdkunde">#1b5e20</color>
     <color name="colorGeschichte">#7986cb</color>
     <color name="colorPaedagogik">#546e7a</color>
+    <color name="colorOther">#555555</color>
 
 </resources>

@@ -56,6 +56,8 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     @DrawableRes
     protected abstract fun getActionIcon(): Int
 
+    protected abstract fun getAction(): View.OnClickListener
+
     /**
      * Soll die ID des gehighlighteten Items in der Navigation zurückgeben. In der Regel also die des aktuellen Features.
      *
@@ -106,6 +108,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         appBar.setNavigationOnClickListener {
             //findViewById<View>(R.id.shadow).visibility = View.VISIBLE
             navigationView.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+            actionButton.hide()
         }
         appBar.setOnMenuItemClickListener { item ->
             if (item.itemId == R.id.action_settings) {
@@ -125,7 +128,47 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         actionButton = findViewById(R.id.action_main)
         if (usesActionButton()) {
             actionButton.setImageResource(getActionIcon())
+            actionButton.setOnClickListener(getAction())
+            actionButton.visibility = View.VISIBLE
         }
+    }
+
+    private fun initBottomSheetBehavior() {
+        val shadow: View = findViewById(R.id.shadow)
+        shadow.setOnClickListener {
+            //navigationView.state = BottomSheetBehavior.STATE_HIDDEN
+            //shadow.visibility = View.GONE
+        }
+
+        val close: View = findViewById(R.id.close)
+        close.setOnClickListener {
+            //navigationView.state = BottomSheetBehavior.STATE_HIDDEN
+            //shadow.visibility = View.GONE
+        }
+        close.visibility = View.GONE
+
+        navigationView.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(view: View, offset: Float) {
+                if (view.top > actionButton.bottom) {
+                    actionButton.hide()
+                } else {
+                    actionButton.show()
+                }
+            }
+
+            override fun onStateChanged(view: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    shadow.visibility = View.GONE
+                    actionButton.show()
+                }
+                //shadow.visibility = View.GONE
+//                close.visibility =
+//                        if (newState == BottomSheetBehavior.STATE_EXPANDED)
+//                            View.VISIBLE
+//                        else
+//                            View.GONE
+            }
+        })
     }
 
     override fun onBackPressed() {
@@ -151,35 +194,12 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         return navigationView
     }
 
-    private fun initBottomSheetBehavior() {
-        val shadow: View = findViewById(R.id.shadow)
-        shadow.setOnClickListener {
-            //navigationView.state = BottomSheetBehavior.STATE_HIDDEN
-            //shadow.visibility = View.GONE
+    protected fun getActionButton(): FloatingActionButton {
+        if (!::actionButton.isInitialized) {
+            actionButton = findViewById(R.id.action_main)
         }
 
-        val close: View = findViewById(R.id.close)
-        close.setOnClickListener {
-            //navigationView.state = BottomSheetBehavior.STATE_HIDDEN
-            //shadow.visibility = View.GONE
-        }
-        close.visibility = View.GONE
-
-        navigationView.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(view: View, offset: Float) {
-
-            }
-
-            override fun onStateChanged(view: View, newState: Int) {
-                //if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN)
-                //shadow.visibility = View.GONE
-//                close.visibility =
-//                        if (newState == BottomSheetBehavior.STATE_EXPANDED)
-//                            View.VISIBLE
-//                        else
-//                            View.GONE
-            }
-        })
+        return actionButton
     }
 
     inner class DrawerAdapter : RecyclerView.Adapter<DrawerAdapter.ViewHolder>() {

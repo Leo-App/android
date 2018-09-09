@@ -2,13 +2,13 @@ package de.slg.leoapp.exams.xml
 
 import de.slg.leoapp.core.datastructure.List
 import de.slg.leoapp.core.datastructure.Stack
-import de.slg.leoapp.exams.Klausur
+import de.slg.leoapp.exams.data.db.Converters
+import de.slg.leoapp.exams.data.db.DownloadedExam
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
 import java.io.InputStream
 import java.util.*
 import java.util.regex.Pattern
-import javax.xml.parsers.SAXParser
 import javax.xml.parsers.SAXParserFactory
 
 /**
@@ -17,7 +17,7 @@ import javax.xml.parsers.SAXParserFactory
  */
 class XMLParser(private val input: InputStream) {
 
-    private val cellType: List<String> = List(
+    private val cellType = List(
             "wochentag",
             "datum",
             "ef",
@@ -25,33 +25,31 @@ class XMLParser(private val input: InputStream) {
             "q2"
     )
 
-    private val slgPatterns = List(
+    private val slgPatterns = arrayOf(
             Pattern.compile("[A-Za-z]{1,3} G[K\\d] [A-ZÄÖÜ]{3}"), // GeF G3 TAS, D G2 SHM, EK GK HEU
             Pattern.compile("[A-Ze]{1,3} [A-ZÄÖÜ]{3}"), // GeF TAS
-            Pattern.compile("[A-Z]\\d[A-Z]\\d [A-ZÄÖÜ]{3}") // S6G1 GOM, L8G2 BEH
+            Pattern.compile("[A-Z] ?\\d ?[A-Z] ?\\d [A-ZÄÖÜ]{3}"), // S6G1 GOM, L8G2 BEH
+            Pattern.compile(" [A-Za-z]{1,2} G\\d \\(\\d+\\)"), // IF G1 (6)
+            Pattern.compile(" [A-Za-z]{1,2} \\(\\d+\\)") // EK (6)
     )
 
-    private val koopPatterns = List(
-            Pattern.compile("KKG:.+[A-Za-z]{1,3}"), // KKG: EK G1 (3), IF
-            Pattern.compile("COU:.+[A-Za-z]{1,3}") // COU: EK (6), KU
-    )
-
-    private val klausuren: List<Klausur> = List()
+    private val klausuren: List<DownloadedExam> = List()
 
     private var currentDate: Calendar = GregorianCalendar()
 
     private var foundYear = false
 
-    fun parse(): List<Klausur> {
+    private val converters = Converters()
+
+    fun parse(): List<DownloadedExam> {
         currentDate.set(Calendar.MONTH, Calendar.JANUARY)
 
         val factory = SAXParserFactory.newInstance()
-        factory.isValidating = true
 
         var root = XMLElement("")
         val current: Stack<XMLElement> = Stack()
 
-        val parser: SAXParser = factory.newSAXParser()
+        val parser = factory.newSAXParser()
         parser.parse(input, object : DefaultHandler() {
             override fun startElement(uri: String?, localName: String?, tag: String?, attributes: Attributes?) {
                 if (!current.isEmpty()) {
@@ -78,7 +76,7 @@ class XMLParser(private val input: InputStream) {
             }
         })
 
-        for (t: XMLElement in root.children) {
+        for (t in root.children) {
             if (t.tag == "para" && !t.isEmpty()) {
                 findYear(t.content.toString())
             } else if (t.tag == "informaltable") {
@@ -103,7 +101,7 @@ class XMLParser(private val input: InputStream) {
     }
 
     private fun informaltable(tree: XMLElement) {
-        for (t: XMLElement in tree.children) {
+        for (t in tree.children) {
             if (t.tag == "tgroup") {
                 tgroup(t)
             }
@@ -111,7 +109,7 @@ class XMLParser(private val input: InputStream) {
     }
 
     private fun tgroup(tree: XMLElement) {
-        for (t: XMLElement in tree.children) {
+        for (t in tree.children) {
             if (t.tag == "tbody") {
                 tbody(t)
             }
@@ -120,7 +118,7 @@ class XMLParser(private val input: InputStream) {
 
     private fun tbody(tree: XMLElement) {
         var b = false
-        for (t: XMLElement in tree.children) {
+        for (t in tree.children) {
             if (!b && t.tag == "row") {
                 b = true
                 continue
@@ -133,7 +131,7 @@ class XMLParser(private val input: InputStream) {
 
     private fun row(tree: XMLElement) {
         cellType.toFirst()
-        for (t: XMLElement in tree.children) {
+        for (t in tree.children) {
             if (cellType.getContent() == "wochentag") {
                 cellType.next()
                 continue
@@ -149,7 +147,7 @@ class XMLParser(private val input: InputStream) {
         var b = false
         val builder = StringBuilder()
 
-        for (t: XMLElement in tree.children) {
+        for (t in tree.children) {
             if (t.tag == "para") {
                 builder.append(t.content.toString().replace(Regex("\\s+"), " "))
                 if (b)
@@ -166,7 +164,6 @@ class XMLParser(private val input: InputStream) {
     private fun para(content: String) {
         when (cellType.getContent()) {
             "datum" -> {
-                println(content)
                 var day = 0
                 var month = 0
 
@@ -186,56 +183,130 @@ class XMLParser(private val input: InputStream) {
                 currentDate.set(Calendar.DAY_OF_MONTH, day)
             }
             "ef" -> {
-                println("ef")
-                for (pattern in slgPatterns) {
-                    val matcher = pattern.matcher(content)
-                    while (matcher.find()) {
-                        val result = matcher.group()
-                        if (!result.startsWith("GK")) {
-                            println(result)
-                            klausuren.append(Klausur(result, currentDate.time, 0))
-                        }
+                var matcher = slgPatterns[0].matcher(content)
+                while (matcher.find()) {
+                    val result = matcher.group()
+                    val i1 = result.indexOf(' ')
+                    val i2 = result.indexOf(' ', i1 + 1)
+                    klausuren.append(
+                            DownloadedExam(
+                                    null,
+                                    currentDate.time,
+                                    converters.toSubject(result.substring(0, i1)),
+                                    result.substring(i1 + 1, i2),
+                                    result.substring(i2 + 1),
+                                    cellType.getContent()!!
+                            )
+                    )
+                }
+                matcher = slgPatterns[1].matcher(content)
+                while (matcher.find()) {
+                    val result = matcher.group()
+                    if (!result.startsWith("GK")) {
+                        val i1 = result.indexOf(' ')
+                        klausuren.append(
+                                DownloadedExam(
+                                        null,
+                                        currentDate.time,
+                                        converters.toSubject(result.substring(0, i1)),
+                                        "LK",
+                                        result.substring(i1 + 1),
+                                        cellType.getContent()!!
+                                )
+                        )
                     }
+                }
+                matcher = slgPatterns[2].matcher(content)
+                while (matcher.find()) {
+                    val result = matcher.group().replace(" ", "")
+                    klausuren.append(
+                            DownloadedExam(
+                                    null,
+                                    currentDate.time,
+                                    converters.toSubject(result.substring(0, 2)),
+                                    result.substring(2, 4),
+                                    result.substring(4),
+                                    cellType.getContent()!!
+                            )
+                    )
                 }
             }
-            "q1" -> {
-                println("q1")
-                for (pattern in slgPatterns) {
-                    val matcher = pattern.matcher(content)
-                    while (matcher.find()) {
-                        val result = matcher.group()
-                        if (!result.contains("KKG") && !result.contains("COU") && !result.startsWith("GK") && !result.startsWith("GK") && !result.startsWith("LK")) {
-                            println(result)
-                            klausuren.append(Klausur(result, currentDate.time, 0))
-                        }
+            "q1", "q2" -> {
+                var matcher = slgPatterns[0].matcher(content)
+                while (matcher.find()) {
+                    val result = matcher.group()
+                    val i1 = result.indexOf(' ')
+                    val i2 = result.indexOf(' ', i1 + 1)
+                    klausuren.append(
+                            DownloadedExam(
+                                    null,
+                                    currentDate.time,
+                                    converters.toSubject(result.substring(0, i1)),
+                                    result.substring(i1 + 1, i2),
+                                    result.substring(i2 + 1),
+                                    cellType.getContent()!!
+                            )
+                    )
+                }
+                matcher = slgPatterns[1].matcher(content)
+                while (matcher.find()) {
+                    val result = matcher.group()
+                    if (!result.startsWith("GK")) {
+                        val i1 = result.indexOf(' ')
+                        klausuren.append(
+                                DownloadedExam(
+                                        null,
+                                        currentDate.time,
+                                        converters.toSubject(result.substring(0, i1)),
+                                        "LK",
+                                        result.substring(i1 + 1),
+                                        cellType.getContent()!!
+                                )
+                        )
                     }
                 }
-                for (pattern in koopPatterns) {
-                    val matcher = pattern.matcher(content)
-                    while (matcher.find()) {
-                        val result = matcher.group().substring(matcher.group().indexOf(':') + 1).replace(Regex("\\(\\d{1,2}\\)"), "").replace(Regex("\\s"), "")
-                        println(result)
-                    }
+                matcher = slgPatterns[2].matcher(content)
+                while (matcher.find()) {
+                    val result = matcher.group().replace(" ", "")
+                    klausuren.append(
+                            DownloadedExam(
+                                    null,
+                                    currentDate.time,
+                                    converters.toSubject(result.substring(0, 2)),
+                                    result.substring(2, 4),
+                                    result.substring(4),
+                                    cellType.getContent()!!
+                            )
+                    )
                 }
-            }
-            "q2" -> {
-                println("q2")
-                for (pattern in slgPatterns) {
-                    val matcher = pattern.matcher(content)
-                    while (matcher.find()) {
-                        val result = matcher.group()
-                        if (!result.contains("KKG") && !result.contains("COU") && !result.startsWith("GK") && !result.startsWith("LK")) {
-                            println(result)
-                            klausuren.append(Klausur(result, currentDate.time, 0))
-                        }
-                    }
+                matcher = slgPatterns[3].matcher(content)
+                while (matcher.find()) {
+                    val result = matcher.group().substring(1).replace(Regex(" \\(\\d+\\)"), "")
+                    val i1 = result.indexOf(' ')
+                    klausuren.append(
+                            DownloadedExam(
+                                    null,
+                                    currentDate.time,
+                                    converters.toSubject(result.substring(0, i1)),
+                                    result.substring(i1 + 1),
+                                    "koop",
+                                    cellType.getContent()!!
+                            )
+                    )
                 }
-                for (pattern in koopPatterns) {
-                    val matcher = pattern.matcher(content)
-                    while (matcher.find()) {
-                        val result = matcher.group().substring(matcher.group().indexOf(':') + 1).replace(Regex("\\(\\d{1,2}\\)"), "").replace(Regex("\\s"), "")
-                        println(result)
-                    }
+                matcher = slgPatterns[4].matcher(content)
+                while (matcher.find()) {
+                    val result = matcher.group().substring(1).replace(Regex(" \\(\\d+\\)"), "")
+                    klausuren.append(
+                            DownloadedExam(
+                                    null,
+                                    currentDate.time,
+                                    converters.toSubject(result),
+                                    "LK",
+                                    "koop",
+                                    cellType.getContent()!!
+                            )
+                    )
                 }
             }
         }

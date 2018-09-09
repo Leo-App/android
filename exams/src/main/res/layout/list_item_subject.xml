@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_radio"/>
+
+    <TextView
+        android:id="@+id/titelDatum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="31dp"
+        android:layout_marginStart="34dp"
+        android:layout_toEndOf="@id/imageView"
+        android:layout_toStartOf="@id/dot"
+        android:text="Englisch"
+        android:textSize="16sp"/>
+
+    <view
+        android:id="@+id/dot"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginEnd="17dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/dot"/>
+
+</RelativeLayout>

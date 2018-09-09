@@ -29,19 +29,20 @@ android {
 }
 
 dependencies {
+    //Annotations
+    compileOnly project(path: ':annotation-processor')
+    kapt project(':annotation-processor')
+
     implementation project(':core')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    //Annotations
-    compileOnly project(path: ':annotation-processor')
-    kapt project(':annotation-processor')
-
     implementation "androidx.room:room-runtime:2.0.0-rc01"
     kapt "androidx.room:room-compiler:2.0.0-rc01"
 
     testImplementation 'junit:junit:4.12'
+
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

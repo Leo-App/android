@@ -12,12 +12,15 @@ import androidx.room.Query
 @Dao
 interface DatabaseInterface {
 
-    @Query("SELECT * FROM exams")
-    fun getExams(): List<Klausur>
+    @Query("SELECT * FROM exams_downloaded")
+    fun getExams(): Array<DownloadedExam>
 
-    @Query("SELECT * FROM exams WHERE downloaded = 1")
-    fun getDownloadedExams(): List<Klausur>
+    @Query("SELECT * FROM exams_downloaded")
+    fun getDownloadedExams(): Array<DownloadedExam>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertExam(klausur: Klausur)
+    fun insertExam(downloadedExam: DownloadedExam)
+
+    @Query("SELECT * FROM exams_downloaded WHERE id = :id")
+    fun getExam(id: Int): DownloadedExam
 }

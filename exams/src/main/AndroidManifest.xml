@@ -3,8 +3,8 @@
     package="de.slg.leoapp.exams">
 
     <application>
-        <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme" />
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".ExamActivity"/>
     </application>
 
 </manifest>

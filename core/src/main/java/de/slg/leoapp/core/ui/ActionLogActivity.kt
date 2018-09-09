@@ -56,6 +56,6 @@ abstract class ActionLogActivity : AppCompatActivity() {
     protected abstract fun getActivityTag(): String
 
     fun print(o: Any) {
-        Log.i(getActivityTag(), o.toString())
+        Log.d(getActivityTag(), o.toString())
     }
 }

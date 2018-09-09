@@ -36,6 +36,7 @@ class DownloadFileTask : ObjectCallbackTask<Void?>() {
 
             download.close()
             writer.close()
+
         } catch (e: IOException) {
             e.printStackTrace()
         }

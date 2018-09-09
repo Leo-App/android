@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import de.slg.leoapp.R
 import de.slg.leoapp.ui.settings.about.dialog.TeamDialog
+import kotlinx.android.synthetic.main.fragment_settings_about.*
 
 class AboutFragment : Fragment(), IAboutView {
 

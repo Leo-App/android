@@ -20,7 +20,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -42,18 +41,18 @@ android {
 }
 
 dependencies {
+    //Annotations
+    compileOnly project(path: ':annotation-processor')
+    kapt project(':annotation-processor')
+
     //Modules
     implementation project(':core')
     implementation project(':authentication')
     implementation project(':exams')
-    implementation project(':lunch')
+    //implementation project(':lunch')
     implementation project(':news')
-    implementation project(':survey')
-    implementation project(':timetable')
-
-    //Annotations
-    compileOnly project(path: ':annotation-processor')
-    kapt project(':annotation-processor')
+    //implementation project(':survey')
+    //implementation project(':timetable')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
