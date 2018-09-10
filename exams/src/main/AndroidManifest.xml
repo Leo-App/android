@@ -4,7 +4,9 @@
 
     <application>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".ExamActivity"/>
+        <activity
+            android:name=".ExamEditActivity"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

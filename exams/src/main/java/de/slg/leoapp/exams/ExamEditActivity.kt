@@ -19,7 +19,7 @@ import java.util.*
  * @author Moritz
  * Erstelldatum: 09.09.2018
  */
-class ExamActivity : LeoAppFeatureActivity() {
+class ExamEditActivity : LeoAppFeatureActivity() {
     private val newDate: Calendar = GregorianCalendar()
     private lateinit var dialogCalendar: AppCompatDialog
     private lateinit var dialogSubject: AppCompatDialog
@@ -28,7 +28,7 @@ class ExamActivity : LeoAppFeatureActivity() {
 
     private var data = Klausur(null, Subject("Other", R.color.colorOther), Date())
 
-    override fun getActivityTag() = "exams_feature_detail"
+    override fun getActivityTag() = "exams_feature_edit"
 
     override fun getContentView() = R.layout.activity_klausur
 
@@ -89,7 +89,6 @@ class ExamActivity : LeoAppFeatureActivity() {
             newDate[Calendar.YEAR] = year
             newDate[Calendar.MONTH] = month
             newDate[Calendar.DAY_OF_MONTH] = dayOfMonth
-            print("$dayOfMonth.$month.$year")
         }
 
         dialogCalendar.findViewById<View>(R.id.buttonOk)!!.setOnClickListener {
@@ -100,6 +99,17 @@ class ExamActivity : LeoAppFeatureActivity() {
 
         dialogCalendar.findViewById<View>(R.id.buttonCancel)!!.setOnClickListener {
             dialogCalendar.dismiss()
+        }
+
+        dialogSubject = AppCompatDialog(this)
+        dialogSubject.setContentView(R.layout.dialog_subject_picker)
+
+        dialogSubject.findViewById<View>(R.id.buttonOk)!!.setOnClickListener {
+            dialogSubject.dismiss()
+        }
+
+        dialogSubject.findViewById<View>(R.id.buttonCancel)!!.setOnClickListener {
+            dialogSubject.dismiss()
         }
 
         findViewById<View>(R.id.imageButton).setOnClickListener {
@@ -114,35 +124,16 @@ class ExamActivity : LeoAppFeatureActivity() {
             findViewById<View>(R.id.cardMain).bringToFront()
         }
 
-        findViewById<View>(R.id.datum).setOnTouchListener { _, _ ->
+        findViewById<View>(R.id.datum).setOnClickListener {
             findViewById<View>(R.id.cardMain).bringToFront()
 
-            findViewById<View>(R.id.notizen).clearFocus()
+            findViewById<View>(R.id.datum).requestFocus()
 
             dialogCalendar.show()
-
-            true
         }
 
         findViewById<View>(R.id.notizen).setOnClickListener {
             findViewById<View>(R.id.cardMain).bringToFront()
-        }
-
-        findViewById<View>(R.id.datum).clearFocus()
-
-        findViewById<View>(R.id.notizen).clearFocus()
-
-        dialogSubject = AppCompatDialog(this)
-        dialogSubject.setContentView(R.layout.dialog_subject_picker)
-
-        dialogSubject.findViewById<View>(R.id.buttonOk)!!.setOnClickListener {
-
-
-            dialogSubject.dismiss()
-        }
-
-        dialogSubject.findViewById<View>(R.id.buttonCancel)!!.setOnClickListener {
-            dialogSubject.dismiss()
         }
 
         findViewById<View>(R.id.layout).setOnClickListener {
@@ -152,5 +143,12 @@ class ExamActivity : LeoAppFeatureActivity() {
         }
 
         refreshData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        findViewById<View>(R.id.datum).clearFocus()
+        findViewById<View>(R.id.notizen).clearFocus()
     }
 }
