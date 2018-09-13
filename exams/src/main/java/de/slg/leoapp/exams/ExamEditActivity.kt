@@ -1,7 +1,9 @@
 package de.slg.leoapp.exams
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.CalendarView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialog
@@ -124,12 +126,17 @@ class ExamEditActivity : LeoAppFeatureActivity() {
             findViewById<View>(R.id.cardMain).bringToFront()
         }
 
-        findViewById<View>(R.id.datum).setOnClickListener {
+        findViewById<View>(R.id.datum).setOnTouchListener { _, _ ->
             findViewById<View>(R.id.cardMain).bringToFront()
 
             findViewById<View>(R.id.datum).requestFocus()
 
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(findViewById<View>(R.id.datum).windowToken, 0)
+
             dialogCalendar.show()
+
+            true
         }
 
         findViewById<View>(R.id.notizen).setOnClickListener {

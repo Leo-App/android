@@ -14,6 +14,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.cardview.widget.CardView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ import de.slg.leoapp.core.R
 import de.slg.leoapp.core.modules.MenuEntry
 import de.slg.leoapp.core.utility.Utils
 import de.slg.leoapp.core.utility.setTint
+import org.jetbrains.anko.backgroundColorResource
 
 /**
  * LeoAppNavigationActivity.
@@ -42,6 +44,9 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     private lateinit var navigationView: BottomSheetBehavior<View>
     private lateinit var appBar: BottomAppBar
     private lateinit var actionButton: FloatingActionButton
+    private lateinit var coordinator: CoordinatorLayout
+
+    private var navigationDrawerShowing = false
 
     /**
      * Muss in der Implementation die Ressourcen-ID des Activity-Layouts zurückgaben.
@@ -74,10 +79,16 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         initNavigationDrawer()
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onPause() {
+        super.onPause()
+        closeNavigationDrawer()
+    }
 
-        navigationView.state = BottomSheetBehavior.STATE_HIDDEN
+    override fun onBackPressed() {
+        if (navigationView.state == BottomSheetBehavior.STATE_EXPANDED || navigationView.state == BottomSheetBehavior.STATE_HALF_EXPANDED)
+            navigationView.state = BottomSheetBehavior.STATE_HIDDEN
+        else
+            super.onBackPressed()
     }
 
     /**
@@ -86,12 +97,43 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     @CallSuper
     protected fun initNavigationDrawer() {
         navigationView = BottomSheetBehavior.from(findViewById(R.id.bottomNavigationDrawer))
+        coordinator = findViewById(R.id.coordinator)
+        coordinator.setOnClickListener { closeNavigationDrawer() }
+        coordinator.isClickable = navigationDrawerShowing
 
         val menuWrapper: RecyclerView = findViewById(R.id.bottomNavigationMenu)
         menuWrapper.layoutManager = LinearLayoutManager(applicationContext)
         menuWrapper.adapter = DrawerAdapter()
 
-        initBottomSheetBehavior()
+        val close: View = findViewById(R.id.close)
+        close.setOnClickListener {
+            closeNavigationDrawer()
+        }
+        close.visibility = View.GONE
+
+        navigationView.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(view: View, offset: Float) {
+                if (usesActionButton()) {
+                    if (view.top < actionButton.bottom) {
+                        actionButton.hide()
+                    } else {
+                        actionButton.show()
+                    }
+                }
+            }
+
+            override fun onStateChanged(view: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    coordinator.backgroundColorResource = android.R.color.transparent
+                    navigationDrawerShowing = false
+                    coordinator.isClickable = navigationDrawerShowing
+                }
+//                close.visibility = if (newState == BottomSheetBehavior.STATE_EXPANDED)
+//                    View.VISIBLE
+//                else
+//                    View.GONE
+            }
+        })
 
         findViewById<View>(R.id.profileWrapper).setOnClickListener {
             startActivity(Intent(applicationContext, Utils.Activity.getProfileReference()))
@@ -106,9 +148,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         appBar = findViewById(R.id.appBar)
         appBar.replaceMenu(R.menu.app_toolbar_default)
         appBar.setNavigationOnClickListener {
-            //findViewById<View>(R.id.shadow).visibility = View.VISIBLE
-            navigationView.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-            actionButton.hide()
+            openNavigationDrawer()
         }
         appBar.setOnMenuItemClickListener { item ->
             if (item.itemId == R.id.action_settings) {
@@ -133,51 +173,6 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         }
     }
 
-    private fun initBottomSheetBehavior() {
-        val shadow: View = findViewById(R.id.shadow)
-        shadow.setOnClickListener {
-            //navigationView.state = BottomSheetBehavior.STATE_HIDDEN
-            //shadow.visibility = View.GONE
-        }
-
-        val close: View = findViewById(R.id.close)
-        close.setOnClickListener {
-            //navigationView.state = BottomSheetBehavior.STATE_HIDDEN
-            //shadow.visibility = View.GONE
-        }
-        close.visibility = View.GONE
-
-        navigationView.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(view: View, offset: Float) {
-                if (view.top > actionButton.bottom) {
-                    actionButton.hide()
-                } else {
-                    actionButton.show()
-                }
-            }
-
-            override fun onStateChanged(view: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    shadow.visibility = View.GONE
-                    actionButton.show()
-                }
-                //shadow.visibility = View.GONE
-//                close.visibility =
-//                        if (newState == BottomSheetBehavior.STATE_EXPANDED)
-//                            View.VISIBLE
-//                        else
-//                            View.GONE
-            }
-        })
-    }
-
-    override fun onBackPressed() {
-        if (navigationView.state == BottomSheetBehavior.STATE_EXPANDED || navigationView.state == BottomSheetBehavior.STATE_HALF_EXPANDED)
-            navigationView.state = BottomSheetBehavior.STATE_HIDDEN
-        else
-            super.onBackPressed()
-    }
-
     protected fun getAppBar(): BottomAppBar {
         if (!::appBar.isInitialized) {
             appBar = findViewById(R.id.appBar)
@@ -200,6 +195,24 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         }
 
         return actionButton
+    }
+
+    fun openNavigationDrawer() {
+        if (!navigationDrawerShowing) {
+            navigationDrawerShowing = true
+            coordinator.isClickable = navigationDrawerShowing
+            navigationView.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+            coordinator.backgroundColorResource = R.color.colorShadow
+        }
+    }
+
+    fun closeNavigationDrawer() {
+        if (navigationDrawerShowing) {
+            navigationDrawerShowing = false
+            coordinator.isClickable = navigationDrawerShowing
+            coordinator.backgroundColorResource = android.R.color.transparent
+            navigationView.state = BottomSheetBehavior.STATE_HIDDEN
+        }
     }
 
     inner class DrawerAdapter : RecyclerView.Adapter<DrawerAdapter.ViewHolder>() {
@@ -239,7 +252,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
             holder.itemView.setOnClickListener {
                 startActivity(menuEntry.getIntent(applicationContext))
-                //navigationView.state = BottomSheetBehavior.STATE_HIDDEN
+                closeNavigationDrawer()
             }
 
             (holder.itemView as CardView).setCardBackgroundColor(
