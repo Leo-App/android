@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.TextView
 import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+import de.slg.leoapp.core.utility.toBitmap
 import kotlinx.android.synthetic.main.activity_profile.*
 
 
@@ -32,11 +33,11 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
     override fun getViewContext() = applicationContext!!
 
     override fun showImageViewEditOverlay() {
-        TODO("not implemented")
+        profile_picture.setOverlay(R.mipmap.edit_overlay.toBitmap(applicationContext))
     }
 
     override fun hideImageViewEditOverlay() {
-        TODO("not implemented")
+        profile_picture.setOverlay(null)
     }
 
     override fun enableTextViewEditing() {

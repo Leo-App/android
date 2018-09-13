@@ -4,8 +4,9 @@ import android.graphics.Bitmap
 import de.slg.leoapp.core.data.ProfilePicture
 import de.slg.leoapp.core.data.User
 import de.slg.leoapp.core.ui.mvp.AbstractPresenter
+import de.slg.leoapp.data.IUserDataManager
 
-class ProfilePresenter : AbstractPresenter<ProfileView, Unit>(), IProfilePresenter {
+class ProfilePresenter : AbstractPresenter<ProfileView, IUserDataManager>(), IProfilePresenter {
 
     private var editing: Boolean = false
     private lateinit var user: User
@@ -17,7 +18,9 @@ class ProfilePresenter : AbstractPresenter<ProfileView, Unit>(), IProfilePresent
         getMvpView().setName("${user.firstName} ${user.lastName}")
         getMvpView().setGrade(user.grade)
         getMvpView().setLoginName(user.loginName)
-        //TODO set profile picture and save in currentProfilePicture
+
+        currentProfilePicture = user.profilePicture.getPictureOrPlaceholder()
+        getMvpView().setProfilePicture(currentProfilePicture)
     }
 
     override fun onBackPressed() {
@@ -38,7 +41,6 @@ class ProfilePresenter : AbstractPresenter<ProfileView, Unit>(), IProfilePresent
     }
 
     override fun onEditFinished() {
-        //TODO update changes remote
         val enteredNames = getMvpView().getName().split(" ")
 
         if (enteredNames.size < 2) {
@@ -49,6 +51,10 @@ class ProfilePresenter : AbstractPresenter<ProfileView, Unit>(), IProfilePresent
         user.firstName = with (enteredNames) { slice(0..size-2).joinToString(separator = " ") }
         user.lastName = enteredNames[enteredNames.size-1]
         user.profilePicture = ProfilePicture(currentProfilePicture, user.id)
+
+        getDataManager().updateUsername(user.firstName, user.lastName)
+        getDataManager().updateProfilePicture(currentProfilePicture)
+
         getMvpView().disableTextViewEditing()
         getMvpView().hideImageViewEditOverlay()
         editing = false
