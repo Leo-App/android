@@ -16,12 +16,6 @@ import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
 
-    override fun usesActionButton() = false
-
-    override fun getActionIcon() = 0
-
-    override fun getAction() = View.OnClickListener {}
-
     private lateinit var presenter: HomePresenter
 
     override fun onCreate(b: Bundle?) {

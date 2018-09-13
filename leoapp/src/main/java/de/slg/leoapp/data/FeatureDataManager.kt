@@ -9,8 +9,8 @@ object FeatureDataManager: IFeatureDataManager {
 
     override fun syncUsageStatistics(callback: () -> Unit) {
         launch(UI) {
-            delay(10000)
-            featureStatistics = emptyMap()//todo
+            delay(2000)
+            featureStatistics = emptyMap() //todo
             callback()
         }
     }

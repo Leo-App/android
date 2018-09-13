@@ -60,7 +60,7 @@ class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPre
                             getMvpView().showListing() //if editing was successful, return to listing
                         }
                     } else {
-                        //editing wasn't successful, show error
+                        //editing wasn't successful, show error todo
                     }
                 }
             }
@@ -71,7 +71,7 @@ class NewsPresenter : AbstractPresenter<INewsView, INewsDataManager>(), INewsPre
                             getMvpView().showListing() //if editing was successful, return to listing
                         }
                     } else {
-                        //editing wasn't successful, show error
+                        //editing wasn't successful, show error todo
                     }
                 }
             }

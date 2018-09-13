@@ -51,12 +51,26 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     @LayoutRes
     protected abstract fun getContentView(): Int
 
-    protected abstract fun usesActionButton(): Boolean
-
+    /**
+     * Setzt das Icon des FloatingActionButtons, wird diese Methode nicht überschrieben, wird kein FAB angezeigt.
+     *
+     * @return id des FAB Icons
+     */
     @DrawableRes
-    protected abstract fun getActionIcon(): Int
+    protected open fun getActionIcon(): Int = 0
 
-    protected abstract fun getAction(): View.OnClickListener
+    /**
+     * Setzt die Aktion, die on-click ausgeführt werden soll. Java Implementierungen nutzen
+     * besser {@see getActionListener()}.
+     */
+    protected open fun getAction(): (View) -> Unit = {}
+
+    /**
+     * Setzt die Aktion, die on-click ausgeführt werden soll. Kotlin Implementierungen nutzen
+     * besser {@see getAction()}.
+     */
+    //Alternative method to getAction for Java compatibility
+    protected open fun getActionListener(): View.OnClickListener? = null
 
     /**
      * Soll die ID des gehighlighteten Items in der Navigation zurückgeben. In der Regel also die des aktuellen Features.
@@ -76,7 +90,6 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
     override fun onResume() {
         super.onResume()
-
         navigationView.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
@@ -126,10 +139,14 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         }
 
         actionButton = findViewById(R.id.action_main)
-        if (usesActionButton()) {
+        if (getActionIcon() != 0) {
             actionButton.setImageResource(getActionIcon())
-            actionButton.setOnClickListener(getAction())
             actionButton.visibility = View.VISIBLE
+            if (getActionListener() != null) {
+                actionButton.setOnClickListener(getActionListener())
+            } else {
+                actionButton.setOnClickListener(getAction())
+            }
         }
     }
 
@@ -207,14 +224,8 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(
-                    LayoutInflater.from(parent.context)
-                            .inflate(
-                                    R.layout.bottom_navigation_item,
-                                    parent,
-                                    false
-                            )
-            )
+            return ViewHolder(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.bottom_navigation_item, parent, false))
         }
 
         override fun getItemCount(): Int {
