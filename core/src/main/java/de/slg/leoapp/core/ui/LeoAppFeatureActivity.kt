@@ -269,6 +269,8 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
                 closeNavigationDrawer()
             }
 
+            holder.itemView.isClickable = menuEntry.getId() != getNavigationHighlightId()
+
             (holder.itemView as CardView).setCardBackgroundColor(
                     ContextCompat.getColor(
                             applicationContext,

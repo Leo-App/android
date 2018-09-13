@@ -1,12 +1,10 @@
 package de.slg.leoapp.timetable
 
+import de.slg.leoapp.annotation.Module
 import de.slg.leoapp.core.modules.Feature
 import de.slg.leoapp.core.utility.PERMISSION_STUDENT
 
-/**
- * @author Moritz
- * Erstelldatum: 13.09.2018
- */
+@Module("timetable")
 class Module : Feature {
     override fun getFeatureId() = R.string.feature_title_timetable
 

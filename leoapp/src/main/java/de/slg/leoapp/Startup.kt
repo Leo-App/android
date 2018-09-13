@@ -27,7 +27,7 @@ class Startup : Activity() {
 
     private lateinit var animation: ValueAnimator
 
-    @Modules("exams", "news", authentication = "authentication")
+    @Modules("exams", "news", "timetable", authentication = "authentication")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash)

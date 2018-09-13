@@ -58,7 +58,7 @@ dependencies {
     //implementation project(':lunch')
     implementation project(':news')
     //implementation project(':survey')
-    //implementation project(':timetable')
+    implementation project(':timetable')
 
     //HTTP
     implementation 'com.squareup.moshi:moshi:1.5.0'
