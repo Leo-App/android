@@ -76,7 +76,8 @@ inline infix fun <reified R : Number> Number.pow(exponent: Number): R {
             Long.type() -> toLong()
             Short.type() -> toShort()
             Byte.type() -> toByte()
-            else -> {/* exhaustive */ }
+            else -> {/* exhaustive */
+            }
         } as R
     }
 }

@@ -1,7 +1,6 @@
 package de.slg.leoapp.ui.settings
 
 import android.os.Bundle
-import android.view.View
 import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.ui.settings.overview.OverviewFragment

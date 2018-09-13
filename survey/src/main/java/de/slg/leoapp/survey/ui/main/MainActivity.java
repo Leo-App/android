@@ -36,7 +36,7 @@ public class MainActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getActionIcon() {
-       // return R.drawable.ic_arrow_left;
+        // return R.drawable.ic_arrow_left;
         return 0;
     }
 

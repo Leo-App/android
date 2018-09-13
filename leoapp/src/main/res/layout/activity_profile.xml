@@ -134,7 +134,7 @@
             android:tint="@color/colorTextGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/running_surveys"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

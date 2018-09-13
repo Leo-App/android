@@ -182,7 +182,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         }
 
         actionButton = findViewById(R.id.action_main)
-        if (getActionIcon() != 0) {
+        if (usesActionButton()) {
             actionButton.setImageResource(getActionIcon())
             actionButton.visibility = View.VISIBLE
             if (getActionListener() != null) {
