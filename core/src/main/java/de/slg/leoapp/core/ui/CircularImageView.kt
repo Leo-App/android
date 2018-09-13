@@ -7,10 +7,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 
-
 class CircularImageView : ImageView {
 
     private var canvasSize = 0
+    private var overlay: Bitmap? = null
 
     constructor(context: Context) : this(context, null)
 
@@ -25,6 +25,20 @@ class CircularImageView : ImageView {
         if (width == 0 || height == 0) return
 
         canvas.drawBitmap(getCircularBitmap((drawable as BitmapDrawable).bitmap, canvasSize), 0f, 0f, null)
+        if (overlay != null) {
+            canvas.drawBitmap(getCircularBitmap(overlay!!, canvasSize), 0f, 0f, null)
+        }
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val width = measureWidth(widthMeasureSpec)
+        val height = measureHeight(heightMeasureSpec)
+        setMeasuredDimension(width, height)
+    }
+
+    fun setOverlay(bitmap: Bitmap?) {
+        overlay = bitmap
+        invalidate()
     }
 
     private fun getCircularBitmap(bitmap: Bitmap, radius: Int): Bitmap {
@@ -44,12 +58,6 @@ class CircularImageView : ImageView {
         canvas.drawBitmap(finalBitmap, rect, rect, paint)
 
         return output
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val width = measureWidth(widthMeasureSpec)
-        val height = measureHeight(heightMeasureSpec)
-        setMeasuredDimension(width, height)
     }
 
     private fun measureWidth(measureSpec: Int): Int {

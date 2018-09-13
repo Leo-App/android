@@ -52,6 +52,16 @@
             app:layout_constraintStart_toEndOf="@id/guideline1"
             app:layout_constraintTop_toBottomOf="@id/profile_picture"/>
 
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/full_name_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="@color/colorTextDark"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@id/guideline1"
+            app:layout_constraintTop_toBottomOf="@id/profile_picture"/>
+
         <TextView
             android:id="@+id/login_name"
             android:layout_width="wrap_content"
@@ -123,11 +133,11 @@
             android:layout_marginEnd="16dp"
             android:tint="@color/colorTextGrey"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/running_surveys"/>
+            app:layout_constraintTop_toTopOf="@id/running_surveys"
+            tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include
-        layout="@layout/layout_activity_navigation"/>
+    <include layout="@layout/layout_activity_navigation"/>
 
 </FrameLayout>

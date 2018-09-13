@@ -6,16 +6,13 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.TextView
 import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+import de.slg.leoapp.core.utility.toBitmap
 import kotlinx.android.synthetic.main.activity_profile.*
 
 class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
-    override fun usesActionButton() = false
-
-    override fun getActionIcon() = 0
-
-    override fun getAction() = View.OnClickListener {}
 
     private lateinit var presenter: ProfilePresenter
 
@@ -35,22 +32,22 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
     override fun getViewContext() = applicationContext!!
 
     override fun showImageViewEditOverlay() {
-        TODO("not implemented")
+        profile_picture.setOverlay(R.mipmap.edit_overlay.toBitmap(applicationContext))
     }
 
     override fun hideImageViewEditOverlay() {
-        TODO("not implemented")
+        profile_picture.setOverlay(null)
     }
 
     override fun enableTextViewEditing() {
         full_name.visibility = View.GONE
-//       TODO full_name_edit.setText(full_name.text, TextView.BufferType.EDITABLE)
-//        full_name_edit.visibility = View.VISIBLE
+        full_name_edit.setText(full_name.text, TextView.BufferType.EDITABLE)
+        full_name_edit.visibility = View.VISIBLE
     }
 
     override fun disableTextViewEditing() {
         full_name.visibility = View.VISIBLE
-        //TODO full_name_edit.visibility = View.GONE
+        full_name_edit.visibility = View.GONE
     }
 
     override fun showEditButton() {

@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity;
 import de.slg.leoapp.core.utility.ViewBinder;
-import de.slg.leoapp.survey.R;
 
 public class MainActivity extends LeoAppFeatureActivity {
 
@@ -20,7 +19,8 @@ public class MainActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_main;
+//        return R.layout.activity_main;
+        return 0;
     }
 
     @Override
@@ -35,18 +35,16 @@ public class MainActivity extends LeoAppFeatureActivity {
     }
 
     @Override
-    protected boolean usesActionButton() {
-        return true;
-    }
-
-    @Override
     protected int getActionIcon() {
-        return R.drawable.ic_arrow_left;
+       // return R.drawable.ic_arrow_left;
+        return 0;
     }
 
-    @NotNull
+    @Nullable
     @Override
-    protected View.OnClickListener getAction() {
-        return null;
+    protected View.OnClickListener getActionListener() {
+        return view -> {
+            //todo
+        };
     }
 }
