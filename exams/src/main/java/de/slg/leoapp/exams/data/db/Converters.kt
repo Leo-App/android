@@ -22,7 +22,7 @@ class Converters {
     @TypeConverter
     fun toSubject(s: String): Subject {
         return Subject(
-                when (s.toUpperCase().replace(Regex("\\d"), "")) {
+                when (s.toUpperCase().replace(Regex("\\d"), "")) { //TODO STRINGS XML !!!
                     "M" -> "Mathe"
                     "D" -> "Deutsch"
                     "E" -> "Englisch"
@@ -46,23 +46,23 @@ class Converters {
                     else -> s
                 },
                 when (s.toUpperCase().replace(Regex("\\d"), "")) {
-                    "M" -> R.color.colorMathe
-                    "D" -> R.color.colorDeutsch
-                    "E" -> R.color.colorEnglisch
-                    "F" -> R.color.colorFranze
-                    "BI" -> R.color.colorBiologie
-                    "CH" -> R.color.colorChemie
-                    "PH" -> R.color.colorPhysik
-                    "IF" -> R.color.colorInformatik
-                    "PK", "SW" -> R.color.colorPolitik
+                    "M" -> R.color.colorMath
+                    "D" -> R.color.colorGerman
+                    "E" -> R.color.colorEnglish
+                    "F" -> R.color.colorFrench
+                    "BI" -> R.color.colorBiology
+                    "CH" -> R.color.colorChemistry
+                    "PH" -> R.color.colorPhysics
+                    "IF" -> R.color.colorCS
+                    "PK", "SW" -> R.color.colorPolitics
                     "KR", "ER", "P" -> R.color.colorReligion
-                    "S" -> R.color.colorSpanisch
+                    "S" -> R.color.colorSpanish
                     "SP" -> R.color.colorSport
-                    "N" -> R.color.colorNiederlaendisch
-                    "L" -> R.color.colorLatein
-                    "EK" -> R.color.colorErdkunde
-                    "GE", "GEF" -> R.color.colorGeschichte
-                    "PA" -> R.color.colorPaedagogik
+                    "N" -> R.color.colorDutch
+                    "L" -> R.color.colorLatin
+                    "EK" -> R.color.colorGeography
+                    "GE", "GEF" -> R.color.colorHistory
+                    "PA" -> R.color.colorEducation
                     else -> R.color.colorOther
                 }
         )

@@ -40,11 +40,9 @@ class MainActivity : LeoAppFeatureActivity() {
         return "feature_exams_main"
     }
 
-    override fun usesActionButton() = true
-
     override fun getActionIcon() = R.drawable.ic_add
 
-    override fun getAction() = View.OnClickListener { download() }
+    override fun getAction() = { _: View -> download() }
 
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
