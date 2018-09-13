@@ -1,36 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/listView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="top"/>
+        android:background="@color/colorBackground"
+        android:clipToPadding="false"
+        android:paddingBottom="?android:attr/actionBarSize"
+        android:layout_marginTop="24dp"/>
 
-    <include
-        layout="@layout/app_toolbar"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tag"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
-        app:layout_anchor="@id/appBar"/>
+        android:layout_marginStart="12dp"
+        android:text="29 Mo"
+        android:textColor="@color/colorTextLight"
+        android:textSize="20sp"/>
 
     <include
-        layout="@layout/shadow"
-        android:visibility="gone"
-        app:layout_anchor="@id/bottomNavigationDrawer"/>
+        layout="@layout/layout_activity_navigation"/>
 
-    <include
-        layout="@layout/app_bottom_navigation_drawer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:behavior_hideable="true"
-        app:layout_behavior="@string/bottom_sheet_behavior"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

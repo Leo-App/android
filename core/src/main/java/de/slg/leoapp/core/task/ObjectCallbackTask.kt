@@ -21,8 +21,7 @@ import de.slg.leoapp.core.datastructure.List
 @SuppressWarnings("unused")
 abstract class ObjectCallbackTask<OutputType> : AsyncTask<Any, Void, OutputType>() {
 
-    private val listeners: List<TaskStatusListener>
-        get() = List()
+    val listeners: List<TaskStatusListener> = List()
 
     fun addListener(listener: TaskStatusListener): ObjectCallbackTask<OutputType> {
         listeners.append(listener)

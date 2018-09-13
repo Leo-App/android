@@ -32,7 +32,7 @@ class Stack<ContentType> {
         return length
     }
 
-    private fun isEmpty(): Boolean {
+    fun isEmpty(): Boolean {
         return top == null
     }
 

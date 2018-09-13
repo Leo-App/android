@@ -33,6 +33,10 @@ android {
 }
 
 dependencies {
+    //Annotations
+    compileOnly project(path: ':annotation-processor')
+    kapt project(':annotation-processor')
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
@@ -53,10 +57,6 @@ dependencies {
 
     //Kotlin
     api 'org.jetbrains.kotlin:kotlin-reflect:1.2.60'
-
-    //Annotations
-    compileOnly project(path: ':annotation-processor')
-    kapt project(':annotation-processor')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

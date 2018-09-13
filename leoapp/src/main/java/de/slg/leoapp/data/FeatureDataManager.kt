@@ -5,7 +5,6 @@ import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 
 object FeatureDataManager: IFeatureDataManager {
-
     private lateinit var featureStatistics: Map<Int, FeatureStatistics>
 
     override fun syncUsageStatistics(callback: () -> Unit) {

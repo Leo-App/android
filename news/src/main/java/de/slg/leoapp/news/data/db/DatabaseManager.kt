@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import de.slg.leoapp.news.utils.Converters
 
-@Database(entities = [Author::class, Entry::class], version = 1)
+@Database(entities = [Author::class, Entry::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 

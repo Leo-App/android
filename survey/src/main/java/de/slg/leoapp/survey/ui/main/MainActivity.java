@@ -1,6 +1,7 @@
 package de.slg.leoapp.survey.ui.main;
 
 import android.os.Bundle;
+import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,5 +32,21 @@ public class MainActivity extends LeoAppFeatureActivity {
     @Override
     protected String getActivityTag() {
         return "survey_feature_main";
+    }
+
+    @Override
+    protected boolean usesActionButton() {
+        return true;
+    }
+
+    @Override
+    protected int getActionIcon() {
+        return R.drawable.ic_arrow_left;
+    }
+
+    @NotNull
+    @Override
+    protected View.OnClickListener getAction() {
+        return null;
     }
 }

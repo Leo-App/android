@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_layout"
@@ -9,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="?android:attr/actionBarSize"
         android:background="@color/colorBackground">
 
         <androidx.constraintlayout.widget.Guideline
@@ -16,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.675" />
+            app:layout_constraintGuide_percent="0.74"/>
 
         <!-- Background image wrapper for gradient -->
         <FrameLayout
@@ -32,13 +34,13 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/bg_home"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_gravity="bottom"
-                android:background="@drawable/gradient" />
+                android:background="@drawable/gradient"/>
 
         </FrameLayout>
 
@@ -46,30 +48,18 @@
             android:id="@+id/navigationRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="?attr/actionBarSize"
             android:clipToPadding="false"
+            android:paddingBottom="4dp"
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline1" />
+            app:layout_constraintTop_toBottomOf="@id/guideline1"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        layout="@layout/shadow"
-        android:visibility="gone"
-        app:layout_anchor="@id/bottomNavigationDrawer" />
+        layout="@layout/layout_activity_navigation"/>
 
-    <include
-        layout="@layout/app_bottom_navigation_drawer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:behavior_hideable="true"
-        app:layout_behavior="@string/bottom_sheet_behavior" />
-
-    <include layout="@layout/app_toolbar" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

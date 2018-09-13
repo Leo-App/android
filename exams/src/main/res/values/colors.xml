@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorMathe">#1976d2</color>
+    <color name="colorDeutsch">#e65100</color>
+    <color name="colorEnglisch">#9c27b0</color>
+    <color name="colorFranze">#303f9f</color>
+    <color name="colorBiologie">#43a047</color>
+    <color name="colorChemie">#f4511e</color>
+    <color name="colorPhysik">#00897b</color>
+    <color name="colorInformatik">#bf360c</color>
+    <color name="colorPolitik">#c2185b</color>
+    <color name="colorReligion">#880e4f</color>
+    <color name="colorSpanisch">#827717</color>
+    <color name="colorSport">#651fff</color>
+    <color name="colorNiederlaendisch">#00838f</color>
+    <color name="colorLatein">#b71c1c</color>
+    <color name="colorErdkunde">#1b5e20</color>
+    <color name="colorGeschichte">#7986cb</color>
+    <color name="colorPaedagogik">#546e7a</color>
+    <color name="colorOther">#555555</color>
+
+</resources>

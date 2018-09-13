@@ -20,7 +20,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -48,18 +47,18 @@ kotlin {
 }
 
 dependencies {
+    //Annotations
+    compileOnly project(path: ':annotation-processor')
+    kapt project(':annotation-processor')
+
     //Modules
     implementation project(':core')
     implementation project(':authentication')
     implementation project(':exams')
-    implementation project(':lunch')
+    //implementation project(':lunch')
     implementation project(':news')
-    implementation project(':survey')
-    implementation project(':timetable')
-
-    //Annotations
-    compileOnly project(path: ':annotation-processor')
-    kapt project(':annotation-processor')
+    //implementation project(':survey')
+    //implementation project(':timetable')
 
     //HTTP
     implementation 'com.squareup.moshi:moshi:1.5.0'

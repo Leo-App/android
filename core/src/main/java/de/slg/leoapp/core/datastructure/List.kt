@@ -34,8 +34,8 @@ class List<ContentType>() : Iterable<ContentType> {
      *
      * @param array Neuer Listeninhalt
      */
-    constructor(array: Array<ContentType>) : this() {
-        concat(array)
+    constructor(vararg array: ContentType) : this() {
+        concat(array.iterator())
     }
 
     /**
@@ -322,14 +322,20 @@ class List<ContentType>() : Iterable<ContentType> {
         return this
     }
 
+
+    fun concat(array: Iterator<ContentType>): List<ContentType> {
+        for (c in array)
+            append(c)
+        return this
+    }
+
     /**
      * Hängt ein Array ans Ende der aktuellen Liste an ohne den Pointer zu verschieben.
      *
      * @param array Array, das angehängt werden soll.
      */
-    fun concat(array: Array<ContentType>) {
-        for (c in array)
-            append(c)
+    fun concat(array: Array<ContentType>): List<ContentType> {
+        return concat(array.iterator())
     }
 
     /**
@@ -339,10 +345,7 @@ class List<ContentType>() : Iterable<ContentType> {
      * @return Instanz der geänderten Liste.
      */
     fun concat(pList: kotlin.collections.List<ContentType>): List<ContentType> {
-        for (t in pList) {
-            append(t)
-        }
-        return this
+        return concat(pList.iterator())
     }
 
     /**

@@ -48,8 +48,8 @@ class ProfilePresenter : AbstractPresenter<ProfileView, IUserDataManager>(), IPr
             return
         }
 
-        user.firstName = with (enteredNames) { slice(0..size-2).joinToString(separator = " ") }
-        user.lastName = enteredNames[enteredNames.size-1]
+        user.firstName = with(enteredNames) { slice(0..size - 2).joinToString(separator = " ") }
+        user.lastName = enteredNames[enteredNames.size - 1]
         user.profilePicture = ProfilePicture(currentProfilePicture, user.id)
 
         getDataManager().updateUsername(user.firstName, user.lastName)
