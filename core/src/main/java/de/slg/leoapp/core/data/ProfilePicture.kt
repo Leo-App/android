@@ -1,6 +1,7 @@
 package de.slg.leoapp.core.data
 
 import android.graphics.*
+import android.util.Log
 import de.slg.leoapp.core.utility.URL_PROFILE_PICTURE
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
@@ -9,11 +10,13 @@ import kotlinx.coroutines.experimental.launch
 import java.io.IOException
 import java.net.URL
 
-class ProfilePicture(private val imageURL: String, private val callback: (Bitmap) -> Unit = {}) {
+class ProfilePicture private constructor(private val imageURL: String, private val callback: (Bitmap) -> Unit = {}, needsSync: Boolean) {
 
     private lateinit var bitmap: Bitmap
 
-    constructor(bitmap: Bitmap, userId: Int) : this(URL_PROFILE_PICTURE.format(userId)) {
+    constructor(imageURL: String, callback: (Bitmap) -> Unit = {}) : this(imageURL, callback, true)
+
+    constructor(bitmap: Bitmap, userId: Int) : this(URL_PROFILE_PICTURE.format(userId), needsSync = false) {
         this.bitmap = bitmap
         launch(CommonPool) {
             //TODO make multipart POST request to upload profile picture
@@ -21,16 +24,17 @@ class ProfilePicture(private val imageURL: String, private val callback: (Bitmap
     }
 
     init {
-        launch(UI) {
-            if (::bitmap.isInitialized) return@launch
-            bitmap = async(CommonPool) {
-                try {
-                    BitmapFactory.decodeStream(URL(imageURL).openConnection().getInputStream())
-                } catch (e: IOException) {
-                    getReplacement()
-                }
-            }.await()
-            callback(bitmap)
+        if (needsSync) {
+            launch(UI) {
+                bitmap = async(CommonPool) {
+                    try {
+                        BitmapFactory.decodeStream(URL(imageURL).openStream())
+                    } catch (e: IOException) {
+                        getReplacement()
+                    }
+                }.await()
+                callback(bitmap)
+            }
         }
     }
 

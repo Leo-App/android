@@ -48,7 +48,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <include layout="@layout/layout_activity_navigation"/>
+        <include layout="@layout/app_container_navigation"/>
 
     </androidx.core.widget.NestedScrollView>
 

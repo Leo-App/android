@@ -54,7 +54,7 @@
                     android:textSize="20sp"/>
 
                 <TextView
-                    android:id="@+id/defaultName"
+                    android:id="@+id/loginName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/name"

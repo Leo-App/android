@@ -5,6 +5,7 @@ import de.slg.leoapp.core.data.ProfilePicture
 import de.slg.leoapp.core.data.User
 import de.slg.leoapp.core.ui.mvp.AbstractPresenter
 import de.slg.leoapp.data.IUserDataManager
+import de.slg.leoapp.data.UserDataManager
 
 class ProfilePresenter : AbstractPresenter<ProfileView, IUserDataManager>(), IProfilePresenter {
 
@@ -14,11 +15,18 @@ class ProfilePresenter : AbstractPresenter<ProfileView, IUserDataManager>(), IPr
 
     override fun onViewAttached(view: ProfileView) {
         super.onViewAttached(view)
+        registerDataManager(UserDataManager())
         user = User(getMvpView().getViewContext())
+
+        //We initialize all textviews...
         getMvpView().setName("${user.firstName} ${user.lastName}")
         getMvpView().setGrade(user.grade)
         getMvpView().setLoginName(user.loginName)
 
+        //...and give the user the possibility to edit them
+        getMvpView().showEditButton()
+
+        //We set the users profile picture
         currentProfilePicture = user.profilePicture.getPictureOrPlaceholder()
         getMvpView().setProfilePicture(currentProfilePicture)
     }
@@ -29,6 +37,7 @@ class ProfilePresenter : AbstractPresenter<ProfileView, IUserDataManager>(), IPr
             getMvpView().hideImageViewEditOverlay()
             getMvpView().setName("${user.firstName} ${user.lastName}")
             getMvpView().setProfilePicture(user.profilePicture.getPictureOrPlaceholder())
+            editing = false
         } else {
             getMvpView().terminate()
         }
@@ -38,6 +47,7 @@ class ProfilePresenter : AbstractPresenter<ProfileView, IUserDataManager>(), IPr
         editing = true
         getMvpView().enableTextViewEditing()
         getMvpView().showImageViewEditOverlay()
+        getMvpView().showSaveButton()
     }
 
     override fun onEditFinished() {

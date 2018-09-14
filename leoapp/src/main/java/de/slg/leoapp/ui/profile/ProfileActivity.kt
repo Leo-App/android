@@ -40,9 +40,10 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
     }
 
     override fun enableTextViewEditing() {
-        full_name.visibility = View.GONE
+        full_name.visibility = View.INVISIBLE
         full_name_edit.setText(full_name.text, TextView.BufferType.EDITABLE)
         full_name_edit.visibility = View.VISIBLE
+        full_name_edit.requestFocus()
     }
 
     override fun disableTextViewEditing() {
@@ -52,10 +53,16 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
 
     override fun showEditButton() {
         getAppBar().replaceMenu(R.menu.app_toolbar_edit)
+        getAppBar().addMenuAction(R.id.action_edit) {
+            presenter.onEditStarted()
+        }
     }
 
     override fun showSaveButton() {
         getAppBar().replaceMenu(R.menu.app_toolbar_save)
+        getAppBar().addMenuAction(R.id.action_save) {
+            presenter.onEditFinished()
+        }
     }
 
     override fun getName(): String {

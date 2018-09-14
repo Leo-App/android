@@ -10,6 +10,8 @@ import android.view.animation.LinearInterpolator
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import de.slg.leoapp.annotation.Modules
+import de.slg.leoapp.core.data.ProfilePicture
+import de.slg.leoapp.core.data.User
 import de.slg.leoapp.core.utility.Utils
 import de.slg.leoapp.core.utility.pxValue
 import de.slg.leoapp.data.FeatureDataManager
@@ -56,8 +58,24 @@ class Startup : Activity() {
 
         }
 
+        //TODO testing remove later
+
+        val user = User(applicationContext)
+        user.firstName = "Max"
+        user.lastName = "Mustermann"
+        user.grade = "EF"
+        user.id = 1337
+        user.loginName = "maxmus110110"
+        user.permission = 1
+        ProfilePicture("https://images.unsplash.com/photo-1536770494015-01837601cbd4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=923dc616ffd0fa46ecdd0d7977f867dd&auto=format&fit=crop&w=634&q=80") {
+            user.profilePicture = ProfilePicture(it, user.id)
+            FeatureDataManager.syncUsageStatistics { finish() }
+        }
+
+        //TODO testing remove later
+
         //Terminate Splashscreen
-        FeatureDataManager.syncUsageStatistics { finish() }
+       // FeatureDataManager.syncUsageStatistics { finish() } todo add later
     }
 
     private suspend fun startSplashAnimation() {
@@ -96,7 +114,6 @@ class Startup : Activity() {
     }
 
     override fun finish() {
-
         animation.cancel()
 
         val options = ActivityOptionsCompat

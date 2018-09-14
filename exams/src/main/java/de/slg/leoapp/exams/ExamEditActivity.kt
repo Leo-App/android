@@ -34,7 +34,7 @@ class ExamEditActivity : LeoAppFeatureActivity() {
 
     override fun getContentView() = R.layout.activity_klausur
 
-    override fun getActionIcon() = R.drawable.ic_check
+    override fun getActionIcon() = R.drawable.ic_check_black
 
     override fun getAction() = { _: View ->
         save()

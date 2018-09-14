@@ -48,10 +48,10 @@ class PreferenceManager {
     abstract class User {
         companion object {
             @PreferenceKey
-            const val FIRST_NAME: String = "preference_key_user_name"
+            const val FIRST_NAME: String = "preference_key_user_first_name"
 
             @PreferenceKey
-            const val LAST_NAME: String = "preference_key_user_name"
+            const val LAST_NAME: String = "preference_key_user_last_name"
 
             @PreferenceKey
             const val ID: String = "preference_key_user_id"

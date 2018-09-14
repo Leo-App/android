@@ -5,6 +5,6 @@
     android:layout_height="match_parent">
 
     <include
-        layout="@layout/layout_activity_navigation"/>
+        layout="@layout/app_container_navigation"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
