@@ -1,4 +1,4 @@
-package de.slg.leoapp.core.ui
+package de.slg.leoapp.core.ui.image
 
 import android.content.Context
 import android.graphics.*

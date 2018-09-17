@@ -26,6 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.slg.leoapp.core.R
 import de.slg.leoapp.core.data.User
 import de.slg.leoapp.core.modules.MenuEntry
+import de.slg.leoapp.core.ui.image.BackgroundEffect
+import de.slg.leoapp.core.ui.image.CircularImageView
 import de.slg.leoapp.core.utility.Utils
 import de.slg.leoapp.core.utility.setTint
 import org.jetbrains.anko.backgroundColorResource
@@ -75,6 +77,9 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
         setContentView(getContentView())
+        if (this is BackgroundEffect) {
+            applyBackgroundEffect()
+        }
         initAppBar()
         initNavigationDrawer()
     }

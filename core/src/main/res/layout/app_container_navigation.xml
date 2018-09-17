@@ -36,7 +36,7 @@
                 android:paddingStart="16dp"
                 android:paddingTop="16dp">
 
-                <de.slg.leoapp.core.ui.CircularImageView
+                <de.slg.leoapp.core.ui.image.CircularImageView
                     android:id="@+id/profilePicture"
                     android:layout_width="48dp"
                     android:layout_height="48dp"

@@ -1,3 +1,7 @@
 <resources>
+    <string name="lunch_feature_name">Lunch</string>
+
+    <!-- Notifications -->
+    <string name="lunch_notification_description">On missing order synchronisation</string>
 
 </resources>

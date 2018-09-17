@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+import de.slg.leoapp.core.ui.image.BackgroundEffect
+import de.slg.leoapp.core.ui.image.Gradient
 import de.slg.leoapp.news.R
 import de.slg.leoapp.news.data.db.Author
 import de.slg.leoapp.news.data.db.Entry
@@ -15,7 +17,7 @@ import de.slg.leoapp.news.ui.main.listing.ListFragment
 import de.slg.leoapp.news.ui.main.listing.ListPresenter
 import kotlinx.android.synthetic.main.activity_news.*
 
-class MainActivity : LeoAppFeatureActivity(), INewsView {
+class MainActivity : LeoAppFeatureActivity(), INewsView, BackgroundEffect by Gradient(R.id.background_image) {
 
     //Presenter
     private lateinit var presenter: NewsPresenter
