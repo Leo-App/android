@@ -163,15 +163,10 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         val loginName: TextView = findViewById(R.id.loginName)
         loginName.text = user.loginName
 
+        //TODO do we still need that? vvv
         navigationView.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(view: View, offset: Float) {
-                if (usesActionButton()) {
-                    if (view.top < actionButton.bottom) {
-                        actionButton.hide()
-                    } else {
-                        actionButton.show()
-                    }
-                }
+                //stub
             }
 
             override fun onStateChanged(view: View, newState: Int) {
@@ -186,6 +181,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
 //                    View.GONE
             }
         })
+        //TODO do we still need that? ^^^
 
         findViewById<View>(R.id.profileWrapper).setOnClickListener {
             startActivity(Intent(applicationContext, Utils.Activity.getProfileReference()))
@@ -206,8 +202,8 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
         actionButton = findViewById(R.id.action_main)
         if (usesActionButton()) {
-            actionButton.setImageResource(getActionIcon())
             actionButton.visibility = View.VISIBLE
+            actionButton.setImageResource(getActionIcon())
             if (getActionListener() != null) {
                 actionButton.setOnClickListener(getActionListener())
             } else {

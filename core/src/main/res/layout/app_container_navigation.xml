@@ -16,6 +16,7 @@
         android:background="@android:color/white"
         app:behavior_hideable="true"
         app:behavior_skipCollapsed="true"
+        app:cardElevation="16dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
         <LinearLayout
@@ -58,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/name"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="3dp"
                     android:layout_toEndOf="@id/profilePicture"
                     android:text="maxmus010101"
                     android:textColor="@color/colorTextDark"
