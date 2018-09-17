@@ -9,6 +9,7 @@
     <!-- Profile -->
     <string name="surveys">Running survey</string>
     <string name="grade">Grade</string>
+    <string name="image_chooser_title">Choose a new profile picture</string>
 
     <!-- Settings -->
     <string name="school" translatable="false">Sankt-Leonhard Gymnasium Aachen</string>

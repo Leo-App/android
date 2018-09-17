@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/arrow_back"
@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_arrow_left"
-        tools:ignore="ContentDescription"/>
+        tools:ignore="ContentDescription" />
 
     <!-- Guideline at 16dp margin left + 24dp back-icon width + 16dp margin right -->
     <androidx.constraintlayout.widget.Guideline
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="56dp"/>
+        app:layout_constraintGuide_begin="56dp" />
 
     <TextView
         android:id="@+id/notifications"
@@ -34,7 +34,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/arrow_back"/>
+        app:layout_constraintTop_toBottomOf="@id/arrow_back" />
 
     <TextView
         android:id="@+id/description_notifications"
@@ -45,7 +45,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/notifications"/>
+        app:layout_constraintTop_toBottomOf="@id/notifications" />
 
     <ImageView
         android:id="@+id/chevron_notifications"
@@ -56,7 +56,7 @@
         android:tint="@color/colorTextGrey"
         app:layout_constraintBottom_toTopOf="@id/separator1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_chevron_right"/>
+        app:srcCompat="@drawable/ic_chevron_right" />
 
     <View
         android:id="@+id/separator1"
@@ -66,7 +66,7 @@
         android:background="@color/colorDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/description_notifications"/>
+        app:layout_constraintTop_toBottomOf="@id/description_notifications" />
 
     <TextView
         android:id="@+id/contact"
@@ -78,7 +78,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/separator1"/>
+        app:layout_constraintTop_toBottomOf="@id/separator1" />
 
     <TextView
         android:id="@+id/description_contact"
@@ -89,7 +89,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/contact"/>
+        app:layout_constraintTop_toBottomOf="@id/contact" />
 
     <View
         android:id="@+id/separator2"
@@ -99,7 +99,7 @@
         android:background="@color/colorDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/description_contact"/>
+        app:layout_constraintTop_toBottomOf="@id/description_contact" />
 
     <TextView
         android:id="@+id/about"
@@ -111,7 +111,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/separator2"/>
+        app:layout_constraintTop_toBottomOf="@id/separator2" />
 
     <TextView
         android:id="@+id/description_about"
@@ -122,6 +122,6 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/about"/>
+        app:layout_constraintTop_toBottomOf="@id/about" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

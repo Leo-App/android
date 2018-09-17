@@ -17,9 +17,8 @@ android {
                 includeCompileClasspath true
             }
         }
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        vectorDrawables.useSupportLibrary = true
+        lintOptions.checkReleaseBuilds false
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

@@ -23,6 +23,10 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
         arrow_back.setOnClickListener { presenter.onBackPressed() }
     }
 
+    override fun onBackPressed() {
+        presenter.onBackPressed()
+    }
+
     override fun getContentView() = R.layout.activity_profile
 
     override fun getNavigationHighlightId() = -1
@@ -33,10 +37,12 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
 
     override fun showImageViewEditOverlay() {
         profile_picture.setOverlay(R.mipmap.edit_overlay.toBitmap(applicationContext))
+        profile_picture.setOnClickListener { presenter.onImageInteraction() }
     }
 
     override fun hideImageViewEditOverlay() {
         profile_picture.setOverlay(null)
+        profile_picture.setOnClickListener(null)
     }
 
     override fun enableTextViewEditing() {
@@ -90,14 +96,20 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
     }
 
     override fun openImageSelectionDialog() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "image/*"
-        startActivityForResult(intent, 0xD)
+        val getIntent = Intent(Intent.ACTION_GET_CONTENT)
+        getIntent.type = "image/*"
+
+        val pickIntent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        pickIntent.type = "image/*"
+
+        val chooserIntent = Intent.createChooser(getIntent, getString(R.string.image_chooser_title))
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
+
+        startActivityForResult(chooserIntent, 0xd)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 0xD && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 0xd && resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, data.data)
                 presenter.onImageSelected(bitmap)

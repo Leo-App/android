@@ -1,6 +1,5 @@
 package de.slg.leoapp.data
 
-import android.content.Context
 import android.graphics.Bitmap
 
 class UserDataManager : IUserDataManager {

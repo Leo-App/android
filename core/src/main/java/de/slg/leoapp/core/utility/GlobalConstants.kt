@@ -52,7 +52,7 @@ const val URL_API = "https://ucloud4schools.de/api" //TODO fix tomcat and api
 /**
  * Pfad zu Userprofilbild
  */
-const val URL_PROFILE_PICTURE = "$URL_API/media/usr_%d_pp"
+const val URL_PROFILE_PICTURE = "$URL_API/user/%d/picture"
 
 
 class Permissions { //For java interoperability

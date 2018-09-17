@@ -37,6 +37,7 @@ class ProfilePresenter : AbstractPresenter<ProfileView, IUserDataManager>(), IPr
             getMvpView().hideImageViewEditOverlay()
             getMvpView().setName("${user.firstName} ${user.lastName}")
             getMvpView().setProfilePicture(user.profilePicture.getPictureOrPlaceholder())
+            getMvpView().showEditButton()
             editing = false
         } else {
             getMvpView().terminate()
