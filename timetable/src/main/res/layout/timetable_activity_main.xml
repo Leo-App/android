@@ -13,10 +13,11 @@
         tools:ignore="ContentDescription"/>
 
     <LinearLayout
+        android:id="@+id/layoutTimetable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="24dp"
-        android:baselineAligned="false"
+        android:layout_marginBottom="?android:attr/actionBarSize"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -265,6 +266,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/titleMonday"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_margin="10dp"
@@ -284,6 +286,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/titleTuesday"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_margin="10dp"
@@ -303,6 +306,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/titleWednesday"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_margin="10dp"
@@ -322,6 +326,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/titleThursday"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_margin="10dp"
@@ -341,6 +346,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/titleFriday"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_margin="10dp"
@@ -353,6 +359,6 @@
 
     </LinearLayout>
 
-    <!--<include layout="@layout/layout_activity_navigation"/>-->
+    <include layout="@layout/core_app_container_navigation"/>
 
 </FrameLayout>

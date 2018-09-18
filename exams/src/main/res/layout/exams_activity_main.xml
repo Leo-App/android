@@ -23,6 +23,6 @@
     <!--android:textSize="20sp"/>-->
 
     <include
-        layout="@layout/app_container_navigation"/>
+        layout="@layout/core_app_container_navigation"/>
 
 </FrameLayout>

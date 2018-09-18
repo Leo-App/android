@@ -28,17 +28,11 @@ class MainActivity : LeoAppFeatureActivity() {
     private var download: DownloadFileTask? = null
     private var parse: ParseTask? = null
 
-    override fun getContentView(): Int {
-        return R.layout.activity_main
-    }
+    override fun getContentView() = R.layout.exams_activity_main
 
-    override fun getNavigationHighlightId(): Int {
-        return R.string.feature_title_exams
-    }
+    override fun getNavigationHighlightId() = R.string.feature_title_exams
 
-    override fun getActivityTag(): String {
-        return "feature_exams_main"
-    }
+    override fun getActivityTag() = "feature_exams_main"
 
     override fun getActionIcon() = R.drawable.ic_add
 
@@ -115,7 +109,7 @@ class MainActivity : LeoAppFeatureActivity() {
     inner class KlausurAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = object : RecyclerView.ViewHolder(
                 layoutInflater.inflate(
-                        R.layout.list_item_klausur,
+                        R.layout.exams_item_exam,
                         parent,
                         false
                 )

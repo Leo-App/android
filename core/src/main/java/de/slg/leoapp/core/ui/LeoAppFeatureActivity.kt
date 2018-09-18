@@ -315,7 +315,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.bottom_navigation_item, parent, false))
+                    .inflate(R.layout.core_bottom_navigation_item, parent, false))
         }
 
         override fun getItemCount(): Int {

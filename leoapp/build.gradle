@@ -56,7 +56,7 @@ dependencies {
     implementation project(':exams')
     implementation project(':lunch')
     implementation project(':news')
-    //implementation project(':survey')
+    implementation project(':survey')
     implementation project(':timetable')
 
     //HTTP

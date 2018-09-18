@@ -18,7 +18,7 @@ import de.slg.leoapp.data.FeatureDataManager
 import de.slg.leoapp.ui.home.HomeActivity
 import de.slg.leoapp.ui.profile.ProfileActivity
 import de.slg.leoapp.ui.settings.SettingsActivity
-import kotlinx.android.synthetic.main.splash.*
+import kotlinx.android.synthetic.main.leoapp_splash.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
@@ -32,7 +32,7 @@ class Startup : Activity() {
     @Modules("exams", "news", "timetable", "lunch", authentication = "authentication")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.splash)
+        setContentView(R.layout.leoapp_splash)
         launch(UI) { startSplashAnimation() }
 
         //registering all necessary information in utils so that all modules may access it without exposing the ModuleLoader

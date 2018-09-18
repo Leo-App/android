@@ -12,7 +12,7 @@ import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.ui.home.adapter.FeatureAdapter
 import de.slg.leoapp.utils.Animation
 import de.slg.leoapp.utils.Circular
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.leoapp_activity_home.*
 
 class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
 
@@ -35,7 +35,7 @@ class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
         navigationRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    override fun getContentView() = R.layout.activity_home
+    override fun getContentView() = R.layout.leoapp_activity_home
 
     override fun getActivityTag() = "leoapp_feature_home"
 

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import de.slg.leoapp.R
 import de.slg.leoapp.ui.settings.notification.adapter.NotificationAdapter
-import kotlinx.android.synthetic.main.fragment_settings_notifications.*
+import kotlinx.android.synthetic.main.leoapp_fragment_settings_notifications.*
 
 class NotificationFragment : Fragment(), INotificationView {
 
@@ -16,7 +16,7 @@ class NotificationFragment : Fragment(), INotificationView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter = NotificationPresenter()
-        return inflater.inflate(R.layout.fragment_settings_notifications, container, false)
+        return inflater.inflate(R.layout.leoapp_fragment_settings_notifications, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

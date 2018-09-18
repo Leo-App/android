@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
@@ -40,7 +41,7 @@
                     android:id="@+id/profilePicture"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription"/>
 
                 <TextView
                     android:id="@+id/name"
@@ -51,7 +52,7 @@
                     android:layout_toEndOf="@id/profilePicture"
                     android:text="Max Mustermann"
                     android:textColor="@color/colorTextDark"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/loginName"
@@ -63,7 +64,7 @@
                     android:layout_toEndOf="@id/profilePicture"
                     android:text="maxmus010101"
                     android:textColor="@color/colorTextDark"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <ImageButton
                     android:id="@+id/close"
@@ -73,21 +74,21 @@
                     android:layout_alignParentTop="true"
                     android:background="@android:color/transparent"
                     android:src="@android:drawable/ic_menu_close_clear_cancel"
-                    android:tint="@android:color/black" />
+                    android:tint="@android:color/black"/>
 
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorDivider" />
+                android:background="@color/colorDivider"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/bottomNavigationMenu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="6dp"
-                android:clipToPadding="false" />
+                android:clipToPadding="false"/>
 
         </LinearLayout>
 
@@ -98,9 +99,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_anchor="@id/appBar" />
+        app:layout_anchor="@id/appBar"/>
 
-    <com.google.android.material.bottomappbar.BottomAppBar xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.google.android.material.bottomappbar.BottomAppBar
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/appBar"
         android:layout_width="match_parent"
@@ -112,6 +114,6 @@
         app:fabCradleMargin="8dp"
         app:hideOnScroll="true"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:navigationIcon="@drawable/ic_menu" />
+        app:navigationIcon="@drawable/ic_menu"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

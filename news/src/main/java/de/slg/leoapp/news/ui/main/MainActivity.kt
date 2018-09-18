@@ -15,7 +15,7 @@ import de.slg.leoapp.news.ui.main.details.DetailsFragment
 import de.slg.leoapp.news.ui.main.details.DetailsPresenter
 import de.slg.leoapp.news.ui.main.listing.ListFragment
 import de.slg.leoapp.news.ui.main.listing.ListPresenter
-import kotlinx.android.synthetic.main.activity_news.*
+import kotlinx.android.synthetic.main.news_activity_main.*
 
 class MainActivity : LeoAppFeatureActivity(), INewsView, BackgroundEffect by Gradient(R.id.background_image) {
 
@@ -98,7 +98,7 @@ class MainActivity : LeoAppFeatureActivity(), INewsView, BackgroundEffect by Gra
 
     override fun getViewContext() = applicationContext!!
 
-    override fun getContentView() = R.layout.activity_news
+    override fun getContentView() = R.layout.news_activity_main
 
     override fun getAction() = { _: View -> presenter.onFABPressed() }
 
@@ -108,4 +108,7 @@ class MainActivity : LeoAppFeatureActivity(), INewsView, BackgroundEffect by Gra
 
     override fun getActivityTag() = "news_feature_main"
 
+    override fun applyBackgroundEffect() {
+
+    }
 }

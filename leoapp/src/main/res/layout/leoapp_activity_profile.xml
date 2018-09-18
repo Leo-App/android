@@ -141,6 +141,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/app_container_navigation" />
+    <include layout="@layout/core_app_container_navigation" />
 
 </FrameLayout>

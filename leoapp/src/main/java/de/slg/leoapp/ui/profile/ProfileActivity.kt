@@ -10,7 +10,7 @@ import android.widget.TextView
 import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.core.utility.toBitmap
-import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.leoapp_activity_profile.*
 
 class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
 
@@ -27,7 +27,7 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
         presenter.onBackPressed()
     }
 
-    override fun getContentView() = R.layout.activity_profile
+    override fun getContentView() = R.layout.leoapp_activity_profile
 
     override fun getNavigationHighlightId() = -1
 

@@ -9,7 +9,7 @@ import de.slg.leoapp.news.ui.main.NewsPresenter
 class ConfirmationDialog(private val presenter: NewsPresenter, context: Context) : AlertDialog(context), IDialogView {
 //todo
     override fun onCreate(savedInstanceState: Bundle?) {
-        setContentView(R.layout.dialog_confirm)
+        setContentView(R.layout.news_dialog_confirm)
         super.onCreate(savedInstanceState)
     }
 

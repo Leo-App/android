@@ -32,7 +32,7 @@ class ExamEditActivity : LeoAppFeatureActivity() {
 
     override fun getActivityTag() = "exams_feature_edit"
 
-    override fun getContentView() = R.layout.activity_klausur
+    override fun getContentView() = R.layout.exams_activity_detail
 
     override fun getActionIcon() = R.drawable.ic_check_black
 
@@ -83,7 +83,7 @@ class ExamEditActivity : LeoAppFeatureActivity() {
         super.onCreate(b)
 
         dialogCalendar = AppCompatDialog(this)
-        dialogCalendar.setContentView(R.layout.dialog_date_picker)
+        dialogCalendar.setContentView(R.layout.exams_dialog_date_picker)
 
         dialogCalendar.findViewById<CalendarView>(R.id.calendar)!!.setOnDateChangeListener { _, year, month, dayOfMonth ->
             newDate[Calendar.YEAR] = year
@@ -102,7 +102,7 @@ class ExamEditActivity : LeoAppFeatureActivity() {
         }
 
         dialogSubject = AppCompatDialog(this)
-        dialogSubject.setContentView(R.layout.dialog_subject_picker)
+        dialogSubject.setContentView(R.layout.exams_dialog_subject_picker)
 
         dialogSubject.findViewById<View>(R.id.buttonOk)!!.setOnClickListener {
             dialogSubject.dismiss()
