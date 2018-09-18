@@ -28,7 +28,7 @@
     <string name="about">About</string>
     <string name="desc_about">More information</string>
 
-    <string name="members">
+    <string name="members" translatable="false">
         Alina Behrens
         \nLuzia Borgmann
         \nCihat Gündüz

@@ -1,0 +1,19 @@
+<resources>
+    <string name="feature_title_news">Schwarzes Brett</string>
+
+    <!-- Entry listing -->
+    <string name="title_me">(Ich)</string>
+
+    <!-- Entry details -->
+    <string name="deadline_desc">Bis</string>
+
+    <!-- content description -->
+    <string name="cd_back">Zurückpfeil</string>
+
+    <!-- tooltips -->
+    <string name="delete">Löschen</string>
+
+    <!-- Notification -->
+    <string name="news_desc_notification">Bei neuen Einträgen</string>
+
+</resources>
