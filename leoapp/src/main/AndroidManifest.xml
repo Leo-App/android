@@ -26,11 +26,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.profile.ProfileActivity"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.settings.SettingsActivity"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
 
     </application>

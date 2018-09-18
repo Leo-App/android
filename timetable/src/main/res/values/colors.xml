@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorBackgroundTimes">#b0ffffff</color>
+    <color name="colorBackgroundTimes">#c0ffffff</color>
+
+    <color name="colorMath">#1976d2</color>
+    <color name="colorGerman">#e65100</color>
+    <color name="colorEnglish">#9c27b0</color>
+    <color name="colorFrench">#303f9f</color>
+    <color name="colorBiology">#43a047</color>
+    <color name="colorChemistry">#f4511e</color>
+    <color name="colorPhysics">#00897b</color>
+    <color name="colorCS">#bf360c</color>
+    <color name="colorPolitics">#c2185b</color>
+    <color name="colorReligion">#880e4f</color>
+    <color name="colorSpanish">#827717</color>
+    <color name="colorSport">#651fff</color>
+    <color name="colorDutch">#00838f</color>
+    <color name="colorLatin">#b71c1c</color>
+    <color name="colorGeography">#1b5e20</color>
+    <color name="colorHistory">#7986cb</color>
+    <color name="colorEducation">#546e7a</color>
+    <color name="colorOther">#555555</color>
 
 </resources>

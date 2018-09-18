@@ -4,10 +4,6 @@ import androidx.room.TypeConverter
 import de.slg.leoapp.exams.R
 import java.util.*
 
-/**
- * @author Moritz
- * Erstelldatum: 07.09.2018
- */
 class Converters {
     @TypeConverter
     fun fromDate(date: Date): Long {
@@ -69,7 +65,7 @@ class Converters {
     }
 
     @TypeConverter
-    fun toString(s: Subject): String {
+    fun fromSubject(s: Subject): String {
         return when (s.name) {
             "Mathe" -> "M"
             "Deutsch" -> "D"

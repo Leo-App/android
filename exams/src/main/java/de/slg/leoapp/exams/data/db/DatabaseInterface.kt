@@ -5,10 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
-/**
- * @author Moritz
- * Erstelldatum: 06.09.2018
- */
 @Dao
 interface DatabaseInterface {
 
