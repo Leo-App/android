@@ -1,5 +1,5 @@
 <resources>
 
-    <string name="feature_title_timetable">Stundenplan</string>
+    <string name="timetable_feature_title">Stundenplan</string>
 
 </resources>

@@ -41,8 +41,8 @@ class Startup : Activity() {
         Utils.Network.registerAPIKeyAlgorithm(ModuleLoader.getAuthenticationModule()::getAPIKey)
 
         Utils.Menu.addMenuEntry(
-                R.string.home,
-                getString(R.string.home),
+                R.string.leoapp_home,
+                getString(R.string.leoapp_home),
                 R.drawable.ic_startseite,
                 HomeActivity::class.java
         )

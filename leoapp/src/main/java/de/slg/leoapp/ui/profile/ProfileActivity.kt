@@ -102,7 +102,7 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
         val pickIntent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         pickIntent.type = "image/*"
 
-        val chooserIntent = Intent.createChooser(getIntent, getString(R.string.image_chooser_title))
+        val chooserIntent = Intent.createChooser(getIntent, getString(R.string.leoapp_image_chooser_title))
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
 
         startActivityForResult(chooserIntent, 0xd)

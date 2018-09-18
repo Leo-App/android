@@ -1,4 +1,4 @@
 <resources>
-    <string name="feature_title_exams">Klausuren</string>
+    <string name="exams_feature_title">Klausuren</string>
     <string name="exams_notification_description">Bei anstehenden Klausuren</string>
 </resources>

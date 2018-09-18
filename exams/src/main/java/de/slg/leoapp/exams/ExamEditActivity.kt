@@ -77,7 +77,7 @@ class ExamEditActivity : LeoAppFeatureActivity() {
         )
     }
 
-    override fun getNavigationHighlightId() = R.string.feature_title_exams
+    override fun getNavigationHighlightId() = R.string.exams_feature_title
 
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)

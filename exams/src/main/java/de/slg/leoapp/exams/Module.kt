@@ -7,11 +7,11 @@ import de.slg.leoapp.core.utility.PERMISSION_STUDENT
 
 @Module("exams")
 class Module : Feature {
-    override fun getFeatureId() = R.string.feature_title_exams
+    override fun getFeatureId() = R.string.exams_feature_title
 
     override fun getIcon() = R.drawable.ic_klausurplan
 
-    override fun getName() = R.string.feature_title_exams
+    override fun getName() = R.string.exams_feature_title
 
     override fun getNecessaryPermission() = PERMISSION_STUDENT
 

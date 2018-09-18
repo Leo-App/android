@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/action_save"
-        android:title="@string/save"
+        android:title="@string/leoapp_save"
         android:icon="@drawable/ic_check"
         app:showAsAction="ifRoom"
         tools:ignore="AppCompatResource"/>
@@ -14,14 +14,14 @@
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
-        android:title="@string/settings"
+        android:title="@string/core_settings"
         app:showAsAction="ifRoom"
         tools:ignore="AppCompatResource"/>
 
     <item
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_profile"
-        android:title="@string/profile"
+        android:title="@string/core_profile"
         app:showAsAction="ifRoom"
         tools:ignore="AppCompatResource"/>
 

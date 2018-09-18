@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">substitutions</string>
+
+    <string name="substitutions_feature_title">Substitutions</string>
+
 </resources>

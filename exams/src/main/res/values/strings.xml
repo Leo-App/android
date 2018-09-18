@@ -1,4 +1,4 @@
 <resources>
-    <string name="feature_title_exams">Exams</string>
+    <string name="exams_feature_title">Exams</string>
     <string name="exams_notification_description">On upcoming exams</string>
 </resources>

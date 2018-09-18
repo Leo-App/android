@@ -39,7 +39,7 @@ class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
 
     override fun getActivityTag() = "leoapp_feature_home"
 
-    override fun getNavigationHighlightId() = R.string.home
+    override fun getNavigationHighlightId() = R.string.leoapp_home
 
     override fun getViewContext() = applicationContext!!
 

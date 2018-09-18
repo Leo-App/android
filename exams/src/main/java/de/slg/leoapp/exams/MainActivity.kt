@@ -30,7 +30,7 @@ class MainActivity : LeoAppFeatureActivity() {
 
     override fun getContentView() = R.layout.exams_activity_main
 
-    override fun getNavigationHighlightId() = R.string.feature_title_exams
+    override fun getNavigationHighlightId() = R.string.exams_feature_title
 
     override fun getActivityTag() = "feature_exams_main"
 
