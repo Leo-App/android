@@ -16,16 +16,15 @@
         android:id="@+id/layoutTimetable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="24dp"
         android:layout_marginBottom="?android:attr/actionBarSize"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/colorBackground"
+            android:background="@color/colorBackgroundTimes"
             android:orientation="vertical"
-            android:paddingTop="56dp">
+            android:paddingTop="80dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -240,7 +239,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 android:gravity="center_horizontal"
-                android:text="!6:00"
+                android:text="16:00"
                 android:textColor="@color/colorTextGrey"
                 android:textSize="14sp"
                 tools:ignore="HardcodedText"/>
@@ -262,6 +261,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginTop="24dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -279,6 +279,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_marginTop="24dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
@@ -300,6 +301,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:gravity="center_horizontal"
@@ -319,6 +321,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_marginTop="24dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
@@ -341,6 +344,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginTop="24dp"
             android:background="@android:color/transparent"
             android:gravity="center_horizontal"
             android:orientation="vertical">
