@@ -29,7 +29,7 @@ class Startup : Activity() {
 
     private lateinit var animation: ValueAnimator
 
-    @Modules("exams", "news", "timetable", "lunch", authentication = "authentication")
+    @Modules("exams", "news", "timetable", "lunch", "substitutions", authentication = "authentication")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.leoapp_splash)

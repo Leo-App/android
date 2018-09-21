@@ -2,4 +2,10 @@
 
     <string name="timetable_feature_title">Stundenplan</string>
 
+    <string name="timetable_title_monday">Mo</string>
+    <string name="timetable_title_tuesday">Di</string>
+    <string name="timetable_title_wednesday">Mi</string>
+    <string name="timetable_title_thursday">Do</string>
+    <string name="timetable_title_friday">Fr</string>
+
 </resources>

@@ -4,6 +4,7 @@ import de.slg.leoapp.annotation.Module
 import de.slg.leoapp.core.modules.Feature
 import de.slg.leoapp.core.modules.Notification
 import de.slg.leoapp.core.utility.PERMISSION_STUDENT
+import de.slg.leoapp.exams.ui.MainActivity
 
 @Module("exams")
 class Module : Feature {

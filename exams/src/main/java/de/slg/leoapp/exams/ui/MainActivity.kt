@@ -1,4 +1,4 @@
-package de.slg.leoapp.exams
+package de.slg.leoapp.exams.ui
 
 import android.content.Context
 import android.content.Intent
@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import de.slg.leoapp.core.task.TaskStatusListener
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+import de.slg.leoapp.exams.Klausur
+import de.slg.leoapp.exams.R
 import de.slg.leoapp.exams.data.db.DatabaseManager
 import de.slg.leoapp.exams.task.DownloadFileTask
 import de.slg.leoapp.exams.task.ParseTask

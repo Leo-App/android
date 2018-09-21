@@ -1,4 +1,4 @@
-package de.slg.leoapp.exams
+package de.slg.leoapp.exams.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -11,16 +11,14 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import de.slg.leoapp.core.task.TaskStatusListener
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+import de.slg.leoapp.exams.Klausur
+import de.slg.leoapp.exams.R
 import de.slg.leoapp.exams.data.db.DatabaseManager
 import de.slg.leoapp.exams.data.db.Subject
 import de.slg.leoapp.exams.task.RefreshExamTask
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * @author Moritz
- * Erstelldatum: 09.09.2018
- */
 class ExamEditActivity : LeoAppFeatureActivity() {
     private val newDate: Calendar = GregorianCalendar()
     private lateinit var dialogCalendar: AppCompatDialog

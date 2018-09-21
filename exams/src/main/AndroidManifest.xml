@@ -3,9 +3,9 @@
     package="de.slg.leoapp.exams">
 
     <application>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".ui.MainActivity"/>
         <activity
-            android:name=".ExamEditActivity"
+            android:name=".ui.ExamEditActivity"
             android:windowSoftInputMode="stateHidden"/>
     </application>
 

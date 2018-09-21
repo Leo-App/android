@@ -1,4 +1,4 @@
-package de.slg.leoapp.exams.xml
+package de.slg.leoapp.exams.parser
 
 import de.slg.leoapp.core.datastructure.List
 

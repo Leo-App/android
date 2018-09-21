@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="substitutions_feature_title">Vertretungsplan</string>
+    <string name="substitutions_today">Heute</string>
+    <string name="substitutions_tomorrow">Morgen</string>
+
+</resources>

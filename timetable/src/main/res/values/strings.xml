@@ -2,4 +2,10 @@
 
     <string name="timetable_feature_title">Timetable</string>
 
+    <string name="timetable_title_monday">Mon</string>
+    <string name="timetable_title_tuesday">Tue</string>
+    <string name="timetable_title_wednesday">Wed</string>
+    <string name="timetable_title_thursday">Thu</string>
+    <string name="timetable_title_friday">Fri</string>
+
 </resources>

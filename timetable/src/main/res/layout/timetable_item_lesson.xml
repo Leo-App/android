@@ -7,7 +7,7 @@
 
     <View
         android:id="@+id/color"
-        android:layout_width="4dp"
+        android:layout_width="2dp"
         android:layout_height="match_parent"
         android:layout_marginStart="1dp"
         android:background="@color/colorReligion"/>

@@ -1,5 +1,7 @@
 <resources>
 
     <string name="substitutions_feature_title">Substitutions</string>
+    <string name="substitutions_today">Today</string>
+    <string name="substitutions_tomorrow">Tomorrow</string>
 
 </resources>

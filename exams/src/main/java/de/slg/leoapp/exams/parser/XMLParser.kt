@@ -1,4 +1,4 @@
-package de.slg.leoapp.exams.xml
+package de.slg.leoapp.exams.parser
 
 import de.slg.leoapp.core.datastructure.List
 import de.slg.leoapp.core.datastructure.Stack
@@ -11,10 +11,6 @@ import java.util.*
 import java.util.regex.Pattern
 import javax.xml.parsers.SAXParserFactory
 
-/**
- * @author Moritz
- * Erstelldatum: 05.09.2018
- */
 class XMLParser(private val input: InputStream) {
 
     private val cellType = List(

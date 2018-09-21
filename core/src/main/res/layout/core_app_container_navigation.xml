@@ -17,6 +17,7 @@
         android:background="@android:color/white"
         app:behavior_hideable="true"
         app:behavior_skipCollapsed="true"
+        app:behavior_peekHeight="0dp"
         app:cardElevation="16dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
 

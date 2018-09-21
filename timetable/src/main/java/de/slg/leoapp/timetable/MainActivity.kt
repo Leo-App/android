@@ -2,14 +2,11 @@ package de.slg.leoapp.timetable
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.TextView
+import android.widget.LinearLayout
 import de.slg.leoapp.core.task.TaskStatusListener
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.timetable.task.DownloadFileTask
 import de.slg.leoapp.timetable.task.ParseTask
-import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.textColorResource
-import java.util.*
 
 class MainActivity : LeoAppFeatureActivity() {
     private var downloadTask: DownloadFileTask? = null
@@ -24,20 +21,70 @@ class MainActivity : LeoAppFeatureActivity() {
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
 
-        val calendar = GregorianCalendar()
-
-        val current: TextView = findViewById(
-                when (calendar[Calendar.DAY_OF_WEEK]) {
-                    Calendar.TUESDAY -> R.id.titleTuesday
-                    Calendar.WEDNESDAY -> R.id.titleWednesday
-                    Calendar.THURSDAY -> R.id.titleThursday
-                    Calendar.FRIDAY -> R.id.titleFriday
-                    else -> R.id.titleMonday
-                }
+        val monday: Array<LinearLayout> = arrayOf(
+                findViewById(R.id.lesson_monday_01),
+                findViewById(R.id.lesson_monday_02),
+                findViewById(R.id.lesson_monday_03),
+                findViewById(R.id.lesson_monday_04),
+                findViewById(R.id.lesson_monday_05),
+                findViewById(R.id.lesson_monday_06),
+                findViewById(R.id.lesson_monday_07),
+                findViewById(R.id.lesson_monday_08),
+                findViewById(R.id.lesson_monday_09),
+                findViewById(R.id.lesson_monday_10)
         )
 
-        current.backgroundResource = R.drawable.dot_primary
-        current.textColorResource = android.R.color.white
+        val tuesday: Array<LinearLayout> = arrayOf(
+                findViewById(R.id.lesson_tuesday_01),
+                findViewById(R.id.lesson_tuesday_02),
+                findViewById(R.id.lesson_tuesday_03),
+                findViewById(R.id.lesson_tuesday_04),
+                findViewById(R.id.lesson_tuesday_05),
+                findViewById(R.id.lesson_tuesday_06),
+                findViewById(R.id.lesson_tuesday_07),
+                findViewById(R.id.lesson_tuesday_08),
+                findViewById(R.id.lesson_tuesday_09),
+                findViewById(R.id.lesson_tuesday_10)
+        )
+
+        val wednesday: Array<LinearLayout> = arrayOf(
+                findViewById(R.id.lesson_wednesday_01),
+                findViewById(R.id.lesson_wednesday_02),
+                findViewById(R.id.lesson_wednesday_03),
+                findViewById(R.id.lesson_wednesday_04),
+                findViewById(R.id.lesson_wednesday_05),
+                findViewById(R.id.lesson_wednesday_06),
+                findViewById(R.id.lesson_wednesday_07),
+                findViewById(R.id.lesson_wednesday_08),
+                findViewById(R.id.lesson_wednesday_09),
+                findViewById(R.id.lesson_wednesday_10)
+        )
+
+        val thursday: Array<LinearLayout> = arrayOf(
+                findViewById(R.id.lesson_thursday_01),
+                findViewById(R.id.lesson_thursday_02),
+                findViewById(R.id.lesson_thursday_03),
+                findViewById(R.id.lesson_thursday_04),
+                findViewById(R.id.lesson_thursday_05),
+                findViewById(R.id.lesson_thursday_06),
+                findViewById(R.id.lesson_thursday_07),
+                findViewById(R.id.lesson_thursday_08),
+                findViewById(R.id.lesson_thursday_09),
+                findViewById(R.id.lesson_thursday_10)
+        )
+
+        val friday: Array<LinearLayout> = arrayOf(
+                findViewById(R.id.lesson_friday_01),
+                findViewById(R.id.lesson_friday_02),
+                findViewById(R.id.lesson_friday_03),
+                findViewById(R.id.lesson_friday_04),
+                findViewById(R.id.lesson_friday_05),
+                findViewById(R.id.lesson_friday_06),
+                findViewById(R.id.lesson_friday_07),
+                findViewById(R.id.lesson_friday_08),
+                findViewById(R.id.lesson_friday_09),
+                findViewById(R.id.lesson_friday_10)
+        )
     }
 
     private fun downloadFile() {

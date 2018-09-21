@@ -5,11 +5,6 @@ import java.io.*
 import java.net.URL
 import java.net.URLConnection
 
-
-/**
- * @author Moritz
- * Erstelldatum: 03.09.2018
- */
 class DownloadFileTask : ObjectCallbackTask<Void?>() {
     override fun doInBackground(vararg params: Any): Void? {
         try {
