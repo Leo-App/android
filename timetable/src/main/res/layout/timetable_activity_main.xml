@@ -12,114 +12,16 @@
         android:src="@mipmap/bg_timetable"
         tools:ignore="ContentDescription"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="24dp"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:id="@+id/titleMonday"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/dot_white"
-                android:gravity="center"
-                android:text="@string/timetable_title_monday"
-                android:textColor="@color/colorPrimary"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:id="@+id/titleTuesday"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/dot_white"
-                android:gravity="center"
-                android:text="@string/timetable_title_tuesday"
-                android:textColor="@color/colorPrimary"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:id="@+id/titleWednesday"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/dot_white"
-                android:gravity="center"
-                android:text="@string/timetable_title_wednesday"
-                android:textColor="@color/colorPrimary"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:id="@+id/titleThursday"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/dot_white"
-                android:gravity="center"
-                android:text="@string/timetable_title_thursday"
-                android:textColor="@color/colorPrimary"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:id="@+id/titleFriday"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/dot_white"
-                android:gravity="center"
-                android:text="@string/timetable_title_friday"
-                android:textColor="@color/colorPrimary"/>
-
-        </FrameLayout>
-
-    </LinearLayout>
+    <View
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?android:attr/actionBarSize"
+        android:background="@color/colorBackground"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorBackgroundTimes"
         android:layout_marginBottom="?android:attr/actionBarSize"
         android:scrollbars="vertical">
 
@@ -127,13 +29,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="?android:attr/actionBarSize"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="50dp"
+                android:layout_width="52dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorBackgroundTimes"
                 android:orientation="vertical"
                 android:paddingTop="80dp">
 
@@ -374,72 +275,75 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="80dp"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <include
                     android:id="@+id/lesson_monday_01"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_monday_02"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_monday_03"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"/>
 
                 <include
                     android:id="@+id/lesson_monday_04"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_monday_05"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"/>
 
                 <include
                     android:id="@+id/lesson_monday_06"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="52.5dp"
                     android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_monday_07"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_monday_08"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_monday_09"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_monday_10"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
             </LinearLayout>
 
@@ -449,71 +353,75 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="80dp"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <include
                     android:id="@+id/lesson_tuesday_01"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_02"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_03"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_04"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_05"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_06"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_07"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_08"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_09"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_10"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
             </LinearLayout>
 
@@ -523,71 +431,76 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="80dp"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <include
                     android:id="@+id/lesson_wednesday_01"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_02"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_03"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_04"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_05"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_06"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_07"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_08"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_09"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    />
 
                 <include
                     android:id="@+id/lesson_wednesday_10"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    />
 
             </LinearLayout>
 
@@ -597,71 +510,74 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="80dp"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <include
                     android:id="@+id/lesson_thursday_01"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_thursday_02"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_thursday_03"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"/>
 
                 <include
                     android:id="@+id/lesson_thursday_04"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_thursday_05"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"/>
 
                 <include
                     android:id="@+id/lesson_thursday_06"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_thursday_07"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_thursday_08"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_thursday_09"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_thursday_10"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
             </LinearLayout>
 
@@ -671,77 +587,184 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="80dp"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <include
                     android:id="@+id/lesson_friday_01"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_friday_02"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_friday_03"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"/>
 
                 <include
                     android:id="@+id/lesson_friday_04"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_friday_05"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"/>
 
                 <include
                     android:id="@+id/lesson_friday_06"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_friday_07"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_height="52.5dp"
+                    android:layout_marginTop="16dp"/>
 
                 <include
                     android:id="@+id/lesson_friday_08"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"/>
 
                 <include
                     android:id="@+id/lesson_friday_09"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_friday_10"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="24dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/titleMonday"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/dot_white"
+                android:gravity="center"
+                android:text="@string/timetable_title_monday"
+                android:textColor="@color/colorPrimary"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/titleTuesday"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/dot_white"
+                android:gravity="center"
+                android:text="@string/timetable_title_tuesday"
+                android:textColor="@color/colorPrimary"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/titleWednesday"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/dot_white"
+                android:gravity="center"
+                android:text="@string/timetable_title_wednesday"
+                android:textColor="@color/colorPrimary"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/titleThursday"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/dot_white"
+                android:gravity="center"
+                android:text="@string/timetable_title_thursday"
+                android:textColor="@color/colorPrimary"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/titleFriday"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/dot_white"
+                android:gravity="center"
+                android:text="@string/timetable_title_friday"
+                android:textColor="@color/colorPrimary"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
 
     <include layout="@layout/core_app_container_navigation"/>
 

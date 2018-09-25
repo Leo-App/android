@@ -43,11 +43,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@drawable/background_tab_layout"
+                app:tabGravity="fill"
                 app:tabIndicatorColor="@color/colorPrimary"
                 app:tabIndicatorGravity="stretch"
+                app:tabMaxWidth="0dp"
                 app:tabSelectedTextColor="@android:color/white"
-                app:tabTextColor="@color/colorPrimary"
-                app:tabTextAppearance="@style/TabTextAppearance">
+                app:tabTextAppearance="@style/TabTextAppearance"
+                app:tabTextColor="@color/colorPrimary">
 
                 <com.google.android.material.tabs.TabItem
                     android:id="@+id/tabToday"
