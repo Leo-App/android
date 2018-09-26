@@ -18,6 +18,7 @@ class MainActivity : LeoAppFeatureActivity() {
 
     override fun getActivityTag() = "timetable_feature_main"
 
+    @Suppress("UNUSED_VARIABLE")
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
 

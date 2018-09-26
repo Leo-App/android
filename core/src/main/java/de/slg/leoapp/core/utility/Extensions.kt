@@ -49,8 +49,12 @@ fun Int.toBitmap(context: Context): Bitmap {
             ?: throw Resources.NotFoundException("$this is not a valid resource id")
 }
 
+fun Int.toColor(context: Context): Int {
+    return ContextCompat.getColor(context, this)
+}
+
 //View
-fun Int.dpValue(context: Context): Float {
+fun Int.pxToDp(context: Context): Float {
     return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_PX,
             this.toFloat(),
@@ -58,12 +62,20 @@ fun Int.dpValue(context: Context): Float {
     )
 }
 
-fun Float.pxValue(context: Context): Int {
+fun Float.dpToPx(context: Context): Int {
     return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             this,
             context.resources.displayMetrics
     ).toInt()
+}
+
+fun Float.spToPx(context: Context): Float {
+    return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            this,
+            context.resources.displayMetrics
+    )
 }
 
 //Arithmetic

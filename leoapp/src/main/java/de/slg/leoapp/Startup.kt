@@ -13,7 +13,7 @@ import de.slg.leoapp.annotation.Modules
 import de.slg.leoapp.core.data.ProfilePicture
 import de.slg.leoapp.core.data.User
 import de.slg.leoapp.core.utility.Utils
-import de.slg.leoapp.core.utility.pxValue
+import de.slg.leoapp.core.utility.dpToPx
 import de.slg.leoapp.data.FeatureDataManager
 import de.slg.leoapp.ui.home.HomeActivity
 import de.slg.leoapp.ui.profile.ProfileActivity
@@ -79,8 +79,8 @@ class Startup : Activity() {
     }
 
     private suspend fun startSplashAnimation() {
-        val maxAmplitude = 15f.pxValue(applicationContext)
-        val defaultSize = 75f.pxValue(applicationContext)
+        val maxAmplitude = 15f.dpToPx(applicationContext)
+        val defaultSize = 75f.dpToPx(applicationContext)
 
         ValueAnimator.ofInt(0, defaultSize).apply {
             duration = 100

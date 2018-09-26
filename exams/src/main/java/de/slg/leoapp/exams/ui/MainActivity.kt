@@ -2,6 +2,9 @@ package de.slg.leoapp.exams.ui
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import de.slg.leoapp.core.task.TaskStatusListener
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+import de.slg.leoapp.core.utility.dpToPx
+import de.slg.leoapp.core.utility.spToPx
+import de.slg.leoapp.core.utility.toColor
 import de.slg.leoapp.exams.Klausur
 import de.slg.leoapp.exams.R
 import de.slg.leoapp.exams.data.db.DatabaseManager
@@ -49,7 +55,8 @@ class MainActivity : LeoAppFeatureActivity() {
     private fun initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-        recyclerView.adapter = KlausurAdapter()
+        recyclerView.adapter = ExamAdapter()
+        recyclerView.addItemDecoration(ExamDecoration())
 
         refreshData()
     }
@@ -108,7 +115,7 @@ class MainActivity : LeoAppFeatureActivity() {
         task.execute(DatabaseManager.getInstance(applicationContext))
     }
 
-    inner class KlausurAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    inner class ExamAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = object : RecyclerView.ViewHolder(
                 layoutInflater.inflate(
                         R.layout.exams_item_exam,
@@ -144,5 +151,68 @@ class MainActivity : LeoAppFeatureActivity() {
         }
 
 
+    }
+
+    inner class ExamDecoration : RecyclerView.ItemDecoration() {
+        private val dividerHeight = 40f.dpToPx(applicationContext).toFloat()
+
+        private val paint = Paint()
+
+        init {
+            paint.textSize = 20f.spToPx(applicationContext)
+        }
+
+        override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+            for (i in 0 until parent.childCount) {
+                val child = parent.getChildAt(i)
+                val adapterPosition = parent.getChildAdapterPosition(child)
+
+                if (hasHeader(adapterPosition)) {
+                    val top = child.top - dividerHeight
+
+                    val headerText = getHeaderText(adapterPosition)
+                    val length = paint.measureText(headerText)
+
+                    paint.color = R.color.colorTextLight.toColor(applicationContext)
+                    c.drawText(headerText, 80f.dpToPx(applicationContext).toFloat(), (child.top - 14f.dpToPx(applicationContext)).toFloat(), paint)
+
+                    paint.color = R.color.colorDivider.toColor(applicationContext)
+                    c.drawRect(80f.dpToPx(applicationContext) + length + 8f.dpToPx(applicationContext), top + dividerHeight / 2 - 0.5f.dpToPx(applicationContext), c.width.toFloat(), top + dividerHeight / 2 + 0.5f.dpToPx(applicationContext), paint)
+                }
+            }
+        }
+
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            val index = parent.getChildAdapterPosition(view)
+            if (hasHeader(index)) {
+                outRect.top = dividerHeight.toInt()
+            }
+        }
+
+        private fun hasHeader(index: Int): Boolean {
+            if (index == 0) {
+                return true
+            } else {
+                val c1 = GregorianCalendar()
+                c1.time = data[index - 1].datum
+                val c2 = GregorianCalendar()
+                c2.time = data[index].datum
+                if (c1[Calendar.MONTH] != c2[Calendar.MONTH]) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        private fun getHeaderText(index: Int): String {
+            val c1 = GregorianCalendar()
+            val c2 = GregorianCalendar()
+            c2.time = data[index].datum
+            return SimpleDateFormat(
+                    if (c1[Calendar.YEAR] == c2[Calendar.YEAR]) "MMMM"
+                    else "MMMM yyyy",
+                    Locale.GERMANY
+            ).format(data[index].datum)
+        }
     }
 }
