@@ -1,4 +1,6 @@
-<p align="center">
+# Leo-App Android
+
+<p align="left">
     <a href="https://app.bitrise.io/app/96d55f482e57fe45">
         <img src="https://app.bitrise.io/app/96d55f482e57fe45/status.svg?token=ZGN-LxhD0k_7VZFSup3G4A&branch=stable"
              alt="Build Status">
@@ -15,7 +17,7 @@
     </a>
 </p>
 
-<p align="center">
+<p align="left">
     <a href="#about">About</a>
   • <a href="https://github.com/Leo-App/android/issues">Issues</a>
   • <a href="https://play.google.com/store/apps/details?id=de.slgdev.leoapp">Play Store</a>
