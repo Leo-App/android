@@ -1,61 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/titelDatum"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="21dp"
-        android:text="Fach auswählen"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        app:layout_constraintBottom_toTopOf="@id/layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titelDatum"/>
-
     <LinearLayout
-        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/buttonCancel"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:text="Abbrechen"
-            android:textColor="@color/colorPrimary"/>
+        <include
+            android:id="@+id/item_other"
+            layout="@layout/exams_item_subject"/>
 
-        <Button
-            android:id="@+id/buttonOk"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:text="Ok"
-            android:textColor="@color/colorPrimary"/>
+        <include
+            android:id="@+id/item_math"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_german"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_english"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_french"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_biology"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_chemistry"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_physics"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_CS"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Politics"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Religion"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Spanish"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Sport"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Dutch"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Latin"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Geography"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_History"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Education"
+            layout="@layout/exams_item_subject"/>
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

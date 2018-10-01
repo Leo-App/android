@@ -3,9 +3,12 @@
     package="de.slg.leoapp.exams">
 
     <application>
-        <activity android:name=".ui.MainActivity"/>
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.ExamEditActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"/>
     </application>
 

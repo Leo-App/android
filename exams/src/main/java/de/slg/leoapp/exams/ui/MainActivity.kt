@@ -56,7 +56,8 @@ class MainActivity : LeoAppFeatureActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = ExamAdapter()
-        recyclerView.addItemDecoration(ExamDecoration())
+        recyclerView.addItemDecoration(MonthDecoration())
+        recyclerView.addItemDecoration(DayDecoration())
 
         refreshData()
     }
@@ -127,13 +128,11 @@ class MainActivity : LeoAppFeatureActivity() {
         override fun getItemCount() = data.size
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val tag: TextView = holder.itemView.findViewById(R.id.tag)
             val klausur: TextView = holder.itemView.findViewById(R.id.klausur)
             val background: CardView = holder.itemView.findViewById(R.id.background)
 
             val k: Klausur = data[position]
 
-            tag.text = SimpleDateFormat("dd EE", Locale.GERMAN).format(k.datum).substring(0, 5)
             klausur.text = k.subject.name
             background.setCardBackgroundColor(
                     ContextCompat.getColor(
@@ -149,12 +148,11 @@ class MainActivity : LeoAppFeatureActivity() {
                 )
             }
         }
-
-
     }
 
-    inner class ExamDecoration : RecyclerView.ItemDecoration() {
+    inner class MonthDecoration : RecyclerView.ItemDecoration() {
         private val dividerHeight = 40f.dpToPx(applicationContext).toFloat()
+        private val padding = 6f.dpToPx(applicationContext)
 
         private val paint = Paint()
 
@@ -186,7 +184,10 @@ class MainActivity : LeoAppFeatureActivity() {
             val index = parent.getChildAdapterPosition(view)
             if (hasHeader(index)) {
                 outRect.top = dividerHeight.toInt()
+            } else {
+                outRect.top = padding
             }
+            outRect.bottom = padding
         }
 
         private fun hasHeader(index: Int): Boolean {
@@ -197,7 +198,7 @@ class MainActivity : LeoAppFeatureActivity() {
                 c1.time = data[index - 1].datum
                 val c2 = GregorianCalendar()
                 c2.time = data[index].datum
-                if (c1[Calendar.MONTH] != c2[Calendar.MONTH]) {
+                if (c1[Calendar.YEAR] != c2[Calendar.YEAR] || c1[Calendar.MONTH] != c2[Calendar.MONTH]) {
                     return true
                 }
             }
@@ -215,4 +216,55 @@ class MainActivity : LeoAppFeatureActivity() {
             ).format(data[index].datum)
         }
     }
+
+    inner class DayDecoration : RecyclerView.ItemDecoration() {
+        private val left = 56f.dpToPx(applicationContext)
+        private val right = 12f.dpToPx(applicationContext)
+
+        private val paint = Paint()
+
+        init {
+            paint.textSize = 20f.spToPx(applicationContext)
+            paint.color = R.color.colorTextLight.toColor(applicationContext)
+        }
+
+        override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+            for (i in 0 until parent.childCount) {
+                val child = parent.getChildAt(i)
+                val adapterPosition = parent.getChildAdapterPosition(child)
+
+                if (hasHeader(adapterPosition)) {
+                    val headerText = getHeaderText(adapterPosition)
+
+                    c.drawText(headerText, 0, 2, 12f.dpToPx(applicationContext).toFloat(), (child.top + child.height / 2 - 3f.dpToPx(applicationContext)).toFloat(), paint)
+                    c.drawText(headerText, 2, 4, 12f.dpToPx(applicationContext).toFloat(), (child.top + child.height / 2 - 3f.dpToPx(applicationContext)).toFloat() + paint.textSize, paint)
+                }
+            }
+        }
+
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            outRect.left = left
+            outRect.right = right
+        }
+
+        private fun hasHeader(index: Int): Boolean {
+            if (index == 0) {
+                return true
+            } else {
+                val c1 = GregorianCalendar()
+                c1.time = data[index - 1].datum
+                val c2 = GregorianCalendar()
+                c2.time = data[index].datum
+                if (c1[Calendar.YEAR] != c2[Calendar.YEAR] || c1[Calendar.MONTH] != c2[Calendar.MONTH] || c1[Calendar.DAY_OF_MONTH] != c2[Calendar.DAY_OF_MONTH]) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        private fun getHeaderText(index: Int): String {
+            return SimpleDateFormat("ddEE", Locale.GERMANY).format(data[index].datum)
+        }
+    }
+
 }

@@ -131,9 +131,8 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
      * Soll die ID des gehighlighteten Items in der Navigation zurückgeben. In der Regel also
      * die des aktuellen Features.
      *
-     * @return Menü-ID, zB. R.id.startseite
+     * @return Menü-ID, zB. R.string.startseite
      */
-    @IdRes
     protected abstract fun getNavigationHighlightId(): Int
 
     /**

@@ -96,8 +96,7 @@
                     android:textColor="@color/colorTextDark"
                     android:textSize="16sp"/>
 
-                <view
-                    class="android.view.View"
+                <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="56dp"
@@ -132,8 +131,7 @@
                     android:textColor="@color/colorTextDark"
                     android:textSize="16sp"/>
 
-                <view
-                    class="android.view.View"
+                <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginStart="56dp"
