@@ -2,7 +2,6 @@ package de.slg.leoapp.timetable.data.db
 
 import androidx.room.TypeConverter
 import de.slg.leoapp.timetable.R
-import de.slg.leoapp.timetable.data.LessonTime
 import de.slg.leoapp.timetable.data.Subject
 
 class Converters {
@@ -32,13 +31,4 @@ class Converters {
 
     @TypeConverter
     fun fromSubject(s: Subject): String = s.name
-
-    @TypeConverter
-    fun toLessonTime(s: String): LessonTime = LessonTime(
-            Integer.parseInt(s.substring(0, 1)),
-            Integer.parseInt(s.substring(2))
-    )
-
-    @TypeConverter
-    fun fromLessonTime(lessonTime: LessonTime): String = "${lessonTime.day}.${lessonTime.hour}"
 }

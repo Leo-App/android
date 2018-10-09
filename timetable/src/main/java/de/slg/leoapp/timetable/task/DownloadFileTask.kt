@@ -14,7 +14,8 @@ class DownloadFileTask : ObjectCallbackTask<Void?>() {
 
             val download = BufferedReader(
                     InputStreamReader(
-                            connection.getInputStream()
+                            connection.getInputStream(),
+                            "ISO-8859-1"
                     )
             )
 

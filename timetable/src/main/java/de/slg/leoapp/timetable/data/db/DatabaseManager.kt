@@ -15,15 +15,15 @@ abstract class DatabaseManager : RoomDatabase() {
     companion object {
         private var instance: DatabaseManager? = null
 
-        fun getInstance(context: Context): DatabaseManager? {
+        fun getInstance(context: Context): DatabaseManager {
             if (instance == null) {
                 synchronized(DatabaseManager::class) {
                     instance = Room.databaseBuilder(context.applicationContext,
-                            DatabaseManager::class.java, "exams.db")
+                            DatabaseManager::class.java, "timetable.db")
                             .build()
                 }
             }
-            return instance
+            return instance!!
         }
     }
 

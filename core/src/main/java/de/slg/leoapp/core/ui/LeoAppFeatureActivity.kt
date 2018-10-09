@@ -322,7 +322,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val menuEntry: MenuEntry = Utils.Menu.getEntries().getObjectAt(position)!!
+            val menuEntry: MenuEntry = Utils.Menu.getEntries().getObjectAt(position)
 
             val icon: ImageView = holder.itemView.findViewById(R.id.icon)
             val title: TextView = holder.itemView.findViewById(R.id.featureTitle)

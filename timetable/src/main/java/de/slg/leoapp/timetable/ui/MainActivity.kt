@@ -1,10 +1,11 @@
-package de.slg.leoapp.timetable
+package de.slg.leoapp.timetable.ui
 
 import android.content.Context
 import android.os.Bundle
 import android.widget.LinearLayout
 import de.slg.leoapp.core.task.TaskStatusListener
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
+import de.slg.leoapp.timetable.R
 import de.slg.leoapp.timetable.task.DownloadFileTask
 import de.slg.leoapp.timetable.task.ParseTask
 
@@ -86,43 +87,6 @@ class MainActivity : LeoAppFeatureActivity() {
                 findViewById(R.id.lesson_friday_09),
                 findViewById(R.id.lesson_friday_10)
         )
-    }
-
-    private fun downloadFile() {
-        if (downloadTask != null) {
-            return
-        }
-
-        downloadTask = DownloadFileTask()
-        downloadTask!!.addListener(object : TaskStatusListener {
-            override fun taskStarts() {
-
-            }
-
-            override fun taskFinished(vararg params: Any) {
-                parseFile()
-                downloadTask = null
-            }
-        })
-        downloadTask!!.execute(openFileOutput("stundenplan", Context.MODE_PRIVATE))
-    }
-
-    private fun parseFile() {
-        if (parseTask != null) {
-            return
-        }
-
-        parseTask = ParseTask()
-        parseTask!!.addListener(object : TaskStatusListener {
-            override fun taskStarts() {
-
-            }
-
-            override fun taskFinished(vararg params: Any) {
-                refreshData()
-                parseTask = null
-            }
-        })
     }
 
     private fun refreshData() {

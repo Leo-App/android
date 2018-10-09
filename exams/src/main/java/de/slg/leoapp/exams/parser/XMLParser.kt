@@ -191,7 +191,7 @@ class XMLParser(private val input: InputStream) {
                                     converters.toSubject(result.substring(0, i1)),
                                     result.substring(i1 + 1, i2),
                                     result.substring(i2 + 1),
-                                    cellType.getContent()!!
+                                    cellType.getContent()
                             )
                     )
                 }
@@ -207,7 +207,7 @@ class XMLParser(private val input: InputStream) {
                                         converters.toSubject(result.substring(0, i1)),
                                         "LK",
                                         result.substring(i1 + 1),
-                                        cellType.getContent()!!
+                                        cellType.getContent()
                                 )
                         )
                     }
@@ -222,7 +222,7 @@ class XMLParser(private val input: InputStream) {
                                     converters.toSubject(result.substring(0, 2)),
                                     result.substring(2, 4),
                                     result.substring(4),
-                                    cellType.getContent()!!
+                                    cellType.getContent()
                             )
                     )
                 }
@@ -240,7 +240,7 @@ class XMLParser(private val input: InputStream) {
                                     converters.toSubject(result.substring(0, i1)),
                                     result.substring(i1 + 1, i2),
                                     result.substring(i2 + 1),
-                                    cellType.getContent()!!
+                                    cellType.getContent()
                             )
                     )
                 }
@@ -256,7 +256,7 @@ class XMLParser(private val input: InputStream) {
                                         converters.toSubject(result.substring(0, i1)),
                                         "LK",
                                         result.substring(i1 + 1),
-                                        cellType.getContent()!!
+                                        cellType.getContent()
                                 )
                         )
                     }
@@ -271,7 +271,7 @@ class XMLParser(private val input: InputStream) {
                                     converters.toSubject(result.substring(0, 2)),
                                     result.substring(2, 4),
                                     result.substring(4),
-                                    cellType.getContent()!!
+                                    cellType.getContent()
                             )
                     )
                 }
@@ -286,7 +286,7 @@ class XMLParser(private val input: InputStream) {
                                     converters.toSubject(result.substring(0, i1)),
                                     result.substring(i1 + 1),
                                     "koop",
-                                    cellType.getContent()!!
+                                    cellType.getContent()
                             )
                     )
                 }
@@ -300,7 +300,7 @@ class XMLParser(private val input: InputStream) {
                                     converters.toSubject(result),
                                     "LK",
                                     "koop",
-                                    cellType.getContent()!!
+                                    cellType.getContent()
                             )
                     )
                 }

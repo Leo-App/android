@@ -4,17 +4,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import de.slg.leoapp.ModuleLoader
 import de.slg.leoapp.R
 import de.slg.leoapp.core.datastructure.List
 import de.slg.leoapp.core.ui.ActionLogActivity
 import de.slg.leoapp.ui.home.HomeActivity
-import de.slg.leoapp.ui.intro.login.LoginFragment
+import de.slg.leoapp.core.ui.intro.IntroFragment
 import de.slg.leoapp.ui.intro.splash.SplashFragment
-import de.slg.leoapp.ui.intro.timetable.TimetableFragment
 
 class IntroActivity : ActionLogActivity() {
 
-    private val fragments: List<IntroFragment> = List(SplashFragment(), LoginFragment(), TimetableFragment())
+    private val fragments: List<IntroFragment> = List(SplashFragment())
+
+    init {
+        for (fragment in ModuleLoader.getAuthenticationModule().getIntroFragments()) {
+            fragments.append(fragment.newInstance())
+        }
+        for (feature in ModuleLoader.getFeatures()) {
+            for (fragment in feature.getIntroFragments()) {
+                fragments.append(fragment.newInstance())
+            }
+        }
+    }
 
     private var lastToast: Toast? = null
 
@@ -28,7 +39,7 @@ class IntroActivity : ActionLogActivity() {
             fragment.listener = View.OnClickListener { onNextPressed() }
         }
 
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragments.getObjectAt(0)!!, fragments.getObjectAt(0)!!.getFragmentTag()).commit()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragments.getObjectAt(0), fragments.getObjectAt(0).getFragmentTag()).commit()
     }
 
     override fun onBackPressed() {

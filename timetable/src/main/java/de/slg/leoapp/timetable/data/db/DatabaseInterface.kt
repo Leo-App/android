@@ -15,11 +15,11 @@ interface DatabaseInterface {
     @Query("SELECT * FROM courses")
     fun getCourses(): Array<Course>
 
-    @Query("SELECT * FROM courses WHERE id IN (SELECT DISTINCT courseId FROM lessons WHERE time NOT IN (SELECT time FROM lessons WHERE courseId IN (:taken)))")
-    fun getPossibleCourses(taken: Array<Int>): Array<Course>
+    @Query("SELECT * FROM courses WHERE grade = :grade AND id IN (SELECT DISTINCT courseId FROM lessons WHERE day + '.' + hour NOT IN (SELECT day + '.' + hour FROM lessons WHERE courseId IN (:taken)))")
+    fun getPossibleCourses(taken: List<Long>, grade: String): Array<Course>
 
-    @Query("SELECT time, room, subject, teacher FROM courses, lessons WHERE chosen = 1 AND id = courseId AND time LIKE :day")
-    fun getUILessons(day: String): Array<UILesson>
+    @Query("SELECT day, hour, room, subject, teacher FROM courses, lessons WHERE chosen AND id = courseId AND day = :day")
+    fun getUILessons(day: String): List<UILesson>
 
     @Insert(onConflict = ABORT)
     fun insertCourse(course: Course): Long

@@ -2,6 +2,7 @@ package de.slg.leoapp.core.modules
 
 import android.content.Context
 import androidx.annotation.StringRes
+import de.slg.leoapp.core.ui.intro.IntroFragment
 
 interface Authentication : Module {
 
@@ -23,4 +24,6 @@ interface Authentication : Module {
      * @return War die Verifizierung erfolgreich?
      */
     fun validateInput(context: Context, vararg inputs: String): Boolean
+
+    fun getIntroFragments(): Array<Class<out IntroFragment>>
 }
