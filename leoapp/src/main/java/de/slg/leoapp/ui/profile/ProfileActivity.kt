@@ -36,7 +36,7 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
     override fun getViewContext() = applicationContext!!
 
     override fun showImageViewEditOverlay() {
-        profile_picture.setOverlay(R.mipmap.edit_overlay.toBitmap(applicationContext))
+        profile_picture.setOverlay(R.drawable.ic_edit_overlay.toBitmap(applicationContext))
         profile_picture.setOnClickListener { presenter.onImageInteraction() }
     }
 

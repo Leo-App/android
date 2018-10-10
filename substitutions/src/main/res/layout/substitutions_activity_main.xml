@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="?android:attr/actionBarSize"
         android:scaleType="centerCrop"
-        android:src="@mipmap/bg_substitutions"
+        android:src="@drawable/img_background_substitutions"
         tools:ignore="ContentDescription"/>
 
     <androidx.viewpager.widget.ViewPager
