@@ -7,7 +7,7 @@ import de.slg.leoapp.substitutions.ui.SubstitutionsActivity
 
 @Module("substitutions")
 class Module : Feature {
-    override fun getIcon() = R.drawable.ic_substitution
+    override fun getIcon() = R.drawable.ic_feature_substitution
 
     override fun getName() = R.string.substitutions_feature_title
 

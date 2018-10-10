@@ -1,6 +1,9 @@
 package de.slg.leoapp.timetable.ui.intro
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,8 +12,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import de.slg.leoapp.core.preferences.PreferenceManager
 import de.slg.leoapp.core.task.TaskStatusListener
 import de.slg.leoapp.core.ui.intro.IntroFragment
+import de.slg.leoapp.core.utility.dpToPx
+import de.slg.leoapp.core.utility.toColor
 import de.slg.leoapp.timetable.R
 import de.slg.leoapp.timetable.data.Course
 import de.slg.leoapp.timetable.data.db.DatabaseManager
@@ -29,6 +35,8 @@ class TimetableFragment : IntroFragment() {
 
     private var selected = 0
 
+    private lateinit var grade: String
+
     override fun getNextButton() = R.id.next
 
     override fun getContentView() = R.layout.timetable_fragment_intro_timetable
@@ -36,6 +44,27 @@ class TimetableFragment : IntroFragment() {
     override fun getFragmentTag() = "leoapp_fragment_intro_timetable"
 
     override fun canContinue(): Boolean {
+        Log.e(getFragmentTag(), "1")
+        loading = true
+        view!!.findViewById<View>(R.id.progressBar).visibility = View.VISIBLE
+
+        launch(CommonPool) {
+            Log.e(getFragmentTag(), "2")
+            val ids = Array(selected) { i -> data[i].id!! }
+
+            DatabaseManager.getInstance(activity!!).databaseInterface().choseCourses(ids)
+            Log.e(getFragmentTag(), "3")
+
+            activity?.runOnUiThread {
+                view?.findViewById<View>(R.id.progressBar)?.visibility = View.GONE
+            }
+            loading = false
+        }
+
+        while (loading);
+
+        Log.e(getFragmentTag(), "4")
+
         return true
     }
 
@@ -46,7 +75,11 @@ class TimetableFragment : IntroFragment() {
 
         initRecyclerView()
 
-        //downloadFile()
+        PreferenceManager.read(context!!) {
+            grade = getString(PreferenceManager.User.GRADE, "Q1")
+        }
+
+        downloadFile()
     }
 
     private fun initRecyclerView() {
@@ -57,7 +90,7 @@ class TimetableFragment : IntroFragment() {
                 try {
                     super.onLayoutChildren(recycler, state)
                 } catch (e: IndexOutOfBoundsException) {
-                    Log.e(getFragmentTag(), Log.getStackTraceString(e))
+                    e.printStackTrace()
                 }
             }
 
@@ -65,6 +98,7 @@ class TimetableFragment : IntroFragment() {
         }
         recyclerView.adapter = SubjectAdapter()
         recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.addItemDecoration(DividerDecoration())
 
         loadData()
     }
@@ -104,31 +138,28 @@ class TimetableFragment : IntroFragment() {
 
     private fun loadData() {
         loading = true
-        view!!.findViewById<View>(R.id.progressBar).visibility = View.VISIBLE
+        view?.findViewById<View>(R.id.progressBar)?.visibility = View.VISIBLE
 
         launch(CommonPool) {
-            data = mutableListOf(*DatabaseManager.getInstance(activity!!).databaseInterface().getPossibleCourses(listOf(), "Q1"))
+            data = mutableListOf(*DatabaseManager.getInstance(activity!!).databaseInterface().getCourses(grade))
 
-            activity!!.runOnUiThread {
+            activity?.runOnUiThread {
                 recyclerView.adapter?.notifyDataSetChanged()
-                view!!.findViewById<View>(R.id.progressBar).visibility = View.GONE
+                view?.findViewById<View>(R.id.progressBar)?.visibility = View.GONE
             }
             loading = false
         }
     }
 
     private fun removeIntersecting(id: Long) {
-        loading = true
-        view!!.findViewById<View>(R.id.progressBar).visibility = View.VISIBLE
-
         launch(CommonPool) {
-            val courses = DatabaseManager.getInstance(activity!!).databaseInterface().getIntersectingCourses(id, "Q1")
+            val courses = DatabaseManager.getInstance(activity!!).databaseInterface().getIntersectingCourses(id, grade)
 
             for (course in courses) {
                 for (i in selected until data.size) {
                     if (data[i].id!! == course.id!!) {
                         data.removeAt(i)
-                        activity!!.runOnUiThread {
+                        activity?.runOnUiThread {
                             recyclerView.adapter?.notifyItemRemoved(i)
                         }
                         break
@@ -136,31 +167,18 @@ class TimetableFragment : IntroFragment() {
                 }
             }
 
-            activity!!.runOnUiThread {
-                view!!.findViewById<View>(R.id.progressBar).visibility = View.GONE
-            }
-
             loading = false
         }
     }
 
-    private fun addReactivated(id: Long) {
-        loading = true
-        view!!.findViewById<View>(R.id.progressBar).visibility = View.VISIBLE
-
+    private fun addIntersecting(id: Long) {
         launch(CommonPool) {
-            //            val ids: Array<Long> = Array(selected) {0L}
-//            for (i in 0 until selected) {
-//                ids[i] = data[i].id!!
-//            }
             val courses = DatabaseManager.getInstance(activity!!).databaseInterface().getIntersectingCourses(id, "Q1")
 
             data.addAll(courses)
 
-            activity!!.runOnUiThread {
+            activity?.runOnUiThread {
                 recyclerView.adapter?.notifyItemRangeInserted(data.size - courses.size, courses.size)
-
-                view!!.findViewById<View>(R.id.progressBar).visibility = View.GONE
             }
 
             loading = false
@@ -168,10 +186,6 @@ class TimetableFragment : IntroFragment() {
     }
 
     inner class SubjectAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-        override fun getItemId(position: Int): Long {
-            return data[position].id!!
-        }
 
         override fun getItemViewType(position: Int): Int {
             return if (position < selected) R.layout.timetable_item_course_selected else R.layout.timetable_item_course
@@ -185,6 +199,8 @@ class TimetableFragment : IntroFragment() {
             )
             view.setOnClickListener {
                 if (!loading) {
+                    loading = true
+
                     val position = (parent as RecyclerView).getChildAdapterPosition(view)
 
                     when (viewType) {
@@ -208,10 +224,9 @@ class TimetableFragment : IntroFragment() {
 
                             selected--
 
-                            addReactivated(course.id!!)
+                            addIntersecting(course.id!!)
                         }
                     }
-
                 }
             }
 
@@ -228,8 +243,42 @@ class TimetableFragment : IntroFragment() {
             val view = holder.itemView
 
             view.findViewById<TextView>(R.id.course).text = "${item.title} ${item.subject.name} ${item.type}"
-            if (holder.itemViewType == R.layout.timetable_item_course)
+            if (holder.itemViewType == R.layout.timetable_item_course) {
                 view.findViewById<TextView>(R.id.teacher).text = item.teacher
+            }
+        }
+
+    }
+
+    inner class DividerDecoration : RecyclerView.ItemDecoration() {
+
+        private val viewHeight = 33f.dpToPx(context!!).toFloat()
+        private val dividerHeight = 1f.dpToPx(context!!).toFloat()
+        private val dividerPadding = 16f.dpToPx(context!!).toFloat()
+
+        private val paint = Paint()
+
+        init {
+            paint.color = R.color.colorDivider.toColor(context!!)
+        }
+
+        override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+            for (i in 0 until parent.childCount) {
+                val child = parent.getChildAt(i)
+                val index = parent.getChildAdapterPosition(child)
+
+                if (index == selected) {
+                    val bottom = child.top - dividerPadding
+
+                    c.drawRect(0f, bottom - dividerHeight, c.width.toFloat(), (bottom), paint)
+                }
+            }
+        }
+
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            if (parent.getChildAdapterPosition(view) == selected) {
+                outRect.top = viewHeight.toInt()
+            }
         }
 
     }

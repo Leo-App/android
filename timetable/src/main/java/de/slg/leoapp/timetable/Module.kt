@@ -11,7 +11,7 @@ import de.slg.leoapp.timetable.ui.intro.TimetableFragment
 class Module : Feature {
     override fun getFeatureId() = R.string.timetable_feature_title
 
-    override fun getIcon() = R.drawable.ic_stundenplan
+    override fun getIcon() = R.drawable.ic_feature_timetable
 
     override fun getName() = R.string.timetable_feature_title
 

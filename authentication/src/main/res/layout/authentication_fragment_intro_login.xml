@@ -108,7 +108,7 @@
             android:layout_marginEnd="90dp"
             android:max="@integer/intro_screens"
             android:progress="1"
-            android:progressDrawable="@drawable/intro_progress"/>
+            android:progressDrawable="@drawable/layer_intro_progress"/>
 
         <ImageButton
             android:id="@+id/next"
@@ -116,7 +116,10 @@
             android:layout_height="32dp"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="8dp"
-            android:theme="@style/ButtonStyle"/>
+            android:background="@null"
+            android:theme="@style/ButtonStyle"
+            android:tint="@android:color/white"
+            app:srcCompat="@drawable/ic_chevron_right"/>
 
     </FrameLayout>
 

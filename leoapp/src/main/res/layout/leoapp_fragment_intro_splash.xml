@@ -43,7 +43,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/polygons_illustration"/>
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/img_polygons_illustration_new"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/img_label_splash"/>
 
     </FrameLayout>
 
@@ -64,7 +72,7 @@
             android:layout_marginEnd="90dp"
             android:max="@integer/intro_screens"
             android:progress="0"
-            android:progressDrawable="@drawable/intro_progress"/>
+            android:progressDrawable="@drawable/layer_intro_progress"/>
 
         <ImageButton
             android:id="@+id/next"
@@ -72,7 +80,10 @@
             android:layout_height="32dp"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="8dp"
-            android:theme="@style/ButtonStyle"/>
+            android:background="@null"
+            android:theme="@style/ButtonStyle"
+            android:tint="@android:color/white"
+            app:srcCompat="@drawable/ic_chevron_right"/>
 
     </FrameLayout>
 

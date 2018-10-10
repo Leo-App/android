@@ -8,8 +8,8 @@ import de.slg.leoapp.ModuleLoader
 import de.slg.leoapp.R
 import de.slg.leoapp.core.datastructure.List
 import de.slg.leoapp.core.ui.ActionLogActivity
-import de.slg.leoapp.ui.home.HomeActivity
 import de.slg.leoapp.core.ui.intro.IntroFragment
+import de.slg.leoapp.ui.home.HomeActivity
 import de.slg.leoapp.ui.intro.splash.SplashFragment
 
 class IntroActivity : ActionLogActivity() {
@@ -56,18 +56,26 @@ class IntroActivity : ActionLogActivity() {
         }
 
         val size = supportFragmentManager.fragments.size
-        if (size != fragments.size()) {
-            val current = supportFragmentManager.fragments.last() as IntroFragment
-            if (current.canContinue()) {
-                val next = fragments.getObjectAt(size)!!
+
+        val current = supportFragmentManager.fragments.last() as IntroFragment
+        if (current.canContinue()) {
+            if (size != fragments.size()) {
+                val next = fragments.getObjectAt(size)
                 supportFragmentManager.beginTransaction().add(R.id.fragment_container, next, next.getFragmentTag()).commit()
             } else {
-                lastToast = Toast.makeText(applicationContext, current.getErrorMessage(), Toast.LENGTH_LONG)
-                lastToast!!.show()
+                startActivity(Intent(applicationContext, HomeActivity::class.java))
+
+                val transaction = supportFragmentManager.beginTransaction()
+                for (f in fragments) {
+                    transaction.remove(f)
+                }
+                transaction.commit()
+
+                finish()
             }
         } else {
-            startActivity(Intent(applicationContext, HomeActivity::class.java))
-            finish()
+            lastToast = Toast.makeText(applicationContext, current.getErrorMessage(), Toast.LENGTH_LONG)
+            lastToast!!.show()
         }
     }
 

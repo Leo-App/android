@@ -10,7 +10,7 @@ import de.slg.leoapp.lunch.ui.qr.MainActivity
 @Module("lunch")
 class Module : Feature {
 
-    override fun getIcon() = R.drawable.ic_lunch
+    override fun getIcon() = R.drawable.ic_feature_lunch
 
     override fun getName() = R.string.lunch_feature_name
 

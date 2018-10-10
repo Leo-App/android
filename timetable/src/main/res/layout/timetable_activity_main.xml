@@ -21,8 +21,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackgroundTimes"
         android:layout_marginBottom="?android:attr/actionBarSize"
+        android:background="@color/colorBackgroundTimes"
         android:scrollbars="vertical">
 
         <LinearLayout
@@ -41,8 +41,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="8:00"
                     android:textColor="@color/colorTextGrey"
@@ -52,8 +52,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="8:45"
                     android:textColor="@color/colorTextGrey"
@@ -63,9 +63,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="8:50"
                     android:textColor="@color/colorTextGrey"
@@ -75,8 +75,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="9:35"
                     android:textColor="@color/colorTextGrey"
@@ -86,9 +86,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="9:50"
                     android:textColor="@color/colorTextGrey"
@@ -98,8 +98,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="10:35"
                     android:textColor="@color/colorTextGrey"
@@ -109,9 +109,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="10:40"
                     android:textColor="@color/colorTextGrey"
@@ -121,8 +121,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="11:25"
                     android:textColor="@color/colorTextGrey"
@@ -132,9 +132,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="11:40"
                     android:textColor="@color/colorTextGrey"
@@ -144,8 +144,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="12:25"
                     android:textColor="@color/colorTextGrey"
@@ -155,9 +155,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="12:30"
                     android:textColor="@color/colorTextGrey"
@@ -167,8 +167,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="13:15"
                     android:textColor="@color/colorTextGrey"
@@ -178,9 +178,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="13:30"
                     android:textColor="@color/colorTextGrey"
@@ -190,8 +190,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="14:15"
                     android:textColor="@color/colorTextGrey"
@@ -201,9 +201,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="14:20"
                     android:textColor="@color/colorTextGrey"
@@ -213,8 +213,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="15:05"
                     android:textColor="@color/colorTextGrey"
@@ -224,9 +224,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="15:10"
                     android:textColor="@color/colorTextGrey"
@@ -236,8 +236,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="15:55"
                     android:textColor="@color/colorTextGrey"
@@ -247,9 +247,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="16:00"
                     android:textColor="@color/colorTextGrey"
@@ -259,8 +259,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:gravity="center_horizontal"
                     android:text="16:45"
                     android:textColor="@color/colorTextGrey"
@@ -283,33 +283,38 @@
                     android:id="@+id/lesson_monday_01"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_monday_02"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_monday_03"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_monday_04"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_monday_05"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_monday_06"
@@ -356,20 +361,22 @@
                 android:layout_marginTop="80dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingEnd="4dp"
-                android:paddingStart="4dp">
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp">
 
                 <include
                     android:id="@+id/lesson_tuesday_01"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_02"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_03"
@@ -391,20 +398,23 @@
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_06"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_07"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_tuesday_08"
@@ -436,33 +446,37 @@
                 android:layout_marginTop="80dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingEnd="4dp"
-                android:paddingStart="4dp">
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp">
 
                 <include
                     android:id="@+id/lesson_wednesday_01"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_02"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_03"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_04"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_05"
@@ -499,14 +513,14 @@
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    />
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_wednesday_10"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    />
+                    android:visibility="invisible"/>
 
             </LinearLayout>
 
@@ -517,46 +531,52 @@
                 android:layout_marginTop="80dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingEnd="4dp"
-                android:paddingStart="4dp">
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp">
 
                 <include
                     android:id="@+id/lesson_thursday_01"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_thursday_02"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_thursday_03"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_thursday_04"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_thursday_05"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_thursday_06"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_thursday_07"
@@ -603,7 +623,8 @@
                     android:id="@+id/lesson_friday_01"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_friday_02"
@@ -617,39 +638,45 @@
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_friday_04"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_friday_05"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_friday_06"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_friday_07"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
                     android:layout_height="52.5dp"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_friday_08"
                     layout="@layout/timetable_item_lesson"
                     android:layout_width="match_parent"
-                    android:layout_height="52.5dp"/>
+                    android:layout_height="52.5dp"
+                    android:visibility="invisible"/>
 
                 <include
                     android:id="@+id/lesson_friday_09"
@@ -683,8 +710,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/titleMonday"
@@ -702,8 +729,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/titleTuesday"
@@ -721,8 +748,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/titleWednesday"
@@ -740,8 +767,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/titleThursday"
@@ -759,8 +786,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/titleFriday"
@@ -775,6 +802,13 @@
         </FrameLayout>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
     <include layout="@layout/core_app_container_navigation"/>
 

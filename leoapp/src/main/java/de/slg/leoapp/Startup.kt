@@ -16,7 +16,6 @@ import de.slg.leoapp.core.utility.Utils
 import de.slg.leoapp.core.utility.dpToPx
 import de.slg.leoapp.data.FeatureDataManager
 import de.slg.leoapp.ui.home.HomeActivity
-import de.slg.leoapp.ui.intro.IntroActivity
 import de.slg.leoapp.ui.profile.ProfileActivity
 import de.slg.leoapp.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.leoapp_splash.*
@@ -123,7 +122,7 @@ class Startup : Activity() {
         val revealX = (window.decorView.width / 2)
         val revealY = (window.decorView.height / 2)
 
-        val intent = Intent(this, IntroActivity::class.java)
+        val intent = Intent(this, HomeActivity::class.java)
         intent.putExtra("x", revealX)
         intent.putExtra("y", revealY)
 

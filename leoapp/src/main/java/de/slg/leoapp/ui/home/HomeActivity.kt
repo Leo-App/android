@@ -65,4 +65,5 @@ class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
             home_layout.visibility = View.VISIBLE
         }
     }
+
 }

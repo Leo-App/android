@@ -10,7 +10,7 @@ import de.slg.leoapp.exams.ui.MainActivity
 class Module : Feature {
     override fun getFeatureId() = R.string.exams_feature_title
 
-    override fun getIcon() = R.drawable.ic_klausurplan
+    override fun getIcon() = R.drawable.ic_feature_exams
 
     override fun getName() = R.string.exams_feature_title
 
