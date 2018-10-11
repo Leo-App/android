@@ -104,7 +104,7 @@ class MainActivity : LeoAppFeatureActivity(), INewsView, BackgroundEffect by Gra
 
     override fun getActionIcon() = R.drawable.ic_add
 
-    override fun getNavigationHighlightId() = 0xdefa12
+    override fun getNavigationHighlightId() = R.string.news_feature_title
 
     override fun getActivityTag() = "news_feature_main"
 

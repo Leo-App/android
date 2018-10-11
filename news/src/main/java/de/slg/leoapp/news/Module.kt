@@ -12,7 +12,7 @@ class Module : Feature {
 
     override fun getName() = R.string.news_feature_title
 
-    override fun getFeatureId() = 0xdefa12
+    override fun getFeatureId() = R.string.news_feature_title
 
     override fun getNecessaryPermission() = PERMISSION_STUDENT
 

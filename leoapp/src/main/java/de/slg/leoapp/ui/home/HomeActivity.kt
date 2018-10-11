@@ -3,7 +3,6 @@ package de.slg.leoapp.ui.home
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +20,7 @@ class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
         initTransition(b)
-        Log.wtf("leoapp", (home_layout is android.view.ViewGroup).toString())
+        print(home_layout is android.view.ViewGroup)
         presenter = HomePresenter()
         presenter.onViewAttached(this)
     }
@@ -31,8 +30,8 @@ class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
     }
 
     override fun showFeatureList() {
-        navigationRecyclerView.adapter = FeatureAdapter(presenter)
         navigationRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        navigationRecyclerView.adapter = FeatureAdapter(presenter)
     }
 
     override fun getContentView() = R.layout.leoapp_activity_home

@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -44,16 +43,13 @@ class TimetableFragment : IntroFragment() {
     override fun getFragmentTag() = "leoapp_fragment_intro_timetable"
 
     override fun canContinue(): Boolean {
-        Log.e(getFragmentTag(), "1")
         loading = true
         view!!.findViewById<View>(R.id.progressBar).visibility = View.VISIBLE
 
         launch(CommonPool) {
-            Log.e(getFragmentTag(), "2")
             val ids = Array(selected) { i -> data[i].id!! }
 
             DatabaseManager.getInstance(activity!!).databaseInterface().choseCourses(ids)
-            Log.e(getFragmentTag(), "3")
 
             activity?.runOnUiThread {
                 view?.findViewById<View>(R.id.progressBar)?.visibility = View.GONE
@@ -62,8 +58,6 @@ class TimetableFragment : IntroFragment() {
         }
 
         while (loading);
-
-        Log.e(getFragmentTag(), "4")
 
         return true
     }
@@ -100,10 +94,14 @@ class TimetableFragment : IntroFragment() {
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.addItemDecoration(DividerDecoration())
 
-        loadData()
+        if (!loading)
+            loadData()
     }
 
     private fun downloadFile() {
+        loading = true
+        view?.findViewById<View>(R.id.progressBar)?.visibility = View.VISIBLE
+
         val task = DownloadFileTask()
         task.addListener(object : TaskStatusListener {
             override fun taskStarts() {
@@ -242,10 +240,14 @@ class TimetableFragment : IntroFragment() {
 
             val view = holder.itemView
 
-            view.findViewById<TextView>(R.id.course).text = "${item.title} ${item.subject.name} ${item.type}"
-            if (holder.itemViewType == R.layout.timetable_item_course) {
-                view.findViewById<TextView>(R.id.teacher).text = item.teacher
+            val title = if (item.number != 0) {
+                "${item.subject.name} ${item.type} ${item.number}"
+            } else {
+                "${item.subject.name} ${item.type}"
             }
+
+            view.findViewById<TextView>(R.id.title).text = title
+            view.findViewById<TextView>(R.id.teacher).text = item.teacher
         }
 
     }

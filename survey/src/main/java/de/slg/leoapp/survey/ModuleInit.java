@@ -15,17 +15,17 @@ import de.slg.leoapp.survey.ui.main.MainActivity;
 public class ModuleInit implements Feature {
     @Override
     public int getIcon() {
-        return 0;
+        return R.drawable.ic_feature_survey;
     }
 
     @Override
     public int getName() {
-        return 0;
+        return R.string.survey_feature_title;
     }
 
     @Override
     public int getFeatureId() {
-        return 0x123e8ab;
+        return R.string.survey_feature_title;
     }
 
     @Override

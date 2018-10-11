@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Course(
         @PrimaryKey(autoGenerate = true) val id: Long?,
         @ColumnInfo(name = "subject") val subject: Subject,
-        @ColumnInfo(name = "title") val title: String,
+        @ColumnInfo(name = "number") val number: Int,
         @ColumnInfo(name = "type") val type: String,
         @ColumnInfo(name = "teacher") val teacher: String,
         @ColumnInfo(name = "grade") val grade: String,

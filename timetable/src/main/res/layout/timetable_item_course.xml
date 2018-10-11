@@ -8,12 +8,11 @@
     android:paddingBottom="4dp">
 
     <TextView
-        android:id="@+id/course"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="D G3"
         android:textSize="16sp"
         android:textStyle="bold"/>
 
@@ -21,19 +20,17 @@
         android:id="@+id/teacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/course"
+        android:layout_below="@id/title"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="8dp"
-        android:text="REI"
+        android:layout_marginTop="4dp"
         android:textSize="14sp"/>
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+    <View
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
-        android:padding="3dp"
-        android:src="@drawable/background_checkbox"/>
+        android:background="@drawable/background_checkbox"/>
 
 </RelativeLayout>

@@ -9,5 +9,6 @@
     <string name="timetable_title_friday">Fr</string>
 
     <string name="timetable_intro_tip">Tippe Stunden an, um sie zu Deinem Stundenplan hinzuzufügen. Achte darauf, dass dein Stundenplan vollständig ist, um alle für Dich relevanten Informationen erhalten zu können.</string>
+    <string name="timetable_intro_title">Bitte wähle deine Stunden aus.</string>
 
 </resources>

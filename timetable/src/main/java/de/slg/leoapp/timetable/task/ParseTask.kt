@@ -52,8 +52,12 @@ class ParseTask : ObjectCallbackTask<Void?>() {
                     courseName.startsWith("AG") -> "AG"
                     else -> "GK"
                 }
+                val number = when {
+                    courseName.last() in '1'..'9' -> courseName.last() - '0'
+                    else -> 0
+                }
 
-                lastId = db.databaseInterface().insertCourse(Course(null, subject, courseName, type, teacher, grade, false, false))
+                lastId = db.databaseInterface().insertCourse(Course(null, subject, number, type, teacher, grade, false, false))
             }
 
             db.databaseInterface().insertLesson(Lesson(lastId, Integer.parseInt(day), Integer.parseInt(hour), room))

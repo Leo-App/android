@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,29 +7,39 @@
     android:background="@android:color/white"
     android:paddingTop="24dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_above="@id/frameLayout"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/frameLayout"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.14"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="56dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:layout_marginBottom="11dp"
-                    android:text="Bitte wähle deine Stunden aus."
+                    android:text="@string/timetable_intro_title"
                     android:textColor="@color/colorTextDark"
                     android:textSize="24sp"/>
 
@@ -42,6 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:layout_marginEnd="24dp"
                     android:text="@string/timetable_intro_tip"/>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -55,46 +66,47 @@
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:layout_height="6dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="90dp"
+            android:layout_marginEnd="90dp"
+            android:max="@integer/intro_screens"
+            android:progress="2"
+            android:progressDrawable="@drawable/layer_intro_progress"/>
 
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="90dp"
-                android:layout_marginEnd="90dp"
-                android:max="@integer/intro_screens"
-                android:progress="2"
-                android:progressDrawable="@drawable/layer_intro_progress"/>
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="8dp"
+            android:background="@null"
+            android:theme="@style/ButtonStyle"
+            android:tint="@android:color/white"
+            app:srcCompat="@drawable/ic_chevron_right"/>
 
-            <ImageButton
-                android:id="@+id/next"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="8dp"
-                android:background="@null"
-                android:theme="@style/ButtonStyle"
-                android:tint="@android:color/white"
-                app:srcCompat="@drawable/ic_chevron_right"/>
-
-        </FrameLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_centerInParent="true"/>
 
-</FrameLayout>
+</RelativeLayout>

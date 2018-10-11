@@ -9,5 +9,6 @@
     <string name="timetable_title_friday">Fri</string>
 
     <string name="timetable_intro_tip">Tap your courses to add them to your timetable. Make sure to choose all your courses to receive all your relevant information.</string>
+    <string name="timetable_intro_title">Please select your courses.</string>
 
 </resources>
