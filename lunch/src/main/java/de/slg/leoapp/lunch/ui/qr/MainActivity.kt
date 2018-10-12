@@ -8,7 +8,7 @@ import de.slg.leoapp.lunch.R
 
 class MainActivity : LeoAppFeatureActivity(), BackgroundEffect by Blur(R.id.background_image) {
 
-    override fun getContentView() = R.layout.activity_lunch
+    override fun getContentView() = R.layout.lunch_activity_main
 
     override fun getNavigationHighlightId() = R.string.lunch_feature_name
 

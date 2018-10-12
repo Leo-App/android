@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import de.slg.leoapp.R
 import de.slg.leoapp.ui.settings.about.dialog.TeamDialog
-import kotlinx.android.synthetic.main.fragment_settings_about.*
+import kotlinx.android.synthetic.main.leoapp_fragment_settings_about.*
 
 class AboutFragment : Fragment(), IAboutView {
 
@@ -19,7 +19,7 @@ class AboutFragment : Fragment(), IAboutView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter = AboutPresenter()
-        return inflater.inflate(R.layout.fragment_settings_about, container, false)
+        return inflater.inflate(R.layout.leoapp_fragment_settings_about, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

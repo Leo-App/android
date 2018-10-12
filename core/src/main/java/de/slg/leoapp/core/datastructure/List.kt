@@ -17,7 +17,10 @@ class List<ContentType>() : Iterable<ContentType> {
     private var first: Node?
     private var last: Node?
     private var current: Node?
-    private var length: Int = 0
+
+    var size: Int = 0
+        private set
+    private var index: Int = -1
 
     /**
      * Konstruktor.
@@ -26,7 +29,7 @@ class List<ContentType>() : Iterable<ContentType> {
         first = null
         last = null
         current = null
-        length = 0
+        size = 0
     }
 
     /**
@@ -105,7 +108,10 @@ class List<ContentType>() : Iterable<ContentType> {
      * Verschiebt den Listenpointer um eine Stelle Richtung Ende der Liste.
      */
     fun next(): List<ContentType> {
-        current = current!!.next
+        if (hasAccess()) {
+            current = current!!.next
+            index++
+        }
         return this
     }
 
@@ -117,7 +123,10 @@ class List<ContentType>() : Iterable<ContentType> {
      * Verschiebt den Listenpointer um eine Stelle Richtung Anfang der Liste.
      */
     fun previous(): List<ContentType> {
-        current = current!!.previous
+        if (hasAccess()) {
+            current = current!!.previous
+            index--
+        }
         return this
     }
 
@@ -131,6 +140,7 @@ class List<ContentType>() : Iterable<ContentType> {
     fun toFirst(): List<ContentType> {
         if (!isEmpty()) {
             current = first
+            index = 0
         }
         return this
     }
@@ -141,6 +151,7 @@ class List<ContentType>() : Iterable<ContentType> {
     fun toLast(): List<ContentType> {
         if (!isEmpty()) {
             current = last
+            index = size - 1
         }
         return this
     }
@@ -151,14 +162,14 @@ class List<ContentType>() : Iterable<ContentType> {
      * @param index Zielindex
      */
     fun toIndex(index: Int): List<ContentType> {
-        var i = index
-        if (i >= length - 1)
+        if (index >= size - 1) {
             toLast()
-        else {
-            toFirst()
-            while (hasAccess() && i > 0) {
+        } else {
+            while (index > this.index) {
                 next()
-                i--
+            }
+            while (index < this.index) {
+                previous()
             }
         }
         return this
@@ -188,12 +199,11 @@ class List<ContentType>() : Iterable<ContentType> {
      *
      * @return Aktuelles Objekt.
      */
-    fun getContent(): ContentType? {
-        return if (this.hasAccess()) {
-            current!!.content
-        } else {
-            null
+    fun getContent(): ContentType {
+        if (!hasAccess()) {
+            throw RuntimeException("Tried to get Content of null Node")
         }
+        return current!!.content
     }
 
     /**
@@ -202,8 +212,9 @@ class List<ContentType>() : Iterable<ContentType> {
      * @param pContent Neues Listenobjekt
      */
     fun setContent(pContent: ContentType?) {
-        if (pContent != null && this.hasAccess())
+        if (pContent != null && this.hasAccess()) {
             current!!.content = pContent
+        }
     }
 
     /**
@@ -244,13 +255,14 @@ class List<ContentType>() : Iterable<ContentType> {
             if (current === first)
                 first = newNode
             newNode.insertBefore(current)
-            length++
+            size++
+            index++
         } else {
             if (isEmpty()) {
                 val newNode = Node(pContent)
                 first = newNode
                 last = newNode
-                length = 1
+                size = 1
             } else {
                 append(pContent)
             }
@@ -267,13 +279,13 @@ class List<ContentType>() : Iterable<ContentType> {
         if (hasAccess()) {
             val newNode = Node(pContent)
             newNode.insertBehind(current!!)
-            length++
+            size++
         } else {
             if (isEmpty()) {
                 val newNode = Node(pContent)
                 first = newNode
                 last = newNode
-                length = 1
+                size = 1
             } else {
                 append(pContent)
             }
@@ -293,7 +305,7 @@ class List<ContentType>() : Iterable<ContentType> {
             val newNode = Node(pContent)
             newNode.insertBehind(last!!)
             last = newNode
-            length++
+            size++
         }
         return this
     }
@@ -317,11 +329,10 @@ class List<ContentType>() : Iterable<ContentType> {
             pList.first = null
             pList.last = null
             pList.current = null
-            length += pList.size()
+            size += pList.size()
         }
         return this
     }
-
 
     fun concat(array: Iterator<ContentType>): List<ContentType> {
         for (c in array)
@@ -371,7 +382,7 @@ class List<ContentType>() : Iterable<ContentType> {
             temp.next = null
             temp.previous = null
 
-            length--
+            size--
         }
     }
 
@@ -398,7 +409,7 @@ class List<ContentType>() : Iterable<ContentType> {
      * @return Listengröße
      */
     fun size(): Int {
-        return length
+        return size
     }
 
     /**
@@ -423,7 +434,7 @@ class List<ContentType>() : Iterable<ContentType> {
      * @param index Listenindex
      * @return Listenobjekt
      */
-    fun getObjectAt(index: Int): ContentType? {
+    fun getObjectAt(index: Int): ContentType {
         toIndex(index)
         return getContent()
     }

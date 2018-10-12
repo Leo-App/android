@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/item_other"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_math"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_german"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_english"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_french"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_biology"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_chemistry"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_physics"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_CS"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Politics"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Religion"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Spanish"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Sport"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Dutch"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Latin"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Geography"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_History"
+            layout="@layout/exams_item_subject"/>
+
+        <include
+            android:id="@+id/item_Education"
+            layout="@layout/exams_item_subject"/>
+
+    </LinearLayout>
+
+</ScrollView>

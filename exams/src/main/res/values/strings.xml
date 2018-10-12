@@ -1,4 +1,27 @@
 <resources>
-    <string name="feature_title_exams">Exams</string>
+    <string name="exams_feature_title">Exams</string>
+
     <string name="exams_notification_description">On upcoming exams</string>
+
+    <string name="exams_title_choose_subject">Choose Subject</string>
+
+    <string name="exams_subject_math">Mathematics</string>
+    <string name="exams_subject_german">German</string>
+    <string name="exams_subject_english">English</string>
+    <string name="exams_subject_french">French</string>
+    <string name="exams_subject_biology">Biology</string>
+    <string name="exams_subject_chemistry">Chemistry</string>
+    <string name="exams_subject_physics">Physics</string>
+    <string name="exams_subject_cs">IT</string>
+    <string name="exams_subject_politics">Politics</string>
+    <string name="exams_subject_religion">Religion</string>
+    <string name="exams_subject_spanish">Spanish</string>
+    <string name="exams_subject_sport">PE</string>
+    <string name="exams_subject_dutch">Dutch</string>
+    <string name="exams_subject_latin">Latin</string>
+    <string name="exams_subject_geography">Geography</string>
+    <string name="exams_subject_history">History</string>
+    <string name="exams_subject_education">Education</string>
+    <string name="exams_subject_other">Other</string>
+
 </resources>

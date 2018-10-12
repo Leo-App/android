@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity;
 import de.slg.leoapp.core.utility.ViewBinder;
+import de.slg.leoapp.survey.R;
 
 public class MainActivity extends LeoAppFeatureActivity {
 
@@ -19,13 +20,12 @@ public class MainActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getContentView() {
-//        return R.layout.activity_main;
-        return 0;
+        return R.layout.survey_activity_main;
     }
 
     @Override
     protected int getNavigationHighlightId() {
-        return 0x123e8ab;
+        return R.string.survey_feature_title;
     }
 
     @NotNull
@@ -36,8 +36,7 @@ public class MainActivity extends LeoAppFeatureActivity {
 
     @Override
     protected int getActionIcon() {
-        // return R.drawable.ic_arrow_left;
-        return 0;
+        return R.drawable.ic_arrow_left;
     }
 
     @Nullable

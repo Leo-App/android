@@ -5,10 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
-/**
- * @author Moritz
- * Erstelldatum: 06.09.2018
- */
 @Entity(tableName = "exams_downloaded")
 data class DownloadedExam(
         @PrimaryKey(autoGenerate = true) val id: Int?,

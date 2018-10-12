@@ -131,9 +131,8 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
      * Soll die ID des gehighlighteten Items in der Navigation zurückgeben. In der Regel also
      * die des aktuellen Features.
      *
-     * @return Menü-ID, zB. R.id.startseite
+     * @return Menü-ID, zB. R.string.startseite
      */
-    @IdRes
     protected abstract fun getNavigationHighlightId(): Int
 
     /**
@@ -315,7 +314,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return ViewHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.bottom_navigation_item, parent, false))
+                    .inflate(R.layout.core_bottom_navigation_item, parent, false))
         }
 
         override fun getItemCount(): Int {
@@ -323,7 +322,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val menuEntry: MenuEntry = Utils.Menu.getEntries().getObjectAt(position)!!
+            val menuEntry: MenuEntry = Utils.Menu.getEntries().getObjectAt(position)
 
             val icon: ImageView = holder.itemView.findViewById(R.id.icon)
             val title: TextView = holder.itemView.findViewById(R.id.featureTitle)

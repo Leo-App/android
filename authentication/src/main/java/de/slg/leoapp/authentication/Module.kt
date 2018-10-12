@@ -4,10 +4,12 @@ import android.content.Context
 import android.util.Base64
 import androidx.annotation.StringRes
 import de.slg.leoapp.annotation.Module
+import de.slg.leoapp.authentication.ui.intro.LoginFragment
 import de.slg.leoapp.core.data.User
 import de.slg.leoapp.core.modules.Authentication
 import de.slg.leoapp.core.modules.Input
 import de.slg.leoapp.core.preferences.PreferenceManager
+import de.slg.leoapp.core.ui.intro.IntroFragment
 import de.slg.leoapp.core.utility.DOMAIN_DEV
 import de.slg.leoapp.core.utility.toHexString
 import java.nio.charset.Charset
@@ -77,4 +79,6 @@ class Module : Authentication {
     private fun toAuthFormat(username: String, password: String) =
             "Basic ${String(Base64.encode(("$username:$password").toByteArray(), 0))}"
 
+
+    override fun getIntroFragments(): Array<Class<out IntroFragment>> = arrayOf(LoginFragment::class.java)
 }

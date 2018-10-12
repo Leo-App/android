@@ -4,14 +4,15 @@ import de.slg.leoapp.annotation.Module
 import de.slg.leoapp.core.modules.Feature
 import de.slg.leoapp.core.modules.Notification
 import de.slg.leoapp.core.utility.PERMISSION_STUDENT
+import de.slg.leoapp.exams.ui.MainActivity
 
 @Module("exams")
 class Module : Feature {
-    override fun getFeatureId() = R.string.feature_title_exams
+    override fun getFeatureId() = R.string.exams_feature_title
 
-    override fun getIcon() = R.drawable.ic_klausurplan
+    override fun getIcon() = R.drawable.ic_feature_exams
 
-    override fun getName() = R.string.feature_title_exams
+    override fun getName() = R.string.exams_feature_title
 
     override fun getNecessaryPermission() = PERMISSION_STUDENT
 

@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import de.slg.leoapp.R
-import kotlinx.android.synthetic.main.dialog_team.*
+import kotlinx.android.synthetic.main.leoapp_dialog_team.*
 
 class TeamDialog(context: Context) : AlertDialog(context) {
 
@@ -12,7 +12,7 @@ class TeamDialog(context: Context) : AlertDialog(context) {
         super.onCreate(savedInstanceState)
 
         window?.setBackgroundDrawableResource(android.R.color.transparent)
-        setContentView(R.layout.dialog_team)
+        setContentView(R.layout.leoapp_dialog_team)
         initButtonBehaviour()
     }
 

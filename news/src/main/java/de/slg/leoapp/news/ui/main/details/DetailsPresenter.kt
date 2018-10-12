@@ -50,7 +50,7 @@ class DetailsPresenter : AbstractPresenter<IDetailsView, INewsDataManager>(), ID
 
         getMvpView().setContent(entry.first.content)
         getMvpView().setTitle(entry.first.title)
-        getMvpView().setInfoLine("${entry.second.lastName} | ${getMvpView().getViewContext().getString(R.string.deadline_desc)}:")
+        getMvpView().setInfoLine("${entry.second.lastName} | ${getMvpView().getViewContext().getString(R.string.news_deadline_desc)}:")
 
         val c = Calendar.getInstance(Locale.GERMAN)
         c.timeInMillis = entry.first.deadline.time

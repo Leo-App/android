@@ -1,34 +1,34 @@
 <resources>
-    <string name="app_name">LeoApp</string>
-    <string name="home">Home</string>
-    <string name="back">Back</string>
+    <string name="leoapp_app_name">LeoApp</string>
+    <string name="leoapp_home">Home</string>
+    <string name="leoapp_back">Back</string>
 
-    <string name="save">Save</string>
-    <string name="edit">Edit</string>
+    <string name="leoapp_save">Save</string>
+    <string name="leoapp_edit">Edit</string>
 
     <!-- Profile -->
-    <string name="surveys">Running survey</string>
-    <string name="grade">Grade</string>
-    <string name="image_chooser_title">Choose a new profile picture</string>
+    <string name="leoapp_surveys">Running survey</string>
+    <string name="leoapp_grade">Grade</string>
+    <string name="leoapp_image_chooser_title">Choose a new profile picture</string>
 
     <!-- Settings -->
-    <string name="school" translatable="false">Sankt-Leonhard Gymnasium Aachen</string>
-    <string name="version">Version</string>
-    <string name="license">Open-Source-Licenses</string>
-    <string name="team">Project members</string>
-    <string name="desc_team">All developers &amp; supporters</string>
+    <string name="leoapp_school" translatable="false">Sankt-Leonhard Gymnasium Aachen</string>
+    <string name="leoapp_version">Version</string>
+    <string name="leoapp_license">Open-Source-Licenses</string>
+    <string name="leoapp_team">Project members</string>
+    <string name="leoapp_desc_team">All developers &amp; supporters</string>
 
-    <string name="notifications">Notifications</string>
-    <string name="desc_notifications">Ping.</string>
+    <string name="leoapp_notifications">Notifications</string>
+    <string name="leoapp_desc_notifications">Ping.</string>
 
-    <string name="desc2_notifications">Turn notifications on or off</string>
+    <string name="leoapp_desc2_notifications">Turn notifications on or off</string>
 
-    <string name="contact">Contact</string>
-    <string name="desc_contact">Write us!</string>
-    <string name="about">About</string>
-    <string name="desc_about">More information</string>
+    <string name="leoapp_contact">Contact</string>
+    <string name="leoapp_desc_contact">Write us!</string>
+    <string name="leoapp_about">About</string>
+    <string name="leoapp_desc_about">More information</string>
 
-    <string name="members" translatable="false">
+    <string name="leoapp_members" translatable="false">
         Alina Behrens
         \nLuzia Borgmann
         \nCihat Gündüz

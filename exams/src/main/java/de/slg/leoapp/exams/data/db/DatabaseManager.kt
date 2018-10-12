@@ -6,10 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-/**
- * @author Moritz
- * Erstelldatum: 06.09.2018
- */
 @Database(entities = [DownloadedExam::class, CreatedExam::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {

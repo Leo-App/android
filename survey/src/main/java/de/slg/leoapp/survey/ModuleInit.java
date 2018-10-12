@@ -7,6 +7,7 @@ import de.slg.leoapp.annotation.Module;
 import de.slg.leoapp.core.modules.Feature;
 import de.slg.leoapp.core.modules.Notification;
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity;
+import de.slg.leoapp.core.ui.intro.IntroFragment;
 import de.slg.leoapp.core.utility.Permissions;
 import de.slg.leoapp.survey.ui.main.MainActivity;
 
@@ -14,17 +15,17 @@ import de.slg.leoapp.survey.ui.main.MainActivity;
 public class ModuleInit implements Feature {
     @Override
     public int getIcon() {
-        return 0;
+        return R.drawable.ic_feature_survey;
     }
 
     @Override
     public int getName() {
-        return 0;
+        return R.string.survey_feature_title;
     }
 
     @Override
     public int getFeatureId() {
-        return 0x123e8ab;
+        return R.string.survey_feature_title;
     }
 
     @Override
@@ -42,5 +43,11 @@ public class ModuleInit implements Feature {
     @Override
     public Notification getNotification() {
         return null;
+    }
+
+    @NotNull
+    @Override
+    public Class<? extends IntroFragment>[] getIntroFragments() {
+        return new Class[0];
     }
 }

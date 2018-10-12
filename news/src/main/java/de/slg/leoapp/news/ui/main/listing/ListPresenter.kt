@@ -31,7 +31,7 @@ class ListPresenter : AbstractPresenter<IListView, NewsDataManager>(), IListPres
         val user = User(getMvpView().getViewContext())
 
         if (user.id == entry.first.authorId) {
-            holder.setAuthor(R.string.title_me)
+            holder.setAuthor(R.string.news_title_me)
             holder.setViewCounter(
                     if (entry.first.views > 999)
                         "999+"

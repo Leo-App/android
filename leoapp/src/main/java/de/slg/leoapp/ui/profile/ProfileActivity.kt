@@ -10,7 +10,7 @@ import android.widget.TextView
 import de.slg.leoapp.R
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.core.utility.toBitmap
-import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.leoapp_activity_profile.*
 
 class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
 
@@ -27,7 +27,7 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
         presenter.onBackPressed()
     }
 
-    override fun getContentView() = R.layout.activity_profile
+    override fun getContentView() = R.layout.leoapp_activity_profile
 
     override fun getNavigationHighlightId() = -1
 
@@ -36,7 +36,7 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
     override fun getViewContext() = applicationContext!!
 
     override fun showImageViewEditOverlay() {
-        profile_picture.setOverlay(R.mipmap.edit_overlay.toBitmap(applicationContext))
+        profile_picture.setOverlay(R.drawable.ic_edit_overlay.toBitmap(applicationContext))
         profile_picture.setOnClickListener { presenter.onImageInteraction() }
     }
 
@@ -102,7 +102,7 @@ class ProfileActivity : LeoAppFeatureActivity(), ProfileView {
         val pickIntent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         pickIntent.type = "image/*"
 
-        val chooserIntent = Intent.createChooser(getIntent, getString(R.string.image_chooser_title))
+        val chooserIntent = Intent.createChooser(getIntent, getString(R.string.leoapp_image_chooser_title))
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
 
         startActivityForResult(chooserIntent, 0xd)

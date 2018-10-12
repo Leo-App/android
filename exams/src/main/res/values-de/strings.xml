@@ -1,4 +1,27 @@
 <resources>
-    <string name="feature_title_exams">Klausuren</string>
+    <string name="exams_feature_title">Klausuren</string>
+
     <string name="exams_notification_description">Bei anstehenden Klausuren</string>
+
+    <string name="exams_title_choose_subject">Fach auswählen</string>
+
+    <string name="exams_subject_math">Mathematik</string>
+    <string name="exams_subject_german">Deutsch</string>
+    <string name="exams_subject_english">Englisch</string>
+    <string name="exams_subject_french">Französisch</string>
+    <string name="exams_subject_biology">Biologie</string>
+    <string name="exams_subject_chemistry">Chemie</string>
+    <string name="exams_subject_physics">Physik</string>
+    <string name="exams_subject_cs">Informatik</string>
+    <string name="exams_subject_politics">Politik</string>
+    <string name="exams_subject_religion">Religion</string>
+    <string name="exams_subject_spanish">Spanisch</string>
+    <string name="exams_subject_sport">Sport</string>
+    <string name="exams_subject_dutch">Niederländisch</string>
+    <string name="exams_subject_latin">Latein</string>
+    <string name="exams_subject_geography">Erdkunde</string>
+    <string name="exams_subject_history">Geschichte</string>
+    <string name="exams_subject_education">Pädagogik</string>
+    <string name="exams_subject_other">Anderes</string>
+
 </resources>

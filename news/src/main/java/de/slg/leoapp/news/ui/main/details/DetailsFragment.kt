@@ -10,14 +10,14 @@ import androidx.fragment.app.Fragment
 import de.slg.leoapp.core.data.ProfilePicture
 import de.slg.leoapp.news.R
 import de.slg.leoapp.news.ui.main.MainActivity
-import kotlinx.android.synthetic.main.fragment_details.*
+import kotlinx.android.synthetic.main.news_fragment_details.*
 import java.util.*
 
 class DetailsFragment(private val presenter: DetailsPresenter) : Fragment(), IDetailsView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter.onViewAttached(this)
-        return inflater.inflate(R.layout.fragment_details, container, false)
+        return inflater.inflate(R.layout.news_fragment_details, container, false)
     }
 
     override fun openDatePicker(currentDeadline: Calendar) {

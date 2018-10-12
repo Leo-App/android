@@ -1,17 +1,17 @@
 <resources>
-    <string name="feature_title_news">News</string>
+    <string name="news_feature_title">News</string>
 
     <!-- Entry listing -->
-    <string name="title_me">(Me)</string>
+    <string name="news_title_me">(Me)</string>
 
     <!-- Entry details -->
-    <string name="deadline_desc">Until</string>
+    <string name="news_deadline_desc">Until</string>
 
     <!-- content description -->
-    <string name="cd_back">Back arrow</string>
+    <string name="news_cd_back">Back arrow</string>
 
     <!-- tooltips -->
-    <string name="delete">Delete</string>
+    <string name="news_delete">Delete</string>
 
     <!-- Notification -->
     <string name="news_desc_notification">On new entries</string>

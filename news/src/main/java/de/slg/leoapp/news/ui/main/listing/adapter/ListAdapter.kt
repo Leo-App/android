@@ -14,7 +14,7 @@ import de.slg.leoapp.news.R
 class ListAdapter(private val presenter: IListPresenter) : RecyclerView.Adapter<ListAdapter.EntryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
-        return EntryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_entry_listing, parent, false))
+        return EntryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.news_item_entry_listing, parent, false))
     }
 
     override fun getItemCount() = presenter.getEntryCount()

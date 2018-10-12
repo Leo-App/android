@@ -1,30 +1,30 @@
 <resources>
-    <string name="app_name">LeoApp</string>
-    <string name="home">Start</string>
-    <string name="back">Zurück</string>
+    <string name="leoapp_app_name">LeoApp</string>
+    <string name="leoapp_home">Start</string>
+    <string name="leoapp_back">Zurück</string>
 
-    <string name="save">Speichern</string>
-    <string name="edit">Ändern</string>
+    <string name="leoapp_save">Speichern</string>
+    <string name="leoapp_edit">Ändern</string>
 
     <!-- Profile -->
-    <string name="surveys">Laufende Umfrage</string>
-    <string name="grade">Klasse</string>
-    <string name="image_chooser_title">Wähle ein neues Profilbild</string>
+    <string name="leoapp_surveys">Laufende Umfrage</string>
+    <string name="leoapp_grade">Klasse</string>
+    <string name="leoapp_image_chooser_title">Wähle ein neues Profilbild</string>
 
     <!-- Settings -->
-    <string name="version">Version</string>
-    <string name="license">Open-Source-Lizenzen</string>
-    <string name="team">Projektmitglieder</string>
-    <string name="desc_team">Alle Entwickler &amp; Unterstützer</string>
+    <string name="leoapp_version">Version</string>
+    <string name="leoapp_license">Open-Source-Lizenzen</string>
+    <string name="leoapp_team">Projektmitglieder</string>
+    <string name="leoapp_desc_team">Alle Entwickler &amp; Unterstützer</string>
 
-    <string name="notifications">Benachrichtigungen</string>
-    <string name="desc_notifications">Ping.</string>
+    <string name="leoapp_notifications">Benachrichtigungen</string>
+    <string name="leoapp_desc_notifications">Ping.</string>
 
-    <string name="desc2_notifications">Schalte Benachrichtigungen an oder aus</string>
+    <string name="leoapp_desc2_notifications">Schalte Benachrichtigungen an oder aus</string>
 
-    <string name="contact">Kontakt</string>
-    <string name="desc_contact">Schreib uns!</string>
-    <string name="desc_about">Mehr Informationen</string>
-    <string name="about">Über die App</string>
+    <string name="leoapp_contact">Kontakt</string>
+    <string name="leoapp_desc_contact">Schreib uns!</string>
+    <string name="leoapp_desc_about">Mehr Informationen</string>
+    <string name="leoapp_about">Über die App</string>
 
 </resources>

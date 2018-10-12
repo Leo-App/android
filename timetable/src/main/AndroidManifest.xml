@@ -3,6 +3,6 @@
     package="de.slg.leoapp.timetable">
 
     <application>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".ui.MainActivity"/>
     </application>
 </manifest>

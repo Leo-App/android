@@ -12,7 +12,7 @@ import de.slg.leoapp.ui.home.IHomePresenter
 class FeatureAdapter(private val presenter: IHomePresenter) : RecyclerView.Adapter<FeatureAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_feature_card, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.leoapp_item_feature_card, parent, false))
     }
 
     override fun getItemCount() = presenter.getModuleCount()

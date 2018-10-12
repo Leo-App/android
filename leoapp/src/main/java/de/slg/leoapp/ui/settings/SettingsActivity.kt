@@ -22,7 +22,7 @@ class SettingsActivity : LeoAppFeatureActivity() {
         }
     }
 
-    override fun getContentView(): Int = R.layout.activity_settings
+    override fun getContentView(): Int = R.layout.leoapp_activity_settings
 
     override fun getNavigationHighlightId() = -1
 

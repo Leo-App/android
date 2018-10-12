@@ -13,12 +13,13 @@ import de.slg.leoapp.annotation.Modules
 import de.slg.leoapp.core.data.ProfilePicture
 import de.slg.leoapp.core.data.User
 import de.slg.leoapp.core.utility.Utils
-import de.slg.leoapp.core.utility.pxValue
+import de.slg.leoapp.core.utility.dpToPx
 import de.slg.leoapp.data.FeatureDataManager
 import de.slg.leoapp.ui.home.HomeActivity
+import de.slg.leoapp.ui.intro.IntroActivity
 import de.slg.leoapp.ui.profile.ProfileActivity
 import de.slg.leoapp.ui.settings.SettingsActivity
-import kotlinx.android.synthetic.main.splash.*
+import kotlinx.android.synthetic.main.leoapp_splash.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
@@ -29,10 +30,10 @@ class Startup : Activity() {
 
     private lateinit var animation: ValueAnimator
 
-    @Modules("exams", "news", "timetable", "lunch", authentication = "authentication")
+    @Modules("exams", "news", "timetable", "lunch", "substitutions", "survey", authentication = "authentication")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.splash)
+        setContentView(R.layout.leoapp_splash)
         launch(UI) { startSplashAnimation() }
 
         //registering all necessary information in utils so that all modules may access it without exposing the ModuleLoader
@@ -41,8 +42,8 @@ class Startup : Activity() {
         Utils.Network.registerAPIKeyAlgorithm(ModuleLoader.getAuthenticationModule()::getAPIKey)
 
         Utils.Menu.addMenuEntry(
-                R.string.home,
-                getString(R.string.home),
+                R.string.leoapp_home,
+                getString(R.string.leoapp_home),
                 R.drawable.ic_startseite,
                 HomeActivity::class.java
         )
@@ -79,8 +80,8 @@ class Startup : Activity() {
     }
 
     private suspend fun startSplashAnimation() {
-        val maxAmplitude = 15f.pxValue(applicationContext)
-        val defaultSize = 75f.pxValue(applicationContext)
+        val maxAmplitude = 15f.dpToPx(applicationContext)
+        val defaultSize = 75f.dpToPx(applicationContext)
 
         ValueAnimator.ofInt(0, defaultSize).apply {
             duration = 100
@@ -122,7 +123,7 @@ class Startup : Activity() {
         val revealX = (window.decorView.width / 2)
         val revealY = (window.decorView.height / 2)
 
-        val intent = Intent(this, HomeActivity::class.java)
+        val intent = Intent(this, IntroActivity::class.java)
         intent.putExtra("x", revealX)
         intent.putExtra("y", revealY)
 

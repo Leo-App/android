@@ -3,7 +3,6 @@ package de.slg.leoapp.ui.home
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +11,7 @@ import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.ui.home.adapter.FeatureAdapter
 import de.slg.leoapp.utils.Animation
 import de.slg.leoapp.utils.Circular
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.leoapp_activity_home.*
 
 class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
 
@@ -21,7 +20,7 @@ class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
         initTransition(b)
-        Log.wtf("leoapp", (home_layout is android.view.ViewGroup).toString())
+        print(home_layout is android.view.ViewGroup)
         presenter = HomePresenter()
         presenter.onViewAttached(this)
     }
@@ -31,15 +30,15 @@ class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
     }
 
     override fun showFeatureList() {
-        navigationRecyclerView.adapter = FeatureAdapter(presenter)
         navigationRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        navigationRecyclerView.adapter = FeatureAdapter(presenter)
     }
 
-    override fun getContentView() = R.layout.activity_home
+    override fun getContentView() = R.layout.leoapp_activity_home
 
     override fun getActivityTag() = "leoapp_feature_home"
 
-    override fun getNavigationHighlightId() = R.string.home
+    override fun getNavigationHighlightId() = R.string.leoapp_home
 
     override fun getViewContext() = applicationContext!!
 
@@ -65,4 +64,5 @@ class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
             home_layout.visibility = View.VISIBLE
         }
     }
+
 }

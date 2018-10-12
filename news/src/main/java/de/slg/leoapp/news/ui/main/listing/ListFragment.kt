@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.slg.leoapp.news.R
 import de.slg.leoapp.news.ui.main.MainActivity
 import de.slg.leoapp.news.ui.main.listing.adapter.ListAdapter
-import kotlinx.android.synthetic.main.fragment_listing.*
+import kotlinx.android.synthetic.main.news_fragment_listing.*
 
 class ListFragment(private val presenter: ListPresenter) : Fragment(), IListView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter.onViewAttached(this)
-        return inflater.inflate(R.layout.fragment_listing, container, false)
+        return inflater.inflate(R.layout.news_fragment_listing, container, false)
     }
 
     override fun showListing() {

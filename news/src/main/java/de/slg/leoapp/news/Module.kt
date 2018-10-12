@@ -8,11 +8,11 @@ import de.slg.leoapp.news.ui.main.MainActivity
 
 @Module("news")
 class Module : Feature {
-    override fun getIcon() = R.drawable.ic_pin
+    override fun getIcon() = R.drawable.ic_feature_news
 
-    override fun getName() = R.string.feature_title_news
+    override fun getName() = R.string.news_feature_title
 
-    override fun getFeatureId() = 0xdefa12
+    override fun getFeatureId() = R.string.news_feature_title
 
     override fun getNecessaryPermission() = PERMISSION_STUDENT
 
