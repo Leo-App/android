@@ -77,11 +77,11 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
         setContentView(getContentView())
+        initAppBar()
+        initNavigationDrawer()
         if (this is BackgroundEffect) {
             applyBackgroundEffect()
         }
-        initAppBar()
-        initNavigationDrawer()
     }
 
     @CallSuper

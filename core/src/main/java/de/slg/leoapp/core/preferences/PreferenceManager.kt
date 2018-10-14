@@ -43,6 +43,21 @@ class PreferenceManager {
             val reader = PreferenceReader(PreferenceManager.getDefaultSharedPreferences(context))
             reader.tasks()
         }
+
+        //Compat method for Java interoperability
+        @JvmStatic
+        fun interact(context: Context, tasks: PreferenceInterface) {
+            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            val writer = PreferenceEditor(editor)
+            val reader = PreferenceReader(PreferenceManager.getDefaultSharedPreferences(context))
+            tasks.interact(reader, writer)
+            editor.apply()
+        }
+    }
+
+    //Java compat interface for preference interactions
+    interface PreferenceInterface {
+        fun interact(reader: PreferenceReader, editor: PreferenceEditor)
     }
 
     abstract class User {
