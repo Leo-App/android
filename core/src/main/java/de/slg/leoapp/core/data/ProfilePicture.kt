@@ -1,7 +1,6 @@
 package de.slg.leoapp.core.data
 
 import android.graphics.*
-import android.util.Log
 import de.slg.leoapp.core.utility.URL_PROFILE_PICTURE
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI

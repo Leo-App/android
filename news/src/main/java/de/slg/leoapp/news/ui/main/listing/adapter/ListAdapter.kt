@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import de.slg.leoapp.news.ui.main.listing.IListPresenter
 import de.slg.leoapp.core.data.ProfilePicture
 import de.slg.leoapp.news.R
+import de.slg.leoapp.news.ui.main.listing.IListPresenter
 
 //Adapter for entry list
 class ListAdapter(private val presenter: IListPresenter) : RecyclerView.Adapter<ListAdapter.EntryViewHolder>() {

@@ -6,7 +6,6 @@ import android.view.View;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import de.slg.leoapp.core.preferences.PreferenceManager;
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity;
 import de.slg.leoapp.core.utility.ViewBinder;
 import de.slg.leoapp.survey.R;
