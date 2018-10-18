@@ -15,5 +15,10 @@ class LoginFragment : IntroFragment() {
         return true
     }
 
+    override fun complete() {
+        super.complete()
+        //TODO Authentication-Stuff
+    }
+
     override fun getErrorMessage() = "Bitte gib einen Benutzernamen und ein Passwort ein."
 }

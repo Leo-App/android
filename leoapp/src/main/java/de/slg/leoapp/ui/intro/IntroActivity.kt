@@ -39,7 +39,14 @@ class IntroActivity : ActionLogActivity() {
             fragment.listener = View.OnClickListener { onNextPressed() }
         }
 
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragments.getObjectAt(0), fragments.getObjectAt(0).getFragmentTag()).commit()
+        print(fragments.hasAccess())
+
+        val fragment = getNextIncompleteFragment()
+        if (fragment != null) {
+            supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment, fragment.getFragmentTag()).commit()
+        } else {
+            startActivity(Intent(applicationContext, HomeActivity::class.java))
+        }
     }
 
     override fun onBackPressed() {
@@ -55,28 +62,36 @@ class IntroActivity : ActionLogActivity() {
             lastToast!!.cancel()
         }
 
-        val size = supportFragmentManager.fragments.size
-
         val current = supportFragmentManager.fragments.last() as IntroFragment
         if (current.canContinue()) {
-            if (size != fragments.size()) {
-                val next = fragments.getObjectAt(size)
-                supportFragmentManager.beginTransaction().add(R.id.fragment_container, next, next.getFragmentTag()).commit()
+            current.complete()
+
+            val fragment = getNextIncompleteFragment()
+            if (fragment != null) {
+                supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment, fragment.getFragmentTag()).commit()
             } else {
                 startActivity(Intent(applicationContext, HomeActivity::class.java))
-
-                val transaction = supportFragmentManager.beginTransaction()
-                for (f in fragments) {
-                    transaction.remove(f)
-                }
-                transaction.commit()
-
-                finish()
             }
         } else {
             lastToast = Toast.makeText(applicationContext, current.getErrorMessage(), Toast.LENGTH_LONG)
             lastToast!!.show()
         }
+    }
+
+    private fun getNextIncompleteFragment(): IntroFragment? {
+        if (!fragments.hasAccess()) {
+            fragments.toFirst()
+        }
+
+        while (fragments.hasAccess() && fragments.getContent().isCompleted(applicationContext)) {
+            fragments.next()
+        }
+
+        if (fragments.hasAccess()) {
+            return fragments.getContent()
+        }
+
+        return null
     }
 
 }

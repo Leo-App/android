@@ -45,6 +45,7 @@ public class ModuleInit implements Feature {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     @NotNull
     @Override
     public Class<? extends IntroFragment>[] getIntroFragments() {

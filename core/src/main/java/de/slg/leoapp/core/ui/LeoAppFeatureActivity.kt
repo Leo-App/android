@@ -206,7 +206,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
 
         actionButton = findViewById(R.id.action_main)
         if (usesActionButton()) {
-            actionButton.visibility = View.VISIBLE
+            actionButton.show()
             actionButton.setImageResource(getActionIcon())
             if (getActionListener() != null) {
                 actionButton.setOnClickListener(getActionListener())
@@ -322,6 +322,7 @@ abstract class LeoAppFeatureActivity : ActionLogActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
             val menuEntry: MenuEntry = Utils.Menu.getEntries().getObjectAt(position)
 
             val icon: ImageView = holder.itemView.findViewById(R.id.icon)

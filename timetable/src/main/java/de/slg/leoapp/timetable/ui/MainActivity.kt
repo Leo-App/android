@@ -95,7 +95,7 @@ class MainActivity : LeoAppFeatureActivity() {
 
     private fun loadData() {
         loading = true
-        //TODO show ProgressBar
+        findViewById<View>(R.id.progressBar).visibility = View.VISIBLE
 
         launch(CommonPool) {
             for (i in 0 until 5) {
@@ -110,7 +110,7 @@ class MainActivity : LeoAppFeatureActivity() {
             runOnUiThread {
                 refreshUI()
 
-                //TODO hide ProgressBar
+                findViewById<View>(R.id.progressBar).visibility = View.GONE
                 loading = false
             }
         }

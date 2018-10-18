@@ -12,17 +12,19 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import de.slg.leoapp.core.preferences.PreferenceManager
-import de.slg.leoapp.core.task.TaskStatusListener
 import de.slg.leoapp.core.ui.intro.IntroFragment
 import de.slg.leoapp.core.utility.dpToPx
 import de.slg.leoapp.core.utility.toColor
 import de.slg.leoapp.timetable.R
 import de.slg.leoapp.timetable.data.Course
+import de.slg.leoapp.timetable.data.Lesson
+import de.slg.leoapp.timetable.data.db.Converters
 import de.slg.leoapp.timetable.data.db.DatabaseManager
-import de.slg.leoapp.timetable.task.DownloadFileTask
-import de.slg.leoapp.timetable.task.ParseTask
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
+import java.io.*
+import java.net.URL
+import java.net.URLConnection
 
 class TimetableFragment : IntroFragment() {
 
@@ -43,6 +45,10 @@ class TimetableFragment : IntroFragment() {
     override fun getFragmentTag() = "leoapp_fragment_intro_timetable"
 
     override fun canContinue(): Boolean {
+        return true
+    }
+
+    override fun complete() {
         loading = true
         view!!.findViewById<View>(R.id.progressBar).visibility = View.VISIBLE
 
@@ -59,7 +65,7 @@ class TimetableFragment : IntroFragment() {
 
         while (loading);
 
-        return true
+        super.complete()
     }
 
     override fun getErrorMessage() = "Bitte wähle deine Stunden aus."
@@ -94,51 +100,146 @@ class TimetableFragment : IntroFragment() {
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.addItemDecoration(DividerDecoration())
 
-        if (!loading)
+        if (!loading) {
             loadData()
+        }
     }
 
     private fun downloadFile() {
         loading = true
-        view?.findViewById<View>(R.id.progressBar)?.visibility = View.VISIBLE
+        activity?.runOnUiThread {
+            view?.findViewById<View>(R.id.progressBar)?.visibility = View.VISIBLE
+        }
 
-        val task = DownloadFileTask()
-        task.addListener(object : TaskStatusListener {
-            override fun taskStarts() {
+        var lastModified = 0L
 
+        if (activity!!.fileList().contains("stundenplan")) {
+            print(activity!!.filesDir.absolutePath + "/stundenplan")
+            val file = File(activity!!.filesDir.absolutePath + "/stundenplan")
+            lastModified = file.lastModified()
+        }
+
+        launch(CommonPool) {
+
+            try {
+
+                val connection: URLConnection = URL("https://ucloud4schools.de/ext/slg/leoapp_php/stundenplan/aktuell.txt")
+                        .openConnection()
+                connection.connectTimeout = 3000
+
+                val date = connection.lastModified
+
+                if (date == 0L || date > lastModified) {
+
+                    val download = BufferedReader(
+                            InputStreamReader(
+                                    connection.getInputStream(),
+                                    "ISO-8859-1"
+                            )
+                    )
+
+                    val writer = BufferedWriter(
+                            OutputStreamWriter(
+                                    activity!!.openFileOutput("stundenplan", Context.MODE_PRIVATE)
+                            )
+                    )
+
+                    for (s: String in download.readLines()) {
+                        writer.write(s)
+                        writer.newLine()
+                    }
+
+                    download.close()
+                    writer.close()
+
+                    parseFile()
+
+                } else {
+                    loadData()
+                }
+
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
 
-            override fun taskFinished(vararg params: Any) {
-                parseFile()
-            }
-        })
-        task.execute(
-                activity!!.openFileOutput("stundenplan", Context.MODE_PRIVATE)
-        )
+        }
     }
 
     private fun parseFile() {
-        val task = ParseTask()
-        task.addListener(object : TaskStatusListener {
-            override fun taskStarts() {
+        launch(CommonPool) {
+
+            var lastCourseName = ""
+            var lastId: Long = 0
+
+            val db = DatabaseManager.getInstance(activity!!)
+
+            db.clearAllTables()
+
+            val lines = BufferedReader(
+                    InputStreamReader(
+                            activity!!.openFileInput("stundenplan")
+                    )
+            ).readLines()
+
+            val converter = Converters()
+
+            for (line in lines) {
+
+                val parts = line.substring(line.indexOf(',') + 1).replace("\"", "").split(",")
+                val grade = parts[0]
+                val teacher = parts[1]
+                val courseName = parts[2].replace("-", " G")
+                val room = parts[3]
+                val day = parts[4]
+                val hour = parts[5]
+
+                if (grade.isBlank() || teacher.isBlank() || courseName.isBlank() || room.isBlank() || day.isBlank() || hour.isBlank())
+                    continue
+                if (courseName == "Vertr")
+                    continue
+
+                if (lastCourseName != courseName) {
+                    val subject = converter.toSubject(when {
+                        grade.matches(Regex("\\d\\d[abcf]")) -> courseName.toUpperCase().replace(Regex("\\d"), "")
+                        courseName.startsWith("IB") -> courseName.toUpperCase().replace(Regex("\\d"), "")
+                        courseName.contains('-') -> courseName.substring(0, courseName.indexOf('-')).toUpperCase().replace(Regex("\\d"), "")
+                        courseName.contains(' ') -> courseName.substring(0, courseName.indexOf(' ')).toUpperCase().replace(Regex("\\d"), "")
+                        courseName.contains(Regex("G\\d")) -> courseName.substring(0, courseName.lastIndexOf("G")).toUpperCase().replace(Regex("\\d"), "")
+                        courseName.contains(Regex("L\\d")) -> courseName.substring(0, courseName.lastIndexOf("L")).toUpperCase().replace(Regex("\\d"), "")
+                        else -> ""
+                    })
+                    val type = when {
+                        courseName.matches(Regex("..L\\d")) -> "LK"
+                        courseName.startsWith("AG") -> "AG"
+                        else -> "GK"
+                    }
+                    val number = when {
+                        courseName.last() in '1'..'9' -> courseName.last() - '0'
+                        else -> 0
+                    }
+
+                    lastId = db.databaseInterface().insertCourse(Course(null, subject, number, type, teacher, grade, false, false))
+                }
+
+                db.databaseInterface().insertLesson(Lesson(lastId, Integer.parseInt(day), Integer.parseInt(hour), room))
+
+                lastCourseName = courseName
 
             }
 
-            override fun taskFinished(vararg params: Any) {
-                loadData()
-            }
-        })
-        task.execute(
-                activity!!.openFileInput("stundenplan"),
-                DatabaseManager.getInstance(activity!!)
-        )
+            loadData()
+
+        }
     }
 
     private fun loadData() {
         loading = true
-        view?.findViewById<View>(R.id.progressBar)?.visibility = View.VISIBLE
+        activity?.runOnUiThread {
+            view?.findViewById<View>(R.id.progressBar)?.visibility = View.VISIBLE
+        }
 
         launch(CommonPool) {
+
             data = mutableListOf(*DatabaseManager.getInstance(activity!!).databaseInterface().getCourses(grade))
 
             activity?.runOnUiThread {
@@ -146,6 +247,7 @@ class TimetableFragment : IntroFragment() {
                 view?.findViewById<View>(R.id.progressBar)?.visibility = View.GONE
             }
             loading = false
+
         }
     }
 

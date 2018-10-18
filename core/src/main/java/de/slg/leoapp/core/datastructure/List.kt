@@ -162,6 +162,13 @@ class List<ContentType>() : Iterable<ContentType> {
      * @param index Zielindex
      */
     fun toIndex(index: Int): List<ContentType> {
+        if (!hasAccess()) {
+            if (size / 2 > index) {
+                toFirst()
+            } else {
+                toLast()
+            }
+        }
         if (index >= size - 1) {
             toLast()
         } else {

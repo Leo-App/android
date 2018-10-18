@@ -43,22 +43,20 @@ class HomeActivity : LeoAppFeatureActivity(), HomeView, Animation by Circular {
     override fun getViewContext() = applicationContext!!
 
     private fun initTransition(b: Bundle?) {
-        if (b == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (intent.hasExtra("x") && intent.hasExtra("y")) {
-                home_layout.visibility = View.INVISIBLE
+        if (b == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && intent.hasExtra("x") && intent.hasExtra("y")) {
+            home_layout.visibility = View.INVISIBLE
 
-                val revealX = intent.getIntExtra("x", 0)
-                val revealY = intent.getIntExtra("y", 0)
+            val revealX = intent.getIntExtra("x", 0)
+            val revealY = intent.getIntExtra("y", 0)
 
-                val viewTreeObserver = home_layout.viewTreeObserver
-                if (viewTreeObserver.isAlive) {
-                    viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                        override fun onGlobalLayout() {
-                            revealActivity(revealX, revealY, home_layout)
-                            home_layout.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        }
-                    })
-                }
+            val viewTreeObserver = home_layout.viewTreeObserver
+            if (viewTreeObserver.isAlive) {
+                viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        revealActivity(revealX, revealY, home_layout)
+                        home_layout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
+                })
             }
         } else {
             home_layout.visibility = View.VISIBLE
