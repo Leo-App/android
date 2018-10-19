@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
@@ -115,7 +116,7 @@ class Startup : Activity() {
     }
 
     override fun finish() {
-        animation.cancel()
+
 
         val options = ActivityOptionsCompat
                 .makeSceneTransitionAnimation(this, transition_view, "transition")
@@ -129,6 +130,8 @@ class Startup : Activity() {
 
         ActivityCompat.startActivity(this, intent, options.toBundle())
         launch(UI) {
+            animation.cancel()
+            transition_view.visibility = View.GONE
             delay(1000)
             super.finish()
         }

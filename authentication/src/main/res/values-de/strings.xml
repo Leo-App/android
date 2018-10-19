@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="authentication_hint_username">Benutzername</string>
+    <string name="authentication_hint_password">Passwort</string>
+
+    <string name="error_auth_failed">Login fehlgeschlagen</string>
+    <string name="error_try_again">Es ist etwas schief gegeangen. Bitte versuche es später erneut.</string>
+
+</resources>

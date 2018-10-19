@@ -11,9 +11,7 @@ class SplashFragment : IntroFragment() {
 
     override fun getFragmentTag() = "leoapp_fragment_intro_splash"
 
-    override fun canContinue(): Boolean {
-        return true
-    }
+    override fun canContinue() = true
 
     override fun getErrorMessage() = ""
 }

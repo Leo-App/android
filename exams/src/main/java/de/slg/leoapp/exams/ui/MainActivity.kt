@@ -143,7 +143,7 @@ class MainActivity : LeoAppFeatureActivity() {
 
             holder.itemView.setOnClickListener {
                 startActivity(
-                        Intent(applicationContext, ExamEditActivity::class.java)
+                        Intent(applicationContext, DetailActivity::class.java)
                                 .putExtra("id", k.id)
                 )
             }

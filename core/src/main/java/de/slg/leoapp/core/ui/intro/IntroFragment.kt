@@ -7,13 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
-import de.slg.leoapp.annotation.PreferenceKey
 import de.slg.leoapp.core.preferences.PreferenceManager
 
 abstract class IntroFragment : Fragment() {
-
-    @PreferenceKey
-    val preferenceKey: String = getFragmentTag()
 
     lateinit var listener: View.OnClickListener
 
@@ -36,14 +32,14 @@ abstract class IntroFragment : Fragment() {
     @CallSuper
     open fun complete() {
         PreferenceManager.edit(context!!) {
-            putBoolean(preferenceKey, true)
+            putBoolean(getFragmentTag(), true)
         }
     }
 
     fun isCompleted(context: Context): Boolean {
         var b = false
         PreferenceManager.read(context) {
-            b = getBoolean(preferenceKey)
+            b = getBoolean(getFragmentTag())
         }
         return b
     }

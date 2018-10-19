@@ -1,4 +1,9 @@
 <resources>
+
+    <string name="authentication_hint_username">Username</string>
+    <string name="authentication_hint_password">Password</string>
+
     <string name="error_auth_failed">Login unsuccessful</string>
-    <string name="error_try_again">Something went wrong, please try again later</string>
+    <string name="error_try_again">Something went wrong. Please try again later</string>
+
 </resources>

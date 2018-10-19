@@ -15,5 +15,7 @@
 
     <color name="colorDivider">#1e000000</color>
 
+    <color name="colorPrimaryTransparent">#002d5d82</color>
+
     <color name="colorProgressBarBackground">#84ffffff</color>
 </resources>

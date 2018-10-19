@@ -35,17 +35,13 @@ class IntroActivity : ActionLogActivity() {
         super.onCreate(b)
         setContentView(R.layout.leoapp_activity_intro)
 
-        for (fragment in fragments) {
-            fragment.listener = View.OnClickListener { onNextPressed() }
-        }
-
-        print(fragments.hasAccess())
-
         val fragment = getNextIncompleteFragment()
         if (fragment != null) {
+            fragment.listener = View.OnClickListener { onNextPressed() }
             supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment, fragment.getFragmentTag()).commit()
         } else {
-            startActivity(Intent(applicationContext, HomeActivity::class.java))
+            startActivity(Intent(applicationContext, HomeActivity::class.java).putExtras(intent))
+            finish()
         }
     }
 
@@ -63,25 +59,29 @@ class IntroActivity : ActionLogActivity() {
         }
 
         val current = supportFragmentManager.fragments.last() as IntroFragment
-        if (current.canContinue()) {
-            current.complete()
 
-            val fragment = getNextIncompleteFragment()
-            if (fragment != null) {
-                supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment, fragment.getFragmentTag()).commit()
+        if (!current.isCompleted(applicationContext)) {
+            if (current.canContinue()) {
+                current.complete()
             } else {
-                startActivity(Intent(applicationContext, HomeActivity::class.java))
+                lastToast = Toast.makeText(applicationContext, current.getErrorMessage(), Toast.LENGTH_LONG)
+                lastToast!!.show()
+                return
             }
+        }
+
+        val fragment = getNextIncompleteFragment()
+        if (fragment != null) {
+            fragment.listener = View.OnClickListener { onNextPressed() }
+            supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment, fragment.getFragmentTag()).commit()
         } else {
-            lastToast = Toast.makeText(applicationContext, current.getErrorMessage(), Toast.LENGTH_LONG)
-            lastToast!!.show()
+            startActivity(Intent(applicationContext, HomeActivity::class.java))
+            finish()
         }
     }
 
     private fun getNextIncompleteFragment(): IntroFragment? {
-        if (!fragments.hasAccess()) {
-            fragments.toFirst()
-        }
+        fragments.toFirst()
 
         while (fragments.hasAccess() && fragments.getContent().isCompleted(applicationContext)) {
             fragments.next()

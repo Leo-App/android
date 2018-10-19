@@ -89,7 +89,7 @@ class TimetableFragment : IntroFragment() {
             override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
                 try {
                     super.onLayoutChildren(recycler, state)
-                } catch (e: IndexOutOfBoundsException) {
+                } catch (e: Throwable) {
                     e.printStackTrace()
                 }
             }
@@ -206,7 +206,7 @@ class TimetableFragment : IntroFragment() {
                         courseName.contains(' ') -> courseName.substring(0, courseName.indexOf(' ')).toUpperCase().replace(Regex("\\d"), "")
                         courseName.contains(Regex("G\\d")) -> courseName.substring(0, courseName.lastIndexOf("G")).toUpperCase().replace(Regex("\\d"), "")
                         courseName.contains(Regex("L\\d")) -> courseName.substring(0, courseName.lastIndexOf("L")).toUpperCase().replace(Regex("\\d"), "")
-                        else -> ""
+                        else -> courseName.substring(0, 2)
                     })
                     val type = when {
                         courseName.matches(Regex("..L\\d")) -> "LK"

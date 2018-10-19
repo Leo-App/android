@@ -121,11 +121,17 @@ class MainActivity : LeoAppFeatureActivity() {
             for (lesson in data[i]) {
                 val view = views[i][lesson.hour - 1]
                 view.findViewById<View>(R.id.color).setBackgroundColor(lesson.subject.color.toColor(applicationContext))
-                view.findViewById<TextView>(R.id.title).text = "${lesson.subject.name}\n${lesson.room}\n${lesson.teacher}"
+                view.findViewById<TextView>(R.id.title).text = lesson.subject.name
+                view.findViewById<TextView>(R.id.teacher).text = lesson.teacher
+                view.findViewById<TextView>(R.id.room).text = lesson.room
                 view.visibility = View.VISIBLE
+
+                if (lesson.hour > latestHour) {
+                    latestHour = lesson.hour
+                }
             }
         }
 
-
+        print(latestHour)
     }
 }
