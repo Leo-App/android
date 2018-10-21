@@ -111,15 +111,15 @@ class TimetableFragment : IntroFragment() {
             view?.findViewById<View>(R.id.progressBar)?.visibility = View.VISIBLE
         }
 
-        var lastModified = 0L
-
-        if (activity!!.fileList().contains("stundenplan")) {
-            print(activity!!.filesDir.absolutePath + "/stundenplan")
-            val file = File(activity!!.filesDir.absolutePath + "/stundenplan")
-            lastModified = file.lastModified()
-        }
-
         launch(CommonPool) {
+
+            var lastModified = 0L
+
+            if (activity!!.fileList().contains("stundenplan")) {
+                print(activity!!.filesDir.absolutePath + "/stundenplan")
+                val file = File(activity!!.filesDir.absolutePath + "/stundenplan")
+                lastModified = file.lastModified()
+            }
 
             try {
 

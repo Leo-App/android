@@ -12,10 +12,10 @@ import androidx.appcompat.app.AppCompatDialog
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.core.utility.setTint
 import de.slg.leoapp.core.utility.toColor
-import de.slg.leoapp.exams.Klausur
 import de.slg.leoapp.exams.R
 import de.slg.leoapp.exams.data.db.Converters
 import de.slg.leoapp.exams.data.db.DatabaseManager
+import de.slg.leoapp.exams.data.db.Exam
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.backgroundDrawable
@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailActivity : LeoAppFeatureActivity() {
+
     private val newDate: Calendar = GregorianCalendar()
 
     private val converters = Converters()
@@ -35,7 +36,9 @@ class DetailActivity : LeoAppFeatureActivity() {
 
     private val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.GERMANY)
 
-    private var data = Klausur(null, converters.toSubject(""), Date())
+    private var id = 0
+
+    private var data = Exam(null, Date(), converters.toSubject(""), null, null, null)
 
     override fun getActivityTag() = "exams_feature_edit"
 
@@ -94,6 +97,8 @@ class DetailActivity : LeoAppFeatureActivity() {
         initDateDialog()
         initSubjectDialog()
 
+        id = intent.getIntExtra("id", 0)
+
         refreshData()
     }
 
@@ -111,7 +116,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_other)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorOther)
         dialogSubject.findViewById<View>(R.id.item_other)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_other)
         dialogSubject.findViewById<View>(R.id.item_other)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject(""), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject(""),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -119,7 +131,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_math)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorMath)
         dialogSubject.findViewById<View>(R.id.item_math)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_math)
         dialogSubject.findViewById<View>(R.id.item_math)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("M"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("M"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -127,7 +146,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_german)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorGerman)
         dialogSubject.findViewById<View>(R.id.item_german)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_german)
         dialogSubject.findViewById<View>(R.id.item_german)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("D"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("D"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -135,7 +161,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_english)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorEnglish)
         dialogSubject.findViewById<View>(R.id.item_english)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_english)
         dialogSubject.findViewById<View>(R.id.item_english)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("E"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("E"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -143,7 +176,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_french)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorFrench)
         dialogSubject.findViewById<View>(R.id.item_french)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_french)
         dialogSubject.findViewById<View>(R.id.item_french)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("F"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("F"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -151,7 +191,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_biology)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorBiology)
         dialogSubject.findViewById<View>(R.id.item_biology)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_biology)
         dialogSubject.findViewById<View>(R.id.item_biology)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("BI"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("BI"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -159,7 +206,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_chemistry)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorChemistry)
         dialogSubject.findViewById<View>(R.id.item_chemistry)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_chemistry)
         dialogSubject.findViewById<View>(R.id.item_chemistry)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("CH"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("CH"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -167,7 +221,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_physics)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorPhysics)
         dialogSubject.findViewById<View>(R.id.item_physics)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_physics)
         dialogSubject.findViewById<View>(R.id.item_physics)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("PH"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("PH"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -175,7 +236,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_CS)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorCS)
         dialogSubject.findViewById<View>(R.id.item_CS)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_cs)
         dialogSubject.findViewById<View>(R.id.item_CS)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("IF"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("IF"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -183,7 +251,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_Politics)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorPolitics)
         dialogSubject.findViewById<View>(R.id.item_Politics)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_politics)
         dialogSubject.findViewById<View>(R.id.item_Politics)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("PK"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("PK"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -191,7 +266,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_Religion)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorReligion)
         dialogSubject.findViewById<View>(R.id.item_Religion)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_religion)
         dialogSubject.findViewById<View>(R.id.item_Religion)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("P"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("P"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -199,7 +281,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_Spanish)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorSpanish)
         dialogSubject.findViewById<View>(R.id.item_Spanish)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_spanish)
         dialogSubject.findViewById<View>(R.id.item_Spanish)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("S"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("S"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -207,7 +296,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_Sport)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorSport)
         dialogSubject.findViewById<View>(R.id.item_Sport)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_sport)
         dialogSubject.findViewById<View>(R.id.item_Sport)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("SP"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("SP"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -215,7 +311,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_Dutch)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorDutch)
         dialogSubject.findViewById<View>(R.id.item_Dutch)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_dutch)
         dialogSubject.findViewById<View>(R.id.item_Dutch)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("N"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("N"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -223,7 +326,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_Latin)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorLatin)
         dialogSubject.findViewById<View>(R.id.item_Latin)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_latin)
         dialogSubject.findViewById<View>(R.id.item_Latin)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("L"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("L"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -231,7 +341,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_Geography)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorGeography)
         dialogSubject.findViewById<View>(R.id.item_Geography)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_geography)
         dialogSubject.findViewById<View>(R.id.item_Geography)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("EK"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("EK"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -239,7 +356,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_History)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorHistory)
         dialogSubject.findViewById<View>(R.id.item_History)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_history)
         dialogSubject.findViewById<View>(R.id.item_History)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("GE"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("GE"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -247,7 +371,14 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogSubject.findViewById<View>(R.id.item_Education)?.findViewById<ImageView>(R.id.dot)!!.setTint(R.color.colorEducation)
         dialogSubject.findViewById<View>(R.id.item_Education)?.findViewById<TextView>(R.id.title)!!.setText(R.string.exams_subject_education)
         dialogSubject.findViewById<View>(R.id.item_Education)?.setOnClickListener {
-            data = Klausur(data.id, converters.toSubject("PA"), data.datum)
+            data = Exam(
+                    data.id,
+                    data.datum,
+                    converters.toSubject("PA"),
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
             dialogSubject.dismiss()
             refreshSubject()
         }
@@ -257,6 +388,7 @@ class DetailActivity : LeoAppFeatureActivity() {
         dialogDate = AppCompatDialog(this)
         dialogDate.setContentView(R.layout.exams_dialog_date_picker)
 
+        dialogDate.findViewById<CalendarView>(R.id.calendar)!!.date = data.datum.time
         dialogDate.findViewById<CalendarView>(R.id.calendar)!!.setOnDateChangeListener { _, year, month, dayOfMonth ->
             newDate[Calendar.YEAR] = year
             newDate[Calendar.MONTH] = month
@@ -264,7 +396,16 @@ class DetailActivity : LeoAppFeatureActivity() {
         }
 
         dialogDate.findViewById<View>(R.id.buttonOk)!!.setOnClickListener {
-            findViewById<TextView>(R.id.datum).text = dateFormat.format(newDate.time)
+            val date = newDate.time
+            data = Exam(
+                    data.id,
+                    date,
+                    data.fach,
+                    data.kurs,
+                    data.lehrer,
+                    data.stufe
+            )
+            findViewById<TextView>(R.id.datum).text = dateFormat.format(data.datum)
 
             dialogDate.dismiss()
         }
@@ -275,31 +416,41 @@ class DetailActivity : LeoAppFeatureActivity() {
     }
 
     private fun save() {
+        launch(CommonPool) {
 
+            if (id == 0) {
+                DatabaseManager.getInstance(applicationContext).databaseInterface().insertExam(data)
+            } else {
+                DatabaseManager.getInstance(applicationContext).databaseInterface().updateExam(data)
+            }
+
+        }
     }
 
     private fun refreshData() {
         launch(CommonPool) {
 
-            val exam = DatabaseManager.getInstance(applicationContext).databaseInterface().getExam(intent.getIntExtra("id", 0))
-            data = Klausur(
-                    exam.id,
-                    exam.fach,
-                    exam.datum
-            )
+            if (id != 0) {
+                data = DatabaseManager.getInstance(applicationContext).databaseInterface().getExam(id)
+            }
+
             runOnUiThread {
                 findViewById<TextView>(R.id.datum).text = dateFormat.format(data.datum)
-                refreshSubject()
+                dialogDate.findViewById<CalendarView>(R.id.calendar)!!.date = data.datum.time
+                if (id != 0) {
+                    refreshSubject()
+                }
             }
 
         }
     }
 
     private fun refreshSubject() {
-        findViewById<TextView>(R.id.chooseSubject).text = data.subject.name
+        findViewById<TextView>(R.id.chooseSubject).text = data.fach.name
 
         if (header.backgroundDrawable != null) {
-            (header.backgroundDrawable!! as GradientDrawable).setColor(data.subject.color.toColor(applicationContext))
+            (header.backgroundDrawable!! as GradientDrawable).setColor(data.fach.color.toColor(applicationContext))
         }
     }
+
 }

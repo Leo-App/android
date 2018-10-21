@@ -39,6 +39,7 @@ class Converters {
                     "GE" -> "Geschichte"
                     "GEF" -> "Geschichte bilingual"
                     "PA" -> "Pädagogik"
+                    "" -> "Other"
                     else -> s
                 },
                 when (s.toUpperCase().replace(Regex("\\d"), "")) {

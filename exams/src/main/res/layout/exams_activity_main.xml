@@ -10,8 +10,15 @@
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
         android:clipToPadding="false"
-        android:paddingBottom="?android:attr/actionBarSize"
-        android:paddingTop="24dp"/>
+        android:paddingTop="24dp"
+        android:paddingBottom="?android:attr/actionBarSize"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
     <include
         layout="@layout/core_app_container_navigation"/>

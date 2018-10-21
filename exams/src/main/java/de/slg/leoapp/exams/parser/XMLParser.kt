@@ -3,7 +3,7 @@ package de.slg.leoapp.exams.parser
 import de.slg.leoapp.core.datastructure.List
 import de.slg.leoapp.core.datastructure.Stack
 import de.slg.leoapp.exams.data.db.Converters
-import de.slg.leoapp.exams.data.db.DownloadedExam
+import de.slg.leoapp.exams.data.db.Exam
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
 import java.io.InputStream
@@ -15,7 +15,7 @@ class XMLParser(private val input: InputStream) {
 
     private val cellType = List(
             "wochentag",
-            "datum",
+            "date",
             "ef",
             "q1",
             "q2"
@@ -29,7 +29,7 @@ class XMLParser(private val input: InputStream) {
             Pattern.compile(" [A-Za-z]{1,2} \\(\\d+\\)") // EK (6)
     )
 
-    private val klausuren: List<DownloadedExam> = List()
+    private val klausuren: List<Exam> = List()
 
     private var currentDate: Calendar = GregorianCalendar()
 
@@ -37,7 +37,7 @@ class XMLParser(private val input: InputStream) {
 
     private val converters = Converters()
 
-    fun parse(): List<DownloadedExam> {
+    fun parse(): List<Exam> {
         currentDate.set(Calendar.MONTH, Calendar.JANUARY)
 
         val factory = SAXParserFactory.newInstance()
@@ -159,7 +159,7 @@ class XMLParser(private val input: InputStream) {
 
     private fun para(content: String) {
         when (cellType.getContent()) {
-            "datum" -> {
+            "date" -> {
                 var day = 0
                 var month = 0
 
@@ -185,7 +185,7 @@ class XMLParser(private val input: InputStream) {
                     val i1 = result.indexOf(' ')
                     val i2 = result.indexOf(' ', i1 + 1)
                     klausuren.append(
-                            DownloadedExam(
+                            Exam(
                                     null,
                                     currentDate.time,
                                     converters.toSubject(result.substring(0, i1)),
@@ -201,7 +201,7 @@ class XMLParser(private val input: InputStream) {
                     if (!result.startsWith("GK")) {
                         val i1 = result.indexOf(' ')
                         klausuren.append(
-                                DownloadedExam(
+                                Exam(
                                         null,
                                         currentDate.time,
                                         converters.toSubject(result.substring(0, i1)),
@@ -216,7 +216,7 @@ class XMLParser(private val input: InputStream) {
                 while (matcher.find()) {
                     val result = matcher.group().replace(" ", "")
                     klausuren.append(
-                            DownloadedExam(
+                            Exam(
                                     null,
                                     currentDate.time,
                                     converters.toSubject(result.substring(0, 2)),
@@ -234,7 +234,7 @@ class XMLParser(private val input: InputStream) {
                     val i1 = result.indexOf(' ')
                     val i2 = result.indexOf(' ', i1 + 1)
                     klausuren.append(
-                            DownloadedExam(
+                            Exam(
                                     null,
                                     currentDate.time,
                                     converters.toSubject(result.substring(0, i1)),
@@ -250,7 +250,7 @@ class XMLParser(private val input: InputStream) {
                     if (!result.startsWith("GK")) {
                         val i1 = result.indexOf(' ')
                         klausuren.append(
-                                DownloadedExam(
+                                Exam(
                                         null,
                                         currentDate.time,
                                         converters.toSubject(result.substring(0, i1)),
@@ -265,7 +265,7 @@ class XMLParser(private val input: InputStream) {
                 while (matcher.find()) {
                     val result = matcher.group().replace(" ", "")
                     klausuren.append(
-                            DownloadedExam(
+                            Exam(
                                     null,
                                     currentDate.time,
                                     converters.toSubject(result.substring(0, 2)),
@@ -280,7 +280,7 @@ class XMLParser(private val input: InputStream) {
                     val result = matcher.group().substring(1).replace(Regex(" \\(\\d+\\)"), "")
                     val i1 = result.indexOf(' ')
                     klausuren.append(
-                            DownloadedExam(
+                            Exam(
                                     null,
                                     currentDate.time,
                                     converters.toSubject(result.substring(0, i1)),
@@ -294,7 +294,7 @@ class XMLParser(private val input: InputStream) {
                 while (matcher.find()) {
                     val result = matcher.group().substring(1).replace(Regex(" \\(\\d+\\)"), "")
                     klausuren.append(
-                            DownloadedExam(
+                            Exam(
                                     null,
                                     currentDate.time,
                                     converters.toSubject(result),

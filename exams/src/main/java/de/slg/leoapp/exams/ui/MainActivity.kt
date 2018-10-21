@@ -13,28 +13,29 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import de.slg.leoapp.core.task.TaskStatusListener
 import de.slg.leoapp.core.ui.LeoAppFeatureActivity
 import de.slg.leoapp.core.utility.dpToPx
 import de.slg.leoapp.core.utility.spToPx
 import de.slg.leoapp.core.utility.toColor
-import de.slg.leoapp.exams.Klausur
 import de.slg.leoapp.exams.R
 import de.slg.leoapp.exams.data.db.DatabaseManager
-import de.slg.leoapp.exams.task.DownloadFileTask
-import de.slg.leoapp.exams.task.ParseTask
-import de.slg.leoapp.exams.task.RefreshDataTask
+import de.slg.leoapp.exams.data.db.Exam
+import de.slg.leoapp.exams.parser.XMLParser
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.launch
+import java.io.*
+import java.net.URL
+import java.net.URLConnection
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : LeoAppFeatureActivity() {
 
-    private var data: Array<Klausur> = arrayOf()
+    private var data: Array<Exam> = arrayOf()
 
     private lateinit var recyclerView: RecyclerView
 
-    private var download: DownloadFileTask? = null
-    private var parse: ParseTask? = null
+    private var loading = false
 
     override fun getContentView() = R.layout.exams_activity_main
 
@@ -44,12 +45,21 @@ class MainActivity : LeoAppFeatureActivity() {
 
     override fun getActionIcon() = R.drawable.ic_add
 
-    override fun getAction() = { _: View -> download() }
+    override fun getAction() = { _: View -> startActivity(Intent(applicationContext, DetailActivity::class.java)); }
 
     override fun onCreate(b: Bundle?) {
         super.onCreate(b)
 
         initRecyclerView()
+        download()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (!loading) {
+            refreshData()
+        }
     }
 
     private fun initRecyclerView() {
@@ -58,62 +68,110 @@ class MainActivity : LeoAppFeatureActivity() {
         recyclerView.adapter = ExamAdapter()
         recyclerView.addItemDecoration(MonthDecoration())
         recyclerView.addItemDecoration(DayDecoration())
-
-        refreshData()
     }
 
     private fun download() {
-        if (download != null) {
-            return
+        loading = true
+
+        runOnUiThread {
+            findViewById<View>(R.id.progressBar).visibility = View.VISIBLE
         }
 
-        download = DownloadFileTask()
-        download!!.addListener(object : TaskStatusListener {
-            override fun taskStarts() {
+        launch(CommonPool) {
 
+            var lastModified = 0L
+
+            if (fileList().contains("klausurplan")) {
+                print(filesDir.absolutePath + "/klausurplan")
+                val file = File(filesDir.absolutePath + "/klausurplan")
+                lastModified = file.lastModified()
             }
 
-            override fun taskFinished(vararg params: Any) {
-                parse()
-                download = null
+            try {
+                val connection: URLConnection = URL("https://ucloud4schools.de/ext/slg/leoapp_php/klausurplan/aktuell.xml")
+                        .openConnection()
+                connection.connectTimeout = 3000
+
+                val date = connection.lastModified
+
+                if (date == 0L || date > lastModified) {
+
+                    val download = BufferedReader(
+                            InputStreamReader(
+                                    connection.getInputStream()
+                            )
+                    )
+
+                    val writer = BufferedWriter(
+                            OutputStreamWriter(
+                                    applicationContext.openFileOutput("klausurplan", Context.MODE_PRIVATE)
+                            )
+                    )
+
+                    for (s: String in download.readLines()) {
+                        writer.write(s)
+                        writer.newLine()
+                    }
+
+                    download.close()
+                    writer.close()
+
+                    parse()
+
+                } else {
+                    refreshData()
+                }
+
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
-        })
-        download!!.execute(applicationContext.openFileOutput("klausurplan", Context.MODE_PRIVATE))
+
+        }
     }
 
     private fun parse() {
-        if (parse != null) {
-            return
+        loading = true
+
+        runOnUiThread {
+            findViewById<View>(R.id.progressBar).visibility = View.VISIBLE
         }
 
-        parse = ParseTask()
-        parse!!.addListener(object : TaskStatusListener {
-            override fun taskStarts() {
+        launch(CommonPool) {
 
+            val parser = XMLParser(applicationContext.openFileInput("klausurplan"))
+            val klausuren = parser.parse()
+
+            val db = DatabaseManager.getInstance(applicationContext)
+
+            db.clearAllTables()
+            for (k in klausuren) {
+                db.databaseInterface().insertExam(k)
             }
 
-            override fun taskFinished(vararg params: Any) {
-                refreshData()
-                parse = null
-            }
-        })
-        parse!!.execute(applicationContext.openFileInput("klausurplan"), DatabaseManager.getInstance(applicationContext))
+            refreshData()
+
+        }
     }
 
     private fun refreshData() {
-        val task = RefreshDataTask()
-        task.addListener(object : TaskStatusListener {
-            override fun taskStarts() {
+        loading = true
 
-            }
+        runOnUiThread {
+            findViewById<View>(R.id.progressBar).visibility = View.VISIBLE
+        }
 
-            override fun taskFinished(vararg params: Any) {
-                @Suppress("UNCHECKED_CAST")
-                data = params[0] as Array<Klausur>
+        launch(CommonPool) {
+
+            data = DatabaseManager.getInstance(applicationContext).databaseInterface().getExams()
+
+            runOnUiThread {
                 recyclerView.adapter!!.notifyDataSetChanged()
+                findViewById<View>(R.id.progressBar).visibility = View.GONE
             }
-        })
-        task.execute(DatabaseManager.getInstance(applicationContext))
+
+            loading = false
+
+        }
     }
 
     inner class ExamAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -131,13 +189,13 @@ class MainActivity : LeoAppFeatureActivity() {
             val klausur: TextView = holder.itemView.findViewById(R.id.klausur)
             val background: CardView = holder.itemView.findViewById(R.id.background)
 
-            val k: Klausur = data[position]
+            val k: Exam = data[position]
 
-            klausur.text = k.subject.name
+            klausur.text = k.fach.name
             background.setCardBackgroundColor(
                     ContextCompat.getColor(
                             applicationContext,
-                            k.subject.color
+                            k.fach.color
                     )
             )
 
@@ -151,8 +209,9 @@ class MainActivity : LeoAppFeatureActivity() {
     }
 
     inner class MonthDecoration : RecyclerView.ItemDecoration() {
+
         private val dividerHeight = 40f.dpToPx(applicationContext).toFloat()
-        private val padding = 6f.dpToPx(applicationContext)
+        private val margin = 6f.dpToPx(applicationContext)
 
         private val paint = Paint()
 
@@ -166,13 +225,14 @@ class MainActivity : LeoAppFeatureActivity() {
                 val adapterPosition = parent.getChildAdapterPosition(child)
 
                 if (hasHeader(adapterPosition)) {
-                    val top = child.top - dividerHeight
+                    val bottom = child.top - margin
+                    val top = bottom - dividerHeight
 
                     val headerText = getHeaderText(adapterPosition)
                     val length = paint.measureText(headerText)
 
                     paint.color = R.color.colorTextLight.toColor(applicationContext)
-                    c.drawText(headerText, 80f.dpToPx(applicationContext).toFloat(), (child.top - 14f.dpToPx(applicationContext)).toFloat(), paint)
+                    c.drawText(headerText, 80f.dpToPx(applicationContext).toFloat(), (bottom - 14f.dpToPx(applicationContext)).toFloat(), paint)
 
                     paint.color = R.color.colorDivider.toColor(applicationContext)
                     c.drawRect(80f.dpToPx(applicationContext) + length + 8f.dpToPx(applicationContext), top + dividerHeight / 2 - 0.5f.dpToPx(applicationContext), c.width.toFloat(), top + dividerHeight / 2 + 0.5f.dpToPx(applicationContext), paint)
@@ -183,11 +243,11 @@ class MainActivity : LeoAppFeatureActivity() {
         override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
             val index = parent.getChildAdapterPosition(view)
             if (hasHeader(index)) {
-                outRect.top = dividerHeight.toInt()
+                outRect.top = margin + dividerHeight.toInt() + margin
             } else {
-                outRect.top = padding
+                outRect.top = margin
             }
-            outRect.bottom = padding
+            outRect.bottom = margin
         }
 
         private fun hasHeader(index: Int): Boolean {
@@ -215,9 +275,11 @@ class MainActivity : LeoAppFeatureActivity() {
                     Locale.GERMANY
             ).format(data[index].datum)
         }
+
     }
 
     inner class DayDecoration : RecyclerView.ItemDecoration() {
+
         private val left = 56f.dpToPx(applicationContext)
         private val right = 12f.dpToPx(applicationContext)
 
@@ -265,6 +327,7 @@ class MainActivity : LeoAppFeatureActivity() {
         private fun getHeaderText(index: Int): String {
             return SimpleDateFormat("ddEE", Locale.GERMANY).format(data[index].datum)
         }
+
     }
 
 }
