@@ -125,13 +125,24 @@ class MainActivity : LeoAppFeatureActivity() {
                 view.findViewById<TextView>(R.id.teacher).text = lesson.teacher
                 view.findViewById<TextView>(R.id.room).text = lesson.room
                 view.visibility = View.VISIBLE
-
-                if (lesson.hour > latestHour) {
-                    latestHour = lesson.hour
-                }
             }
         }
 
-        print(latestHour)
+        val times: Array<View> = arrayOf(
+                findViewById(R.id.layoutLesson01),
+                findViewById(R.id.layoutLesson02),
+                findViewById(R.id.layoutLesson03),
+                findViewById(R.id.layoutLesson04),
+                findViewById(R.id.layoutLesson05),
+                findViewById(R.id.layoutLesson06),
+                findViewById(R.id.layoutLesson07),
+                findViewById(R.id.layoutLesson08),
+                findViewById(R.id.layoutLesson09),
+                findViewById(R.id.layoutLesson10)
+        )
+
+        for (i in latestHour until times.size) {
+            times[i].visibility = View.GONE
+        }
     }
 }
